@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>RYOSEIWORLD - BOSS BATTLE</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta name="theme-color" content="#2a1a4a">
+<style>
+  html, body {
+    margin: 0; padding: 0; background: #000; color: #fff;
+    font-family: 'Courier New', monospace;
+    height: 100%; width: 100%;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-user-select: none; user-select: none;
+    -webkit-touch-callout: none;
+  }
+  #wrap {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: #000;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    box-sizing: border-box;
+  }
+  canvas {
+    display: block;
+    background: #111;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    touch-action: none;
+  }
+  #loading {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #0f0; font-size: 18px; letter-spacing: 2px; background: #000;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <canvas id="game" width="540" height="960"></canvas>
+</div>
+<div id="loading">LOADING...</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ============ 定数（論理解像度 540x960 縦持ち） ============
+  var LOGICAL_W = 540, LOGICAL_H = 960;
+  var PLAYER_GROUND_Y = 860; // RYOSEI 足元Y
+  var BOSS_BASE_Y = 300;     // BUG KING 足元Y（基準）
+  var RYOSEI_SCALE = 0.75;
+  var BUGKING_SCALE = 0.95;
+  var RYOSEI_MAX_HP = 5;
+  var BUGKING_MAX_HP = 20;
+  var AUTO_FIRE_INTERVAL = 0.35;
+  var HURT_INVINCIBLE_TIME = 1.2;
+  var BOSS_ATTACK_INTERVAL_NORMAL = [2.0, 3.0];
+  var BOSS_ATTACK_INTERVAL_ENRAGED = 1.5;
+  var TAP_MAX_DURATION = 0.15;
+  var TAP_MAX_MOVE = 14;
+
+  var canvas = document.getElementById('game');
+  var ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+
+  // ============ キャンバスのフィット（レターボックス） ============
+  function resizeCanvas() {
+    var wrap = document.getElementById('wrap');
+    var availW = wrap.clientWidth;
+    var availH = wrap.clientHeight;
+    var scale = Math.min(availW / LOGICAL_W, availH / LOGICAL_H);
+    canvas.style.width = Math.floor(LOGICAL_W * scale) + 'px';
+    canvas.style.height = Math.floor(LOGICAL_H * scale) + 'px';
+  }
+  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('orientationchange', resizeCanvas);
+  resizeCanvas();
+
+  function canvasPointToLogical(clientX, clientY) {
+    var rect = canvas.getBoundingClientRect();
+    var relX = (clientX - rect.left) / rect.width;
+    var relY = (clientY - rect.top) / rect.height;
+    return { x: relX * LOGICAL_W, y: relY * LOGICAL_H };
+  }
+
+  // ============ アセット読み込み ============
+  var ryoseiFrames = {};
+  var bugkingFrames = {};
+
+  function loadFramesJson(dir, jsonFile, targetMap, cb) {
+    fetch(dir + '/' + jsonFile).then(function (res) {
+      return res.json();
+    }).then(function (list) {
+      var count = list.length;
+      var done = 0;
+      list.forEach(function (f) {
+        var img = new Image();
+        img.onload = function () { done++; if (done === count) cb(); };
+        img.onerror = function () { done++; if (done === count) cb(); };
+        img.src = dir + '/' + f.file;
+        targetMap[f.row + '_' + f.col] = { img: img, w: f.w, h: f.h };
+      });
+      if (count === 0) cb();
+    });
+  }
+
+  var loadedCount = 0;
+  function onOneGroupLoaded() {
+    loadedCount++;
+    if (loadedCount === 2) {
+      document.getElementById('loading').style.display = 'none';
+      requestAnimationFrame(loop);
+    }
+  }
+  loadFramesJson('assets/ryosei', 'ryosei_frames.json', ryoseiFrames, onOneGroupLoaded);
+  loadFramesJson('assets/bugking', 'bugking_frames.json', bugkingFrames, onOneGroupLoaded);
+
+  // ============ WebAudio 効果音 ============
+  var audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+  }
+
+  function playTone(freq, duration, type, gainVal, freqEnd) {
+    if (!audioCtx) return;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = type || 'square';
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    if (freqEnd) osc.frequency.linearRampToValueAtTime(freqEnd, audioCtx.currentTime + duration);
+    gain.gain.setValueAtTime(gainVal || 0.2, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  }
+
+  var sfx = {
+    shoot: function () { playTone(880, 0.1, 'square', 0.12, 1400); },
+    hit: function () { playTone(220, 0.15, 'sawtooth', 0.2, 80); },
+    hurt: function () { playTone(150, 0.25, 'triangle', 0.25, 60); },
+    victory: function () {
+      playTone(523, 0.15, 'square', 0.2);
+      setTimeout(function () { playTone(659, 0.15, 'square', 0.2); }, 150);
+      setTimeout(function () { playTone(784, 0.3, 'square', 0.2); }, 300);
+    },
+    gameover: function () { playTone(200, 0.6, 'sawtooth', 0.2, 40); }
+  };
+
+  // ============ アニメ定義 ============
+  var RYOSEI_ANIM = {
+    idle: { row: 0, cols: [0, 1, 2, 3], fps: 6, loop: true },
+    run: { row: 1, cols: [0, 1, 2, 3], fps: 10, loop: true },
+    magic: { row: 2, cols: [0, 1, 2, 3], fps: 12, loop: false },
+    hurt: { row: 3, cols: [0, 1], fps: 8, loop: false },
+    jump: { row: 3, cols: [2], fps: 1, loop: true },
+    victory: { row: 3, cols: [3], fps: 1, loop: true }
+  };
+  var BUGKING_ANIM = {
+    idle: { row: 0, cols: [0, 1, 2], fps: 5, loop: true },
+    attack: { row: 1, cols: [0, 1, 2], fps: 8, loop: false },
+    hurt: { row: 2, cols: [0, 1], fps: 8, loop: false },
+    defeated: { row: 2, cols: [2], fps: 1, loop: false }
+  };
+
+  function AnimPlayer(defs) {
+    this.defs = defs;
+    this.current = null;
+    this.frameIndex = 0;
+    this.timer = 0;
+    this.finished = false;
+  }
+  AnimPlayer.prototype.play = function (name, restart) {
+    if (this.current === name && !restart) return;
+    this.current = name;
+    this.frameIndex = 0;
+    this.timer = 0;
+    this.finished = false;
+  };
+  AnimPlayer.prototype.update = function (dt) {
+    var def = this.defs[this.current];
+    if (!def) return;
+    this.timer += dt;
+    var frameDur = 1 / def.fps;
+    while (this.timer >= frameDur) {
+      this.timer -= frameDur;
+      this.frameIndex++;
+      if (this.frameIndex >= def.cols.length) {
+        if (def.loop) {
+          this.frameIndex = 0;
+        } else {
+          this.frameIndex = def.cols.length - 1;
+          this.finished = true;
+        }
+      }
+    }
+  };
+  AnimPlayer.prototype.getRowCol = function () {
+    var def = this.defs[this.current];
+    if (!def) return { row: 0, col: 0 };
+    return { row: def.row, col: def.cols[this.frameIndex] };
+  };
+
+  // ============ ゲーム状態 ============
+  var state = {
+    mode: 'title', // title, battle, win, lose
+    timeInMode: 0,
+    shakeTime: 0,
+    shakeMag: 0,
+    flashTime: 0,
+    particles: [],
+    nameBanner: 0,
+    guideTimer: 0,
+    _victoryDelayStarted: null
+  };
+
+  var ryosei = {
+    x: LOGICAL_W / 2, y: 0, vx: 0, vy: 0,
+    facing: 1,
+    hp: RYOSEI_MAX_HP,
+    onGround: true,
+    anim: new AnimPlayer(RYOSEI_ANIM),
+    invincible: 0,
+    fireCooldown: 0,
+    hurtTimer: 0,
+    magicTimer: 0,
+    victoryPose: false
+  };
+
+  var bugking = {
+    x: LOGICAL_W / 2, yOffset: 0,
+    dir: 1, speed: 45,
+    hp: BUGKING_MAX_HP,
+    anim: new AnimPlayer(BUGKING_ANIM),
+    attackTimer: 2.0,
+    attackAnimTimer: 0,
+    enraged: false,
+    defeated: false,
+    hurtTimer: 0
+  };
+
+  var playerBullets = []; // {x,y,vy}
+  var bossBullets = []; // {x,y,vx,vy}
+
+  function resetGame() {
+    ryosei.x = LOGICAL_W / 2; ryosei.y = 0; ryosei.vx = 0; ryosei.vy = 0;
+    ryosei.facing = 1; ryosei.hp = RYOSEI_MAX_HP; ryosei.onGround = true;
+    ryosei.invincible = 0; ryosei.fireCooldown = 0; ryosei.hurtTimer = 0;
+    ryosei.victoryPose = false;
+    ryosei.anim.play('idle', true);
+
+    bugking.x = LOGICAL_W / 2; bugking.yOffset = 0; bugking.dir = 1;
+    bugking.hp = BUGKING_MAX_HP;
+    bugking.attackTimer = 2.5; bugking.attackAnimTimer = 0;
+    bugking.enraged = false; bugking.defeated = false; bugking.hurtTimer = 0;
+    bugking.anim.play('idle', true);
+
+    playerBullets = [];
+    bossBullets = [];
+    state.particles = [];
+    state.shakeTime = 0;
+    state.flashTime = 0;
+    state.nameBanner = 1.5;
+    state.guideTimer = 3.0;
+    state.mode = 'battle';
+    state.timeInMode = 0;
+    state._victoryDelayStarted = null;
+  }
+
+  function startBattle() {
+    resetGame();
+  }
+
+  // ---- 当たり判定用の矩形（canvasピクセル座標そのまま、y下向き正で統一） ----
+  function rectsOverlap(a, b) {
+    return a.x < b.x + b.w && a.x + a.w > b.x &&
+      a.y < b.y + b.h && a.y + a.h > b.y;
+  }
+  function getBossHitRect() {
+    var cx = bugking.x, footY = BOSS_BASE_Y + bugking.yOffset;
+    var w = 190, h = 230;
+    return { x: cx - w / 2, y: footY - h, w: w, h: h };
+  }
+  function getPlayerHitRect() {
+    var cx = ryosei.x, footY = PLAYER_GROUND_Y + ryosei.y;
+    var w = 84, h = 130;
+    return { x: cx - w / 2, y: footY - h, w: w, h: h };
+  }
+
+  // ============ 入力（ポインター統一：マウス／タッチ共通） ============
+  var pointer = {
+    down: false,
+    startX: 0, startY: 0, startTime: 0,
+    targetX: LOGICAL_W / 2,
+    dragged: false
+  };
+  var keys = {};
+
+  function handleGlobalActivate() {
+    ensureAudio();
+    if (state.mode === 'title') startBattle();
+    else if (state.mode === 'win' || state.mode === 'lose') resetGame();
+  }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    ensureAudio();
+    canvas.setPointerCapture && canvas.setPointerCapture(e.pointerId);
+    var p = canvasPointToLogical(e.clientX, e.clientY);
+    pointer.down = true;
+    pointer.startX = p.x; pointer.startY = p.y;
+    pointer.startTime = performance.now() / 1000;
+    pointer.targetX = p.x;
+    pointer.dragged = false;
+    if (state.mode === 'title') { startBattle(); }
+    else if (state.mode === 'win' || state.mode === 'lose') { resetGame(); }
+  });
+  canvas.addEventListener('pointermove', function (e) {
+    if (!pointer.down) return;
+    var p = canvasPointToLogical(e.clientX, e.clientY);
+    if (Math.abs(p.x - pointer.startX) > TAP_MAX_MOVE || Math.abs(p.y - pointer.startY) > TAP_MAX_MOVE) {
+      pointer.dragged = true;
+    }
+    pointer.targetX = p.x;
+  });
+  function onPointerEnd(e) {
+    if (!pointer.down) return;
+    var dur = performance.now() / 1000 - pointer.startTime;
+    if (!pointer.dragged && dur < TAP_MAX_DURATION && state.mode === 'battle') {
+      // タップ = ジャンプ
+      if (ryosei.onGround && !ryosei.victoryPose) {
+        ryosei.vy = -520;
+        ryosei.onGround = false;
+      }
+    }
+    pointer.down = false;
+  }
+  canvas.addEventListener('pointerup', onPointerEnd);
+  canvas.addEventListener('pointercancel', onPointerEnd);
+
+  window.addEventListener('keydown', function (e) {
+    ensureAudio();
+    keys[e.key] = true;
+    if (['ArrowLeft', 'ArrowRight', ' ', 'Enter'].indexOf(e.key) !== -1) e.preventDefault();
+    if (state.mode === 'title' && !e.repeat) startBattle();
+    if ((state.mode === 'win' || state.mode === 'lose') && (e.key === 'r' || e.key === 'R')) resetGame();
+  });
+  window.addEventListener('keyup', function (e) { keys[e.key] = false; });
+
+  // iOS Safari: ダブルタップズーム／長押し選択／スクロールの抑止
+  document.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
+  document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+  document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  // ============ ゲームロジック更新 ============
+  function updateBattle(dt) {
+    state.timeInMode += dt;
+    if (state.guideTimer > 0) state.guideTimer -= dt;
+
+    // ---- RYOSEI 移動（ドラッグ追従 + キーボード） ----
+    var kbSpeed = 260;
+    var moved = false;
+    if (!ryosei.victoryPose) {
+      if (keys['ArrowLeft']) { ryosei.x -= kbSpeed * dt; moved = true; ryosei.facing = -1; }
+      if (keys['ArrowRight']) { ryosei.x += kbSpeed * dt; moved = true; ryosei.facing = 1; }
+      if (pointer.down) {
+        var prevX = ryosei.x;
+        var followSpeed = Math.min(1, dt * 16);
+        ryosei.x += (pointer.targetX - ryosei.x) * followSpeed;
+        if (Math.abs(ryosei.x - prevX) > 0.5) {
+          moved = true;
+          ryosei.facing = ryosei.x > prevX ? 1 : -1;
+        }
+      }
+      if (keys['z'] || keys['Z'] || keys[' ']) {
+        if (ryosei.onGround) { ryosei.vy = -520; ryosei.onGround = false; }
+      }
+    }
+    ryosei.x = Math.max(40, Math.min(LOGICAL_W - 40, ryosei.x));
+
+    if (!ryosei.onGround) {
+      ryosei.vy += 1400 * dt;
+      ryosei.y += ryosei.vy * dt;
+      if (ryosei.y >= 0) { ryosei.y = 0; ryosei.vy = 0; ryosei.onGround = true; }
+    }
+
+    if (ryosei.invincible > 0) ryosei.invincible -= dt;
+    if (ryosei.hurtTimer > 0) ryosei.hurtTimer -= dt;
+
+    // ---- AI魔法：接触中は自動連射／キーボードはXかEnter ----
+    if (ryosei.fireCooldown > 0) ryosei.fireCooldown -= dt;
+    var wantFire = (pointer.down) || keys['x'] || keys['X'] || keys['Enter'];
+    if (wantFire && ryosei.fireCooldown <= 0 && !ryosei.victoryPose && ryosei.hurtTimer <= 0) {
+      ryosei.fireCooldown = AUTO_FIRE_INTERVAL;
+      ryosei.magicTimer = 0.3;
+      playerBullets.push({ x: ryosei.x, y: PLAYER_GROUND_Y - 130, vy: -620 });
+      sfx.shoot();
+    }
+    if (ryosei.magicTimer > 0) ryosei.magicTimer -= dt;
+
+    var animName;
+    if (ryosei.victoryPose) animName = 'victory';
+    else if (ryosei.hurtTimer > 0) animName = 'hurt';
+    else if (!ryosei.onGround) animName = 'jump';
+    else if (ryosei.magicTimer > 0) animName = 'magic';
+    else if (moved) animName = 'run';
+    else animName = 'idle';
+    if (ryosei.anim.current !== animName) ryosei.anim.play(animName);
+    ryosei.anim.update(dt);
+
+    // ---- プレイヤー弾更新（上向き）。canvas座標系(y下向き正)に統一し矩形の重なりで判定 ----
+    for (var i = playerBullets.length - 1; i >= 0; i--) {
+      var b = playerBullets[i];
+      b.y += b.vy * dt;
+      if (b.y < -50) { playerBullets.splice(i, 1); continue; }
+      if (!bugking.defeated) {
+        var bossRect = getBossHitRect();
+        var bulletRect = { x: b.x - 8, y: b.y - 8, w: 16, h: 16 };
+        if (rectsOverlap(bulletRect, bossRect)) {
+          state.debugLastPlayerHit = { bullet: { x: b.x, y: b.y }, bossRect: bossRect, t: state.timeInMode };
+          playerBullets.splice(i, 1);
+          bugking.hp -= 1;
+          bugking.hurtTimer = 0.3;
+          spawnSparkParticles(b.x, b.y);
+          sfx.hit();
+          if (bugking.hp <= 0) {
+            bugking.hp = 0;
+            bugking.defeated = true;
+            bugking.anim.play('defeated', true);
+          } else if (!bugking.enraged && bugking.hp <= BUGKING_MAX_HP / 2) {
+            bugking.enraged = true;
+            state.flashTime = 0.3;
+          }
+        }
+      }
+    }
+
+    // ---- ボス AI（左右にゆっくり往復、攻撃時は降りてくる）----
+    if (!bugking.defeated) {
+      if (bugking.hurtTimer > 0) bugking.hurtTimer -= dt;
+
+      if (bugking.attackAnimTimer > 0) {
+        bugking.attackAnimTimer -= dt;
+        bugking.yOffset += (70 - bugking.yOffset) * Math.min(1, dt * 6);
+      } else {
+        bugking.yOffset += (0 - bugking.yOffset) * Math.min(1, dt * 6);
+        bugking.x += bugking.dir * bugking.speed * dt;
+        if (bugking.x < 130) { bugking.x = 130; bugking.dir = 1; }
+        if (bugking.x > 410) { bugking.x = 410; bugking.dir = -1; }
+        bugking.attackTimer -= dt;
+        if (bugking.attackTimer <= 0) triggerBossAttack();
+      }
+
+      var bkAnim;
+      if (bugking.hurtTimer > 0) bkAnim = 'hurt';
+      else if (bugking.attackAnimTimer > 0) bkAnim = 'attack';
+      else bkAnim = 'idle';
+      if (bugking.anim.current !== bkAnim) bugking.anim.play(bkAnim);
+      bugking.anim.update(dt);
+    } else {
+      bugking.anim.update(dt);
+    }
+
+    // ---- ボス弾更新（落下）。1発ごとに1回だけ判定し、当たった弾は必ず消して無敵時間中は判定自体をスキップ ----
+    for (var j = bossBullets.length - 1; j >= 0; j--) {
+      var bb = bossBullets[j];
+      bb.x += (bb.vx || 0) * dt;
+      bb.y += bb.vy * dt;
+      if (bb.y > LOGICAL_H + 50) { bossBullets.splice(j, 1); continue; }
+      if (ryosei.invincible <= 0 && !ryosei.victoryPose) {
+        var playerRect = getPlayerHitRect();
+        var bossBulletRect = { x: bb.x - 9, y: bb.y - 9, w: 18, h: 18 };
+        if (rectsOverlap(bossBulletRect, playerRect)) {
+          state.debugLastBossHit = { bullet: { x: bb.x, y: bb.y }, playerRect: playerRect, t: state.timeInMode };
+          bossBullets.splice(j, 1);
+          ryosei.hp -= 1;
+          ryosei.invincible = HURT_INVINCIBLE_TIME;
+          ryosei.hurtTimer = 0.4;
+          state.shakeTime = 0.3;
+          state.shakeMag = 10;
+          sfx.hurt();
+          if (ryosei.hp <= 0) ryosei.hp = 0;
+        }
+      }
+    }
+
+    updateParticles(dt);
+
+    if (state.shakeTime > 0) state.shakeTime -= dt;
+    if (state.flashTime > 0) state.flashTime -= dt;
+    if (state.nameBanner > 0) state.nameBanner -= dt;
+
+    if (bugking.defeated && bugking.anim.finished && !ryosei.victoryPose) {
+      ryosei.victoryPose = true;
+      sfx.victory();
+    }
+    if (ryosei.victoryPose) {
+      if (state._victoryDelayStarted === null) state._victoryDelayStarted = state.timeInMode;
+      if (state.timeInMode - state._victoryDelayStarted > 1.0) {
+        state.mode = 'win';
+        state.timeInMode = 0;
+      }
+    }
+    if (ryosei.hp <= 0 && state.mode === 'battle') {
+      state.mode = 'lose';
+      state.timeInMode = 0;
+      sfx.gameover();
+    }
+  }
+
+  function triggerBossAttack() {
+    bugking.attackAnimTimer = 0.6;
+    var interval = bugking.enraged ? BOSS_ATTACK_INTERVAL_ENRAGED :
+      (BOSS_ATTACK_INTERVAL_NORMAL[0] + Math.random() * (BOSS_ATTACK_INTERVAL_NORMAL[1] - BOSS_ATTACK_INTERVAL_NORMAL[0]));
+    bugking.attackTimer = interval;
+
+    var originY = BOSS_BASE_Y + bugking.yOffset - 100;
+    // 狙い撃ち1発
+    bossBullets.push({ x: bugking.x, y: originY, vx: 0, vy: 260 });
+    // ばらまき：通常3発／第2形態5発
+    var spreadCount = bugking.enraged ? 5 : 3;
+    for (var i = 0; i < spreadCount; i++) {
+      var rx = 40 + Math.random() * (LOGICAL_W - 80);
+      bossBullets.push({ x: rx, y: -20, vx: 0, vy: 220 + Math.random() * 80 });
+    }
+  }
+
+  function spawnSparkParticles(x, y) {
+    for (var i = 0; i < 10; i++) {
+      var ang = Math.random() * Math.PI * 2;
+      var spd = 60 + Math.random() * 140;
+      state.particles.push({
+        x: x, y: y,
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd,
+        life: 0.4 + Math.random() * 0.3, maxLife: 0.4 + Math.random() * 0.3,
+        color: '#5cf'
+      });
+    }
+  }
+
+  function updateParticles(dt) {
+    for (var i = state.particles.length - 1; i >= 0; i--) {
+      var p = state.particles[i];
+      p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 200 * dt;
+      p.life -= dt;
+      if (p.life <= 0) state.particles.splice(i, 1);
+    }
+  }
+
+  // ============ 描画 ============
+  function drawFrame(map, row, col, cx, groundY, scale, facing) {
+    var entry = map[row + '_' + col];
+    if (!entry || !entry.img.complete) return;
+    var w = entry.w * scale, h = entry.h * scale;
+    var dx = cx - w / 2, dy = groundY - h;
+    ctx.save();
+    if (facing === -1) {
+      ctx.translate(cx, 0); ctx.scale(-1, 1); ctx.translate(-cx, 0);
+    }
+    ctx.drawImage(entry.img, dx, dy, w, h);
+    ctx.restore();
+  }
+
+  function drawBackground() {
+    var grad = ctx.createLinearGradient(0, 0, 0, PLAYER_GROUND_Y);
+    grad.addColorStop(0, '#1a1040');
+    grad.addColorStop(1, '#402a6b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, LOGICAL_W, PLAYER_GROUND_Y);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.05)';
+    for (var i = 0; i < 8; i++) ctx.fillRect(0, 80 + i * 90, LOGICAL_W, 2);
+
+    ctx.fillStyle = '#1c1c28';
+    ctx.fillRect(0, PLAYER_GROUND_Y, LOGICAL_W, LOGICAL_H - PLAYER_GROUND_Y);
+    ctx.strokeStyle = '#5cf'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(0, PLAYER_GROUND_Y); ctx.lineTo(LOGICAL_W, PLAYER_GROUND_Y); ctx.stroke();
+  }
+
+  function drawHpBar(x, y, w, h, ratio, color, label, alignRight) {
+    ctx.fillStyle = '#222'; ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = color; ctx.fillRect(x, y, w * Math.max(0, ratio), h);
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h);
+    ctx.fillStyle = '#fff'; ctx.font = '13px monospace';
+    ctx.textAlign = alignRight ? 'right' : 'left';
+    ctx.fillText(label, alignRight ? x + w : x, y - 5);
+  }
+
+  function drawHud() {
+    // ボス(赤)は最上部、自分(緑)は最下部
+    var barW = LOGICAL_W - 40;
+    drawHpBar(20, 20, barW, 16, bugking.hp / BUGKING_MAX_HP, '#f33',
+      'BUG KING' + (bugking.enraged ? ' [ENRAGED]' : ''), false);
+    drawHpBar(20, LOGICAL_H - 34, barW, 16, ryosei.hp / RYOSEI_MAX_HP, '#3f3', 'RYOSEI', false);
+  }
+
+  function drawParticles() {
+    state.particles.forEach(function (p) {
+      ctx.globalAlpha = Math.max(0, p.life / p.maxLife);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - 3, p.y - 3, 6, 6);
+      ctx.globalAlpha = 1;
+    });
+  }
+
+  function drawBullets() {
+    ctx.fillStyle = '#5df';
+    playerBullets.forEach(function (b) {
+      ctx.beginPath(); ctx.arc(b.x, b.y, 8, 0, Math.PI * 2); ctx.fill();
+    });
+    bossBullets.forEach(function (b) {
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      ctx.rotate((Date.now() / 60) % (Math.PI * 2));
+      ctx.fillStyle = '#f44'; ctx.fillRect(-9, -9, 18, 18);
+      ctx.fillStyle = '#fa0'; ctx.fillRect(-4, -4, 8, 8);
+      ctx.restore();
+    });
+  }
+
+  function drawTitle() {
+    drawBackground();
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 46px monospace';
+    ctx.shadowColor = '#5cf'; ctx.shadowBlur = 18;
+    ctx.fillText('RYOSEI', LOGICAL_W / 2, 300);
+    ctx.fillText('WORLD', LOGICAL_W / 2, 355);
+    ctx.font = 'bold 18px monospace';
+    ctx.fillStyle = '#faa'; ctx.shadowColor = '#f55';
+    ctx.fillText('BOSS BATTLE: BUG KING', LOGICAL_W / 2, 400);
+    ctx.restore();
+
+    if (Math.floor(Date.now() / 500) % 2 === 0) {
+      ctx.fillStyle = '#fff'; ctx.font = '20px monospace'; ctx.textAlign = 'center';
+      ctx.fillText('TAP TO START', LOGICAL_W / 2, 520);
+    }
+
+    var ridle = RYOSEI_ANIM.idle;
+    var fi = Math.floor(Date.now() / 150) % ridle.cols.length;
+    drawFrame(ryoseiFrames, ridle.row, ridle.cols[fi], LOGICAL_W / 2, PLAYER_GROUND_Y, RYOSEI_SCALE, 1);
+    var kidle = BUGKING_ANIM.idle;
+    var fi2 = Math.floor(Date.now() / 200) % kidle.cols.length;
+    drawFrame(bugkingFrames, kidle.row, kidle.cols[fi2], LOGICAL_W / 2, BOSS_BASE_Y, BUGKING_SCALE, 1);
+  }
+
+  function drawGuide() {
+    if (state.guideTimer <= 0) return;
+    var a = Math.min(1, state.guideTimer);
+    ctx.save();
+    ctx.globalAlpha = a * 0.85;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(LOGICAL_W / 2 - 200, LOGICAL_H - 110, 400, 40);
+    ctx.fillStyle = '#fff';
+    ctx.font = '16px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('指で動かす／タップでジャンプ', LOGICAL_W / 2, LOGICAL_H - 84);
+    ctx.restore();
+  }
+
+  function drawBattleScene() {
+    drawBackground();
+
+    if (ryosei.invincible <= 0 || Math.floor(state.timeInMode * 10) % 2 === 0) {
+      var rc = ryosei.anim.getRowCol();
+      drawFrame(ryoseiFrames, rc.row, rc.col, ryosei.x, PLAYER_GROUND_Y + ryosei.y, RYOSEI_SCALE, ryosei.facing);
+    }
+
+    var kc = bugking.anim.getRowCol();
+    drawFrame(bugkingFrames, kc.row, kc.col, bugking.x, BOSS_BASE_Y + bugking.yOffset, BUGKING_SCALE, 1);
+
+    drawBullets();
+    drawParticles();
+    drawHud();
+    drawGuide();
+
+    if (state.nameBanner > 0) {
+      var a = Math.min(1, state.nameBanner * 2);
+      ctx.save();
+      ctx.globalAlpha = a;
+      ctx.fillStyle = '#f44'; ctx.font = 'bold 34px monospace'; ctx.textAlign = 'center';
+      ctx.fillText('BUG KING', LOGICAL_W / 2, 470);
+      ctx.restore();
+    }
+
+    if (state.flashTime > 0) {
+      ctx.fillStyle = 'rgba(255,0,0,' + (state.flashTime / 0.3 * 0.4) + ')';
+      ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
+    }
+  }
+
+  function drawWinLose() {
+    drawBattleScene();
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
+    ctx.textAlign = 'center';
+    if (state.mode === 'win') {
+      ctx.fillStyle = '#5f5'; ctx.font = 'bold 32px monospace';
+      ctx.fillText('BUG KING', LOGICAL_W / 2, 440);
+      ctx.fillText('DEFEATED', LOGICAL_W / 2, 480);
+    } else {
+      ctx.fillStyle = '#f55'; ctx.font = 'bold 40px monospace';
+      ctx.fillText('GAME OVER', LOGICAL_W / 2, 460);
+    }
+    ctx.fillStyle = '#fff'; ctx.font = '18px monospace';
+    ctx.fillText('TAP OR R TO RETRY', LOGICAL_W / 2, 530);
+  }
+
+  function render() {
+    ctx.save();
+    if (state.shakeTime > 0) {
+      var mag = state.shakeMag * (state.shakeTime / 0.3);
+      ctx.translate((Math.random() - 0.5) * mag, (Math.random() - 0.5) * mag);
+    }
+    ctx.clearRect(-20, -20, LOGICAL_W + 40, LOGICAL_H + 40);
+
+    if (state.mode === 'title') drawTitle();
+    else if (state.mode === 'battle') drawBattleScene();
+    else if (state.mode === 'win' || state.mode === 'lose') drawWinLose();
+    ctx.restore();
+  }
+
+  // ============ メインループ ============
+  var lastTime = null;
+  function loop(ts) {
+    if (lastTime === null) lastTime = ts;
+    var dt = Math.min(0.05, (ts - lastTime) / 1000);
+    lastTime = ts;
+
+    if (state.mode === 'battle') updateBattle(dt);
+    else if (state.mode === 'title') updateParticles(dt);
+    else if (state.mode === 'win' || state.mode === 'lose') {
+      bugking.anim.update(dt); ryosei.anim.update(dt); updateParticles(dt);
+    }
+
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // デバッグ用：Playwright等の自動検証から状態を読めるように公開
+  window.__game = {
+    ryosei: ryosei, bugking: bugking, state: state,
+    getBossHitRect: getBossHitRect, getPlayerHitRect: getPlayerHitRect
+  };
+  Object.defineProperty(window.__game, 'playerBullets', { get: function () { return playerBullets; } });
+  Object.defineProperty(window.__game, 'bossBullets', { get: function () { return bossBullets; } });
+})();
+</script>
+</body>
+</html>
