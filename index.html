@@ -632,29 +632,56 @@
 
   function drawTitle() {
     drawBackground();
+
+    // ボスは画面上部1/4に小さめ(0.7倍)で配置し、ロゴと重ならないようにする
+    var titleBossScale = BUGKING_SCALE * 0.7;
+    var titleBossFootY = 220;
+    var kidle = BUGKING_ANIM.idle;
+    var fi2 = Math.floor(Date.now() / 200) % kidle.cols.length;
+    drawFrame(bugkingFrames, kidle.row, kidle.cols[fi2], LOGICAL_W / 2, titleBossFootY, titleBossScale, 1);
+
+    // ロゴ背後に半透明の暗い帯（角丸）を敷いて可読性を確保
+    ctx.save();
+    var bandX = 30, bandY = 260, bandW = LOGICAL_W - 60, bandH = 210, radius = 18;
+    ctx.fillStyle = 'rgba(10,6,24,0.75)';
+    ctx.beginPath();
+    ctx.moveTo(bandX + radius, bandY);
+    ctx.arcTo(bandX + bandW, bandY, bandX + bandW, bandY + bandH, radius);
+    ctx.arcTo(bandX + bandW, bandY + bandH, bandX, bandY + bandH, radius);
+    ctx.arcTo(bandX, bandY + bandH, bandX, bandY, radius);
+    ctx.arcTo(bandX, bandY, bandX + bandW, bandY, radius);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+
     ctx.save();
     ctx.textAlign = 'center';
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 46px monospace';
     ctx.shadowColor = '#5cf'; ctx.shadowBlur = 18;
-    ctx.fillText('RYOSEI', LOGICAL_W / 2, 300);
-    ctx.fillText('WORLD', LOGICAL_W / 2, 355);
+    ctx.fillText('RYOSEI', LOGICAL_W / 2, 335);
+    ctx.fillText('WORLD', LOGICAL_W / 2, 390);
     ctx.font = 'bold 18px monospace';
     ctx.fillStyle = '#faa'; ctx.shadowColor = '#f55';
-    ctx.fillText('BOSS BATTLE: BUG KING', LOGICAL_W / 2, 400);
+    ctx.fillText('BOSS BATTLE: BUG KING', LOGICAL_W / 2, 430);
     ctx.restore();
 
     if (Math.floor(Date.now() / 500) % 2 === 0) {
       ctx.fillStyle = '#fff'; ctx.font = '20px monospace'; ctx.textAlign = 'center';
-      ctx.fillText('TAP TO START', LOGICAL_W / 2, 520);
+      ctx.fillText('TAP TO START', LOGICAL_W / 2, 475);
     }
 
+    // 主人公は少し上寄りに配置し、下の空きスペースに操作説明を1行表示
     var ridle = RYOSEI_ANIM.idle;
     var fi = Math.floor(Date.now() / 150) % ridle.cols.length;
-    drawFrame(ryoseiFrames, ridle.row, ridle.cols[fi], LOGICAL_W / 2, PLAYER_GROUND_Y, RYOSEI_SCALE, 1);
-    var kidle = BUGKING_ANIM.idle;
-    var fi2 = Math.floor(Date.now() / 200) % kidle.cols.length;
-    drawFrame(bugkingFrames, kidle.row, kidle.cols[fi2], LOGICAL_W / 2, BOSS_BASE_Y, BUGKING_SCALE, 1);
+    drawFrame(ryoseiFrames, ridle.row, ridle.cols[fi], LOGICAL_W / 2, PLAYER_GROUND_Y - 100, RYOSEI_SCALE, 1);
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '14px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('なぞって移動 / 触れている間ずっと攻撃 / 軽くタップでジャンプ', LOGICAL_W / 2, LOGICAL_H - 40);
+    ctx.restore();
   }
 
   function drawGuide() {
