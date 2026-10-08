@@ -4,3 +4,4 @@ venv/
 .codex_run*.log
 dist/
 .gen/
+控え/
