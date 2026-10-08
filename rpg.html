@@ -810,6 +810,7 @@
     pushLog(game.chapter === 1 ? 'たたかいが はじまった!' : game.chapter + 'しょう  ' + CHAPTERS[game.chapter].name + '\nたたかいが はじまった!');
     ryoseiSprite.anim.play('idle', true);
     bossSprite.anim.play('idle', true);
+    jibunSprite.anim.play('idle', true);
   }
 
   var INTERLUDES = {
@@ -948,6 +949,9 @@
       pushLog('「' + (turn % 2 ? 'フォロワー 10まん' : 'おなじ としで もう しゃちょう') + '」\n' + dmg + ' の ダメージ!\nこうげきりょく が さがった (' + game.attackDown + '/3)');
     } else {
       dmg = randInt(2, 4);
+      // ジブンの攻撃する瞬間だけ AI魔法(row2)のコマ。RYOSEI本人のアニメとは独立させ、終わったら待機(row0)に戻す。
+      jibunSprite.anim.play('magic', true);
+      later(function () { jibunSprite.anim.play('idle', true); }, 500);
       if (game.guard) {
         game.guard = false;
         pushLog('BUG KING が まもってくれた!');
@@ -1113,8 +1117,11 @@
   // ============ メインループ ============
   var ryoseiSprite = { anim: new AnimPlayer(RYOSEI_ANIM) };
   var bossSprite = { anim: new AnimPlayer(BUGKING_ANIM) };
+  // 4章のジブン専用アニメ。ryoseiSprite とは別管理にして、RYOSEI 被弾時にジブンまで被弾ポーズになる食い違いを防ぐ。
+  var jibunSprite = { anim: new AnimPlayer(RYOSEI_ANIM) };
   ryoseiSprite.anim.play('idle');
   bossSprite.anim.play('idle');
+  jibunSprite.anim.play('idle');
 
   var lastT = null, elapsed = 0;
   function scheduleFrame() {
@@ -1151,6 +1158,7 @@
       updateRoll(game.ryosei, dt, onRyoseiZero);
       ryoseiSprite.anim.update(dt);
       bossSprite.anim.update(dt);
+      jibunSprite.anim.update(dt);
       var bRc = bossSprite.anim.getRowCol();
       drawEnemy(bRc);
       var rRc = ryoseiSprite.anim.getRowCol();
@@ -1217,12 +1225,13 @@
     ctx.restore();
   }
 
-  function drawSelf(cx, groundY, saturation, alpha) {
+  function drawSelf(cx, groundY, saturation, alpha, rc) {
     ctx.save(); ctx.globalAlpha = alpha;
     ctx.translate(cx, 0); ctx.scale(-1, 1);
     ctx.filter = 'saturate(' + saturation + '%)';
-    var rc = ryoseiSprite.anim.getRowCol();
-    drawFrame(ryoseiFrames, rc.row, rc.col, 0, groundY, 0.75);
+    // rc 省略時（章間の静止カットなど）は RYOSEI 本人のポーズを映す。4章の戦闘中ジブンは jibunSprite の rc を渡す。
+    var frameRc = rc || ryoseiSprite.anim.getRowCol();
+    drawFrame(ryoseiFrames, frameRc.row, frameRc.col, 0, groundY, 0.75);
     ctx.restore();
   }
   function drawOpenDoor() {
@@ -1236,7 +1245,7 @@
     if (game.chapter === 1) { drawFrame(bugkingFrames, rc.row, rc.col, 270, 380, 0.85); return; }
     if (game.chapter === 4) {
       var merge = victoryFlashStart === null ? 0 : Math.min(1, (gameTime - victoryFlashStart) / 1800);
-      drawSelf(270 - 130 * merge, 400 + 168 * merge, game.saturation, 1 - merge);
+      drawSelf(270 - 130 * merge, 400 + 168 * merge, game.saturation, 1 - merge, jibunSprite.anim.getRowCol());
       return;
     }
     var frames = game.chapter === 2 ? kateinoFrames : hikakuFrames;
