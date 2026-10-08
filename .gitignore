@@ -2,3 +2,4 @@
 venv/
 .checker-evidence/
 .codex_run*.log
+dist/

@@ -239,8 +239,17 @@
   var BUGKING_MAX_HP = 32;
   var ROLL_STEP = 0.045; // 1目盛りあたりの秒数
 
-  // Platform adapter: only this object touches storage / visibility / audio policy.
+  // Platform adapters. SDK signatures verified against the official reference:
+  // https://developers.google.com/youtube/gaming/playables/reference/sdk
+  // AI名は端末内のlocalStorageだけに保存し、SDK/cloudへは絶対に送らない。
   var platform = (function () {
+    function readLocal(key) {
+      try { return JSON.parse(localStorage.getItem(key)); } catch (_) { return null; }
+    }
+    function writeLocal(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (_) {}
+    }
+    if (window.ytgame) return createYouTubePlatform(window.ytgame, readLocal, writeLocal);
     var pauseCallbacks = [], resumeCallbacks = [];
     try {
       document.addEventListener('visibilitychange', function () {
@@ -250,12 +259,9 @@
       });
     } catch (_) {}
     return {
-      save: async function (obj) {
-        try { localStorage.setItem('ryoseiworld-rpg-v4', JSON.stringify(obj)); } catch (_) {}
-      },
-      load: async function () {
-        try { return JSON.parse(localStorage.getItem('ryoseiworld-rpg-v4')); } catch (_) { return null; }
-      },
+      save: async function (obj) { writeLocal('ryoseiworld-rpg-v4', obj); },
+      load: async function () { return readLocal('ryoseiworld-rpg-v4'); },
+      whenActive: async function () {},
       onPause: function (cb) {
         pauseCallbacks.push(cb);
         try { if (document.hidden) queueMicrotask(cb); } catch (_) {}
@@ -267,7 +273,76 @@
       gameReady: function () {}
     };
   })();
-  var paused = false, gameTime = 0, scheduled = [], timerId = 0;
+  function createYouTubePlatform(sdk, readLocal, writeLocal) {
+    var hostPaused = false, loaded = false, loading = null, saving = false, pendingSave = null;
+    var pauseCallbacks = [], resumeCallbacks = [], activeWaiters = [];
+    var localNameKey = 'ryoseiworld-rpg-ai-name';
+    function whenActive() {
+      return hostPaused ? new Promise(function (resolve) { activeWaiters.push(resolve); }) : Promise.resolve();
+    }
+    async function flushSave() {
+      if (!loaded || hostPaused || saving || pendingSave === null) return;
+      var data = pendingSave;
+      pendingSave = null; saving = true;
+      try { await sdk.game.saveData(data); }
+      catch (_) {
+        // Keep the latest checkpoint for the next milestone/resume; no retry loop.
+        if (pendingSave === null) pendingSave = data;
+        saving = false; return;
+      }
+      saving = false;
+      flushSave();
+    }
+    // SDK mode deliberately never subscribes to visibilitychange.
+    sdk.system.onPause(function () {
+      hostPaused = true;
+      pauseCallbacks.forEach(function (cb) { cb(); });
+    });
+    sdk.system.onResume(function () {
+      hostPaused = false;
+      resumeCallbacks.forEach(function (cb) { cb(); });
+      activeWaiters.splice(0).forEach(function (resolve) { resolve(); });
+      flushSave();
+    });
+    return {
+      whenActive: whenActive,
+      load: function () {
+        if (!loading) loading = (async function () {
+          await whenActive();
+          var saved = null;
+          try {
+            var raw = await sdk.game.loadData();
+            saved = raw ? JSON.parse(raw) : null;
+            // Failed load/parse must never overwrite an existing cloud save.
+            loaded = true;
+          } catch (_) { loaded = false; }
+          var name = readLocal(localNameKey);
+          if (!saved || typeof saved !== 'object' || Array.isArray(saved)) saved = { version: 1 };
+          // Ignore any legacy cloud AI name; only the local value is used.
+          saved.aiName = typeof name === 'string' ? name : 'ソラ';
+          flushSave();
+          return saved;
+        })();
+        return loading;
+      },
+      save: async function (obj, checkpoint) {
+        writeLocal(localNameKey, obj.aiName);
+        if (!checkpoint) return;
+        // Explicit allowlist: user-entered strings never enter saveData.
+        pendingSave = JSON.stringify({ version: 1, started: obj.started,
+          clearedChapter: obj.clearedChapter, reachedChapter: obj.reachedChapter });
+        await flushSave();
+      },
+      onPause: function (cb) { pauseCallbacks.push(cb); if (hostPaused) cb(); },
+      onResume: function (cb) { resumeCallbacks.push(cb); },
+      isAudioEnabled: function () { return sdk.system.isAudioEnabled(); },
+      onAudioChange: function (cb) { sdk.system.onAudioEnabledChange(cb); },
+      firstFrameReady: function () { sdk.game.firstFrameReady(); },
+      gameReady: function () { sdk.game.gameReady(); }
+    };
+  }
+  var paused = false, booted = false, readySent = false, frameRequest = null;
+  var gameTime = 0, scheduled = [], timerId = 0;
   function later(cb, ms) { scheduled.push({ id: ++timerId, at: gameTime + ms, cb: cb }); }
   function tickTimers() {
     var due = scheduled.filter(function (task) { return task.at <= gameTime; });
@@ -281,14 +356,14 @@
   function syncAudio() {
     try {
       if (!audioCtx) return;
-      var action = paused || !platform.isAudioEnabled() ? 'suspend' : 'resume';
+      var muted = paused || !platform.isAudioEnabled();
+      // Silence the output immediately, including already-running oscillators.
+      if (masterGain) masterGain.gain.setValueAtTime(muted ? 0 : 1, audioCtx.currentTime);
+      var action = muted ? 'suspend' : 'resume';
       var result = audioCtx[action]();
       if (result && result.catch) result.catch(function () {});
     } catch (_) {}
   }
-  platform.onPause(function () { paused = true; game.paused = true; stage.classList.add('paused'); syncAudio(); });
-  platform.onResume(function () { paused = false; game.paused = false; lastT = null; stage.classList.remove('paused'); syncAudio(); });
-  platform.onAudioChange(syncAudio);
 
   // ============ 乱数（?seed= で再現可能） ============
   function mulberry32(a) {
@@ -307,6 +382,7 @@
   // ============ ステージのフィット ============
   var stage = document.getElementById('stage');
   function resizeStage() {
+    // Fit the fixed portrait playfield at any aspect ratio; never reset game state.
     var availW = window.innerWidth, availH = window.innerHeight;
     var scale = Math.min(availW / LOGICAL_W, availH / LOGICAL_H);
     var offX = (availW - LOGICAL_W * scale) / 2;
@@ -314,7 +390,6 @@
     stage.style.transform = 'translate(' + offX + 'px,' + offY + 'px) scale(' + scale + ')';
   }
   window.addEventListener('resize', resizeStage);
-  window.addEventListener('orientationchange', resizeStage);
   resizeStage();
 
   var canvas = document.getElementById('game');
@@ -327,13 +402,15 @@
   var kateinoFrames = {}, hikakuFrames = {};
   async function loadFramesJson(dir, jsonFile, targetMap) {
     try {
+      await platform.whenActive();
       var response = await fetch(dir + '/' + jsonFile);
       if (!response.ok) return;
       var list = await response.json();
       if (!Array.isArray(list)) return;
-      await Promise.all(list.map(function (f) {
+      await Promise.all(list.map(async function (f) {
         // slice_sheet.py emits plain filenames; never follow external or parent paths.
         if (!/^[a-zA-Z0-9_-]+\.png$/.test(f.file)) return;
+        await platform.whenActive();
         return new Promise(function (resolve) {
           var img = new Image();
           img.onload = function () { targetMap[f.row + '_' + f.col] = { img: img, w: f.w, h: f.h }; resolve(); };
@@ -350,6 +427,7 @@
     try {
       if (listing !== null) {
         if (!listing.includes('href="' + name + '/"')) return;
+        await platform.whenActive();
         var res = await fetch('assets/' + name + '/');
         if (res.ok) {
           var html = await res.text();
@@ -362,10 +440,13 @@
   async function boot() {
     var listing = null;
     try {
-      var res = await fetch('assets/');
-      if (res.ok) {
-        var html = await res.text();
-        if (html.includes('Directory listing for')) listing = html;
+      if (!window.ytgame) {
+        await platform.whenActive();
+        var res = await fetch('assets/');
+        if (res.ok) {
+          var html = await res.text();
+          if (html.includes('Directory listing for')) listing = html;
+        }
       }
     } catch (_) {}
     await Promise.all([
@@ -375,24 +456,31 @@
       loadOptionalFrames('hikaku', hikakuFrames, listing),
       loadProgress()
     ]);
+    await platform.whenActive();
     game.assets = { kateino: Object.keys(kateinoFrames).length > 0, hikaku: Object.keys(hikakuFrames).length > 0 };
     document.getElementById('loading').style.display = 'none';
     renderTitle();
-    platform.firstFrameReady();
-    requestAnimationFrame(loop);
-    platform.gameReady();
+    booted = true;
+    scheduleFrame();
   }
 
   // ============ WebAudio 効果音 ============
-  var audioCtx = null;
+  var audioCtx = null, masterGain = null;
   function ensureAudio() {
     try {
       if (paused || !platform.isAudioEnabled()) return;
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+        masterGain.connect(audioCtx.destination);
+      }
       syncAudio();
     } catch (_) {}
   }
   function playTone(freq, duration, type, gainVal, freqEnd) {
+    // A game first opened muted may not have an AudioContext until a later tap.
+    if (!audioCtx) ensureAudio();
     if (!audioCtx || paused || !platform.isAudioEnabled()) return;
     try {
     var osc = audioCtx.createOscillator();
@@ -402,7 +490,7 @@
     if (freqEnd) osc.frequency.linearRampToValueAtTime(freqEnd, audioCtx.currentTime + duration);
     gain.gain.setValueAtTime(gainVal || 0.2, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.connect(gain); gain.connect(masterGain);
     osc.start(); osc.stop(audioCtx.currentTime + duration);
     } catch (_) {}
   }
@@ -454,6 +542,13 @@
   function drawFrame(map, row, col, cx, groundY, scale) {
     var entry = map[row + '_' + col];
     if (!entry || !entry.img.complete || !entry.img.naturalWidth) return;
+    if (map === ryoseiFrames) {
+      // v1 visible idle height 185px, v2 228px; both have 4px below the feet.
+      // Preserve the old visible height and foot baseline, for ジブン as well.
+      var oldScale = scale;
+      scale *= 185 / 228;
+      groundY += 4 * (scale - oldScale);
+    }
     var w = entry.w * scale, h = entry.h * scale;
     ctx.drawImage(entry.img, cx - w / 2, groundY - h, w, h);
   }
@@ -503,9 +598,9 @@
     game.started = saved.started === true;
     if (typeof saved.aiName === 'string' && saved.aiName.trim()) game.aiName = saved.aiName.trim().slice(0, 6);
   }
-  function saveProgress() {
+  function saveProgress(checkpoint) {
     platform.save({ version: 1, started: game.started, aiName: game.aiName,
-      clearedChapter: game.clearedChapter, reachedChapter: game.reachedChapter });
+      clearedChapter: game.clearedChapter, reachedChapter: game.reachedChapter }, checkpoint);
   }
   function renderTitle() {
     document.getElementById('continue-btn').disabled = !game.started;
@@ -539,10 +634,12 @@
     var button = e.target.closest('button');
     if (button && !button.disabled) beginChapter(Number(button.dataset.chapter));
   });
-  // Block all input while the host has paused the game.
-  document.addEventListener('click', function (e) {
-    if (paused) { e.preventDefault(); e.stopImmediatePropagation(); }
-  }, true);
+  // Block input while paused or before the title's first rendered frame.
+  ['click', 'pointerdown', 'touchstart', 'keydown', 'beforeinput'].forEach(function (type) {
+    document.addEventListener(type, function (e) {
+      if (paused || !readySent) { e.preventDefault(); e.stopImmediatePropagation(); }
+    }, { capture: true, passive: false });
+  });
 
 
   function pushLog(text) {
@@ -663,6 +760,7 @@
   // ============ 命名 ============
   function goNaming() { showScreen('naming'); }
   document.getElementById('naming-confirm').addEventListener('click', function () {
+    // This fictional AI name stays on this device, never in a network payload.
     sfx.decide();
     var v = document.getElementById('name-input').value.trim();
     game.aiName = v.length > 0 ? v.slice(0, 6) : 'ソラ';
@@ -672,6 +770,7 @@
 
   // ============ 戦闘 ============
   function resetBattle() {
+    speechShots = [];
     scheduled = []; victoryFlashStart = null;
     var chapter = CHAPTERS[game.chapter];
     [game.ryosei, game.boss].forEach(function (entity, i) {
@@ -800,7 +899,7 @@
     game.ryosei.rolling = false;
     game.clearedChapter = Math.max(game.clearedChapter, game.chapter);
     game.reachedChapter = Math.max(game.reachedChapter, Math.min(4, game.chapter + 1));
-    saveProgress();
+    saveProgress(true); // Chapter clear is the cloud-save checkpoint.
     pushLog(game.chapter === 4 ? 'ジブンが おなじ いろに なった。' : CHAPTERS[game.chapter].name + ' を たおした!');
     victoryFlashStart = gameTime;
     later(function () { if (game.chapter === 4) goEpilogue(); else goInterlude(); }, 2000);
@@ -841,6 +940,7 @@
     var turn = game.boss.turnCount, dmg;
     if (game.chapter === 2) {
       dmg = randInt(3, 6);
+      speechShots.push({ start: gameTime, text: turn % 2 ? 'ゲームばっかり' : 'しょうらい' });
       pushLog(turn % 2 ? 'カテイノジジョウ は\n「ゲームばっかり」と いった!\n' + dmg + ' の ダメージ!' : '「しょうらい どうするの」\n…こころに ひびいた!\n' + dmg + ' の ダメージ!');
     } else if (game.chapter === 3) {
       dmg = randInt(3, 6);
@@ -992,6 +1092,7 @@
     document.getElementById('epilogue-answer-input').focus();
   }
   document.getElementById('epilogue-answer-btn').addEventListener('click', function (e) {
+    // 「こたえる」の入力は端末内だけ。保存・外部送信せず、この場で消去する。
     e.stopPropagation();
     if (game.epilogueStage !== 'answering') return;
     sfx.decide();
@@ -1016,11 +1117,15 @@
   bossSprite.anim.play('idle');
 
   var lastT = null, elapsed = 0;
+  function scheduleFrame() {
+    if (booted && !paused && frameRequest === null) frameRequest = requestAnimationFrame(loop);
+  }
   function loop(t) {
+    frameRequest = null;
+    if (paused) return;
     if (lastT === null) lastT = t;
     var dt = Math.min(0.05, (t - lastT) / 1000);
     lastT = t;
-    if (paused) { requestAnimationFrame(loop); return; }
     elapsed += dt; gameTime += dt * 1000;
     tickTimers();
 
@@ -1051,13 +1156,44 @@
       var rRc = ryoseiSprite.anim.getRowCol();
       drawFrame(ryoseiFrames, rRc.row, rRc.col, 140, 568, 0.6);
       drawSora(320, 480, 26, elapsed);
+      drawSpeechShots();
       if (game.chapter === 4 && game.ally && gameTime < game.ally.until) drawAlly();
       document.getElementById('boss-hp-num').textContent = game.chapter === 4 ? '—' : Math.max(0, game.boss.displayHp);
       document.getElementById('ryosei-hp-num').textContent = Math.max(0, game.ryosei.displayHp);
       if (victoryFlashStart !== null && game.chapter !== 4) drawVictoryFlash(gameTime - victoryFlashStart);
     }
 
-    requestAnimationFrame(loop);
+    if (!readySent && game.screen === 'title') {
+      // The title DOM and its canvas have now been rendered, and input is enabled.
+      readySent = true;
+      platform.firstFrameReady();
+      platform.gameReady();
+    }
+    scheduleFrame();
+  }
+
+  // Visual-only projectiles: combat timing, random draws and damage stay unchanged.
+  var speechShots = [];
+  function drawSpeechShots() {
+    speechShots = speechShots.filter(function (shot) { return gameTime - shot.start < 620; });
+    speechShots.forEach(function (shot) {
+      var p = Math.min(1, (gameTime - shot.start) / 520);
+      var x = 270 + (140 - 270) * p, y = 330 + (505 - 330) * p;
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, (620 - (gameTime - shot.start)) / 100);
+      ctx.fillStyle = '#fff'; ctx.strokeStyle = '#46334e'; ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x - 96, y - 27); ctx.lineTo(x + 96, y - 27);
+      ctx.quadraticCurveTo(x + 104, y - 27, x + 104, y - 19);
+      ctx.lineTo(x + 104, y + 19); ctx.quadraticCurveTo(x + 104, y + 27, x + 96, y + 27);
+      ctx.lineTo(x - 54, y + 27); ctx.lineTo(x - 77, y + 43); ctx.lineTo(x - 73, y + 27);
+      ctx.lineTo(x - 96, y + 27); ctx.quadraticCurveTo(x - 104, y + 27, x - 104, y + 19);
+      ctx.lineTo(x - 104, y - 19); ctx.quadraticCurveTo(x - 104, y - 27, x - 96, y - 27);
+      ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#302439'; ctx.font = '24px system-ui'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(shot.text, x, y, 190);
+      ctx.restore();
+    });
   }
 
   function drawAlly() {
@@ -1239,6 +1375,21 @@
     else { game.boss.hp = game.boss.displayHp = game.boss.rollTarget = 0; game.boss.rolling = false; checkBossBurst(); }
     onBossZero();
   };
+  // Register only after state/DOM/audio/loop initialization (callbacks may be immediate).
+  platform.onPause(function () {
+    paused = true; game.paused = true; stage.inert = true;
+    stage.classList.add('paused');
+    if (frameRequest !== null) {
+      if (typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frameRequest);
+      frameRequest = null;
+    }
+    syncAudio();
+  });
+  platform.onResume(function () {
+    paused = false; game.paused = false; stage.inert = false; lastT = null;
+    stage.classList.remove('paused'); syncAudio(); scheduleFrame();
+  });
+  platform.onAudioChange(syncAudio);
   boot();
 })();
 </script>
