@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-<title>RYOSEIWORLD RPG - BUG KING</title>
-<link rel="manifest" href="manifest.json">
+<title>RYOSEIWORLD RPG</title>
+<link rel="icon" href="assets/icon-192.png">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <meta name="theme-color" content="#1a1040">
 <style>
@@ -132,6 +132,33 @@
     font-size: 22px; padding: 10px 20px; background: #6cf; color: #0c0820;
     border: none; border-radius: 6px; font-weight: bold;
   }
+
+  .speaker-name, .tap-hint, .hp-panel, #battle-log,
+  .answer-row input, .answer-row button { font-size: 24px; }
+  .title-action { margin-top: 20px; min-width: 320px; font-size: 26px;
+    padding: 14px; background: #10142a; color: #fff; border: 2px solid #6cf; border-radius: 8px; }
+  button:disabled { color: #777; border-color: #444; }
+  #chapter-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  #chapter-list[hidden], [hidden] { display: none !important; }
+  #chapter-list button { margin: 0; }
+  #hp-ryosei { top: 514px; }
+  #battle-log { top: 578px; height: 166px; overflow-wrap: anywhere; }
+  #command-menu.expanded { grid-template-rows: repeat(4, 1fr); }
+  #item-menu { position: absolute; left: 20px; right: 20px; bottom: 20px;
+    height: 190px; background: #10142a; border: 3px solid #6cf; border-radius: 8px;
+    box-sizing: border-box; padding: 12px; font-size: 24px; text-align: center; }
+  #item-menu button { font-size: 26px; padding: 12px 28px; margin: 12px; }
+  #weakness { position: absolute; top: 140px; left: 20px; right: 20px;
+    padding: 12px; background: rgba(6,4,20,.92); border: 2px solid #6cf;
+    border-radius: 8px; font-size: 24px; white-space: pre-wrap; line-height: 1.45; }
+  .answer-row input { min-width: 0; width: 0; }
+  .answer-row button { flex-shrink: 0; }
+  .naming-label { white-space: pre-line; }
+  #epilogue-speaker { top: 560px; }
+  #epilogue-box { min-height: 290px; white-space: normal; }
+  #epilogue-text { white-space: pre-wrap; }
+  #epilogue-tap-hint { pointer-events: none; }
+  #stage.paused * { animation-play-state: paused !important; transition: none !important; }
 </style>
 </head>
 <body>
@@ -141,12 +168,21 @@
 
     <div id="screen-title" class="screen active">
       <div class="title-logo">RYOSEIWORLD</div>
-      <div class="title-sub blink">TAP TO START</div>
+      <button class="title-sub title-action blink" id="start-btn">TAP TO START</button>
+      <button class="title-action" id="continue-btn" disabled>つづきから</button>
+      <button class="title-action" id="chapters-btn">しょうを えらぶ</button>
+      <div id="chapter-list" hidden></div>
     </div>
 
     <div id="screen-prologue" class="screen">
       <div class="speaker-name" id="prologue-speaker"></div>
       <div class="dialogue-box" id="prologue-text"></div>
+      <div class="tap-hint">▶</div>
+    </div>
+
+    <div id="screen-interlude" class="screen">
+      <div class="speaker-name" id="interlude-speaker"></div>
+      <div class="dialogue-box" id="interlude-text"></div>
       <div class="tap-hint">▶</div>
     </div>
 
@@ -157,18 +193,25 @@
     </div>
 
     <div id="screen-battle" class="screen">
-      <div class="hp-panel" id="hp-boss">BUG KING&#10;HP <span id="boss-hp-num">60</span> / 60</div>
-      <div class="hp-panel" id="hp-ryosei"><span id="ryosei-name-label">RYOSEI</span>&#10;HP <span id="ryosei-hp-num">30</span> / 30</div>
+      <div class="hp-panel" id="hp-boss"><span id="boss-name-label">BUG KING</span><br>HP <span id="boss-hp-num">32</span> / <span id="boss-max-hp">32</span></div>
+      <div class="hp-panel" id="hp-ryosei"><span id="ryosei-name-label">RYOSEI</span> HP <span id="ryosei-hp-num">30</span> / <span id="ryosei-max-hp">30</span></div>
       <div class="burst-text" id="burst-text"></div>
       <div id="battle-log">たたかいが はじまった!</div>
+      <div id="weakness" hidden></div>
       <div id="command-menu">
-        <div class="cmd-btn" data-cmd="tatakau">たたかう</div>
-        <div class="cmd-btn" data-cmd="tsukuru">つくる</div>
-        <div class="cmd-btn" data-cmd="naosu">なおす</div>
-        <div class="cmd-btn" data-cmd="nigeru">にげる</div>
-        <div class="cmd-btn disabled" data-cmd="shiraberu">しらべる</div>
-        <div class="cmd-btn disabled" data-cmd="tsutaeru">つたえる</div>
+        <button class="cmd-btn" data-cmd="tatakau">たたかう</button>
+        <button class="cmd-btn" data-cmd="tsukuru">つくる</button>
+        <button class="cmd-btn" data-cmd="naosu">なおす</button>
+        <button class="cmd-btn" data-cmd="nigeru">にげる</button>
+        <button class="cmd-btn" data-cmd="dougu" hidden>どうぐ</button>
+        <button class="cmd-btn disabled" data-cmd="shiraberu">しらべる</button>
+        <button class="cmd-btn disabled" data-cmd="tsutaeru">つたえる</button>
       </div>
+    </div>
+
+    <div id="item-menu" hidden>
+      <div>はじめて つくった ゲーム</div>
+      <button id="item-show">みせる</button><button id="item-back">もどる</button>
     </div>
 
     <div id="screen-epilogue" class="screen">
@@ -195,6 +238,57 @@
   var RYOSEI_MAX_HP = 30;
   var BUGKING_MAX_HP = 32;
   var ROLL_STEP = 0.045; // 1目盛りあたりの秒数
+
+  // Platform adapter: only this object touches storage / visibility / audio policy.
+  var platform = (function () {
+    var pauseCallbacks = [], resumeCallbacks = [];
+    try {
+      document.addEventListener('visibilitychange', function () {
+        (document.hidden ? pauseCallbacks : resumeCallbacks).forEach(function (cb) {
+          try { cb(); } catch (_) { /* A host callback must not stop the game. */ }
+        });
+      });
+    } catch (_) {}
+    return {
+      save: async function (obj) {
+        try { localStorage.setItem('ryoseiworld-rpg-v4', JSON.stringify(obj)); } catch (_) {}
+      },
+      load: async function () {
+        try { return JSON.parse(localStorage.getItem('ryoseiworld-rpg-v4')); } catch (_) { return null; }
+      },
+      onPause: function (cb) {
+        pauseCallbacks.push(cb);
+        try { if (document.hidden) queueMicrotask(cb); } catch (_) {}
+      },
+      onResume: function (cb) { resumeCallbacks.push(cb); },
+      isAudioEnabled: function () { return true; },
+      onAudioChange: function (cb) { try { cb(true); } catch (_) {} },
+      firstFrameReady: function () {},
+      gameReady: function () {}
+    };
+  })();
+  var paused = false, gameTime = 0, scheduled = [], timerId = 0;
+  function later(cb, ms) { scheduled.push({ id: ++timerId, at: gameTime + ms, cb: cb }); }
+  function tickTimers() {
+    var due = scheduled.filter(function (task) { return task.at <= gameTime; });
+    due.forEach(function (task) {
+      // A transition can cancel the rest of this frame's pending callbacks.
+      if (scheduled.indexOf(task) < 0) return;
+      scheduled.splice(scheduled.indexOf(task), 1);
+      task.cb();
+    });
+  }
+  function syncAudio() {
+    try {
+      if (!audioCtx) return;
+      var action = paused || !platform.isAudioEnabled() ? 'suspend' : 'resume';
+      var result = audioCtx[action]();
+      if (result && result.catch) result.catch(function () {});
+    } catch (_) {}
+  }
+  platform.onPause(function () { paused = true; game.paused = true; stage.classList.add('paused'); syncAudio(); });
+  platform.onResume(function () { paused = false; game.paused = false; lastT = null; stage.classList.remove('paused'); syncAudio(); });
+  platform.onAudioChange(syncAudio);
 
   // ============ 乱数（?seed= で再現可能） ============
   function mulberry32(a) {
@@ -230,38 +324,77 @@
   // ============ アセット読み込み（index.htmlの方式を流用） ============
   var ryoseiFrames = {};
   var bugkingFrames = {};
-  function loadFramesJson(dir, jsonFile, targetMap, cb) {
-    fetch(dir + '/' + jsonFile).then(function (res) { return res.json(); }).then(function (list) {
-      var count = list.length, done = 0;
-      list.forEach(function (f) {
-        var img = new Image();
-        img.onload = function () { done++; if (done === count) cb(); };
-        img.onerror = function () { done++; if (done === count) cb(); };
-        img.src = dir + '/' + f.file;
-        targetMap[f.row + '_' + f.col] = { img: img, w: f.w, h: f.h };
-      });
-      if (count === 0) cb();
-    }).catch(function () { cb(); });
+  var kateinoFrames = {}, hikakuFrames = {};
+  async function loadFramesJson(dir, jsonFile, targetMap) {
+    try {
+      var response = await fetch(dir + '/' + jsonFile);
+      if (!response.ok) return;
+      var list = await response.json();
+      if (!Array.isArray(list)) return;
+      await Promise.all(list.map(function (f) {
+        // slice_sheet.py emits plain filenames; never follow external or parent paths.
+        if (!/^[a-zA-Z0-9_-]+\.png$/.test(f.file)) return;
+        return new Promise(function (resolve) {
+          var img = new Image();
+          img.onload = function () { targetMap[f.row + '_' + f.col] = { img: img, w: f.w, h: f.h }; resolve(); };
+          img.onerror = resolve;
+          img.src = dir + '/' + f.file;
+        });
+      }));
+    } catch (_) { /* Missing optional art uses the canvas fallback. */ }
   }
-  var loadedCount = 0;
-  function onOneGroupLoaded() {
-    loadedCount++;
-    if (loadedCount === 2) {
-      document.getElementById('loading').style.display = 'none';
-      requestAnimationFrame(loop);
-    }
+  async function loadOptionalFrames(name, targetMap, listing) {
+    // Python's static server supplies directory listings. Check them first so an
+    // unfinished artist directory does not generate missing-resource errors.
+    // Hosts without listings can serve the JSON at the same fixed asset path.
+    try {
+      if (listing !== null) {
+        if (!listing.includes('href="' + name + '/"')) return;
+        var res = await fetch('assets/' + name + '/');
+        if (res.ok) {
+          var html = await res.text();
+          if (html.includes('Directory listing for') && !html.includes(name + '_frames.json')) return;
+        }
+      }
+      await loadFramesJson('assets/' + name, name + '_frames.json', targetMap);
+    } catch (_) {}
   }
-  loadFramesJson('assets/ryosei', 'ryosei_frames.json', ryoseiFrames, onOneGroupLoaded);
-  loadFramesJson('assets/bugking', 'bugking_frames.json', bugkingFrames, onOneGroupLoaded);
+  async function boot() {
+    var listing = null;
+    try {
+      var res = await fetch('assets/');
+      if (res.ok) {
+        var html = await res.text();
+        if (html.includes('Directory listing for')) listing = html;
+      }
+    } catch (_) {}
+    await Promise.all([
+      loadFramesJson('assets/ryosei', 'ryosei_frames.json', ryoseiFrames),
+      loadFramesJson('assets/bugking', 'bugking_frames.json', bugkingFrames),
+      loadOptionalFrames('kateino', kateinoFrames, listing),
+      loadOptionalFrames('hikaku', hikakuFrames, listing),
+      loadProgress()
+    ]);
+    game.assets = { kateino: Object.keys(kateinoFrames).length > 0, hikaku: Object.keys(hikakuFrames).length > 0 };
+    document.getElementById('loading').style.display = 'none';
+    renderTitle();
+    platform.firstFrameReady();
+    requestAnimationFrame(loop);
+    platform.gameReady();
+  }
 
   // ============ WebAudio 効果音 ============
   var audioCtx = null;
   function ensureAudio() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    try {
+      if (paused || !platform.isAudioEnabled()) return;
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      syncAudio();
+    } catch (_) {}
   }
   function playTone(freq, duration, type, gainVal, freqEnd) {
-    if (!audioCtx) return;
+    if (!audioCtx || paused || !platform.isAudioEnabled()) return;
+    try {
     var osc = audioCtx.createOscillator();
     var gain = audioCtx.createGain();
     osc.type = type || 'square';
@@ -271,6 +404,7 @@
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.start(); osc.stop(audioCtx.currentTime + duration);
+    } catch (_) {}
   }
   var sfx = {
     decide: function () { playTone(560, 0.11, 'sine', 0.11, 780); },
@@ -279,8 +413,8 @@
     heal: function () { playTone(500, 0.2, 'sine', 0.18, 800); },
     victory: function () {
       playTone(523, 0.15, 'square', 0.2);
-      setTimeout(function () { playTone(659, 0.15, 'square', 0.2); }, 150);
-      setTimeout(function () { playTone(784, 0.3, 'square', 0.2); }, 300);
+      later(function () { playTone(659, 0.15, 'square', 0.2); }, 150);
+      later(function () { playTone(784, 0.3, 'square', 0.2); }, 300);
     }
   };
 
@@ -319,23 +453,29 @@
   };
   function drawFrame(map, row, col, cx, groundY, scale) {
     var entry = map[row + '_' + col];
-    if (!entry || !entry.img.complete) return;
+    if (!entry || !entry.img.complete || !entry.img.naturalWidth) return;
     var w = entry.w * scale, h = entry.h * scale;
     ctx.drawImage(entry.img, cx - w / 2, groundY - h, w, h);
   }
 
   // ============ 画面管理 ============
-  var screens = ['title', 'prologue', 'naming', 'battle', 'epilogue'];
+  var screens = ['title', 'prologue', 'naming', 'battle', 'interlude', 'epilogue'];
   function showScreen(name) {
     screens.forEach(function (s) {
       document.getElementById('screen-' + s).classList.toggle('active', s === name);
     });
     game.screen = name;
+    document.getElementById('item-menu').hidden = true;
+    game.itemMenu = false;
   }
 
   // ============ デバッグ状態（外部公開） ============
   var game = {
     screen: 'title',
+    chapter: 1, clearedChapter: 0, reachedChapter: 1, started: false, paused: false,
+    unlockedCommands: [], saturation: 0, createCount: 0, wallTurns: 0,
+    attackDown: 0, researched: false, nextAction: '', allyCount: 0, guaranteedCreate: false, guard: false,
+    lastDamage: null, interludeIndex: 0, itemMenu: false,
     prologueIndex: 0,
     epilogueIndex: 0,
     epilogueStage: 'panels',
@@ -348,6 +488,62 @@
     playerLocked: false
   };
   window.__rpg = game;
+  game.platform = platform;
+  var CHAPTERS = [null,
+    { name: 'BUG KING', hp: BUGKING_MAX_HP, playerHp: RYOSEI_MAX_HP },
+    { name: 'カテイノジジョウ', hp: 80, playerHp: 34 },
+    { name: 'ヒカクマオウ', hp: 100, playerHp: 38 },
+    { name: 'ジブン', hp: 1, playerHp: 38 }
+  ];
+  async function loadProgress() {
+    var saved = await platform.load();
+    if (!saved || saved.version !== 1) return;
+    game.clearedChapter = Math.max(0, Math.min(4, Number(saved.clearedChapter) || 0)) | 0;
+    game.reachedChapter = Math.max(Math.min(4, game.clearedChapter + 1), Math.min(4, Number(saved.reachedChapter) || 1)) | 0;
+    game.started = saved.started === true;
+    if (typeof saved.aiName === 'string' && saved.aiName.trim()) game.aiName = saved.aiName.trim().slice(0, 6);
+  }
+  function saveProgress() {
+    platform.save({ version: 1, started: game.started, aiName: game.aiName,
+      clearedChapter: game.clearedChapter, reachedChapter: game.reachedChapter });
+  }
+  function renderTitle() {
+    document.getElementById('continue-btn').disabled = !game.started;
+    document.getElementById('chapter-list').hidden = true;
+    var list = document.getElementById('chapter-list');
+    list.replaceChildren();
+    for (var ch = 1; ch <= 4; ch++) {
+      var button = document.createElement('button');
+      var unlocked = ch === 1 || ch <= game.clearedChapter;
+      button.className = 'title-action';
+      button.textContent = ch + 'しょう  ' + (ch <= game.reachedChapter ? CHAPTERS[ch].name : '?');
+      button.disabled = !unlocked;
+      button.dataset.chapter = ch;
+      list.appendChild(button);
+    }
+  }
+  function gotoTitle() {
+    scheduled = []; victoryFlashStart = null; typewriter.active = false;
+    showScreen('title'); renderTitle();
+  }
+  function beginChapter(ch) {
+    ensureAudio(); sfx.decide();
+    if (!game.started) { goPrologue(); return; }
+    startBattle(ch);
+  }
+  document.getElementById('continue-btn').addEventListener('click', function () { beginChapter(game.reachedChapter); });
+  document.getElementById('chapters-btn').addEventListener('click', function () {
+    document.getElementById('chapter-list').hidden = !document.getElementById('chapter-list').hidden;
+  });
+  document.getElementById('chapter-list').addEventListener('click', function (e) {
+    var button = e.target.closest('button');
+    if (button && !button.disabled) beginChapter(Number(button.dataset.chapter));
+  });
+  // Block all input while the host has paused the game.
+  document.addEventListener('click', function (e) {
+    if (paused) { e.preventDefault(); e.stopImmediatePropagation(); }
+  }, true);
+
 
   function pushLog(text) {
     document.getElementById('battle-log').textContent = text;
@@ -379,7 +575,7 @@
     entity.hp = newTrue;
     entity.rollTarget = newTrue;
     if (!entity.rolling) entity.displayHp = newTrue;
-    else entity.rolling = true; // 目標を上書きして継続（表示は上向きに転がる）
+    else entity.rolling = entity.displayHp !== newTrue; // 目標を上書きして継続
   }
 
   ryosei_updateHpUi();
@@ -439,7 +635,6 @@
     { speaker: 'BUG KING', text: 'どうせ お前には むりだ', art: 'boss' }
   ];
   var EPILOGUE = [
-    { speaker: '', text: 'はじめて じぶんで\nひとつ うごくものを つくれる。' },
     { speaker: '', text: '少年は あいかわらず ゲームを している。\nちがうのは、それが じぶんの つくった ゲームだ ということ。' },
     { speaker: 'ソラ', text: 'つぎは なにを つくる?', triggersAnswer: true }
   ];
@@ -463,50 +658,110 @@
     renderProlAdv(p.speaker, p.text, 'prologue-speaker', 'prologue-text');
   });
 
-  document.getElementById('screen-title').addEventListener('click', function () {
-    ensureAudio(); sfx.decide();
-    goPrologue();
-  });
+  document.getElementById('start-btn').addEventListener('click', function () { beginChapter(1); });
 
   // ============ 命名 ============
   function goNaming() { showScreen('naming'); }
   document.getElementById('naming-confirm').addEventListener('click', function () {
     sfx.decide();
     var v = document.getElementById('name-input').value.trim();
-    game.aiName = v.length > 0 ? v : 'ソラ';
-    startBattle();
+    game.aiName = v.length > 0 ? v.slice(0, 6) : 'ソラ';
+    game.started = true;
+    startBattle(1);
   });
 
   // ============ 戦闘 ============
   function resetBattle() {
-    game.ryosei.hp = RYOSEI_MAX_HP; game.ryosei.displayHp = RYOSEI_MAX_HP; game.ryosei.rollTarget = RYOSEI_MAX_HP; game.ryosei.rolling = false;
-    game.boss.hp = BUGKING_MAX_HP; game.boss.displayHp = BUGKING_MAX_HP; game.boss.rollTarget = BUGKING_MAX_HP; game.boss.rolling = false;
+    scheduled = []; victoryFlashStart = null;
+    var chapter = CHAPTERS[game.chapter];
+    [game.ryosei, game.boss].forEach(function (entity, i) {
+      entity.maxHp = i === 0 ? chapter.playerHp : chapter.hp;
+      entity.hp = entity.displayHp = entity.rollTarget = entity.maxHp;
+      entity.rolling = false; entity.rollTimer = 0;
+    });
     game.boss.enraged = false; game.boss.turnCount = 0;
-    game.burstShown = {};
-    game.battleOver = false;
-    game.playerLocked = false;
-    document.getElementById('ryosei-name-label').textContent = game.aiName === 'ソラ' ? 'RYOSEI' : 'RYOSEI';
+    game.burstShown = {}; game.battleOver = false; game.playerLocked = false;
+    game.wallTurns = 0; game.attackDown = 0; game.researched = false;
+    game.createCount = 0; game.saturation = 0; game.allyCount = 0;
+    game.guaranteedCreate = false; game.guard = false; game.lastDamage = null;
+    game.nextAction = ''; game.log = []; game.ally = null;
+    game.unlockedCommands = ['tatakau', 'tsukuru', 'naosu', 'nigeru'];
+    if (game.chapter >= 2) game.unlockedCommands.push('dougu');
+    if (game.chapter >= 3) game.unlockedCommands.push('shiraberu');
+    if (game.chapter >= 4) game.unlockedCommands.push('tsutaeru');
+    document.querySelectorAll('[data-cmd]').forEach(function (button) {
+      var cmd = button.dataset.cmd;
+      button.disabled = !game.unlockedCommands.includes(cmd);
+      button.classList.toggle('disabled', button.disabled);
+      button.hidden = cmd === 'dougu' && game.chapter === 1;
+    });
+    document.getElementById('command-menu').classList.toggle('expanded', game.chapter > 1);
+    document.getElementById('boss-name-label').textContent = chapter.name;
+    document.getElementById('boss-max-hp').textContent = game.chapter === 4 ? '—' : chapter.hp;
+    document.getElementById('ryosei-max-hp').textContent = chapter.playerHp;
+    document.getElementById('weakness').hidden = true;
+    document.getElementById('burst-text').className = 'burst-text hide';
   }
-  function startBattle() {
+  function startBattle(ch) {
+    if (ch) game.chapter = Math.max(1, Math.min(4, ch));
     resetBattle();
+    game.reachedChapter = Math.max(game.reachedChapter, game.chapter);
+    saveProgress();
     showScreen('battle');
-    pushLog('たたかいが はじまった!');
-    ryoseiSprite.anim.play('idle');
-    bossSprite.anim.play('idle');
+    pushLog(game.chapter === 1 ? 'たたかいが はじまった!' : game.chapter + 'しょう  ' + CHAPTERS[game.chapter].name + '\nたたかいが はじまった!');
+    ryoseiSprite.anim.play('idle', true);
+    bossSprite.anim.play('idle', true);
   }
+
+  var INTERLUDES = {
+    1: [
+      { speaker: '', text: 'はじめて じぶんで\nひとつ うごくものを つくった。\nスマホを もって いえに かえる。' },
+      { speaker: 'ははおや', text: 'また スマホ?\nRYOSEI「…ちがう、これは」' },
+      { speaker: 'ソラ', text: 'みせてみたら?\n…おと、ちょっと おおきいけど。' }
+    ],
+    2: [
+      { speaker: 'ははおや', text: '…すごいじゃない。\nこれ、どうやって あそぶの?' },
+      { speaker: '', text: 'つくったものを おやに みせられた。\nこんどは ネットに だしてみた。\nがめんに すうじが ならぶ。' },
+      { speaker: 'ソラ', text: 'なにか みてるの?\nRYOSEI「みんな すごい」' }
+    ],
+    3: [
+      { speaker: 'RYOSEI', text: 'きのうより ひとつ すすんだ。\nきょうは このくらいで いいか。' },
+      { speaker: '', text: 'よる。つぎを つくろうとして\nてが とまる。\nがめんに はいいろの じぶんが うつる。' },
+      { speaker: 'ジブン', text: 'やめても だれも こまらないよ。' }
+    ]
+  };
+  function renderInterlude() {
+    var panel = INTERLUDES[game.chapter][game.interludeIndex];
+    renderProlAdv(panel.speaker === 'ソラ' ? game.aiName : panel.speaker,
+      panel.text, 'interlude-speaker', 'interlude-text');
+  }
+  function goInterlude() {
+    victoryFlashStart = null; game.interludeIndex = 0;
+    showScreen('interlude'); renderInterlude();
+  }
+  document.getElementById('screen-interlude').addEventListener('click', function () {
+    sfx.decide();
+    if (skipTypewriter()) return;
+    game.interludeIndex++;
+    if (game.interludeIndex >= INTERLUDES[game.chapter].length) startBattle(game.chapter + 1);
+    else renderInterlude();
+  });
 
   var BOSS_BURSTS = { 45: '// あとで直す', 30: 'TODO: エラー処理', 15: 'とりあえず動いた', 0: 'いつか だれかの やくに たつはず' };
   function showBurst(text) {
     var el = document.getElementById('burst-text');
     el.textContent = text;
     el.classList.remove('hide'); el.classList.add('show');
-    setTimeout(function () { el.classList.remove('show'); el.classList.add('hide'); }, 900);
+    later(function () { el.classList.remove('show'); el.classList.add('hide'); }, 900);
   }
   function checkBossBurst() {
-    [45, 30, 15, 0].forEach(function (th) {
+    var bursts = game.chapter === 1 ? BOSS_BURSTS : game.chapter === 2 ? {
+      60: '…ほんとは しんぱいなだけ', 40: 'あの子 なにか つくってるの?', 20: 'ちょっと みせて', 0: '…すごいじゃない'
+    } : { 75: 'きのうの じぶんより すすんでる', 50: 'くらべる あいては きのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' };
+    Object.keys(bursts).map(Number).sort(function (a, b) { return b - a; }).forEach(function (th) {
       if (!game.burstShown[th] && game.boss.hp <= th) {
         game.burstShown[th] = true;
-        showBurst(BOSS_BURSTS[th]);
+        showBurst(bursts[th]);
       }
     });
   }
@@ -530,8 +785,10 @@
   function onRyoseiZero() {
     if (game.battleOver) return;
     game.battleOver = true;
-    pushLog(game.aiName + ' が いくら つくっても\nまだ おわらない…\nもういちど!');
-    setTimeout(function () { startBattle(); }, 1600);
+    scheduled = [];
+    setCommandsEnabled(false);
+    pushLog(game.chapter === 4 ? '…きょうは もう いいや\nもういちど!' : game.aiName + ' が いくら つくっても\nまだ おわらない…\nもういちど!');
+    later(function () { startBattle(); }, 1600);
   }
   var victoryFlashStart = null;
   function onBossZero() {
@@ -540,13 +797,18 @@
     setCommandsEnabled(false);
     bossSprite.anim.play('defeated');
     sfx.victory();
-    pushLog('BUG KING を たおした!');
-    victoryFlashStart = performance.now();
-    setTimeout(function () { goEpilogue(); }, 2000);
+    game.ryosei.rolling = false;
+    game.clearedChapter = Math.max(game.clearedChapter, game.chapter);
+    game.reachedChapter = Math.max(game.reachedChapter, Math.min(4, game.chapter + 1));
+    saveProgress();
+    pushLog(game.chapter === 4 ? 'ジブンが おなじ いろに なった。' : CHAPTERS[game.chapter].name + ' を たおした!');
+    victoryFlashStart = gameTime;
+    later(function () { if (game.chapter === 4) goEpilogue(); else goInterlude(); }, 2000);
   }
 
   function bossTurn() {
     if (game.battleOver) return;
+    if (game.chapter !== 1) { laterBossTurn(); return; }
     game.boss.turnCount++;
     if (!game.boss.enraged && game.boss.hp <= game.boss.maxHp / 2) {
       game.boss.enraged = true;
@@ -566,43 +828,134 @@
     setCommandsEnabled(true);
   }
 
+  function updateWeakness() {
+    if (!game.researched || game.chapter !== 3) return;
+    game.nextAction = (game.boss.turnCount + 1) % 2 ? 'フォロワー 10まん' : 'おなじ としで もう しゃちょう';
+    var el = document.getElementById('weakness');
+    el.hidden = false;
+    el.textContent = 'かずは ぜんぶ たにんの もの\nつぎ：' + game.nextAction;
+  }
+  function laterBossTurn() {
+    game.boss.turnCount++;
+    bossSprite.anim.play('attack', true);
+    var turn = game.boss.turnCount, dmg;
+    if (game.chapter === 2) {
+      dmg = randInt(3, 6);
+      pushLog(turn % 2 ? 'カテイノジジョウ は\n「ゲームばっかり」と いった!\n' + dmg + ' の ダメージ!' : '「しょうらい どうするの」\n…こころに ひびいた!\n' + dmg + ' の ダメージ!');
+    } else if (game.chapter === 3) {
+      dmg = randInt(3, 6);
+      game.attackDown = Math.min(3, game.attackDown + 1);
+      pushLog('「' + (turn % 2 ? 'フォロワー 10まん' : 'おなじ としで もう しゃちょう') + '」\n' + dmg + ' の ダメージ!\nこうげきりょく が さがった (' + game.attackDown + '/3)');
+    } else {
+      dmg = randInt(2, 4);
+      if (game.guard) {
+        game.guard = false;
+        pushLog('BUG KING が まもってくれた!');
+        setCommandsEnabled(true); return;
+      }
+      pushLog('ジブン「' + (turn % 2 ? 'やめても だれも こまらないよ' : 'どうせ また とちゅうで やめる') + '」\n' + dmg + ' の ダメージ!');
+    }
+    ryoseiDamage(dmg);
+    updateWeakness();
+    setCommandsEnabled(true);
+  }
+  function attackDamage(raw) {
+    var multiplier = game.chapter === 2 ? (game.wallTurns > 0 ? 2 : 0.5) :
+      game.chapter === 3 ? 1 - game.attackDown * 0.2 : 1;
+    var damage = Math.max(1, Math.floor(raw * multiplier));
+    game.lastDamage = { raw: raw, multiplier: multiplier, damage: damage };
+    bossDamage(game.boss, damage);
+    return damage;
+  }
   function doCommand(cmd) {
-    if (game.playerLocked || game.battleOver) return;
-    if (cmd === 'shiraberu' || cmd === 'tsutaeru') return; // 1章では未実装
+    if (paused || game.screen !== 'battle' || game.playerLocked || game.battleOver) return;
+    if (cmd !== 'miseru' && !game.unlockedCommands.includes(cmd)) return;
+    if (cmd === 'miseru' && (!game.itemMenu || game.chapter < 2)) return;
+    if (game.itemMenu && cmd !== 'miseru') return;
     sfx.decide();
+    if (cmd === 'dougu') {
+      game.itemMenu = true;
+      document.getElementById('item-menu').hidden = false;
+      return;
+    }
     setCommandsEnabled(false);
-    if (cmd === 'tatakau') {
-      var dmg = randInt(4, 7);
-      pushLog('たたかった!\n' + dmg + ' の ダメージ!');
-      bossDamage(game.boss, dmg);
+    if (cmd === 'miseru') {
+      game.itemMenu = false;
+      document.getElementById('item-menu').hidden = true;
+      if (game.chapter === 2) {
+        game.wallTurns = 3;
+        pushLog('はじめて つくった ゲーム を みせた!\nかべに ひびが はいった。\n3ターン ダメージ 2ばい!');
+      } else pushLog('はじめて つくった ゲーム を みせた!\n…いまも ちゃんと うごいてる。');
+    } else if (cmd === 'tatakau') {
+      if (game.chapter === 4) pushLog('ジブン には とどかない');
+      else {
+        var dmg = attackDamage(randInt(4, 7));
+        pushLog('たたかった!\n' + dmg + ' の ダメージ!');
+      }
     } else if (cmd === 'tsukuru') {
-      var miss = randInt(1, 5) === 1;
-      if (miss) {
-        pushLog(game.aiName + '「わかった。ちょっと まってて」\n' + game.aiName + 'が へんなものを つくった');
+      if (game.chapter === 4) {
+        game.createCount++;
+        game.saturation = [0, 33, 66, 100][game.createCount];
+        game.guaranteedCreate = false;
+        ryoseiSprite.anim.play('magic', true); sfx.heal();
+        pushLog(game.aiName + '「わかった。ちょっと まってて」\nひとつ つくった。\nジブンに いろが もどる。');
       } else {
-        var d2 = randInt(12, 16);
-        pushLog(game.aiName + '「わかった。ちょっと まってて」\n' + d2 + ' の ダメージ!');
-        bossDamage(game.boss, d2);
+        var miss = randInt(1, 5) === 1;
+        if (game.chapter === 3 && game.researched) {
+          game.attackDown = Math.max(0, game.attackDown - 1);
+          miss = false;
+        }
+        if (miss) pushLog(game.aiName + '「わかった。ちょっと まってて」\n' + game.aiName + 'が へんなものを つくった');
+        else {
+          var d2 = attackDamage(randInt(12, 16));
+          pushLog(game.chapter === 3 && game.researched ?
+            'じぶんの ペースで つくった\nこうげきりょくが 1だん もどった!\n' + d2 + ' の ダメージ!' :
+            game.aiName + '「わかった。ちょっと まってて」\n' + d2 + ' の ダメージ!');
+        }
       }
     } else if (cmd === 'naosu') {
       healEntity(game.ryosei, 12);
       ryoseiSprite.anim.play('magic', true);
       sfx.heal();
       pushLog('きずが 12 なおった!');
+    } else if (cmd === 'shiraberu') {
+      if (game.chapter === 3) {
+        game.researched = true;
+        pushLog('ヒカクマオウ の かずは\nぜんぶ たにんの もの。\nじぶんの ペースで つくろう。');
+        updateWeakness();
+      } else pushLog('ジブンの HPは へらない。\nつくるたび いろが もどる。');
+    } else if (cmd === 'tsutaeru') {
+      game.ally = { index: Math.min(2, game.allyCount), until: gameTime + 2000 };
+      if (game.allyCount === 0) {
+        healEntity(game.ryosei, game.ryosei.maxHp); sfx.heal();
+        pushLog('ははおや「みせてくれて ありがとう」\nHPが ぜんぶ もどった!');
+      } else if (game.allyCount === 1) {
+        game.guaranteedCreate = true;
+        pushLog('きのうの じぶん「ここまで きたじゃん」\nつぎの つくるは きっと だいじょうぶ。');
+      } else if (game.allyCount === 2) {
+        game.guard = true;
+        pushLog('BUG KING「…ちゃんと うごいてるぞ」\nなおった テレビが まえに たった。');
+      } else pushLog('みんなが そばで みている。');
+      game.allyCount = Math.min(3, game.allyCount + 1);
     } else if (cmd === 'nigeru') {
-      pushLog('BUG KING が みちを ふさいでいる!');
+      pushLog(['', 'BUG KING が みちを ふさいでいる!', 'いえの かべからは にげられない!',
+        'すうじが どこまでも ついてくる!', 'ジブンからは にげられない。'][game.chapter]);
     }
-    setTimeout(function () {
+    if (game.chapter === 2 && cmd !== 'miseru' && game.wallTurns > 0) game.wallTurns--;
+    later(function () {
       if (game.battleOver) return;
+      if (game.chapter === 4 && game.createCount >= 3) { onBossZero(); return; }
       if (game.boss.hp <= 0) { onBossZero(); return; }
       bossTurn();
     }, 700);
   }
-
   document.getElementById('command-menu').addEventListener('click', function (e) {
     var btn = e.target.closest('.cmd-btn');
-    if (!btn) return;
-    doCommand(btn.getAttribute('data-cmd'));
+    if (btn) doCommand(btn.dataset.cmd);
+  });
+  document.getElementById('item-show').addEventListener('click', function () { doCommand('miseru'); });
+  document.getElementById('item-back').addEventListener('click', function () {
+    game.itemMenu = false; document.getElementById('item-menu').hidden = true;
   });
 
   // ============ エピローグ ============
@@ -648,10 +1001,10 @@
     document.getElementById('epilogue-speaker').textContent = game.aiName;
     startTypewriter(document.getElementById('epilogue-text'), 'わかった。つくろう', function () {
       game.epilogueStage = 'glow';
-      glowStart = performance.now();
-      setTimeout(function () {
+      glowStart = gameTime;
+      later(function () {
         game.epilogueStage = 'panels';
-        showScreen('title');
+        gotoTitle();
       }, 3000);
     });
   });
@@ -666,7 +1019,10 @@
   function loop(t) {
     if (lastT === null) lastT = t;
     var dt = Math.min(0.05, (t - lastT) / 1000);
-    lastT = t; elapsed += dt;
+    lastT = t;
+    if (paused) { requestAnimationFrame(loop); return; }
+    elapsed += dt; gameTime += dt * 1000;
+    tickTimers();
 
     ctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
 
@@ -674,11 +1030,15 @@
       updateTypewriter(dt);
       var p = PROLOGUE[game.prologueIndex];
       drawAdvArt(p.art, elapsed);
+    } else if (game.screen === 'interlude') {
+      updateTypewriter(dt); drawNightRoom(elapsed);
+      if (game.chapter === 2) drawOpenDoor();
+      if (game.chapter === 3 && game.interludeIndex > 0) drawSelf(390, 460, 0, 1);
     } else if (game.screen === 'epilogue') {
       updateTypewriter(dt);
       drawNightRoom(elapsed);
       if (game.epilogueStage === 'glow' && glowStart !== null) {
-        drawEndingGlow(performance.now() - glowStart);
+        drawEndingGlow(gameTime - glowStart);
       }
     } else if (game.screen === 'battle') {
       drawBattleBg();
@@ -687,16 +1047,95 @@
       ryoseiSprite.anim.update(dt);
       bossSprite.anim.update(dt);
       var bRc = bossSprite.anim.getRowCol();
-      drawFrame(bugkingFrames, bRc.row, bRc.col, 270, 380, 0.85);
+      drawEnemy(bRc);
       var rRc = ryoseiSprite.anim.getRowCol();
-      drawFrame(ryoseiFrames, rRc.row, rRc.col, 140, 640, 0.6);
-      drawSora(320, 560, 26, elapsed);
-      document.getElementById('boss-hp-num').textContent = Math.max(0, game.boss.displayHp);
+      drawFrame(ryoseiFrames, rRc.row, rRc.col, 140, 568, 0.6);
+      drawSora(320, 480, 26, elapsed);
+      if (game.chapter === 4 && game.ally && gameTime < game.ally.until) drawAlly();
+      document.getElementById('boss-hp-num').textContent = game.chapter === 4 ? '—' : Math.max(0, game.boss.displayHp);
       document.getElementById('ryosei-hp-num').textContent = Math.max(0, game.ryosei.displayHp);
-      if (victoryFlashStart !== null) drawVictoryFlash(performance.now() - victoryFlashStart);
+      if (victoryFlashStart !== null && game.chapter !== 4) drawVictoryFlash(gameTime - victoryFlashStart);
     }
 
     requestAnimationFrame(loop);
+  }
+
+  function drawAlly() {
+    ctx.save();
+    if (game.ally.index === 0) {
+      ctx.fillStyle = '#5b3948'; ctx.fillRect(384, 384, 50, 52);
+      ctx.fillStyle = '#edbe9c'; ctx.fillRect(390, 396, 38, 38);
+      ctx.fillStyle = '#d78e77'; ctx.fillRect(376, 436, 66, 64);
+      ctx.fillStyle = '#fff0c7'; ctx.fillRect(390, 440, 38, 48);
+    } else if (game.ally.index === 1) {
+      ctx.globalAlpha = 0.8;
+      drawFrame(ryoseiFrames, 0, 0, 410, 505, 0.5);
+    } else {
+      // Repaired CRT: a bright, intact screen instead of the broken boss face.
+      ctx.fillStyle = '#796680'; ctx.fillRect(365, 405, 94, 76);
+      ctx.fillStyle = '#a4e4e9'; ctx.fillRect(374, 414, 72, 50);
+      ctx.fillStyle = '#376782'; ctx.fillRect(389, 433, 7, 7); ctx.fillRect(426, 433, 7, 7);
+      ctx.fillRect(398, 451, 25, 3);
+      ctx.fillStyle = '#796680'; ctx.fillRect(383, 481, 8, 15); ctx.fillRect(435, 481, 8, 15);
+    }
+    ctx.restore();
+  }
+
+  function drawSelf(cx, groundY, saturation, alpha) {
+    ctx.save(); ctx.globalAlpha = alpha;
+    ctx.translate(cx, 0); ctx.scale(-1, 1);
+    ctx.filter = 'saturate(' + saturation + '%)';
+    var rc = ryoseiSprite.anim.getRowCol();
+    drawFrame(ryoseiFrames, rc.row, rc.col, 0, groundY, 0.75);
+    ctx.restore();
+  }
+  function drawOpenDoor() {
+    var glow = ctx.createRadialGradient(270, 350, 10, 270, 350, 230);
+    glow.addColorStop(0, '#ffeab0'); glow.addColorStop(1, 'rgba(255,190,70,0)');
+    ctx.fillStyle = glow; ctx.fillRect(20, 110, 500, 450);
+    ctx.fillStyle = '#ffdf9a'; ctx.fillRect(235, 240, 90, 200);
+    ctx.strokeStyle = '#a86b49'; ctx.lineWidth = 12; ctx.strokeRect(235, 240, 90, 200);
+  }
+  function drawEnemy(rc) {
+    if (game.chapter === 1) { drawFrame(bugkingFrames, rc.row, rc.col, 270, 380, 0.85); return; }
+    if (game.chapter === 4) {
+      var merge = victoryFlashStart === null ? 0 : Math.min(1, (gameTime - victoryFlashStart) / 1800);
+      drawSelf(270 - 130 * merge, 400 + 168 * merge, game.saturation, 1 - merge);
+      return;
+    }
+    var frames = game.chapter === 2 ? kateinoFrames : hikakuFrames;
+    if (frames[rc.row + '_' + rc.col]) {
+      var frame = frames[rc.row + '_' + rc.col];
+      drawFrame(frames, rc.row, rc.col, 270, game.chapter === 3 ? 500 : 440,
+        Math.min(320 / frame.w, (game.chapter === 3 ? 210 : 230) / frame.h));
+      if (game.chapter === 2 && game.battleOver) drawOpenDoor();
+      return;
+    }
+    ctx.save();
+    ctx.translate(Math.sin(elapsed * 3) * 3, game.chapter === 3 ? 65 : 0);
+    if (game.chapter === 2) {
+      ctx.fillStyle = '#8c7080'; ctx.fillRect(125, 245, 290, 195);
+      ctx.strokeStyle = '#493346'; ctx.lineWidth = 5;
+      for (var row = 0; row < 4; row++) {
+        ctx.beginPath(); ctx.moveTo(125, 245 + row * 48); ctx.lineTo(415, 245 + row * 48); ctx.stroke();
+        for (var col = 0; col < 4; col++) ctx.strokeRect(125 + col * 73, 245 + row * 48, 73, 48);
+      }
+      ctx.fillStyle = '#302439'; ctx.fillRect(238, 338, 64, 102);
+      ctx.fillStyle = '#ffdf9a'; ctx.fillRect(178, 284, 44, 20); ctx.fillRect(318, 284, 44, 20);
+      if (game.wallTurns > 0) {
+        ctx.strokeStyle = '#ffe3a0'; ctx.beginPath(); ctx.moveTo(270, 245); ctx.lineTo(249, 286);
+        ctx.lineTo(281, 319); ctx.lineTo(266, 356); ctx.stroke();
+      }
+      if (game.battleOver) drawOpenDoor();
+    } else {
+      ctx.fillStyle = '#7737a0'; ctx.beginPath(); ctx.moveTo(270, 270); ctx.lineTo(135, 440); ctx.lineTo(405, 440); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#b6b0cf'; ctx.fillRect(215, 260, 110, 100);
+      ctx.fillStyle = '#efc349'; ctx.beginPath(); ctx.moveTo(210, 265); ctx.lineTo(195, 218); ctx.lineTo(245, 240);
+      ctx.lineTo(270, 205); ctx.lineTo(295, 240); ctx.lineTo(345, 218); ctx.lineTo(330, 265); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = '#251230'; ctx.fillRect(231, 296, 25, 12); ctx.fillRect(284, 296, 25, 12);
+      ctx.fillStyle = '#ffe578'; ctx.font = '28px system-ui'; ctx.fillText('100000', 100, 350); ctx.fillText('No.1', 355, 390);
+    }
+    ctx.restore();
   }
 
   function drawVictoryFlash(elapsedMs) {
@@ -792,7 +1231,15 @@
 
   // ============ デバッグAPI（自動検証用） ============
   game.command = doCommand;
-  game.gotoTitle = function () { showScreen('title'); };
+  game.gotoTitle = gotoTitle;
+  game.debugWin = function () {
+    if (paused || game.screen !== 'battle' || game.battleOver) return;
+    scheduled = [];
+    if (game.chapter === 4) { game.createCount = 3; game.saturation = 100; }
+    else { game.boss.hp = game.boss.displayHp = game.boss.rollTarget = 0; game.boss.rolling = false; checkBossBurst(); }
+    onBossZero();
+  };
+  boot();
 })();
 </script>
 </body>
