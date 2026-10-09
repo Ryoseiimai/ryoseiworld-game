@@ -1,0 +1,174 @@
+# Autodev gate: checks claude/autodev-** branches pushed by the cloud dev routine / Mac art job, merges passing
+# ones into main, and records results for the dev routine and the devlog page.
+# Contract: autodev/RUNBOOK.md (results file, log.json, STOP file). Only this workflow writes
+#   autodev/ci/results/*.json, devlog/log.json and devlog/shots/.
+#
+# Trust layout (why there are 3 jobs):
+# - Every trigger here (workflow_run / schedule / workflow_dispatch) runs the copy of this file on main, so a branch
+#   cannot change its own check. autodev-push.yml only exists to start workflow_run and has no permissions.
+# - "test" runs branch code (tests and the game in a browser) with a read-only token that is not written to disk.
+# - "record" never runs branch code. It re-checks the fence itself, merges, writes the results and pushes main.
+#   The push uses the AUTODEV_DEPLOY_KEY secret of the autodev-main environment when it exists (lock main with a
+#   ruleset that only lets that key and admins push), otherwise this job's GITHUB_TOKEN.
+name: autodev-ci
+
+on:
+  workflow_run:
+    workflows: [autodev-push]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to check again (claude/autodev-...). Empty = check every branch without a result.'
+        required: false
+        default: ''
+  schedule:
+    # Backstop: a pending run is replaced when a newer one queues in the same concurrency group,
+    # so every run also sweeps branches whose tip has no result yet.
+    - cron: '23 * * * *'
+
+concurrency:
+  group: autodev-ci
+  cancel-in-progress: false
+
+permissions: {}
+
+env:
+  PLAYWRIGHT_VERSION: '1.62.1'
+  MAX_BRANCHES_PER_RUN: '3'
+  KEEP_SHOT_RUNS: '40'
+  KEEP_LOG_ENTRIES: '200'
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      branches: ${{ steps.plan.outputs.branches }}
+    steps:
+      - name: Check out main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Plan which branches to check
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          RUN_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          INPUT_BRANCH: ${{ github.event.inputs.branch }}
+        run: |
+          set -euo pipefail
+          cp .github/autodev/gate.sh "$RUNNER_TEMP/gate.sh"
+          explicit=""; force=""
+          if [ "$EVENT" = workflow_run ]; then explicit="$RUN_BRANCH"; fi
+          if [ "$EVENT" = workflow_dispatch ] && [ -n "$INPUT_BRANCH" ]; then explicit="$INPUT_BRANCH"; force=force; fi
+          branches="$(bash "$RUNNER_TEMP/gate.sh" plan "$explicit" "$force")"
+          echo "branches=$branches" >> "$GITHUB_OUTPUT"
+
+  test:
+    needs: plan
+    if: needs.plan.outputs.branches != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - name: Check out main (no token left on disk)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22'
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/ms-playwright
+          key: ms-playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}
+
+      - name: Install Playwright and Chromium
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/pw"
+          npm install --silent --no-audit --no-fund --prefix "$RUNNER_TEMP/pw" "playwright@$PLAYWRIGHT_VERSION"
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
+
+      - name: Test each branch (branch code runs here)
+        env:
+          BRANCHES: ${{ needs.plan.outputs.branches }}
+        run: |
+          set -uo pipefail
+          cp .github/autodev/gate.sh "$RUNNER_TEMP/gate.sh"
+          export NODE_PATH="$RUNNER_TEMP/pw/node_modules"
+          # shellcheck disable=SC2086  # names are checked by gate.sh (no spaces)
+          bash "$RUNNER_TEMP/gate.sh" test "$RUNNER_TEMP/out" $BRANCHES
+
+      - name: Hand the outcomes to the record job
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: gate-${{ github.run_id }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  record:
+    needs: [plan, test]
+    # Also when the test job failed or timed out: those branches get result "error", so the dev routine
+    # can tell "the check broke" from "the code broke".
+    if: ${{ !cancelled() && needs.plan.outputs.branches != '' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment: autodev-main
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - name: Check out main (no token left on disk)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Get the outcomes from the test job
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: gate-${{ github.run_id }}
+          path: ${{ runner.temp }}/in
+
+      - name: Fence, merge, record and push main (no branch code runs here)
+        id: record
+        env:
+          BRANCHES: ${{ needs.plan.outputs.branches }}
+          GATE_FORCE: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.branch != '' && '1' || '' }}
+          GATE_DEPLOY_KEY: ${{ secrets.AUTODEV_DEPLOY_KEY }}
+          GATE_PUSH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          set -uo pipefail
+          cp .github/autodev/gate.sh .github/autodev/record.cjs "$RUNNER_TEMP/"
+          mkdir -p "$RUNNER_TEMP/in"
+          # shellcheck disable=SC2086
+          bash "$RUNNER_TEMP/gate.sh" record "$RUNNER_TEMP/in" $BRANCHES
+
+      - name: Ask Pages to rebuild
+        if: steps.record.outputs.pushed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages/builds" --silent \
+            && echo "Pages build requested" \
+            || echo "::warning::Pages build request failed (Pages may still rebuild from the push)"

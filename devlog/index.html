@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RYOSEIWORLD 進み具合</title>
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#0f1216; --panel:#171b21; --panel2:#1d222a; --line:#2a313b;
+  --text:#e8eaed; --muted:#9aa3ae; --faint:#6b7480;
+  --accent:#f0b43c; --pass:#5cc58a; --fail:#ef7a6a; --warn:#e3b341; --info:#7aa7ef;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;
+  font-size:16px;line-height:1.6;word-break:auto-phrase;overflow-wrap:anywhere;line-break:strict}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
+header h1{margin:0;font-size:15px;font-weight:600;letter-spacing:.08em;color:var(--muted)}
+header h1 b{color:var(--accent);font-weight:700}
+.now{margin:10px 0 0;font-size:21px;font-weight:700;line-height:1.45}
+.now small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:4px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--pass);margin-right:8px;vertical-align:middle;box-shadow:0 0 0 4px rgba(92,197,138,.15)}
+.dot.idle{background:var(--faint);box-shadow:none}
+.dot.stop{background:var(--fail);box-shadow:0 0 0 4px rgba(239,122,106,.15)}
+.bar{margin:14px 0 0;height:6px;background:var(--panel2);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .6s}
+.barlabel{font-size:12px;color:var(--faint);margin-top:6px}
+.links{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0 0}
+.links a{display:flex;align-items:center;justify-content:center;min-height:48px;padding:8px 10px;
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);
+  text-decoration:none;font-size:15px;font-weight:600;text-align:center}
+.links a.primary{background:var(--accent);border-color:var(--accent);color:#1a1405}
+.links a:active{transform:translateY(1px)}
+h2{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:.06em;margin:30px 0 10px}
+.go{margin:18px 0 0;padding:12px 14px;border:1px solid rgba(227,179,65,.45);background:rgba(227,179,65,.08);border-radius:10px;font-size:15px}
+.go b{color:var(--warn)}
+.go a{color:var(--warn);white-space:nowrap;margin-left:4px}
+.dot.warn{background:var(--warn);box-shadow:0 0 0 4px rgba(227,179,65,.15)}
+ol.next{list-style:none;margin:0;padding:0}
+ol.next li{display:flex;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+ol.next li:last-child{border-bottom:0}
+.rid{flex:none;font-size:12px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;min-width:34px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 12px}
+.meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--faint)}
+.badge{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid currentColor;line-height:1.5}
+.badge.pass{color:var(--pass)} .badge.fail{color:var(--fail)} .badge.conflict{color:var(--warn)} .badge.other{color:var(--info)}
+.meta .more{margin-left:auto;color:var(--muted);font-size:12px}
+.tag{font-size:11px;color:var(--muted);background:var(--panel2);padding:1px 7px;border-radius:5px}
+.card h3{margin:6px 0 4px;font-size:16px;line-height:1.45}
+.card h3 .rid{font-size:13px;margin-right:2px}
+.sum{margin:0;color:#c9ced5;font-size:14px;white-space:pre-line;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.shots{display:flex;gap:8px;overflow-x:auto;margin:12px -14px 0;padding:0 14px 2px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.shots::-webkit-scrollbar{display:none}
+.shots button{flex:none;padding:0;border:1px solid var(--line);border-radius:8px;background:#000;cursor:zoom-in;scroll-snap-align:start;overflow:hidden}
+.shots img{display:block;height:200px;width:auto;max-width:72vw;object-fit:contain;image-rendering:auto}
+.empty{color:var(--muted);font-size:15px;padding:18px 14px;background:var(--panel);border:1px dashed var(--line);border-radius:12px}
+.err{color:var(--fail);font-size:13px;margin-top:8px}
+footer{margin-top:32px;font-size:12px;color:var(--faint)}
+dialog{padding:0;border:0;background:transparent;max-width:100vw;max-height:100vh}
+dialog::backdrop{background:rgba(0,0,0,.88)}
+dialog img{display:block;max-width:96vw;max-height:88vh;border-radius:8px}
+dialog p{margin:8px 0 0;text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><b>RYOSEIWORLD</b> 自動開発の進み具合</h1>
+    <p class="now" id="now"><span class="dot idle"></span>よみこみ中…</p>
+    <div class="bar"><i id="bar"></i></div>
+    <div class="barlabel" id="barlabel">&nbsp;</div>
+  </header>
+
+  <nav class="links">
+    <a class="primary" href="../v5/">最新版で遊ぶ</a>
+    <a href="../rpg.html">公開中の版</a>
+    <a href="https://github.com/Ryoseiimai/ryoseiworld-game/blob/main/autodev/ROADMAP.md">やることリスト</a>
+    <a href="https://github.com/Ryoseiimai/ryoseiworld-game/edit/main/autodev/REQUESTS.md">要望を書く</a>
+  </nav>
+
+  <div id="go"></div>
+
+  <h2>つぎの3件</h2>
+  <ol class="next" id="next"><li class="empty-li">よみこみ中…</li></ol>
+
+  <h2>さいきんの20件</h2>
+  <div id="log"><div class="empty">よみこみ中…</div></div>
+
+  <footer id="foot">このページは2時間おきの自動開発の記録です。</footer>
+</div>
+
+<dialog id="viewer"><img id="viewer-img" alt=""><p>画面をタップでとじる</p></dialog>
+
+<script>
+(function(){
+  'use strict';
+  var REPO_RAW = 'https://raw.githubusercontent.com/Ryoseiimai/ryoseiworld-game/main/';
+  var bust = '?t=' + Date.now();
+  var $ = function(id){ return document.getElementById(id); };
+  function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+
+  // Pages の Jekyll は .md を変換してしまうことがあるので、だめなら GitHub の生ファイルを読む
+  function getText(rel){
+    return fetch('../' + rel + bust, {cache:'no-store'}).then(function(r){
+      if(!r.ok) throw new Error(r.status);
+      return r.text();
+    }).catch(function(){
+      return fetch(REPO_RAW + rel + bust, {cache:'no-store'}).then(function(r){
+        if(!r.ok) throw new Error(r.status); return r.text();
+      });
+    });
+  }
+  function getJSON(rel){ return getText(rel).then(function(t){ return JSON.parse(t); }); }
+  function exists(rel){
+    return fetch('../' + rel + bust, {method:'HEAD', cache:'no-store'}).then(function(r){ return r.ok; }).catch(function(){ return false; });
+  }
+
+  var fmt;
+  try { fmt = new Intl.DateTimeFormat('ja-JP', {timeZone:'Asia/Tokyo', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false}); } catch(e) { fmt = null; }
+  function when(at){
+    var d = new Date(at);
+    if(isNaN(d)) return String(at || '');
+    if(!fmt) return d.toLocaleString();
+    var p = {}; fmt.formatToParts(d).forEach(function(x){ p[x.type]=x.value; });
+    return p.month + '/' + p.day + ' ' + p.hour + ':' + p.minute;
+  }
+
+  function parseRoadmap(md){
+    var items = [];
+    md.split(/\r?\n/).forEach(function(line){
+      var m = line.match(/^\s*- \[([ x!~])\]\s*(R\d+)\s*\|\s*([^|]+?)\s*(?:\|.*)?$/);
+      if(m) items.push({mark:m[1], id:m[2], title:m[3].replace(/（要GO）$/,''), go:/（要GO）/.test(m[3])});
+    });
+    return items;
+  }
+
+  // 「いま」は STATE.json ではなく自動確認の記録（log.json）の最後から作る。
+  // main の STATE.json は合流した枝のものなので、いつも「直前に終わった件」を指してしまう。
+  function isArt(e){ return /^claude\/autodev-art-/.test(e.branch || ''); }
+  function devEntries(log){
+    return (Array.isArray(log) ? log : []).filter(function(e){ return e && !isArt(e); })
+      .sort(function(a,b){ return String(a.at).localeCompare(String(b.at)); });
+  }
+  function fixingRid(log){
+    var dev = devEntries(log), last = dev[dev.length-1];
+    if(!last || ['fail','conflict','error'].indexOf(last.result) < 0) return null;
+    var m = String(last.branch || '').match(/-(R\d+)$/);
+    return m ? m[1] : null;
+  }
+  function renderNow(log, stopped, roadmap){
+    var now = $('now'); now.textContent='';
+    var dot = el('span','dot');
+    var title, sub = '';
+    var halt = roadmap.filter(function(i){ return i.mark==='!' && /^止まっています/.test(i.title); })[0];
+    var dev = devEntries(log), last = dev[dev.length-1];
+    if(stopped){
+      dot.className='dot stop'; title='止めています'; sub='autodev/STOP があるので、自動開発は休んでいます。';
+    } else if(halt){
+      dot.className='dot stop'; title=halt.title; sub='今井さんか司令塔が原因を見るまで、新しい件には進みません。';
+    } else if(last && last.result==='error'){
+      dot.className='dot stop'; title='自動確認が止まっています';
+      sub=(last.task || last.branch || '') + ' を確かめられませんでした（' + when(last.at) + '）。';
+    } else if(last && (last.result==='fail' || last.result==='conflict')){
+      var tries = dev.filter(function(e){ return e.branch===last.branch && ['fail','conflict','error'].indexOf(e.result) >= 0; }).length;
+      dot.className='dot warn'; title=(last.task || last.branch || '') + ' を直しています';
+      sub=(tries+1) + '回目・' + when(last.at) + ' に' + (last.result==='conflict' ? 'ほかの変更とぶつかりました。' : '自動確認を通りませんでした。');
+    } else if(last){
+      dot.className='dot idle'; title='つぎの回を待っています';
+      sub='直前は ' + (last.task || last.branch || '') + ' が合流（' + when(last.at) + '）。2時間おきに1件ずつ進みます。';
+    } else {
+      dot.className='dot idle'; title='最初の回を待っています'; sub='2時間おきに1件ずつ進みます。';
+    }
+    now.appendChild(dot); now.appendChild(document.createTextNode(String(title).trim()));
+    if(sub) now.appendChild(el('small', null, sub));
+
+    if(roadmap.length){
+      var done = roadmap.filter(function(i){ return i.mark==='x'; }).length;
+      $('bar').style.width = Math.round(done*100/roadmap.length) + '%';
+      $('barlabel').textContent = 'できた ' + done + ' 件 / ' + roadmap.length + ' 件';
+    }
+  }
+
+  function renderRoadmap(items, log){
+    var curId = fixingRid(log);
+    var next = items.filter(function(i){ return i.mark===' ' && i.id!==curId; }).slice(0,3);
+    var ol = $('next'); ol.textContent='';
+    if(!next.length){ var li=el('li'); li.appendChild(el('span',null,'のこりは「遊んで気になる所を直す」のくりかえしです。')); ol.appendChild(li); }
+    next.forEach(function(i){ var li=el('li'); li.appendChild(el('span','rid',i.id)); li.appendChild(el('span',null,i.title)); ol.appendChild(li); });
+
+    // [!] は「人の番」: 今井さんの GO 待ちか、司令塔の作業（本番の入れ替え・止まった原因を見る）待ち
+    var human = items.filter(function(i){ return i.mark==='!'; });
+    var box = $('go'); box.textContent='';
+    if(human.length){
+      var d = el('div','go');
+      d.appendChild(el('b',null,'人の番: '));
+      d.appendChild(document.createTextNode(human.map(function(i){ return i.id+' '+i.title; }).join('、') + '。'));
+      if(human.some(function(i){ return i.go; })){
+        var a = el('a',null,'GO と書く'); a.href='https://github.com/Ryoseiimai/ryoseiworld-game/edit/main/autodev/REQUESTS.md';
+        d.appendChild(a);
+      }
+      box.appendChild(d);
+    }
+    var stuck = items.filter(function(i){ return i.mark==='~'; });
+    if(stuck.length){
+      var s = el('div','go'); s.style.borderColor='rgba(239,122,106,.45)'; s.style.background='rgba(239,122,106,.07)';
+      s.appendChild(el('b',null,'止めた件: ')); s.lastChild.style.color='var(--fail)';
+      s.appendChild(document.createTextNode(stuck.map(function(i){ return i.id+' '+i.title; }).join('、') + '。3回通らなかったので飛ばしました。'));
+      box.appendChild(s);
+    }
+  }
+
+  var RESULT = {pass:['pass','合流した'], fail:['fail','通らなかった'], conflict:['conflict','ぶつかった'], error:['fail','確かめられなかった']};
+  function shotURL(p){
+    if(/^https?:\/\//.test(p) || p.charAt(0)==='/') return p;
+    return p.replace(/^devlog\//,'');
+  }
+  function renderLog(log){
+    var box = $('log'); box.textContent='';
+    if(!Array.isArray(log) || !log.length){ box.appendChild(el('div','empty','まだ記録はありません。最初の回の結果を待っています。')); return; }
+    log = log.slice().sort(function(a,b){ return String(b.at).localeCompare(String(a.at)); }).slice(0,20);
+    log.forEach(function(e){
+      var card = el('article','card');
+      var meta = el('div','meta');
+      var r = RESULT[e.result] || ['other', e.result || '記録'];
+      meta.appendChild(el('span','badge '+r[0], r[1]));
+      meta.appendChild(el('span',null, when(e.at)));
+      if(/autodev-art-/.test(e.branch||'')) meta.appendChild(el('span','tag','絵'));
+      if(/^https:\/\/github\.com\//.test(e.run_url||'')){ var a=el('a','more','くわしく'); a.href=e.run_url; meta.appendChild(a); }
+      card.appendChild(meta);
+      var h3 = el('h3'), tm = String(e.task || e.branch || '').match(/^(R\d+)\s*\|?\s*(.*)$/);
+      if(tm){ h3.appendChild(el('span','rid',tm[1])); h3.appendChild(document.createTextNode(' ' + tm[2])); } else h3.textContent = e.task || e.branch || '';
+      card.appendChild(h3);
+      var sum = Array.isArray(e.summary) ? e.summary.join('\n') : String(e.summary||'');
+      sum = sum.split(/\r?\n/).filter(function(x){ return x.trim(); }).slice(0,3).join('\n');
+      if(sum) card.appendChild(el('p','sum', sum));
+      var shots = Array.isArray(e.shots) ? e.shots : [];
+      if(shots.length){
+        var strip = el('div','shots');
+        shots.slice(0,8).forEach(function(p){
+          var b = el('button'); b.type='button'; b.setAttribute('aria-label','スクショを大きく見る');
+          var img = el('img'); img.loading='lazy'; img.alt=''; img.src=shotURL(p);
+          img.onerror=function(){ b.remove(); if(!strip.children.length) strip.remove(); };
+          b.appendChild(img); b.onclick=function(){ openViewer(img.src); };
+          strip.appendChild(b);
+        });
+        card.appendChild(strip);
+      }
+      box.appendChild(card);
+    });
+  }
+
+  var dlg = $('viewer');
+  function openViewer(src){ $('viewer-img').src=src; if(dlg.showModal) dlg.showModal(); else window.open(src,'_blank'); }
+  dlg.addEventListener('click', function(){ dlg.close(); });
+
+  var log=null, roadmap=[], stopped=false;
+  Promise.all([
+    getJSON('devlog/log.json').then(function(l){ log=Array.isArray(l) ? l : []; }).catch(function(){ log=null; }),
+    getText('autodev/ROADMAP.md').then(function(t){ roadmap=parseRoadmap(t); }).catch(function(){}),
+    exists('autodev/STOP').then(function(x){ stopped=x; })
+  ]).then(function(){
+    renderNow(log || [], stopped, roadmap);
+    if(roadmap.length) renderRoadmap(roadmap, log || []);
+    else { $('next').textContent=''; $('next').appendChild(el('li',null,'やることリストを読めませんでした。')); }
+    if(log) renderLog(log);
+    else { var box=$('log'); box.textContent=''; box.appendChild(el('div','empty','記録を読めませんでした。少しあとで開き直してください。')); }
+  });
+  $('foot').textContent = 'このページは2時間おきの自動開発の記録です。' + when(new Date().toISOString()) + ' に読みこみ。';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Trigger only. A push to claude/autodev-** runs this file from the pushed branch, so it gets no permissions
+# and does nothing; its completion starts autodev-ci.yml through workflow_run, which always runs main's copy.
+# The check itself must never live here (a branch could edit it).
+name: autodev-push
+
+on:
+  push:
+    branches: ['claude/autodev-**']
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Hand over to autodev-ci (main's copy)
+        env:
+          REF: ${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: echo "pushed $REF @ $SHA. autodev-ci checks it from main's workflow."
