@@ -1,22 +1,22 @@
 {
   "branch": "claude/autodev-20261009-2222-R35",
-  "sha": "14931259634beab371f1eaae3eae1c7824922e27",
+  "sha": "cdd8ff98b979e32d636a444e800c565f39edaa4c",
   "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
+    "merge": "merge",
     "test_v5": "pass",
     "smoke": "pass"
   },
   "errors": [],
   "shots": [
-    "devlog/shots/16/mobile-03-after-start.jpg",
-    "devlog/shots/16/mobile-05-map-room.jpg",
-    "devlog/shots/16/mobile-08-chapter-1.jpg",
-    "devlog/shots/16/mobile-12-battle-bugking.jpg"
+    "devlog/shots/17/mobile-03-after-start.jpg",
+    "devlog/shots/17/mobile-05-map-room.jpg",
+    "devlog/shots/17/mobile-08-chapter-1.jpg",
+    "devlog/shots/17/mobile-12-battle-bugking.jpg"
   ],
-  "at": "2026-10-09T13:31:28.345Z",
-  "merged_sha": "14931259634beab371f1eaae3eae1c7824922e27",
-  "tested_base": "aef49661b79c660839749ee51a60c24b761bbb94",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937235921"
+  "at": "2026-10-09T13:33:34.422Z",
+  "merged_sha": "00ded9e53f75f1766d6861bbedd8bcfaa0bb33b6",
+  "tested_base": "045b86ebac8390484754a1c73dbfc8917162435e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937302458"
 }

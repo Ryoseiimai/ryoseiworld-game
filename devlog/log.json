@@ -198,5 +198,20 @@
   ],
   "sha": "1493125",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937235921"
+ },
+ {
+  "at": "2026-10-09T13:33:34.422Z",
+  "branch": "claude/autodev-20261009-2222-R35",
+  "task": "R35 カテイノジジョウ戦の文字の重なりと吹き出しの切れを直す",
+  "summary": "上の壁の「しんぱいの かべ」を、台詞とお知らせが出ている間は消した\n吹き出しが左端に着いたら、はじけて消えるようにした（文字が切れない）\n下の壁の名前も、うごき方の説明と重ならないようにし、テストを5つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/17/mobile-03-after-start.jpg",
+   "shots/17/mobile-05-map-room.jpg",
+   "shots/17/mobile-08-chapter-1.jpg",
+   "shots/17/mobile-12-battle-bugking.jpg"
+  ],
+  "sha": "cdd8ff9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937302458"
  }
 ]
