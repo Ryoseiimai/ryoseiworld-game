@@ -29,7 +29,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 | キー | 中身 |
 |---|---|
 | `id` | 章の番号（1〜4）。同じ番号を2回登録すると `false` が返り、警告が出る |
-| `maps` `dialogue` `events` `enemies` `items` `summons` `music` | 章のデータ。全体の表にまぜて入る。ほかの章と同じ名前を使うと上書きして警告が出るので、`minamo_` のように章の頭文字をつける |
+| `maps` `dialogue` `events` `enemies` `items` `summons` `music` `bonds` | 章のデータ。全体の表にまぜて入る。ほかの章と同じ名前を使うと上書きして警告が出るので、`minamo_` のように章の頭文字をつける |
 | `title` | 章の題（章クリアのカードに出る） |
 | `town` | 章の町のマップ名。始まりの場所が無いときは、この町の `spawn` から始まる |
 | `start` | 始まりの場所 `['マップ名', x, y]`（無くてよい） |
@@ -159,6 +159,8 @@ events:{
 | wait | `{wait:600}` | ミリ秒だけ待つ（既定 500）。待つ間は動けず、メニューも開かない |
 | chapterClear | `{chapterClear:true,copy:'カードの文'}` | 章クリア。次の章の頭で保存し、章のカードを出す（ボタンで次の章へ。次が無ければタイトルへ） |
 | ending | `{ending:[['','ありがとう。']],title:'おしまい',copy:'また あそぼう。'}` | 会話の後にエンディングのカード、ボタンでタイトルへ |
+| bond | `{bond:'mother'}` `{bond:'mother',n:2}` | その人のきずなのハートを増やす（n は無ければ1、5まで）。小さな音と「◯◯との きずなが ふかまった！」。もう5なら何も出さずに次へ |
+| gift | `{gift:'rice',to:'mother'}` | 好きな物をあげる。`likes` にあり、持っていれば1つ減らしてハート+1。同じ人に同じ物は1回だけ（2回目は「もう あげた」で、物は減らない）。好きでない物・持っていない物・もうハート5の人は、そう言って物を減らさずに次へ |
 
 ### 条件（if・transport の if）
 
@@ -170,7 +172,27 @@ events:{
 {summon:'owl'}                         // 召喚獣が仲間にいる
 ```
 
-## 5. 敵
+## 5. きずな（bonds）
+
+人ごとのきずな（SPEC_V6.md の2）。ハートは0〜5で、保存に入る。
+
+```js
+bonds:{
+ mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice']},
+ sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink']}
+}
+```
+
+| キー | 中身 |
+|---|---|
+| `name` | 「◯◯との きずなが ふかまった！」に出る名前。全角10字まで |
+| `kind` | `family`（家）・`friend`（友）・`love`（恋） |
+| `spirit` | その人の守護霊。数なら `v5/assets/spirits` のコマ（0〜15）、文字なら召喚獣（`summons` のキー） |
+| `likes` | 好きな物（`items` のキー）。`gift` 手順で1種類につき1回ハートが上がる |
+
+頼みごとは イベントの手順で書き、終わりに `{bond:'人'}` を置く。ごほうび（武器・お金）は R11 で足す。
+
+## 6. 敵
 
 ```js
 enemies:{
@@ -185,22 +207,24 @@ enemies:{
 - `bursts` は HP の節目（0.75 は のこり75%）で出る一行
 - 倒した敵は「おとなしく なった」「しゅうりされた」と書く（壊す・殺すとは書かない）
 
-## 6. 全体の表（index.html にあるもの）
+## 7. 全体の表（index.html にあるもの）
 
 - `items`: rice（おにぎり）・drink（エナジードリンク）・battery（モバイルバッテリー）。章で足す時は `{name,price,heal|battery,desc}`
 - `summons`: nao・code など。足す時は `{name,frame,cost,heal|damage,desc}`
 - `music`: town・battle・boss・victory。足す時は16音の MIDI 番号の配列（0 は休み）
 
-## 7. 確かめ方
+## 8. 確かめ方
 
 ```js
 __v5.debugStartChapter(2)            // 2章の頭へ（それまでの仲間・ボス・町がそろう）
 __v5.debugEvent([{say:[['テスト','やあ']]},{wait:300}])   // 手順をその場で動かす
 __v5.debugFlags()                     // フラグの写し
 __v5.debugSetFlag('key')              // フラグを立てる（2つめの引数で値）
+__v5.debugBond('mother',3)           // きずなのハートを決める（0〜5、n が無ければ0）。知らない人なら false
+__v5.bonds                            // きずなの写し {mother:3}
 __v5.debugWarp('minamo',6,25)         // マップと位置へ
 __v5.debugWin()                       // 今の戦いに勝つ
 ```
 
 手元の確認は `node tools/test_v5.cjs`（データのまちがい・イベントの動き）と `node tools/smoke_v5.cjs`（ブラウザで通す）。
-`test_v5.cjs` は全部のイベントの手順を調べ、知らない会話・マップ・敵・どうぐ・召喚獣・曲の名前、選択肢の数と長さ、クイズの3択をまちがいとして止める。
+`test_v5.cjs` は全部のイベントの手順を調べ、知らない会話・マップ・敵・どうぐ・召喚獣・曲・きずなの人の名前、gift の物が その人の likes にあるか、選択肢の数と長さ、クイズの3択をまちがいとして止める。

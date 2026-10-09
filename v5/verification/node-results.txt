@@ -33,3 +33,4 @@ Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks
 Events: battle win/lose steps, warp, transport (flag stops), inn, music, shake, flash, wait, chapterClear to the next chapter, ending; trigger/warp/door cells PASS
 Events: the menu stays shut during a wait step; the line and choice after it are not under a menu PASS
 Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the next save, cloud allowlist; debugStartChapter / debugFlags / debugSetFlag PASS
+Bonds: chapter data, bond step (+line, sound, cap 5), gift once per kind (liked, held), save and reload, debugBond PASS

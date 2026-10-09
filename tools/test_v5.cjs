@@ -294,7 +294,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
  // R5: event steps (say, choice, quiz, join, give, take, flag, if) run from data only; every step in the chapter data names something that exists.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending'];
+  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift'];
   const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
    if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
    if(['give','take'].includes(v[0]))assert(Object.hasOwn(D.items,s[v[0]]),where+' item '+s[v[0]]);if(v[0]==='join')assert(Object.hasOwn(D.summons,s.join),where+' summon '+s.join);
@@ -302,7 +302,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(v[0]==='quiz')for(const q of s.quiz){assert.equal(q.options.length,3,where+' quiz 3 options');assert(q.answer>=0&&q.answer<3);}
    if(v[0]==='if'){check(s.then||[],where+'.then');check(s.else||[],where+'.else');}
    if(v[0]==='battle'){assert(Object.hasOwn(D.enemies,s.battle),where+' enemy '+s.battle);check(s.win||[],where+'.win');check(s.lose||[],where+'.lose');}
-   if(['warp'].includes(v[0]))assert(Object.hasOwn(D.maps,s.warp),where+' map '+s.warp);if(v[0]==='transport')for(const t of s.stops)assert(Object.hasOwn(D.maps,t.map),where+' stop '+t.map);if(v[0]==='music'&&s.music)assert(Object.hasOwn(D.music,s.music),where+' music '+s.music);}};
+   if(['warp'].includes(v[0]))assert(Object.hasOwn(D.maps,s.warp),where+' map '+s.warp);if(v[0]==='transport')for(const t of s.stops)assert(Object.hasOwn(D.maps,t.map),where+' stop '+t.map);if(v[0]==='music'&&s.music)assert(Object.hasOwn(D.music,s.music),where+' music '+s.music);
+   if(v[0]==='bond')assert(Object.hasOwn(D.bonds,s.bond),where+' bond '+s.bond);if(v[0]==='gift'){assert(Object.hasOwn(D.bonds,s.to),where+' gift to '+s.to);assert((D.bonds[s.to].likes||[]).includes(s.gift),where+' gift is liked '+s.gift);}}};
   for(const [id,steps] of Object.entries(D.events))check(steps,'events.'+id);
   for(const m of Object.values(D.maps))for(const o of m.objects)if(o.event)assert(Object.hasOwn(D.events,o.event),'event '+o.event);
   assert(D.maps.town.objects.find(o=>o.id==='police').event==='police','chapter 1 police talk is an event');
@@ -382,6 +383,43 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick(100);r.click('menu-btn');assert.equal(r.g.modal,'menu','the menu opens again after the event');r.key('Escape');assert.equal(r.g.modal,'');}
  result.push('Events: the menu stays shut during a wait step; the line and choice after it are not under a menu PASS');
  result.push('Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the next save, cloud allowlist; debugStartChapter / debugFlags / debugSetFlag PASS');
+ // R9: bonds in chapter data; the bond step raises hearts (0-5) with a line, the gift step takes a liked item once per kind; saved and restored.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(400);
+  const D=r.g.GAME_DATA,st=r.g.state,read=()=>r.g.dialogue?r.g.dialogue.lines.map(l=>l[1]).join('\n'):'',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  assert(Object.keys(D.bonds).length>=1,'chapter 1 writes bonds');
+  for(const [id,b] of Object.entries(D.bonds)){assert(['family','friend','love'].includes(b.kind),id+' kind');assert(b.name&&wide(b.name)<=10,id+' name fits');for(const it of b.likes||[])assert(Object.hasOwn(D.items,it),id+' likes '+it);
+   assert(typeof b.spirit==='number'?b.spirit>=0&&b.spirit<16:Object.hasOwn(D.summons,b.spirit),id+' spirit');}
+  let tones=0;const bondSfx=r.g.sfx.bond;r.g.sfx.bond=(...a)=>{tones++;return bondSfx(...a);};
+  assert.equal(r.g.bonds.mother??0,0);let done=0;r.g.debugEvent([{bond:'mother'}],()=>done++);assert.equal(read(),'おかあさんとの\nきずなが ふかまった！');assert.equal(tones,1);
+  for(const l of r.g.dialogue.lines)for(const row of l[1].split('\n'))assert(wide(row)<=12,'bond line fits '+row);while(r.g.dialogue)r.dialogue();assert.equal(done,1);assert.equal(r.g.bonds.mother,1);
+  r.g.debugEvent([{bond:'mother',n:9}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.mother,5,'hearts stop at 5');
+  r.g.debugEvent([{bond:'mother'}],()=>done++);assert(!r.g.dialogue,'no line when hearts are full');assert.equal(done,2);
+  r.g.debugEvent([{bond:'nobody'}],()=>done++);assert.equal(done,3,'unknown bond goes on');
+  // gift: liked, once per kind; not liked, missing items and repeats do not take the item.
+  assert.equal(r.g.debugBond('mother',0),0);assert.equal(r.g.debugBond('nobody',2),false);st.items.rice=2;st.items.drink=1;
+  r.g.debugEvent([{gift:'rice',to:'mother'}]);assert(read().includes('おかあさんに\nおにぎりを\nあげた。'),read());for(let i=0;i<6&&r.g.dialogue&&!read().includes('きずなが');i++)r.click('dialogue');assert(read().includes('きずなが ふかまった'),read());while(r.g.dialogue)r.dialogue();
+  assert.equal(st.items.rice,1);assert.equal(r.g.bonds.mother,1);
+  r.g.debugEvent([{gift:'rice',to:'mother'}]);assert(read().includes('もう あげた'),read());while(r.g.dialogue)r.dialogue();assert.equal(st.items.rice,1,'a repeated gift keeps the item');assert.equal(r.g.bonds.mother,1,'gift raises once per kind');
+  r.g.debugEvent([{gift:'drink',to:'mother'}]);assert(read().includes('いらない'),read());while(r.g.dialogue)r.dialogue();assert.equal(st.items.drink,1);assert.equal(r.g.bonds.mother,1);
+  st.items.drink=0;r.g.debugEvent([{gift:'drink',to:'sister'}]);assert(read().includes('もっていない'),read());while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.sister??0,0);
+  st.items.drink=1;r.g.debugEvent([{gift:'drink',to:'sister'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.sister,1);assert.equal(st.items.drink,0);
+  // Every gift line fits 12 full-width characters a row, with the longest names in the data.
+  const longest=Object.values(D.bonds).map(b=>b.name).sort((a,b)=>wide(b)-wide(a))[0],longItem=Object.keys(D.items).sort((a,b)=>wide(D.items[b].name)-wide(D.items[a].name))[0];
+  D.bonds.r9long={name:longest,kind:'friend',spirit:1,likes:[longItem]};st.items[longItem]=1;
+  for(const ev of [[{gift:longItem,to:'r9long'}],[{gift:longItem,to:'r9long'}],[{gift:'rice',to:'r9long'}],[{bond:'r9long'}]]){st.items[longItem]=ev[0].gift===longItem&&!st.gifts.r9long?1:0;r.g.debugEvent(ev);
+   while(r.g.dialogue){for(const l of r.g.dialogue.lines)for(const row of l[1].split('\n'))assert(wide(row)<=12,'gift line fits '+row);r.click('dialogue');}}
+  // At five hearts a gift is not used up.
+  r.g.debugBond('r9long',5);st.items.rice=1;D.bonds.r9long.likes.push('rice');r.g.debugEvent([{gift:'rice',to:'r9long'}]);assert(read().includes('なかよし'),read());while(r.g.dialogue)r.dialogue();assert.equal(st.items.rice,1,'full hearts keep the gift');
+  delete D.bonds.r9long;delete st.bonds.r9long;delete st.gifts.r9long;assert.equal(r.g.debugBond('constructor',3),false);
+  r.g.debugBond('mother',3);r.tick(300);r.click('menu-btn');r.button('セーブ');while(r.g.dialogue)r.dialogue();await settle();
+  const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.deepEqual(sv.bonds,{mother:3,sister:1});assert.deepEqual(sv.gifts,{mother:['rice'],sister:['drink']});
+  const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,bonds:{...sv.bonds,sister:'9',ghost:4},gifts:{...sv.gifts,ghost:['rice']}})]])});back.tick();back.click('continue-btn');back.tick(16);while(back.g.dialogue)back.dialogue();
+  assert.deepEqual(JSON.parse(JSON.stringify(back.g.bonds)),{mother:3,sister:5},'bonds come back, clamped, unknown people dropped');assert.deepEqual(JSON.parse(JSON.stringify(back.g.state.gifts)),{mother:['rice'],sister:['drink']});
+  back.g.debugEvent([{gift:'rice',to:'mother'}]);assert(back.g.dialogue.lines[0][1].includes('もう あげた'),'gift memory survives a reload');while(back.g.dialogue)back.dialogue();
+  const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,bonds:undefined,gifts:undefined})]])});old.tick();assert(!old.els.get('continue-btn').disabled,'a save without bonds continues');old.click('continue-btn');old.tick(16);assert.deepEqual(JSON.parse(JSON.stringify(old.g.bonds)),{});
+  const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.g.debugBond('sister',2);sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();
+  assert.deepEqual(JSON.parse(JSON.stringify(sd.saves.at(-1).bonds)),{sister:2},'cloud save carries bonds');assert.deepEqual(JSON.parse(JSON.stringify(sd.saves.at(-1).gifts)),{});}
+ result.push('Bonds: chapter data, bond step (+line, sound, cap 5), gift once per kind (liked, held), save and reload, debugBond PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

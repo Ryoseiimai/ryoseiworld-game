@@ -46,6 +46,8 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('boss','interior',9,5,4.5,190,190,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
+// Bonds (SPEC_V6.md 2): hearts 0-5 per person, raised by the bond and gift event steps. Rewards come with R11, chapter 1 requests with R17.
+bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice']},sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink']}},
 // The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.
 events:{police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
