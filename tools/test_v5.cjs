@@ -453,6 +453,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.g.debugGiveWeapon('twin');sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();
   assert.deepEqual([...sd.saves.at(-1).weapons],['fuku','twin'],'cloud save carries weapons');}
  result.push('Bond rewards: weapons and money (おこづかい / おれい) per heart count with lines, no double weapon; weapons saved, cleaned on load, cloud allowlist; debugGiveWeapon PASS');
+ // R36: the menu lists bonds (met people: 家/友/恋, hearts, spirit, next reward hint) and weapons; rows fit 540 wide; met is saved.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
+  r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');assert(copy().includes('はなしかけて'),copy());fits(copy());r.button('もどる');assert.equal(r.g.modal,'menu');r.button('もどる');
+  r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
+  r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('［家］おかあさん\n♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと\n♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥3で おこづかい'),c);fits(c);r.button('もどる');
+  D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('［恋］テストの ひと\n♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
+  r.button('ぶき');assert.equal(r.g.modal,'weapons');c=copy();assert(c.startsWith('〔フクの ひかりだま〕\nまっすぐ みぎへ うつ'),c);assert(!c.includes('〔おまもりバリア〕'));assert(c.includes('まだ 7つ。'),c);fits(c);
+  for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('ぶき');c=copy();assert(c.includes('ぜんぶ そろった'),c);for(const w of Object.values(D.weapons)){assert(w.desc,w.name+' desc');assert(c.includes(w.name));}fits(c);r.button('もどる');r.button('もどる');
+  r.tick(300);r.click('menu-btn');r.button('セーブ');while(r.g.dialogue)r.dialogue();await settle();const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.deepEqual(sv.met,['mother']);
+  const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,met:['mother','ghost','mother',3]})]])});back.tick();back.click('continue-btn');back.tick(16);while(back.g.dialogue)back.dialogue();assert.deepEqual([...back.g.state.met],['mother'],'met comes back cleaned');
+  const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,met:undefined})]])});old.tick();old.click('continue-btn');old.tick(16);assert.deepEqual([...old.g.state.met],[]);
+  const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();assert.deepEqual([...sd.saves.at(-1).met],[],'cloud save carries met');}
+ result.push('Menu: きずな lists met people (家/友/恋, hearts, spirit, next reward hint), ぶき lists weapons with what they do; rows fit; met saved and cleaned PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

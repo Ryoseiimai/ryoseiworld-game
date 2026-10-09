@@ -36,3 +36,4 @@ Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the
 Bonds: chapter data, bond step (+line, sound, cap 5), gift once per kind (liked, held), save and reload, debugBond PASS
 Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour at 2+, glow at 5; smoke scene shows the three PASS
 Bond rewards: weapons and money (おこづかい / おれい) per heart count with lines, no double weapon; weapons saved, cleaned on load, cloud allowlist; debugGiveWeapon PASS
+Menu: きずな lists met people (家/友/恋, hearts, spirit, next reward hint), ぶき lists weapons with what they do; rows fit; met saved and cleaned PASS
