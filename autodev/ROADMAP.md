@@ -10,7 +10,7 @@
 - [x] R2 | 町はキックボード、建物の中は歩きにする | 屋外マップでは hero_ride で歩きの1.35倍の速さ、屋内マップでは hero_walk_v3 で、どちらも4方向に動く。debugWarp で町と部屋を行き来したスクショ2枚
 - [x] R3 | タイトルの横切りと、部屋の「たたみなさい」 | タイトル画面で主人公がキックボードで横切る。自分の部屋に初めて入った時だけ、おかあさんの声「いえの なかでは キックボード たたみなさい」が出る（2回目は出ない）
 - [x] R4 | 1章のデータを v5/data/ch1.js に移す | ch1.js が RYW.registerChapter を1回呼び、index.html がエンジンの後に読む。中身は変えない。SPEC_V5.md の1章の通しが前と同じに通る
-- [ ] R5 | イベントの手順（会話・選択・クイズ・どうぐ・フラグ） | say・choice・quiz・join・give・take・flag・if をデータだけで書ける。1章の会話を1つこの形に書き直して動く
+- [x] R5 | イベントの手順（会話・選択・クイズ・どうぐ・フラグ） | say・choice・quiz・join・give・take・flag・if をデータだけで書ける。1章の会話を1つこの形に書き直して動く
 - [ ] R6 | イベントの手順（戦闘・移動・のりもの・演出・章クリア） | battle・warp・transport・inn・save・music・shake・flash・wait・chapterClear・ending と、マスの door・warp・trigger が動く。テスト用の小さなイベントで確かめる
 - [ ] R7 | 保存の版2と、章へ飛ぶ検証用の入口 | 保存データに version 2 が入り、version 1 の保存を読むと2に直して続けられる。__v5.debugStartChapter(n)・debugFlags・debugSetFlag が動く
 - [ ] R8 | エンジンの使い方を v5/ENGINE_API.md に書く | registerChapter と、イベント手順の全種類の書き方が例つきで載っている。章を作る係がこれだけを読んで章を足せる

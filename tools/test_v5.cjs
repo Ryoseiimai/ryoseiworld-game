@@ -292,6 +292,36 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const again=await runtime({saved:new Map(r.saved)});again.tick();again.click('continue-btn');again.tick(16);while(again.g.dialogue)again.dialogue();
   again.g.debugWarp('town',6,25.6);again.tick(16);while(again.g.dialogue)again.dialogue();again.key('ArrowUp');again.tick(600);again.key('ArrowUp',true);again.tick(16);assert.equal(again.g.map,'room');assert(!again.g.dialogue,'quiet after reload '+JSON.stringify(again.g.dialogue&&again.g.dialogue.lines)+JSON.stringify(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')||'{}').flags));}
  result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
+ // R5: event steps (say, choice, quiz, join, give, take, flag, if) run from data only; every step in the chapter data names something that exists.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save'];
+  const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
+   if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
+   if(['give','take'].includes(v[0]))assert(Object.hasOwn(D.items,s[v[0]]),where+' item '+s[v[0]]);if(v[0]==='join')assert(Object.hasOwn(D.summons,s.join),where+' summon '+s.join);
+   if(v[0]==='choice'){assert(s.options.length>=2&&s.options.length<=3,where+' choice 2-3');for(const o of s.options)assert(o.text.length<=16,where+' choice text fits');s.options.forEach((o,i)=>check(o.then||[],where+'.choice'+i));}
+   if(v[0]==='quiz')for(const q of s.quiz){assert.equal(q.options.length,3,where+' quiz 3 options');assert(q.answer>=0&&q.answer<3);}
+   if(v[0]==='if'){check(s.then||[],where+'.then');check(s.else||[],where+'.else');}}};
+  for(const [id,steps] of Object.entries(D.events))check(steps,'events.'+id);
+  for(const m of Object.values(D.maps))for(const o of m.objects)if(o.event)assert(Object.hasOwn(D.events,o.event),'event '+o.event);
+  assert(D.maps.town.objects.find(o=>o.id==='police').event==='police','chapter 1 police talk is an event');
+  const read=()=>r.g.dialogue.lines.map(l=>l[1]).join('\n'),flags=r.g.state.flags,items=r.g.state.items;delete flags.test;
+  const ev=[{say:[['テスト','こんにちは、{name}。']]},
+   {choice:'どっちに する？',who:'テスト',options:[{text:'みぎ',then:[{flag:'test',value:'right'}]},{text:'ひだり',then:[{flag:'test',value:'left'},{give:'rice',n:2}]}]},
+   {quiz:[{q:'1+1は？',options:['1','2','3'],answer:1},{q:'あおい のは？',options:['そら','トマト','バナナ'],answer:0,right:[['テスト','せいかい！']]}],who:'テスト'},
+   {take:'rice'},{say:'noSuchLine'},{join:'code'},{flag:'quizDone'},
+   {if:{flag:'test'},then:[{if:{not:'nothing'},then:[{flag:'ifOk'}]},{if:{flag:'zakoWins',atLeast:99},then:[{flag:'ifBad'}]}],else:[{flag:'ifBad'}]}];
+  const rice=items.rice;let done=false;r.g.debugEvent(ev,()=>{done=true;});assert(read().includes('こんにちは、'+r.g.state.aiName+'。'),read());while(r.g.dialogue)r.dialogue();r.tick(300);
+  assert.equal(r.g.modal,'event');assert(r.els.get('modal-copy').textContent.includes('どっちに'));r.key('Escape');r.click('menu-btn');assert.equal(r.g.modal,'event','escape and the menu button do not drop a choice');
+  r.button('ひだり');assert.equal(flags.test,'left');assert.equal(items.rice,rice+2);
+  assert(r.els.get('modal-copy').textContent.includes('もんだい 1 / 2'));r.button('3');assert(read().includes('ちがう'));while(r.g.dialogue)r.dialogue();r.tick(300);
+  assert(r.els.get('modal-copy').textContent.includes('もんだい 1 / 2'),'wrong answer asks again');r.button('2');assert(r.els.get('modal-copy').textContent.includes('もんだい 2 / 2'));r.button('そら');assert(read().includes('せいかい'));while(r.g.dialogue)r.dialogue();
+  assert.equal(items.rice,rice+1);assert(r.g.summons.includes('code'));assert(flags.quizDone);assert(flags.ifOk&&!flags.ifBad,'if branches');assert(done,'event calls done at the end');
+  for(const b of r.els.get('modal-buttons').children)assert(b.textContent.length<=16,'choice text fits');
+  // The police event branches on the key flag and the number of quiet noises, as the old code did.
+  delete flags.key;flags.zakoWins=2;assert(talk(r,'town',9,17.2).includes('しずめたら'));while(r.g.dialogue)r.dialogue();assert(!flags.key);
+  flags.zakoWins=3;assert(talk(r,'town',9,17.2).includes('カギを もらった'));while(r.g.dialogue)r.dialogue();assert(flags.key);await settle();assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.key,'key is saved');
+  assert(talk(r,'town',9,17.2).includes('まいごの ノイズ'));while(r.g.dialogue)r.dialogue();}
+ result.push('Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks again, escape keeps a choice open, police talk is an event PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

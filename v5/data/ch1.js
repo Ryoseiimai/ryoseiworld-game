@@ -21,7 +21,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('signal',12,110,[[12.5,8.9],[17.5,11.9],[17.5,16.9],[12.5,19.9],[17.5,25.9],[12.5,29.9]]),
  ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,22.6],[17.5,32.4],[9.5,19.6],[27.5,11.6]]),
  ...props('light',5,120,[[17.5,4.6],[17.5,13.6],[17.5,22.6],[12.5,32.4],[4.5,11.6],[24.5,29.6]]),
- ...[['mother',4.5,25.3],['sister',8.5,25.3],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',18.8,25.4],['police',9,16.3,{action:'key',askDialogue:'policeAsk',giveDialogue:'policeGive'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4],['hacker',20,11.3],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
+ ...[['mother',4.5,25.3],['sister',8.5,25.3],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',18.8,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4],['hacker',20,11.3],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.
@@ -46,6 +46,8 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('boss','interior',9,5,4.5,190,190,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
+// The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.
+events:{police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
   quests:{cleared:{text:'まちの あかりが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
  dialogue:{
