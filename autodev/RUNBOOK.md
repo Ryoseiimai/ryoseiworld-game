@@ -298,6 +298,21 @@ PY2
 - 動かない途中のものは commit しない（`git stash` か元に戻す）。動く所までを push する
 - last_run.md の「次:」に、後半でやることを書く
 
+## 9. 時間が残っていたら続ける（1回の起動で3件まで）
+
+2026-10-09 司令塔が追加。7で push したとき、起動からの経過が30分未満なら、自動確認の結果を待って次の件へ進む。
+
+```bash
+BR=$(git branch --show-current); F="autodev/ci/results/${BR//\//__}.json"
+for i in $(seq 1 12); do git fetch -q origin main; git cat-file -e "origin/main:$F" 2>/dev/null && break; sleep 60; done
+git show "origin/main:$F" 2>/dev/null | python3 -c 'import json,sys; d=json.load(sys.stdin); print(d["result"], d.get("sha",""))'
+git rev-parse HEAD
+```
+
+- 結果が `pass` で、その sha が今のブランチの先頭（`git rev-parse HEAD`）と同じなら、`git checkout -q main && git reset -q --hard origin/main` で最新の main に戻り、2章（直前の枝の結果を見る）から次の1件をする。1回の起動で合わせて3件まで
+- `pass` 以外・12分待っても結果が無い・起動からの経過が30分を超えた、のどれかなら、そこで終わる（次の起動が続ける）
+- 続けた回も、件ごとに7の push と last_run.md の書き換えをする
+
 ## よくある迷い
 
 - テストが手元で通らない: 直せる所まで直し、そのまま push してよい。自動確認の `errors` を見て、次の回が直す
