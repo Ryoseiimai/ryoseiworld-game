@@ -6,7 +6,9 @@ const path = require('node:path');
 const documentPath = path.resolve(process.argv[2] || path.join(__dirname, '..', 'v5', 'index.html'));
 const root = path.dirname(documentPath);
 const html = fs.readFileSync(documentPath,'utf8');
-const source = html.split('<script>')[1].split('</script>')[0];
+// index.html runs the engine, then each data/chN.js, then the inline RYW.start(); the VM runs them in the same order.
+const scripts = [...html.matchAll(/<script(?: src="([^"]+)")?>([\s\S]*?)<\/script>/g)].map(m=>m[1]?{file:'v5/'+m[1],code:fs.readFileSync(path.join(root,m[1]),'utf8')}:{file:'v5/index.html',code:m[2]});
+assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html loads data/ch1.js');
 const result=[];
 // Decode the shipped RGBA PNGs so collision tests use actual alpha, not rectangles.
 const decoded=new Map();
@@ -77,7 +79,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     system:{onPause(cb){host.pause=cb;if(initialPause)cb()},onResume(cb){host.resume=cb},
       isAudioEnabled(){return host.enabled},onAudioEnabledChange(cb){host.audio=cb}}
   };
-  vm.runInNewContext(source,sandbox,{filename:'v5/index.html'});
+  for(const s of scripts){if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
   await new Promise(setImmediate);await new Promise(setImmediate);
   const hasLoop=()=>rafs.some(r=>r.f.name==='loop');
   if(!holdLoad && !initialPause)assert(hasLoop(),'boot complete');
