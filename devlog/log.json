@@ -468,5 +468,20 @@
   ],
   "sha": "02e39a4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37993964097"
+ },
+ {
+  "at": "2026-10-09T21:38:14.344Z",
+  "branch": "claude/autodev-20261010-0621-R21",
+  "task": "R21 2章 図書館のサーチフクロウとおじいちゃん",
+  "summary": "図書館の けんさくの きかいで、サーチフクロウが ITクイズを3問 出すようにした\n全問正解で仲間になり、戦闘で敵の次の手を見せて2ターン ダメージ1.5倍にする\nおじいちゃんに きずなを足した。本を返す頼みごととおにぎりで、おこづかいと てづくり おにぎりが入る",
+  "result": "pass",
+  "shots": [
+   "shots/37/mobile-03-after-start.jpg",
+   "shots/37/mobile-09-map-store.jpg",
+   "shots/37/mobile-15-chapter-1-play.jpg",
+   "shots/37/mobile-22-battle-bugking.jpg"
+  ],
+  "sha": "fe0184c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37994409882"
  }
 ]
