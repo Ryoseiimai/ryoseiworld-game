@@ -38,3 +38,4 @@ Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour a
 Bond rewards: weapons and money (おこづかい / おれい) per heart count with lines, no double weapon; weapons saved, cleaned on load, cloud allowlist; debugGiveWeapon PASS
 Menu: きずな lists met people (家/友/恋, hearts, spirit, next reward hint), ぶき lists weapons with what they do; rows fit; met saved and cleaned PASS
 Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing (asked after the request) and rewards PASS
+Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS

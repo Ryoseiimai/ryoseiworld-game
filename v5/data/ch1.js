@@ -16,6 +16,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('shrine','buildings',7,26.5,33.6,150,135,{label:'じんじゃ',dialogue:'shrineSign'}),
  prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,19,24,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90),prop('bike',8,3.4,24.7,80),prop('car',9,23.7,35.3,120),
  prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.9,32,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,5,30.4,150,{sign:'こうえん'}),
+ // Mio (npc2 frame 0) waits by the school; her lost dolphin hairclip is in the park sandbox (STORY_V4.md chapter 1).
+ object('mio','npc2',0,10.4,8.2,48,65,{event:'mio'}),object('hairclip','spot',0,8.3,31.4,60,40,{hidden:true,label:'すなば',event:'hairclip',collider:false}),
  object('pond','spot',0,3.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
  ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[9,30.5],[11,30.5]]),
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
@@ -59,7 +61,9 @@ bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],
  repair:{name:'しゅうりやさん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
  kid:{name:'ゲームの こ',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
  hacker:{name:'ハッカーさん',kind:'friend',spirit:3,likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
- clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}}},
+ clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}},
+ // Love (12-year-old style): returning the hairclip, then a paper letter after the town is quiet. Heart 3 and the dolphin wait for the rainy day in chapter 3.
+ mio:{name:'ミオ',kind:'love',spirit:12,rewards:{2:{weapon:'letter'},5:{weapon:'charge'}}}},
 // The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.
 events:{
  // おつかい: mother asks for milk, the store clerk hands over the reserved bottle. After the town is quiet she says welcome home once.
@@ -81,6 +85,9 @@ events:{
  // The clerk keeps mother's milk and has a jammed receipt printer.
  clerk:[{if:'milkAsk',then:[{if:{not:'milk'},then:[{say:'clerkMilk'},{flag:'milk'}]}]},
   {if:'printerDone',then:[{say:'clerkAfter'}],else:[{say:'clerkPrinter'},{choice:'どう なおす？',options:[{text:'かみを いれなおす',then:[{say:'clerkPrinterOk'},{flag:'printerDone'},{bond:'clerk'}]},{text:'つよく たたく',then:[{say:'clerkPrinterHit'}]},{text:'あやまる',then:[{say:'clerkPrinterSorry'}]}]}]},gift('clerk','rice','おにぎり','printerDone')],
+ mio:[{if:'clipDone',then:[{if:'cleared',then:[{if:'mioLetter',then:[{say:'mioAfter'}],else:[{say:'mioLetter'},{flag:'mioLetter'},{bond:'mio'}]}],else:[{say:'mioWait'}]}],
+  else:[{if:'clip',then:[{say:'mioClip'},{flag:'clipDone'},{bond:'mio'}],else:[{say:'mio'},{flag:'clipAsk'}]}]}],
+ hairclip:[{if:'clip',then:[{say:'sandbox'}],else:[{if:'clipAsk',then:[{say:'clipFound'},{flag:'clip'}],else:[{say:'sandboxShine'}]}]}],
  police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
   quests:{cleared:{text:'まちの あかりが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
@@ -113,6 +120,14 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  hackerServer:[['ハッカーの おねえさん','いびきが とまった。\nきみが おこしたの？'],['ハッカーの おねえさん','やるじゃん。\nこんど いっしょに なにか\nつくろうか。']],
  hackerClear:[['ハッカーの おねえさん','まちの ノイズ、はれたね。'],['ハッカーの おねえさん','ログに のこってた。\nきみの なまえも。']],
  hackerAfter:[['ハッカーの おねえさん','ねむい サーバーは\nやさしく おこすのが\nこつ。']],
+ mio:[['ミオ','あ、となりの クラスの\nRYOSEIくん。'],['ミオ','イルカの かみどめ、\nかたほう おとしちゃった。'],['ミオ','こうえんで あそんでた\nとき かも。']],
+ mioClip:[['','イルカの かみどめを\nわたした。'],['ミオ','あった！ これ、\nふたつで ひとつなの。'],['ミオ','…ありがと。\nおれいに てがみ かくね。'],['ミオ','メールじゃ ないよ。\nかみの やつ。']],
+ mioWait:[['ミオ','てがみ、まだ かいてる。'],['ミオ','まちの ノイズが\nはれたら わたすね。']],
+ mioLetter:[['ミオ','はい、これ。\nいま よまないでね。'],['','ミオから てがみを\nもらった。'],['RYOSEI','よまないで って いわれると\nよみたく なる。'],['ミオ','いえで よんで！']],
+ mioAfter:[['ミオ','イルカ、ふたつ そろうと\nなかよしに みえるでしょ。']],
+ clipFound:[['','すなの なかで\nなにか ひかった。'],['','イルカの かみどめを\nひろった！']],
+ sandboxShine:[['すなば','すなの なかで\nなにか ひかった。'],['すなば','…だれかの おとしもの\nかも。']],
+ sandbox:[['すなば','よるの すなばは\nしずか。']],
  clerkMilk:[['コンビニの ひと','おかあさんの\nぎゅうにゅう？\nとっておいたよ。'],['','ぎゅうにゅうを うけとった。']],
  clerkPrinter:[['コンビニの ひと','レシートの プリンターが\nとまっちゃった。'],['コンビニの ひと','かみが ななめに\nなってる みたい。']],
  clerkPrinterOk:[['','かみを まっすぐ\nいれなおした。'],['コンビニの ひと','うごいた！\nきみ、ここで はたらく？']],

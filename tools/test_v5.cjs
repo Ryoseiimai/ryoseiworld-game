@@ -506,6 +506,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(st.money>money0,'family and friends give おこづかい and おれい');const all=read.join('\n');assert(all.includes('おこづかい')&&all.includes('おれい'),all);
   for(const t of read)for(const row of t.split('\n'))assert([...row].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0)<=16,'line fits '+row);}
  result.push('Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing (asked after the request) and rewards PASS');
+ // R18: Mio (love) lost a dolphin hairclip in the park sandbox; returning it raises her heart, and after the town is quiet her paper letter gives ハートの てがみ.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,read=[];
+  const talk=ev=>{r.g.debugEvent(ev);for(let i=0;i<40&&r.g.dialogue;i++){read.push(...r.g.dialogue.lines.map(l=>l.join(' ')));r.click('dialogue');}assert(!r.g.dialogue&&!r.g.modal,'event '+ev+' finishes');r.tick(300);};
+  assert.equal(D.bonds.mio.kind,'love');const o=D.maps.town.objects.find(o=>o.id==='mio');assert(o&&o.kind==='npc2'&&o.frame===0&&o.event==='mio','Mio stands in town with the npc2 picture');
+  talk('hairclip');assert(!st.flags.clip,'the shine is only a hint before she asks');
+  talk('mio');assert(st.flags.clipAsk);assert.equal(st.bonds.mio??0,0);
+  talk('hairclip');assert(st.flags.clip);talk('hairclip');
+  talk('mio');assert.equal(st.bonds.mio,1,'returning the hairclip');assert(![...st.weapons].includes('letter'));
+  talk('mio');assert.equal(st.bonds.mio,1,'the letter waits until the town is quiet');
+  st.flags.cleared=true;talk('mio');assert.equal(st.bonds.mio,2);assert([...st.weapons].includes('letter'),'the letter becomes ハートの てがみ');
+  talk('mio');assert.equal(st.bonds.mio,2);const all=read.join('\n');assert(all.includes('ハートの てがみ')&&all.includes('てがみ'),all);
+  for(const t of ['すき','キス','デート'])assert(!all.includes(t),'12-year-old story: no '+t);
+  r.g.debugWarp('town',10.4,9.3);st.dir=3;r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines[0][0]==='ミオ','talking to Mio in town');while(r.g.dialogue)r.dialogue();assert([...st.met].includes('mio'),'meeting Mio adds her to the bonds list');}
+ result.push('Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
