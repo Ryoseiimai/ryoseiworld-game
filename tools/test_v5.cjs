@@ -606,7 +606,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.screen,'ending','chapter card after the park');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 02 COMPLETE');assert(r.els.get('ending-heading').textContent.includes('3しょう')&&r.els.get('ending-heading').textContent.includes('ネオンシティ'),r.els.get('ending-heading').textContent);
   await settle();{const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.chapter,3,'saved at chapter 3');assert(sv.flags.minamoCleared&&sv.flags.neonVisited);}
   r.click('ending-title');assert.equal(r.g.screen,'field');assert.equal(r.g.chapter,3);assert.equal(r.g.map,'neon');assert(r.g.state.towns.includes(3));
-  assert(talk(r,'neon',12.4,12.2).includes('ネオンシティ'),'station square sign');while(r.g.dialogue)r.dialogue();
+  assert(talk(r,'neon',11.4,14.7).includes('ネオンシティ'),'station square sign');while(r.g.dialogue)r.dialogue();
   // The walls are gone: no talk target and the hero walks through.
   const w=D.maps.minamo.objects.find(o=>o.id==='minamo_wall1');r.g.debugWarp('minamo',w.x,w.y+1.4);r.g.debugFace(3);r.tick(16);r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y<w.y*48-10,'the wall is gone '+r.g.position.y);
   r.g.debugWarp('minamo',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='しんぱいの かべ'),'the park wall is gone too');while(r.g.dialogue)r.dialogue();
@@ -616,7 +616,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));assert.equal(r.g.map,'neon');assert.equal(r.g.chapter,3);const D=r.g.GAME_DATA;
   const st3=D.maps.neon.objects.find(o=>o.id==='neon_station'),st2=D.maps.minamo.objects.find(o=>o.id==='minamo_station');
-  const ride=(m,o)=>{r.g.debugWarp(m,o.x,o.y+.5);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(400);};ride('neon',st3);assert.equal(r.g.modal,'event','train menu');r.button('ミナモちょう');for(let i=0;i<10&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.map,'minamo');
+  const ride=(m,o)=>{r.g.debugWarp(m,o.x,o.y+(o.kind==='neon'?1.1:.5));r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(400);};ride('neon',st3);assert.equal(r.g.modal,'event','train menu');r.button('ミナモちょう');for(let i=0;i<10&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.map,'minamo');
   ride('minamo',st2);assert.equal(r.g.modal,'event');r.button('ネオンシティ');for(let i=0;i<10&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.map,'neon');
   // Before the boss the station is closed.
   assert(r.g.debugStartChapter(2));assert(talk(r,'minamo',st2.x,st2.y+.5).includes('とまって'),'train waits in chapter 2');while(r.g.dialogue)r.dialogue();assert.equal(r.g.modal,'');
@@ -627,6 +627,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   await settle();const re2=await runtime({saved:re.saved});re2.tick();re2.click('continue-btn');re2.tick(1500);assert(!re2.g.dialogue,'no replay once chapter 3 started');assert.equal(re2.g.map,'neon');
   for(const k of ['trainOpen','trainRide','trainWait','neonSign'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'line fits '+row);}
  result.push('Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS');
+ // R23: ネオンシティ places on the neon sheet; the net cafe night brings HP and battery back; the capsule hotel and the shut stadium talk.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,obj=id=>m.objects.find(o=>o.id===id);
+  for(const [id,f] of [['neon_station',4],['neon_cafe',3],['neon_selfie',7],['neon_capsule',6],['neon_stadium',2],['neon_mural',5],['neon_ranking',0]])assert(obj(id)&&obj(id).kind==='neon'&&obj(id).frame===f,id);
+  const near=(o)=>{r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);};
+  for(const [id,want] of [['neon_ranking','ランキング'],['neon_selfie','いいね'],['neon_stadium','はいれません'],['neon_mural','まっしろ']]){near(obj(id));assert(r.g.dialogue&&r.g.dialogue.lines.map(l=>l[1]).join('').includes(want),id);while(r.g.dialogue)r.dialogue();}
+  near(obj('neon_cafe'));assert.equal(r.g.map,'neon_cafe','enter the net cafe');r.g.state.hero.hp=5;r.g.state.battery=3;
+  assert(talk(r,'neon_cafe',5.4,7.4).includes('ネットカフェ'));for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'){r.tick(400);r.button('とまる');continue;}r.tick(300);}
+  assert.equal(r.g.battery,100,'battery full');assert.equal(r.g.hp.hp,r.g.hp.maxHp,'HP full');
+  near(obj('neon_capsule'));assert.equal(r.g.map,'neon_capsule','enter the capsule hotel');assert(talk(r,'neon_capsule',5.4,5.3).includes('スマホ'));while(r.g.dialogue)r.dialogue();
+  for(const k of ['neonSign','rankingTower','selfiePlaza','chartTower','stadiumShut','muralWall','cafeAsk','cafeSleep','cafeMorning','cafeBye','cafePc','capsuleBed'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 line fits '+row);}
+ result.push('ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium (shut), mural wall on the neon sheet PASS');
  result.push('カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

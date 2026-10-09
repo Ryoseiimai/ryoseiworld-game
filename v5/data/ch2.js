@@ -7,7 +7,7 @@ const {object,prop,props}=RYW.helpers;
 // Same as ch1.js: after the errand, offer one liked thing once.
 const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 // Train stops (SPEC_V5_CH234.md: ミナモちょう → ネオンシティ by train from the station). The first ride is the end of chapter 2.
-const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:'ネオンシティ',map:'neon',at:[10,12.4],if:'neonVisited'}];
+const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:'ネオンシティ',map:'neon',at:[15,13.6],if:'neonVisited'}];
 const maps={};
 // Worry walls have no picture yet (autodev/ART_REQUESTS.json worry_wall); the engine draws a grey block with eyes until it comes.
 const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
