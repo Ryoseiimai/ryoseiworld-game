@@ -143,5 +143,15 @@
   "shots": [],
   "sha": "f79c491",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932701261"
+ },
+ {
+  "at": "2026-10-09T12:53:31.748Z",
+  "branch": "claude/autodev-20261009-2141-R6",
+  "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
+  "summary": "R6 は別の回（2132 の枝）が先に終えて合流していたので、この枝の作り直しは取り消した\nこの枝の中身は main と同じにした\n確認役が、main の R6 では「待つ」の間にメニューが開くと指摘したので、直す件を ROADMAP の先頭に足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "d8e3651",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932931331"
  }
 ]
