@@ -47,6 +47,8 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
 // Bonds (SPEC_V6.md 2): hearts 0-5 per person, raised by the bond and gift event steps. Rewards come with R11, chapter 1 requests with R17.
+// Guardian spirits of people without bonds (SPEC_V6.md 1): a spirits frame (0-15) or a summon. The hacker's whale (summons) joins in chapter 3, so she shows the phone fox until then.
+spirits:{grandpa:7,worker:1,student:2,police:4,grandma:14,delivery:8,kid:15,hacker:3,shrine:10,musician:11,clerk:13,repair:'code'},
 bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice']},sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink']}},
 // The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.
 events:{police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},

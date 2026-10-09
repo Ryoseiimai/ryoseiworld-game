@@ -29,7 +29,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 | キー | 中身 |
 |---|---|
 | `id` | 章の番号（1〜4）。同じ番号を2回登録すると `false` が返り、警告が出る |
-| `maps` `dialogue` `events` `enemies` `items` `summons` `music` `bonds` | 章のデータ。全体の表にまぜて入る。ほかの章と同じ名前を使うと上書きして警告が出るので、`minamo_` のように章の頭文字をつける |
+| `maps` `dialogue` `events` `enemies` `items` `summons` `music` `bonds` `spirits` | 章のデータ。全体の表にまぜて入る。ほかの章と同じ名前を使うと上書きして警告が出るので、`minamo_` のように章の頭文字をつける |
 | `title` | 章の題（章クリアのカードに出る） |
 | `town` | 章の町のマップ名。始まりの場所が無いときは、この町の `spawn` から始まる |
 | `start` | 始まりの場所 `['マップ名', x, y]`（無くてよい） |
@@ -189,6 +189,16 @@ bonds:{
 | `kind` | `family`（家）・`friend`（友）・`love`（恋） |
 | `spirit` | その人の守護霊。数なら `v5/assets/spirits` のコマ（0〜15）、文字なら召喚獣（`summons` のキー） |
 | `likes` | 好きな物（`items` のキー）。`gift` 手順で1種類につき1回ハートが上がる |
+
+### 守護霊（spirits）
+
+ソラが目をさました後（なまえを つけた後）、町の人（`npc` の物）の頭の横に守護霊が上下にゆれて浮く。だれの守護霊かは、`bonds` の `spirit`、無ければ章の `spirits` で決める。どちらにも無い人（犬・ねこなど）には出ない。
+
+```js
+spirits:{grandpa:7,police:4,repair:'code'}   // 人の id: spirits のコマ（0〜15）か召喚獣
+```
+
+ハート0〜1は灰色で半透明、2以上で色つき、5で光の粒が回る。`__v5.spirits` で今見えている守護霊（id・hearts・stage）が読める。
 
 頼みごとは イベントの手順で書き、終わりに `{bond:'人'}` を置く。ごほうび（武器・お金）は R11 で足す。
 

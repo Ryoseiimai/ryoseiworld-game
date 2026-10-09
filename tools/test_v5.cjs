@@ -420,6 +420,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.g.debugBond('sister',2);sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();
   assert.deepEqual(JSON.parse(JSON.stringify(sd.saves.at(-1).bonds)),{sister:2},'cloud save carries bonds');assert.deepEqual(JSON.parse(JSON.stringify(sd.saves.at(-1).gifts)),{});}
  result.push('Bonds: chapter data, bond step (+line, sound, cap 5), gift once per kind (liked, held), save and reload, debugBond PASS');
+ // R10: guardian spirits float by people once Sora is awake; hearts 0-1 grey, 2+ colour, 5 glow.
+ {const r=await runtime();r.tick();const D=r.g.GAME_DATA;assert.equal(r.g.assets.spirits,16,'loaded spirits');
+  for(const [id,sp] of Object.entries({...D.spirits,...Object.fromEntries(Object.entries(D.bonds).map(([k,b])=>[k,b.spirit]))}))assert(typeof sp==='number'?Number.isInteger(sp)&&sp>=0&&sp<16:Object.hasOwn(D.summons,sp),'spirit of '+id);
+  r.g.debugWarp('town',6,23.6);r.tick(32);assert.equal(r.g.spirits.length,0,'no spirits before Sora wakes');
+  r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',6,23.6);r.tick(32);
+  const at=id=>r.g.spirits.find(s=>s.id===id);assert(at('mother')&&at('sister')&&at('grandma'),JSON.stringify(r.g.spirits));
+  assert.equal(at('mother').stage,'gray');assert.equal(at('mother').kind,'summons','mother shows Nao');assert.equal(at('grandma').kind,'spirits');assert.equal(at('grandma').frame,14);
+  r.g.debugBond('mother',1);r.tick(32);assert.equal(at('mother').stage,'gray');r.g.debugBond('mother',2);r.tick(32);assert.equal(at('mother').stage,'color');r.g.debugBond('mother',5);r.tick(32);assert.equal(at('mother').stage,'glow');
+  const n0=r.g.spirits.length,ys=[];for(let i=0;i<8;i++){r.tick(250);ys.push(at('grandma').y);}assert.equal(r.g.spirits.length,n0);assert(Math.max(...ys)-Math.min(...ys)>=6,'spirits bob up and down '+ys);assert(!r.g.spirits.some(s=>s.id==='dog'||s.id==='cat'),'pets have no spirit');
+  r.g.debugWarp('room',5,9);r.tick(32);assert.equal(r.g.spirits.length,0,'nobody in the room');
+  const scene=r.g.smokeScenes.find(s=>s.name==='spirits');scene.run();r.tick(32);assert.deepEqual(['glow','color','gray'],['mother','sister','grandma'].map(id=>at(id).stage),'the smoke scene shows all three');}
+ result.push('Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour at 2+, glow at 5; smoke scene shows the three PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
