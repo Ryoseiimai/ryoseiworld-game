@@ -213,5 +213,20 @@
   ],
   "sha": "cdd8ff9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937302458"
+ },
+ {
+  "at": "2026-10-09T13:40:56.324Z",
+  "branch": "claude/autodev-20261009-2234-R34",
+  "task": "R34 イベントの「待つ」の間にメニューが開く件を直す",
+  "summary": "イベントの「待つ」の間は、Esc とメニューのボタンでメニューが開かないようにした\n待ち時間が明けた時にメニューが開いていたら閉じてから、次の会話や選択を出すようにした\n待つ間と、その後の会話・選択を確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/18/mobile-03-after-start.jpg",
+   "shots/18/mobile-05-map-room.jpg",
+   "shots/18/mobile-08-chapter-1.jpg",
+   "shots/18/mobile-12-battle-bugking.jpg"
+  ],
+  "sha": "fd31448",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37938364901"
  }
 ]
