@@ -60,7 +60,7 @@ maps.minamo_friend={name:'ともだちの いえ',w:11,h:13,spawn:[5,10],objects
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
  enemies:[],portals:[{x:5,y:11.4,to:'minamo',at:[6,35.4]}]};
-RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'minamoCleared',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
+RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
  // People without bonds yet (their stories come with the boss in R22).
@@ -77,8 +77,9 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   boss:{text:'こうえんの おおきな かべへ',dest:{map:'minamo',id:'minamo_boss'}}},
  events:{
   // After the boss: the walls are gone and parents and children play in the park (SPEC_V5_CH234.md).
-  // The chapter card saves at the head of chapter 3. A reload before that plays this scene again (clearDone in the engine).
-  minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。'}],
+  // Then RYOSEI rides the train from the station, and the chapter card saves at the head of chapter 3.
+  // A reload before that plays this scene again (clearDone neonVisited in the engine; it also helps saves from before R37).
+  minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{warp:'minamo',at:[17.8,13.6]},{wait:300},{say:'trainRide'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。'}],
   // The station: after chapter 2 the train goes back and forth (chapter 3 points its own station here too).
   trainStop:[{if:'neonVisited',then:[{transport:'でんしゃ',copy:'どこへ いく？',stops:trainStops}],else:[{say:'trainWait'}]}],
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.
@@ -126,6 +127,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   owlJoin:[['サーチフクロウ','ぜんもん せいかい。\nたのもしい ことじゃ。'],['サーチフクロウ','おじいちゃんの まちを\nいっしょに しらべよう。'],['','サーチフクロウが\nなかまに なった！']],
   owlIdle:[['サーチフクロウ','ほう。しらべものは\nいつでも どうぞ。']],
   trainOpen:[['ともだち','あ、えきの でんしゃ\nうごいてる！'],['ソラ','となりの まちへ\nいって みよう！']],
+  trainRide:[['','でんしゃに のった。'],['ソラ','まどの そとが\nどんどん ひかって くる！']],
   trainWait:[['えきの かんばん','でんしゃは\nとまって います。'],['ソラ','せんろの むこうも\nしずかすぎる。']],
   minamoZakoDone:[['ソラ','ノイズが へってきた。\nとしょかんに いこう。']]
  },

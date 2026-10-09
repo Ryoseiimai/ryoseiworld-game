@@ -601,7 +601,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{join:'owl'}]);r.tick(1600);assert.equal(r.g.questStep,'boss');r.g.debugWarp('minamo',11.6,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to the park wall');
   assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('みせに いこう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);}
   assert.equal(r.g.screen,'shooter','boss fight starts');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'kateino');assert.equal(run.lines.intro[1],'しょうらい どうするの');run.onWin({boss:'kateino',seconds:150,hearts:2,maxHearts:3,hurts:1});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
-  assert(r.g.state.bosses.includes('kateino'),'kateino beaten');assert(r.g.state.flags.minamoCleared,'park scene plays');assert(read.join('\n').includes('すごいじゃない'),read.join('|'));assert(read.join('\n').includes('でんしゃ'),'the train opens');
+  assert(r.g.state.bosses.includes('kateino'),'kateino beaten');assert(r.g.state.flags.minamoCleared,'park scene plays');assert(read.join('\n').includes('すごいじゃない'),read.join('|'));assert(read.join('\n').includes('でんしゃに のった'),'RYOSEI rides the train');
   // R37: the park scene ends with the chapter card, and its button starts chapter 3 at the ネオンシティ station.
   assert.equal(r.g.screen,'ending','chapter card after the park');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 02 COMPLETE');assert(r.els.get('ending-heading').textContent.includes('3しょう')&&r.els.get('ending-heading').textContent.includes('ネオンシティ'),r.els.get('ending-heading').textContent);
   await settle();{const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.chapter,3,'saved at chapter 3');assert(sv.flags.minamoCleared&&sv.flags.neonVisited);}
@@ -620,12 +620,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   ride('minamo',st2);assert.equal(r.g.modal,'event');r.button('ネオンシティ');for(let i=0;i<10&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.map,'neon');
   // Before the boss the station is closed.
   assert(r.g.debugStartChapter(2));assert(talk(r,'minamo',st2.x,st2.y+.5).includes('とまって'),'train waits in chapter 2');while(r.g.dialogue)r.dialogue();assert.equal(r.g.modal,'');
-  r.g.state.bosses.push('kateino');r.g.state.flags.cleared=true;r.g.debugEvent([{save:'quiet'}]);await settle();assert(!JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.minamoCleared);
+  r.g.state.bosses.push('kateino');r.g.state.flags.cleared=true;r.g.debugEvent([{save:'quiet'}]);await settle();r.g.state.flags.minamoCleared=true;r.g.debugEvent([{save:'quiet'}]);await settle();assert(!JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.neonVisited,'a save from before R37: park done, train not taken');
   const re=await runtime({saved:r.saved});re.tick();re.click('continue-btn');assert.equal(re.g.chapter,2);re.tick(1000);assert(re.g.dialogue,'park scene again after reload');const again=[];
   for(let i=0;i<60&&re.g.screen==='field';i++){if(re.g.dialogue){again.push(...re.g.dialogue.lines.map(l=>l[1]));re.click('dialogue');}re.tick(200);}
   assert(again.join('\n').includes('すごいじゃない'),again.join('|'));assert.equal(re.g.screen,'ending');re.click('ending-title');assert.equal(re.g.chapter,3);assert.equal(re.g.map,'neon');
   await settle();const re2=await runtime({saved:re.saved});re2.tick();re2.click('continue-btn');re2.tick(1500);assert(!re2.g.dialogue,'no replay once chapter 3 started');assert.equal(re2.g.map,'neon');
-  for(const k of ['trainOpen','trainWait','neonSign'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'line fits '+row);}
+  for(const k of ['trainOpen','trainRide','trainWait','neonSign'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'line fits '+row);}
  result.push('Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS');
  result.push('カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
