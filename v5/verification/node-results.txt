@@ -1,0 +1,13 @@
+Title → prologue → naming → Naoslime tutorial → bedroom PASS
+Walking portal, NPC facing dialogue, contact encounter and real victory PASS
+Store door, Wi-Fi poem, shopping money/item accounting and free charge PASS
+3–5 ordinary encounters → Code Dragon recruitment → BUG KING (no debugWin) → ending → title PASS
+Reload → continue restores map, position, level, HP, battery, money, items, summons and cleared boss PASS
+Lethal HP roll can be rescued by Naoslime before zero PASS
+Insufficient battery consumes no turn; defeat restores last checkpoint PASS
+High-level instant victory, pause/resume and all three aspect-ratio transforms PASS
+Touch drag moves in four directions; pointer cancellation stops movement PASS
+All art absent: fallback render PASS; late material arrival swaps in real PNGs without restarting PASS
+SDK load/save allowlist, local-only AI name, readiness, host pause and audio off/on PASS
+Slow SDK load and disabled localStorage handled without uncaught error PASS
+Actual PNG alpha-footprint collision: every NPC, event object and exit reachable on all 4 maps PASS

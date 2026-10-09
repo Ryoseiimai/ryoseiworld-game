@@ -1,0 +1,83 @@
+[
+  {
+    "row": 0,
+    "col": 0,
+    "x": 0,
+    "y": 0,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r0_c0.png"
+  },
+  {
+    "row": 0,
+    "col": 1,
+    "x": 341,
+    "y": 0,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r0_c1.png"
+  },
+  {
+    "row": 0,
+    "col": 2,
+    "x": 682,
+    "y": 0,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r0_c2.png"
+  },
+  {
+    "row": 1,
+    "col": 0,
+    "x": 0,
+    "y": 341,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r1_c0.png"
+  },
+  {
+    "row": 1,
+    "col": 1,
+    "x": 341,
+    "y": 341,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r1_c1.png"
+  },
+  {
+    "row": 1,
+    "col": 2,
+    "x": 682,
+    "y": 341,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r1_c2.png"
+  },
+  {
+    "row": 2,
+    "col": 0,
+    "x": 0,
+    "y": 682,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r2_c0.png"
+  },
+  {
+    "row": 2,
+    "col": 1,
+    "x": 341,
+    "y": 682,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r2_c1.png"
+  },
+  {
+    "row": 2,
+    "col": 2,
+    "x": 682,
+    "y": 682,
+    "w": 327,
+    "h": 289,
+    "file": "buildings_r2_c2.png"
+  }
+]
