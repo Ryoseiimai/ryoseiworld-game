@@ -5,3 +5,4 @@ venv/
 dist/
 .gen/
 控え/
+.codex_*
