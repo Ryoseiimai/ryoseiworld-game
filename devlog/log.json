@@ -243,5 +243,20 @@
   ],
   "sha": "6f9d671",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37938943063"
+ },
+ {
+  "at": "2026-10-09T13:48:28.732Z",
+  "branch": "claude/autodev-20261009-2241-R8",
+  "task": "R8 エンジンの使い方を v5/ENGINE_API.md に書く",
+  "summary": "v5/ENGINE_API.md に章の足し方を書いた（registerChapter・マップ・物・マスのしかけ）\nイベント手順の全17種類を、書き方の例つきの表にした\n会話・条件・敵の書き方と、確かめ方の入口もまとめた",
+  "result": "pass",
+  "shots": [
+   "shots/20/mobile-03-after-start.jpg",
+   "shots/20/mobile-05-map-room.jpg",
+   "shots/20/mobile-08-chapter-1.jpg",
+   "shots/20/mobile-12-battle-bugking.jpg"
+  ],
+  "sha": "5263645",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37939285848"
  }
 ]
