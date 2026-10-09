@@ -303,5 +303,20 @@
   ],
   "sha": "dfd1f3c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37948057190"
+ },
+ {
+  "at": "2026-10-09T15:33:27.312Z",
+  "branch": "claude/autodev-20261010-0022-R36",
+  "task": "R36 メニューに「きずな」と「ぶき」を足す",
+  "summary": "メニューに「きずな」を足し、会った人の家/友/恋・ハート・守護霊・次のごほうびを出した\nメニューに「ぶき」を足し、持っている武器と中身を出した\n話した人を保存に入れ、一覧とスクショの場面とテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/24/mobile-03-after-start.jpg",
+   "shots/24/mobile-06-custom-weapons-menu.jpg",
+   "shots/24/mobile-10-map-electric.jpg",
+   "shots/24/mobile-15-battle-bugking.jpg"
+  ],
+  "sha": "9ae32c3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37952393184"
  }
 ]
