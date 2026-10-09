@@ -133,5 +133,15 @@
   ],
   "sha": "293783b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932599284"
+ },
+ {
+  "at": "2026-10-09T12:52:15.422Z",
+  "branch": "claude/autodev-20261009-2141-R6",
+  "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
+  "summary": "R6 は別の回（2132 の枝）が先に終えて合流していたので、この枝の作り直しは取り消した\nこの枝の中身は main と同じにした\n次: R7 保存の版2と、章へ飛ぶ検証用の入口",
+  "result": "conflict",
+  "shots": [],
+  "sha": "f79c491",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932701261"
  }
 ]
