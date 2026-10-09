@@ -22,12 +22,12 @@ function pngPixels(file){
 }
 
 async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[]}={}) {
-  const listeners = {}, els = new Map(), draws=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
+  const listeners = {}, els = new Map(), draws=[], imageLog=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),drawImage(...a){draws[0]=a;}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),drawImage(...a){draws[0]=a;imageLog.push(a[0].src);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -93,7 +93,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {g,els,cmd,button,key,click,tick,dialogue,visibility,start,saved,requests,draws,canvasCalls,calls,saves,audio,host,listeners,resize,
+  return {g,els,cmd,button,key,click,tick,dialogue,visibility,start,saved,requests,draws,imageLog,canvasCalls,calls,saves,audio,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -104,7 +104,7 @@ function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.batt
 function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
 function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
 (async()=>{
- const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,npc:16,enemies:9,summons:6,buildings:9,props:16,interior:16}))assert.equal(t.g.assets[name],count,'loaded '+name);
+ const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,hero_ride:16,npc:16,enemies:9,summons:6,buildings:9,props:16,interior:16}))assert.equal(t.g.assets[name],count,'loaded '+name);
  t.start();let zakoBattles=0;
  assert.equal(t.g.summons[0],'nao');assert.equal(t.g.hp.hp,30);assert.equal(t.active().dataset.cmd,'summon','tutorial opens on しょうかん');
  // F07: no escape from the tutorial, and no turn spent.
@@ -271,6 +271,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const f of v2)assert(fs.existsSync(path.join(dir('ryosei_v2'),f.file)),'v2 '+f.file);
   assert.deepEqual(cur.map(f=>f.row+'_'+f.col).sort(),[0,1,2,3].flatMap(r=>[0,1,2,3].map(c=>r+'_'+c)).sort());}
  result.push('Battle hero art: assets/ryosei matches ryosei_v3 (4x4), old art kept in ryosei_v2 PASS');
+ // R2: outdoors the hero rides the kickboard (hero_ride, 1.35x speed); indoors the hero walks (hero_walk_v3). Both face 4 ways.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.hero_ride,16,'loaded hero_ride');assert.equal(r.g.assets.hero_walk,16,'loaded hero_walk');
+  assert(r.requests.includes('assets/hero_walk_v3/hero_walk_frames.json'),'indoor walk art comes from hero_walk_v3');assert(r.requests.includes('assets/hero_ride/hero_ride_frames.json'));
+  const run=(map,x,y,k)=>{r.g.debugWarp(map,x,y);r.tick(400);const a={...r.g.position};r.key(k);r.tick(200);r.key(k,true);const b=r.g.position;r.imageLog.length=0;r.tick(16);const src=r.imageLog.filter(u=>/assets\/hero_(ride|walk)/.test(u)).at(-1);return{d:Math.hypot(b.x-a.x,b.y-a.y),dir:b.dir,src:src||''};};
+  const dirs={ArrowDown:0,ArrowLeft:1,ArrowRight:2,ArrowUp:3};
+  for(const [k,dir] of Object.entries(dirs)){const o=run('town',8,27,k);assert.equal(o.dir,dir,'town '+k);assert(o.src.includes('assets/hero_ride/hero_ride_r'+dir+'_'),'town art '+k+' '+o.src);
+   const i=run('room',5,9,k);assert.equal(i.dir,dir,'room '+k);assert(i.src.includes('assets/hero_walk_v3/hero_walk_r'+dir+'_'),'room art '+k+' '+i.src);}
+  const town=run('town',8,27,'ArrowRight').d,room=run('room',5,9,'ArrowRight').d;assert(room>10,'room moves');assert(Math.abs(town/room-1.35)<.03,'ride is 1.35x walk: '+town+' / '+room);}
+ result.push('Hero: kickboard (hero_ride, 1.35x) outdoors, walking (hero_walk_v3) indoors, 4 directions PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

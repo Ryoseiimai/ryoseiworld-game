@@ -27,3 +27,4 @@ Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rej
 Closing tap is ignored for 250 ms by battle and shop buttons PASS
 Level-up win: victory sound once, level-up sound once, gained HP/attack shown PASS
 Battle hero art: assets/ryosei matches ryosei_v3 (4x4), old art kept in ryosei_v2 PASS
+Hero: kickboard (hero_ride, 1.35x) outdoors, walking (hero_walk_v3) indoors, 4 directions PASS
