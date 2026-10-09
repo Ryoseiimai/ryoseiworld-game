@@ -89,7 +89,7 @@ dialog p{margin:8px 0 0;text-align:center;color:var(--muted);font-size:13px}
   <h2>さいきんの20件</h2>
   <div id="log"><div class="empty">よみこみ中…</div></div>
 
-  <footer id="foot">このページは2時間おきの自動開発の記録です。</footer>
+  <footer id="foot">このページは3時間おきの自動開発の記録です。</footer>
 </div>
 
 <dialog id="viewer"><img id="viewer-img" alt=""><p>画面をタップでとじる</p></dialog>
@@ -169,9 +169,9 @@ dialog p{margin:8px 0 0;text-align:center;color:var(--muted);font-size:13px}
       sub=(tries+1) + '回目・' + when(last.at) + ' に' + (last.result==='conflict' ? 'ほかの変更とぶつかりました。' : '自動確認を通りませんでした。');
     } else if(last){
       dot.className='dot idle'; title='つぎの回を待っています';
-      sub='直前は ' + (last.task || last.branch || '') + ' が合流（' + when(last.at) + '）。2時間おきに1件ずつ進みます。';
+      sub='直前は ' + (last.task || last.branch || '') + ' が合流（' + when(last.at) + '）。3時間おきに、1回で3件まで進みます。';
     } else {
-      dot.className='dot idle'; title='最初の回を待っています'; sub='2時間おきに1件ずつ進みます。';
+      dot.className='dot idle'; title='最初の回を待っています'; sub='3時間おきに、1回で3件まで進みます。';
     }
     now.appendChild(dot); now.appendChild(document.createTextNode(String(title).trim()));
     if(sub) now.appendChild(el('small', null, sub));
@@ -268,7 +268,7 @@ dialog p{margin:8px 0 0;text-align:center;color:var(--muted);font-size:13px}
     if(log) renderLog(log);
     else { var box=$('log'); box.textContent=''; box.appendChild(el('div','empty','記録を読めませんでした。少しあとで開き直してください。')); }
   });
-  $('foot').textContent = 'このページは2時間おきの自動開発の記録です。' + when(new Date().toISOString()) + ' に読みこみ。';
+  $('foot').textContent = 'このページは3時間おきの自動開発の記録です。' + when(new Date().toISOString()) + ' に読みこみ。';
 })();
 </script>
 </body>
