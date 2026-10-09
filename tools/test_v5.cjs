@@ -355,6 +355,23 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');assert.equal(r.els.get('ending-heading').textContent,'おしまい');assert.equal(r.els.get('ending-eyebrow').textContent,'THE END');assert(!r.els.get('ending-copy').textContent.includes('あかりが'));
   assert.equal(r.els.get('ending-title').textContent,'タイトルへ');r.click('ending-title');assert.equal(r.g.screen,'title');}
  result.push('Events: battle win/lose steps, warp, transport (flag stops), inn, music, shake, flash, wait, chapterClear to the next chapter, ending; trigger/warp/door cells PASS');
+ // R7: save format 2 (saveVersion, towns); a format 1 save (no saveVersion) is upgraded and goes on; chapter entry and flag helpers for checks.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();await settle();
+  const now=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(now.saveVersion,2);assert.deepEqual(now.towns,[1]);assert.equal(now.version,5);
+  const old={...now};delete old.saveVersion;delete old.towns;old.flags={...old.flags,oldFlag:true};old.level=3;
+  const o=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(old)]])});o.tick();assert(!o.els.get('continue-btn').disabled,'format 1 save can continue');o.click('continue-btn');o.tick(16);while(o.g.dialogue)o.dialogue();
+  assert.equal(o.g.screen,'field');assert.equal(o.g.level,3);assert(o.g.debugFlags().oldFlag);assert.deepEqual([...o.g.state.towns],[1]);
+  o.click('menu-btn');o.button('セーブ');while(o.g.dialogue)o.dialogue();await settle();const up=JSON.parse(o.saved.get('ryoseiworld-rpg-v5'));assert.equal(up.saveVersion,2);assert.deepEqual(up.towns,[1]);assert(up.flags.oldFlag);
+  const sd=await runtime({sdk:true});sd.tick();sd.start();await settle();assert.equal(sd.saves.at(-1).saveVersion,2,'cloud save carries format 2');assert.deepEqual(sd.saves.at(-1).towns,[1]);
+  // Flag helpers and the chapter entry.
+  assert.equal(r.g.debugFlags().r7,undefined);r.g.debugSetFlag('r7');assert.equal(r.g.debugFlags().r7,true);r.g.debugSetFlag('r7n',4);assert.equal(r.g.state.flags.r7n,4);
+  const f=r.g.debugFlags();f.r7=false;assert.equal(r.g.state.flags.r7,true,'debugFlags returns a copy');
+  assert.equal(r.g.debugStartChapter(9),false);assert(r.g.debugStartChapter(1));assert.equal(r.g.screen,'field');assert.equal(r.g.chapter,1);assert.equal(r.g.map,'town');assert.equal(r.g.level,1);assert(r.g.state.flags.tutorial);
+  const D=r.g.GAME_DATA;D.chapters[2]={title:'テスト',town:'store',boss:'none',recruit:'nao',quests:D.chapters[1].quests,zakoGoal:3,keyFlag:'key',serverItem:'battery'};
+  assert(r.g.debugStartChapter(2));assert.equal(r.g.chapter,2);assert.equal(r.g.map,'store');assert.equal(r.g.level,5);assert.equal(r.g.hp.maxHp,D.rules.baseHp+4*D.rules.hpPerLevel);
+  assert(r.g.summons.includes('code'),'earlier recruits join');assert(r.g.state.bosses.includes('bugking'));assert.deepEqual([...r.g.state.towns],[1,2]);assert(r.g.state.items.rice>=3);
+  r.tick(500);assert.equal(r.g.screen,'field');}
+ result.push('Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the next save, cloud allowlist; debugStartChapter / debugFlags / debugSetFlag PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

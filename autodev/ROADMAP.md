@@ -12,7 +12,7 @@
 - [x] R4 | 1章のデータを v5/data/ch1.js に移す | ch1.js が RYW.registerChapter を1回呼び、index.html がエンジンの後に読む。中身は変えない。SPEC_V5.md の1章の通しが前と同じに通る
 - [x] R5 | イベントの手順（会話・選択・クイズ・どうぐ・フラグ） | say・choice・quiz・join・give・take・flag・if をデータだけで書ける。1章の会話を1つこの形に書き直して動く
 - [x] R6 | イベントの手順（戦闘・移動・のりもの・演出・章クリア） | battle・warp・transport・inn・save・music・shake・flash・wait・chapterClear・ending と、マスの door・warp・trigger が動く。テスト用の小さなイベントで確かめる
-- [ ] R7 | 保存の版2と、章へ飛ぶ検証用の入口 | 保存データに version 2 が入り、version 1 の保存を読むと2に直して続けられる。__v5.debugStartChapter(n)・debugFlags・debugSetFlag が動く
+- [x] R7 | 保存の版2と、章へ飛ぶ検証用の入口 | 保存データに version 2 が入り、version 1 の保存を読むと2に直して続けられる。__v5.debugStartChapter(n)・debugFlags・debugSetFlag が動く
 - [ ] R8 | エンジンの使い方を v5/ENGINE_API.md に書く | registerChapter と、イベント手順の全種類の書き方が例つきで載っている。章を作る係がこれだけを読んで章を足せる
 - [ ] R9 | きずなの仕組み（bond と gift） | 人ごとのきずな（家族・友情・恋愛、ハート0〜5）を章データに書け、bond と gift でハートが上がり「◯◯との きずなが ふかまった」が出る。gift は1種類1回。__v5.debugBond(id, n) が動く
 - [ ] R10 | 町の人のそばに守護霊を出す | プロローグの後、人のそばに守護霊が上下にゆれて浮く。ハート0〜1は灰色で半透明、2以上で色つき、5で光の粒。3段階がスクショで見える
