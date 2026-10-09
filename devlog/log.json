@@ -423,5 +423,20 @@
   ],
   "sha": "1a9e9e3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37987880559"
+ },
+ {
+  "at": "2026-10-09T20:50:43.943Z",
+  "branch": "claude/autodev-20261010-0537-R20",
+  "task": "R20 2章 ミナモちょうの町と人",
+  "summary": "2章ミナモちょうに 川ぞいの道・公園・図書館・ともだちの家と、しんぱいのかべ3つを置いた\nスパムメール・ろうでんケーブル・なりすましネコの3種と、おじいちゃん・ともだち親子・つかれたお父さんを足した\nノイズを3つ しずめると、おじいちゃんが けんさくの きかいを使わせてくれる。かべの絵は絵係に頼んだ",
+  "result": "pass",
+  "shots": [
+   "shots/33/mobile-03-after-start.jpg",
+   "shots/33/mobile-09-map-store.jpg",
+   "shots/33/mobile-15-chapter-1-play.jpg",
+   "shots/33/mobile-22-battle-bugking.jpg"
+  ],
+  "sha": "8c771e6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37989443457"
  }
 ]
