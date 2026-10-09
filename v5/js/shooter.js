@@ -115,6 +115,7 @@
     { name: 'ミオ', text: 'かみどめ、とどけて くれて ありがとう', spirit: 'kotoba' }
   ];
   var BUBBLE_WORDS = ['ゲームばっかり', 'しょうらい', 'あぶない', 'はやく ねて'];
+  var BUBBLE_POP_X = 4;
   var NUMBER_WORDS = ['10まん', 'いいね 999', '1い', 'フォロワー', 'しゃちょう'];
   var BOSSES = {
     bugking: {
@@ -238,6 +239,12 @@
     w.tickers.push({ text: text, x: x });
   }
   function dens(w) { var h = w.p.hearts; return h >= 3 ? 1 : h === 2 ? 0.7 : 0.5; }
+  // The name on the walls of カテイノジジョウ. The top one is not drawn while a line or a notice is up there,
+  // and the bottom one not while the move hint is shown, so the words never sit on top of each other.
+  function wallLabels(w) {
+    var on = w.bossId === 'kateino' && w.m.wall > 50;
+    return { top: on && !w.burst && !w.toast, bottom: on && !(w.state === 'play' && w.stateT < HINT_T) };
+  }
   function gap(w) { var wall = w.bossId === 'kateino' ? w.m.wall : 0; return { top: PLAY_T + wall, bottom: PLAY_B - wall }; }
 
   function sparks(w, x, y, n, color, speed) {
@@ -713,6 +720,8 @@
       e.age += dt; e.flash = Math.max(0, (e.flash || 0) - dt * 8);
       if (e.kind === 'bubble') { e.x += e.vx * dt; e.y = e.y0 + Math.sin(e.age * e.freq + e.ph) * e.amp; }
       else { e.x += e.vx * dt; e.y += e.vy * dt; }
+      // A bubble pops at the left edge of the screen, so its words are never cut in half by the edge.
+      if (e.kind === 'bubble' && e.x - e.hw <= BUBBLE_POP_X) { e.dead = true; sparks(w, BUBBLE_POP_X + 6, e.y, 6, '#fffaf0', 120); continue; }
       if (e.x < -140 || e.x > W + 160 || e.y < PLAY_T - 90 || e.y > PLAY_B + 90) { e.dead = true; continue; }
       if (jibun) {
         for (var k = 0; k < w.options.length; k++) {
@@ -855,7 +864,7 @@
   var SIM = {
     W: W, H: H, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
     BOSSES: BOSSES, WEAPONS: WEAPONS, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
-    createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, hurt: hurt, win: win, winHold: winHold,
+    createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
   };
 
@@ -1505,7 +1514,7 @@
 
   function drawWalls(ctx, S, w) {
     if (w.bossId !== 'kateino' || w.m.wall < 2) return;
-    var d = w.m.wall, cracked = w.playT < w.m.crackUntil, t = w.t;
+    var d = w.m.wall, cracked = w.playT < w.m.crackUntil, t = w.t, labels = wallLabels(w);
     [[PLAY_T, 1], [PLAY_B - d, -1]].forEach(function (it) {
       var y = it[0];
       ctx.fillStyle = '#b98a55'; ctx.fillRect(-20, y, W + 40, d);
@@ -1513,7 +1522,7 @@
       for (var x = -((t * 40) % 46) - 46; x < W + 46; x += 46) ctx.fillRect(x, y, 4, d);
       ctx.fillStyle = it[1] > 0 ? '#5c3d22' : '#5c3d22';
       ctx.fillRect(-20, it[1] > 0 ? y + d - 8 : y, W + 40, 8);
-      if (d > 50) {
+      if (it[1] > 0 ? labels.top : labels.bottom) {
         ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         outlinedText(ctx, 'しんぱいの かべ', W / 2, y + d / 2, '#fff1d8', 'rgba(70,40,20,0.9)', 5);
       }

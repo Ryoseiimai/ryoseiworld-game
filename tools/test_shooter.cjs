@@ -166,6 +166,30 @@ check('ハートは最初3', world({}).p.hearts === 3);
   w3.b.hp = w3.b.maxHp * 0.74; w3.p.y = w3.b.y;
   run(w3, 1, w => { w.p.inv = 5; return IDLE; });
   check('HPの節目で親の本音の一行', w3.b.shown[75] && (w3.burst || w3.burstQ[0] || {}).text === B.kateino.lines.bursts[75] || w3.burstQ.some(b => b.text === B.kateino.lines.bursts[75]) || (w3.burst && w3.burst.text === B.kateino.lines.bursts[75]));
+  // R35: 吹き出しは画面の左端で切れずに はじける。上の かべ の名前は、台詞やお知らせと重ならない。
+  const w4 = world({ boss: 'kateino' }); clearBullets(w4);
+  sim.addBullet(w4, { kind: 'bubble', x: 140, y: 400, y0: 400, vx: -140, vy: 0, hw: 101, hh: 26, hp: 3, text: 'テストの ことば', amp: 0, freq: 2, ph: 0 });
+  let minLeft = 1e9;
+  run(w4, 1, w => { w.p.inv = 5; w.p.y = sim.PLAY_B - 70; w.eb.forEach(e => { if (e.kind === 'bubble') minLeft = Math.min(minLeft, e.x - e.hw); }); return IDLE; });
+  check('吹き出しは左端で はじけて消える（文字が切れない）', !w4.eb.some(e => e.text === 'テストの ことば') && minLeft >= 0, minLeft);
+  const w5 = world({ boss: 'kateino' });
+  let cut = 0, labelOver = 0, labelSeen = 0;
+  run(w5, 40, w => {
+    w.p.inv = 5;
+    w.eb.forEach(e => { if (e.kind === 'bubble' && e.x - e.hw < 0) cut++; });
+    const L = sim.wallLabels(w);
+    if (L.top) labelSeen++;
+    if (L.top && (w.burst || w.toast)) labelOver++;
+    return IDLE;
+  });
+  check('40秒の間、左端で切れた吹き出しが無い', cut === 0, cut);
+  check('上の かべ の名前は、台詞やお知らせが出ている間は出ない', labelOver === 0 && labelSeen > 0, { labelOver, labelSeen });
+  const w6 = world({ boss: 'kateino' }); w6.m.wall = 125; w6.stateT = 10; w6.burst = null; w6.burstQ = []; w6.toast = null;
+  const l1 = sim.wallLabels(w6); w6.toast = { text: 'テスト', t: w6.t, dur: 2 };
+  const l2 = sim.wallLabels(w6);
+  check('お知らせが出ると上の かべ の名前が消え、下は残る', l1.top && l1.bottom && !l2.top && l2.bottom, { l1, l2 });
+  w6.stateT = 1;
+  check('うごき方の説明が出ている間は下の かべ の名前が出ない', !sim.wallLabels(w6).bottom);
 })();
 (() => {
   const w = world({ boss: 'hikaku' });
