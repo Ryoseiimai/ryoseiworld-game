@@ -318,5 +318,20 @@
   ],
   "sha": "9ae32c3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37952393184"
+ },
+ {
+  "at": "2026-10-09T18:52:29.667Z",
+  "branch": "claude/autodev-20261010-0342-R16",
+  "task": "R16 1章の BUG KING 戦をシューティングに置きかえる",
+  "summary": "BUG KING と話すと、キックボードが光って浮かび、横スクロールのボス戦になるようにした\n勝つと町に戻って1章の終わりへ進む。負けて「まちに もどる」を選ぶと全快して前の場所に戻る\nテストを新しい流れに直し、浮かぶ場面とボス戦のスクショを手元で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/26/mobile-03-after-start.jpg",
+   "shots/26/mobile-07-map-town.jpg",
+   "shots/26/mobile-11-chapter-1.jpg",
+   "shots/26/mobile-17-battle-bugking.jpg"
+  ],
+  "sha": "0f717ed",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37976071010"
  }
 ]
