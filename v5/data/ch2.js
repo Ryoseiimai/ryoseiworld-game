@@ -1,13 +1,13 @@
 // Chapter 2, ミナモちょう. Only data: the engine in index.html reads it through RYW.registerChapter.
 // The riverside town (SPEC_V5_CH234.md): parents watch their phones, children stay in, and worry walls stand on the paths.
-// R20: the town, its people and noises. R21: the library quiz, Search Owl and the grandpa's bond. The boss comes with R22.
+// R20: the town, its people and noises. R21: the library quiz, Search Owl and the grandpa's bond. R22: カテイノジジョウ at the park (shooter), then the walls go.
 (function(){'use strict';
 const {object,prop,props}=RYW.helpers;
 // Same as ch1.js: after the errand, offer one liked thing once.
 const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 const maps={};
 // Worry walls have no picture yet (autodev/ART_REQUESTS.json worry_wall); the engine draws a grey block with eyes until it comes.
-const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall'});
+const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
 maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,spawn:[11.6,31.4],objects:[
  object('minamo_house1','buildings',0,6,15.4,194,194),
  object('minamo_house2','buildings',0,22,15.4,194,194),
@@ -25,11 +25,13 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  ...props('minamo_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // Worry walls on the riverside path, at the park and on the east street. They go away after the boss (R22).
  wall('minamo_wall1',14.5,8.2),wall('minamo_wall2',7.4,20.6),wall('minamo_wall3',26,18.8),
+ // The biggest wall stands in the park sand. With Search Owl it speaks, and the kickboard lifts into the shooter (SPEC_V6.md 4).
+ object('minamo_boss','worry',0,4.6,22.4,170,128,{label:'カテイノジジョウ',action:'boss',enemy:'kateino',requires:'owl',dialogue:'kateinoTalk',lockedDialogue:'worryWall',goneWhenCleared:true}),
  // People: a tired father at the park, a mother who keeps her son in, the dog, the grandpa is in the library.
- object('minamo_dad','npc2',6,11,18.9,48,65,{dialogue:'minamoDad'}),
- object('minamo_mom','npc2',8,9.6,33.8,48,65,{dialogue:'minamoMom'}),
+ object('minamo_dad','npc2',6,11,18.9,48,65,{dialogue:'minamoDad',clearedDialogue:'dadAfter'}),
+ object('minamo_mom','npc2',8,9.6,33.8,48,65,{dialogue:'minamoMom',clearedDialogue:'momAfter'}),
  object('minamo_dog','npc',7,4.4,25.4,56,60,{dialogue:'minamoDog'})],
- enemies:[{id:'ms1',type:'spam',x:20,y:22.6,axis:'y'},{id:'mc1',type:'cable',x:7,y:12.2,axis:'x'},{id:'mn1',type:'maskcat',x:24.4,y:31.4,axis:'x'},{id:'ms2',type:'spam',x:5.6,y:23.4,axis:'x'}],portals:[]};
+ enemies:[{id:'ms1',type:'spam',x:20,y:22.6,axis:'y'},{id:'mc1',type:'cable',x:7,y:12.2,axis:'x'},{id:'mn1',type:'maskcat',x:24.4,y:31.4,axis:'x'},{id:'ms2',type:'spam',x:20.4,y:33.4,axis:'x'}],portals:[]};
 // Terrain: . grass, = road, + sidewalk, : sand, ~ water. The river runs across the top with the riverside path under it.
 maps.minamo.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  if(y<2)return '.';
@@ -52,9 +54,9 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
 maps.minamo_friend={name:'ともだちの いえ',w:11,h:13,spawn:[5,10],objects:[
  object('mf_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
- object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy'})],
+ object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
  enemies:[],portals:[{x:5,y:11.4,to:'minamo',at:[6,35.4]}]};
-RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
+RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
  // People without bonds yet (their stories come with the boss in R22).
@@ -68,8 +70,10 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   key:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   battery:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   recruit:{text:'けんさくの きかいを しらべよう',dest:{map:'minamo_library',id:'ml_search'}},
-  boss:{text:'しんぱいの かべの おくへ いこう'}},
+  boss:{text:'こうえんの おおきな かべへ',dest:{map:'minamo',id:'minamo_boss'}}},
  events:{
+  // After the boss: the walls are gone and parents and children play in the park (SPEC_V5_CH234.md).
+  minamoPark:[{say:'minamoPark'},{flag:'minamoCleared'},{save:'quiet'}],
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.
   // After the owl wakes he asks for an overdue book; the friend who may not go out still has it.
   minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'minamoBookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'minamoBookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'minamoBookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],
@@ -86,6 +90,12 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  // The overdue book: a key item, shown under どうぐ while carried.
  items:{minamoBook:{name:'かえしわすれた ほん',key:true,desc:'「はじめての\nプログラミング」\nへんきゃくびは せんげつ。'}},
  dialogue:{
+  kateinoTalk:[['しんぱいの かべ','…あぶないから。\n…しょうらい\nどうするの。'],['サーチフクロウ','ほう。この かべ、\nなかに こえが ある。'],['ソラ','とどく ように\nみせに いこう！']],
+  kateinoClear:[['','しんぱいの かべが\nすうっと きえた。'],['ソラ','みちが あいた！']],
+  minamoPark:[['ともだち','RYOSEIくん！\nそとに でられた！'],['ともだちの ママ','…あの こ、\nなにか つくってるの？'],['ともだち','ママ、みて。\nぼくも つくりたい。'],['ともだちの ママ','…すごいじゃない。'],['つかれた おとうさん','ニュースより\nこっちの ほうが\nたのしいな。']],
+  dadAfter:[['つかれた おとうさん','ニュースより\nこっちの ほうが\nたのしいな。']],
+  momAfter:[['ともだちの ママ','あの こ、\nこうえんに いったわ。'],['ともだちの ママ','…たまには\nいいわよね。']],
+  boyAfter:[['ともだち','あした こうえんで\nゲーム つくろう！']],
   minamoSign:[['かんばん','ようこそ ミナモちょう。\nかわと はしの まち。'],['ソラ','しずかすぎる。\nそとに だれも いない。']],
   minamoRiver:[['かんばん','かわで あそぶ ときは\nおとなと いっしょに。'],['かんばん','（おとなは\nスマホと いっしょ）']],
   worryWall:[['しんぱいの かべ','…あぶないから。'],['しんぱいの かべ','…あぶないから。'],['ソラ','とおして くれない。\nいまは むりそう。']],
@@ -111,7 +121,10 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   minamoZakoDone:[['ソラ','ノイズが へってきた。\nとしょかんに いこう。']]
  },
  // Street noises of the riverside town (enemies sheet: 2 spam mail, 4 leaking cable, 8 masked cat). A little stronger than chapter 1.
- enemies:{spam:{name:'スパムメールのむれ',frame:2,hp:58,attack:10,exp:20,money:36,level:5,color:['#4b4d66','#c9b98f'],actions:['「あたりました！」を おくってきた！','おなじ メールを 30つう おくった！']},
+ enemies:{
+  // The boss is a shooter fight (v5/js/shooter.js kateino: bubble waves, walls from above and below, みせる with the first game cracks it).
+  kateino:{name:'カテイノジジョウ',boss:true,intro:['カテイノジジョウ','しょうらい どうするの'],art:'kateino',animCols:3,specialEvery:3,specialDamage:6,hp:320,attack:13,exp:90,money:240,level:7,color:['#493857','#c49362'],actions:['「あぶないから」と いった！','かべを ふやした！','ニュースを よみあげた！']},
+  spam:{name:'スパムメールのむれ',frame:2,hp:58,attack:10,exp:20,money:36,level:5,color:['#4b4d66','#c9b98f'],actions:['「あたりました！」を おくってきた！','おなじ メールを 30つう おくった！']},
   cable:{name:'ろうでんケーブル',frame:4,hp:66,attack:12,exp:24,money:42,level:6,color:['#2f4a52','#d9b45a'],actions:['ビリッと はねた！','からまって きた！']},
   maskcat:{name:'なりすましネコ',frame:8,hp:52,attack:11,exp:22,money:40,level:5,color:['#5a4a56','#d6a985'],actions:['「ともだちだよ」と いった！','しらない リンクを ふんだ！']}},
  maps
