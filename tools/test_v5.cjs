@@ -294,7 +294,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
  // R5: event steps (say, choice, quiz, join, give, take, flag, if) run from data only; every step in the chapter data names something that exists.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save'];
+  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending'];
   const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
    if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
    if(['give','take'].includes(v[0]))assert(Object.hasOwn(D.items,s[v[0]]),where+' item '+s[v[0]]);if(v[0]==='join')assert(Object.hasOwn(D.summons,s.join),where+' summon '+s.join);
@@ -322,6 +322,51 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   flags.zakoWins=3;assert(talk(r,'town',9,17.2).includes('カギを もらった'));while(r.g.dialogue)r.dialogue();assert(flags.key);await settle();assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.key,'key is saved');
   assert(talk(r,'town',9,17.2).includes('まいごの ノイズ'));while(r.g.dialogue)r.dialogue();}
  result.push('Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks again, escape keeps a choice open, police talk is an event PASS');
+ // R6: event steps battle/warp/transport/inn/save/music/shake/flash/wait/chapterClear/ending and the door/warp/trigger map cells, on a small test map.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const D=r.g.GAME_DATA,S=r.g.state,flags=S.flags,drain=()=>{for(let i=0;i<40&&(r.g.dialogue||r.g.eventLock);i++){while(r.g.dialogue)r.dialogue();r.tick(100);}};
+  D.maps.evtest={name:'テストの へや',w:11,h:12,spawn:[5,6],objects:[],enemies:[],portals:[],cells:[{x:3,y:6,door:'room',at:[5,9]},{x:7,y:6,warp:'evtest2'},{x:5,y:8,trigger:'evtestStep',once:true}]};
+  D.maps.evtest2={name:'テストの ゆか',w:11,h:12,spawn:[5,4],objects:[],enemies:[],portals:[],cells:[{x:5,y:4,warp:'evtest',at:[5,6]}]};
+  D.events.evtestStep=[{flag:'stepped',value:(flags.stepped||0)+1},{say:[['テスト','ふんだ！']]}];
+  // Walk onto a cell: start one cell away and press toward it.
+  const walk=(x,y,k,ms=500)=>{r.g.debugWarp('evtest',x,y);r.tick(400);r.key(k);r.tick(ms);r.key(k,true);r.tick(16);};
+  walk(5,6.9,'ArrowDown');assert.equal(r.g.map,'evtest');assert(r.g.dialogue&&r.g.dialogue.lines[0][1].includes('ふんだ'),'trigger runs its event');assert(r.g.eventLock>0,'event holds the field');
+  const at={...r.g.position};r.key('ArrowDown');r.tick(300);r.key('ArrowDown',true);assert.equal(r.g.position.y,at.y,'no walking while the event talks');drain();assert.equal(flags.stepped,1);assert.equal(r.g.eventLock,0,'event lock released');
+  walk(5,6.9,'ArrowDown');assert(!r.g.dialogue,'once trigger stays quiet');assert.equal(flags.stepped,1);
+  walk(6,6,'ArrowRight',400);assert.equal(r.g.map,'evtest2','warp floor moves to the other map');assert(r.g.effects.flash,'warp floor flashes');r.tick(800);assert.equal(r.g.map,'evtest2','arriving on a warp floor does not bounce back');
+  r.key('ArrowDown');r.tick(300);r.key('ArrowDown',true);r.key('ArrowUp');r.tick(400);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,'evtest','stepping back onto the warp floor returns');
+  walk(4,6,'ArrowLeft',400);assert.equal(r.g.map,'room','door cell enters the room');
+  // warp, transport (flag-gated stops), inn, music, shake, flash, wait, save.
+  r.g.debugWarp('town',8,27);r.tick(16);delete flags.busPass;S.hero.hp=5;S.battery=3;const money=S.money=100;let done=false;
+  const bus={transport:'バス',stops:[{text:'ヒダマリちょう',map:'town',at:[8,27]},{text:'テストの へや',map:'evtest'},{text:'テストの ゆか',map:'evtest2',if:'busPass'}]};
+  r.g.debugEvent([bus],()=>{});r.tick(16);assert.equal(r.g.modal,'event');let names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert.deepEqual(names,['テストの へや','やめる'],'here and locked stops are left out: '+names);r.button('やめる');assert.equal(r.g.map,'town');
+  flags.busPass=true;r.g.debugEvent([bus,{inn:true,price:30},{music:'boss'},{shake:500,power:12},{flash:'#ffffff',ms:400},{wait:600},{flag:'afterWait'},{warp:'room',at:[5,9]},{save:'quiet'}],()=>{done=true;});r.tick(16);
+  names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert.deepEqual(names,['テストの へや','テストの ゆか','やめる'],'flag opens a stop');r.button('テストの ゆか');assert.equal(r.g.map,'evtest2');
+  assert.equal(S.hero.hp,S.hero.maxHp,'inn fills HP');assert.equal(S.battery,100,'inn fills battery');assert.equal(S.money,money-30,'inn price');
+  r.tick(32);const fx=r.g.effects;assert(fx.shake&&fx.flash,'shake and flash play');assert.equal(fx.music,'boss','music step changes the field tune');assert(!flags.afterWait,'wait holds the next step');
+  r.tick(700);assert(flags.afterWait,'wait ends');assert.equal(r.g.map,'room');assert(done);assert(!r.g.effects.shake&&!r.g.effects.flash,'effects end');await settle();
+  const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.map,'room');assert(sv.flags.afterWait,'save step saves');
+  r.g.debugEvent([{music:''}]);r.tick(16);assert.equal(r.g.effects.music,'town','music back to the town tune');
+  S.money=10;r.g.debugEvent([{inn:true,price:30}]);assert(r.g.dialogue.lines[0][1].includes('たりない'),'inn without money');drain();assert.equal(S.money,10);
+  // battle: win steps run after the fight; event battles cannot be fled.
+  r.g.debugSetLevel(1);r.g.debugEvent([{battle:'crow',win:[{flag:'wonEvent'}],lose:[{flag:'lostEvent'}]},{flag:'afterBattle'}]);assert.equal(r.g.screen,'battle');
+  const zako=flags.zakoWins||0;r.tick(300);r.cmd('run');r.tick(500);assert.equal(r.g.screen,'battle','cannot run from an event battle');while(r.g.dialogue)r.dialogue();
+  r.tick(800);if(r.g.battle)r.g.battle.locked=false;r.g.debugWin();r.tick(2100);drain();assert.equal(r.g.screen,'field');assert(flags.wonEvent&&flags.afterBattle&&!flags.lostEvent,'win steps then the rest');assert.equal(flags.zakoWins||0,zako,'event battles do not count as street noises');
+  // battle: lose steps run instead of going back to the save.
+  delete flags.afterBattle;r.g.debugEvent([{battle:'crow',win:[{flag:'wonEvent2'}],lose:[{flag:'lostEvent'}]},{flag:'afterBattle'}]);r.tick(300);r.g.debugDamage(9999);r.tick(3000);drain();
+  assert.equal(r.g.screen,'field');assert(flags.lostEvent&&flags.afterBattle&&!flags.wonEvent2,'lose steps then the rest');assert(S.hero.hp>0);assert.equal(r.g.eventLock,0);
+  // chapterClear: the card, the boss counts, and with no chapter 2 yet the save stays in chapter 1.
+  r.g.debugWarp('town',8,27);r.tick(16);r.g.debugEvent([{chapterClear:true}]);r.tick(16);assert.equal(r.g.screen,'ending');assert(r.els.get('ending-heading').textContent.includes('ミナモちょう'));assert(r.els.get('ending-eyebrow').textContent.includes('CHAPTER 01'));
+  assert(S.bosses.includes('bugking'));assert(flags.clear_ch1);await settle();assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.clear_ch1);r.click('ending-title');assert.equal(r.g.screen,'title');assert.equal(r.g.eventLock,0);
+  // chapterClear moves the save to the head of a registered next chapter.
+  const r2=await runtime();r2.tick();r2.start();r2.tick(1000);r2.g.debugWin();r2.tick(2100);while(r2.g.dialogue)r2.dialogue();
+  const D2=r2.g.GAME_DATA;D2.maps.evtest={name:'つぎの まち',w:11,h:12,spawn:[5,6],outside:true,objects:[],enemies:[],portals:[]};D2.chapters[2]={title:'ミナモちょう',town:'evtest',start:['evtest',4,7],next:3,nextTitle:'ネオンシティ'};
+  r2.g.debugEvent([{chapterClear:true}]);r2.tick(16);await settle();const s2=JSON.parse(r2.saved.get('ryoseiworld-rpg-v5'));assert.equal(s2.chapter,2);assert.equal(s2.map,'evtest');assert.equal(s2.x,4*48);
+  r2.click('ending-title');r2.click('continue-btn');r2.tick(16);assert.equal(r2.g.chapter,2);assert.equal(r2.g.map,'evtest');
+  // ending: ending lines, epilogue lines, then the title.
+  r2.g.debugEvent([{ending:true,heading:'おしまい',ending:[['','まちは なおった。']],epilogue:[['ソラ','つぎは なにを つくる?']]}]);r2.tick(16);assert.equal(r2.g.screen,'ending');assert.equal(r2.els.get('ending-heading').textContent,'おしまい');
+  assert(r2.g.dialogue.lines[0][1].includes('なおった'));r2.dialogue();r2.tick(16);assert.equal(r2.g.screen,'title');assert.equal(r2.g.eventLock,0);}
+ result.push('Events: battle (win/lose steps, no running), warp, transport with flag stops, inn, save, music, shake, flash, wait, chapterClear, ending; door/warp/trigger cells PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
