@@ -1,6 +1,13 @@
 {
   "version": 1,
-  "current": null,
+  "current": {
+    "id": "R1",
+    "branch": "claude/autodev-20261009-1751-R1",
+    "attempts": 1,
+    "conflicts": 0,
+    "retriggers": 0,
+    "started_at": "2026-10-09T17:51:00+09:00"
+  },
   "history": [],
   "blocked": []
 }

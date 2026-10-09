@@ -263,6 +263,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  const lv=await runtime();lv.tick();lv.start();lv.tick(3000);lv.g.debugWin();lv.tick(2000);lv.dialogue();const count={victory:0,levelup:0};for(const k of Object.keys(count)){const fn=lv.g.sfx[k];lv.g.sfx[k]=(...a)=>{count[k]++;return fn(...a);};}
  lv.g.state.exp=20;lv.g.debugStartBattle('popup','lv');lv.tick(300);lv.g.debugWin();lv.tick(2000);assert.equal(count.victory,1);assert.equal(count.levelup,1);assert(lv.g.dialogue.lines.some(l=>l[1].includes('レベル 2 に なった')&&l[1].includes('HP+12 こうげき+4')));lv.dialogue();
  result.push('Level-up win: victory sound once, level-up sound once, gained HP/attack shown PASS');
+ // R1: battle hero art is ryosei_v3 (same 4x4 layout); the previous art stays in ryosei_v2.
+ {const dir=n=>path.join(root,'assets',n),list=n=>JSON.parse(fs.readFileSync(path.join(dir(n),'ryosei_frames.json'),'utf8'));
+  const cur=list('ryosei'),v3=list('ryosei_v3'),v2=list('ryosei_v2');
+  assert.deepEqual(cur,v3);assert.equal(v2.length,16);assert.notDeepEqual(v2,cur);
+  for(const f of cur){assert(fs.readFileSync(path.join(dir('ryosei'),f.file)).equals(fs.readFileSync(path.join(dir('ryosei_v3'),f.file))),f.file);}
+  for(const f of v2)assert(fs.existsSync(path.join(dir('ryosei_v2'),f.file)),'v2 '+f.file);
+  assert.deepEqual(cur.map(f=>f.row+'_'+f.col).sort(),[0,1,2,3].flatMap(r=>[0,1,2,3].map(c=>r+'_'+c)).sort());}
+ result.push('Battle hero art: assets/ryosei matches ryosei_v3 (4x4), old art kept in ryosei_v2 PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

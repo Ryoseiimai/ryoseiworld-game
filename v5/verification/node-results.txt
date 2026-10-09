@@ -26,3 +26,4 @@ Title: Z on はじめから without a save; はじめから with a save asks fir
 Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS
 Closing tap is ignored for 250 ms by battle and shop buttons PASS
 Level-up win: victory sound once, level-up sound once, gained HP/attack shown PASS
+Battle hero art: assets/ryosei matches ryosei_v3 (4x4), old art kept in ryosei_v2 PASS
