@@ -1,1 +1,17 @@
-[]
+[
+ {
+  "at": "2026-10-09T08:47:19.917Z",
+  "branch": "claude/autodev-20261009-1745-R0",
+  "task": "R0",
+  "summary": "試運転: 自動確認から合流までの通り道を確かめた\n次: R1 戦闘の主人公を新しい絵にする",
+  "result": "pass",
+  "shots": [
+   "shots/2/mobile-03-after-start.jpg",
+   "shots/2/mobile-05-map-room.jpg",
+   "shots/2/mobile-07-map-electric.jpg",
+   "shots/2/mobile-10-battle-bugking.jpg"
+  ],
+  "sha": "9e5f022",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37906933376"
+ }
+]
