@@ -31,4 +31,5 @@ Hero: kickboard (hero_ride, 1.35x) outdoors, walking (hero_walk_v3) indoors, 4 d
 Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS
 Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks again, escape keeps a choice open, police talk is an event PASS
 Events: battle win/lose steps, warp, transport (flag stops), inn, music, shake, flash, wait, chapterClear to the next chapter, ending; trigger/warp/door cells PASS
+Events: the menu stays shut during a wait step; the line and choice after it are not under a menu PASS
 Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the next save, cloud allowlist; debugStartChapter / debugFlags / debugSetFlag PASS

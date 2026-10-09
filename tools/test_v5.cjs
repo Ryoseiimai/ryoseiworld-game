@@ -332,6 +332,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    {transport:'バス',stops:[{text:'じぶんの へや',map:'room',at:[5,9]},{text:'ひみつの みせ',map:'store',at:[5,10],if:'secret'}]},{warp:'electric',at:[5,14]}],()=>{done++;});
   assert.equal(r.g.state.music,'boss');assert(r.g.fx.shakeUntil>0&&r.g.fx.shake===8);assert(r.g.fx.flashUntil>0);
   const at={...r.g.position};r.key('ArrowRight');r.tick(300);r.key('ArrowRight',true);assert.equal(r.g.position.x,at.x,'wait holds the player');assert.equal(r.g.screen,'field');
+  r.key('Escape');r.tick(16);assert.equal(r.g.modal,'','escape does not open the menu during a wait');r.click('menu-btn');r.tick(16);assert.equal(r.g.modal,'','the menu button does not open the menu during a wait');
   r.tick(400);assert.equal(r.g.screen,'battle','battle starts after the wait');const wins=flags.zakoWins;r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();assert(flags.won&&!flags.lost);assert.equal(flags.zakoWins,wins,'event battles do not count as street noises');
   assert.equal(r.g.hp.hp,r.g.hp.maxHp,'inn heals');assert.equal(r.g.battery,100);r.tick(300);
   assert.equal(r.g.modal,'event');const stops=r.els.get('modal-buttons').children.map(b=>b.textContent);assert.deepEqual(stops,['じぶんの へや','やめる'],'hidden stop needs its flag');
@@ -371,6 +372,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.g.debugStartChapter(2));assert.equal(r.g.chapter,2);assert.equal(r.g.map,'store');assert.equal(r.g.level,5);assert.equal(r.g.hp.maxHp,D.rules.baseHp+4*D.rules.hpPerLevel);
   assert(r.g.summons.includes('code'),'earlier recruits join');assert(r.g.state.bosses.includes('bugking'));assert.deepEqual([...r.g.state.towns],[1,2]);assert(r.g.state.items.rice>=3);
   r.tick(500);assert.equal(r.g.screen,'field');}
+ // R34: the menu stays shut during a wait step, and the line after the wait is not under a menu.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(400);
+  r.g.debugEvent([{wait:800},{say:[['テスト','まったね。']]},{choice:'どうする？',who:'テスト',options:[{text:'はい',then:[{flag:'r34'}]},{text:'いいえ'}]}]);
+  for(let i=0;i<5;i++){r.key('Escape');r.tick(16);assert.equal(r.g.modal,'','escape during wait '+i);r.click('menu-btn');r.tick(16);assert.equal(r.g.modal,'','menu button during wait '+i);r.tick(100);}
+  r.tick(400);assert(r.g.dialogue&&r.g.dialogue.lines[0][1]==='まったね。','the line after the wait shows');assert.equal(r.g.modal,'','no menu over the line');
+  r.key('Escape');r.click('menu-btn');assert.equal(r.g.modal,'','no menu while the line shows');while(r.g.dialogue)r.dialogue();r.tick(300);
+  assert.equal(r.g.modal,'event','the choice after the wait shows');r.button('はい');assert(r.g.state.flags.r34);
+  r.tick(100);r.click('menu-btn');assert.equal(r.g.modal,'menu','the menu opens again after the event');r.key('Escape');assert.equal(r.g.modal,'');}
+ result.push('Events: the menu stays shut during a wait step; the line and choice after it are not under a menu PASS');
  result.push('Saves: format 2 (saveVersion 2, towns), format 1 upgraded on continue and in the next save, cloud allowlist; debugStartChapter / debugFlags / debugSetFlag PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
