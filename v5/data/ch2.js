@@ -1,10 +1,13 @@
 // Chapter 2, ミナモちょう. Only data: the engine in index.html reads it through RYW.registerChapter.
 // The riverside town (SPEC_V5_CH234.md): parents watch their phones, children stay in, and worry walls stand on the paths.
 // R20: the town, its people and noises. R21: the library quiz, Search Owl and the grandpa's bond. R22: カテイノジジョウ at the park (shooter), then the walls go.
+// R37: the park scene ends with the chapter card and the train to ネオンシティ (chapter 3).
 (function(){'use strict';
 const {object,prop,props}=RYW.helpers;
 // Same as ch1.js: after the errand, offer one liked thing once.
 const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
+// Train stops (SPEC_V5_CH234.md: ミナモちょう → ネオンシティ by train from the station). The first ride is the end of chapter 2.
+const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:'ネオンシティ',map:'neon',at:[10,12.4],if:'neonVisited'}];
 const maps={};
 // Worry walls have no picture yet (autodev/ART_REQUESTS.json worry_wall); the engine draws a grey block with eyes until it comes.
 const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
@@ -15,6 +18,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  object('minamo_friend','buildings',0,6,34,194,194,{label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
  object('minamo_apartment','buildings',6,23,34,190,190),
  prop('minamo_bus',13,12.4,30.4,90,{label:'バスてい',event:'busStop'}),
+ prop('minamo_station',13,17.8,12.4,90,{label:'えき',event:'trainStop'}),
  prop('minamo_sign',11,12,21.2,80,{dialogue:'minamoSign'}),
  prop('minamo_parksign',11,9.4,23.4,150,{sign:'こうえん'}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
@@ -56,7 +60,7 @@ maps.minamo_friend={name:'ともだちの いえ',w:11,h:13,spawn:[5,10],objects
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
  enemies:[],portals:[{x:5,y:11.4,to:'minamo',at:[6,35.4]}]};
-RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
+RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'minamoCleared',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
  // People without bonds yet (their stories come with the boss in R22).
@@ -73,7 +77,10 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   boss:{text:'こうえんの おおきな かべへ',dest:{map:'minamo',id:'minamo_boss'}}},
  events:{
   // After the boss: the walls are gone and parents and children play in the park (SPEC_V5_CH234.md).
-  minamoPark:[{say:'minamoPark'},{flag:'minamoCleared'},{save:'quiet'}],
+  // The chapter card saves at the head of chapter 3. A reload before that plays this scene again (clearDone in the engine).
+  minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。'}],
+  // The station: after chapter 2 the train goes back and forth (chapter 3 points its own station here too).
+  trainStop:[{if:'neonVisited',then:[{transport:'でんしゃ',copy:'どこへ いく？',stops:trainStops}],else:[{say:'trainWait'}]}],
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.
   // After the owl wakes he asks for an overdue book; the friend who may not go out still has it.
   minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'minamoBookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'minamoBookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'minamoBookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],
@@ -118,6 +125,8 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   owlWrong:[['サーチフクロウ','ほう？ もういちど\nよく かんがえて\nごらん。']],
   owlJoin:[['サーチフクロウ','ぜんもん せいかい。\nたのもしい ことじゃ。'],['サーチフクロウ','おじいちゃんの まちを\nいっしょに しらべよう。'],['','サーチフクロウが\nなかまに なった！']],
   owlIdle:[['サーチフクロウ','ほう。しらべものは\nいつでも どうぞ。']],
+  trainOpen:[['ともだち','あ、えきの でんしゃ\nうごいてる！'],['ソラ','となりの まちへ\nいって みよう！']],
+  trainWait:[['えきの かんばん','でんしゃは\nとまって います。'],['ソラ','せんろの むこうも\nしずかすぎる。']],
   minamoZakoDone:[['ソラ','ノイズが へってきた。\nとしょかんに いこう。']]
  },
  // Street noises of the riverside town (enemies sheet: 2 spam mail, 4 leaking cable, 8 masked cat). A little stronger than chapter 1.

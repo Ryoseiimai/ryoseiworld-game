@@ -41,4 +41,5 @@ Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a
 Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS
 Chapter 2 ミナモちょう: river, park, library, friend's house, worry walls block, spam / cable / masked cat, grandpa key after 3 noises, own zakoDone line, quest arrow to minamo noises, bus PASS
 Search Owl: library quiz (3 questions, wrong answer asks again), joins with the grandpa bond, overdue book errand and onigiri gift (おこづかい, てづくり おにぎり), owl shows the next move and 2 turns at 1.5x PASS
+Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS
 カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS
