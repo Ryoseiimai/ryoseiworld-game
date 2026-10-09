@@ -1,7 +1,8 @@
 # v5 エンジンの使い方（章を作る係むけ）
 
 章を足す係は、このページだけを読めば `v5/data/chN.js` を書けるようにしてある。
-しくみの約束は SPEC_V5_ENGINE.md、物語は STORY_V4.md → STORY_V3.md が正。ここに無いことは、エンジン（`v5/index.html`）を変える件になる。
+設計書の正本の順は STORY_V4.md → STORY_V3.md → SPEC_V6.md → SPEC_V5_ENGINE.md → SPEC_V5.md → SPEC_V5_CH234.md。ここに無いことは、エンジン（`v5/index.html`）を変える件になる。
+新しい絵は自分で描かない。`autodev/ART_REQUESTS.json` に依頼を足し、届くまでは今ある絵か仮の絵で動かす（RULES.md の4）。
 
 ## 1. 章のファイルの形
 
@@ -32,25 +33,25 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 | `title` | 章の題（章クリアのカードに出る） |
 | `town` | 章の町のマップ名。始まりの場所が無いときは、この町の `spawn` から始まる |
 | `start` | 始まりの場所 `['マップ名', x, y]`（無くてよい） |
-| `next` `nextTitle` | 次の章の番号と題。最後の章では書かない |
+| `next` `nextTitle` | 次の章の番号と題。章クリアのカード「N しょう ◯◯ へ つづく」に使う。最後の章は `next` を書かず、ボスの後を `events` の `ending` 手順にする |
 | `boss` | この章のボスの敵の名前（`enemies` のキー） |
 | `recruit` | この章で仲間になる召喚獣（`summons` のキー） |
 | `zakoGoal` | 町のノイズ（ザコ）を何体しずめると次へ進めるか |
 | `keyFlag` | ザコを しずめた後にもらう カギのフラグ名 |
 | `serverItem` | 召喚獣を起こすのに要る どうぐ（例 `battery`） |
 | `quests` | 目的の文（下の「目的の文」） |
-| `clearDialogue` `clearSpot` | ボスに勝った後の会話と、その後に立つ場所 `['マップ名', x, y]` |
+| `clearDialogue` `clearSpot` | `action:'boss'` の物で勝った後の会話と、その後に立つ場所 `['マップ名', x, y]`。この道は章の番号を進めない。次の章へ進めるのはイベントの `chapterClear` 手順なので、2章からはボスを `battle` 手順で呼び、`win` に `chapterClear` を書く |
 | `debugStart` | `__v5.debugStartChapter(n)` で飛んだ時の そろえ方 `{level, summons, items, flags}`（無くてよい。無ければ Lv は 1+(n-1)×4） |
 
 ### 目的の文（quests）
 
-画面の上に出る「つぎに すること」。進み具合で、次の順に1つが選ばれる。
+画面の上に出る「つぎに すること」。進み具合で、次の順に1つが選ばれる。7つ全部に `text` が要る（1つでも欠けると止まる）。
 
 `cleared`（町が直った）→ `tutorial`（召喚の練習前）→ `boss`（仲間がそろった）→ `zako`（ザコが `zakoGoal` 未満）→ `key`（カギ待ち）→ `battery`（どうぐ待ち）→ `recruit`（どうぐがある）
 
 ```js
 quests:{
- zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},        // {n} 倒した数、{goal} は zakoGoal。dest:'enemy' は一番近いザコへの矢印
+ zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},        // {n} 倒した数、{goal} は zakoGoal。dest:'enemy' は今は1章の町（town）のザコだけを指す
  key:{text:'としょかんで カギを もらおう',dest:{map:'minamo',id:'owl'}},   // dest は矢印の行き先（マップと物の id）
  cleared:{text:'まちに こえが もどった。'}
 }
@@ -67,7 +68,7 @@ maps.minamo={
  tiles:[/* h 本の文字列。'.' 草 '=' 道 '+' 歩道 ':' 砂 '~' 水 */],
  objects:[/* 下の object など */],
  enemies:[{id:'m1',type:'worry',x:19,y:21.6,axis:'y'}],   // 町を うろうろするザコ。type は enemies のキー、axis は動く向き
- portals:[{x:5,y:12,to:'minamo',at:[6,25.5]}],            // 部屋の出口（↓のしるし）
+ portals:[{x:5,y:12,to:'minamo',at:[6,25.5]}],            // 部屋の出口（↓のしるし）。objects・enemies・portals は空でも [] を書く
  cells:[/* 下の「マスのしかけ」 */]
 };
 ```
@@ -76,7 +77,9 @@ maps.minamo={
 
 ```js
 object(id, kind, frame, x, y, w, h, extra)   // kind は絵の束: 'buildings' 'props' 'npc' 'interior' 'spot'
-person(id, x, y, extra)                       // 町の人。絵は npc の id の並び、会話は dialogue[id]
+person(id, x, y, extra)                       // 町の人。会話は dialogue[id]。id は絵のある16人だけ:
+                                              // mother sister grandpa clerk worker student police dog cat grandma delivery kid hacker shrine musician repair
+                                              // ほかの人は object(id,'npc',コマ,…) で今ある絵を使い、新しい絵は依頼する
 prop(id, frame, x, y, size, extra)            // 小物（props の絵）
 props(prefix, frame, size, [[x,y,frame?],...], extra)   // 同じ小物を何個も
 ```
@@ -87,11 +90,11 @@ props(prefix, frame, size, [[x,y,frame?],...], extra)   // 同じ小物を何個
 |---|---|
 | `label` | 近くで出る名前 |
 | `dialogue` | 話す・しらべると出る会話（`dialogue` のキー） |
-| `event` | 話す・しらべると動くイベント（`events` のキー）。`dialogue` より先に使われる |
+| `event` | 話す・しらべると動くイベント（`events` のキー）。`dialogue` より先に使われる。調べた時の順は enter → boss → clearedDialogue（町が直った後）→ recruit → event → dialogue なので、町が直った後は `clearedDialogue` が勝つ |
 | `enter` `arrival` | 建物に入る: 行き先のマップと立つマス `[x,y]` |
-| `lock` `lockedDialogue` | このフラグが無いと入れない。その時の会話 |
+| `lock` `lockedDialogue` | このフラグが無いと入れない。その時の会話。ただし章の `recruit` が仲間にいる時と、町が直った後は入れる |
 | `firstDialogue` | 初めて入った時だけの会話 |
-| `action` | `'rest'`（全快）`'save'` `'shop'` `'recruit'` `'boss'` |
+| `action` | `'rest'`（全快）`'save'` `'shop'` `'recruit'` `'boss'`。rest・save・shop は `dialogue` の会話の後に動くので、`dialogue` が要る |
 | `summon` `needs` `needsDialogue` `repeatDialogue` | `action:'recruit'` 用。仲間になる召喚獣、要る どうぐ、無い時と2回目の会話 |
 | `enemy` `requires` | `action:'boss'` 用。戦う敵と、先に要る仲間 |
 | `clearedDialogue` | 町が直った後の会話 |
@@ -117,7 +120,11 @@ dialogue:{
 ```
 
 1行は `[話す人, 文, おまけ]`。文の `\n` で改行、1行は全角12字くらいまで（540x960 で文字が24px以上・はみ出さないため）。
-`{name}` は相棒のAIの名前に置きかわる。`{show:'召喚獣'}` はその召喚獣の絵を出す。
+`{name}` が相棒のAIの名前になるのは、イベントの `say` 手順で出した会話だけ。人や物の `dialogue` で出す会話では `{…}` は空になるので書かない。
+`{show:'召喚獣'}` はその召喚獣の絵を出す。
+
+エンジンが名前で呼ぶ会話（1章の ch1.js にある。章ごとに変える時だけ同じ名前で書く）:
+`zakoWin`（`{name}` 敵の名前・`{exp}`・`{money}`）・`zakoLeft`（`{n}` 残り）・`zakoDone`・`levelUp`（`{lv}` `{hp}` `{atk}`）・`tutorialEnd`・`defeated`
 
 ## 4. イベントの手順
 
@@ -137,20 +144,20 @@ events:{
 |---|---|---|
 | say | `{say:'owl'}` または `{say:[['人','文']]}` | 会話を出し、読み終わると次へ |
 | choice | `{choice:'どうする？',who:'人',options:[{text:'はい',then:[…]},{text:'いいえ'}]}` | 2〜3択。選んだ先の `then` をしてから次へ。選択肢は16字まで |
-| quiz | `{quiz:[{q,options:[3つ],answer:0〜2,right:[会話],wrong:[会話]}],who:'人'}` | 3択の問題を順に。まちがえると同じ問題をもう一度。全部正しいと次へ |
+| quiz | `{quiz:[{q,options:[3つ],answer:0〜2,right:[会話],wrong:[会話]}],who:'人',wrong:[会話]}` | 3択の問題を順に。まちがえると同じ問題をもう一度。全部正しいと次へ。外の `wrong` は全問共通のまちがいの会話 |
 | join | `{join:'owl'}` | 召喚獣が仲間に（フラグ `owl` も立つ） |
 | give / take | `{give:'rice',n:2}` `{take:'battery'}` | どうぐを増やす・減らす（n は無ければ1） |
 | flag | `{flag:'seenPark'}` `{flag:'step',value:2}` | フラグを立てる（value は無ければ true） |
 | if | `{if:条件,then:[…],else:[…]}` | 条件で分ける（下の「条件」） |
 | battle | `{battle:'crow',id:'park1',win:[…],lose:[…]}` | 戦う。勝ち負けの手順の後に次へ。イベントの戦いはザコの数に入らない |
 | warp | `{warp:'library',at:[5,10]}` | マップを移る（at が無ければ spawn） |
-| transport | `{transport:'バス',copy:'どこへ いく？',stops:[{text:'ヒダマリちょう',map:'town',at:[12,16]},{text:'ネオンシティ',map:'neon',at:[5,5],if:'ticket'}]}` | 行き先を選ぶ。`if` のある行き先はその条件の時だけ出る。「やめる」が足される |
+| transport | `{transport:'バス',copy:'どこへ いく？',stops:[{text:'ヒダマリちょう',map:'town',at:[12,16]},{text:'ネオンシティ',map:'neon',at:[5,5],if:'ticket'}]}` | 行き先を選ぶ。`if` のある行き先はその条件の時だけ出る。今いるマップの行き先は押せない。「やめる」が足される |
 | inn | `{inn:true}` | HPとでんちを満タン |
 | save | `{save:true}` `{save:'quiet'}` | 保存（quiet はお知らせを出さない） |
 | music | `{music:'boss'}` | 曲を変える（`music` のキー、空で止める） |
-| shake / flash | `{shake:true,ms:400,power:8}` `{flash:'#ffffff',ms:300}` | 画面のゆれ・光。すぐ次へ進むので、待たせる時は後に wait |
-| wait | `{wait:600}` | ミリ秒だけ待つ。待つ間は動けず、メニューも開かない |
-| chapterClear | `{chapterClear:true}` | 章クリア。次の章の頭で保存し、章のカードを出す（ボタンで次の章へ。次が無ければタイトルへ） |
+| shake / flash | `{shake:true,ms:400,power:8}` `{flash:'#ffffff',ms:300}` | 画面のゆれ・光（既定は ゆれ 500ms・強さ10、光 300ms・白）。すぐ次へ進むので、待たせる時は後に wait |
+| wait | `{wait:600}` | ミリ秒だけ待つ（既定 500）。待つ間は動けず、メニューも開かない |
+| chapterClear | `{chapterClear:true,copy:'カードの文'}` | 章クリア。次の章の頭で保存し、章のカードを出す（ボタンで次の章へ。次が無ければタイトルへ） |
 | ending | `{ending:[['','ありがとう。']],title:'おしまい',copy:'また あそぼう。'}` | 会話の後にエンディングのカード、ボタンでタイトルへ |
 
 ### 条件（if・transport の if）
