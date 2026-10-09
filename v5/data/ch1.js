@@ -62,7 +62,7 @@ bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],
  kid:{name:'ゲームの こ',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
  hacker:{name:'ハッカーさん',kind:'friend',spirit:3,likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
  clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}},
- // Love (12-year-old style): returning the hairclip, then a paper letter after the town is quiet. Heart 3 and the dolphin wait for the rainy day in chapter 3.
+ // Love (12-year-old style): returning the hairclip, then a paper letter after the town is quiet. Heart 3 and the dolphin wait for the rainy day in chapter 3, so her spirit shows the koi until then (like the hacker's fox).
  mio:{name:'ミオ',kind:'love',spirit:12,rewards:{2:{weapon:'letter'},5:{weapon:'charge'}}}},
 // The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.
 events:{
@@ -120,9 +120,9 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  hackerServer:[['ハッカーの おねえさん','いびきが とまった。\nきみが おこしたの？'],['ハッカーの おねえさん','やるじゃん。\nこんど いっしょに なにか\nつくろうか。']],
  hackerClear:[['ハッカーの おねえさん','まちの ノイズ、はれたね。'],['ハッカーの おねえさん','ログに のこってた。\nきみの なまえも。']],
  hackerAfter:[['ハッカーの おねえさん','ねむい サーバーは\nやさしく おこすのが\nこつ。']],
- mio:[['ミオ','あ、となりの クラスの\nRYOSEIくん。'],['ミオ','イルカの かみどめ、\nかたほう おとしちゃった。'],['ミオ','こうえんで あそんでた\nとき かも。']],
+ mio:[['ミオ','あ、おなじ クラスの\nRYOSEIくん。'],['ミオ','イルカの かみどめ、\nかたほう おとしちゃった。'],['ミオ','こうえんで あそんでた\nとき かも。']],
  mioClip:[['','イルカの かみどめを\nわたした。'],['ミオ','あった！ これ、\nふたつで ひとつなの。'],['ミオ','…ありがと。\nおれいに てがみ かくね。'],['ミオ','メールじゃ ないよ。\nかみの やつ。']],
- mioWait:[['ミオ','てがみ、まだ かいてる。'],['ミオ','まちの ノイズが\nはれたら わたすね。']],
+ mioWait:[['ミオ','てがみ、かいたけど\nまだ わたせない。'],['ミオ','まちの ノイズが\nはれたら わたすね。']],
  mioLetter:[['ミオ','はい、これ。\nいま よまないでね。'],['','ミオから てがみを\nもらった。'],['RYOSEI','よまないで って いわれると\nよみたく なる。'],['ミオ','いえで よんで！']],
  mioAfter:[['ミオ','イルカ、ふたつ そろうと\nなかよしに みえるでしょ。']],
  clipFound:[['','すなの なかで\nなにか ひかった。'],['','イルカの かみどめを\nひろった！']],

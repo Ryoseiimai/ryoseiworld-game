@@ -76,10 +76,12 @@ maps.minamo={
 ### 物と人（RYW.helpers）
 
 ```js
-object(id, kind, frame, x, y, w, h, extra)   // kind は絵の束: 'buildings' 'props' 'npc' 'interior' 'spot'
+object(id, kind, frame, x, y, w, h, extra)   // kind は絵の束: 'buildings' 'props' 'npc' 'npc2' 'interior' 'spot'
 person(id, x, y, extra)                       // 町の人。会話は dialogue[id]。id は絵のある16人だけ:
                                               // mother sister grandpa clerk worker student police dog cat grandma delivery kid hacker shrine musician repair
-                                              // ほかの人は object(id,'npc',コマ,…) で今ある絵を使い、新しい絵は依頼する
+                                              // ほかの人は object(id,'npc',コマ,…) か object(id,'npc2',コマ,…,48,65,…) で今ある絵を使い、新しい絵は依頼する
+                                              // npc2（3x3）: 0 ミオ 1 絵をかく子 2 バスの運転手 3 駅員 4 塔の案内ロボ 5 数字の板の人 6 つかれたお父さん 7 スマホの子 8 先生
+                                              // npc と npc2 の物は「人」: 話すと はなす と出て、bonds の人なら きずな一覧に入り、守護霊が浮く
 prop(id, frame, x, y, size, extra)            // 小物（props の絵）
 props(prefix, frame, size, [[x,y,frame?],...], extra)   // 同じ小物を何個も
 ```
@@ -195,7 +197,7 @@ bonds:{
 
 ### 守護霊（spirits）
 
-ソラが目をさました後（なまえを つけた後）、町の人（`npc` の物）の頭の横に守護霊が上下にゆれて浮く。だれの守護霊かは、`bonds` の `spirit`、無ければ章の `spirits` で決める。どちらにも無い人（犬・ねこなど）には出ない。
+ソラが目をさました後（なまえを つけた後）、町の人（`npc` と `npc2` の物）の頭の横に守護霊が上下にゆれて浮く。だれの守護霊かは、`bonds` の `spirit`、無ければ章の `spirits` で決める。どちらにも無い人（犬・ねこなど）には出ない。
 
 ```js
 spirits:{grandpa:7,police:4,repair:'code'}   // 人の id: spirits のコマ（0〜15）か召喚獣

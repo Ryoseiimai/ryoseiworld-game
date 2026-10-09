@@ -518,6 +518,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   talk('mio');assert.equal(st.bonds.mio,1,'the letter waits until the town is quiet');
   st.flags.cleared=true;talk('mio');assert.equal(st.bonds.mio,2);assert([...st.weapons].includes('letter'),'the letter becomes ハートの てがみ');
   talk('mio');assert.equal(st.bonds.mio,2);const all=read.join('\n');assert(all.includes('ハートの てがみ')&&all.includes('てがみ'),all);
+  for(const t of read)for(const row of t.slice(t.indexOf(' ')+1).split('\n'))assert([...row].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0)<=16,'line fits '+row);
   for(const t of ['すき','キス','デート'])assert(!all.includes(t),'12-year-old story: no '+t);
   r.g.debugWarp('town',10.4,9.3);st.dir=3;r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines[0][0]==='ミオ','talking to Mio in town');while(r.g.dialogue)r.dialogue();assert([...st.met].includes('mio'),'meeting Mio adds her to the bonds list');}
  result.push('Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS');
