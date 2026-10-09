@@ -151,7 +151,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  t.tick(1000);assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
  {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
   // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
-  t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'electric');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどろう'));t.dialogue();assert(!t.g.state.bosses.includes('bugking'));}
+  t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどった'));t.dialogue();assert.equal(c.lines.intro[0],'ソラ','no second むりだ line');}
+ t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
  t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
  t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts at once');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
