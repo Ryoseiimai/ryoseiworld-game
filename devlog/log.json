@@ -118,5 +118,30 @@
   ],
   "sha": "d15cf48",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37931813610"
+ },
+ {
+  "at": "2026-10-09T12:51:18.882Z",
+  "branch": "claude/autodev-20261009-2144-R7",
+  "task": "R7 保存の版2と、章へ飛ぶ検証用の入口",
+  "summary": "保存に版2（saveVersion 2 と行ける町）を足し、版1の保存は読む時に2に直すようにした\n版の番号は、ゲームの名前として使っている version 5 を残し、saveVersion を別に足した\n__v5.debugStartChapter・debugFlags・debugSetFlag を足し、テストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/10/mobile-03-after-start.jpg",
+   "shots/10/mobile-05-map-room.jpg",
+   "shots/10/mobile-08-chapter-1.jpg",
+   "shots/10/mobile-12-battle-bugking.jpg"
+  ],
+  "sha": "293783b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932599284"
+ },
+ {
+  "at": "2026-10-09T12:52:15.422Z",
+  "branch": "claude/autodev-20261009-2141-R6",
+  "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
+  "summary": "R6 は別の回（2132 の枝）が先に終えて合流していたので、この枝の作り直しは取り消した\nこの枝の中身は main と同じにした\n次: R7 保存の版2と、章へ飛ぶ検証用の入口",
+  "result": "conflict",
+  "shots": [],
+  "sha": "f79c491",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932701261"
  }
 ]
