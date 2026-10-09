@@ -363,5 +363,20 @@
   ],
   "sha": "1cfca12",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37981025775"
+ },
+ {
+  "at": "2026-10-09T19:42:31.325Z",
+  "branch": "claude/autodev-20261010-0421-R17",
+  "task": "R17 1章のきずなの相手（家族と友情）",
+  "summary": "1章の6人に頼みごとと好きな物とごほうびを足した（おつかい・リモコン・ケーブル・Wi-Fi・プリンター・サーバー）\nボスの前に れんしゃ と 2ほうこう、町が直った後に おまもりバリアが手に入る\n確認役の指摘で、おじさんの会話の食いちがいと、頼みごとの前に物をあげる質問が出る所を直した",
+  "result": "pass",
+  "shots": [
+   "shots/29/mobile-03-after-start.jpg",
+   "shots/29/mobile-07-map-town.jpg",
+   "shots/29/mobile-11-chapter-1.jpg",
+   "shots/29/mobile-17-battle-bugking.jpg"
+  ],
+  "sha": "af8d524",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37981805542"
  }
 ]
