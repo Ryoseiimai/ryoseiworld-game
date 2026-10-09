@@ -157,13 +157,28 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts at once');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
   assert(t.g.state.bosses.includes('bugking'));assert(t.g.level>lv||t.g.state.exp!==exp);assert.equal(t.g.state.money,money+t.g.GAME_DATA.enemies.bugking.money);}
- // F15: the town comes back first, then the closing lines, then the chapter card.
- assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert(!t.g.dialogue);t.tick(2100);assert(t.g.dialogue);assert(t.g.dialogue.lines.some(l=>l[1].includes('ノイズに のまれてる')));t.dialogue();assert.equal(t.g.screen,'ending');
+ // F15: the town comes back first, then the closing lines. R19: then Sora and RYOSEI make a tiny game at home (the key item for chapter 2).
+ assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert(!t.g.dialogue);t.tick(2100);assert(t.g.dialogue);assert(t.g.dialogue.lines.some(l=>l[1].includes('ノイズに のまれてる')));t.dialogue();
+ assert.equal(t.g.screen,'field','no chapter card before the bus');assert.equal(t.g.map,'room','the game is made on the home PC');
+ for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);assert(t.g.dialogue.lines.some(l=>l[1].includes('ピコッ')));t.dialogue();for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);
+ assert(t.g.dialogue.lines.some(l=>l[1].includes('ゲームが できた')));t.dialogue();assert.equal(t.g.state.items.firstgame,1);assert(t.g.state.flags.gameMade);assert.equal(t.g.questStep,'cleared');await settle();assert.equal(JSON.parse(t.saved.get('ryoseiworld-rpg-v5')).items.firstgame,1,'the game is saved');
+ // The key item: listed under どうぐ with its words, not sold at the store, not usable in battle.
+ t.tick(300);t.click('menu-btn');t.button('どうぐ');{const b=t.els.get('modal-buttons').children.find(x=>x.textContent==='はじめて つくった ゲーム');assert(b,'key item listed');b.onclick();assert(t.g.dialogue.lines[0][1].includes('ピコッ'));t.dialogue();assert.equal(t.g.modal,'items');assert.equal(t.g.state.items.firstgame,1,'reading does not use it');t.button('もどる');t.key('Escape');}
+ assert(!Object.values(t.g.GAME_DATA.items).filter(v=>!v.key).some(v=>v.name==='はじめて つくった ゲーム'));
+ // The bus stop by the police box: the first ride ends chapter 1 and opens chapter 2 in ミナモちょう.
+ t.tick(300);assert(talk(t,'town',12,16.9).includes('バスに のった'));while(t.g.dialogue)t.dialogue();assert.equal(t.g.screen,'ending');assert(t.els.get('ending-heading').textContent.includes('2しょう'));assert(t.els.get('ending-heading').textContent.includes('ミナモちょう'));
  const tonesAtEnding=t.calls.length;t.tick(2500);const tonesAfterJingle=t.calls.length;t.tick(3000);assert.equal(t.calls.length,tonesAfterJingle,'ending goes quiet after one jingle');assert(tonesAfterJingle>=tonesAtEnding);
- t.key('z');assert.equal(t.g.screen,'title');await settle();
+ t.key('z');assert.equal(t.g.screen,'field');assert.equal(t.g.chapter,2);assert.equal(t.g.map,'minamo');await settle();
+ // Back and forth by bus: the town stop and the ミナモちょう stop both list the two towns.
+ const bus=(map,x,y)=>{t.g.debugWarp(map,x,y);t.g.debugFace(3);t.tick(400);t.click('talk-btn');t.tick(400);};
+ bus('minamo',9,13.3);assert.equal(t.g.questStep,'zako','chapter 2 has its own quest');assert.equal(t.g.modal,'event');assert(t.els.get('modal-buttons').children.find(b=>b.textContent.includes('ミナモちょう')).disabled,'the stop you are at cannot be picked');t.button('ヒダマリちょう');assert.equal(t.g.map,'town');
+ // Back in ヒダマリちょう during chapter 2 the town stays quiet: no noises walk and the room TV keeps its cleared line.
+ {const before=t.g.state.flags.zakoWins;t.g.debugWarp('town',19,21.6);t.tick(1500);assert(!t.g.battle,'no street noise in a cleared town');assert.equal(t.g.state.flags.zakoWins,before);assert(talk(t,'room',8.5,8.6).includes('ねこの とくしゅう'));t.dialogue();}
+ t.tick(1300);bus('town',12,16.9);assert.equal(t.g.modal,'event','the bus asks where to go');t.button('ミナモちょう');assert.equal(t.g.map,'minamo');assert.equal(t.g.chapter,2);
+ t.click('menu-btn');t.button('セーブ');while(t.g.dialogue)t.dialogue();await settle();
  assert(zakoBattles>=3);assert(t.lines()>=40,'required dialogue lines: '+t.lines());
- result.push(`Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → ending (Z) → title; required lines ${t.lines()}, ordinary battles ${zakoBattles} PASS`);
- const reloaded=await runtime({saved:t.saved});reloaded.tick();assert(!reloaded.els.get('continue-btn').disabled);assert.equal(reloaded.active().id,'continue-btn');reloaded.key('Enter');assert.equal(reloaded.g.map,'electric');assert(reloaded.g.state.bosses.includes('bugking'));assert(reloaded.g.summons.includes('code'));for(const k of ['chapter','map','x','y','level','exp','money','battery','items','summons','bosses'])assert.equal(JSON.stringify(reloaded.g.state[k]),JSON.stringify(JSON.parse(t.saved.get('ryoseiworld-rpg-v5'))[k]),'saved '+k);
+ result.push(`Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines ${t.lines()}, ordinary battles ${zakoBattles} PASS`);
+ const reloaded=await runtime({saved:t.saved});reloaded.tick();assert(!reloaded.els.get('continue-btn').disabled);assert.equal(reloaded.active().id,'continue-btn');reloaded.key('Enter');assert.equal(reloaded.g.map,'minamo');assert.equal(reloaded.g.chapter,2);assert.equal(reloaded.g.state.items.firstgame,1);assert(reloaded.g.state.bosses.includes('bugking'));assert(reloaded.g.summons.includes('code'));for(const k of ['chapter','map','x','y','level','exp','money','battery','items','summons','bosses'])assert.equal(JSON.stringify(reloaded.g.state[k]),JSON.stringify(JSON.parse(t.saved.get('ryoseiworld-rpg-v5'))[k]),'saved '+k);
  result.push('Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss PASS');
  // Drum roll rescue keeps the exact original 45 ms tick.
  reloaded.g.debugStartBattle('vending','roll');reloaded.tick(300);reloaded.g.debugDamage(999);const shown=reloaded.g.hp.displayHp;reloaded.tick(160);assert(reloaded.g.hp.displayHp<shown&&reloaded.g.hp.displayHp>0);reloaded.g.state.battery=100;reloaded.cmd('summon');reloaded.button('ナオスライム');assert(reloaded.g.hp.hp>0);reloaded.tick(2000);assert(!reloaded.g.battle.over);
@@ -316,7 +331,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(v[0]==='if'){check(s.then||[],where+'.then');check(s.else||[],where+'.else');}
    if(v[0]==='battle'){assert(Object.hasOwn(D.enemies,s.battle),where+' enemy '+s.battle);check(s.win||[],where+'.win');check(s.lose||[],where+'.lose');}
    if(['warp'].includes(v[0]))assert(Object.hasOwn(D.maps,s.warp),where+' map '+s.warp);if(v[0]==='transport')for(const t of s.stops)assert(Object.hasOwn(D.maps,t.map),where+' stop '+t.map);if(v[0]==='music'&&s.music)assert(Object.hasOwn(D.music,s.music),where+' music '+s.music);
-   if(v[0]==='bond')assert(Object.hasOwn(D.bonds,s.bond),where+' bond '+s.bond);if(v[0]==='gift'){assert(Object.hasOwn(D.bonds,s.to),where+' gift to '+s.to);assert((D.bonds[s.to].likes||[]).includes(s.gift),where+' gift is liked '+s.gift);}}};
+   if(v[0]==='bond')assert(Object.hasOwn(D.bonds,s.bond),where+' bond '+s.bond);if(v[0]==='gift'){assert(Object.hasOwn(D.bonds,s.to),where+' gift to '+s.to);assert((D.bonds[s.to].likes||[]).includes(s.gift),where+' gift is liked '+s.gift);assert(!D.items[s.gift]?.key,where+' a key item is not a gift '+s.gift);}}};
   for(const [id,steps] of Object.entries(D.events))check(steps,'events.'+id);
   for(const m of Object.values(D.maps))for(const o of m.objects)if(o.event)assert(Object.hasOwn(D.events,o.event),'event '+o.event);
   assert(D.maps.town.objects.find(o=>o.id==='police').event==='police','chapter 1 police talk is an event');
@@ -416,8 +431,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{gift:'drink',to:'mother'}]);assert(read().includes('いらない'),read());while(r.g.dialogue)r.dialogue();assert.equal(st.items.drink,1);assert.equal(r.g.bonds.mother,1);
   st.items.drink=0;r.g.debugEvent([{gift:'drink',to:'sister'}]);assert(read().includes('もっていない'),read());while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.sister??0,0);
   st.items.drink=1;r.g.debugEvent([{gift:'drink',to:'sister'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.sister,1);assert.equal(st.items.drink,0);
-  // Every gift line fits 12 full-width characters a row, with the longest names in the data.
-  const longest=Object.values(D.bonds).map(b=>b.name).sort((a,b)=>wide(b)-wide(a))[0],longItem=Object.keys(D.items).sort((a,b)=>wide(D.items[b].name)-wide(D.items[a].name))[0];
+  // Every gift line fits 12 full-width characters a row, with the longest names in the data (key items such as はじめて つくった ゲーム are never gifts).
+  const longest=Object.values(D.bonds).map(b=>b.name).sort((a,b)=>wide(b)-wide(a))[0],longItem=Object.keys(D.items).filter(k=>!D.items[k].key).sort((a,b)=>wide(D.items[b].name)-wide(D.items[a].name))[0];
   D.bonds.r9long={name:longest,kind:'friend',spirit:1,likes:[longItem]};st.items[longItem]=1;
   for(const ev of [[{gift:longItem,to:'r9long'}],[{gift:longItem,to:'r9long'}],[{gift:'rice',to:'r9long'}],[{bond:'r9long'}]]){st.items[longItem]=ev[0].gift===longItem&&!st.gifts.r9long?1:0;r.g.debugEvent(ev);
    while(r.g.dialogue){for(const l of r.g.dialogue.lines)for(const row of l[1].split('\n'))assert(wide(row)<=12,'gift line fits '+row);r.click('dialogue');}}

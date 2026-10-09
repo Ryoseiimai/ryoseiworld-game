@@ -3,6 +3,12 @@
 const {object,person,prop,props}=RYW.helpers;
 // A liked thing is offered once per person (SPEC_V6.md 2): only after their request is done and while it is in the bag; the flag gave_<id> stops the question.
 const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
+// After BUG KING (SPEC_V5_CH234.md): Sora and RYOSEI make a tiny game on the old PC, and the item opens chapter 2.
+// The bus runs it too, so a reload between the boss and the scene still gets the game before leaving town.
+const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'makeGame'},{flash:'#fff4c8',ms:400},{wait:400},{give:'firstgame'},{flag:'gameMade'},{say:'makeGameDone'},{save:'quiet'}];
+// Bus stops (SPEC_V5_CH234.md): the first ride ends chapter 1; after that the bus goes back and forth between the towns it has been to.
+// Chapter 2 points its own bus stop at the same busStop event, so the stops are written once.
+const busStops=[{text:'ヒダマリちょう',map:'town',at:[11,17.4]},{text:'ミナモちょう',map:'minamo',at:[10,13.4],if:'minamoVisited'}];
 const maps={};
 maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
@@ -14,7 +20,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('library','buildings',5,23,16,210,188,{label:'としょかん',dialogue:'library'}),
  object('apartment','buildings',6,20.5,33.6,190,190),
  object('shrine','buildings',7,26.5,33.6,150,135,{label:'じんじゃ',dialogue:'shrineSign'}),
- prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,19,24,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90),prop('bike',8,3.4,24.7,80),prop('car',9,23.7,35.3,120),
+ prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,19,24,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90,{label:'バスてい',event:'busStop'}),prop('bike',8,3.4,24.7,80),prop('car',9,23.7,35.3,120),
  prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.9,32,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,5,30.4,150,{sign:'こうえん'}),
  // Mio (npc2 frame 0) waits by the school; her lost dolphin hairclip is in the park sandbox (STORY_V4.md chapter 1).
  object('mio','npc2',0,10.4,8.2,48,65,{event:'mio'}),object('hairclip','spot',0,8.3,31.4,60,40,{hidden:true,label:'すなば',event:'hairclip',collider:false}),
@@ -51,6 +57,8 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('boss','interior',9,5,4.5,190,190,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
+// The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
+items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。'}},
 // Bonds (SPEC_V6.md 2, STORY_V4.md): hearts 0-5 per person, raised by requests (events below), one liked thing, and story moments. rewards are given per heart count.
 // Before BUG KING: mother 2, sister 2, repair 3 (rapid), kid 3 (twin), hacker 2, clerk 2. Mother reaches 3 (barrier) after the town is quiet.
 // The hacker stops at 2 here: her rainbow and the whale come at heart 3 in chapter 3 (STORY_V4.md).
@@ -88,9 +96,10 @@ events:{
  mio:[{if:'clipDone',then:[{if:'cleared',then:[{if:'mioLetter',then:[{say:'mioAfter'}],else:[{say:'mioLetter'},{flag:'mioLetter'},{bond:'mio'}]}],else:[{say:'mioWait'}]}],
   else:[{if:'clip',then:[{say:'mioClip'},{flag:'clipDone'},{bond:'mio'}],else:[{say:'mio'},{flag:'clipAsk'}]}]}],
  hairclip:[{if:'clip',then:[{say:'sandbox'}],else:[{if:'clipAsk',then:[{say:'clipFound'},{flag:'clip'}],else:[{say:'sandboxShine'}]}]}],
+ busStop:[{if:'minamoVisited',then:[{transport:'バス',copy:'どこへ いく？',stops:busStops}],else:[{if:'cleared',then:[{if:{not:'gameMade'},then:[...makeGame,{warp:'town',at:[11,17.4]}]},{say:'busRide'},{flag:'minamoVisited'},{chapterClear:true,copy:'バスは かわぞいの まちへ。\nポケットに はじめての ゲーム。'}],else:[{say:'busWait'}]}]}],
  police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
-town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
-  quests:{cleared:{text:'まちの あかりが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
+clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
+  quests:{cleared:{text:'バスていから ミナモちょうへ いこう'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
  dialogue:{
  prologue:[['','なつやすみの よる。\nせんぷうきだけが\nはたらいていた。'],['RYOSEI','プリンターの しゅうり、おわり。\nおれの しゅくだいは\nおわらない。'],['','テレビも スマホも ザーッ。\nふるい パソコンだけが\nひかっている。'],['ソラ','なにを つくる?'],['RYOSEI','…せかいを なおす もの。']],
  welcome:[['ナオスライム','その ポケット、すんでいい？\nやちんは でんちで。'],['','ナオスライムが\nなかまに なった！'],['ソラ','まずは「しょうかん」で\nよんでみて。でんち15％で\nHPを なおせるよ。']],
@@ -180,6 +189,11 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  zakoWin:[['','{name}は\nしゅうりされた。'],['','{exp}けいけんちと\n{money}えんを もらった。']],
  zakoLeft:[['ソラ','ノイズが ひとつ しずまった。\nあと {n}つ。']],
  zakoDone:[['ソラ','まちが しずかに なってきた。\nこうばんに いこう。']],
+ makeGameAsk:[['ソラ','でかける まえに\nひとつ つくって みない？'],['RYOSEI','なにを？'],['ソラ','ちいさな ゲーム。\nいえの パソコンで。']],
+ makeGame:[['','ふるい パソコンに\nふたりで むかった。'],['ソラ','しゅじんこうは しかく。\nてきも しかく。'],['RYOSEI','ぜんぶ しかくじゃん。'],['ソラ','ボタンを おすと\nジャンプして\nおとが なる。'],['','ピコッ。'],['RYOSEI','…なった。\nおれが つくった おとだ。']],
+ makeGameDone:[['','はじめて つくった\nゲームが できた！'],['ソラ','だれかに みせたく\nなったら みせよう。'],['ソラ','バスで となりの\nミナモちょうへ いこう。'],['ソラ','バスていは\nこうばんの よこだよ。']],
+ busWait:[['バスてい','つぎの バスは\nノイズが はれてから。'],['ソラ','いまは まちを\nなおすのが さき。']],
+ busRide:[['','バスに のった。'],['ソラ','つぎは ミナモちょう。\nかわぞいの まちだって。'],['RYOSEI','まどの そと、\nだれも あるいてない。']],
  levelUp:[['','レベル {lv} に なった！\nHP+{hp} こうげき+{atk}']]
  },
  enemies:{vending:{name:'バグったじはんき',frame:0,hp:38,attack:7,exp:12,money:30,level:1,color:['#334d66','#b99879'],actions:['おつりを とばした！','ぬるい おちゃを こぼした！']},crow:{name:'グリッチカラス',frame:1,hp:30,attack:6,exp:10,money:24,level:1,color:['#384b63','#839885'],actions:['いちコマ とんだ！','つつく ばしょを まちがえた！']},popup:{name:'ポップアップおばけ',status:'ちらつき',frame:3,hp:45,attack:9,exp:16,money:38,level:2,color:['#594065','#bd867a'],actions:['「はい」を おすすめした！','まどを ひとつ ふやした！']},bugking:{name:'BUG KING',boss:true,art:'bugking',animCols:3,specialEvery:3,specialDamage:5,hp:280,attack:12,exp:60,money:200,level:4,color:['#493857','#c49362'],actions:['エラーを はきだした！','チャンネルを まわした！','ノイズの おうかんが ひかった！'],bursts:[[.75,'// あとで直す'],[.5,'TODO: エラー処理'],[.25,'とりあえず動いた'],[0,'いつか だれかの やくに たつはず']]}},

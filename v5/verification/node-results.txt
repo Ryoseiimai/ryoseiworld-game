@@ -1,7 +1,7 @@
 Title → prologue → naming → Naoslime tutorial (no escape, summon hold timing) → bedroom PASS
 Walking portal, locked shop, police request, contact encounter and real victory PASS
 3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS
-Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → ending (Z) → title; required lines 53, ordinary battles 3 PASS
+Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines 72, ordinary battles 3 PASS
 Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss PASS
 Lethal HP roll can be rescued by Naoslime before zero PASS
 Insufficient battery consumes no turn; arrow/WASD command cursor; Esc keeps focus; defeat restores last checkpoint PASS

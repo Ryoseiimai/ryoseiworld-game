@@ -41,6 +41,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 | `serverItem` | 召喚獣を起こすのに要る どうぐ（例 `battery`） |
 | `quests` | 目的の文（下の「目的の文」） |
 | `clearDialogue` `clearSpot` | `action:'boss'` の物で勝った後の会話と、その後に立つ場所 `['マップ名', x, y]`。この道は章の番号を進めない。次の章へ進めるのはイベントの `chapterClear` 手順なので、2章からはボスを `battle` 手順で呼び、`win` に `chapterClear` を書く |
+| `clearEvent` | `action:'boss'` で勝って `clearDialogue` を読んだ後に動く手順（無ければ章のカードが出てタイトルへ）。1章はここで「はじめて つくった ゲーム」を作り、カードはバス停の `chapterClear` で出す |
 | `debugStart` | `__v5.debugStartChapter(n)` で飛んだ時の そろえ方 `{level, summons, items, flags}`（無くてよい。無ければ Lv は 1+(n-1)×4） |
 
 ### 目的の文（quests）
@@ -225,6 +226,10 @@ enemies:{
 ## 7. 全体の表（index.html にあるもの）
 
 - `items`: rice（おにぎり）・drink（エナジードリンク）・battery（モバイルバッテリー）。章で足す時は `{name,price,heal|battery,desc}`
+- だいじな もの（`{name,key:true,desc}`）: 店に出ず、戦闘では使えず、gift にもならない。持っている時だけ どうぐ に出て、押すと `desc` を読む。1章の `firstgame`（はじめて つくった ゲーム）がこれ
+- 町が直ったか（ノイズの膜・ザコ・`clearedDialogue`）は、そのマップを持つ章のボスで決まる。2章の間に1章の町へ戻っても静かなまま。目的の文は今の章で決まる
+- フラグ `cleared` は1章の後も立ったまま。2章からは `if:'cleared'` を使わず、章ごとのフラグ（例 `minamoCleared`）を立てる
+- バス（1章の `busStop` イベント）: 1回目は1章を終えて2章へ。`minamoVisited` の後は町どうしを行き来する。2章の町のバス停も同じ `busStop` を使う。行き先を足す時は ch1.js の `busStops` に足す
 - `summons`: nao・code など。足す時は `{name,frame,cost,heal|damage,desc}`
 - `music`: town・battle・boss・victory。足す時は16音の MIDI 番号の配列（0 は休み）
 
