@@ -490,21 +490,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const o=Object.values(D.maps).flatMap(m=>m.objects).find(o=>o.id===id&&o.kind==='npc');assert(o&&o.event===id,id+' talks through its request event');}
   const ws=Object.values(D.bonds).flatMap(b=>Object.values(b.rewards||{}).map(x=>x.weapon)).filter(Boolean);for(const w of ['barrier','rapid','twin','rainbow'])assert(ws.includes(w),'chapter 1 offers '+w);
   st.items.rice=5;st.items.drink=5;const money0=st.money;
-  talk('mother');assert(st.flags.milkAsk);assert.equal(st.bonds.mother??0,0);
+  st.summons=st.summons.filter(x=>x!=='code');talk('hacker');assert(!st.flags.hackerServer,'the hacker asks first');assert.equal(st.bonds.hacker??0,0);
+  talk('mother');assert(st.flags.milkAsk);assert.equal(st.items.rice,5);assert.equal(st.bonds.mother??0,0);
   talk('clerk','つよく たたく');assert(st.flags.milk);assert.equal(st.bonds.clerk??0,0,'a wrong fix does not count');
   talk('clerk','かみを いれなおす');assert.equal(st.bonds.clerk,1);
   talk('mother','あげる');assert.equal(st.bonds.mother,2,'milk and rice');assert.equal(st.items.rice,4);
   talk('mother');assert.equal(st.bonds.mother,2,'no second gift question');
   talk('sister');talk('cushion');assert(st.flags.remote);talk('sister','あげる');assert.equal(st.bonds.sister,2);
-  st.summons.push('code');talk('repair');assert.equal(st.bonds.repair,1,'waking the server together');assert(st.flags.cableAsk);
+  talk('mother');assert.equal(st.items.rice,4,'no gift question before the request');st.summons.push('code');talk('repair');assert.equal(st.bonds.repair,1,'waking the server together');assert(st.flags.cableAsk);
   talk('policeBox');assert(st.flags.cable);talk('repair','あげる');assert.equal(st.bonds.repair,3);assert([...st.weapons].includes('rapid'));
   talk('kid','1234 で ためす');assert.equal(st.bonds.kid??0,0);talk('kid','コンビニの レシート');assert.equal(st.bonds.kid,1);talk('kid','こまめに する','あげる');assert.equal(st.bonds.kid,3);assert([...st.weapons].includes('twin'));
-  talk('hacker','やめておく');assert.equal(st.bonds.hacker,1);st.flags.cleared=true;talk('hacker','あげる');assert.equal(st.bonds.hacker,3);assert([...st.weapons].includes('rainbow'));
+  talk('hacker','やめておく');assert.equal(st.bonds.hacker,1);st.flags.cleared=true;talk('hacker','あげる');assert.equal(st.bonds.hacker,2,'her heart 3 waits for chapter 3');assert(![...st.weapons].includes('rainbow'));
   talk('mother');assert.equal(st.bonds.mother,3,'welcome home after the town is quiet');assert([...st.weapons].includes('barrier'));
   talk('clerk','あげる');assert.equal(st.bonds.clerk,2);
   assert(st.money>money0,'family and friends give おこづかい and おれい');const all=read.join('\n');assert(all.includes('おこづかい')&&all.includes('おれい'),all);
   for(const t of read)for(const row of t.split('\n'))assert([...row].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0)<=16,'line fits '+row);}
- result.push('Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing and rewards, reachable by talking PASS');
+ result.push('Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing (asked after the request) and rewards PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

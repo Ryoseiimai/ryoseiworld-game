@@ -1,8 +1,8 @@
 // Chapter 1, ヒダマリちょう. Only data: the engine in index.html reads it through RYW.registerChapter.
 (function(){'use strict';
 const {object,person,prop,props}=RYW.helpers;
-// A liked thing is offered once per person (SPEC_V6.md 2): asks only while it is in the bag, then the flag gave_<id> stops the question.
-const gift=(to,item,label)=>({if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]});
+// A liked thing is offered once per person (SPEC_V6.md 2): only after their request is done and while it is in the bag; the flag gave_<id> stops the question.
+const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 const maps={};
 maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
@@ -50,12 +50,13 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
 // Bonds (SPEC_V6.md 2, STORY_V4.md): hearts 0-5 per person, raised by requests (events below), one liked thing, and story moments. rewards are given per heart count.
-// Chapter 1 reaches: mother 3, sister 2, repair 3, kid 3, hacker 3, clerk 2, so a careful player brings barrier, rapid, twin and rainbow to BUG KING (not needed to win).
+// Before BUG KING: mother 2, sister 2, repair 3 (rapid), kid 3 (twin), hacker 2, clerk 2. Mother reaches 3 (barrier) after the town is quiet.
+// The hacker stops at 2 here: her rainbow and the whale come at heart 3 in chapter 3 (STORY_V4.md).
 // Guardian spirits of people without bonds (SPEC_V6.md 1): a spirits frame (0-15) or a summon. The hacker's whale (summons) joins in chapter 3, so she shows the phone fox until then.
 spirits:{grandpa:7,worker:1,student:2,police:4,grandma:14,delivery:8,shrine:10,musician:11},
 bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],rewards:{2:{money:100},3:{weapon:'barrier'},5:{weapon:'onigiri',money:200}}},
  sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink'],rewards:{2:{money:50},4:{money:100}}},
- repair:{name:'でんきやさん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
+ repair:{name:'しゅうりやさん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
  kid:{name:'ゲームの こ',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
  hacker:{name:'ハッカーさん',kind:'friend',spirit:3,likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
  clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}}},
@@ -63,23 +64,23 @@ bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],
 events:{
  // おつかい: mother asks for milk, the store clerk hands over the reserved bottle. After the town is quiet she says welcome home once.
  mother:[{if:'milkDone',then:[{if:'cleared',then:[{if:'momHome',then:[{say:'motherAfter'}],else:[{say:'motherHome'},{flag:'momHome'},{bond:'mother'}]}],else:[{say:'motherAfter'}]}],
-  else:[{if:'milk',then:[{say:'motherMilk'},{flag:'milkDone'},{bond:'mother'}],else:[{say:'mother'},{flag:'milkAsk'}]}]},gift('mother','rice','おにぎり')],
+  else:[{if:'milk',then:[{say:'motherMilk'},{flag:'milkDone'},{bond:'mother'}],else:[{say:'mother'},{flag:'milkAsk'}]}]},gift('mother','rice','おにぎり','milkDone')],
  // The lost remote is under the cushion in RYOSEI's room.
- sister:[{if:'remoteDone',then:[{say:'sisterAfter'}],else:[{if:'remote',then:[{say:'sisterRemote'},{flag:'remoteDone'},{bond:'sister'}],else:[{say:'sister'},{flag:'remoteAsk'}]}]},gift('sister','drink','エナジードリンク')],
+ sister:[{if:'remoteDone',then:[{say:'sisterAfter'}],else:[{if:'remote',then:[{say:'sisterRemote'},{flag:'remoteDone'},{bond:'sister'}],else:[{say:'sister'},{flag:'remoteAsk'}]}]},gift('sister','drink','エナジードリンク','remoteDone')],
  cushion:[{if:'remoteAsk',then:[{if:'remote',then:[{say:'cushion'}],else:[{say:'remoteFound'},{flag:'remote'}]}],else:[{say:'cushion'}]}],
  // The repair man lost a thin cable; the police box keeps it. Waking the server with him is a story moment.
  repair:[{if:{summon:'code'},then:[{if:{not:'repairServer'},then:[{say:'repairServer'},{flag:'repairServer'},{bond:'repair'}]}]},
-  {if:'cableDone',then:[{say:'repairAfter'}],else:[{if:'cable',then:[{say:'repairCable'},{flag:'cableDone'},{bond:'repair'}],else:[{say:'repair'},{flag:'cableAsk'}]}]},gift('repair','drink','エナジードリンク')],
+  {if:'cableDone',then:[{say:'repairAfter'}],else:[{if:'cable',then:[{say:'repairCable'},{flag:'cableDone'},{bond:'repair'}],else:[{say:'repairAsk'},{flag:'cableAsk'}]}]},gift('repair','drink','エナジードリンク','cableDone')],
  policeBox:[{if:'cableAsk',then:[{if:'cable',then:[{say:'policeBoxEmpty'}],else:[{say:'policeBoxCable'},{flag:'cable'}]}],else:[{say:'policeBox'}]}],
  // Wi-Fi first (the password is on the store receipt), then a word about saving often.
  kid:[{if:'kidWifi',then:[{if:'kidSave',then:[{say:'kidAfter'}],else:[{say:'kidSaveAsk'},{choice:'セーブは いつ する？',options:[{text:'こまめに する',then:[{say:'kidSaveOk'},{flag:'kidSave'},{bond:'kid'}]},{text:'ぜんぶ おわってから',then:[{say:'kidSaveNo'}]}]}]}],
-  else:[{say:'kid'},{choice:'パスワードは どこ？',options:[{text:'コンビニの レシート',then:[{say:'kidWifiOk'},{flag:'kidWifi'},{bond:'kid'}]},{text:'1234 で ためす',then:[{say:'kidWifi1234'}]},{text:'ゲームきを ふる',then:[{say:'kidWifiShake'}]}]}]},gift('kid','rice','おにぎり')],
- // The hacker hears the server stop snoring, then sees the town come back.
- hacker:[{if:'hackerServer',then:[{if:'cleared',then:[{if:'hackerClear',then:[{say:'hackerAfter'}],else:[{say:'hackerClear'},{flag:'hackerClear'},{bond:'hacker'}]}],else:[{say:'hackerAfter'}]}],
-  else:[{if:{summon:'code'},then:[{say:'hackerServer'},{flag:'hackerServer'},{bond:'hacker'}],else:[{say:'hacker'}]}]},gift('hacker','drink','エナジードリンク')],
+  else:[{say:'kid'},{choice:'パスワードは どこ？',options:[{text:'コンビニの レシート',then:[{say:'kidWifiOk'},{flag:'kidWifi'},{bond:'kid'}]},{text:'1234 で ためす',then:[{say:'kidWifi1234'}]},{text:'ゲームきを ふる',then:[{say:'kidWifiShake'}]}]}]},gift('kid','rice','おにぎり','kidWifi')],
+ // The hacker asks RYOSEI to look at the snoring server; she thanks him once it is awake. The town coming back is only a line here.
+ hacker:[{if:'hackerServer',then:[{if:'cleared',then:[{if:'hackerClear',then:[{say:'hackerAfter'}],else:[{say:'hackerClear'},{flag:'hackerClear'}]}],else:[{say:'hackerAfter'}]}],
+  else:[{if:{summon:'code'},then:[{say:'hackerServer'},{flag:'hackerServer'},{bond:'hacker'}],else:[{say:'hacker'}]}]},gift('hacker','drink','エナジードリンク','hackerServer')],
  // The clerk keeps mother's milk and has a jammed receipt printer.
  clerk:[{if:'milkAsk',then:[{if:{not:'milk'},then:[{say:'clerkMilk'},{flag:'milk'}]}]},
-  {if:'printerDone',then:[{say:'clerkAfter'}],else:[{say:'clerkPrinter'},{choice:'どう なおす？',options:[{text:'かみを いれなおす',then:[{say:'clerkPrinterOk'},{flag:'printerDone'},{bond:'clerk'}]},{text:'つよく たたく',then:[{say:'clerkPrinterHit'}]},{text:'あやまる',then:[{say:'clerkPrinterSorry'}]}]}]},gift('clerk','rice','おにぎり')],
+  {if:'printerDone',then:[{say:'clerkAfter'}],else:[{say:'clerkPrinter'},{choice:'どう なおす？',options:[{text:'かみを いれなおす',then:[{say:'clerkPrinterOk'},{flag:'printerDone'},{bond:'clerk'}]},{text:'つよく たたく',then:[{say:'clerkPrinterHit'}]},{text:'あやまる',then:[{say:'clerkPrinterSorry'}]}]}]},gift('clerk','rice','おにぎり','printerDone')],
  police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
   quests:{cleared:{text:'まちの あかりが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
@@ -91,15 +92,16 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  motherMilk:[['','ぎゅうにゅうを わたした。'],['おかあさん','ありがとう。\nあしたの あさごはん、\nこれで かんせい。']],
  motherAfter:[['おかあさん','はやく ねなさいよ。\n…せかいが なおったら。']],
  motherHome:[['おかあさん','おかえり。\nテレビ、なおったね。'],['おかあさん','なにか したんでしょ。\nかおに かいてある。']],
- sister:[['いもうと','テレビの おうさま、えらそう。\nリモコン どこか\nしらないくせに。'],['いもうと','おにいちゃん、リモコン\nさがして。へやの どこか。']],
+ sister:[['いもうと','テレビの おうさま、えらそう。\nリモコン どこか\nしらないくせに。'],['いもうと','おにいちゃん、リモコン\nさがして。へやの\nすわる ところ かも。']],
  sisterRemote:[['','リモコンを わたした。'],['いもうと','あった！ …ざぶとんの した？\nだれが すわったの。'],['いもうと','…ありがと。']],
  sisterAfter:[['いもうと','リモコン、もう\nなくさない。たぶん。']],
  cushion:[['ざぶとん','ふかふか。\nすわると ねむくなる。']],
  remoteFound:[['','ざぶとんの したから\nリモコンが でてきた！']],
+ repairAsk:[['しゅうりの おじさん','ほそい ケーブルを\nどこかで おとした。'],['しゅうりの おじさん','こうばんに とどいて\nないかなあ。']],
  repairServer:[['しゅうりの おじさん','サーバー、おきたか！\nいっしょに なおした\nなかだな。']],
- repairCable:[['','ほそい ケーブルを わたした。'],['しゅうりの おじさん','これこれ。\nこうばんに あったか。'],['しゅうりの おじさん','たすかった。\nおれいを しないとな。']],
+ repairCable:[['','ケーブルを わたした。'],['しゅうりの おじさん','これこれ。\nこうばんに あったか。'],['しゅうりの おじさん','たすかった。\nおれいを しないとな。']],
  repairAfter:[['しゅうりの おじさん','ケーブルは ほそくても\nだいじな みちだ。']],
- policeBoxCable:[['こうばん','けいじばん：おとしもの\n「ほそい ケーブル 1ぽん」'],['おまわりさん','しゅうりやさんの？\nどうぞ。もっていって。'],['','ほそい ケーブルを うけとった。']],
+ policeBoxCable:[['こうばん','けいじばん：おとしもの\n「ほそい ケーブル 1ぽん」'],['おまわりさん','しゅうりやさんの？\nどうぞ。もっていって。'],['','ケーブルを うけとった。']],
  policeBoxEmpty:[['こうばん','けいじばん：おとしもの\n「いまは なし」']],
  kidWifiOk:[['','レシートの パスワードを\nいっしょに いれた。'],['ゲームの こ','つながった！\nきみ、てんさい？']],
  kidWifi1234:[['ゲームの こ','それ、みんなが\nさいしょに ためすやつ。'],['ゲームの こ','だから だめなんだって。']],
@@ -109,8 +111,8 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  kidSaveNo:[['ゲームの こ','それで きのう\nよるに なったんだ。']],
  kidAfter:[['ゲームの こ','いま セーブした。\nいまも セーブした。']],
  hackerServer:[['ハッカーの おねえさん','いびきが とまった。\nきみが おこしたの？'],['ハッカーの おねえさん','やるじゃん。\nこんど いっしょに なにか\nつくろうか。']],
- hackerClear:[['ハッカーの おねえさん','まちの ノイズ、はれたね。'],['ハッカーの おねえさん','ログ、ちゃんと のこってた。\nきみの なまえも。']],
- hackerAfter:[['ハッカーの おねえさん','ねむい サーバーは\nやさしく おこすのが こつ。']],
+ hackerClear:[['ハッカーの おねえさん','まちの ノイズ、はれたね。'],['ハッカーの おねえさん','ログに のこってた。\nきみの なまえも。']],
+ hackerAfter:[['ハッカーの おねえさん','ねむい サーバーは\nやさしく おこすのが\nこつ。']],
  clerkMilk:[['コンビニの ひと','おかあさんの\nぎゅうにゅう？\nとっておいたよ。'],['','ぎゅうにゅうを うけとった。']],
  clerkPrinter:[['コンビニの ひと','レシートの プリンターが\nとまっちゃった。'],['コンビニの ひと','かみが ななめに\nなってる みたい。']],
  clerkPrinterOk:[['','かみを まっすぐ\nいれなおした。'],['コンビニの ひと','うごいた！\nきみ、ここで はたらく？']],
@@ -130,7 +132,7 @@ town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダ�
  grandma:[['となりの おばあさん','プリンター、なおったよ。\nねこまで コピー\nしなくて よかった。']],
  delivery:[['はいたつの おにいさん','おとどけものです。\n「みらい」さま。\nじゅうしょが ざつ。']],
  kid:[['ゲームの こ','セーブしてないのに\nよるに なった。\nげんじつ、ふべん。'],['ゲームの こ','ゲームきの Wi-Fiも\nつながらない。']],
- hacker:[['ハッカーの おねえさん','でんきやの おくの\nサーバーが いびき かいてる。'],['ハッカーの おねえさん','コードラゴンって\nねごとで いってた。']],
+ hacker:[['ハッカーの おねえさん','でんきやの おくの\nサーバーが いびき かいてる。'],['ハッカーの おねえさん','コードラゴンって\nねごとで いってた。'],['ハッカーの おねえさん','ようすを みてきて\nくれない？']],
  shrine:[['じんじゃの ひと','おさいせんばこは\nオフラインです。\nきょうも つよい。']],
  musician:[['うたう ひと','ラララ。ラララ。\nここだけ まだ\nダウンロードちゅう。']],
  repair:[['しゅうりの おじさん','おくの サーバー、\nたたくと おこるぞ。'],['しゅうりの おじさん','はなしかけると もっと おこる。\nねおきだ。']],
