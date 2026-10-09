@@ -348,5 +348,20 @@
   ],
   "sha": "3a679fd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37977046279"
+ },
+ {
+  "at": "2026-10-09T19:35:14.221Z",
+  "branch": "claude/autodev-20261010-0421-R17",
+  "task": "R17 1章のきずなの相手（家族と友情）",
+  "summary": "1章の6人に頼みごとと好きな物とごほうびを足した（おつかい・リモコン・ケーブル・Wi-Fi・プリンター）\n家族はおこづかいとバリア、友だちはおれいと3つの攻めの武器が1章で手に入る\n6人の頼みごとを通すテストを足した。ブラウザで店員とざぶとんに話せるのを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/28/mobile-03-after-start.jpg",
+   "shots/28/mobile-07-map-town.jpg",
+   "shots/28/mobile-11-chapter-1.jpg",
+   "shots/28/mobile-17-battle-bugking.jpg"
+  ],
+  "sha": "1cfca12",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37981025775"
  }
 ]
