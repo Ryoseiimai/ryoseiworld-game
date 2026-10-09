@@ -15,7 +15,7 @@
 - [x] R5 | イベントの手順（会話・選択・クイズ・どうぐ・フラグ） | say・choice・quiz・join・give・take・flag・if をデータだけで書ける。1章の会話を1つこの形に書き直して動く
 - [x] R6 | イベントの手順（戦闘・移動・のりもの・演出・章クリア） | battle・warp・transport・inn・save・music・shake・flash・wait・chapterClear・ending と、マスの door・warp・trigger が動く。テスト用の小さなイベントで確かめる
 - [x] R7 | 保存の版2と、章へ飛ぶ検証用の入口 | 保存データに version 2 が入り、version 1 の保存を読むと2に直して続けられる。__v5.debugStartChapter(n)・debugFlags・debugSetFlag が動く
-- [ ] R8 | エンジンの使い方を v5/ENGINE_API.md に書く | registerChapter と、イベント手順の全種類の書き方が例つきで載っている。章を作る係がこれだけを読んで章を足せる
+- [x] R8 | エンジンの使い方を v5/ENGINE_API.md に書く | registerChapter と、イベント手順の全種類の書き方が例つきで載っている。章を作る係がこれだけを読んで章を足せる
 - [ ] R9 | きずなの仕組み（bond と gift） | 人ごとのきずな（家族・友情・恋愛、ハート0〜5）を章データに書け、bond と gift でハートが上がり「◯◯との きずなが ふかまった」が出る。gift は1種類1回。__v5.debugBond(id, n) が動く
 - [ ] R10 | 町の人のそばに守護霊を出す | プロローグの後、人のそばに守護霊が上下にゆれて浮く。ハート0〜1は灰色で半透明、2以上で色つき、5で光の粒。3段階がスクショで見える
 - [ ] R11 | メニューに「きずな」と「ぶき」を足す | きずな一覧（家/友/恋・ハート・守護霊・次のごほうびのヒント）と武器の一覧が出る。ごほうびの武器とお金が入る。__v5.debugGiveWeapon(id) が動く。540x960 で文字が重ならない
