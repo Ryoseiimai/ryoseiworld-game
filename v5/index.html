@@ -339,8 +339,8 @@ function itemsMenu(inBattle){openModal('どうぐ',inBattle?'つかうと 1タ�
 function useItem(id){const item=GAME_DATA.items[id];if(!item||item.key||!g.items[id])return false;g.items[id]--;if(item.heal)healEntity(g.hero,item.heal);if(item.battery)g.battery=Math.min(100,g.battery+item.battery);sfx.heal();return true;}
 function summonMenu(){openModal('しょうかん',`でんち ${g.battery}％`,[...g.summons.map(id=>({text:`${GAME_DATA.summons[id].name}　${GAME_DATA.summons[id].cost}％`,action:()=>{closeModal();command('cast',id);}})),{text:'もどる',action:closeModal}],'summon');}
 function attack(){return GAME_DATA.rules.baseAttack+(g.level-1)*GAME_DATA.rules.attackPerLevel;}
-// Search Owl (boost summons): the next `turns` hits of RYOSEI's side do x times the damage. Each boosted hit uses one turn.
-function power(n){const b=g.battle;if(!b||!b.boost)return n;n=Math.round(n*b.boost.x);if(--b.boost.left<=0)b.boost=null;return n;}
+// Search Owl (boost summons): for the next `turns` turns RYOSEI's side does x times the damage. The enemy turns count it down.
+function power(n){const b=g.battle;return b&&b.boost?Math.round(n*b.boost.x):n;}
 function seeLine(b,s){const def=GAME_DATA.enemies[b.type];return'よわみが みえた！ '+s.boost+'ばい！\n'+(def.hint||'つぎ: '+def.actions[b.turn%def.actions.length]);}
 function log(text){$('battle-log').textContent=text;if(g.battle)g.battle.log=text;}
 function syncCommands(){const b=g.battle;for(const el of $('commands').children)el.disabled=!b||b.locked||b.over;}
@@ -351,7 +351,7 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
  if(cmd==='cast'){const s=GAME_DATA.summons[arg];if(!s||!g.summons.includes(arg))return;b.lastCmd='summon';if(g.battery<s.cost){log('でんちが たりない！');return;}g.battery-=s.cost;b.locked=true;b.usedSummon=true;b.cast={id:arg,start:gameTime};syncCommands();log(s.name+'を よんだ！');
   // A rolling HP drop is rescued at once; a resting HP shows the heal while the summon holds still.
   const rescue=!!(s.heal&&g.hero.rolling);if(rescue){healEntity(g.hero,s.heal);g.status=null;}
-  later(()=>{if(g.battle!==b||b.over)return;if(s.heal){if(!rescue)healEntity(g.hero,s.heal);g.status=null;sfx.heal();}if(s.damage)damageEnemy(power(s.damage+Math.max(0,g.level-1)*3));if(s.boost){b.boost={x:s.boost,left:s.turns||2};sfx.heal();}log(s.heal?'HPが もどった。ノイズも すっきり！':s.boost?seeLine(b,s):'コードの ブレス！\nカッコも きちんと とじてある。');},900);
+  later(()=>{if(g.battle!==b||b.over)return;if(s.heal){if(!rescue)healEntity(g.hero,s.heal);g.status=null;sfx.heal();}if(s.damage)damageEnemy(power(s.damage+Math.max(0,g.level-1)*3));if(s.boost){b.boost={x:s.boost,left:(s.turns||2)+1};sfx.heal();}log(s.heal?'HPが もどった。ノイズも すっきり！':s.boost?seeLine(b,s):'コードの ブレス！\nカッコも きちんと とじてある。');},900);
   later(()=>{if(g.battle!==b||b.over)return;b.cast=null;finishTurn();},2100);return;}
  if(cmd==='run'&&b.tutorial){b.lastCmd='run';log('いまは にげられない！\n'+g.aiName+'が みてる。');return;}
  if(b.tutorial&&!b.usedSummon&&cmd!=='item'){log('まず「しょうかん」で\nナオスライム。\nころがる HPも なおせるよ。');return;}
@@ -363,7 +363,7 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
  else if(cmd==='run'){if(GAME_DATA.enemies[b.type].boss){log(GAME_DATA.enemies[b.type].name+'が みちを ふさいでいる！');}else{g.defeated[b.id]=gameTime+8000;later(()=>{g.battle=null;screen('field');immuneUntil=gameTime+2500;toast('すたこら。ちょっと きょりを おいた。');},450);return;}}
  else{b.locked=false;return;}finishTurn();}
 function finishTurn(){const b=g.battle;if(!b||b.over)return;later(()=>{if(b!==g.battle||b.over)return;if(b.enemy.hp<=0){win();return;}enemyTurn();},700);}
-function enemyTurn(){const b=g.battle,def=GAME_DATA.enemies[b.type];b.turn++;const dmg=b.tutorial?3:def.attack+(def.specialEvery&&b.turn%def.specialEvery===0?def.specialDamage:0);startRoll(g.hero,g.hero.hp-dmg);g.status=def.status||null;sfx.hurt();log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+' '+dmg+'ダメージ。');b.locked=false;focusBattle();}
+function enemyTurn(){const b=g.battle,def=GAME_DATA.enemies[b.type];b.turn++;if(b.boost&&--b.boost.left<=0)b.boost=null;const dmg=b.tutorial?3:def.attack+(def.specialEvery&&b.turn%def.specialEvery===0?def.specialDamage:0);startRoll(g.hero,g.hero.hp-dmg);g.status=def.status||null;sfx.hurt();log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+' '+dmg+'ダメージ。');b.locked=false;focusBattle();}
 function rewards(def){g.exp+=def.exp;g.money+=def.money;let ups=0;while(g.exp>=g.level*GAME_DATA.rules.expStep){g.exp-=g.level*GAME_DATA.rules.expStep;g.level++;g.hero.maxHp+=GAME_DATA.rules.hpPerLevel;healEntity(g.hero,24);ups++;}return ups;}
 function levelLines(ups){const r=GAME_DATA.rules;return ups?lines('levelUp',{lv:g.level,hp:ups*r.hpPerLevel,atk:ups*r.attackPerLevel}):[];}
 function zakoLines(){const ch=chapter(),n=g.flags.zakoWins||0;if(g.flags[ch.keyFlag]||n>ch.zakoGoal)return[];return n<ch.zakoGoal?lines('zakoLeft',{n:ch.zakoGoal-n}):lines(ch.zakoDone||'zakoDone');}

@@ -59,10 +59,10 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
  // People without bonds yet (their stories come with the boss in R22).
  spirits:{minamo_dad:5,minamo_mom:6,minamo_boy:2},
- // Search Owl lives in the library search machine: it shows the weak spot and the next move, then 2 hits do 1.5 times (STORY_V3.md, SPEC_V5_ENGINE.md).
- summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわい ところを みせる。\n2かい ダメージ 1.5ばい。'}},
+ // Search Owl lives in the library search machine: it shows the weak spot and the next move, then 2 turns do 1.5 times (STORY_V3.md, SPEC_V5_ENGINE.md).
+ summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。'}},
  // The grandpa is the owl's person (STORY_V4.md, family). Hearts: waking the owl, the returned book, one onigiri.
- bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri'},5:{money:300}}}},
+ bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
  quests:{cleared:{text:'まちに こえが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},
   zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
   key:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
@@ -72,8 +72,8 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  events:{
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.
   // After the owl wakes he asks for an overdue book; the friend who may not go out still has it.
-  minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'bookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'bookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'bookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],
-   else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'grandpaKey'},{flag:'minamoKey'},{save:'quiet'}],else:[{say:'grandpaAsk'}]}]},gift('minamo_grandpa','rice','おにぎり','bookDone')],
+  minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'minamoBookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'minamoBookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'minamoBookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],
+   else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'grandpaKey'},{flag:'minamoKey'},{save:'quiet'}],else:[{say:'grandpaAsk'}]}]},gift('minamo_grandpa','rice','おにぎり','minamoBookDone')],
   // Search Owl's IT quiz (SPEC_V5_CH234.md): three questions, three choices, a wrong answer asks the same one again. All right: the owl joins.
   owlQuiz:[{if:{summon:'owl'},then:[{say:'owlIdle'}],else:[{if:'minamoKey',then:[{say:'owlWake'},
    {quiz:[{q:'つよい パスワードは？',options:['1234','じぶんの なまえ','ながくて ばらばら'],answer:2,right:'owlRight1'},
@@ -81,7 +81,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
     {q:'AIに ひみつを おしえて いい？',options:['なんでも いい','すんでる ばしょも','ひみつは いわない'],answer:2,right:'owlRight3'}],who:'サーチフクロウ',wrong:'owlWrong'},
    {say:'owlJoin'},{join:'owl'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'searchMachine'}]}]}],
   // The friend kept a library book because he may not go out. He hands it over once the grandpa asks.
-  minamoBoy:[{if:'bookAsk',then:[{if:{not:'boyBook'},then:[{say:'boyBook'},{give:'minamoBook'},{flag:'boyBook'}],else:[{say:'minamoBoy'}]}],else:[{say:'minamoBoy'}]}]
+  minamoBoy:[{if:'minamoBookAsk',then:[{if:{not:'minamoBoyBook'},then:[{say:'boyBook'},{give:'minamoBook'},{flag:'minamoBoyBook'}],else:[{say:'minamoBoy'}]}],else:[{say:'minamoBoy'}]}]
  },
  // The overdue book: a key item, shown under どうぐ while carried.
  items:{minamoBook:{name:'かえしわすれた ほん',key:true,desc:'「はじめての\nプログラミング」\nへんきゃくびは せんげつ。'}},
@@ -99,14 +99,14 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   grandpaKey:[['おじいちゃん','まちが すこし\nしずかに なったな。'],['おじいちゃん','けんさくの きかいを\nつかって ごらん。'],['','けんさくの きかいを\nつかえるように なった！']],
   grandpaAfter:[['おじいちゃん','しらべものは\nあわてず ゆっくり。']],
   grandpaBookAsk:[['おじいちゃん','フクロウが おきたか。\nありがとうな。'],['おじいちゃん','ところで、かしだしの\nほんが 1さつ\nもどって こんのじゃ。'],['おじいちゃん','ともだちの いえの\nこが かりとった\nはずじゃが。']],
-  grandpaBook:[['','ほんを かえした。'],['おじいちゃん','おお、これこれ。\nよごれも ない。'],['おじいちゃん','そとに でられんで\nこまっとったんじゃな。']],
+  grandpaBook:[['','ほんを かえした。'],['おじいちゃん','おお、これこれ。\nよごれも ない。'],['おじいちゃん','そとに でられんで\nこまっとったんじゃな。'],['おじいちゃん','わしは おにぎりに\nめが なくてな。']],
   boyBook:[['ともだち','としょかんの ほん？\nあ、これだ。'],['ともだち','かえしに いきたかった\nけど、かべが あって。'],['','かえしわすれた ほんを\nあずかった。']],
   owlWake:[['けんさくの きかい','ピッ。ほう…ほう…'],['サーチフクロウ','ほうほう。\nわしを おこしたのは\nきみかね。'],['サーチフクロウ','しらべものの まえに\n3つ きいて よいかな。']],
   owlRight1:[['サーチフクロウ','ほう。ながくて\nばらばらが いちばん。']],
   owlRight2:[['サーチフクロウ','ほう。おさない。\nこまったら おとなに。']],
   owlRight3:[['サーチフクロウ','ほう。ひみつは\nじぶんの もの じゃ。']],
   owlWrong:[['サーチフクロウ','ほう？ もういちど\nよく かんがえて\nごらん。']],
-  owlJoin:[['サーチフクロウ','ぜんもん せいかい。\nたのもしい ことじゃ。'],['サーチフクロウ','おじいちゃんの まちを\nいっしょに しらべよう。'],['','サーチフクロウが\nなかまに なった！',{show:'owl'}]],
+  owlJoin:[['サーチフクロウ','ぜんもん せいかい。\nたのもしい ことじゃ。'],['サーチフクロウ','おじいちゃんの まちを\nいっしょに しらべよう。'],['','サーチフクロウが\nなかまに なった！']],
   owlIdle:[['サーチフクロウ','ほう。しらべものは\nいつでも どうぞ。']],
   minamoZakoDone:[['ソラ','ノイズが へってきた。\nとしょかんに いこう。']]
  },

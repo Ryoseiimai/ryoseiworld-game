@@ -579,7 +579,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.g.summons.includes('owl'),'all right: the owl joins');assert.equal(r.g.state.bonds.minamo_grandpa,1);assert.equal(r.g.questStep,'boss');
   assert(talk(r,'minamo_library',5.7,5.3).includes('いつでも'),'the owl idles after joining');read();assert(!r.g.modal);
   // The grandpa's errand: the overdue book from the friend's house, then one onigiri. Heart 2 pays おこづかい, heart 3 lends てづくり おにぎり.
-  assert(talk(r,'minamo_library',3.4,8.5).includes('もどって こん'));read();assert(st.flags.bookAsk);
+  assert(talk(r,'minamo_library',3.4,8.5).includes('もどって こん'));read();assert(st.flags.minamoBookAsk);
   const money=st.money;assert(talk(r,'minamo_friend',4.6,7.7).includes('としょかんの ほん'));read();assert.equal(st.items.minamoBook,1);
   assert(talk(r,'minamo_library',3.4,8.5).includes('ほんを かえした'));const got=[];while(r.g.dialogue){got.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}r.tick(400);
   assert.equal(st.items.minamoBook,0);assert.equal(r.g.state.bonds.minamo_grandpa,2);assert.equal(st.money,money+120,'おこづかい at heart 2');
@@ -593,7 +593,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // Chapter 2 lines fit.
   for(const [k,v] of Object.entries(D.dialogue))if(/^(owl[A-Z]|grandpaBook|boyBook)/.test(k))for(const l of v)for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
   for(const ev of D.events.owlQuiz[0].else[0].then.filter(s=>s.quiz))for(const q of ev.quiz){assert(wide(q.q)<=16,q.q);for(const o of q.options)assert(o.length<=16,o);}}
- result.push('Search Owl: library quiz (3 questions, wrong answer asks again), joins with the grandpa bond, overdue book errand and onigiri gift (おこづかい, てづくり おにぎり), owl shows the next move and 2 hits at 1.5x PASS');
+ result.push('Search Owl: library quiz (3 questions, wrong answer asks again), joins with the grandpa bond, overdue book errand and onigiri gift (おこづかい, てづくり おにぎり), owl shows the next move and 2 turns at 1.5x PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

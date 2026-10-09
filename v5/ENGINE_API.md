@@ -231,7 +231,7 @@ enemies:{
 - 町が直ったか（ノイズの膜・ザコ・`clearedDialogue`）は、そのマップを持つ章のボスで決まる。2章の間に1章の町へ戻っても静かなまま。目的の文は今の章で決まる
 - フラグ `cleared` は1章の後も立ったまま。2章からは `if:'cleared'` を使わず、章ごとのフラグ（例 `minamoCleared`）を立てる
 - バス（1章の `busStop` イベント）: 1回目は1章を終えて2章へ。`minamoVisited` の後は町どうしを行き来する。2章の町のバス停も同じ `busStop` を使う。行き先を足す時は ch1.js の `busStops` に足す
-- `summons`: nao・code・owl（2章）など。足す時は `{name,frame,cost,heal|damage|boost,desc}`。`boost:1.5,turns:2` は「よわみが みえた」と敵の次の手（敵に `hint` があればそれ）を出し、次の2回の ダメージを1.5倍にする（サーチフクロウ）
+- `summons`: nao・code・owl（2章）など。足す時は `{name,frame,cost,heal|damage|boost,desc}`。`boost:1.5,turns:2` は「よわみが みえた」と敵の次の手（敵に `hint` があればそれ）を出し、次の2ターンの ダメージを1.5倍にする（サーチフクロウ）
 - だいじな もの（`key:true`）は、保存に入っている物だけを読みこむ（持ったことの無い物は保存に増えない）
 - `music`: town・battle・boss・victory。足す時は16音の MIDI 番号の配列（0 は休み）
 
