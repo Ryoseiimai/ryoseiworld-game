@@ -273,6 +273,7 @@ const GAME_DATA={
  bossLocked:[['ソラ','さきに サーバーに\nはなしかけよう。'],['ソラ','ひとりで ねむってる\nこが いる。']],
  defeated:[['ソラ','さいごに ほぞんした ところから\nやりなおそう。']],
  tv:[['テレビの やま','おうさまの いない テレビ。\nねこの とくしゅうを\nやっている。']],
+ foldBoard:[['おかあさん','いえの なかでは\nキックボード たたみなさい'],['','キックボードを たたんで\nわきに かかえた。']],
  roomTv:[['テレビ','ザーッ。…ときどき\nおうかんの かげが うつる。']],
  roomTvClear:[['テレビ','ねこの とくしゅう。\nノイズは もう ない。']],
  fridge:[['れいぞうこ','ツナマヨが ノイズで\nツナマヨマヨに なってる。']],
@@ -298,7 +299,7 @@ const person=(id,x,y,extra={})=>object(id,'npc',npcNames.indexOf(id),x,y,48,65,{
 const prop=(id,frame,x,y,size,extra={})=>object(id,'props',frame,x,y,size,Math.round(size*1.05),extra);
 const props=(prefix,frame,size,points,extra={})=>points.map(([x,y,f],i)=>prop(prefix+i,f??frame,x,y,size,extra));
 GAME_DATA.maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
- object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11]}),
+ object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
  object('store','buildings',1,22,24,200,190,{label:'コンビニ',enter:'store',arrival:[5,10]}),
  object('school','buildings',2,7,7,220,192,{label:'がっこう',dialogue:'school'}),
  object('electric','buildings',3,22,8,220,200,{label:'でんきや',enter:'electric',arrival:[5,14],lock:'key',lockedDialogue:'shutter',firstDialogue:'shutterOpen'}),
@@ -484,7 +485,9 @@ function drawField(){const m=GAME_DATA.maps[g.map];if(gameTime>=hudMeasureAt){hu
  for(const o of drawables){if(o.x*TILE<camera.x-220||o.x*TILE>camera.x+W+220||o.foot<camera.y-30||o.foot>camera.y+H+200)continue;ellipse(o.x*TILE,o.foot-2,o.kind==='buildings'?o.w*.38:18,6,'#274c4135');sprite(o.kind,o.frame,o.x*TILE,o.foot,o.w,o.h,o.label);if(o.sign){const d=dimensions(o),sy=o.foot-d.h*.42;ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle='#3b2a1b';ctx.strokeText(o.sign,o.x*TILE,sy);label(o.sign,o.x*TILE,sy,'#fbeccb',24);}}
  const target=interactionTarget();drawTags(m,target);ctx.restore();if(m.outside)drawNoise();const shade=ctx.createLinearGradient(0,0,0,230);shade.addColorStop(0,'#173739d9');shade.addColorStop(1,'#17373900');ctx.fillStyle=shade;ctx.fillRect(0,0,W,230);if(stick){ellipse(stick.x,stick.y,55,55,'#f9ecc437');ellipse(stick.x+stick.dx*36,stick.y+stick.dy*36,22,22,'#fff0c888');}drawRecruitFx();updateHud(m,target);}
 function drawSora(x,y,r){const glow=ctx.createRadialGradient(x,y,0,x,y,r*2);glow.addColorStop(0,'#bce6dd');glow.addColorStop(.3,'#7fcad6aa');glow.addColorStop(1,'#7fcad600');ctx.fillStyle=glow;ctx.fillRect(x-r*2,y-r*2,r*4,r*4);ellipse(x,y,r*.25,r*.25,'#efffe1');}
-function drawTitle(){rect(0,0,W,H,'#23464d');for(let i=0;i<35;i++)rect((i*137)%540,30+(i*71)%490,2,2,'#bcd0b4');ellipse(434,92,29,29,'#f6dda2');ctx.save();ctx.globalAlpha=.45;sprite('buildings',0,105,585,210,190);sprite('buildings',1,425,588,220,190);ctx.restore();rect(0,530,W,430,'#6c927e');for(let i=0;i<7;i++)sprite('props',i%3===1?1:0,i*110-40,652+(i%2)*30,150,158);rect(0,620,W,80,'#a5af8a');rect(0,648,W,38,'#657d79');for(let i=0;i<9;i++)rect(i*72+10,666,28,3,'#d1d0a2');sprite('props',5,488,640,110,150);sprite('hero_ride',8+Math.floor(gameTime/180)%4,246,654,64,90);drawSora(320,590+Math.sin(gameTime/400)*7,25);}
+// The hero rides the kickboard across the title screen, left to right, then comes round again.
+function titleRideX(){return gameTime*.12%(W+200)-100;}
+function drawTitle(){rect(0,0,W,H,'#23464d');for(let i=0;i<35;i++)rect((i*137)%540,30+(i*71)%490,2,2,'#bcd0b4');ellipse(434,92,29,29,'#f6dda2');ctx.save();ctx.globalAlpha=.45;sprite('buildings',0,105,585,210,190);sprite('buildings',1,425,588,220,190);ctx.restore();rect(0,530,W,430,'#6c927e');for(let i=0;i<7;i++)sprite('props',i%3===1?1:0,i*110-40,652+(i%2)*30,150,158);rect(0,620,W,80,'#a5af8a');rect(0,648,W,38,'#657d79');for(let i=0;i<9;i++)rect(i*72+10,666,28,3,'#d1d0a2');sprite('props',5,488,640,110,150);sprite('hero_ride',8+Math.floor(gameTime/180)%4,titleRideX(),640,64,90);drawSora(320,590+Math.sin(gameTime/400)*7,25);}
 function staticNoise(x,y,w,h){rect(x,y,w,h,'#3b4148');for(let i=0;i<w*h/9;i++){const v=90+Math.random()*165|0;rect(x+Math.random()*(w-2),y+Math.random()*(h-2),2,2,`rgb(${v},${v},${v})`);}}
 // From the third prologue line the room dims, the TV and the phone turn to static and only the CRT glows.
 function drawRoomScene(){const line=g.screen==='prologue'&&dialogue?dialogue.index:9,noisy=line>=2;rect(0,0,W,H,'#24414c');rect(0,380,W,H-380,'#8b7966');for(let i=0;i<8;i++)rect(0,400+i*70,W,2,'#736c60');rect(365,110,120,150,'#152e46');rect(421,110,6,150,'#729087');rect(365,178,120,6,'#729087');ellipse(402,144,17,17,'#efdcae');sprite('interior',0,105,500,215,215);sprite('interior',3,440,505,170,170);sprite('interior',1,290,470,220,220);if(!noisy)rect(406,391,52,45,'#4f7fa6');sprite('ryosei',Math.floor(gameTime/200)%4,205,650,145,180);if(noisy){rect(0,0,W,H,'#050d1fa6');staticNoise(406,391,52,45);staticNoise(225,549,13,15);}drawSora(288,320,line>=3?46:26);}

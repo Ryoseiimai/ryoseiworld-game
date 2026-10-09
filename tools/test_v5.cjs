@@ -22,12 +22,12 @@ function pngPixels(file){
 }
 
 async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[]}={}) {
-  const listeners = {}, els = new Map(), draws=[], imageLog=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
+  const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),drawImage(...a){draws[0]=a;imageLog.push(a[0].src);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),drawImage(...a){draws[0]=a;imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -93,7 +93,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {g,els,cmd,button,key,click,tick,dialogue,visibility,start,saved,requests,draws,imageLog,canvasCalls,calls,saves,audio,host,listeners,resize,
+  return {g,els,cmd,button,key,click,tick,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -280,6 +280,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const i=run('room',5,9,k);assert.equal(i.dir,dir,'room '+k);assert(i.src.includes('assets/hero_walk_v3/hero_walk_r'+dir+'_'),'room art '+k+' '+i.src);}
   const town=run('town',8,27,'ArrowRight').d,room=run('room',5,9,'ArrowRight').d;assert(room>10,'room moves');assert(Math.abs(town/room-1.35)<.03,'ride is 1.35x walk: '+town+' / '+room);}
  result.push('Hero: kickboard (hero_ride, 1.35x) outdoors, walking (hero_walk_v3) indoors, 4 directions PASS');
+ // R3: the title hero rides across the screen; entering the own room from town the first time only, mother says to fold the kickboard.
+ {const r=await runtime();r.tick();const rideX=()=>{r.imageLog.length=0;r.imageX.length=0;r.tick(16);const i=r.imageLog.findLastIndex(u=>String(u).includes('assets/hero_ride/hero_ride_r2_'));assert(i>=0,'title hero rides facing right');return r.imageX[i];};
+  const x1=rideX();r.tick(1000);const x2=rideX();assert(x2>x1+60,'title hero moves right: '+x1+' -> '+x2);
+  r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const enterHome=()=>{r.g.debugWarp('town',6,25.6);r.tick(16);while(r.g.dialogue)r.dialogue();r.key('ArrowUp');r.tick(600);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,'room','entered home '+JSON.stringify([r.g.screen,r.g.position,r.g.dialogue&&r.g.dialogue.lines,r.g.modal]));};
+  enterHome();assert(r.g.dialogue,'mother speaks on first entry');const said=r.g.dialogue.lines.map(l=>l.join(' ')).join('\n');assert(said.includes('おかあさん')&&said.includes('いえの なかでは\nキックボード たたみなさい'),said);while(r.g.dialogue)r.dialogue();
+  enterHome();assert(!r.g.dialogue,'second entry is quiet');r.click('menu-btn');r.button('セーブ');while(r.g.dialogue)r.dialogue();await settle();
+  const again=await runtime({saved:new Map(r.saved)});again.tick();again.click('continue-btn');again.tick(16);while(again.g.dialogue)again.dialogue();
+  again.g.debugWarp('town',6,25.6);again.tick(16);while(again.g.dialogue)again.dialogue();again.key('ArrowUp');again.tick(600);again.key('ArrowUp',true);again.tick(16);assert.equal(again.g.map,'room');assert(!again.g.dialogue,'quiet after reload '+JSON.stringify(again.g.dialogue&&again.g.dialogue.lines)+JSON.stringify(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')||'{}').flags));}
+ result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
