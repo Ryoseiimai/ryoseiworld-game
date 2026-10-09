@@ -13,15 +13,15 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  city('neon_ranking',0,24.6,12.6,190,250,{label:'ランキングタワー',dialogue:'rankingTower'}),
  city('neon_selfie',7,6.4,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
  city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,10]}),
- city('neon_charts',1,5.6,34.4,200,240,{label:'いいねビル',dialogue:'chartTower'}),
+ city('neon_charts',1,5.6,33.6,200,240,{label:'いいねビル',dialogue:'chartTower'}),
  // The boss lives in the stadium (R26). Until then it stays shut.
- city('neon_stadium',2,15,34.4,260,230,{label:'ランキングスタジアム',dialogue:'stadiumShut'}),
+ city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',dialogue:'stadiumShut'}),
  // The white mural wall: the painting child and Paint Chimera come in R24.
- city('neon_mural',5,24.4,34.4,220,220,{label:'へきがの かべ',dialogue:'muralWall'}),
+ city('neon_mural',5,24.4,33.6,220,220,{label:'へきがの かべ',dialogue:'muralWall'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
  prop('neon_bench',4,19.4,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
- ...props('neon_tree',0,120,[[1.4,15.6,1],[28.6,15.6],[1.4,26.6],[28.6,26.6,1]]),
+ ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false})],
  enemies:[],portals:[]};
 // Terrain: # city tiles, = road, + sidewalk. Two streets cross the town and one road joins the station and the stadium.
@@ -36,9 +36,9 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:13,
  object('nc_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nc_pc1','interior',1,2.2,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),object('nc_pc2','interior',1,8.6,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),
  object('nc_sofa','interior',12,2.2,8,110,110),object('nc_counter','interior',6,5.4,6.6,120,110,{label:'うけつけ',event:'netCafe',collider:{left:.1,right:.9,top:.55,bottom:1}}),object('nc_plant','interior',13,9.4,8.4,75,80),
- object('nc_clerk','npc2',3,5.4,5.2,48,65)],
+ object('nc_clerk','npc2',8,5.4,5.2,48,65)],
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[5.6,13.8]}]};
-// The capsule hotel: everyone is in their capsule, looking at numbers.
+// The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
 maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
  object('ncap_plant','interior',13,9.4,8.8,75,80)],
