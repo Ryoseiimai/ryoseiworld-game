@@ -273,5 +273,20 @@
   ],
   "sha": "d6619df",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37945275452"
+ },
+ {
+  "at": "2026-10-09T14:48:31.329Z",
+  "branch": "claude/autodev-20261009-2338-R10",
+  "task": "R10 町の人のそばに守護霊を出す",
+  "summary": "ソラが目をさました後、町の人の頭の横に守護霊がゆれて浮くようにした\nハート0〜1は灰色で半透明、2以上で色つき、5で光と粒を出す\nハッカーのお姉さんはクジラの召喚獣がまだ無いので、仮にきつねにした",
+  "result": "pass",
+  "shots": [
+   "shots/22/mobile-03-after-start.jpg",
+   "shots/22/mobile-06-map-room.jpg",
+   "shots/22/mobile-09-chapter-1.jpg",
+   "shots/22/mobile-13-battle-bugking.jpg"
+  ],
+  "sha": "b6e3f08",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37946694784"
  }
 ]
