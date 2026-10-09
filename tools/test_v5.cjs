@@ -553,7 +553,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const said=[];for(const type of ['spam','cable','maskcat']){r.g.debugStartBattle(type,'r20-'+type);r.tick(300);r.g.debugWin();r.tick(2100);while(r.g.dialogue){said.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}}
   assert.equal(r.g.state.flags.zakoWins,3);assert(said.join('\n').includes('としょかんに いこう'),'chapter 2 has its own "go to the library" line');assert(!said.join('\n').includes('こうばん'));
   assert.equal(r.g.questStep,'key');assert(talk(r,'minamo_library',3.4,8.5).includes('つかえるように なった'));while(r.g.dialogue)r.dialogue();assert(r.g.state.flags.minamoKey);assert.equal(r.g.questStep,'recruit');
-  assert(talk(r,'minamo_library',5.7,5.3).includes('いびき'));while(r.g.dialogue)r.dialogue();
+  assert(talk(r,'minamo_library',5.7,5.3).includes('おこした'),'the search machine wakes after the key');while(r.g.dialogue)r.dialogue();r.tick(400);assert.equal(r.g.modal,'event','the owl asks the first question');for(const a of ['ながくて ばらばら','おさないで おとなに','ひみつは いわない']){r.button(a);while(r.g.dialogue)r.dialogue();r.tick(400);}assert(r.g.summons.includes('owl'));
   assert(talk(r,'minamo_friend',4.6,7.7).includes('でたい'));while(r.g.dialogue)r.dialogue();
   // Leaving the library and the friend's house comes back in front of their doors; the bus stop lists both towns.
   r.g.debugWarp('minamo_library',5,11.9);r.tick(400);r.key('ArrowDown');for(let i=0;i<20&&r.g.map!=='minamo';i++)r.tick(16);r.key('ArrowDown',true);r.tick(16);assert.equal(r.g.map,'minamo');
@@ -561,6 +561,39 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // Every chapter 2 line fits the 540 wide box.
   for(const [k,v] of Object.entries(D.dialogue))if(/^(minamo|worry|grandpa[A-Z]|friend|search)/.test(k))for(const l of v)for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);}
  result.push('Chapter 2 ミナモちょう: river, park, library, friend\'s house, worry walls block, spam / cable / masked cat, grandpa key after 3 noises, own zakoDone line, quest arrow to minamo noises, bus PASS');
+
+ // R21: Search Owl's IT quiz in the library (3 questions, 3 choices, a wrong answer asks again), the owl joins, the grandpa's bond and rewards, the owl in battle.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const D=r.g.GAME_DATA;assert(r.g.debugStartChapter(2));const st=r.g.state;
+  assert(D.summons.owl&&D.summons.owl.frame===2&&D.summons.owl.cost===10,'owl summon');assert.equal(D.bonds.minamo_grandpa.kind,'family');assert.equal(D.bonds.minamo_grandpa.spirit,'owl');
+  // Before the key the machine only snores and no quiz opens.
+  assert(talk(r,'minamo_library',5.7,5.3).includes('いびき'));while(r.g.dialogue)r.dialogue();r.tick(400);assert(!r.g.modal,'no quiz before the key');
+  st.flags.minamoKey=true;st.flags.zakoWins=3;assert.equal(r.g.questStep,'recruit');
+  const qs=[];const read=()=>{while(r.g.dialogue)r.dialogue();r.tick(400);};
+  assert(talk(r,'minamo_library',5.7,5.3).includes('おこした'));read();
+  // Question 1: a wrong answer, then the same question again.
+  assert.equal(r.g.modal,'event');qs.push(r.els.get('modal-copy').textContent);assert(qs[0].includes('パスワード'),qs[0]);r.button('1234');assert(r.g.dialogue.lines[0][1].includes('もういちど'));read();
+  assert.equal(r.els.get('modal-copy').textContent,qs[0],'the same question after a wrong answer');assert(!r.g.summons.includes('owl'));
+  r.button('ながくて ばらばら');read();assert(r.els.get('modal-copy').textContent.includes('リンク'));r.button('おさないで おとなに');read();
+  assert(r.els.get('modal-copy').textContent.includes('ひみつ'));r.button('ひみつは いわない');read();
+  assert(r.g.summons.includes('owl'),'all right: the owl joins');assert.equal(r.g.state.bonds.minamo_grandpa,1);assert.equal(r.g.questStep,'boss');
+  assert(talk(r,'minamo_library',5.7,5.3).includes('いつでも'),'the owl idles after joining');read();assert(!r.g.modal);
+  // The grandpa's errand: the overdue book from the friend's house, then one onigiri. Heart 2 pays おこづかい, heart 3 lends てづくり おにぎり.
+  assert(talk(r,'minamo_library',3.4,8.5).includes('もどって こん'));read();assert(st.flags.bookAsk);
+  const money=st.money;assert(talk(r,'minamo_friend',4.6,7.7).includes('としょかんの ほん'));read();assert.equal(st.items.minamoBook,1);
+  assert(talk(r,'minamo_library',3.4,8.5).includes('ほんを かえした'));const got=[];while(r.g.dialogue){got.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}r.tick(400);
+  assert.equal(st.items.minamoBook,0);assert.equal(r.g.state.bonds.minamo_grandpa,2);assert.equal(st.money,money+120,'おこづかい at heart 2');
+  if(r.g.modal==='event'){r.button('あげる');read();}else{st.items.rice=Math.max(1,st.items.rice);talk(r,'minamo_library',3.4,8.5);read();r.button('あげる');read();}
+  assert.equal(r.g.state.bonds.minamo_grandpa,3);assert(st.weapons.includes('onigiri'),'heart 3 lends the onigiri');
+  // In battle the owl shows the next move and the next two hits do 1.5 times.
+  st.battery=100;r.g.debugStartBattle('spam','r21-owl');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});r.cmd('summon');r.button('サーチフクロウ');assert.equal(st.battery,90);r.tick(1000);
+  assert(r.g.battle.log.includes('よわみが みえた'),r.g.battle.log);assert(r.g.battle.log.split('\n').reduce((n,row)=>n+Math.ceil(wide(row)/15),0)<=3,'owl log fits 3 rows of the battle box '+r.g.battle.log);r.tick(3000);
+  const hit=()=>{const hp=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);return hp-r.g.battle.enemy.hp;};
+  const h1=hit(),h2=hit(),h3=hit();assert(h1>h3&&h2>h3,'two boosted hits then normal '+[h1,h2,h3]);assert.equal(h1,Math.round(h3*1.5));
+  // Chapter 2 lines fit.
+  for(const [k,v] of Object.entries(D.dialogue))if(/^(owl[A-Z]|grandpaBook|boyBook)/.test(k))for(const l of v)for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
+  for(const ev of D.events.owlQuiz[0].else[0].then.filter(s=>s.quiz))for(const q of ev.quiz){assert(wide(q.q)<=16,q.q);for(const o of q.options)assert(o.length<=16,o);}}
+ result.push('Search Owl: library quiz (3 questions, wrong answer asks again), joins with the grandpa bond, overdue book errand and onigiri gift (おこづかい, てづくり おにぎり), owl shows the next move and 2 hits at 1.5x PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
