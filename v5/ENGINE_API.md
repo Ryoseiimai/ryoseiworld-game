@@ -42,6 +42,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 | `quests` | 目的の文（下の「目的の文」） |
 | `clearDialogue` `clearSpot` | `action:'boss'` の物で勝った後の会話と、その後に立つ場所 `['マップ名', x, y]`。この道は章の番号を進めない。次の章へ進めるのはイベントの `chapterClear` 手順なので、2章からはボスを `battle` 手順で呼び、`win` に `chapterClear` を書く |
 | `clearEvent` | `action:'boss'` で勝って `clearDialogue` を読んだ後に動く手順（無ければ章のカードが出てタイトルへ）。1章はここで「はじめて つくった ゲーム」を作り、カードはバス停の `chapterClear` で出す |
+| `zakoDone` | ザコを `zakoGoal` だけ しずめた時の会話のキー（無ければ1章の `zakoDone`「こうばんに いこう」） |
 | `debugStart` | `__v5.debugStartChapter(n)` で飛んだ時の そろえ方 `{level, summons, items, flags}`（無くてよい。無ければ Lv は 1+(n-1)×4） |
 
 ### 目的の文（quests）
@@ -52,7 +53,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 
 ```js
 quests:{
- zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},        // {n} 倒した数、{goal} は zakoGoal。dest:'enemy' は今は1章の町（town）のザコだけを指す
+ zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},        // {n} 倒した数、{goal} は zakoGoal。dest:'enemy' は今の章の町（town）のザコを指す
  key:{text:'としょかんで カギを もらおう',dest:{map:'minamo',id:'owl'}},   // dest は矢印の行き先（マップと物の id）
  cleared:{text:'まちに こえが もどった。'}
 }

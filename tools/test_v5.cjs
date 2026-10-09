@@ -171,7 +171,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  t.key('z');assert.equal(t.g.screen,'field');assert.equal(t.g.chapter,2);assert.equal(t.g.map,'minamo');await settle();
  // Back and forth by bus: the town stop and the ミナモちょう stop both list the two towns.
  const bus=(map,x,y)=>{t.g.debugWarp(map,x,y);t.g.debugFace(3);t.tick(400);t.click('talk-btn');t.tick(400);};
- bus('minamo',9,13.3);assert.equal(t.g.questStep,'zako','chapter 2 has its own quest');assert.equal(t.g.modal,'event');assert(t.els.get('modal-buttons').children.find(b=>b.textContent.includes('ミナモちょう')).disabled,'the stop you are at cannot be picked');t.button('ヒダマリちょう');assert.equal(t.g.map,'town');
+ bus('minamo',12.4,31.3);assert.equal(t.g.questStep,'zako','chapter 2 has its own quest');assert.equal(t.g.modal,'event');assert(t.els.get('modal-buttons').children.find(b=>b.textContent.includes('ミナモちょう')).disabled,'the stop you are at cannot be picked');t.button('ヒダマリちょう');assert.equal(t.g.map,'town');
  // Back in ヒダマリちょう during chapter 2 the town stays quiet: no noises walk and the room TV keeps its cleared line.
  {const before=t.g.state.flags.zakoWins;t.g.debugWarp('town',19,21.6);t.tick(1500);assert(!t.g.battle,'no street noise in a cleared town');assert.equal(t.g.state.flags.zakoWins,before);assert(talk(t,'room',8.5,8.6).includes('ねこの とくしゅう'));t.dialogue();}
  t.tick(1300);bus('town',12,16.9);assert.equal(t.g.modal,'event','the bus asks where to go');t.button('ミナモちょう');assert.equal(t.g.map,'minamo');assert.equal(t.g.chapter,2);
@@ -537,6 +537,30 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const t of ['すき','キス','デート'])assert(!all.includes(t),'12-year-old story: no '+t);
   r.g.debugWarp('town',10.4,9.3);st.dir=3;r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines[0][0]==='ミオ','talking to Mio in town');while(r.g.dialogue)r.dialogue();assert([...st.met].includes('mio'),'meeting Mio adds her to the bonds list');}
  result.push('Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS');
+ // R20: chapter 2 town ミナモちょう: streets, river path, park, library, friend's house; worry walls; three new noises; the grandpa and the parents and children; the bus.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const D=r.g.GAME_DATA,m=D.maps.minamo;assert(r.g.debugStartChapter(2));assert.equal(r.g.map,'minamo');assert.equal(r.g.questStep,'zako');
+  for(const id of ['minamo_library','minamo_friend'])assert(m.objects.some(o=>o.enter===id)&&D.maps[id],'enter '+id);
+  assert(m.tiles.some(row=>row.includes('~'))&&m.tiles.some(row=>row.includes(':')),'river and park sand');
+  const walls=m.objects.filter(o=>o.dialogue==='worryWall');assert(walls.length>=3,'worry walls');
+  const types=new Set(m.enemies.map(e=>e.type));for(const t of ['spam','cable','maskcat'])assert(types.has(t)&&D.enemies[t]&&!D.enemies[t].boss,'noise '+t);
+  for(const id of ['minamo_dad','minamo_mom','minamo_grandpa','minamo_boy'])assert(Object.values(D.maps).some(mm=>mm.objects.some(o=>o.id===id)),'person '+id);
+  // A worry wall only says あぶないから and does not let the hero through.
+  {const w=walls[0];assert(talk(r,'minamo',w.x,w.y+1.2).includes('あぶないから'));while(r.g.dialogue)r.dialogue();r.g.debugWarp('minamo',w.x,w.y+1.4);r.tick(16);const y0=r.g.position.y;r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>w.y*48-4,'the wall blocks the way '+y0+' -> '+r.g.position.y);}
+  // The grandpa asks for three quiet noises, then opens the search machine; the quest arrow points at the town noises first.
+  assert(talk(r,'minamo_library',3.4,8.5).includes('3つ しずめて'));while(r.g.dialogue)r.dialogue();assert(!r.g.state.flags.minamoKey);
+  r.g.debugWarp('minamo',11.6,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to a minamo noise: '+r.els.get('quest').textContent);
+  const said=[];for(const type of ['spam','cable','maskcat']){r.g.debugStartBattle(type,'r20-'+type);r.tick(300);r.g.debugWin();r.tick(2100);while(r.g.dialogue){said.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}}
+  assert.equal(r.g.state.flags.zakoWins,3);assert(said.join('\n').includes('としょかんに いこう'),'chapter 2 has its own "go to the library" line');assert(!said.join('\n').includes('こうばん'));
+  assert.equal(r.g.questStep,'key');assert(talk(r,'minamo_library',3.4,8.5).includes('つかえるように なった'));while(r.g.dialogue)r.dialogue();assert(r.g.state.flags.minamoKey);assert.equal(r.g.questStep,'recruit');
+  assert(talk(r,'minamo_library',5.7,5.3).includes('いびき'));while(r.g.dialogue)r.dialogue();
+  assert(talk(r,'minamo_friend',4.6,7.7).includes('でたい'));while(r.g.dialogue)r.dialogue();
+  // Leaving the library and the friend's house comes back in front of their doors; the bus stop lists both towns.
+  r.g.debugWarp('minamo_library',5,11.9);r.tick(400);r.key('ArrowDown');for(let i=0;i<20&&r.g.map!=='minamo';i++)r.tick(16);r.key('ArrowDown',true);r.tick(16);assert.equal(r.g.map,'minamo');
+  r.g.debugWarp('minamo',12.4,31.3);r.g.debugFace(3);r.tick(400);r.click('talk-btn');r.tick(400);assert.equal(r.g.modal,'event');r.button('ヒダマリちょう');assert.equal(r.g.map,'town');
+  // Every chapter 2 line fits the 540 wide box.
+  for(const [k,v] of Object.entries(D.dialogue))if(/^(minamo|worry|grandpa[A-Z]|friend|search)/.test(k))for(const l of v)for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);}
+ result.push('Chapter 2 ミナモちょう: river, park, library, friend\'s house, worry walls block, spam / cable / masked cat, grandpa key after 3 noises, own zakoDone line, quest arrow to minamo noises, bus PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

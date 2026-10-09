@@ -8,7 +8,7 @@ const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{i
 const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'makeGame'},{flash:'#fff4c8',ms:400},{wait:400},{give:'firstgame'},{flag:'gameMade'},{say:'makeGameDone'},{save:'quiet'}];
 // Bus stops (SPEC_V5_CH234.md): the first ride ends chapter 1; after that the bus goes back and forth between the towns it has been to.
 // Chapter 2 points its own bus stop at the same busStop event, so the stops are written once.
-const busStops=[{text:'ヒダマリちょう',map:'town',at:[11,17.4]},{text:'ミナモちょう',map:'minamo',at:[10,13.4],if:'minamoVisited'}];
+const busStops=[{text:'ヒダマリちょう',map:'town',at:[11,17.4]},{text:'ミナモちょう',map:'minamo',at:[11.6,31.4],if:'minamoVisited'}];
 const maps={};
 maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),

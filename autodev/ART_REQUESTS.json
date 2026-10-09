@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "art-20261010-0546-worry_wall",
+    "file": "v5/assets/worry_wall_sheet.png",
+    "size": "1024x1024",
+    "grid": "2x2",
+    "out": "v5/assets/worry_wall",
+    "name": "worry_wall",
+    "prompt": "Pixel art sprite sheet, 2x2 grid, top-down RPG town object, soft 16-bit style matching the reference. A 'worry wall': a short wall of stacked grey-blue cushions and warning tape with two small sad worried eyes, gentle and a little funny, not scary. Row 1 col 1: the wall standing. Row 1 col 2: the wall with eyes looking down. Row 2 col 1: the wall with a small crack of light. Row 2 col 2: the wall fading into soft light particles. Each frame centered, same size, transparent background, no text.",
+    "ref": "v5/assets/props_sheet.png",
+    "status": "pending",
+    "task": "R20",
+    "requested_at": "2026-10-10T05:46:58+09:00"
+  }
+]
