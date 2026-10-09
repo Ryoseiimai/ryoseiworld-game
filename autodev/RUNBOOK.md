@@ -40,6 +40,36 @@ grep -nE '^- \[!\] R[0-9]+ \| 止まっています' autodev/ROADMAP.md && echo 
 どちらかが出たら、何も変えずに終わる（push もしない）。
 「止まっています」の行は、詰まりが続いたときに開発係が書く（4章）。今井さんか司令塔が原因を見て `[x]` にすると、次の回から動く。
 
+### 1-2. 同時に2回動かない鍵（2026-10-09 司令塔が追加）
+
+前の回がまだ動いている間に次の回が始まると、同じ件を2回作ってぶつかる。始める前に鍵のブランチ `claude/ryw-lock` を見る（このブランチは自動確認の対象外）。
+
+```bash
+git fetch -q origin '+refs/heads/claude/ryw-lock:refs/remotes/origin/claude/ryw-lock' 2>/dev/null
+if git rev-parse -q --verify refs/remotes/origin/claude/ryw-lock >/dev/null; then
+  msg=$(git log -1 --format=%s refs/remotes/origin/claude/ryw-lock); age=$(( $(date +%s) - $(git log -1 --format=%ct refs/remotes/origin/claude/ryw-lock) ))
+  case "$msg" in lock*) [ "$age" -lt 3300 ] && echo "ほかの回が動いている（$((age/60))分前に鍵）ので終わる";; esac
+fi
+```
+
+「ほかの回が動いている」と出たら、何も変えずに終わる。出なければ鍵を取る:
+
+```bash
+base=$(git rev-parse -q --verify refs/remotes/origin/claude/ryw-lock || true)
+if [ -n "$base" ]; then c=$(git commit-tree "$(git rev-parse "$base^{tree}")" -p "$base" -m "lock $(TZ=Asia/Tokyo date '+%F %T')")
+else c=$(git commit-tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904 -m "lock $(TZ=Asia/Tokyo date '+%F %T')"); fi
+git push -q origin "$c:refs/heads/claude/ryw-lock" && echo "鍵を取った" || echo "鍵を取れなかったので終わる"
+```
+
+「鍵を取れなかった」と出たら、何も変えずに終わる。鍵は終わる時に必ず返す（7章の最後・8章・途中で終わる時も）:
+
+```bash
+git fetch -q origin '+refs/heads/claude/ryw-lock:refs/remotes/origin/claude/ryw-lock'; base=$(git rev-parse refs/remotes/origin/claude/ryw-lock)
+c=$(git commit-tree "$(git rev-parse "$base^{tree}")" -p "$base" -m "release $(TZ=Asia/Tokyo date '+%F %T')"); git push -q origin "$c:refs/heads/claude/ryw-lock" && echo "鍵を返した"
+```
+
+55分より古い lock は、止まった回の残りとみなして取ってよい（上の判定がそうなっている）。
+
 ## 2. 直前のブランチの結果を見る
 
 直前のブランチ＝リモートにある `claude/autodev-2…`（絵係の `claude/autodev-art-…` は除く）のうち、名前が一番新しいもの。名前に作った時刻が入っているので、名前の並びが新しさの並びになる。
@@ -291,6 +321,7 @@ PY2
    ```
 4. 「push できた」が出なければ、もう一度 push する。2回だめなら、理由を画面に出して終わる
 5. main には push しない。PR も作らない。合流は自動確認がする
+6. 1-2 の鍵を返す（9章で次の件へ続けるときは返さずに続け、最後の件の後に返す）
 
 ## 8. 時間切れ（50分）
 
@@ -299,6 +330,7 @@ PY2
 - 今回の行を `- [x]` にし、題の後ろに「（前半）」と付ける。残りを `- [ ] R<新しい番号> | <題>（後半） | <残りの完了条件>` として、すぐ下の行に足す
 - 動かない途中のものは commit しない（`git stash` か元に戻す）。動く所までを push する
 - last_run.md の「次:」に、後半でやることを書く
+- 1-2 の鍵を返す
 
 ## 9. 時間が残っていたら続ける（1回の起動で3件まで）
 
