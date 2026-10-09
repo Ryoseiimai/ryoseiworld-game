@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-20261009-1851-R3",
+  "sha": "c629d4e1ca1ed8cc671ebe65f53396118c22f62b",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/5/mobile-03-after-start.jpg",
+    "devlog/shots/5/mobile-05-map-room.jpg",
+    "devlog/shots/5/mobile-07-map-electric.jpg",
+    "devlog/shots/5/mobile-10-battle-bugking.jpg"
+  ],
+  "at": "2026-10-09T10:03:25.905Z",
+  "merged_sha": "c629d4e1ca1ed8cc671ebe65f53396118c22f62b",
+  "tested_base": "57369d75a53457f1260b4684458a3f2d3d2fc7e7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37915008506"
+}

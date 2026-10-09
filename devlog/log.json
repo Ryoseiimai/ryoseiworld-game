@@ -43,5 +43,20 @@
   ],
   "sha": "cb50ddc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37913707201"
+ },
+ {
+  "at": "2026-10-09T10:03:25.905Z",
+  "branch": "claude/autodev-20261009-1851-R3",
+  "task": "R3 タイトルの横切りと、部屋の「たたみなさい」",
+  "summary": "タイトルで、主人公がキックボードで左から右へ横切るようにした\n町から家に初めて入った時だけ、おかあさんが「たたみなさい」と言う\nこの2つを調べるテストを足した。ゲームは部屋から始まるので、声は町から帰った時に出る",
+  "result": "pass",
+  "shots": [
+   "shots/5/mobile-03-after-start.jpg",
+   "shots/5/mobile-05-map-room.jpg",
+   "shots/5/mobile-07-map-electric.jpg",
+   "shots/5/mobile-10-battle-bugking.jpg"
+  ],
+  "sha": "c629d4e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37915008506"
  }
 ]
