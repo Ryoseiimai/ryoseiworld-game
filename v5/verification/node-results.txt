@@ -1,13 +1,28 @@
-Title → prologue → naming → Naoslime tutorial → bedroom PASS
-Walking portal, NPC facing dialogue, contact encounter and real victory PASS
-Store door, Wi-Fi poem, shopping money/item accounting and free charge PASS
-3–5 ordinary encounters → Code Dragon recruitment → BUG KING (no debugWin) → ending → title PASS
-Reload → continue restores map, position, level, HP, battery, money, items, summons and cleared boss PASS
+Title → prologue → naming → Naoslime tutorial (no escape, summon hold timing) → bedroom PASS
+Walking portal, locked shop, police request, contact encounter and real victory PASS
+3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS
+Code Dragon via battery → BUG KING 280 HP (no debugWin) → town clears → ending (Z) → title; required lines 43, ordinary battles 3 PASS
+Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss PASS
 Lethal HP roll can be rescued by Naoslime before zero PASS
-Insufficient battery consumes no turn; defeat restores last checkpoint PASS
-High-level instant victory, pause/resume and all three aspect-ratio transforms PASS
+Insufficient battery consumes no turn; arrow/WASD command cursor; Esc keeps focus; defeat restores last checkpoint PASS
+High-level instant victory counts as a quiet noise; pause/resume; four aspect-ratio transforms (compact text only at 844x390) PASS
 Touch drag moves in four directions; pointer cancellation stops movement PASS
 All art absent: fallback render PASS; late material arrival swaps in real PNGs without restarting PASS
+Missing interior frame: 1 load + 3 retries then stops; other art untouched PASS
 SDK load/save allowlist, local-only AI name, readiness, host pause and audio off/on PASS
+firstFrameReady before loadData/art completes, gameReady once at the title PASS
 Slow SDK load and disabled localStorage handled without uncaught error PASS
+Save toast: この たんまつに / ほぞんちゅう…; bed no longer asks to save PASS
 Actual PNG alpha-footprint collision: every NPC, event object and exit reachable on all 4 maps PASS
+Buildings block their whole lower body (17 of 18 sides walked; home stops at ~8, electric at ~20) PASS
+Town layout: no prop/person/building on road or water, park pond+sand off the road, apartment/junkyard/hedge/streetlight/pole/bike/signal/cat used PASS
+Interior: 16 frames loaded, no placeholder furniture, electrical-goods shelf unused PASS
+Dialogue: every line ≤16 chars and ≤3 lines, keep-all wrapping, welcome speaker is ナオスライム PASS
+Battle log: keep-all/strict wrapping, compact font ≤28px, tutorial rows ≤16 wide in ≤3 rows; はじめから focus contrast 8.9:1 PASS
+Quest arrow: ↑ south of the shop, ← east of it, ↓ toward the room exit PASS
+Town noises move PASS
+Balance: Lv2/HP72/battery100/1 drink beats BUG KING in 6-9 turns; Lv1 with nothing loses (seeds 1,2,3) PASS
+Title: Z on はじめから without a save; はじめから with a save asks first and やめる keeps it; naming input focused and Z confirms PASS
+Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS
+Closing tap is ignored for 250 ms by battle and shop buttons PASS
+Level-up win: victory sound once, level-up sound once, gained HP/attack shown PASS
