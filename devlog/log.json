@@ -483,5 +483,20 @@
   ],
   "sha": "fe0184c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37994409882"
+ },
+ {
+  "at": "2026-10-09T21:52:36.667Z",
+  "branch": "claude/autodev-20261010-0639-R22",
+  "task": "R22 2章 カテイノジジョウのシューティング版",
+  "summary": "2章の公園に大きな かべを置き、サーチフクロウがいると カテイノジジョウ戦が始まるようにした\n勝つと しんぱいの かべが全部消え、公園で親子が話す場面になる。町の人の言葉も変わる\n章クリアのカードと3章へのつなぎは、3章ができてから R37 でする",
+  "result": "pass",
+  "shots": [
+   "shots/38/mobile-03-after-start.jpg",
+   "shots/38/mobile-10-map-electric.jpg",
+   "shots/38/mobile-17-chapter-2-play.jpg",
+   "shots/38/mobile-26-battle-kateino.jpg"
+  ],
+  "sha": "00ff487",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37995791696"
  }
 ]

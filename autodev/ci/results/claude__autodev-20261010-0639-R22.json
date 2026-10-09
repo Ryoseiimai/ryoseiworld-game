@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-20261010-0639-R22",
+  "sha": "00ff48774bc15970f65ef80dae0a7b4509bcbf44",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/38/mobile-03-after-start.jpg",
+    "devlog/shots/38/mobile-10-map-electric.jpg",
+    "devlog/shots/38/mobile-17-chapter-2-play.jpg",
+    "devlog/shots/38/mobile-26-battle-kateino.jpg"
+  ],
+  "at": "2026-10-09T21:52:36.667Z",
+  "merged_sha": "00ff48774bc15970f65ef80dae0a7b4509bcbf44",
+  "tested_base": "be4a136d4185cebe30370dd7575d194fa6a9cc58",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37995791696"
+}
