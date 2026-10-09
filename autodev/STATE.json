@@ -2,11 +2,11 @@
   "version": 1,
   "current": {
     "id": "R6",
-    "branch": "claude/autodev-20261009-2141-R6",
+    "branch": "claude/autodev-20261009-2132-R6",
     "attempts": 1,
     "conflicts": 0,
     "retriggers": 0,
-    "started_at": "2026-10-09T21:41:56+09:00"
+    "started_at": "2026-10-09T21:32:47+09:00"
   },
   "history": [
     {
@@ -37,7 +37,7 @@
       "id": "R5",
       "branch": "claude/autodev-20261009-2122-R5",
       "result": "pass",
-      "at": "2026-10-09T21:41:56+09:00"
+      "at": "2026-10-09T21:32:47+09:00"
     }
   ],
   "blocked": []
