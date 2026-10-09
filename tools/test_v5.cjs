@@ -470,9 +470,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
   r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');assert(copy().includes('はなしかけて'),copy());fits(copy());r.button('もどる');assert.equal(r.g.modal,'menu');r.button('もどる');
-  r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
+  r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();if(r.g.modal==='event'){r.tick(400);r.button('やめておく');}while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
   r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('［家］おかあさん\n♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
-  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと\n♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥3で おこづかい'),c);fits(c);r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと\n♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),c);fits(c);r.button('もどる');
   D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('［恋］テストの ひと\n♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
   r.button('ぶき');assert.equal(r.g.modal,'weapons');c=copy();assert(c.startsWith('〔フクの ひかりだま〕\nまっすぐ みぎへ うつ'),c);assert(!c.includes('〔おまもりバリア〕'));assert(c.includes('まだ 7つ。'),c);fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('ぶき');c=copy();assert(c.includes('ぜんぶ そろった'),c);for(const w of Object.values(D.weapons)){assert(w.desc,w.name+' desc');assert(c.includes(w.name));}fits(c);r.button('もどる');r.button('もどる');
@@ -481,6 +481,30 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,met:undefined})]])});old.tick();old.click('continue-btn');old.tick(16);assert.deepEqual([...old.g.state.met],[]);
   const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();assert.deepEqual([...sd.saves.at(-1).met],[],'cloud save carries met');}
  result.push('Menu: きずな lists met people (家/友/恋, hearts, spirit, next reward hint), ぶき lists weapons with what they do; rows fit; met saved and cleaned PASS');
+ // R17: chapter 1 bond people (family and friends) each have a request, a liked thing and rewards, all reachable by talking.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,read=[];
+  const talk=(ev,...picks)=>{r.g.debugEvent(ev);for(let i=0;i<40;i++){if(r.g.dialogue){read.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');continue;}if(r.g.modal==='event'){r.tick(400);r.button(picks.shift()||'やめておく');continue;}break;}assert(!r.g.dialogue&&!r.g.modal,'event '+ev+' finishes');r.tick(300);};
+  const ids=['mother','sister','repair','kid','hacker','clerk'];
+  for(const id of ids){const b=D.bonds[id];assert(b,id+' has a bond');assert.equal(b.kind,['mother','sister'].includes(id)?'family':'friend');assert((b.likes||[]).length,id+' likes');assert(Object.keys(b.rewards||{}).length,id+' rewards');
+   const o=Object.values(D.maps).flatMap(m=>m.objects).find(o=>o.id===id&&o.kind==='npc');assert(o&&o.event===id,id+' talks through its request event');}
+  const ws=Object.values(D.bonds).flatMap(b=>Object.values(b.rewards||{}).map(x=>x.weapon)).filter(Boolean);for(const w of ['barrier','rapid','twin','rainbow'])assert(ws.includes(w),'chapter 1 offers '+w);
+  st.items.rice=5;st.items.drink=5;const money0=st.money;
+  talk('mother');assert(st.flags.milkAsk);assert.equal(st.bonds.mother??0,0);
+  talk('clerk','つよく たたく');assert(st.flags.milk);assert.equal(st.bonds.clerk??0,0,'a wrong fix does not count');
+  talk('clerk','かみを いれなおす');assert.equal(st.bonds.clerk,1);
+  talk('mother','あげる');assert.equal(st.bonds.mother,2,'milk and rice');assert.equal(st.items.rice,4);
+  talk('mother');assert.equal(st.bonds.mother,2,'no second gift question');
+  talk('sister');talk('cushion');assert(st.flags.remote);talk('sister','あげる');assert.equal(st.bonds.sister,2);
+  st.summons.push('code');talk('repair');assert.equal(st.bonds.repair,1,'waking the server together');assert(st.flags.cableAsk);
+  talk('policeBox');assert(st.flags.cable);talk('repair','あげる');assert.equal(st.bonds.repair,3);assert([...st.weapons].includes('rapid'));
+  talk('kid','1234 で ためす');assert.equal(st.bonds.kid??0,0);talk('kid','コンビニの レシート');assert.equal(st.bonds.kid,1);talk('kid','こまめに する','あげる');assert.equal(st.bonds.kid,3);assert([...st.weapons].includes('twin'));
+  talk('hacker','やめておく');assert.equal(st.bonds.hacker,1);st.flags.cleared=true;talk('hacker','あげる');assert.equal(st.bonds.hacker,3);assert([...st.weapons].includes('rainbow'));
+  talk('mother');assert.equal(st.bonds.mother,3,'welcome home after the town is quiet');assert([...st.weapons].includes('barrier'));
+  talk('clerk','あげる');assert.equal(st.bonds.clerk,2);
+  assert(st.money>money0,'family and friends give おこづかい and おれい');const all=read.join('\n');assert(all.includes('おこづかい')&&all.includes('おれい'),all);
+  for(const t of read)for(const row of t.split('\n'))assert([...row].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0)<=16,'line fits '+row);}
+ result.push('Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing and rewards, reachable by talking PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
