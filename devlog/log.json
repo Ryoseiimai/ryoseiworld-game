@@ -168,5 +168,20 @@
   ],
   "sha": "d71a8b0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37933009037"
+ },
+ {
+  "at": "2026-10-09T13:08:23.286Z",
+  "branch": "claude/autodev-lead-R12",
+  "task": "R12 横スクロールのボス戦の土台（shooter.js）",
+  "summary": "横スクロールのボス戦を v5/js/shooter.js に作った（5体・武器8種・守護霊のおとも・とくぎ）\nv5/shooter_test.html?boss=bugking などで単独で遊べる。きずな0で1体約2分\nはじめの4.5秒は撃たない・当たると近くの弾が消える、で初めての子でもすぐ負けない",
+  "result": "pass",
+  "shots": [
+   "shots/15/mobile-03-after-start.jpg",
+   "shots/15/mobile-05-map-room.jpg",
+   "shots/15/mobile-08-chapter-1.jpg",
+   "shots/15/mobile-12-battle-bugking.jpg"
+  ],
+  "sha": "12b2330",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37934526666"
  }
 ]
