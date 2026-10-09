@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0a1220"><link rel="icon" href="data:,"><title>RYOSEIWORLD ボスせん テスト</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#0a1220;color:#fff5d6;font-family:'Hiragino Maru Gothic ProN','Hiragino Sans',system-ui,sans-serif}
+#menu{max-width:520px;margin:0 auto;padding:28px 18px 40px}
+#menu h1{font-size:30px;margin:0 0 8px}#menu p{font-size:24px;line-height:1.6;margin:0 0 18px;color:#c6d6c3}
+#menu .row{display:grid;gap:12px}#menu a,#menu button{display:block;font:inherit;font-size:26px;text-align:center;color:#fff5d6;background:#244a50;border:2px solid #91b5a5;border-radius:12px;padding:14px;text-decoration:none;cursor:pointer}
+#menu button{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700;width:100%}
+#menu a:focus-visible,#menu button:focus-visible{outline:3px solid #fff5d6;outline-offset:3px}
+</style></head><body>
+<main id="menu" hidden><h1>ボスせん テスト</h1><p id="result"></p><div class="row"><button id="again" type="button">もういちど</button><div class="row" id="links"></div></div></main>
+<script src="js/shooter.js"></script>
+<script>
+(function () {
+  'use strict';
+  var q = new URLSearchParams(location.search);
+  var boss = q.get('boss') || 'bugking';
+  var weaponsParam = q.get('weapons') || '';
+  var weapons = weaponsParam === 'all' ? 'all' : weaponsParam ? weaponsParam.split(',') : [];
+  var optionsParam = q.get('options') || '';
+  var options = /^\d$/.test(optionsParam) ? Number(optionsParam) : optionsParam ? optionsParam.split(',') : [];
+  var hearts = q.get('hearts') ? Number(q.get('hearts')) : undefined;
+  var menu = document.getElementById('menu');
+  var names = { bugking: 'BUG KING', kateino: 'カテイノジジョウ', hikaku: 'ヒカクマオウ', jibun: 'ジブン', zero: 'ゼロ' };
+  var links = document.getElementById('links');
+  Object.keys(names).forEach(function (id) {
+    var p = new URLSearchParams(location.search); p.set('boss', id);
+    var a = document.createElement('a'); a.href = '?' + p.toString(); a.textContent = names[id];
+    links.appendChild(a);
+  });
+  function showMenu(text) { document.getElementById('result').textContent = text; menu.hidden = false; document.getElementById('again').focus(); }
+  function go() {
+    menu.hidden = true;
+    RYW.Shooter.start({
+      boss: boss, weapons: weapons, options: options, hearts: hearts,
+      onWin: function (r) { showMenu(names[r.boss] + ' に かった！ ' + r.seconds + 'びょう・ハート ' + r.hearts + '/' + r.maxHearts); },
+      onLose: function (choice) { if (choice === 'retry') go(); else showMenu('まちに もどった'); }
+    });
+  }
+  document.getElementById('again').addEventListener('click', go);
+  go();
+})();
+</script>
+</body></html>
