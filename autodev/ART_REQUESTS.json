@@ -23,8 +23,10 @@
     "name": "station_sign",
     "prompt": "Pixel art sprite sheet, 2x2 grid, top-down RPG town props in the same style as the reference: top-left a small train station entrance sign on a post with a simple train icon, top-right a ticket gate, bottom-left a station bench, bottom-right a glowing neon city signboard. Transparent background, no text, no letters.",
     "ref": "v5/assets/props_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R37",
-    "requested_at": "2026-10-10T07:35:00+09:00"
+    "requested_at": "2026-10-10T07:35:00+09:00",
+    "done_at": "2026-10-10T07:53:16+09:00",
+    "actual_size": "1024x1024"
   }
 ]
