@@ -80,6 +80,9 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
       isAudioEnabled(){return host.enabled},onAudioEnabledChange(cb){host.audio=cb}}
   };
   for(const s of scripts){if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
+  // The side-scrolling boss battle needs a real browser (tools/test_shooter.cjs and the smoke cover it); here a double records each start.
+  const shooterRuns=[];assert(sandbox.window.RYW.Shooter,'index.html loads js/shooter.js after the engine');
+  sandbox.window.RYW.Shooter.start=cfg=>{const h={cfg,stopped:false,stop(){h.stopped=true;}};shooterRuns.push(h);return h;};
   await new Promise(setImmediate);await new Promise(setImmediate);
   const hasLoop=()=>rafs.some(r=>r.f.name==='loop');
   if(!holdLoad && !initialPause)assert(hasLoop(),'boot complete');
@@ -95,7 +98,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {g,els,cmd,button,key,click,tick,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
+  return {g,els,cmd,button,key,click,tick,shooterRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -140,16 +143,25 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS');
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
  const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
- // Prepare with bought food, then beat BUG KING through ordinary commands.
- t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);t.click('talk-btn');t.dialogue();assert.equal(t.g.battle.type,'bugking');assert.equal(t.g.battle.enemy.maxHp,280);t.tick(300);t.cmd('summon');t.button('コードラゴン');assert(t.g.battle.cast);t.tick(1000);assert(t.g.battle.enemy.hp<280);t.tick(1900);
- let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked){t.tick(400);continue;}if(t.g.hp.hp<30&&(t.g.state.items.rice||t.g.state.items.drink)){t.cmd('item');t.button(t.g.state.items.drink?'エナジードリンク':'おにぎり');}else if(t.g.hp.hp<24&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else if(t.g.battery>=25){t.cmd('summon');t.button('コードラゴン');}else t.cmd('create');t.tick(3000);if(t.g.dialogue&&t.g.battle?.over)throw Error('boss defeat');}
- assert(guard>0);assert(t.g.state.bosses.includes('bugking'));
+ // BUG KING (SPEC_V6.md 4): the talk, the kickboard lifts, then the side-scrolling battle opens with the hero's weapons.
+ t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
+ assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
+ {const hero=t.g.lift;t.tick(400);assert(t.g.lift&&t.g.lift.type==='bugking'&&hero);}
+ t.key('Escape');assert(!t.g.modal,'the menu stays closed while lifting');
+ t.tick(1000);assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
+ {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
+  // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
+  t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'electric');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどろう'));t.dialogue();assert(!t.g.state.bosses.includes('bugking'));}
+ t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
+ t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts at once');
+ {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
+  assert(t.g.state.bosses.includes('bugking'));assert(t.g.level>lv||t.g.state.exp!==exp);assert.equal(t.g.state.money,money+t.g.GAME_DATA.enemies.bugking.money);}
  // F15: the town comes back first, then the closing lines, then the chapter card.
  assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert(!t.g.dialogue);t.tick(2100);assert(t.g.dialogue);assert(t.g.dialogue.lines.some(l=>l[1].includes('ノイズに のまれてる')));t.dialogue();assert.equal(t.g.screen,'ending');
  const tonesAtEnding=t.calls.length;t.tick(2500);const tonesAfterJingle=t.calls.length;t.tick(3000);assert.equal(t.calls.length,tonesAfterJingle,'ending goes quiet after one jingle');assert(tonesAfterJingle>=tonesAtEnding);
  t.key('z');assert.equal(t.g.screen,'title');await settle();
  assert(zakoBattles>=3);assert(t.lines()>=40,'required dialogue lines: '+t.lines());
- result.push(`Code Dragon via battery → BUG KING 280 HP (no debugWin) → town clears → ending (Z) → title; required lines ${t.lines()}, ordinary battles ${zakoBattles} PASS`);
+ result.push(`Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → ending (Z) → title; required lines ${t.lines()}, ordinary battles ${zakoBattles} PASS`);
  const reloaded=await runtime({saved:t.saved});reloaded.tick();assert(!reloaded.els.get('continue-btn').disabled);assert.equal(reloaded.active().id,'continue-btn');reloaded.key('Enter');assert.equal(reloaded.g.map,'electric');assert(reloaded.g.state.bosses.includes('bugking'));assert(reloaded.g.summons.includes('code'));for(const k of ['chapter','map','x','y','level','exp','money','battery','items','summons','bosses'])assert.equal(JSON.stringify(reloaded.g.state[k]),JSON.stringify(JSON.parse(t.saved.get('ryoseiworld-rpg-v5'))[k]),'saved '+k);
  result.push('Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss PASS');
  // Drum roll rescue keeps the exact original 45 ms tick.
@@ -259,7 +271,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const patch of [{chapter:2},{dir:7},{map:'constructor'},{exp:'10'},{x:288,y:1130,map:'town'},{x:-5000,y:-5000,map:'town'}]){const b=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...base,bosses:[],...patch})]])});b.tick();if(!b.els.get('continue-btn').disabled){b.click('continue-btn');b.tick(100);assert(b.hasFrame(),'loop alive '+JSON.stringify(patch));assert(!b.g.debugBlocked(b.g.position.x,b.g.position.y),'not stuck '+JSON.stringify(patch));let moved=false;for(const k of ['ArrowDown','ArrowUp','ArrowLeft','ArrowRight']){const p=b.g.position;b.key(k);b.tick(300);b.key(k,true);if(b.g.position.x!==p.x||b.g.position.y!==p.y||b.g.screen!=='field')moved=true;}assert(moved,'can move '+JSON.stringify(patch));assert.equal(typeof b.g.state.exp,'number');assert(b.g.level<=base.level+1);}else assert(patch.chapter||patch.dir||patch.map==='constructor','only broken saves are rejected '+JSON.stringify(patch));}
  result.push('Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS');
  // F18: a fast second tap after the boss intro does not hit にげる.
- const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,5.4);tap.g.debugFace(3);tap.tick(16);tap.click('talk-btn');while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
+ const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,5.4);tap.tick(16);tap.g.debugEvent([{say:[['BUG KING','どうせ お前には むりだ']]},{battle:'bugking',id:'f18'}]);while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
  result.push('Closing tap is ignored for 250 ms by battle and shop buttons PASS');
  // F24: one victory jingle, then one level-up fanfare and the gained numbers.
  const lv=await runtime();lv.tick();lv.start();lv.tick(3000);lv.g.debugWin();lv.tick(2000);lv.dialogue();const count={victory:0,levelup:0};for(const k of Object.keys(count)){const fn=lv.g.sfx[k];lv.g.sfx[k]=(...a)=>{count[k]++;return fn(...a);};}
