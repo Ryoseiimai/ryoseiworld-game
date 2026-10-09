@@ -189,6 +189,9 @@ bonds:{
 | `kind` | `family`（家）・`friend`（友）・`love`（恋） |
 | `spirit` | その人の守護霊。数なら `v5/assets/spirits` のコマ（0〜15）、文字なら召喚獣（`summons` のキー） |
 | `likes` | 好きな物（`items` のキー）。`gift` 手順で1種類につき1回ハートが上がる |
+| `rewards` | ハートの数ごとの ごほうび `{2:{money:100},3:{weapon:'barrier'}}`。その数を こえた時に、武器は「◯◯の 守護霊が ちからを かしてくれた！〔武器〕」、お金は「おこづかい（家族）／おれい（友情・恋愛）を Nえん もらった。」が出る。持っている武器は2回は出ない |
+
+武器（`weapon`）は fuku（最初から）・rapid・twin・rainbow・barrier・onigiri・letter・charge の8つ（SPEC_V6.md の3）。手に入れた武器は保存に入る。
 
 ### 守護霊（spirits）
 
@@ -200,7 +203,7 @@ spirits:{grandpa:7,police:4,repair:'code'}   // 人の id: spirits のコマ（0
 
 ハート0〜1は灰色で半透明、2以上で色つき、5で光の粒が回る。`__v5.spirits` で今見えている守護霊（id・hearts・stage）が読める。
 
-頼みごとは イベントの手順で書き、終わりに `{bond:'人'}` を置く。ごほうび（武器・お金）は R11 で足す。
+頼みごとは イベントの手順で書き、終わりに `{bond:'人'}` を置く。
 
 ## 6. 敵
 
@@ -232,6 +235,7 @@ __v5.debugFlags()                     // フラグの写し
 __v5.debugSetFlag('key')              // フラグを立てる（2つめの引数で値）
 __v5.debugBond('mother',3)           // きずなのハートを決める（0〜5、n が無ければ0）。知らない人なら false
 __v5.bonds                            // きずなの写し {mother:3}
+__v5.debugGiveWeapon('rapid')        // 武器を足す。知らない武器なら false。__v5.weapons で一覧
 __v5.debugWarp('minamo',6,25)         // マップと位置へ
 __v5.debugWin()                       // 今の戦いに勝つ
 ```

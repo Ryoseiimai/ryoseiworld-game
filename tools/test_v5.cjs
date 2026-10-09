@@ -432,6 +432,27 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('room',5,9);r.tick(32);assert.equal(r.g.spirits.length,0,'nobody in the room');
   const scene=r.g.smokeScenes.find(s=>s.name==='spirits');scene.run();r.tick(32);assert.deepEqual(['glow','color','gray'],['mother','sister','grandma'].map(id=>at(id).stage),'the smoke scene shows all three');}
  result.push('Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour at 2+, glow at 5; smoke scene shows the three PASS');
+ // R11: bond rewards per heart count give weapons and money with a line; weapons are saved; debugGiveWeapon.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);assert.deepEqual([...r.g.weapons],['fuku'],'fuku from the start');
+  assert.deepEqual(Object.keys(D.weapons).sort(),['barrier','charge','fuku','letter','onigiri','rainbow','rapid','twin'],'the eight weapons of SPEC_V6 3');
+  for(const [id,b] of Object.entries(D.bonds))for(const [h,rw] of Object.entries(b.rewards||{})){assert(Number(h)>=1&&Number(h)<=5,id+' reward heart '+h);if(rw.weapon)assert(Object.hasOwn(D.weapons,rw.weapon),id+' weapon '+rw.weapon);}
+  const money=st.money,all=[];r.g.debugEvent([{bond:'mother',n:3}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}
+  const text=all.join('\n');assert(text.includes('おかあさんの 守護霊が\nちからを かしてくれた！\n〔おまもりバリア〕'),text);assert(text.includes('おこづかいを\n100えん もらった。'),text);
+  for(const row of text.split('\n'))assert(wide(row)<=12,'reward line fits '+row);
+  assert.equal(st.money,money+100);assert([...r.g.weapons].includes('barrier'));
+  r.g.debugEvent([{bond:'mother',n:2}]);while(r.g.dialogue)r.dialogue();assert([...r.g.weapons].includes('onigiri'));assert.equal(st.money,money+300,'money at 5 hearts');
+  D.bonds.r11f={name:'テストの ひと',kind:'friend',spirit:1,rewards:{1:{money:30,weapon:'barrier'}}};const m2=st.money;r.g.debugEvent([{bond:'r11f'}]);const t2=[];while(r.g.dialogue){t2.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}
+  assert(t2.join('\n').includes('おれいを\n30えん'),t2.join());assert(!t2.join('\n').includes('ちからを'),'a weapon already held is not given twice');assert.equal(st.money,m2+30);delete D.bonds.r11f;delete st.bonds.r11f;
+  assert.equal(r.g.debugGiveWeapon('nothing'),false);assert(r.g.debugGiveWeapon('letter'));assert(r.g.debugGiveWeapon('letter'));assert.equal([...r.g.weapons].filter(w=>w==='letter').length,1);
+  r.tick(300);r.click('menu-btn');r.button('セーブ');while(r.g.dialogue)r.dialogue();await settle();const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.deepEqual(sv.weapons,['fuku','barrier','onigiri','letter']);
+  const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,weapons:['letter','ghost','letter',3]})]])});back.tick();back.click('continue-btn');back.tick(16);while(back.g.dialogue)back.dialogue();
+  assert.deepEqual([...back.g.weapons],['fuku','letter','barrier','onigiri'],'weapons come back cleaned, fuku kept, reached rewards held');
+  const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,weapons:undefined})]])});old.tick();old.click('continue-btn');old.tick(16);assert.deepEqual([...old.g.weapons],['fuku','barrier','onigiri'],'a save without weapons gets the weapons its hearts reached');
+  const r9=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...sv,weapons:undefined,bonds:{mother:3}})]])});r9.tick();r9.click('continue-btn');r9.tick(16);assert.deepEqual([...r9.g.weapons],['fuku','barrier'],'a save with hearts but no weapons gets the reached weapons');
+  const sd=await runtime({sdk:true});sd.tick();sd.start();sd.tick(1000);sd.g.debugWin();sd.tick(2100);while(sd.g.dialogue)sd.dialogue();sd.g.debugGiveWeapon('twin');sd.tick(300);sd.click('menu-btn');sd.button('セーブ');while(sd.g.dialogue)sd.dialogue();await settle();
+  assert.deepEqual([...sd.saves.at(-1).weapons],['fuku','twin'],'cloud save carries weapons');}
+ result.push('Bond rewards: weapons and money (おこづかい / おれい) per heart count with lines, no double weapon; weapons saved, cleaned on load, cloud allowlist; debugGiveWeapon PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
