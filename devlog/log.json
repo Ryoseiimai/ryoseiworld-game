@@ -58,5 +58,20 @@
   ],
   "sha": "c629d4e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37915008506"
+ },
+ {
+  "at": "2026-10-09T11:50:45.997Z",
+  "branch": "claude/autodev-20261009-2040-R4",
+  "task": "R4 1章のデータを v5/data/ch1.js に移す",
+  "summary": "1章のデータを v5/data/ch1.js に移し、RYW.registerChapter で読むようにした\nindex.html はエンジンの後に ch1.js を読み、RYW.start() で始める\n移す前と後でデータが同じことを確かめ、テストも新しい読み方にした",
+  "result": "pass",
+  "shots": [
+   "shots/6/mobile-03-after-start.jpg",
+   "shots/6/mobile-05-map-room.jpg",
+   "shots/6/mobile-07-map-electric.jpg",
+   "shots/6/mobile-10-battle-bugking.jpg"
+  ],
+  "sha": "38e7626",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37926062501"
  }
 ]
