@@ -748,13 +748,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('ending-title');assert.equal(r.g.screen,'epilogue','町が0でも1でも最後は かならず エピローグへ');
   assert.equal(r.els.get('epilogue-input').hidden,false);assert.equal(r.els.get('epilogue-send').hidden,false);
   r.els.get('epilogue-input').value='ゲームを つくりたい';r.click('epilogue-send');
-  assert.equal(r.els.get('epilogue-text').textContent,'わかった。つくろう','なにを かいても おなじ こたえ');assert.equal(r.els.get('epilogue-input').hidden,true);assert.equal(r.els.get('epilogue-input').value,'','入力は この場で 消える（保存・送信しない）');
-  r.click('epilogue-send');assert.equal(r.els.get('epilogue-text').textContent,'わかった。つくろう','こたえた あとに もう一度 おくっても 二重に すすまない');
+  assert.equal(r.els.get('epilogue-text').textContent,'「ゲームを つくりたい」\nいいね。わたしも つくる','かいた ことばを そのまま 読みかえす（FUN2: 固定文で 捨てていたのを直した）');assert.equal(r.els.get('epilogue-input').hidden,true);assert.equal(r.els.get('epilogue-input').value,'','入力は この場で 消える（保存・送信しない）');
+  const afterFirst=r.els.get('epilogue-text').textContent;r.click('epilogue-send');assert.equal(r.els.get('epilogue-text').textContent,afterFirst,'こたえた あとに もう一度 おくっても 二重に すすまない');
   r.tick(2300);assert.equal(r.g.screen,'title','エピローグの あと タイトルへ');
   // からの towns（SPEC_V5_CH234完了条件に無い保険）でも すぐ エピローグへ すすむ。
   const r2=await runtime();r2.tick();r2.g.debugEvent([{finale:{towns:[]}}]);assert.equal(r2.g.screen,'epilogue');
-  r2.key('Enter',false,r2.els.get('epilogue-input'));assert.equal(r2.els.get('epilogue-text').textContent,'わかった。つくろう','Enterキーでも おくれる');}
- result.push('R30: エンディング（まちの カード）→ エピローグ（なにを かいても「わかった。つくろう」）→ タイトル PASS');
+  r2.key('Enter',false,r2.els.get('epilogue-input'));assert.equal(r2.els.get('epilogue-text').textContent,'わかった。つくろう','なにも かかずに おくると もとの ことば（Enterキーでも おくれる）');}
+ result.push('R30/FUN2: エンディング（まちの カード）→ エピローグ（かいた ことばを ソラが 読みかえす）→ タイトル PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
