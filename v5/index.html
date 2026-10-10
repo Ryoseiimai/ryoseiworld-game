@@ -406,7 +406,7 @@ function bossOptions(){return Object.keys(GAME_DATA.bonds).filter(id=>num(g.bond
 function bossLines(def){const b=def.bursts||[],out={};for(const [at,text] of b)out[Math.round(at*100)]=text;return Object.keys(out).length?{bursts:out}:undefined;}
 function startBoss(type,id){const def=GAME_DATA.enemies[type],S=window.RYW&&window.RYW.Shooter;if(!def||g.battle||shooter)return false;if(!S||typeof S.start!=='function')return startBattle(type,id);
  clearWordCards();screen('shooter');g.lift=null;dialogue=null;$('dialogue').hidden=true;
- try{shooter=S.start({boss:def.shooter||type,weapons:g.weapons.filter(w=>w!=='fuku'),options:bossOptions(),hearts:3,lines:{intro:def.intro||['ソラ','いっしょに なおそう！'],...bossLines(def)},platform,aiName:g.aiName,
+ try{shooter=S.start({boss:def.shooter||type,weapons:g.weapons.filter(w=>w!=='fuku'),options:Object.assign(bossOptions(),{proto:g.proto}),hearts:3,lines:{intro:def.intro||['ソラ','いっしょに なおそう！'],...bossLines(def)},platform,aiName:g.aiName,
   onWin(r){shooter=null;bossWon(type,id,r);},
   onLose(choice){shooter=null;if(choice==='retry'){screen('field');startBoss(type,id);return;}screen('field');const back=chapter().clearSpot;if(back)enterMap(...back);g.hero=entity(g.hero.maxHp);immuneUntil=gameTime+2500;g.holdUntil=gameTime+300;say(GAME_DATA.dialogue.bossRetreat?lines('bossRetreat'):[['ソラ','いったん もどろう。\nじゅんびして また こよう。']],()=>{});}});}
  catch(e){console.warn('shooter',e);try{document.querySelectorAll('.ryw-shooter').forEach(el=>el.remove());}catch(_){}shooter=null;screen('field');return startBattle(type,id);}

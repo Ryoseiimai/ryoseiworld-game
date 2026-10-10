@@ -9,7 +9,7 @@
 #menu a:focus-visible,#menu button:focus-visible{outline:3px solid #fff5d6;outline-offset:3px}
 </style></head><body>
 <main id="menu" hidden><h1>ボスせん テスト</h1><p id="result"></p><div class="row"><button id="again" type="button">もういちど</button><div class="row" id="links"></div></div></main>
-<script src="data/words.js"></script><script src="js/shooter.js"></script>
+<script src="data/words.js"></script><script src="js/proto.js"></script><script src="js/shooter.js"></script>
 <script>
 (function () {
   'use strict';
@@ -32,7 +32,10 @@
   function go() {
     menu.hidden = true;
     RYW.Shooter.start({
-      boss: boss, weapons: weapons, options: options, hearts: hearts,
+      boss: boss, mode: q.get('mode') || 'story', startStage: Number(q.get('startStage')) || 1,
+      weapons: weapons, options: options, hearts: hearts,
+      cheats: { godmode: q.get('godmode') === '1', timescale: q.get('timescale') === '1', widejudge: q.get('widejudge') === '1', showhitbox: q.get('showhitbox') === '1' },
+      onEnd: function (r) { showMenu('さいこう ステージ ' + r.stage + '・さいこう コンボ ' + r.bestCombo + '・スコア ' + r.score + (r.cheated ? '（チートつき）' : '')); },
       onWin: function (r) { showMenu(names[r.boss] + ' に かった！ ' + r.seconds + 'びょう・ライフ ' + r.hearts + '/' + r.maxHearts); },
       onLose: function (choice) { if (choice === 'retry') go(); else showMenu('まちに もどった'); }
     });

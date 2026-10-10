@@ -2,6 +2,16 @@
 (function(root){'use strict';
 const RYW=root.RYW=root.RYW||{};
 RYW.words={
+ bpm:{"word":"BPM","yomi":"ビーピーエム","kind":"game","sora":"1ぷんに ビートが なんかい あるか","real":"テンポを あらわす かず。大きいほど はやい","code":"","where":"ボスせんの リズム"},
+ beat:{"word":"ビート","yomi":"","kind":"game","sora":"ビートに あわせて おしてみて","real":"おんがくの きざみ","code":"","where":"ボスせんの リズム"},
+ timing:{"word":"タイミングはんてい","yomi":"","kind":"game","sora":"ずれが ちいさいほど つよいよ","real":"おした じかんと ビートの ずれを はかる","code":"","where":"ボスせんの リズム"},
+ combo:{"word":"コンボ","yomi":"","kind":"game","sora":"つづけて せいこうしたよ！","real":"つづけて うまく いった かず","code":"","where":"ボスせんの リズム"},
+ notes:{"word":"ノーツ","yomi":"","kind":"game","sora":"ながれてくる しるしに あわせよう","real":"リズムゲームで ながれてくる しるし","code":"","where":"ボスせんの リズム"},
+ cheat:{"word":"チート","yomi":"","kind":"game","sora":"ルールを かえる ひみつの どうぐ","real":"ゲームの きまりを かえて らくにする こと","code":"","where":"デバッグモード"},
+ debugmode:{"word":"デバッグモード","yomi":"","kind":"code","sora":"つくる人が テストに つかう モード","real":"かいはつしゃが たしかめるための きのう","code":"","where":"デバッグモード"},
+ godmode:{"word":"ゴッドモード","yomi":"","kind":"game","sora":"なにが あたっても へいき","real":"ダメージを うけない テスト用の きのう","code":"","where":"デバッグモード"},
+ timescale:{"word":"タイムスケール","yomi":"","kind":"code","sora":"じかんの はやさを かえるよ","real":"ゲームの じかんを なんばいに するか","code":"","where":"デバッグモード"},
+ iap:{"word":"アプリないかきん","yomi":"","kind":"net","sora":"おうちの人と そうだんしてね","real":"アプリの なかで おかねを はらって かうこと","code":"","where":"デバッグモード"},
  jikkou:{"word":"じっこう","yomi":"","kind":"code","sora":"めいれいを うごかすよ！","real":"プログラムを うごかすこと","code":"run()","where":"たたかいの じっこう"},
  prompt:{"word":"プロンプト","yomi":"","kind":"ai","sora":"してほしいことを ことばで つたえてね","real":"AIへの おねがいの ことば","code":"","where":"つくるの プロンプト"},
  forloop:{"word":"for ループ","yomi":"フォー","kind":"code","sora":"おなじ うごきを くりかえすよ","real":"きめた かずだけ くりかえす めいれい","code":"for(i=0;i<2;i++)","where":"つくるの くりかえし こうげき"},
