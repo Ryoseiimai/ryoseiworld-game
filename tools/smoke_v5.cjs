@@ -23,10 +23,11 @@ const OUT = path.resolve(arg('out', process.env.SMOKE_OUT || path.join(require('
 const EXTERNAL_URL = arg('url', '');
 const FORMAT = arg('format', 'png') === 'jpeg' ? 'jpeg' : 'png'; // CI uses jpeg to keep the repo small
 const VIEWPORTS = [
-  { name: 'mobile', width: 390, height: 664 },
+  { name: 'mobile', width: 390, height: 844 },
   { name: 'desktop', width: 1280, height: 720 },
+  { name: 'square', width: 800, height: 800 },
 ];
-const MAX_MAPS = 8, MAX_BATTLES = 3, MAX_CHAPTERS = 8, MAX_BOSSES = 6;
+const MAX_MAPS = 8, MAX_BATTLES = 2, MAX_CHAPTERS = 8, MAX_BOSSES = 6;
 const STORAGE_PREFIX = 'ryoseiworld-rpg-v5'; // autodev/RULES.md: v5 save keys start with this; clear() is never used
 
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.cjs': 'text/javascript', '.json': 'application/json',
@@ -197,11 +198,15 @@ async function runViewport(browser, url, vp, errors, shots) {
     } else skip('chapters', 'no __v5.debugStartChapter');
 
     if (await has('debugStartBoss')) {
+      // jibun/zero get a full win-through-title run via the game's own 'full-run' smokeScene (R32), so this
+      // loop only needs a start screenshot for them (kept within the 3-minute budget for all three viewports).
       const bosses = await page.evaluate(() => {
         const d = window.__v5.GAME_DATA || {};
-        if (Array.isArray(d.bosses)) return d.bosses.map(b => (b && b.id) || b).filter(x => typeof x === 'string');
-        if (d.bosses && typeof d.bosses === 'object') return Object.keys(d.bosses);
-        return Object.entries(d.enemies || {}).filter(([, e]) => e && (e.boss || e.kind === 'boss')).map(([k]) => k);
+        const skipFull = new Set(['jibun', 'zero']);
+        const all = Array.isArray(d.bosses) ? d.bosses.map(b => (b && b.id) || b).filter(x => typeof x === 'string')
+          : d.bosses && typeof d.bosses === 'object' ? Object.keys(d.bosses)
+          : Object.entries(d.enemies || {}).filter(([, e]) => e && (e.boss || e.kind === 'boss')).map(([k]) => k);
+        return Array.isArray(window.__v5.smokeScenes) && window.__v5.smokeScenes.some(s => s && s.name === 'full-run') ? all.filter(b => !skipFull.has(b)) : all;
       });
       for (const b of bosses.slice(0, MAX_BOSSES)) {
         try { await call('debugStartBoss', [b]); await sleep(800); await shot('boss-' + b); await page.waitForTimeout(1500); await shot('boss-' + b + '-later'); }
