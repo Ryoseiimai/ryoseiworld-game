@@ -41,5 +41,31 @@
     "status": "pending",
     "task": "R26",
     "requested_at": "2026-10-10T12:40:00+09:00"
+  },
+  {
+    "id": "art-20261010-1240-enemies_sheet_v2",
+    "file": "v5/assets/enemies_sheet.png",
+    "size": "1024x1024",
+    "grid": "3x3",
+    "out": "v5/assets/enemies",
+    "name": "enemies",
+    "prompt": "Pixel art sprite sheet, 3x3 grid, top-down RPG enemy sheet, same soft 16-bit style as the reference. Keep frames 0-4 and 8 as they already are (a buggy vending machine, a glitch crow, a spam-mail swarm, a popup ghost, a leaking cable, a cat wearing another cat's mask) and add three new frames in their place: frame 5 a small cartoon 'infinite loading' ghost made of a spinning ring/spinner shape with a blank face, frame 6 a cartoon rampaging robot vacuum cleaner tilted forward mid-dash with little speed lines, frame 7 a soft hazy purple-pink glowing ghost blob labelled nothing, confident-looking with a sparkle, not scary, a little funny. Transparent background, no text.",
+    "ref": "v5/assets/enemies_sheet.png",
+    "status": "pending",
+    "task": "R38",
+    "requested_at": "2026-10-10T12:40:00+09:00"
+  },
+  {
+    "id": "art-20261010-1240-numberperson",
+    "file": "v5/assets/numberperson_sheet.png",
+    "size": "1024x1024",
+    "grid": "2x2",
+    "out": "v5/assets/numberperson",
+    "name": "numberperson",
+    "prompt": "Pixel art sprite sheet, 2x2 grid, top-down RPG town NPC in the same soft 16-bit style as the reference. Four ordinary adults standing still, each with a plain grey featureless face (no eyes, no mouth, just smooth grey) and a small glowing number floating just above their head like a thought bubble. Casual clothes, neutral standing pose, not scary, a little sad and funny. Each frame centered, same size, transparent background, no text.",
+    "ref": "v5/assets/npc2_sheet.png",
+    "status": "pending",
+    "task": "R38",
+    "requested_at": "2026-10-10T12:40:00+09:00"
   }
 ]

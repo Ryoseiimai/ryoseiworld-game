@@ -657,6 +657,25 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('neon_stadium',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='ヒカクマオウ'),'the boss is gone after the win');while(r.g.dialogue)r.dialogue();
   for(const k of ['hikakuTalk','hikakuGone','hikakuClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 boss line fits '+row);}
  result.push('ヒカクマオウ: stadium boss fight, shooter boss id hikaku, win plays the clear scene and chapter card to ノイズのとう, object gone after PASS');
+ // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
+  for(const id of ['popup','infload','vacuum','hallucination'])assert(m.enemies.some(e=>e.type===id),'neon has a '+id+' zako');
+  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='npc2'&&o.sign,id+' is a numbered person');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
+  assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
+  assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
+  st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);
+  assert(r.g.debugWords().includes('hallucination'),'first encounter calls RYW.learn');
+  Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});
+  assert.equal(r.els.get('enemy-meter').style.width,'100%','the HP bar is a lie before the search');
+  const before=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);const halfDmg=before-r.g.battle.enemy.hp;
+  assert(halfDmg>0,'still takes some damage');assert.equal(r.els.get('enemy-meter').style.width,'100%','the bar still lies after a hit');
+  r.cmd('summon');r.button('サーチフクロウ');r.tick(1000);
+  assert(r.g.battle.log.includes('でどころが ない'),r.g.battle.log);assert(r.g.battle.hallReveal,'the real HP is shown from here');r.tick(3000);
+  const before2=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);const doubleDmg=before2-r.g.battle.enemy.hp;
+  assert(doubleDmg>=halfDmg*3,'けんさく のあとはダメージ2倍（半分→2倍で4倍前後）: '+halfDmg+' -> '+doubleDmg);
+  assert(Number.parseFloat(r.els.get('enemy-meter').style.width)<100,'the real HP bar shows once revealed');}
+ result.push('ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after PASS');
  // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
  {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
   const plain=x=>JSON.parse(JSON.stringify(x)),defaults={v:1,jump:6,sprite:0,title:'ja',deployed:false};
