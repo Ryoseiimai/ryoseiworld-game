@@ -3,7 +3,11 @@
 // 使い方: node tools/test_shooter.cjs   （--verbose で時間の表を細かく出す）
 'use strict';
 const path = require('path');
-const Shooter = require(path.join(__dirname, '..', 'v5', 'js', 'shooter.js'));
+const shooterPath = path.join(__dirname, '..', 'v5', 'js', 'shooter.js');
+const legacyShooter = require(shooterPath);
+require(path.join(__dirname, '..', 'v5', 'data', 'words.js'));
+delete require.cache[require.resolve(shooterPath)];
+const Shooter = require(shooterPath);
 const sim = Shooter._sim;
 const DT = 1 / 60;
 const verbose = process.argv.includes('--verbose');
@@ -18,6 +22,18 @@ function toPlay(w) { let n = 0; while (w.state === 'intro' && n++ < 1000) sim.st
 function run(w, sec, inp) { const end = w.t + sec - 1e-9; let guard = 0; while (w.t < end && guard++ < 1e6) sim.step(w, DT, typeof inp === 'function' ? inp(w) : (inp || IDLE)); }
 function world(cfg) { return toPlay(sim.createWorld(Object.assign({ seed: 7 }, cfg))); }
 function clearBullets(w) { w.eb = []; w.bugs = []; }
+
+// R42 keeps every combat number; only names and brief visual explanations change.
+check('words.jsなしでも旧名で動く', legacyShooter._sim.WEAPONS[0].name === 'フクの ひかりだま' && legacyShooter._sim.createWorld({}).p.hearts === 3);
+check('新しい武器名8種', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','あたりはんてい チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
+check('クールダウンの実値を表示', Shooter.cooldownText() === sim.FIRE_INTERVAL.toFixed(2) + '→' + sim.RAPID_INTERVAL.toFixed(2) + ' びょう' && sim.WEAPONS[1].desc.includes(Shooter.cooldownText()));
+(() => {
+  const w = world({boss:'jibun',weapons:['twin','barrier']});
+  w.p.fireCd = 0; sim.step(w, DT, IDLE); const first = w.vectorHint;
+  check('初めて撃つとベクトルの矢印を0.5秒', !!first && Math.abs(first.until - w.t - .5) < 1e-9);
+  const until = first.until; run(w,1); check('連射しても矢印の時間は延長しない', w.vectorHint.until === until && w.t > until);
+  sim.hurt(w); check('if バリアの説明は0.6秒', Math.abs(w.ifUntil - w.t - .6) < 1e-9 && w.p.hearts === 3);
+})();
 
 // ---- 1. 5体のボスと背景 ----
 const B = sim.BOSSES;

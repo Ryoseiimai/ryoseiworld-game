@@ -38,8 +38,11 @@ Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour a
 Bond rewards: weapons and money (おこづかい / おれい) per heart count with lines, no double weapon; weapons saved, cleaned on load, cloud allowlist; debugGiveWeapon PASS
 Menu: きずな lists met people (家/友/恋, hearts, spirit, next reward hint), ぶき lists weapons with what they do; rows fit; met saved and cleaned PASS
 Chapter 1 bonds: mother, sister, repair man, game kid, hacker, clerk each have a request, a liked thing (asked after the request) and rewards PASS
-Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ハートの てがみ; npc2 picture; met by talking PASS
+Mio: hairclip from the sandbox raises her heart, the paper letter after the town is quiet gives ホーミング レター; npc2 picture; met by talking PASS
 Chapter 2 ミナモちょう: river, park, library, friend's house, worry walls block, spam / cable / masked cat, grandpa key after 3 noises, own zakoDone line, quest arrow to minamo noises, bus PASS
 Search Owl: library quiz (3 questions, wrong answer asks again), joins with the grandpa bond, overdue book errand and onigiri gift (おこづかい, てづくり おにぎり), owl shows the next move and 2 turns at 1.5x PASS
 Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS
+ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium (shut), mural wall on the neon sheet PASS
 カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS
+Words: 38 unique ids, fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS
+Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS
