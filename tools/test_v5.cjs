@@ -23,7 +23,7 @@ function pngPixels(file){
  decoded.set(file,{data});return {data};
 }
 
-async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false}={}) {
+async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false}={}) {
   const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
@@ -35,7 +35,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
     getContext(){return context2d}
     replaceChildren(){this.children=[]}
-    appendChild(el){this.children.push(el)}
+    appendChild(el){if(el.parentNode)el.parentNode.children=el.parentNode.children.filter(c=>c!==el);el.parentNode=this;this.children.push(el);return el}
     getBoundingClientRect(){const s=Math.min(sandbox.window.innerWidth/540,sandbox.window.innerHeight/960);return {left:(sandbox.window.innerWidth-540*s)/2,top:(sandbox.window.innerHeight-960*s)/2,width:540*s,height:960*s}}
     setPointerCapture(){}
     focus(){document.activeElement=this}
@@ -79,10 +79,11 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     system:{onPause(cb){host.pause=cb;if(initialPause)cb()},onResume(cb){host.resume=cb},
       isAudioEnabled(){return host.enabled},onAudioEnabledChange(cb){host.audio=cb}}
   };
-  for(const s of scripts){if(omitWords&&s.file==='v5/data/words.js')continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
+  for(const s of scripts){if((omitWords&&s.file==='v5/data/words.js')||(omitProto&&s.file==='v5/js/proto.js'))continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
   // The side-scrolling boss battle needs a real browser (tools/test_shooter.cjs and the smoke cover it); here a double records each start.
   const shooterRuns=[];assert(sandbox.window.RYW.Shooter,'index.html loads js/shooter.js after the engine');
   sandbox.window.RYW.Shooter.start=cfg=>{const h={cfg,stopped:false,stop(){h.stopped=true;}};shooterRuns.push(h);return h;};
+  const protoRuns=[];if(!omitProto){assert(sandbox.window.RYW.Proto,'index.html loads js/proto.js');sandbox.window.RYW.Proto.open=cfg=>{protoRuns.push(cfg);return {close(){}};};}
   await new Promise(setImmediate);await new Promise(setImmediate);
   const hasLoop=()=>rafs.some(r=>r.f.name==='loop');
   if(!holdLoad && !initialPause)assert(hasLoop(),'boot complete');
@@ -98,7 +99,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
+  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -160,10 +161,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // F15: the town comes back first, then the closing lines. R19: then Sora and RYOSEI make a tiny game at home (the key item for chapter 2).
  assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert(!t.g.dialogue);t.tick(2100);assert(t.g.dialogue);assert(t.g.dialogue.lines.some(l=>l[1].includes('ノイズに のまれてる')));t.dialogue();
  assert.equal(t.g.screen,'field','no chapter card before the bus');assert.equal(t.g.map,'room','the game is made on the home PC');
- for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);assert(t.g.dialogue.lines.some(l=>l[1].includes('ピコッ')));t.dialogue();for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);
+ for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);assert(t.g.dialogue.lines.some(l=>l[1].includes('ジャンプ')));t.dialogue();assert.equal(t.protoRuns.length,1);assert.equal(t.protoRuns[0].mode,'lesson');assert(!t.g.state.flags.gameMade);t.protoRuns[0].onDone({...t.protoRuns[0].state,jump:9});for(let i=0;i<20&&!t.g.dialogue;i++)t.tick(200);
  assert(t.g.dialogue.lines.some(l=>l[1].includes('ゲームが できた')));t.dialogue();assert.equal(t.g.state.items.firstgame,1);assert(t.g.state.flags.gameMade);assert.equal(t.g.questStep,'cleared');await settle();assert.equal(JSON.parse(t.saved.get('ryoseiworld-rpg-v5')).items.firstgame,1,'the game is saved');
  // The key item: listed under どうぐ with its words, not sold at the store, not usable in battle.
- t.tick(300);t.click('menu-btn');t.button('アイテム');{const b=t.els.get('modal-buttons').children.find(x=>x.textContent==='はじめて つくった ゲーム');assert(b,'key item listed');b.onclick();assert(t.g.dialogue.lines[0][1].includes('ピコッ'));t.dialogue();assert.equal(t.g.modal,'items');assert.equal(t.g.state.items.firstgame,1,'reading does not use it');t.button('もどる');t.key('Escape');}
+ t.tick(300);t.click('menu-btn');t.button('アイテム');{const b=t.els.get('modal-buttons').children.find(x=>x.textContent==='はじめて つくった ゲーム');assert(b,'key item listed');b.onclick();assert.equal(t.g.modal,'firstgame');t.button('しらべる');assert(t.els.get('modal-title').textContent.includes('v1'));assert(t.els.get('modal-copy').textContent.includes('ピコッ'));t.button('もどる');t.button('もどる');assert.equal(t.g.modal,'items');assert.equal(t.g.state.items.firstgame,1,'reading does not use it');t.button('もどる');t.key('Escape');}
  assert(!Object.values(t.g.GAME_DATA.items).filter(v=>!v.key).some(v=>v.name==='はじめて つくった ゲーム'));
  // The bus stop by the police box: the first ride ends chapter 1 and opens chapter 2 in ミナモちょう.
  t.tick(300);assert(talk(t,'town',12,16.9).includes('バスに のった'));while(t.g.dialogue)t.dialogue();assert.equal(t.g.screen,'ending');assert(t.els.get('ending-heading').textContent.includes('2しょう'));assert(t.els.get('ending-heading').textContent.includes('ミナモちょう'));
@@ -322,8 +323,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
  // R5: event steps (say, choice, quiz, join, give, take, flag, if) run from data only; every step in the chapter data names something that exists.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const D=r.g.GAME_DATA,verbs=['say','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift'];
+  const D=r.g.GAME_DATA,verbs=['say','proto','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift'];
   const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
+   if(v[0]==='proto')assert(['lesson','play'].includes(s.proto),where+' prototype mode');
    if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
    if(['give','take'].includes(v[0]))assert(Object.hasOwn(D.items,s[v[0]]),where+' item '+s[v[0]]);if(v[0]==='join')assert(Object.hasOwn(D.summons,s.join),where+' summon '+s.join);
    if(v[0]==='choice'){assert(s.options.length>=2&&s.options.length<=3,where+' choice 2-3');for(const o of s.options)assert(o.text.length<=16,where+' choice text fits');s.options.forEach((o,i)=>check(o.then||[],where+'.choice'+i));}
@@ -640,6 +642,28 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const k of ['neonSign','rankingTower','selfiePlaza','chartTower','stadiumShut','muralWall','cafeAsk','cafeSleep','cafeMorning','cafeBye','cafePc','capsuleBed'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 line fits '+row);}
  result.push('ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium (shut), mural wall on the neon sheet PASS');
  result.push('カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS');
+ // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
+  const plain=x=>JSON.parse(JSON.stringify(x)),defaults={v:1,jump:6,sprite:0,title:'ja',deployed:false};
+  assert.deepEqual(plain(r.g.debugProto()),defaults);const copy=r.g.debugProto();copy.jump=3;assert.equal(r.g.debugProto().jump,6,'debug returns a copy');
+  const scene=r.g.GAME_DATA.chapters[1].clearEvent,at=scene.findIndex(s=>s.say==='makeGame');assert.equal(scene[at+1].proto,'lesson');
+  const lines=r.g.GAME_DATA.dialogue.makeGame;assert.equal(lines.length,2);for(const [,text] of lines)for(const line of text.split('\n'))assert([...line].length<=30);
+  let finished=0,received;r.key('ArrowRight');r.g.debugEvent([{proto:'lesson'},{flag:'protoDone'}],()=>{finished++;received=plain(r.g.debugProto());});
+  assert.equal(r.protoRuns.length,1);const cfg=r.protoRuns[0];assert.equal(cfg.mode,'lesson');assert.deepEqual(plain(cfg.state),defaults);assert.equal(cfg.aiName,'ほし');assert.equal(cfg.platform,r.g.platform);assert.equal(cfg.learn,r.RYW.learn);cfg.learn('prototype');cfg.learn('hensuu');assert(r.g.debugWords().includes('hensuu'));assert.equal(r.els.get('word-card').parentNode,r.els.get('proto-words'));assert.equal(r.els.get('word-card').style.top,'104px');assert(!r.els.get('word-card').hidden);r.resize(540,960);assert.equal(r.els.get('proto-words').style.transform,r.els.get('stage').style.transform);
+  const pos=plain(r.g.position);r.tick(1000);r.key('ArrowDown');r.tick(1000);r.click('menu-btn');r.key('Escape');r.click('talk-btn');assert.equal(r.g.modal,'');assert(!r.g.dialogue);assert.deepEqual(plain(r.g.position),pos);assert(!r.g.state.flags.protoDone);assert.equal(finished,0);
+  const next={v:4,jump:3,sprite:2,title:'en',deployed:true};cfg.onDone(next);assert(r.g.state.flags.protoDone);assert.equal(finished,1);assert.deepEqual(received,next);assert.equal(r.els.get('word-card').parentNode,r.els.get('stage'));next.jump=9;assert.equal(r.g.debugProto().jump,3,'completion state is copied');cfg.onDone(defaults);assert.equal(finished,1,'duplicate completion is ignored');
+  r.tick(300);assert.deepEqual(plain(r.g.position),pos,'held keys do not resume after closing');r.key('ArrowRight');r.tick(200);r.key('ArrowRight',true);assert(r.g.position.x>pos.x,'walking resumes');
+  await r.g.save(false);const saved=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(saved.saveVersion,2);assert.deepEqual(saved.proto,received);
+  const re=await runtime({saved:r.saved});re.tick();re.click('continue-btn');assert.deepEqual(plain(re.g.debugProto()),received);
+  for(const proto of [undefined,null,[]]){const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...saved,proto})]])});old.tick();assert(!old.els.get('continue-btn').disabled);old.click('continue-btn');assert.equal(old.g.screen,'field');assert.deepEqual(plain(old.g.debugProto()),defaults);}
+  r.g.state.items.firstgame=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button('はじめて つくった ゲーム');assert.deepEqual(r.els.get('modal-buttons').children.map(b=>b.textContent),['あそぶ','しらべる','もどる']);r.button('しらべる');assert(r.els.get('modal-title').textContent.includes('v4'));assert.equal(r.els.get('modal-copy').textContent,r.g.GAME_DATA.items.firstgame.desc);r.button('もどる');r.button('あそぶ');
+  const play=r.protoRuns.at(-1);assert.equal(play.mode,'play');assert.deepEqual(plain(play.state),received);r.click('menu-btn');assert.equal(r.g.modal,'');play.onDone(play.state);assert.equal(r.g.modal,'items');assert.equal(r.g.state.items.firstgame,1);
+  r.tick(300);r.key('Escape');r.g.debugOpenProto('play');assert.equal(r.protoRuns.at(-1).mode,'play');r.protoRuns.at(-1).onDone(received);
+  r.g.debugEvent([{proto:'play'},{flag:'playDone'}]);assert(!r.g.state.flags.playDone);r.protoRuns.at(-1).onDone(received);assert(r.g.state.flags.playDone);
+  const no=await runtime({omitProto:true});no.tick();no.g.debugStartChapter(2);no.g.debugEvent([{proto:'lesson'},{proto:'play'},{flag:'withoutProto'}]);assert(no.g.state.flags.withoutProto,'missing script immediately continues');no.click('menu-btn');assert.equal(no.g.modal,'menu');
+  const cloud=await runtime({sdk:true});cloud.tick();cloud.g.debugStartChapter(2);cloud.g.debugOpenProto('lesson');cloud.protoRuns[0].onDone(received);await cloud.g.save(false);assert.deepEqual(cloud.saves.at(-1).proto,received);
+ }
+ result.push('Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS');
  // R39-R42: vocabulary data, collection, save compatibility, nonblocking cards and prompt turns.
  {const wordsSource=scripts.find(s=>s.file==='v5/data/words.js');assert(wordsSource,'index loads words');
   const ids=[...wordsSource.code.matchAll(/^ ([a-z]+):\{/gm)].map(m=>m[1]);assert.equal(ids.length,48);assert.equal(new Set(ids).size,48,'no duplicate declarations');

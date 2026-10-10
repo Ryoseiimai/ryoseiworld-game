@@ -5,7 +5,7 @@ const {object,person,prop,props}=RYW.helpers;
 const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 // After BUG KING (SPEC_V5_CH234.md): Sora and RYOSEI make a tiny game on the old PC, and the item opens chapter 2.
 // The bus runs it too, so a reload between the boss and the scene still gets the game before leaving town.
-const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'makeGame'},{flash:'#fff4c8',ms:400},{wait:400},{give:'firstgame'},{flag:'gameMade'},{say:'makeGameDone'},{save:'quiet'}];
+const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'makeGame'},{proto:'lesson'},{flash:'#fff4c8',ms:400},{wait:400},{give:'firstgame'},{flag:'gameMade'},{say:'makeGameDone'},{save:'quiet'}];
 // Bus stops (SPEC_V5_CH234.md): the first ride ends chapter 1; after that the bus goes back and forth between the towns it has been to.
 // Chapter 2 points its own bus stop at the same busStop event, so the stops are written once.
 const busStops=[{text:'ヒダマリちょう',map:'town',at:[11,17.4]},{text:'ミナモちょう',map:'minamo',at:[11.6,31.4],if:'minamoVisited'}];
@@ -190,7 +190,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  zakoLeft:[['ソラ','ノイズが ひとつ しずまった。\nあと {n}つ。']],
  zakoDone:[['ソラ','まちが しずかに なってきた。\nこうばんに いこう。']],
  makeGameAsk:[['ソラ','でかける まえに\nひとつ つくって みない？'],['RYOSEI','なにを？'],['ソラ','ちいさな ゲーム。\nいえの パソコンで。']],
- makeGame:[['','ふるい パソコンに\nふたりで むかった。'],['ソラ','しゅじんこうは しかく。\nてきも しかく。'],['RYOSEI','ぜんぶ しかくじゃん。'],['ソラ','ボタンを おすと\nジャンプして\nおとが なる。'],['','ピコッ。'],['RYOSEI','…なった。\nおれが つくった おとだ。']],
+ makeGame:[['ソラ','しかくを ジャンプさせる\nゲームを つくろう。'],['ソラ','かずを かえると\nとびかたが かわるよ。']],
  makeGameDone:[['','はじめて つくった\nゲームが できた！'],['ソラ','だれかに みせたく\nなったら みせよう。'],['ソラ','バスで となりの\nミナモちょうへ いこう。'],['ソラ','バスていは\nこうばんの よこだよ。']],
  busWait:[['バスてい','つぎの バスは\nノイズが はれてから。'],['ソラ','いまは まちを\nなおすのが さき。']],
  busRide:[['','バスに のった。'],['ソラ','つぎは ミナモちょう。\nかわぞいの まちだって。'],['RYOSEI','まどの そと、\nだれも あるいてない。']],

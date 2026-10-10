@@ -1,7 +1,7 @@
 Title → prologue → naming → Naoslime tutorial (no escape, summon hold timing) → bedroom PASS
 Walking portal, locked shop, police request, contact encounter and real victory PASS
 3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS
-Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines 72, ordinary battles 3 PASS
+Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines 67, ordinary battles 3 PASS
 Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss PASS
 Lethal HP roll can be rescued by Naoslime before zero PASS
 Insufficient battery consumes no turn; arrow/WASD command cursor; Esc keeps focus; defeat restores last checkpoint PASS
@@ -44,5 +44,6 @@ Search Owl: library quiz (3 questions, wrong answer asks again), joins with the 
 Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS
 ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium (shut), mural wall on the neon sheet PASS
 カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS
+Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS
 Words: 38 unique ids, fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS
 Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS
