@@ -87,7 +87,11 @@ cmd_fence() {
 cmd_plan() {
   local explicit="${1:-}" force="${2:-}" list=() seen=" " ts ref b cutoff
   fetch_all >&2 || echo "::warning::fetch failed" >&2
-  if stopped; then echo "autodev/STOP が main にあるので何もしない" >&2; return 0; fi
+  # STOP pauses the unattended developer and the art worker. The command center's own lanes
+  # (claude/autodev-lead-*) are supervised, so they still go through the same checks and merge.
+  local only_lead=""
+  if stopped; then only_lead=1; echo "autodev/STOP が main にあるので、司令塔の枝（claude/autodev-lead-）だけを見る" >&2; fi
+  lead_ok() { [ -z "$only_lead" ] && return 0; case "$1" in claude/autodev-lead-*) return 0 ;; esac; return 1; }
   needs_check() {
     local tip
     tip="$(git rev-parse -q --verify "refs/remotes/origin/$1^{commit}")" || return 1
@@ -99,7 +103,7 @@ cmd_plan() {
   add() { list+=("$1@$(git rev-parse "refs/remotes/origin/$1^{commit}")"); seen+="$1 "; }
   if [ -n "$explicit" ]; then
     if valid_branch "$explicit" && git rev-parse -q --verify "refs/remotes/origin/$explicit" >/dev/null; then
-      needs_check "$explicit" && add "$explicit"
+      lead_ok "$explicit" && needs_check "$explicit" && add "$explicit"
     else
       echo "::warning::not an autodev branch or not found: $explicit" >&2
     fi
@@ -112,6 +116,7 @@ cmd_plan() {
     [ "$ts" -lt "$cutoff" ] && continue
     case "$seen" in *" $b "*) continue ;; esac
     valid_branch "$b" || continue
+    lead_ok "$b" || continue
     needs_check "$b" && add "$b"
   done < <(git for-each-ref --sort=committerdate --format='%(committerdate:unix) %(refname)' 'refs/remotes/origin/claude/')
   echo "Branches to check: ${list[*]:-(none)}" >&2
@@ -219,7 +224,7 @@ record_one() {
   safe="$(safe_of "$b")"; work="$GATE_TMP/$safe"; rm -rf "$work"; mkdir -p "$work"
   errors="$work/errors.txt"; : > "$errors"
   fetch_one "$b" || { echo "fetch failed for $b"; return 1; }
-  if stopped; then echo "autodev/STOP が main にあるので $b は記録しない"; return 2; fi
+  if stopped; then case "$b" in claude/autodev-lead-*) ;; *) echo "autodev/STOP が main にあるので $b は記録しない"; return 2 ;; esac; fi
   git checkout -q -B autodev-gate origin/main && git reset -q --hard origin/main && git clean -fdq
   if ! git cat-file -e "$sha^{commit}" 2>/dev/null; then echo "$sha is gone"; return 2; fi
   if git merge-base --is-ancestor "$sha" origin/main; then echo "$b @ ${sha:0:7} はもう main に入っている"; return 2; fi
