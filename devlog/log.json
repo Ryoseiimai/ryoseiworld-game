@@ -588,5 +588,45 @@
   ],
   "sha": "03cf4f0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38013171460"
+ },
+ {
+  "at": "2026-10-10T01:35:28.521Z",
+  "branch": "claude/autodev-lead-20261010-R43",
+  "task": "R43 プロトタイプのミニゲーム（v5/js/proto.js）",
+  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
+  "result": "pass",
+  "shots": [
+   "shots/47/mobile-03-after-start.jpg",
+   "shots/47/mobile-11-map-minamo.jpg",
+   "shots/47/mobile-19-chapter-3.jpg",
+   "shots/47/mobile-29-battle-kateino.jpg"
+  ],
+  "sha": "8a60e7a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38013463732"
+ },
+ {
+  "at": "2026-10-10T01:38:00.674Z",
+  "branch": "claude/autodev-lead-20261010-R43",
+  "task": "R43 プロトタイプのミニゲーム（v5/js/proto.js）",
+  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
+  "result": "pass",
+  "shots": [
+   "shots/49/mobile-03-after-start.jpg",
+   "shots/49/mobile-11-map-minamo.jpg",
+   "shots/49/mobile-19-chapter-3.jpg",
+   "shots/49/mobile-29-battle-kateino.jpg"
+  ],
+  "sha": "d409300",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38013621256"
+ },
+ {
+  "at": "2026-10-10T01:41:35.982Z",
+  "branch": "claude/autodev-lead-20261010-R44",
+  "task": "R44 1章の制作場面をプロトタイプにする（R39・R43 の後）",
+  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
+  "result": "fail",
+  "shots": [],
+  "sha": "4d94848",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38013836563"
  }
 ]
