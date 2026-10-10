@@ -489,10 +489,12 @@ function startBoss(type,id,ready=false){const def=GAME_DATA.enemies[type],S=wind
   onLose(choice){shooter=null;if(choice==='retry'){screen('field');startBoss(type,id);return;}screen('field');const back=chapter().clearSpot;if(back)enterMap(...back);g.hero=entity(g.hero.maxHp);immuneUntil=gameTime+2500;g.holdUntil=gameTime+300;say(GAME_DATA.dialogue.bossRetreat?lines('bossRetreat'):[['ソラ','いったん もどろう。\nじゅんびして また こよう。']],()=>{});}});}
  catch(e){console.warn('shooter',e);try{document.querySelectorAll('.ryw-shooter').forEach(el=>el.remove());}catch(_){}shooter=null;screen('field');return startBattle(type,id);}
  return true;}
-function bossWon(type,id,r){const def=GAME_DATA.enemies[type],ups=rewards(def),won=[...lines('zakoWin',{name:def.name,exp:def.exp,money:def.money}),...levelLines(ups)];g.defeated[id]=gameTime+GAME_DATA.rules.respawn;screen('field');immuneUntil=gameTime+2500;sfx.victory();if(ups)later(()=>sfx.levelup(),800);if(bossClears(type)){clearChapter(type,won);return;}
- // R29: a boss that is not this chapter's own final boss (ジブン before ゼロ) can still carry its own one-shot event via def.winEvent, without ending the chapter.
- if(def.boss&&def.winEvent&&!g.bosses.includes(type)){g.bosses.push(type);say(won,()=>runEvent(def.winEvent));return;}
- say(won,()=>{});}
+function bossWon(type,id,r){const def=GAME_DATA.enemies[type],ups=rewards(def),lv=levelLines(ups);g.defeated[id]=gameTime+GAME_DATA.rules.respawn;screen('field');immuneUntil=gameTime+2500;sfx.victory();if(ups)later(()=>sfx.levelup(),800);
+ // FUN7: a chapter's own boss and its lead-in (ジブン→ゼロ) go straight into the scripted clear line — the mechanical
+ // "name+経験値+お金をもらった" line (below) used to play first, which flattened the climax (ジブン=0exp/0moneyだと特に素っ気なかった).
+ if(bossClears(type)){clearChapter(type,lv);return;}
+ if(def.boss&&def.winEvent&&!g.bosses.includes(type)){g.bosses.push(type);if(lv.length)say(lv,()=>runEvent(def.winEvent));else runEvent(def.winEvent);return;}
+ say([...lines('zakoWin',{name:def.name,exp:def.exp,money:def.money}),...lv],()=>{});}
 function stopBoss(){g.lift=null;if(shooter){const s=shooter;shooter=null;try{s.stop();}catch(_){}}}
 // The town brightens first, then the closing lines play and lead to the chapter card, or to the chapter's clearEvent (its own steps end with chapterClear).
 // Only this chapter's own boss, beaten for the first time, clears it (a check battle with an earlier boss in chapter 2 just ends).
