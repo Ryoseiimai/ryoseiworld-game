@@ -34,7 +34,8 @@
 - 恋愛は12歳らしく。落とし物を届ける・手紙・雨の日に傘に入れる、くらいまで
 - 日本語の文字は24px以上。540x960 の縦長で、文字が重ならない・はみ出さないこと
 - 保存のキーは `ryoseiworld-rpg-v5` で始める。`localStorage.clear()` と、ほかのキーの `removeItem` は使わない。同じ場所（ryoseiimai.github.io）で動く公開中の rpg.html や、ほかのアプリの保存を消さないため。自動確認の smoke がこれを調べる
-- 正本の設計書の順は STORY_V4.md → STORY_V3.md → SPEC_V6.md → SPEC_V5_ENGINE.md → SPEC_V5.md → SPEC_V5_CH234.md。食いちがったら前のものを正とする
+- 正本の設計書の順は SPEC_V7_MANABU.md → STORY_V4.md → STORY_V3.md → SPEC_V6.md → SPEC_V5_ENGINE.md → SPEC_V5.md → SPEC_V5_CH234.md。食いちがったら前のものを正とする
+- 技・ぶき・コマンド・じょうたいの名前は SPEC_V7_MANABU.md の3の表（v5/data/words.js）を使う。新しい言葉を足す時は words.js に入れ、初めて出会う所で RYW.learn(id) を呼ぶ。ソラのひとことと「ほんものでは」は30字まで、本物の意味とずれない言葉だけを使う
 - 新しい絵は自分で描かず、`autodev/ART_REQUESTS.json` に依頼を足し、届くまでは仮の絵（コードで描いた四角と名前）で動かす
 
 ## 5. 進め方
