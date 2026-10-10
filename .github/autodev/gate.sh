@@ -163,6 +163,13 @@ cmd_test() {
           then test_v5=pass
           else test_v5=fail; { echo "test_v5: 失敗（最後の15行）"; tail -n 15 "$work/test_v5.log"; } >> "$errors"; fi
         fi
+        # The boss shooter and the prototype mini game have their own Node tests; a failure counts as test_v5 fail.
+        for extra in test_shooter test_proto; do
+          [ -f "$tree/tools/$extra.cjs" ] || continue
+          if (cd "$tree" && timeout 600 env -i PATH="$PATH" HOME="$tmpd/home" LANG=C.UTF-8 node "tools/$extra.cjs") > "$work/$extra.log" 2>&1
+          then :
+          else test_v5=fail; { echo "$extra: 失敗（最後の15行）"; tail -n 15 "$work/$extra.log"; } >> "$errors"; fi
+        done
         [ -s "$smoke_js" ] || cp "$tree/tools/smoke_v5.cjs" "$smoke_js" 2>/dev/null || true   # bootstrap: main has no smoke yet
         if [ -s "$smoke_js" ]; then
           if timeout 900 node "$smoke_js" --root "$tree" --port "$port" --out "$work/smoke" --format jpeg > "$work/smoke.json" 2> "$work/smoke.err"
