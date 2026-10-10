@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1220">
+<link rel="icon" href="data:,">
+<title>はじめての ゲーム テスト</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#0a1220;color:#fff5d6;font-family:'Hiragino Sans',system-ui,sans-serif;font-size:24px}
+main{max-width:540px;margin:auto;padding:24px}h1{font-size:30px}p{line-height:1.6}
+nav{display:flex;gap:12px;flex-wrap:wrap}a{color:#b9e8df}button{font:inherit;padding:14px 24px;color:#fff5d6;background:#244a50;border:2px solid #91b5a5;border-radius:12px}
+#output{margin-top:36px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:24px/1.5 monospace}
+</style>
+</head>
+<body>
+<main>
+<h1>はじめての ゲーム</h1>
+<nav><a href="?mode=lesson">つくる</a><a href="?mode=play">あそぶ</a><a href="?mode=playtest">プレイテスト</a></nav>
+<p>おすと ジャンプ。<br>スペースでも あそべるよ。</p>
+<button id="again" type="button">もういちど</button>
+<section id="output" aria-live="polite"><p>おわった ときの state</p><pre id="result">まだ あそんでいるよ</pre></section>
+</main>
+<script src="js/proto.js"></script>
+<script>
+(function () {
+  'use strict';
+  var q = new URLSearchParams(location.search), state = {};
+  ['v', 'jump', 'sprite'].forEach(function (key) { if (q.has(key)) state[key] = Number(q.get(key)); });
+  if (q.has('title')) state.title = q.get('title');
+  if (q.has('deployed')) state.deployed = q.get('deployed') === 'true';
+  function go() {
+    document.getElementById('result').textContent = 'まだ あそんでいるよ';
+    RYW.Proto.open({ mode: q.get('mode') || 'lesson', state: state, aiName: q.get('aiName') || 'ソラ',
+      onDone: function (next) {
+        state = next;
+        document.getElementById('result').textContent = JSON.stringify(next, null, 2);
+        document.getElementById('again').focus();
+      }
+    });
+  }
+  document.getElementById('again').addEventListener('click', go);
+  go();
+})();
+</script>
+</body>
+</html>
