@@ -642,6 +642,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const k of ['neonSign','rankingTower','selfiePlaza','chartTower','stadiumChallenge','muralWall','cafeAsk','cafeSleep','cafeMorning','cafeBye','cafePc','capsuleBed'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 line fits '+row);}
  result.push('ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium entrance, mural wall on the neon sheet PASS');
  result.push('カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS');
+ // R26: ヒカクマオウ in the ranking stadium, lifts into the hikaku shooter fight, then the chapter card to ノイズのとう.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;const boss=D.maps.neon_stadium.objects.find(o=>o.id==='neon_boss');
+  assert(boss&&boss.enemy==='hikaku'&&D.enemies.hikaku.boss,'hikaku wired to the stadium');
+  r.g.debugWarp('neon_stadium',5,10);r.g.debugFace(3);r.tick(16);
+  assert(talk(r,'neon_stadium',boss.x,boss.y+1.3).includes('しゃちょう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);if(r.g.modal==='cheats')r.button('はじめる');}
+  assert.equal(r.g.screen,'shooter','boss fight starts');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'hikaku');
+  run.onWin({boss:'hikaku',seconds:120,hearts:2,maxHearts:3,hurts:1});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
+  assert(st.bosses.includes('hikaku'),'hikaku beaten');assert(read.join('\n').includes('すうじが'),read.join('|'));
+  assert.equal(r.g.screen,'ending','chapter card after the boss');assert(r.els.get('ending-heading').textContent.includes('4しょう')&&r.els.get('ending-heading').textContent.includes('ノイズのとう'),r.els.get('ending-heading').textContent);
+  await settle();r.click('ending-title');
+  // The stadium boss object is gone once the town is quiet.
+  r.g.debugWarp('neon_stadium',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='ヒカクマオウ'),'the boss is gone after the win');while(r.g.dialogue)r.dialogue();
+  for(const k of ['hikakuTalk','hikakuGone','hikakuClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 boss line fits '+row);}
+ result.push('ヒカクマオウ: stadium boss fight, shooter boss id hikaku, win plays the clear scene and chapter card to ノイズのとう, object gone after PASS');
  // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
  {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
   const plain=x=>JSON.parse(JSON.stringify(x)),defaults={v:1,jump:6,sprite:0,title:'ja',deployed:false};

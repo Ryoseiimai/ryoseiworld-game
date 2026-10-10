@@ -44,6 +44,7 @@ Search Owl: library quiz (3 questions, wrong answer asks again), joins with the 
 Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS
 ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium entrance, mural wall on the neon sheet PASS
 カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS
+ヒカクマオウ: stadium boss fight, shooter boss id hikaku, win plays the clear scene and chapter card to ノイズのとう, object gone after PASS
 Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS
 Words: 65 unique ids (49 kids + 16 adult-only AI/dev terms), adult/kids fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS
 Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS

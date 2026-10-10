@@ -44,16 +44,20 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[24,25.8]}]};
 const wait={text:'ネオンシティを みて まわろう'};
 // R50: a small reception room, using the existing interior and attendant art.
+// R26: ヒカクマオウ stands at the back of the stadium floor (no art yet, autodev/ART_REQUESTS.json hikaku_throne; a labelled box until it comes).
 maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
  object('nst_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
- object('nst_plant','interior',13,9,7,75,80)],
+ object('nst_plant','interior',13,9,7,75,80),
+ object('neon_boss','hikaku_throne',0,8.4,5.6,150,170,{label:'ヒカクマオウ',action:'boss',enemy:'hikaku',dialogue:'hikakuTalk',clearedDialogue:'hikakuGone',goneWhenCleared:true})],
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[15,35]}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
+ // R26: the boss fight (v5/js/shooter.js hikaku: number blocks weaken the shot, サーチフクロウ doubles the crown, じぶんの ペース backs one step off).
+ boss:'hikaku',clearDialogue:'hikakuClear',clearSpot:['neon',15,35.6],next:4,nextTitle:'ノイズのとう',
  // __v5.debugStartChapter(3): chapters 1 and 2 are done and the train runs.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
- // The quest steps come with the people and noises (R38).
- quests:{cleared:wait,tutorial:wait,zako:wait,key:wait,battery:wait,recruit:wait,boss:wait},
+ // The quest steps for recruit/key/zako come with the people and noises (R24・R25・R38). Until then the stadium boss is reachable directly (no requires on the object).
+ quests:{cleared:wait,tutorial:wait,zako:wait,key:wait,battery:wait,recruit:wait,boss:{text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}}},
  events:{
   netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}]
  },
@@ -69,7 +73,15 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   cafeMorning:[['','HPと でんちが\nぜんぶ もどった！'],['てんいん','おはようございます。\nよく ねてましたね。']],
   cafeBye:[['てんいん','また どうぞ。']],
   cafePc:[['パソコン','ランキングの ページが\nひらいた ままだ。'],['ソラ','とじて おこう。']],
-  capsuleBed:[['カプセル','（なかで だれかが\nスマホを みている）'],['','ピロン ピロン…']]},
+  capsuleBed:[['カプセル','（なかで だれかが\nスマホを みている）'],['','ピロン ピロン…']],
+  // R26: the stadium boss (rpg.html 3章のせりふを移す). The crown glows for サーチフクロウ in the shooter itself.
+  hikakuTalk:[['ヒカクマオウ','おなじ としで\nもう しゃちょう'],['ソラ','すうじに のまれそう…'],['ソラ','かんむりを\nねらって みよう！']],
+  hikakuGone:[['','ヒカクマオウは\nおとなしく なった。']],
+  // 倒したあと: 頭の上の数字が消え、みんなが自分の好きなものの話を始める（SPEC_V5_CH234.md）。
+  hikakuClear:[['','あたまの うえの すうじが\nふっと きえた。'],['まちの ひと','…あれ、なんいだっけ。'],['べつの ひと','わたし ねこが すき。\nそれだけで いいよね。'],['べつの ひと','ひさしぶりに\nそらを みた きがする。']]},
+ enemies:{
+  // The boss is a shooter fight (v5/js/shooter.js hikaku: number blocks that weaken the shot, rings from half HP, じぶんの ペース pickups).
+  hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで もう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']}},
  maps
 });
 })();

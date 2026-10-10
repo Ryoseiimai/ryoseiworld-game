@@ -28,5 +28,18 @@
     "requested_at": "2026-10-10T07:35:00+09:00",
     "done_at": "2026-10-10T07:53:16+09:00",
     "actual_size": "1024x1024"
+  },
+  {
+    "id": "art-20261010-hikaku_throne",
+    "file": "v5/assets/hikaku_throne_sheet.png",
+    "size": "1024x1024",
+    "grid": "1x1",
+    "out": "v5/assets/hikaku_throne",
+    "name": "hikaku_throne",
+    "prompt": "Pixel art sprite, top-down RPG town object in the same soft 16-bit style as the reference. A small golden ranking-podium throne with a glowing crown floating just above it, set on a neon stadium floor. Not scary, a little showy and gaudy. Single frame, centered, transparent background, no text.",
+    "ref": "v5/assets/props_sheet.png",
+    "status": "pending",
+    "task": "R26",
+    "requested_at": "2026-10-10T12:40:00+09:00"
   }
 ]
