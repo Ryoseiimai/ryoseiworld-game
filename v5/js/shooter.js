@@ -284,6 +284,8 @@
       addShot(w, { kind: judge === 'perfect' ? 'tiger' : 'fuku', beatShot: true, x: w.p.x + 44, y: w.p.y - 6,
         vx: 760, vy: 0, r: judge === 'perfect' ? 30 : 16, dmg: judge === 'perfect' ? 4 : 2,
         pierce: judge === 'perfect' || !!w.weapons.rainbow, hitBoss: false });
+      // FUN5: perfect only gets a small shake+flash so the best timing feels punchier than good (no hitstop, so kizuna0 win time is unaffected).
+      if (judge === 'perfect') { w.shake = Math.max(w.shake, 4); w.flash = Math.max(w.flash, 0.12); }
       emit(w, judge);
     }
     return judge;
