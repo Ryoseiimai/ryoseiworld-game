@@ -6,6 +6,7 @@ const path = require('path');
 const shooterPath = path.join(__dirname, '..', 'v5', 'js', 'shooter.js');
 const legacyShooter = require(shooterPath);
 require(path.join(__dirname, '..', 'v5', 'data', 'words.js'));
+globalThis.RYW.setMode('kids');
 delete require.cache[require.resolve(shooterPath)];
 const Shooter = require(shooterPath);
 const sim = Shooter._sim;
@@ -25,7 +26,11 @@ function clearBullets(w) { w.eb = []; w.bugs = []; }
 
 // R42 keeps every combat number; only names and brief visual explanations change.
 check('words.jsなしでも旧名で動く', legacyShooter._sim.WEAPONS[0].name === 'フクの ひかりだま' && legacyShooter._sim.createWorld({}).p.hearts === 3);
-check('新しい武器名8種', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','あたりはんてい チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
+check('新しい武器名8種（こどもモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','あたりはんてい チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
+// SPEC_V7_MANABU.md 9・9.1: weapon names follow RYW.mode, so an adult-mode game session shows adult words here too.
+globalThis.RYW.setMode('adult'); Shooter.syncWeaponNames();
+check('新しい武器名8種（おとなモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','当たり判定 チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
+globalThis.RYW.setMode('kids'); Shooter.syncWeaponNames();
 check('クールダウンの実値を表示', Shooter.cooldownText() === sim.FIRE_INTERVAL.toFixed(2) + '→' + sim.RAPID_INTERVAL.toFixed(2) + ' びょう' && sim.WEAPONS[1].desc.includes(Shooter.cooldownText()));
 (() => {
   const w = world({boss:'jibun',weapons:['twin','barrier']});
