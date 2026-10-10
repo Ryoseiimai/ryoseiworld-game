@@ -657,6 +657,46 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('neon_stadium',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='ヒカクマオウ'),'the boss is gone after the win');while(r.g.dialogue)r.dialogue();
   for(const k of ['hikakuTalk','hikakuGone','hikakuClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 boss line fits '+row);}
  result.push('ヒカクマオウ: stadium boss fight, shooter boss id hikaku, win plays the clear scene and chapter card to ノイズのとう, object gone after PASS');
+ // R27: ノイズのとう (1〜3かい＋おくじょう), the cloud gate out of ネオンシティ, the blue grid floor, floor-to-floor warp, save terminals, 3 dark zako, コトバイルカ joining at the door.
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
+  const gate=D.maps.neon.objects.find(o=>o.id==='neon_cloudgate');assert(gate&&gate.enter==='tower1'&&gate.lock==='neonCleared','the cloud gate leads to tower1 and waits for the boss');
+  // Locked before ヒカクマオウ is beaten.
+  r.g.debugWarp('neon',gate.x,gate.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);
+  assert(r.g.dialogue&&r.g.dialogue.lines.map(l=>l[1]).join('').includes('とじている'),'the gate stays shut before the boss');while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'neon');
+  // Beat the boss, then the gate opens into tower1.
+  st.bosses.push('hikaku');st.flags.neonCleared=true;
+  r.g.debugWarp('neon',gate.x,gate.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);
+  assert.equal(r.g.map,'tower1','the cloud gate opens once the stadium boss is cleared');assert.equal(r.g.position.x,5*48);assert.equal(r.g.position.y,10*48);
+  assert(!r.g.dialogue,'arriving on the spawn tile does not fire the entrance trigger yet');
+  // 4 floors, all with the blue grid floor tile ('g').
+  for(const id of ['tower1','tower2','tower3','tower_roof']){const m=D.maps[id];assert(m,'map '+id+' exists');assert(m.tiles.every(row=>[...row].every(c=>c==='g')),id+' is the blue grid floor');}
+  assert(!r.g.summons.includes('kotoba'),'コトバイルカ is not yet recruited');
+  // Walking a step further in triggers the automatic join (SPEC_V5_CH234.md: 入口で コトバイルカ が仲間になる).
+  let seen=r.protoRuns.length;r.key('ArrowUp');r.tick(600);r.key('ArrowUp',true);
+  for(let i=0;i<40;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.protoRuns.length>seen){const run=r.protoRuns.at(-1);seen=r.protoRuns.length;run.onDone(run.state);continue;}if(!r.g.dialogue)break;}
+  assert(r.g.summons.includes('kotoba'),'コトバイルカが とうの いりぐちで なかまに なる');
+  // Walking in again (once flag set) says something else instead of rejoining.
+  r.g.debugWarp('tower1',5,10);r.tick(16);r.key('ArrowUp');r.tick(600);r.key('ArrowUp',true);r.tick(16);
+  assert(!r.g.dialogue,'the entrance trigger only fires once');
+  // A save terminal on every floor.
+  for(const id of ['tower1','tower2','tower3','tower_roof'])assert(D.maps[id].objects.some(o=>o.action==='save'),id+' has a save terminal');
+  r.g.debugWarp('tower1',8.4,6.2);r.tick(16);r.click('talk-btn');r.tick(16);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();await settle();
+  assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).map==='tower1','the save terminal saves');
+  // The light floor (warp cells) carries the hero up through all 3 floors and the rooftop, and back down again.
+  const up=(from,x,to)=>{r.g.debugWarp(from,x,3.4);r.tick(16);r.key('ArrowUp');r.tick(260);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,to,'warp '+from+' -> '+to);};
+  up('tower1',8.4,'tower2');up('tower2',8.4,'tower3');up('tower3',8.4,'tower_roof');
+  up('tower_roof',2.2,'tower3');up('tower3',2.2,'tower2');up('tower2',2.2,'tower1');
+  // The 3 dark, stronger zako named in SPEC_V5_CH234.md, roaming the floors (not the rooftop).
+  for(const [map,types] of [['tower1',['virusball']],['tower2',['crow2','infload2']],['tower3',['virusball']]])
+   for(const t of types)assert(D.maps[map].enemies.some(e=>e.type===t),map+' has a '+t);
+  assert.equal(D.maps.tower_roof.enemies.length,0,'the rooftop is calm, no zako');
+  for(const id of ['virusball','crow2','infload2']){const def=D.enemies[id];assert(def&&def.hp>D.enemies.popup.hp&&def.attack>D.enemies.popup.attack,id+' is stronger than an ordinary town zako');}
+  assert(r.g.debugStartBattle('virusball','r27-zako'));r.tick(300);assert.equal(r.g.screen,'battle');r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
+  // Every new line fits the dialogue box.
+  for(const k of ['cloudGateLocked','towerGuide','towerSave','towerGateSign','towerEntranceAsk','towerEntranceJoin','towerEntranceIdle'])
+   for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R27 line fits '+row);}
+ result.push('R27: ノイズのとう 3かい＋おくじょう（くもの もん・あおい グリッド・ワープの ゆか・セーブたんまつ・くらい ザコ3しゅ・コトバイルカの じどう かにゅう）PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;

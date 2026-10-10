@@ -23,6 +23,8 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  person('hacker',25,18.6,{event:'hackerNeon'}),
  // R25: ミオの雨の日 (STORY_V4.md 恋愛きずな3). She waits under the sidewalk roof near the crossroad; sharing the umbrella raises her heart to 3 and コトバイルカ joins.
  object('neon_mio','npc2',0,13.4,21.6,48,65,{label:'ミオ',event:'mioRain'}),
+ // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
+ city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
  prop('neon_bench',4,19.4,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
@@ -65,7 +67,8 @@ maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム'
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[15,35]}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // R26: the boss fight (v5/js/shooter.js hikaku: number blocks weaken the shot, サーチフクロウ doubles the crown, じぶんの ペース backs one step off).
- boss:'hikaku',clearDialogue:'hikakuClear',clearSpot:['neon',15,35.6],next:4,nextTitle:'ノイズのとう',
+ // R27: after the stadium clear scene, a short ride on the light elevator opens chapter 4 (the cloud gate stays open after, for a later visit).
+ boss:'hikaku',clearDialogue:'hikakuClear',clearSpot:['neon',15,35.6],clearEvent:'hikakuTower',clearDone:'neonCleared',next:4,nextTitle:'ノイズのとう',
  // __v5.debugStartChapter(3): chapters 1 and 2 are done and the train runs.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // The quest steps for recruit/key/zako come with the people and noises (R24・R25・R38). Until then the stadium boss is reachable directly (no requires on the object).
@@ -91,6 +94,9 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
     {bond:'hacker'},
     {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{proto:'deploy'},{save:'quiet'}]}]}],
   // R25: ミオの雨の日（STORY_V4.md 恋愛きずな3）。かさに いれる を えらぶと きずなが あがり、3で コトバイルカが 仲間に なる。
+  // R27: after ヒカクマオウ, a short ride on the light elevator opens ノイズのとう (SPEC_V5_CH234.md).
+  hikakuTower:[{flag:'neonCleared'},{say:'hikakuTowerGate'},{flash:'#bfe8ff',ms:500},{wait:500},
+   {chapterClear:true,copy:'くもの もんから\nひかりの エレベーターが\nのぼっていく。'}],
   mioRain:[{if:{summon:'kotoba'},then:[{say:'mioRainIdle'}],
    else:[{if:{bond:'mio',atLeast:2},then:[{say:'mioRainAsk'},{choice:'どうする？',options:[
      {text:'かさに いれる',then:[{say:'mioRainShare'},{bond:'mio'},{if:{bond:'mio',atLeast:3},then:[{say:'mioRainJoin'},{join:'kotoba'},{proto:'text'},{save:'quiet'}]}]},
@@ -99,6 +105,9 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  },
  dialogue:{
   neonSign:[['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],['ソラ','みんなの あたまに\nかずが うかんでる…？']],
+  // R27: the cloud gate, locked until the stadium boss is cleared.
+  cloudGateLocked:[['','くもの もんは\nとじている。'],['ソラ','さきに まちを\nなんとか しよう。']],
+  hikakuTowerGate:[['','まちの はずれの\nくもの もんが ひかった。'],['ソラ','うえに なにかが\nいる みたいだね。']],
   rankingTower:[['おおきな がめん','きょうの ランキング\n1い 2い 3い…'],['おおきな がめん','あなたは なんい？'],['ソラ','ずっと ながれてる。\nめが まわりそう。']],
   selfiePlaza:[['セルフィーひろば','ここで とると\nいいねが ふえる！'],['ソラ','みんな じぶんの\nかおを みてるね。']],
   chartTower:[['いいねビル','いいねの かずが\nいつも のぼっていく。'],['ソラ','グラフしか\nかいてない ビルだ。']],
