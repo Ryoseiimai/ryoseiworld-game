@@ -62,13 +62,13 @@ items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'し�
 // Bonds (SPEC_V6.md 2, STORY_V4.md): hearts 0-5 per person, raised by requests (events below), one liked thing, and story moments. rewards are given per heart count.
 // Before BUG KING: mother 2, sister 2, repair 3 (rapid), kid 3 (twin), hacker 2, clerk 2. Mother reaches 3 (barrier) after the town is quiet.
 // The hacker stops at 2 here: her rainbow and the whale come at heart 3 in chapter 3 (STORY_V4.md).
-// Guardian spirits of people without bonds (SPEC_V6.md 1): a spirits frame (0-15) or a summon. The hacker's whale (summons) joins in chapter 3, so she shows the phone fox until then.
+// Guardian spirits of people without bonds (SPEC_V6.md 1): a spirits frame (0-15) or a summon. R24: the hacker's spirit is now her サーバークジラ (recruited in chapter 3 at bond 3).
 spirits:{grandpa:7,worker:1,student:2,police:4,grandma:14,delivery:8,shrine:10,musician:11},
 bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],rewards:{2:{money:100},3:{weapon:'barrier'},5:{weapon:'onigiri',money:200}}},
  sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink'],rewards:{2:{money:50},4:{money:100}}},
  repair:{name:'しゅうりやさん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
  kid:{name:'ゲームの こ',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
- hacker:{name:'ハッカーさん',kind:'friend',spirit:3,likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
+ hacker:{name:'ハッカーさん',kind:'friend',spirit:'whale',likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
  clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}},
  // Love (12-year-old style): returning the hairclip, then a paper letter after the town is quiet. Heart 3 and the dolphin wait for the rainy day in chapter 3, so her spirit shows the koi until then (like the hacker's fox).
  mio:{name:'ミオ',kind:'love',spirit:12,rewards:{2:{weapon:'letter'},5:{weapon:'charge'}}}},

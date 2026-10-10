@@ -676,6 +676,37 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(doubleDmg>=halfDmg*3,'けんさく のあとはダメージ2倍（半分→2倍で4倍前後）: '+halfDmg+' -> '+doubleDmg);
   assert(Number.parseFloat(r.els.get('enemy-meter').style.width)<100,'the real HP bar shows once revealed');}
  result.push('ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after PASS');
+ // R24: 壁画のペイントキメラ（いっしょに かく／スプライトせいせい＝みがわり）とハッカーのお姉さん（また会う／きずな3でサーバークジラ＝バックアップ）。
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
+  assert(D.summons.paint&&D.summons.paint.mirror&&D.summons.paint.frame===3,'paint summon data (mirror, sheet frame 3)');
+  assert(D.summons.whale&&D.summons.whale.backup&&D.summons.whale.frame===5,'whale summon data (backup, sheet frame 5)');
+  assert.equal(D.bonds.hacker.spirit,'whale','the hacker now carries the whale as her spirit');
+  const painter=D.maps.neon.objects.find(o=>o.id==='neon_painter');assert(painter&&painter.kind==='npc2'&&painter.frame===1,'painter uses the paint-splattered npc2 frame');
+  const step=(pick)=>{for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'&&pick){r.tick(300);r.button(pick);pick=null;continue;}break;}};
+  // いいね を おしても まだ 仲間に ならない。もう いちど いって いっしょに かく を えらぶと 仲間になる。
+  r.g.debugWarp('neon',painter.x,painter.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');step('いいねを おす');
+  assert(!r.g.summons.includes('paint'),'いいね だけでは まだ 仲間に ならない');
+  r.click('talk-btn');step('いっしょに かく');
+  assert(r.g.summons.includes('paint'),'いっしょに かく で ペイントキメラが 仲間に なる');assert(r.g.state.bonds.neon_painter>=1,'きずなが あがる');
+  // ハッカーのお姉さんと なんかいか はなすと きずなが 3に なり、サーバークジラが 仲間に なる。
+  const hacker=D.maps.neon.objects.find(o=>o.id==='hacker');assert(hacker&&hacker.kind==='npc','hacker returns to ネオンシティ');
+  for(let i=0;i<5&&!r.g.summons.includes('whale');i++){r.g.debugWarp('neon',hacker.x,hacker.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');step();}
+  assert(r.g.summons.includes('whale'),'きずな3で サーバークジラが 仲間に なる');assert.equal(r.g.state.bonds.hacker,3);
+  // 技: スプライトせいせい（みがわり）は つぎの こうげきを まるごと うけとめる。1回だけ。
+  st.battery=100;r.g.debugStartBattle('popup','r24-mirror');r.tick(300);const hpBefore=r.g.hp.hp;
+  r.cmd('summon');r.button('ペイントキメラ');r.tick(3000);
+  assert.equal(r.g.hp.hp,hpBefore,'みがわりが うけとめて ダメージなし');assert(!r.g.battle.mirror,'みがわりは 1回で きえる');
+  r.cmd('attack');r.tick(3000);assert(r.g.hp.hp<hpBefore,'つぎの ターンは ふつうに ダメージを うける');
+  // 技: バックアップは いまの HPを ほぞんし、3ターンの うちに たおれそうに なったら 1かいだけ もどす。
+  st.battery=100;r.g.debugStartBattle('popup','r24-backup');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});const savedHp=r.g.hp.hp;
+  r.cmd('summon');r.button('サーバークジラ');r.tick(3000);assert(r.g.battle.backup&&r.g.battle.backup.hp===savedHp,'いまの HPを ほぞんした');
+  r.g.debugDamage(r.g.hp.hp-1);r.tick(300);
+  r.cmd('attack');r.tick(3000);
+  assert.equal(r.g.hp.hp,savedHp,'たおれる ところを バックアップで もとの HPに もどった');
+  assert(!r.g.battle.backup,'バックアップは 1回で きえる');assert.equal(r.g.screen,'battle','たおれずに すんだ');
+  for(const k of ['painterAsk','painterLike','painterJoin','painterIdle','hackerNeonFirst','hackerNeonAgain','hackerNeonJoin','hackerNeonIdle'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R24 line fits '+row);}
+ result.push('R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS');
  // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
  {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
   const plain=x=>JSON.parse(JSON.stringify(x)),defaults={v:1,jump:6,sprite:0,title:'ja',deployed:false};

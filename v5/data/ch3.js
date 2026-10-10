@@ -2,7 +2,7 @@
 // The city of numbers (SPEC_V5_CH234.md): everyone looks at the numbers on their phones, and big screens show rankings.
 // R37: the station square for the chapter 2 card. R23: the town and its places (v5/assets/neon). People and noises come in R38.
 (function(){'use strict';
-const {object,prop,props}=RYW.helpers;
+const {object,prop,props,person}=RYW.helpers;
 // The neon sheet: 0 ranking tower, 1 chart tower, 2 ranking stadium, 3 net cafe, 4 station, 5 mural wall, 6 capsule hotel, 7 selfie plaza, 8 cloud gate (chapter 4).
 const city=(id,frame,x,y,w,h,extra)=>object(id,'neon',frame,x,y,w,h,extra);
 const maps={};
@@ -17,6 +17,10 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,10]}),
  // The white mural wall: the painting child and Paint Chimera come in R24.
  city('neon_mural',5,24.4,33.6,220,220,{label:'へきがの かべ',dialogue:'muralWall'}),
+ // R24: the painter child (npc2 frame 1: paint-splattered overalls) sits in front of the mural, laughed at for 0 likes.
+ object('neon_painter','npc2',1,22.4,31.4,48,65,{label:'えを かく こ',event:'muralPainter'}),
+ // R24: the hacker returns here (STORY_V4.md: friend, また会う). Her spirit is now the whale (ch1.js); at bond 3 it joins for real.
+ person('hacker',25,18.6,{event:'hackerNeon'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
  prop('neon_bench',4,19.4,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
@@ -66,8 +70,22 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  quests:{cleared:{text:'まちが すこし おだやかに なった。'},tutorial:{text:'よびだすで ナオスライムを よぼう'},
   zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
   key:wait,battery:wait,recruit:wait,boss:{text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}}},
+ // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
+ summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。'},
+  whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。'}},
+ bonds:{neon_painter:{name:'えを かく こ',kind:'friend',spirit:'paint',likes:['drink'],rewards:{2:{money:90}}}},
  events:{
-  netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}]
+  netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}],
+  // R24: 壁画の前で、いいねが0の絵をかいている子。「いいね」ではなく「いっしょに かく」を選ぶとペイントキメラが仲間になる（SPEC_V5_CH234.md）。
+  muralPainter:[{if:{summon:'paint'},then:[{say:'painterIdle'}],
+   else:[{say:'painterAsk'},{choice:'どうする？',options:[
+    {text:'いいねを おす',then:[{say:'painterLike'}]},
+    {text:'いっしょに かく',then:[{say:'painterJoin'},{join:'paint'},{bond:'neon_painter'},{save:'quiet'}]}]}]}],
+  // R24: ハッカーのお姉さんと また会う（STORY_V4.md）。きずなが3に なると サーバークジラが 本当に 仲間になる。
+  hackerNeon:[{if:{summon:'whale'},then:[{say:'hackerNeonIdle'}],
+   else:[{if:'hackerNeonMet',then:[{say:'hackerNeonAgain'}],else:[{say:'hackerNeonFirst'},{flag:'hackerNeonMet'}]},
+    {bond:'hacker'},
+    {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{save:'quiet'}]}]}]
  },
  dialogue:{
   neonSign:[['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],['ソラ','みんなの あたまに\nかずが うかんでる…？']],
@@ -91,7 +109,17 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   hikakuTalk:[['ヒカクマオウ','おなじ としで\nもう しゃちょう'],['ソラ','すうじに のまれそう…'],['ソラ','かんむりを\nねらって みよう！']],
   hikakuGone:[['','ヒカクマオウは\nおとなしく なった。']],
   // 倒したあと: 頭の上の数字が消え、みんなが自分の好きなものの話を始める（SPEC_V5_CH234.md）。
-  hikakuClear:[['','あたまの うえの すうじが\nふっと きえた。'],['まちの ひと','…あれ、なんいだっけ。'],['べつの ひと','わたし ねこが すき。\nそれだけで いいよね。'],['べつの ひと','ひさしぶりに\nそらを みた きがする。']]},
+  hikakuClear:[['','あたまの うえの すうじが\nふっと きえた。'],['まちの ひと','…あれ、なんいだっけ。'],['べつの ひと','わたし ねこが すき。\nそれだけで いいよね。'],['べつの ひと','ひさしぶりに\nそらを みた きがする。']],
+  // R24: 壁画の前のペイントキメラ（絵をかく子）。
+  painterAsk:[['','へきがの まえで\nおとこのこが えを\nかいている。'],['','いいねは 0。\nまわりの こが\nわらっている。'],['ソラ','いいねを おす？\nそれとも……']],
+  painterLike:[['','「いいね」を\nおした。'],['えを かく こ','……ありがとう。'],['ソラ','かずは ふえたけど\nなにか ちがう きがする。']],
+  painterJoin:[['','えのぐを もって\nとなりに すわった。'],['えを かく こ','……いっしょに かく？'],['','かべに いろを\nぬりはじめた。'],['','ペイントキメラが\nなかまに なった！']],
+  painterIdle:[['えを かく こ','きょうは なにを\nかこうかな。']],
+  // R24: ネオンシティで また会う ハッカーのお姉さん。
+  hackerNeonFirst:[['ハッカーの おねえさん','あ、RYOSEIくん！\nこんな とこで\nなにしてるの。'],['ハッカーの おねえさん','わたしは この まちの\nサーバーを みてるの。']],
+  hackerNeonAgain:[['ハッカーの おねえさん','サーバーの ちょうしは\nまあまあ かな。']],
+  hackerNeonJoin:[['ハッカーの おねえさん','ねえ、わたしの\nくじらを かして あげる。'],['','サーバークジラが\nなかまに なった！'],['ハッカーの おねえさん','なにか あったら\nすぐ もどせるよ。']],
+  hackerNeonIdle:[['ハッカーの おねえさん','クジラが いれば\nあんしんでしょ。']]},
  enemies:{
   // The boss is a shooter fight (v5/js/shooter.js hikaku: number blocks that weaken the shot, rings from half HP, じぶんの ペース pickups).
   hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで もう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']},
