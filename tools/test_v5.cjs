@@ -323,7 +323,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Title: hero rides the kickboard across; mother says "fold the kickboard" on the first entry home only (also after reload) PASS');
  // R5: event steps (say, choice, quiz, join, give, take, flag, if) run from data only; every step in the chapter data names something that exists.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const D=r.g.GAME_DATA,verbs=['say','proto','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift'];
+  const D=r.g.GAME_DATA,verbs=['say','proto','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift','finale'];
   const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
    if(v[0]==='proto')assert(['lesson','play','sprite','text','deploy'].includes(s.proto),where+' prototype mode');
    if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
@@ -734,9 +734,27 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   run.onWin({boss:'zero',seconds:150,hearts:3,maxHearts:3,hurts:0});r.tick(2500);const read=[];for(let i=0;i<160&&r.g.screen!=='ending';i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
   assert(read.join('\n').includes('つかって くれなかった'),read.join('|'));assert(read.join('\n').includes('いっしょに'),read.join('|'));
   assert(r.g.summons.includes('zero'),'ゼロが なかまに なる');
-  assert.equal(r.g.screen,'ending','ゼロに勝って ほんとうの チャプターカード');assert(r.els.get('ending-heading').textContent.includes('クリア'),r.els.get('ending-heading').textContent);
+  // R30: ほんとうの チャプターカードでは なく、3つの町の「なおった」カード → エピローグへ すすむ（SPEC_V5_CH234.md 4章「エンディング」）。
+  assert.equal(r.g.screen,'ending','ゼロに勝って まず まちの カード');assert(r.els.get('ending-heading').textContent.includes('ヒダマリ'),r.els.get('ending-heading').textContent);assert.equal(r.els.get('ending-bg').hidden,false);assert(r.els.get('ending-bg').src.includes('bg_town'));
+  r.click('ending-title');assert(r.els.get('ending-heading').textContent.includes('ミナモ'));assert(r.els.get('ending-bg').src.includes('bg_minamo'));
+  r.click('ending-title');assert(r.els.get('ending-heading').textContent.includes('ネオン'));assert(r.els.get('ending-bg').src.includes('bg_neon'));
+  r.click('ending-title');assert.equal(r.g.screen,'epilogue','3まい おわったら エピローグ');assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?');
   for(const k of ['zeroTalk','zeroLocked','zeroGone','zeroClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R29 line fits '+row);}
  result.push('R29: 4章 ゼロのシューティング版（「こえ」の光で守護霊がつながり、みんなの こえ で ノイズが晴れる・会話・仲間になる）PASS');
+ // R30: エンディング（3つの町のカード）とエピローグ（なにを かいても「わかった。つくろう」→ タイトルへ）。
+ {const r=await runtime();r.tick();r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'},{heading:'B',bg:'bg_minamo',copy:'y'}]}}]);
+  assert.equal(r.g.screen,'ending');assert.equal(r.els.get('ending-heading').textContent,'A');assert.equal(r.els.get('ending-title').textContent,'つぎへ');
+  r.click('ending-title');assert.equal(r.els.get('ending-heading').textContent,'B');
+  r.click('ending-title');assert.equal(r.g.screen,'epilogue','町が0でも1でも最後は かならず エピローグへ');
+  assert.equal(r.els.get('epilogue-input').hidden,false);assert.equal(r.els.get('epilogue-send').hidden,false);
+  r.els.get('epilogue-input').value='ゲームを つくりたい';r.click('epilogue-send');
+  assert.equal(r.els.get('epilogue-text').textContent,'わかった。つくろう','なにを かいても おなじ こたえ');assert.equal(r.els.get('epilogue-input').hidden,true);assert.equal(r.els.get('epilogue-input').value,'','入力は この場で 消える（保存・送信しない）');
+  r.click('epilogue-send');assert.equal(r.els.get('epilogue-text').textContent,'わかった。つくろう','こたえた あとに もう一度 おくっても 二重に すすまない');
+  r.tick(2300);assert.equal(r.g.screen,'title','エピローグの あと タイトルへ');
+  // からの towns（SPEC_V5_CH234完了条件に無い保険）でも すぐ エピローグへ すすむ。
+  const r2=await runtime();r2.tick();r2.g.debugEvent([{finale:{towns:[]}}]);assert.equal(r2.g.screen,'epilogue');
+  r2.key('Enter',false,r2.els.get('epilogue-input'));assert.equal(r2.els.get('epilogue-text').textContent,'わかった。つくろう','Enterキーでも おくれる');}
+ result.push('R30: エンディング（まちの カード）→ エピローグ（なにを かいても「わかった。つくろう」）→ タイトル PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;

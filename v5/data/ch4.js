@@ -58,7 +58,13 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   // R29: ジブンに勝った後。章は まだ 終わらず、ゼロの もんが あくだけ（jibunClear の最後の行で予告する）。
   jibunWin:[{say:'jibunClear'}],
   // R29: ゼロに勝った後（STORY_V4.md「最後はみんなの守護霊が…」）。ゼロが仲間になり、章が終わる。
-  zeroJoin:[{join:'zero'},{save:'quiet'},{chapterClear:true,copy:'ゼロが\nなかまに なった。'}]
+  // R30: 章が終わったら すぐ タイトルへ ではなく、3つの町の 直った様子 → エピローグ（SPEC_V5_CH234.md 4章）。
+  // 背景は shooter.js の bg_town/bg_minamo/bg_neon をそのまま使う（新しい絵を依頼せず、ある絵で「見せる」を満たす）。
+  zeroJoin:[{join:'zero'},{save:'quiet'},{finale:{towns:[
+   {heading:'ヒダマリちょう',bg:'bg_town',copy:'あかりが もどり、\nこうえんで みんなが\nあそんでいる。'},
+   {heading:'ミナモちょう',bg:'bg_minamo',copy:'しんぱいの かべが きえて、\nおやこで さんぽ している。'},
+   {heading:'ネオンシティ',bg:'bg_neon',copy:'かおの いろが もどり、\nすきな ものの はなしを\nしている。'}
+  ]}}]
  },
  dialogue:{
   towerGuide:[['あんないロボ','ようこそ\nノイズの とうへ。'],['あんないロボ','ひかりの ゆかで\nかいを いどうできます。']],
