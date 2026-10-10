@@ -694,9 +694,31 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const id of ['virusball','crow2','infload2']){const def=D.enemies[id];assert(def&&def.hp>D.enemies.popup.hp&&def.attack>D.enemies.popup.attack,id+' is stronger than an ordinary town zako');}
   assert(r.g.debugStartBattle('virusball','r27-zako'));r.tick(300);assert.equal(r.g.screen,'battle');r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
   // Every new line fits the dialogue box.
-  for(const k of ['cloudGateLocked','towerGuide','towerSave','towerGateSign','towerEntranceAsk','towerEntranceJoin','towerEntranceIdle'])
+  for(const k of ['cloudGateLocked','towerGuide','towerSave','towerEntranceAsk','towerEntranceJoin','towerEntranceIdle'])
    for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R27 line fits '+row);}
  result.push('R27: ノイズのとう 3かい＋おくじょう（くもの もん・あおい グリッド・ワープの ゆか・セーブたんまつ・くらい ザコ3しゅ・コトバイルカの じどう かにゅう）PASS');
+ // R28: おくじょうの ひかる もんが ジブンの シューティング戦につながり、勝つと チャプターカードが出る（ゼロは R29）。
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
+  // Beat ヒカクマオウ for real so the chapterClear step moves g.chapter to 4 (bossWon only counts a win when it matches the chapter's own boss).
+  const stadiumBoss=D.maps.neon_stadium.objects.find(o=>o.id==='neon_boss');
+  assert(talk(r,'neon_stadium',stadiumBoss.x,stadiumBoss.y+1.3).includes('しゃちょう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);if(r.g.modal==='cheats')r.button('はじめる');}
+  assert.equal(r.g.screen,'shooter','ヒカクマオウ戦が はじまる');
+  r.shooterRuns.at(-1).cfg.onWin({boss:'hikaku',seconds:120,hearts:2,maxHearts:3,hurts:1});r.tick(2500);for(let i=0;i<120&&r.g.screen!=='ending';i++){if(r.g.dialogue)r.dialogue();r.tick(200);}
+  assert.equal(r.g.screen,'ending','ヒカクマオウに勝って つぎの しょうへ');await settle();r.click('ending-title');r.tick(16);
+  assert.equal(r.g.chapter,4,'4章 ノイズのとうに すすんだ');
+  r.g.debugWarp('tower_roof',5,10);
+  const gate=D.maps.tower_roof.objects.find(o=>o.id==='twr_gate');assert(gate&&gate.enemy==='jibun'&&D.enemies.jibun.boss&&D.enemies.jibun.shooter==='jibun','jibun wired to the rooftop gate');
+  r.g.debugFace(3);r.tick(16);
+  assert(talk(r,'tower_roof',gate.x,gate.y+1.3).includes('やめても'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);if(r.g.modal==='cheats')r.button('はじめる');}
+  assert.equal(r.g.screen,'shooter','ジブン戦が はじまる');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'jibun');
+  run.onWin({boss:'jibun',seconds:90,hearts:3,maxHearts:3,hurts:0});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
+  assert(st.bosses.includes('jibun'),'jibun beaten');assert(read.join('\n').includes('おなじ'),read.join('|'));
+  assert.equal(r.g.screen,'ending','ジブンに勝ったら チャプターカード');assert(r.els.get('ending-heading').textContent.includes('クリア'),r.els.get('ending-heading').textContent);
+  await settle();r.click('ending-title');
+  r.g.debugWarp('tower_roof',gate.x,gate.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='ジブン'),'もんは かった あとは すがたが ない');while(r.g.dialogue)r.dialogue();
+  for(const k of ['jibunTalk','jibunGone','jibunClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R28 line fits '+row);}
+ result.push('R28: 4章 ジブンのシューティング版（おくじょうの もんから はいる・たまは すりぬけ・つくるの ひかり3つで いろが もどる・勝つと チャプターカード）PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;

@@ -35,12 +35,13 @@ maps.tower3={name:'ノイズのとう 3かい',short:'とう3F',w:11,h:13,spawn:
 maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょう',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('twr_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('twr_pillar',7,5,5,110,140),tower('twr_cloud1',13,8.6,9.4,70,70),
- tower('twr_gate',15,5,2.6,110,130,{label:'ひかる もん',dialogue:'towerGateSign'}),
+ // R28: the rooftop gate is now the ジブン boss fight (liftOff -> shooter.js jibun). goneWhenCleared matches the hikaku pattern (R26).
+ tower('twr_gate',15,5,2.6,110,130,{label:'ひかる もん',action:'boss',enemy:'jibun',dialogue:'jibunTalk',clearedDialogue:'jibunGone',goneWhenCleared:true}),
  tower('twr_down',6,2.2,2.6,90,90,{label:'ひかりの ゆか'})],
  enemies:[],portals:[],cells:[{x:2.2,y:2.6,warp:'tower3',at:[5,10]}]};
 RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
- // R28/R29が ジブン・ゼロの たたかいを足すまでは boss:'jibun' は まだ とどかない先。最後の章なので next は書かない。
- boss:'jibun',clearDialogue:'jibunClear',clearSpot:['tower_roof',5,4],
+ // R28: ジブンの シューティング戦。R29がゼロを足すまでは next を書かない（勝った後は jibunTower でチャプターカードだけ出す）。
+ boss:'jibun',clearDialogue:'jibunClear',clearSpot:['tower_roof',5,4],clearEvent:'jibunTower',
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  quests:{cleared:{text:'とうの なかが しずかに なった。'},tutorial:{text:'よびだすで ナオスライムを よぼう'},
@@ -51,21 +52,28 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  events:{
   // R27: 入口の少し奥で、コトバイルカが まだ 仲間でなければ 仲間になる（SPEC_V5_CH234.md「入口で コトバイルカ が仲間になる」）。
   towerEntrance:[{if:{summon:'kotoba'},then:[{say:'towerEntranceIdle'}],
-   else:[{say:'towerEntranceAsk'},{join:'kotoba'},{proto:'text'},{say:'towerEntranceJoin'},{save:'quiet'}]}]
+   else:[{say:'towerEntranceAsk'},{join:'kotoba'},{proto:'text'},{say:'towerEntranceJoin'},{save:'quiet'}]}],
+  // R28: ジブンに勝った後。R29がゼロを足すまでは次の章がないので、チャプターカードだけ出してタイトルへ戻れるようにする。
+  jibunTower:[{chapterClear:true,copy:'ジブンが\nおなじ いろに なった。'}]
  },
  dialogue:{
   towerGuide:[['あんないロボ','ようこそ\nノイズの とうへ。'],['あんないロボ','ひかりの ゆかで\nかいを いどうできます。']],
   towerSave:[['たんまつ','ここまでの きろくを\nほぞんしました。']],
-  towerGateSign:[['','ひかる もんの むこうに\nなにかが いる きがする。'],['ソラ','もう すこし ちからを\nつけてから いこう。']],
   towerEntranceAsk:[['','いりぐちの おくで\nなにかが ひかった。'],['','ちいさな イルカが\nそばに よってきた。']],
   towerEntranceJoin:[['','コトバイルカが\nなかまに なった！'],['ソラ','これで ノイズの ことばが\nわかるように なるね。']],
-  towerEntranceIdle:[['あんないロボ','イルカが となりで\nねむっていますね。']]},
+  towerEntranceIdle:[['あんないロボ','イルカが となりで\nねむっていますね。']],
+  // R28: おくじょうの もんの むこうに ジブンが立っている（STORY_V4.md「ノイズのとう: これまでの人の守護霊が力を貸す。ジブン→ゼロ」）。
+  jibunTalk:[['ジブン','やめても\nだれも こまらないよ。'],['ソラ','たまは とどかないよ。\n「つくる」の\nひかりを とろう！']],
+  jibunGone:[['ジブン','……おなじ いろに\nなった。']],
+  jibunClear:[['','ジブンが おなじ\nいろに なった。'],['ソラ','きのうより ひとつ\nすすんだね。'],['ソラ','つぎは ゼロが いる\nみたいだ。']]},
  enemies:{
   // R27: SPEC_V5_CH234.md「ウイルスだま・グリッチカラス・むげんローディング（色を暗くした強い版）」。
   // あたらしい絵は依頼中で、とどくまでは ちかい すがたの コマを くらい いろで ながす（RULES.md 4）。
   virusball:{name:'ウイルスだま',frame:3,hp:86,attack:14,exp:34,money:52,level:9,color:['#1c1430','#7a5ad9'],hints:["ぷるぷる ふるえる","はねて くる"],actions:['ぷるぷる ふるえた！','おおきく はねて きた！']},
   crow2:{name:'グリッチカラス',frame:1,hp:78,attack:13,exp:32,money:48,level:9,color:['#161f30','#5f7aa8'],hints:["いちコマ とぶ","するどく つつく"],actions:['くらやみで いちコマ とんだ！','するどく つついて きた！']},
-  infload2:{name:'むげんローディング',frame:5,hp:90,attack:15,exp:36,money:54,level:9,color:['#141c2c','#45597a'],hints:["くるくる まわる","おわらない バー"],actions:['くらく ぐるぐる まわった！','バーが すすんで、また もどった！']}},
+  infload2:{name:'むげんローディング',frame:5,hp:90,attack:15,exp:36,money:54,level:9,color:['#141c2c','#45597a'],hints:["くるくる まわる","おわらない バー"],actions:['くらく ぐるぐる まわった！','バーが すすんで、また もどった！']},
+  // R28: ジブンの シューティング戦（v5/js/shooter.js の jibun: たまは すりぬけ、「つくる」の ひかりを3つ とると いろが もどる）。ふだんの たたかいに ならない時の保険として形だけの数値を置く。
+  jibun:{name:'ジブン',boss:true,shooter:'jibun',intro:['ジブン','やめても だれも こまらないよ。'],art:'ryosei',animCols:4,specialEvery:3,specialDamage:0,hp:1,attack:0,exp:0,money:0,level:9,color:['#1a2430','#c9ced8'],hints:['きのうの じぶんを たすける'],actions:['たまが すりぬけた。']}},
  maps
 });
 })();
