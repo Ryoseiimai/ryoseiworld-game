@@ -2142,9 +2142,13 @@
       outlinedText(ctx, label, clamp(w.p.x, 90, W - 90), Math.max(PLAY_T + 22, w.p.y - 86), '#fff5d6');
     }
     if (r.phase < r.feverUntil) {
-      ctx.strokeStyle = 'hsl(' + (r.phase * 100 % 360) + ',100%,70%)'; ctx.lineWidth = 6;
+      var feverColor = 'hsl(' + (r.phase * 100 % 360) + ',100%,70%)';
+      ctx.strokeStyle = feverColor; ctx.lineWidth = 6;
       ctx.beginPath(); ctx.arc(w.p.x, w.p.y - 4, 65, 0, Math.PI * 2); ctx.stroke();
-      ctx.textAlign = 'center'; outlinedText(ctx, 'フィーバー', clamp(w.p.x, 75, W - 75), Math.min(PLAY_B - 24, w.p.y + 72), ctx.strokeStyle);
+      // Say it big at the top (like the BPM banner) instead of crowding the player's feet,
+      // so the biggest reward in the rhythm fight is easy to read, not just a ring underfoot.
+      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 62, 516, 29); ctx.textAlign = 'center';
+      outlinedText(ctx, 'フィーバー！', W / 2, 77, feverColor);
     }
     if (w.playtest && w.playtest.phase === 'reaction') {
       ctx.fillStyle = '#10233a'; ctx.fillRect(100, PLAY_B - 90, 340, 60); ctx.textAlign = 'center';
