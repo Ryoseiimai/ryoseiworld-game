@@ -21,6 +21,8 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  object('neon_painter','npc2',1,22.4,31.4,48,65,{label:'えを かく こ',event:'muralPainter'}),
  // R24: the hacker returns here (STORY_V4.md: friend, また会う). Her spirit is now the whale (ch1.js); at bond 3 it joins for real.
  person('hacker',25,18.6,{event:'hackerNeon'}),
+ // R25: ミオの雨の日 (STORY_V4.md 恋愛きずな3). She waits under the sidewalk roof near the crossroad; sharing the umbrella raises her heart to 3 and コトバイルカ joins.
+ object('neon_mio','npc2',0,13.4,21.6,48,65,{label:'ミオ',event:'mioRain'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
  prop('neon_bench',4,19.4,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
@@ -72,7 +74,9 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   key:wait,battery:wait,recruit:wait,boss:{text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}}},
  // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
  summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。'},
-  whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。'}},
+  whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。'},
+  // R25: ことばが わかって、てきが 1かい やすむ（SPEC_V7_MANABU.md 3.2 ほんやく）。
+  kotoba:{name:'コトバイルカ',frame:4,cost:20,rest:true,desc:'てきの ことばが わかる。\nつぎの てきの ターンを\n1かい やすませる。'}},
  bonds:{neon_painter:{name:'えを かく こ',kind:'friend',spirit:'paint',likes:['drink'],rewards:{2:{money:90}}}},
  events:{
   netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}],
@@ -85,7 +89,13 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   hackerNeon:[{if:{summon:'whale'},then:[{say:'hackerNeonIdle'}],
    else:[{if:'hackerNeonMet',then:[{say:'hackerNeonAgain'}],else:[{say:'hackerNeonFirst'},{flag:'hackerNeonMet'}]},
     {bond:'hacker'},
-    {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{save:'quiet'}]}]}]
+    {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{save:'quiet'}]}]}],
+  // R25: ミオの雨の日（STORY_V4.md 恋愛きずな3）。かさに いれる を えらぶと きずなが あがり、3で コトバイルカが 仲間に なる。
+  mioRain:[{if:{summon:'kotoba'},then:[{say:'mioRainIdle'}],
+   else:[{if:{bond:'mio',atLeast:2},then:[{say:'mioRainAsk'},{choice:'どうする？',options:[
+     {text:'かさに いれる',then:[{say:'mioRainShare'},{bond:'mio'},{if:{bond:'mio',atLeast:3},then:[{say:'mioRainJoin'},{join:'kotoba'},{save:'quiet'}]}]},
+     {text:'さきに いく',then:[{say:'mioRainSkip'}]}]}],
+    else:[{say:'mioRainEarly'}]}]}]
  },
  dialogue:{
   neonSign:[['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],['ソラ','みんなの あたまに\nかずが うかんでる…？']],
@@ -119,7 +129,14 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   hackerNeonFirst:[['ハッカーの おねえさん','あ、RYOSEIくん！\nこんな とこで\nなにしてるの。'],['ハッカーの おねえさん','わたしは この まちの\nサーバーを みてるの。']],
   hackerNeonAgain:[['ハッカーの おねえさん','サーバーの ちょうしは\nまあまあ かな。']],
   hackerNeonJoin:[['ハッカーの おねえさん','ねえ、わたしの\nくじらを かして あげる。'],['','サーバークジラが\nなかまに なった！'],['ハッカーの おねえさん','なにか あったら\nすぐ もどせるよ。']],
-  hackerNeonIdle:[['ハッカーの おねえさん','クジラが いれば\nあんしんでしょ。']]},
+  hackerNeonIdle:[['ハッカーの おねえさん','クジラが いれば\nあんしんでしょ。']],
+  // R25: ミオの雨の日。
+  mioRainEarly:[['ミオ','あめだ。かさ\nもってきてない。']],
+  mioRainAsk:[['','いつのまにか\nあめが ふってきた。'],['ミオ','かさ わすれちゃった。\nどうしよう。'],['ソラ','かさに いれて あげる？']],
+  mioRainShare:[['','かさを さしだした。'],['ミオ','…いいの？\nありがとう。'],['','ひとつの かさで\nいっしょに あるいた。'],['ミオ','なんか きんちょうする。\nへんな こと いった？']],
+  mioRainJoin:[['ミオ','ねえ、わたしの\nイルカ、かして あげる。'],['','コトバイルカが\nなかまに なった！'],['ミオ','ことばが わからない\nときに たすけて くれる。']],
+  mioRainSkip:[['','さきに はしって\nいった。'],['ミオ','…またね。']],
+  mioRainIdle:[['ミオ','あめの ひ、かさに\nいれて くれたの\nわすれないよ。']]},
  enemies:{
   // The boss is a shooter fight (v5/js/shooter.js hikaku: number blocks that weaken the shot, rings from half HP, じぶんの ペース pickups).
   hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで もう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']},

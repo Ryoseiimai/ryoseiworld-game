@@ -428,7 +428,7 @@ function focusBattle(){const b=g.battle;if(!b||b.over||b.locked||modalKind||dial
 function startBattle(type,id,tutorial=false,event=null){if(g.battle||!GAME_DATA.enemies[type])return false;const def=GAME_DATA.enemies[type];g.battle={type,id,tutorial,event,enemy:entity(tutorial?22:def.hp),turn:0,creates:0,locked:false,over:false,bursts:[],burstQueue:[],cast:null,usedSummon:false,lastCmd:null,log:''};screen('battle');window.RYW.learn('hp');encounterWord(type);$('burst').hidden=true;log(tutorial?'グリッチカラスが まどから きた！\n「よびだす」で\nナオスライムを よぼう。':def.name+'が あらわれた！');focusBattle();return true;}
 function damageEnemy(amount){const b=g.battle;if(!b||b.over)return;const def=GAME_DATA.enemies[b.type];if(def.fakeHp)amount=b.hallReveal?amount*2:Math.floor(amount/2);startRoll(b.enemy,b.enemy.hp-amount);sfx.attack();if(def.bursts){for(const [ratio,text] of def.bursts){if(b.enemy.hp/b.enemy.maxHp<=ratio&&!b.bursts.includes(ratio)){b.bursts.push(ratio);b.burstQueue.push(text);}}}}
 function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dialogue||performance.now()<inputGuardUntil)return;ensureAudio();sfx.decide();if(cmd==='summon'){window.RYW.learn('yobidasu');b.lastCmd='summon';summonMenu();return;}if(cmd==='item'&&!arg){b.lastCmd='item';itemsMenu(true);return;}
- if(cmd==='cast'){const s=GAME_DATA.summons[arg];if(!s||!g.summons.includes(arg))return;b.lastCmd='summon';if(g.battery<s.cost){log('でんちが たりない！');return;}g.battery-=s.cost;if(arg==='nao')window.RYW.learn('debug');if(arg==='code')window.RYW.learn('codegen');if(arg==='owl')window.RYW.learn('search');if(arg==='paint')window.RYW.learn('sprite');if(arg==='whale')window.RYW.learn('backup');b.locked=true;b.usedSummon=true;b.cast={id:arg,start:gameTime};syncCommands();log(s.name+'を よんだ！');
+ if(cmd==='cast'){const s=GAME_DATA.summons[arg];if(!s||!g.summons.includes(arg))return;b.lastCmd='summon';if(g.battery<s.cost){log('でんちが たりない！');return;}g.battery-=s.cost;if(arg==='nao')window.RYW.learn('debug');if(arg==='code')window.RYW.learn('codegen');if(arg==='owl')window.RYW.learn('search');if(arg==='paint')window.RYW.learn('sprite');if(arg==='whale')window.RYW.learn('backup');if(arg==='kotoba')window.RYW.learn('honyaku');b.locked=true;b.usedSummon=true;b.cast={id:arg,start:gameTime};syncCommands();log(s.name+'を よんだ！');
   // A rolling HP drop is rescued at once; a resting HP shows the heal while the summon holds still.
   const rescue=!!(s.heal&&g.hero.rolling);if(rescue){healEntity(g.hero,s.heal);g.status=null;}
   const hall=s.boost&&GAME_DATA.enemies[b.type].fakeHp;
@@ -437,6 +437,7 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
    else if(s.boost){if(hall)b.hallReveal=true;else b.boost={x:s.boost,left:(s.turns||2)+1};sfx.heal();msg=hall?'でどころが ない！\nほんとうの HPが みえた。ダメージ 2ばい！':seeLine(b,s);}
    else if(s.mirror){b.mirror=true;sfx.heal();msg='えの みがわりを つくった！\nつぎの こうげきを うけとめる。';}
    else if(s.backup){b.backup={hp:g.hero.hp,turnsLeft:3};sfx.heal();msg='いまの HPを ほぞんした！\nたおれても 1かい もどれる。';}
+   else if(s.rest){b.restEnemy=true;sfx.heal();msg='てきの ことばが わかった！\nつぎは 1かい やすみそう。';}
    else if(s.damage){damageEnemy(power(s.damage+Math.max(0,g.level-1)*3));msg='コードせいせい！\nカッコも きちんと とじてある。';}
    log(msg);},900);
   later(()=>{if(g.battle!==b||b.over)return;b.cast=null;finishTurn();},2100);return;}
@@ -450,7 +451,10 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
  else if(cmd==='run'){if(GAME_DATA.enemies[b.type].boss){log(GAME_DATA.enemies[b.type].name+'が みちを ふさいでいる！');}else{g.defeated[b.id]=gameTime+8000;later(()=>{g.battle=null;screen('field');immuneUntil=gameTime+2500;toast('すたこら。ちょっと きょりを おいた。');},450);return;}}
  else{b.locked=false;return;}finishTurn();}
 function finishTurn(){const b=g.battle;if(!b||b.over)return;later(()=>{if(b!==g.battle||b.over)return;if(b.enemy.hp<=0){win();return;}enemyTurn();},700);}
-function enemyTurn(){const b=g.battle,def=GAME_DATA.enemies[b.type];b.turn++;if(b.boost&&--b.boost.left<=0)b.boost=null;const dmg=b.tutorial?3:def.attack+(def.specialEvery&&b.turn%def.specialEvery===0?def.specialDamage:0);
+function enemyTurn(){const b=g.battle,def=GAME_DATA.enemies[b.type];b.turn++;if(b.boost&&--b.boost.left<=0)b.boost=null;
+ // R25: honyaku (コトバイルカ) makes the enemy understood, so it rests this one turn instead of attacking.
+ if(b.restEnemy){b.restEnemy=false;sfx.heal();log(def.name+'は\nことばが つたわって\nひとやすみ した。');b.locked=false;focusBattle();return;}
+ const dmg=b.tutorial?3:def.attack+(def.specialEvery&&b.turn%def.specialEvery===0?def.specialDamage:0);
  // R24: the mirror (スプライトせいせい) catches this whole hit; backup (バックアップ) only steps in when the hit would be fatal, within its 3-turn window.
  if(b.mirror){b.mirror=false;sfx.heal();log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+'\nえの みがわりが うけとめた！');b.locked=false;focusBattle();return;}
  const newHp=g.hero.hp-dmg;

@@ -707,6 +707,26 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!r.g.battle.backup,'バックアップは 1回で きえる');assert.equal(r.g.screen,'battle','たおれずに すんだ');
   for(const k of ['painterAsk','painterLike','painterJoin','painterIdle','hackerNeonFirst','hackerNeonAgain','hackerNeonJoin','hackerNeonIdle'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R24 line fits '+row);}
  result.push('R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS');
+ // R25: ミオの雨の日（STORY_V4.md 恋愛きずな3）。かさに いれる を えらぶと きずなが あがり、3で コトバイルカが 仲間に なり、ほんやく（てきが1回やすむ）が つかえる。
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
+  assert(D.summons.kotoba&&D.summons.kotoba.rest&&D.summons.kotoba.frame===4,'kotoba summon data (rest, sheet frame 4)');
+  const mio=D.maps.neon.objects.find(o=>o.id==='neon_mio');assert(mio&&mio.kind==='npc2'&&mio.frame===0&&mio.event==='mioRain','Mio stands in ネオンシティ with the npc2 picture');
+  const read=[];const talk=(ev,...picks)=>{r.g.debugEvent(ev);for(let i=0;i<40;i++){if(r.g.dialogue){read.push(...r.g.dialogue.lines.map(l=>l.join(' ')));r.click('dialogue');continue;}if(r.g.modal==='event'){r.tick(300);r.button(picks.shift()||'さきに いく');continue;}break;}assert(!r.g.dialogue&&!r.g.modal,'event '+ev+' finishes');r.tick(300);};
+  // Before her heart 3, if RYOSEI runs ahead, nothing changes.
+  st.bonds.mio=2;talk('mioRain','さきに いく');assert.equal(st.bonds.mio,2,'さきに いく では きずなが あがらない');assert(!r.g.summons.includes('kotoba'));
+  // Sharing the umbrella raises her heart to 3, and コトバイルカ joins.
+  talk('mioRain','かさに いれる');assert.equal(st.bonds.mio,3,'かさに いれる で きずなが あがる');
+  assert(r.g.summons.includes('kotoba'),'きずな3で コトバイルカが 仲間に なる');
+  talk('mioRain');const all=read.join('\n');assert(all.includes('コトバイルカ'));
+  for(const t of ['すき','キス','デート'])assert(!all.includes(t),'12-year-old story: no '+t);
+  // 技: ほんやく（てきの ことばが わかって、てきが 1かい やすむ）。
+  st.battery=100;r.g.debugStartBattle('popup','r25-honyaku');r.tick(300);const hpBefore=r.g.hp.hp;
+  r.cmd('summon');r.button('コトバイルカ');r.tick(3000);
+  assert.equal(r.g.hp.hp,hpBefore,'てきは やすんで こうげきしない');assert(!r.g.battle.restEnemy,'やすみは 1回で きえる');
+  r.cmd('attack');r.tick(3000);assert(r.g.hp.hp<hpBefore,'つぎの ターンは ふつうに こうげきする');
+  for(const k of ['mioRainEarly','mioRainAsk','mioRainShare','mioRainJoin','mioRainSkip','mioRainIdle'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R25 line fits '+row);}
+ result.push('R25: ミオの雨の日（かさに いれる で きずな3・コトバイルカが 仲間に なる）とほんやく（てきが 1かい やすむ）PASS');
  // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
  {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
   const plain=x=>JSON.parse(JSON.stringify(x)),defaults={v:1,jump:6,sprite:0,title:'ja',deployed:false};
