@@ -67,5 +67,18 @@
     "status": "pending",
     "task": "R38",
     "requested_at": "2026-10-10T12:40:00+09:00"
+  },
+  {
+    "id": "art-20261010-1422-summons_sheet_v2",
+    "file": "v5/assets/summons_sheet.png",
+    "size": "1024x1024",
+    "grid": "3x3",
+    "out": "v5/assets/summons",
+    "name": "summons",
+    "prompt": "Pixel art sprite sheet, 3x3 grid, top-down RPG summon-creature sheet, same soft 16-bit style as the reference. Keep frames 0-5 as they already are (a blue slime, a small dragon, an owl, a chimera made of paint splashes, a dolphin, a whale) and add a 7th frame in its place: frame 6 a small pale lavender ghost-robot child, round and soft, no longer grey and broken-looking but glowing gently, one eye shaped like a small light, friendly and a little shy, not scary. Transparent background, no text.",
+    "ref": "v5/assets/summons_sheet.png",
+    "status": "pending",
+    "task": "R29",
+    "requested_at": "2026-10-10T14:22:00+09:00"
   }
 ]

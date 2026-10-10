@@ -169,7 +169,7 @@ RYW.words={
  finetuning:{kind:'ai',where:'まだ',
   adult:{word:'ファインチューニング',one:'AIを追加で鍛え直す',mean:'学習済みのAIを、特定の用途向けに追加で学習させること。',work:'自社データでAIの答え方を調整するときに使う。',code:''},
   kids:{word:'ファインチューニング',yomi:'',sora:'AIを もういちど がくしゅうさせるよ',real:'できた AIを べつの しごとむきに そだてなおすこと',code:''}},
- agent:{kind:'ai',where:'まだ',
+ agent:{kind:'ai',where:'ゼロ（4章）',
   adult:{word:'エージェント',one:'AIが自分で手順を進める',mean:'目的のために判断と行動をくり返すAIの仕組み。',work:'調べる→実行する→確かめるを自動でくり返す。',code:''},
   kids:{word:'エージェント',yomi:'',sora:'AIが じぶんで すすめて いくよ',real:'もくてきの ために じぶんで すすめる AI',code:''}},
  api:{kind:'code',where:'まだ',

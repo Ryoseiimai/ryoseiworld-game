@@ -37,11 +37,13 @@ maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょ�
  tower('twr_pillar',7,5,5,110,140),tower('twr_cloud1',13,8.6,9.4,70,70),
  // R28: the rooftop gate is now the ジブン boss fight (liftOff -> shooter.js jibun). goneWhenCleared matches the hikaku pattern (R26).
  tower('twr_gate',15,5,2.6,110,130,{label:'ひかる もん',action:'boss',enemy:'jibun',dialogue:'jibunTalk',clearedDialogue:'jibunGone',goneWhenCleared:true}),
+ // R29: a second, fainter door for ゼロ. requiresBoss keeps it locked until ジブン is beaten (jibun.winEvent pushes 'jibun' into g.bosses).
+ tower('twr_gate2',15,7.4,2.6,90,110,{label:'かすかな ひかり',action:'boss',enemy:'zero',requiresBoss:'jibun',dialogue:'zeroTalk',lockedDialogue:'zeroLocked',clearedDialogue:'zeroGone',goneWhenCleared:true}),
  tower('twr_down',6,2.2,2.6,90,90,{label:'ひかりの ゆか'})],
  enemies:[],portals:[],cells:[{x:2.2,y:2.6,warp:'tower3',at:[5,10]}]};
 RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
- // R28: ジブンの シューティング戦。R29がゼロを足すまでは next を書かない（勝った後は jibunTower でチャプターカードだけ出す）。
- boss:'jibun',clearDialogue:'jibunClear',clearSpot:['tower_roof',5,4],clearEvent:'jibunTower',
+ // R29: ジブンに勝っても まだ 章は終わらない（jibun.winEvent が jibunWin を走らせるだけ）。章の ほんとうの ボスは ゼロ。
+ boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  quests:{cleared:{text:'とうの なかが しずかに なった。'},tutorial:{text:'よびだすで ナオスライムを よぼう'},
@@ -53,8 +55,10 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   // R27: 入口の少し奥で、コトバイルカが まだ 仲間でなければ 仲間になる（SPEC_V5_CH234.md「入口で コトバイルカ が仲間になる」）。
   towerEntrance:[{if:{summon:'kotoba'},then:[{say:'towerEntranceIdle'}],
    else:[{say:'towerEntranceAsk'},{join:'kotoba'},{proto:'text'},{say:'towerEntranceJoin'},{save:'quiet'}]}],
-  // R28: ジブンに勝った後。R29がゼロを足すまでは次の章がないので、チャプターカードだけ出してタイトルへ戻れるようにする。
-  jibunTower:[{chapterClear:true,copy:'ジブンが\nおなじ いろに なった。'}]
+  // R29: ジブンに勝った後。章は まだ 終わらず、ゼロの もんが あくだけ（jibunClear の最後の行で予告する）。
+  jibunWin:[{say:'jibunClear'}],
+  // R29: ゼロに勝った後（STORY_V4.md「最後はみんなの守護霊が…」）。ゼロが仲間になり、章が終わる。
+  zeroJoin:[{join:'zero'},{save:'quiet'},{chapterClear:true,copy:'ゼロが\nなかまに なった。'}]
  },
  dialogue:{
   towerGuide:[['あんないロボ','ようこそ\nノイズの とうへ。'],['あんないロボ','ひかりの ゆかで\nかいを いどうできます。']],
@@ -64,8 +68,14 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   towerEntranceIdle:[['あんないロボ','イルカが となりで\nねむっていますね。']],
   // R28: おくじょうの もんの むこうに ジブンが立っている（STORY_V4.md「ノイズのとう: これまでの人の守護霊が力を貸す。ジブン→ゼロ」）。
   jibunTalk:[['ジブン','やめても\nだれも こまらないよ。'],['ソラ','たまは とどかないよ。\n「つくる」の\nひかりを とろう！']],
-  jibunGone:[['ジブン','……おなじ いろに\nなった。']],
-  jibunClear:[['','ジブンが おなじ\nいろに なった。'],['ソラ','きのうより ひとつ\nすすんだね。'],['ソラ','つぎは ゼロが いる\nみたいだ。']]},
+  // R29: ジブンはもう べつの すがたでは なく、話し手は ナレーション扱い（すがたが ない）。
+  jibunGone:[['','……おなじ いろに\nなった。']],
+  jibunClear:[['','ジブンが おなじ\nいろに なった。'],['ソラ','きのうより ひとつ\nすすんだね。'],['ソラ','つぎは ゼロが いる\nみたいだ。']],
+  // R29: ゼロの もん（STORY_V4.md「ゼロは、守護霊を持たないまま捨てられたAI」）。
+  zeroTalk:[['','かすかに ひかる ものが\nまだ うごいている。'],['ソラ','こうげきが きかないよ。'],['ソラ','みんなの「こえ」を\nあつめよう。']],
+  zeroLocked:[['','ひかりは まだ\nとどかないみたい。']],
+  zeroGone:[['ゼロ','……ありがとう。']],
+  zeroClear:[['ゼロ','……だれも ぼくを\nつかって くれなかった。'],['RYOSEI','いっしょに\nつくろう。'],['ゼロ','……うん。']]},
  enemies:{
   // R27: SPEC_V5_CH234.md「ウイルスだま・グリッチカラス・むげんローディング（色を暗くした強い版）」。
   // あたらしい絵は依頼中で、とどくまでは ちかい すがたの コマを くらい いろで ながす（RULES.md 4）。
@@ -73,7 +83,14 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   crow2:{name:'グリッチカラス',frame:1,hp:78,attack:13,exp:32,money:48,level:9,color:['#161f30','#5f7aa8'],hints:["いちコマ とぶ","するどく つつく"],actions:['くらやみで いちコマ とんだ！','するどく つついて きた！']},
   infload2:{name:'むげんローディング',frame:5,hp:90,attack:15,exp:36,money:54,level:9,color:['#141c2c','#45597a'],hints:["くるくる まわる","おわらない バー"],actions:['くらく ぐるぐる まわった！','バーが すすんで、また もどった！']},
   // R28: ジブンの シューティング戦（v5/js/shooter.js の jibun: たまは すりぬけ、「つくる」の ひかりを3つ とると いろが もどる）。ふだんの たたかいに ならない時の保険として形だけの数値を置く。
-  jibun:{name:'ジブン',boss:true,shooter:'jibun',intro:['ジブン','やめても だれも こまらないよ。'],art:'ryosei',animCols:4,specialEvery:3,specialDamage:0,hp:1,attack:0,exp:0,money:0,level:9,color:['#1a2430','#c9ced8'],hints:['きのうの じぶんを たすける'],actions:['たまが すりぬけた。']}},
+  // R29: winEvent で jibunWin を走らせる。これが無いと bossWon は 章の ほんとうの ボス（ゼロ）としか みなさない。
+  jibun:{name:'ジブン',boss:true,shooter:'jibun',winEvent:'jibunWin',intro:['ジブン','やめても だれも こまらないよ。'],art:'ryosei',animCols:4,specialEvery:3,specialDamage:0,hp:1,attack:0,exp:0,money:0,level:9,color:['#1a2430','#c9ced8'],hints:['きのうの じぶんを たすける'],actions:['たまが すりぬけた。']},
+  // R29: ゼロの シューティング戦（v5/js/shooter.js の zero: こうげきは きかない。「こえ」の光を取るたびに
+  // 町の人の守護霊がつながり、一言が流れる。全員つながると とくぎ が「みんなの こえ」に変わり、撃つとノイズが晴れる）。
+  zero:{name:'ゼロ',boss:true,shooter:'zero',intro:['ゼロ','……ザーッ'],hp:1,attack:0,exp:90,money:120,level:9,color:['#1a1030','#b9a7ff'],hints:['こえを あつめている'],actions:['ざつおんが ながれた。']}},
+ // R29: ゼロが仲間になった時のために（召喚獣メニューは GAME_DATA.summons[id] を直接読むので要る）。あたらしい絵は依頼中、とどくまでは
+ // プレースホルダーの コマ（fallback() の summons 用の形）で動かす（RULES.md 4）。
+ summons:{zero:{name:'ゼロ',frame:6,cost:30,damage:64,desc:'みんなの こえを とどける。\nおおきな ダメージ。'}},
  maps
 });
 })();
