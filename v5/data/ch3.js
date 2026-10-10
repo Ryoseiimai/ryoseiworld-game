@@ -56,7 +56,9 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
  object('ncap_plant','interior',13,9.4,8.8,75,80)],
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[24,25.8]}]};
-const wait={text:'ネオンシティを みて まわろう'};
+// FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
+// 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
+const bossQuest={text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
 // R50: a small reception room, using the existing interior and attendant art.
 // R26: ヒカクマオウ stands at the back of the stadium floor (no art yet, autodev/ART_REQUESTS.json hikaku_throne; a labelled box until it comes).
 maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
@@ -74,7 +76,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // The quest steps for recruit/key/zako come with the people and noises (R24・R25・R38). Until then the stadium boss is reachable directly (no requires on the object).
  quests:{cleared:{text:'まちが すこし おだやかに なった。'},tutorial:{text:'よびだすで ナオスライムを よぼう'},
   zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
-  key:wait,battery:wait,recruit:wait,boss:{text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}}},
+  key:bossQuest,battery:bossQuest,recruit:bossQuest,boss:bossQuest},
  // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
  summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。'},
   whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。'},
