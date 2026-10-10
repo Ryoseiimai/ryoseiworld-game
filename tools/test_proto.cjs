@@ -105,5 +105,112 @@ test('後続モードも同じ入口とstateを返す', () => {
     assert.deepEqual(result, defaults); assert.deepEqual(h.state, defaults);
   }
 });
+for (const value of [3, 6, 9]) {
+  test('lesson のじっこうは今の値 ' + value + ' で自動1周し、手動に戻る', () => {
+    const s = sim.createSession({ mode: 'lesson', state: { jump: value } });
+    s.run(); const run = s.world;
+    assert.equal(s.running, true);
+    for (let i = 0; i < 600 && s.running; i++) s.advance(1 / 60);
+    assert.equal(s.running, false); assert.equal(run.over, true);
+    assert.equal(run.hitBug, value === 3); assert.equal(run.hitCeiling, value === 9);
+    assert.equal(run.cleared, value === 6); assert.equal(s.praise > 0, value === 6);
+    assert.equal(s.closed, false); assert.notEqual(s.world, run);
+    assert.equal(sim.jump(s.world), true, '自動終了後に手でジャンプできる');
+    s.restart(); const manual = s.world;
+    s.advance(1.5); assert.equal(manual.jumps, 0); assert.equal(manual.hitBug, true);
+  });
+}
+test('自動じっこう中の数字変更とアンドゥは自動を止める', () => {
+  const s = sim.createSession({}); s.run(); s.advance(0.5); s.setJump(3);
+  assert.equal(s.running, false); assert.equal(s.world.t, 0);
+  s.run(); s.undo(); assert.equal(s.running, false); assert.equal(s.state.jump, 6);
+});
+
+// Mount the actual UI with a small DOM/canvas recorder: no browser or library needed.
+function page(cfg = {}, hidden = false) {
+  const vm = require('node:vm'), fs = require('node:fs');
+  let texts = [], arcs = [], raf = null, now = 0;
+  const ctx = {
+    setTransform() { texts = []; arcs = []; }, fillRect() {}, beginPath() {}, fill() {}, stroke() {},
+    arc(x, y, radius) { arcs.push({ x, y, radius }); },
+    fillText(text, x, y) { texts.push({ text, x, y, size: Number(this.font.match(/(\d+)px/)[1]) }); },
+    measureText(text) { return { width: Array.from(text).length * 24 }; }
+  };
+  function element(tagName) {
+    return {
+      tagName: tagName.toUpperCase(), style: {}, children: [], listeners: {}, isConnected: true,
+      appendChild(el) { this.children.push(el); el.parentNode = this; },
+      setAttribute() {}, getContext() { return ctx; }, focus() {}, remove() {},
+      addEventListener(type, fn) { (this.listeners[type] ||= []).push(fn); },
+      removeEventListener(type, fn) { this.listeners[type] = (this.listeners[type] || []).filter(f => f !== fn); },
+      emit(type, props = {}) {
+        const e = { type, target: this, stopPropagation() {}, stopImmediatePropagation() {}, preventDefault() {}, ...props };
+        for (const fn of this.listeners[type] || []) fn(e);
+      }
+    };
+  }
+  const document = Object.assign(element('document'), { hidden, body: element('body'), createElement: element });
+  const window = Object.assign(element('window'), {
+    innerWidth: 540, innerHeight: 960,
+    requestAnimationFrame(fn) { raf = fn; return 1; }, cancelAnimationFrame() { raf = null; }
+  });
+  vm.runInNewContext(fs.readFileSync(require.resolve('../v5/js/proto.js'), 'utf8'), { window, document });
+  window.RYW.Proto.open(cfg);
+  const stage = document.body.children[0].children[0];
+  return {
+    window, document, stage, texts: () => texts, arcs: () => arcs,
+    frame(dt = 1 / 60) { now += dt * 1000; const fn = raf; raf = null; if (fn) fn(now); },
+    click(label) {
+      const b = stage.children.find(el => el.textContent === label);
+      assert.ok(b, label); stage.emit('pointerdown'); b.emit('click');
+    }
+  };
+}
+test('じっこうボタンから自動成功し、ほめる文字と天井ラベルが重ならない', () => {
+  const p = page({ mode: 'lesson', aiName: 'ソラ' });
+  p.click('▶ じっこう'); assert.ok(p.texts().some(t => t.text === 'じっこう ちゅう' && t.y >= 420));
+  p.frame();
+  for (let i = 0; i < 480; i++) p.frame();
+  const praise = p.texts().find(t => t.text === 'ちょうど いい！');
+  const ceiling = p.texts().find(t => t.text === 'てんじょう');
+  assert.ok(praise); assert.ok(p.texts().some(t => t.text === 'ソラ:'));
+  assert.ok(Math.abs(praise.y - ceiling.y) >= Math.max(praise.size, ceiling.size));
+  assert.ok(p.texts().every(t => t.size >= 24));
+  assert.ok(p.texts().some(t => t.text === 'おすと ジャンプ'));
+  assert.equal(p.window.__proto.debugJump(), true);
+});
+test('プレイテストの手は自動ジャンプと同時に沈む', () => {
+  const p = page({ mode: 'playtest' });
+  const palmY = () => p.arcs().find(a => a.radius === 26).y;
+  const resting = palmY(); p.frame();
+  for (let i = 0; i < 90 && p.window.__proto.debugState().y === 358; i++) p.frame();
+  assert.ok(p.window.__proto.debugState().y < 358);
+  assert.ok(palmY() > resting);
+  for (let i = 0; i < 16; i++) p.frame();
+  assert.equal(palmY(), resting);
+});
+for (const input of ['pointerdown', 'keydown']) {
+  test('初期hiddenがtrueでも最初の ' + input + ' で再開し、後の非表示では止まる', () => {
+    const p = page({}, true); p.frame(); p.frame();
+    assert.equal(p.window.__proto.debugState().cycleTime, 0);
+    if (input === 'pointerdown') p.stage.emit(input);
+    else p.window.emit(input, { code: 'Space', repeat: false });
+    assert.ok(!p.texts().some(t => t.text === 'ひとやすみ'));
+    if (input === 'pointerdown') assert.equal(p.window.__proto.debugJump(), true);
+    p.frame(); p.frame(); assert.ok(p.window.__proto.debugState().y < 358);
+    p.document.emit('visibilitychange'); const paused = p.window.__proto.debugState().cycleTime;
+    p.frame(); p.frame(); assert.equal(p.window.__proto.debugState().cycleTime, paused);
+    p.document.hidden = false; p.document.emit('visibilitychange'); p.frame(); p.frame();
+    assert.ok(p.window.__proto.debugState().cycleTime > paused);
+  });
+}
+test('入力で初期hiddenを見直してもplatformのpauseを解除しない', () => {
+  let pause, resume;
+  const p = page({ platform: { onPause(fn) { pause = fn; }, onResume(fn) { resume = fn; } } }, true);
+  pause(); p.stage.emit('pointerdown'); p.window.emit('keydown', { code: 'Space' });
+  assert.equal(p.window.__proto.debugJump(), false);
+  p.frame(); p.frame(); assert.equal(p.window.__proto.debugState().cycleTime, 0);
+  resume(); assert.equal(p.window.__proto.debugJump(), true);
+});
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 if (failed) process.exitCode = 1;
