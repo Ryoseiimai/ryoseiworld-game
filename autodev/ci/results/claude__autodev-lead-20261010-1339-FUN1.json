@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-lead-20261010-1339-FUN1",
+  "sha": "df7a849776cbc54051b45b3979422a2fe5b8f173",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/62/mobile-02-mode-select.jpg",
+    "devlog/shots/62/mobile-12-map-minamo.jpg",
+    "devlog/shots/62/mobile-21-chapter-3-play.jpg",
+    "devlog/shots/62/mobile-32-battle-kateino.jpg"
+  ],
+  "at": "2026-10-10T04:50:05.775Z",
+  "merged_sha": "df7a849776cbc54051b45b3979422a2fe5b8f173",
+  "tested_base": "7d8ccbefa70dcdcc1a8145613f1960af2244d1cc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38025266062"
+}
