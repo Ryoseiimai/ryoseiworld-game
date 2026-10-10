@@ -149,6 +149,9 @@ async function runViewport(browser, url, vp, errors, shots) {
     const start = page.locator('#start-btn');
     if (await start.count()) { await start.click({ timeout: 5000 }); } else { skip('start', '#start-btn not found'); }
     await sleep(400);
+    // SPEC_V7_MANABU.md 9.1: "はじめから" may ask adult/kids mode first; take the default (adult) when it does.
+    const modeBtn = page.locator('button', { hasText: 'おとなモード' });
+    if (await modeBtn.count()) { await shot('mode-select'); await modeBtn.first().click({ timeout: 5000 }); await sleep(400); }
     await shot('start-prologue');
     const afterStart = await settle();
     await shot('after-start', `screen=${afterStart.screen}`);
