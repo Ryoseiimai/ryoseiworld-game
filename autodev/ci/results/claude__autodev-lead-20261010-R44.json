@@ -1,0 +1,27 @@
+{
+  "branch": "claude/autodev-lead-20261010-R44",
+  "sha": "4d948485580211321e95d8b8ed3e2329addc86a0",
+  "result": "fail",
+  "checks": {
+    "fence": "fail",
+    "merge": "skipped",
+    "test_v5": "skipped",
+    "smoke": "skipped"
+  },
+  "errors": [
+    "fence: .github/autodev/gate.sh は変えてはいけない（自動確認の設定）",
+    "fence: SPEC_V8_RHYTHM.md は合流してよい場所（v5/ tools/ autodev/ devlog/ docs/）の外。公開中の rpg.html・index.html・assets/ とルートのファイルは、変える・消す・名前を変える・移すのどれもしない",
+    "fence: autodev/RULES.md は司令塔だけが変える（開発係の決まり）",
+    "fence: autodev/ci/results/claude__autodev-lead-20261010-R39.json は自動確認だけが書く",
+    "fence: devlog/log.json は自動確認だけが書く",
+    "fence: devlog/shots/46/mobile-03-after-start.jpg は自動確認だけが書く",
+    "fence: devlog/shots/46/mobile-11-map-minamo.jpg は自動確認だけが書く",
+    "fence: devlog/shots/46/mobile-19-chapter-3.jpg は自動確認だけが書く",
+    "fence: devlog/shots/46/mobile-29-battle-kateino.jpg は自動確認だけが書く"
+  ],
+  "shots": [],
+  "at": "2026-10-10T01:41:35.982Z",
+  "merged_sha": null,
+  "tested_base": "42dfb738fbe7164f75436d1a2d59aaccfcdbee6b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38013836563"
+}

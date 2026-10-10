@@ -57,8 +57,9 @@
 
 ### 6.2 買い方
 - **iOS アプリ版**: App Store のアプリ内課金。買い切り「デバッグモード」（値段は仮に480円。今井さんが決める）。買う前に「おうちの人と いっしょに」の確認（大人なら答えられる計算の問題）を出す
-- **ブラウザ版と YouTube Playables**: 買う手段は出さない。「デバッグモードは アプリ版で つかえるよ」の1行だけ（Playables の決まりは調査して確かめる）
-- 本物のお金が動くのは、今井さんが App Store Connect の有料アプリの契約と値段を決めてから。それまでは「テスト用の店」（お金は動かない・TestFlight と検証用だけ）で中身を作って試す
+- **ブラウザ版と YouTube Playables**: 買う手段は出さない。「デバッグモードは アプリ版で つかえるよ」の1行だけ。Playables はゲーム内の購入も外の支払いへの案内も禁止（公式 https://developers.google.com/youtube/gaming/playables/certification/requirements_monetization 2026-10-10 調べ）。Playables 版では、この1行も出さない
+- 本物のお金が動くのは、今井さんが App Store Connect の有料アプリの契約と値段を決めてから。それまでは「テスト用の店」（お金は動かない・検証用だけ）で中身を作って試す。TestFlight のテスト購入も有料アプリの契約が要る（契約が無いと商品が空で返る）
+- iOS の課金のつなぎは Capacitor 8 対応の @capgo/native-purchases（StoreKit 2）を第一候補にする。アプリ内課金はガイドライン 3.1.1 で必須。13歳未満も遊ぶので、買う画面の前に保護者ゲート（ガイドライン 1.3）を置く
 - 店の入口は `RYW.Shop`（has(id)・buy(id)・restore()）に分け、iOS・テスト用・なし の3つの形を差しかえられるようにする
 
 ## 7. ことば（v5/data/words.js に足す）

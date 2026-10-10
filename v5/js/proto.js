@@ -77,9 +77,14 @@
   function createSession(cfg) {
     cfg = cfg || {};
     var s = { cfg: cfg, state: normalize(cfg.state), mode: MODES.indexOf(cfg.mode) >= 0 ? cfg.mode : 'lesson',
-      history: [], undoLearned: false, elapsed: 0, closed: false, praise: 0, paused: false };
+      history: [], undoLearned: false, elapsed: 0, closed: false, praise: 0, paused: false,
+      running: false, press: 0 };
     s.world = createWorld(s.state);
-    s.restart = function () { if (!s.closed) { s.world = createWorld(s.state); s.praise = 0; } };
+    s.restart = function () {
+      if (!s.closed) { s.world = createWorld(s.state); s.praise = 0; s.running = false; s.press = 0; }
+    };
+    s.run = function () { if (!s.closed && s.mode === 'lesson') { s.restart(); s.running = true; } };
+    s.onJump = function () { if (s.mode === 'playtest') s.press = 0.25; if (s.sound) s.sound(); };
     s.setJump = function (n) {
       if (s.closed || VALUES.indexOf(n) < 0 || n === s.state.jump) return;
       s.history.push(s.state.jump); s.state.jump = n; s.restart();
@@ -98,13 +103,14 @@
     s.advance = function (dt, auto) {
       if (s.closed || s.paused || !Number.isFinite(dt) || dt <= 0) return;
       if (s.mode === 'playtest') dt = Math.min(dt, Math.max(0, 2 - s.elapsed));
-      s.elapsed += dt; s.praise = Math.max(0, s.praise - dt);
-      step(s.world, dt, s.mode === 'playtest' || auto, s.sound);
+      s.elapsed += dt; s.praise = Math.max(0, s.praise - dt); s.press = Math.max(0, s.press - dt);
+      step(s.world, dt, s.mode === 'playtest' || s.running || auto, s.onJump);
       if (s.world.over) {
         if (s.world.cleared && s.state.jump === 6) s.praise = 2.5;
         var remainder = s.world.carry;
+        s.running = false;
         s.world = createWorld(s.state);
-        if (remainder > 0) step(s.world, remainder, s.mode === 'playtest' || auto, s.sound);
+        if (remainder > 0) step(s.world, remainder, s.mode === 'playtest' || auto, s.onJump);
       }
       if (s.mode === 'playtest' && s.elapsed >= 2 - 1e-9) s.finish();
     };
@@ -174,7 +180,7 @@
       } catch (_) { /* Audio can be unavailable until the first gesture. */ }
     }
     s.sound = sound;
-    function doJump() { if (!s.paused && jump(s.world)) sound(); }
+    function doJump() { if (!s.paused && !s.running && jump(s.world)) sound(); }
     if (!stub && s.mode !== 'playtest') {
       var field = button('jump', '', 0, 0, W, 480, doJump);
       field.style.cssText += 'background:transparent;border:0;border-radius:0;';
@@ -185,7 +191,7 @@
       buttons.less.setAttribute('aria-label', 'ジャンプを ひくく');
       button('more', '▶', 380, 553, 60, 64, function () { s.setJump(VALUES[Math.min(2, VALUES.indexOf(s.state.jump) + 1)]); });
       buttons.more.setAttribute('aria-label', 'ジャンプを たかく');
-      button('run', '▶ じっこう', 30, 686, 225, 72, function () { s.restart(); });
+      button('run', '▶ じっこう', 30, 686, 225, 72, s.run);
       button('undo', '↩ アンドゥ', 285, 686, 225, 72, s.undo);
       button('done', 'できた', 110, 812, 320, 80, s.finish);
     } else if (s.mode === 'play') button('done', 'もどる', 110, 812, 320, 80, s.finish);
@@ -211,7 +217,7 @@
       text('よけた ' + w.avoided, 30, 99, '#b9e8df', 24, 'left');
       text('あと ' + Math.max(0, Math.ceil(CYCLE - w.t)) + 'びょう', 510, 99, '#b9e8df', 24, 'right');
       ctx.fillStyle = '#4b7381'; ctx.fillRect(24, CEILING - 3, 492, 3);
-      text('てんじょう', 270, CEILING - 24, '#b9cadc');
+      text('てんじょう', 24, CEILING + 24, '#b9cadc', 24, 'left');
       ctx.fillStyle = '#3b6570'; ctx.fillRect(0, FLOOR, W, 6);
       // The camera follows a runner facing right; the floor scrolls left.
       ctx.fillStyle = '#203e50';
@@ -236,7 +242,17 @@
         while (name.length && ctx.measureText(name + ':').width > 480) name = Array.from(name).slice(0, -1).join('');
         text(name + ':', 270, 136, '#ffe29a'); text('ちょうど いい！', 270, 165, '#ffe29a');
       }
-      text(s.mode === 'playtest' ? 'プレイテスト' : 'おすと ジャンプ', 270, 450);
+      if (s.mode === 'playtest') {
+        // A fingertip and round palm press the field at the same instant as the jump.
+        var handY = 330 + (s.press > 0 ? 12 * s.press / 0.25 : 0);
+        ctx.strokeStyle = '#ffe29a'; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(430, 297, s.press > 0 ? 23 : 17, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = '#fff9e8';
+        ctx.fillRect(420, handY - 42, 20, 42);
+        ctx.beginPath(); ctx.arc(430, handY - 42, 10, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(430, handY, 26, 0, Math.PI * 2); ctx.fill();
+      }
+      text(s.mode === 'playtest' ? 'プレイテスト' : s.running ? 'じっこう ちゅう' : 'おすと ジャンプ', 270, 450);
       if (s.mode === 'lesson') {
         ctx.fillStyle = '#0a1424'; ctx.fillRect(20, 514, 500, 134);
         ctx.font = '700 30px monospace'; ctx.textAlign = 'left'; ctx.fillStyle = '#c6e6ff'; ctx.fillText('let jump =', 50, 585);
@@ -248,8 +264,12 @@
       } else if (s.mode === 'play') text('スペースでも ジャンプ', 270, 610, '#b9cadc');
       if (s.paused) { ctx.fillStyle = 'rgba(10,18,32,.9)'; ctx.fillRect(0, 260, W, 110); text('ひとやすみ', 270, 315); }
     }
-    function syncPause() {
-      s.paused = !!document.hidden || !!(platformState && platformState.paused);
+    var inputVisible = false;
+    function syncPause(fromInput) {
+      // A real input proves visibility even when the initial hidden flag is stale.
+      // A later visibilitychange still pauses normally; platform pause always wins.
+      if (fromInput === true) inputVisible = true;
+      s.paused = (!!document.hidden && !inputVisible) || !!(platformState && platformState.paused);
       last = null; draw();
       if (ac && (s.paused || !allowed())) ac.suspend().catch(function () {});
     }
@@ -266,9 +286,11 @@
       platformState.active = function () { audioOn = platformState.audio; syncPause(); };
       audioOn = platformState.audio;
     }
-    listen(document, 'visibilitychange', syncPause);
+    listen(document, 'visibilitychange', function () { inputVisible = false; syncPause(); });
+    listen(stage, 'pointerdown', function () { syncPause(true); }, true);
     listen(root, 'resize', resize);
     function key(e) {
+      if (e.type === 'keydown') syncPause(true);
       if (s.closed || stub || s.mode === 'playtest') return;
       e.stopImmediatePropagation();
       if (e.code === 'Space' && e.type === 'keydown' && !(e.target && e.target.tagName === 'BUTTON')) {
