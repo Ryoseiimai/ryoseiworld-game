@@ -1,0 +1,45 @@
+// SPEC_V7_MANABU.md 3: the shared vocabulary. Safe before or after the engine.
+(function(root){'use strict';
+const RYW=root.RYW=root.RYW||{};
+RYW.words={
+ jikkou:{"word":"じっこう","yomi":"","kind":"code","sora":"めいれいを うごかすよ！","real":"プログラムを うごかすこと","code":"run()","where":"たたかいの じっこう"},
+ prompt:{"word":"プロンプト","yomi":"","kind":"ai","sora":"してほしいことを ことばで つたえてね","real":"AIへの おねがいの ことば","code":"","where":"つくるの プロンプト"},
+ forloop:{"word":"for ループ","yomi":"フォー","kind":"code","sora":"おなじ うごきを くりかえすよ","real":"きめた かずだけ くりかえす めいれい","code":"for(i=0;i<2;i++)","where":"つくるの くりかえし こうげき"},
+ seisei:{"word":"せいせい","yomi":"","kind":"ai","sora":"たのむと あたらしく つくるよ","real":"AIが あたらしい ものを つくること","code":"","where":"つくるの なにか つくって"},
+ yobidasu:{"word":"よびだす","yomi":"","kind":"code","sora":"とくいな AIに しごとを たのもう","real":"ほかの きのうに しごとを たのむこと","code":"summon()","where":"たたかいの よびだす"},
+ item:{"word":"アイテム","yomi":"","kind":"game","sora":"もちものを つかおう","real":"ゲームの なかの もちもの","code":"","where":"アイテムの いちらん"},
+ cost:{"word":"コスト","yomi":"","kind":"game","sora":"よびだすと でんちを つかうよ","real":"わざを つかうのに いる りょう","code":"","where":"よびだすの いちらん"},
+ status:{"word":"ステータス","yomi":"","kind":"game","sora":"いまの つよさが わかるよ","real":"キャラの いまの じょうたいの まとめ","code":"","where":"メニューの ステータス"},
+ hp:{"word":"HP","yomi":"エイチピー","kind":"game","sora":"0に なると たおれちゃう","real":"のこりの たいりょくを あらわす かず","code":"hp = 30","where":"はじめての たたかい"},
+ debug:{"word":"デバッグ","yomi":"","kind":"code","sora":"バグを みつけて なおすよ","real":"ふぐあいの もとを さがして なおすこと","code":"","where":"ナオスライム"},
+ codegen:{"word":"コードせいせい","yomi":"","kind":"ai","sora":"AIが コードを かいて くれるよ","real":"AIが かいた コードも うごかして たしかめる","code":"","where":"コードラゴン"},
+ search:{"word":"けんさく","yomi":"","kind":"ai","sora":"でどころも いっしょに みよう","real":"しりたい ことを さがすこと","code":"","where":"サーチフクロウ"},
+ sprite:{"word":"スプライト","yomi":"","kind":"game","sora":"えを つくって みがわりに するよ","real":"ゲームの なかで うごく え","code":"","where":"ペイントキメラ（3章）"},
+ honyaku:{"word":"ほんやく","yomi":"","kind":"ai","sora":"あいての ことばが わかるよ","real":"いみを べつの ことばで あらわすこと","code":"","where":"コトバイルカ（3章）"},
+ backup:{"word":"バックアップ","yomi":"","kind":"code","sora":"いまを ほぞん。たおれても もどれる","real":"だいじな データの コピーを とっておくこと","code":"","where":"サーバークジラ（3章）"},
+ shot:{"word":"ショット","yomi":"","kind":"game","sora":"まっすぐ とぶ きほんの たま","real":"たまは まいフレーム すこしずつ うごく","code":"x += speed","where":"ボスせんの フク・ショット"},
+ cooldown:{"word":"クールダウン","yomi":"","kind":"game","sora":"つぎに うつまでが みじかく なるよ","real":"つぎに つかえるまでの まちじかん","code":"","where":"ボスせんの クールダウン チップ"},
+ vector:{"word":"ベクトル","yomi":"","kind":"code","sora":"むきと はやさで とんでいくよ","real":"むきと おおきさを もつ かず","code":"vx, vy","where":"ボスせんの ベクトル チップ"},
+ hitbox:{"word":"あたりはんてい","yomi":"","kind":"game","sora":"ぶつかった あとの きまりを かえたよ","real":"ものが ふれたかを しらべる しくみ","code":"","where":"ボスせんの あたりはんてい チップ"},
+ if:{"word":"if","yomi":"イフ","kind":"code","sora":"もし バリアが あれば ふせぐよ","real":"「もし〜なら」で しょりを わける","code":"if (barrier) block()","where":"ボスせんの if バリア"},
+ life:{"word":"ライフ","yomi":"","kind":"game","sora":"ハートが ライフ。0で おわり","real":"あと なんかい あたれるかの かず","code":"life = 3","where":"ボスせんの ライフ"},
+ homing:{"word":"ホーミング","yomi":"","kind":"game","sora":"あいての ほうへ まがって いくよ","real":"ねらいを おいかける うごき。AIなしでも できる","code":"","where":"ボスせんの ホーミング レター"},
+ charge:{"word":"チャージ","yomi":"","kind":"game","sora":"おした じかんで つよさが かわるよ","real":"おした じかんを はかって たまを かえる","code":"t += dt","where":"ボスせんの チャージショット"},
+ frame:{"word":"フレーム","yomi":"","kind":"game","sora":"ゲームは 1びょうに 60かい えを かくよ","real":"ゲームの 1まい 1まいの え","code":"","where":"はじめての ボスせん"},
+ playtest:{"word":"プレイテスト","yomi":"","kind":"game","sora":"つくった ゲームで あそんで もらおう","real":"ほかの ひとに あそんで もらって たしかめる","code":"","where":"カテイノジジョウの ボスせん"},
+ bug:{"word":"バグ","yomi":"","kind":"code","sora":"おもった とおりに うごかない！","real":"プログラムの まちがいや ふぐあい","code":"","where":"BUG KING に初めて会う"},
+ hyoujibug:{"word":"ひょうじバグ","yomi":"","kind":"code","sora":"えが ずれてる！ バグだ","real":"みための ふぐあいも バグの ひとつ","code":"","where":"ポップアップおばけの こうげき"},
+ glitch:{"word":"グリッチ","yomi":"","kind":"game","sora":"いま えが とんだ？","real":"えや おとが いっしゅん みだれること","code":"","where":"グリッチカラス"},
+ popup:{"word":"ポップアップ","yomi":"","kind":"net","sora":"かってに まどが ひらいたよ","real":"とつぜん とびだして くる まど","code":"","where":"ポップアップおばけ"},
+ spam:{"word":"スパム","yomi":"","kind":"net","sora":"たのんで いない メールが いっぱい","real":"たのんで いない れんらくを たくさん おくること","code":"","where":"スパムメールのむれ"},
+ narisumashi:{"word":"なりすまし","yomi":"","kind":"net","sora":"しらない リンクは ふまないでね","real":"ほかの ひとの ふりを すること","code":"","where":"なりすましネコ"},
+ hallucination:{"word":"ハルシネーション","yomi":"","kind":"ai","sora":"わたしも まちがえる。たしかめてね","real":"AIが それっぽい まちがいを いうこと","code":"","where":"3章の新しいザコ（7）"},
+ prototype:{"word":"プロトタイプ","yomi":"","kind":"game","sora":"まず ちいさく あそべる ものを","real":"ためしに つくる ちいさな しさくひん","code":"","where":"1章の おわり"},
+ hensuu:{"word":"へんすう","yomi":"","kind":"code","sora":"かずを いれておく はこだよ","real":"あたいを おぼえておく なまえつきの はこ","code":"let jump = 6","where":"ジャンプの たかさ"},
+ undo:{"word":"アンドゥ","yomi":"","kind":"game","sora":"ひとつ まえに もどせるよ","real":"さいごの そうさを とりけすこと","code":"","where":"もどす ボタン"},
+ version:{"word":"バージョン","yomi":"","kind":"game","sora":"つくりなおす たびに ふえる ばんごう","real":"どの つくりかけかを しめす ばんごう","code":"v2","where":"プロトタイプが 育った時"},
+ deploy:{"word":"デプロイ","yomi":"","kind":"game","sora":"みんなが あそべる ばしょへ おくろう","real":"つくった ものを つかえる ばしょへ おくこと","code":"","where":"3章 サーバークジラ"},
+ feedback:{"word":"フィードバック","yomi":"","kind":"game","sora":"あそんだ ひとの こえが とどいたよ","real":"あそんだ ひとの かんそうや いけん","code":"","where":"デプロイの あと"}
+};
+RYW.word=function(id){if(Object.hasOwn(RYW.words,id))return RYW.words[id].word;console.warn('RYW.word: unknown id',id);return id;};
+})(typeof window!=='undefined'?window:globalThis);

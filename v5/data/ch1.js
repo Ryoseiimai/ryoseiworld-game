@@ -99,10 +99,10 @@ events:{
  busStop:[{if:'minamoVisited',then:[{transport:'バス',copy:'どこへ いく？',stops:busStops}],else:[{if:'cleared',then:[{if:{not:'gameMade'},then:[...makeGame,{warp:'town',at:[11,17.4]}]},{say:'busRide'},{flag:'minamoVisited'},{chapterClear:true,copy:'バスは かわぞいの まちへ。\nポケットに はじめての ゲーム。'}],else:[{say:'busWait'}]}]}],
  police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',
-  quests:{cleared:{text:'バスていから ミナモちょうへ いこう'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
+  quests:{cleared:{text:'バスていから ミナモちょうへ いこう'},tutorial:{text:'よびだすで ナオスライムを よぼう'},zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},key:{text:'こうばんで カギを もらおう',dest:{map:'town',id:'police'}},battery:{text:'コンビニで バッテリーを かおう',dest:{map:'store',id:'register'}},recruit:{text:'でんきやの おくを しらべよう',dest:{map:'electric',id:'server'}},boss:{text:'テレビの おうさまに あいに いこう',dest:{map:'electric',id:'boss'}}},
  dialogue:{
  prologue:[['','なつやすみの よる。\nせんぷうきだけが\nはたらいていた。'],['RYOSEI','プリンターの しゅうり、おわり。\nおれの しゅくだいは\nおわらない。'],['','テレビも スマホも ザーッ。\nふるい パソコンだけが\nひかっている。'],['ソラ','なにを つくる?'],['RYOSEI','…せかいを なおす もの。']],
- welcome:[['ナオスライム','その ポケット、すんでいい？\nやちんは でんちで。'],['','ナオスライムが\nなかまに なった！'],['ソラ','まずは「しょうかん」で\nよんでみて。でんち15％で\nHPを なおせるよ。']],
+ welcome:[['ナオスライム','その ポケット、すんでいい？\nやちんは でんちで。'],['','ナオスライムが\nなかまに なった！'],['ソラ','まずは「よびだす」で\nよんでみて。でんち15％で\nHPを なおせるよ。']],
  tutorialEnd:[['ソラ','HPが ころがる あいだは\nまだ まにあう。おぼえておこう。'],['','おもちゃの キーボードを\nもった。'],['ソラ','まちの ノイズを しずめながら\nでんきやへ いってみよう。']],
  mother:[['おかあさん','よるの おつかい？\nせかいも いいけど、\nぎゅうにゅうもね。'],['おかあさん','コンビニに とっておいて\nもらってるの。\nうけとってきて。']],
  motherMilk:[['','ぎゅうにゅうを わたした。'],['おかあさん','ありがとう。\nあしたの あさごはん、\nこれで かんせい。']],
@@ -163,7 +163,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  shutter:[['','シャッターが しまっている。'],['はりがみ','ジャンクの カギは\nこうばんに あずけた。しゅうりや']],
  shutterOpen:[['','カギで シャッターを あけた。'],['しゅうりの おじさん','おっ、カギ。おまわりさんから？\nおくの サーバー、ねぼすけでね。']],
  serverLow:[['ふるい サーバー','ぐう。…でんきが たりない。'],['ソラ','モバイルバッテリーが あれば\nおきるかも。']],
- server:[['','モバイルバッテリーを つないだ。'],['ふるい サーバー','ぐう。…コンパイル おわった？'],['ソラ','コードラゴンだ。\nせなかに ねぐせの\nカッコが ある。'],['','コードラゴンが\nなかまに なった！',{show:'code'}],['','でんち25％で\nコードの ブレス。'],['コードラゴン','テレビの おうさまに\nあいさつしよう。\nちょっと あつい あいさつ。']],
+ server:[['','モバイルバッテリーを つないだ。'],['ふるい サーバー','ぐう。…コンパイル おわった？'],['ソラ','コードラゴンだ。\nせなかに ねぐせの\nカッコが ある。'],['','コードラゴンが\nなかまに なった！',{show:'code'}],['','でんち25％で\nコードせいせい。'],['コードラゴン','テレビの おうさまに\nあいさつしよう。\nちょっと あつい あいさつ。']],
  boss:[['','テレビの やまが\nザーッと ひかった。'],['BUG KING','どうせ お前には むりだ'],['RYOSEI','…テレビで いうと ちょっと\nせっとくりょく あるな。']],
  clear:[['','テレビの ゆきが やんだ。\nてんきよほうは、あしたも はれ。'],['しゅうりの おじさん','なおったか。\nリモコンの フタも\nついでに たのむ。'],['ソラ','つぎの まちも\nノイズに のまれてる。'],['RYOSEI','じゃあ、じゅうでん してから。']],
  signs:[['かんばん','← おうち　　コンビニ →\n↑ でんきや　↓ こうえん']],
@@ -196,7 +196,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  busRide:[['','バスに のった。'],['ソラ','つぎは ミナモちょう。\nかわぞいの まちだって。'],['RYOSEI','まどの そと、\nだれも あるいてない。']],
  levelUp:[['','レベル {lv} に なった！\nHP+{hp} こうげき+{atk}']]
  },
- enemies:{vending:{name:'バグったじはんき',frame:0,hp:38,attack:7,exp:12,money:30,level:1,color:['#334d66','#b99879'],actions:['おつりを とばした！','ぬるい おちゃを こぼした！']},crow:{name:'グリッチカラス',frame:1,hp:30,attack:6,exp:10,money:24,level:1,color:['#384b63','#839885'],actions:['いちコマ とんだ！','つつく ばしょを まちがえた！']},popup:{name:'ポップアップおばけ',status:'ちらつき',frame:3,hp:45,attack:9,exp:16,money:38,level:2,color:['#594065','#bd867a'],actions:['「はい」を おすすめした！','まどを ひとつ ふやした！']},bugking:{name:'BUG KING',boss:true,art:'bugking',animCols:3,specialEvery:3,specialDamage:5,hp:280,attack:12,exp:60,money:200,level:4,color:['#493857','#c49362'],actions:['エラーを はきだした！','チャンネルを まわした！','ノイズの おうかんが ひかった！'],bursts:[[.75,'// あとで直す'],[.5,'TODO: エラー処理'],[.25,'とりあえず動いた'],[0,'いつか だれかの やくに たつはず']]}},
+ enemies:{vending:{name:'バグったじはんき',frame:0,hp:38,attack:7,exp:12,money:30,level:1,color:['#334d66','#b99879'],hints:["おつりを とばす","おちゃを こぼす"],actions:['おつりを とばした！','ぬるい おちゃを こぼした！']},crow:{name:'グリッチカラス',frame:1,hp:30,attack:6,exp:10,money:24,level:1,color:['#384b63','#839885'],hints:["いちコマ とぶ","つつく"],actions:['いちコマ とんだ！','つつく ばしょを まちがえた！']},popup:{name:'ポップアップおばけ',status:'ひょうじバグ',frame:3,hp:45,attack:9,exp:16,money:38,level:2,color:['#594065','#bd867a'],hints:["「はい」の まど","まどを ふやす"],actions:['「はい」を おすすめした！','まどを ひとつ ふやした！']},bugking:{name:'BUG KING',boss:true,art:'bugking',animCols:3,specialEvery:3,specialDamage:5,hp:280,attack:12,exp:60,money:200,level:4,color:['#493857','#c49362'],hints:["エラーを はく","チャンネルを かえる","おうかんが ひかる"],actions:['エラーを はきだした！','チャンネルを まわした！','ノイズの おうかんが ひかった！'],bursts:[[.75,'// あとで直す'],[.5,'TODO: エラー処理'],[.25,'とりあえず動いた'],[0,'いつか だれかの やくに たつはず']]}},
  maps
 });
 })();

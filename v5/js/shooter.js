@@ -25,6 +25,9 @@
   var SCRIPT_URL = hasDOM ? ((document.currentScript && document.currentScript.src) || location.href) : '';
 
   // ============ 定数 ============
+  var FIRE_INTERVAL = 0.20, RAPID_INTERVAL = 0.14;
+  function word(id, fallback) { return typeof RYW.word === 'function' ? RYW.word(id) : fallback; }
+  function cooldownText() { return FIRE_INTERVAL.toFixed(2) + '→' + RAPID_INTERVAL.toFixed(2) + ' びょう'; }
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
   var CHARGE_FULL = 0.9, TIGER_REST = 4, INVULN = 1.0, BARRIER_BACK = 15, SHOW_TIME = 10, SHOW_COOLDOWN = 12;
@@ -58,6 +61,11 @@
     { id: 'letter', name: 'ハートの てがみ', kind: 'love', icon: [1, 2], desc: 'てきを おいかける ハートの たま' },
     { id: 'charge', name: 'フクの ためうち', kind: 'love', icon: [1, 3], desc: 'おしつづけて ためると おおきな とらの たま' }
   ];
+  var WEAPON_WORDS = { fuku: 'shot', rapid: 'cooldown', twin: 'vector', rainbow: 'hitbox', barrier: 'if', onigiri: 'life', letter: 'homing', charge: 'charge' };
+  if (typeof RYW.word === 'function') {
+    var names = { fuku: 'フク・' + RYW.word('shot'), rapid: RYW.word('cooldown') + ' チップ', twin: RYW.word('vector') + ' チップ', rainbow: RYW.word('hitbox') + ' チップ', barrier: RYW.word('if') + ' バリア', onigiri: RYW.word('life') + '+1 おにぎり', letter: RYW.word('homing') + ' レター', charge: 'フクの ' + RYW.word('charge') + 'ショット' };
+    WEAPONS.forEach(function (wp) { wp.name = names[wp.id]; if (wp.id === 'rapid') wp.desc = 'つぎに うつまで\n' + cooldownText(); if (wp.id === 'onigiri') wp.desc = 'ライフが 1つ ふえる'; });
+  }
   var WEAPON_ALIAS = { pierce: 'rainbow', niji: 'rainbow', heart: 'letter', tegami: 'letter', tame: 'charge', omamori: 'barrier', rensha: 'rapid' };
   function normalizeWeapons(list) {
     var out = { fuku: true };
@@ -131,7 +139,7 @@
       lines: { intro: ['カテイノジジョウ', 'しょうらい どうするの'],
         bursts: { 75: '…ほんとは しんぱいなだけ', 50: 'あの子 なにか つくってるの?', 25: 'ちょっと みせて', 0: '…すごいじゃない' },
         hint: ['ソラ', 'かべは かたい。とくぎで ゲームを みせて みよう'], owlHint: ['サーチフクロウ', 'みせる と いい'],
-        hint2: ['ソラ', 'みぎしたの「みせる」を おして みよう'],
+        hint2: ['ソラ', 'みぎしたの「' + word('playtest', 'みせる') + '」を おして みよう'],
         show: ['RYOSEI', 'はじめて つくった ゲーム を みせた！'],
         win: 'カテイノジジョウは おとなしく なった' }
     },
@@ -383,10 +391,11 @@
     var p = w.p, wp = w.weapons;
     p.fireCd -= dt;
     while (p.fireCd <= 0) {
-      p.fireCd += wp.rapid ? 0.14 : 0.2;
+      p.fireCd += wp.rapid ? RAPID_INTERVAL : FIRE_INTERVAL;
       var sx = p.x + 44, sy = p.y - 6, kind = wp.rainbow ? 'rainbow' : 'fuku';
       addShot(w, { kind: kind, x: sx, y: sy, vx: 760, vy: 0, r: 9, dmg: 1, pierce: !!wp.rainbow });
       if (wp.twin) {
+        if (!w.vectorSeen) { w.vectorSeen = true; w.vectorHint = { x: sx, y: sy, until: w.t + 0.5 }; }
         var a = 0.42; // wide enough that the diagonals mostly catch bugs and blocks, not the boss head-on
         addShot(w, { kind: kind, x: sx, y: sy, vx: 760 * Math.cos(a), vy: -760 * Math.sin(a), r: 8, dmg: 0.5, pierce: !!wp.rainbow, small: true });
         addShot(w, { kind: kind, x: sx, y: sy, vx: 760 * Math.cos(a), vy: 760 * Math.sin(a), r: 8, dmg: 0.5, pierce: !!wp.rainbow, small: true });
@@ -676,6 +685,7 @@
     var p = w.p;
     if (w.state !== 'play' || p.inv > 0) return false;
     if (p.barrier && p.barrier.up) {
+      w.ifUntil = w.t + 0.6;
       p.barrier.up = false; p.barrier.at = w.t + BARRIER_BACK; p.inv = INVULN;
       sparks(w, p.x, p.y, 18, '#9fe8ff', 240); w.shake = Math.max(w.shake, 5); emit(w, 'barrier');
       return true;
@@ -862,13 +872,13 @@
   }
 
   var SIM = {
-    W: W, H: H, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
+    W: W, H: H, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
     BOSSES: BOSSES, WEAPONS: WEAPONS, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
   };
 
-  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', _sim: SIM };
+  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
 
@@ -1030,7 +1040,7 @@
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
-      '.ryw-shooter .rs-skill{position:absolute;left:354px;top:838px;width:172px;height:108px;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.25;padding:4px 6px 10px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
+      '.ryw-shooter .rs-skill{position:absolute;left:350px;top:838px;width:184px;height:108px;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.25;padding:4px 3px 10px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
       '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;z-index:1}' +
       '.ryw-shooter .rs-skill .rs-top{color:#9fd8e6}' +
       '.ryw-shooter .rs-skill i{position:absolute;left:0;bottom:0;height:9px;width:0;background:#ffd76b;z-index:0}' +
@@ -1045,6 +1055,7 @@
       '.ryw-shooter .rs-panel button.rs-primary{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700}' +
       '.ryw-shooter .rs-panel button:focus-visible{outline:4px solid #fff5d6;outline-offset:3px}' +
       '.ryw-shooter .rs-pause{position:absolute;inset:0;background:#0a1626d9;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff5d6}' +
+      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233af5;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-cooldown{position:absolute;left:20px;right:20px;top:272px;text-align:center;font-size:24px;color:#fff5d6}' +
       '.ryw-shooter [hidden]{display:none!important}';
     var st = document.createElement('style');
     st.textContent = css;
@@ -1085,6 +1096,20 @@
     S.btnGauge = rootEl.querySelector('.rs-skill i');
     S.pauseEl = rootEl.querySelector('.rs-pause');
     S.panel = rootEl.querySelector('.rs-panel');
+
+    var ids = WEAPONS.filter(function (wp) { return S.world.weapons[wp.id]; }).map(function (wp) { return WEAPON_WORDS[wp.id]; }).concat(['life', 'frame']);
+    if (S.world.bossId === 'bugking') ids.unshift('bug');
+    if (S.world.bossId === 'kateino') ids.push('playtest');
+    S.wordCards = typeof RYW.prepareBossWords === 'function' ? RYW.prepareBossWords(ids) : [];
+    S.wordTime = 0;
+    S.wordEl = document.createElement('button'); S.wordEl.className = 'rs-word'; S.wordEl.type = 'button';
+    S.wordEl.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    S.wordEl.addEventListener('click', function (e) { e.stopPropagation(); if (!S.paused) nextWord(S); });
+    S.stage.appendChild(S.wordEl);
+    S.cooldownEl = document.createElement('div'); S.cooldownEl.className = 'rs-cooldown';
+    S.cooldownEl.textContent = S.world.weapons.rapid ? word('cooldown', 'れんしゃ') + ' ' + cooldownText() : '';
+    S.stage.appendChild(S.cooldownEl);
+    showWord(S);
 
     S.onResize = function () { resize(S); };
     S.onKeyDown = function (e) { onKeyDown(S, e); };
@@ -1127,6 +1152,16 @@
     S.raf = requestAnimationFrame(function loop(now) { frame(S, now); });
     return S;
   }
+
+  function showWord(S) {
+    var w = S.wordCards[0]; S.wordEl.hidden = !w; S.wordEl.replaceChildren();
+    if (!w) return;
+    var title = document.createElement('span'), copy = document.createElement('span');
+    title.style.color = { code: '#8de2ff', game: '#f1cd7c', ai: '#d9b5ff', net: '#a1edb0' }[w.kind];
+    title.textContent = '● ' + w.word + '　' + w.speaker; copy.textContent = w.sora;
+    S.wordEl.appendChild(title); S.wordEl.appendChild(copy);
+  }
+  function nextWord(S) { S.wordCards.shift(); S.wordTime = 0; showWord(S); }
 
   function hookPlatform(S) {
     var pf = S.platform;
@@ -1240,6 +1275,7 @@
       else if (e.code === 'KeyZ') { e.preventDefault(); (btns[idx] || btns[0]).click(); }
       return;
     }
+    if (S.wordCards.length) { if (e.code === 'Space' || e.key === 'Enter') { e.preventDefault(); if (!S.paused) nextWord(S); } return; }
     var mv = MOVE_KEYS[e.code] || MOVE_KEYS[e.key];
     if (mv) { S.keys[mv] = true; e.preventDefault(); return; }
     if (e.code === 'KeyX' || e.key === 'x' || e.key === 'X') { e.preventDefault(); if (!S.keySkill) { S.keySkill = true; S.press = true; } return; }
@@ -1247,6 +1283,7 @@
   }
   function onKeyUp(S, e) {
     if (S.closed) return;
+    if (S.wordCards.length) return;
     var mv = MOVE_KEYS[e.code] || MOVE_KEYS[e.key];
     if (mv) S.keys[mv] = false;
     if ((e.code === 'KeyX' || e.key === 'x' || e.key === 'X') && S.keySkill) { S.keySkill = false; S.release = true; }
@@ -1276,6 +1313,8 @@
     var dt = S.last == null ? 0 : Math.min(0.05, (now - S.last) / 1000);
     S.last = now;
     var w = S.world;
+    S.cooldownEl.hidden = !S.world.weapons.rapid || (w.state !== 'intro');
+    if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); render(S); return; }
     if (S.loaded && !S.paused && dt > 0) {
       var ax = (S.keys.r ? 1 : 0) - (S.keys.l ? 1 : 0), ay = (S.keys.d ? 1 : 0) - (S.keys.u ? 1 : 0);
       var n = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / n;
@@ -1406,6 +1445,7 @@
     drawFx(ctx, w);
     drawThemeFront(ctx, S, w);
     drawZeroNoise(ctx, S, w);
+    drawWordEffects(ctx, w);
     ctx.restore();
     if (w.flash > 0.01) { ctx.fillStyle = 'rgba(255,255,255,' + Math.min(0.85, w.flash * 0.7) + ')'; ctx.fillRect(0, 0, W, H); }
     drawTopBand(ctx, S, w);
@@ -1716,6 +1756,16 @@
     });
   }
 
+  function drawWordEffects(ctx, w) {
+    var v = w.vectorHint;
+    if (v && w.t < v.until) {
+      ctx.save(); ctx.strokeStyle = '#fff5d6'; ctx.lineWidth = 4;
+      [0, -0.42, 0.42].forEach(function (a) { ctx.save(); ctx.translate(v.x, v.y); ctx.rotate(a); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(66, 0); ctx.lineTo(54, -8); ctx.moveTo(66, 0); ctx.lineTo(54, 8); ctx.stroke(); ctx.restore(); });
+      ctx.restore();
+    }
+    if (w.t < w.ifUntil) { ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; outlinedText(ctx, 'if (バリア) → ふせぐ', W / 2, PLAY_B - 28, '#8de2ff'); }
+  }
+
   function drawEnemyBullets(ctx, w) {
     var t = w.t, i;
     w.eb.forEach(function (e) {
@@ -1864,6 +1914,8 @@
         ctx.strokeStyle = '#9fe8ff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(bx, by, 22, -Math.PI / 2, -Math.PI / 2 + k * Math.PI * 2); ctx.stroke();
       }
     }
+    ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    outlinedText(ctx, word('life', 'ハート'), 22, y0 + 120, '#fff5d6');
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
     icons.forEach(function (wp) {
       ctx.fillStyle = 'rgba(255,255,255,0.08)'; rr(ctx, xi - 2, y0 + 62, 44, 44, 8); ctx.fill();
@@ -1872,7 +1924,7 @@
     });
     if (!icons.length) {
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, 'フクの ひかりだま', 22, y0 + 84, '#bfe9f5');
+      outlinedText(ctx, WEAPONS[0].name, 22, y0 + 84, '#bfe9f5');
     }
   }
 
@@ -1959,7 +2011,7 @@
     if (w.state === 'play' || w.state === 'intro') {
       if (mode === 'voices') { label = 'みんなの こえ'; cls = 'rs-ready'; gauge = 1; }
       else if (w.bossId === 'kateino' && (mode === 'show' || !w.weapons.charge)) {
-        label = 'みせる';
+        label = word('playtest', 'みせる');
         if (mode === 'show') { cls = 'rs-ready'; gauge = 1; }
         else { cls = 'rs-off'; gauge = clamp(1 - (w.m.showReadyAt - w.playT) / (SHOW_TIME + SHOW_COOLDOWN), 0, 1); }
       } else if (w.weapons.charge) {

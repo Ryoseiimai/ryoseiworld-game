@@ -69,7 +69,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。'}},
  // The grandpa is the owl's person (STORY_V4.md, family). Hearts: waking the owl, the returned book, one onigiri.
  bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
- quests:{cleared:{text:'まちに こえが もどった。'},tutorial:{text:'しょうかんで ナオスライムを よぼう'},
+ quests:{cleared:{text:'まちに こえが もどった。'},tutorial:{text:'よびだすで ナオスライムを よぼう'},
   zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
   key:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   battery:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
@@ -134,10 +134,10 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  // Street noises of the riverside town (enemies sheet: 2 spam mail, 4 leaking cable, 8 masked cat). A little stronger than chapter 1.
  enemies:{
   // The boss is a shooter fight (v5/js/shooter.js kateino: bubble waves, walls from above and below, みせる with the first game cracks it).
-  kateino:{name:'カテイノジジョウ',boss:true,intro:['カテイノジジョウ','しょうらい どうするの'],art:'kateino',animCols:3,specialEvery:3,specialDamage:6,hp:320,attack:13,exp:90,money:240,level:7,color:['#493857','#c49362'],actions:['「あぶないから」と いった！','かべを ふやした！','ニュースを よみあげた！']},
-  spam:{name:'スパムメールのむれ',frame:2,hp:58,attack:10,exp:20,money:36,level:5,color:['#4b4d66','#c9b98f'],actions:['「あたりました！」を おくってきた！','おなじ メールを 30つう おくった！']},
-  cable:{name:'ろうでんケーブル',frame:4,hp:66,attack:12,exp:24,money:42,level:6,color:['#2f4a52','#d9b45a'],actions:['ビリッと はねた！','からまって きた！']},
-  maskcat:{name:'なりすましネコ',frame:8,hp:52,attack:11,exp:22,money:40,level:5,color:['#5a4a56','#d6a985'],actions:['「ともだちだよ」と いった！','しらない リンクを ふんだ！']}},
+  kateino:{name:'カテイノジジョウ',boss:true,intro:['カテイノジジョウ','しょうらい どうするの'],art:'kateino',animCols:3,specialEvery:3,specialDamage:6,hp:320,attack:13,exp:90,money:240,level:7,color:['#493857','#c49362'],hints:["「あぶないから」","かべを ふやす","ニュースを よむ"],actions:['「あぶないから」と いった！','かべを ふやした！','ニュースを よみあげた！']},
+  spam:{name:'スパムメールのむれ',frame:2,hp:58,attack:10,exp:20,money:36,level:5,color:['#4b4d66','#c9b98f'],hints:["あたりの メール","30つうの メール"],actions:['「あたりました！」を おくってきた！','おなじ メールを 30つう おくった！']},
+  cable:{name:'ろうでんケーブル',frame:4,hp:66,attack:12,exp:24,money:42,level:6,color:['#2f4a52','#d9b45a'],hints:["ビリッと はねる","からまる"],actions:['ビリッと はねた！','からまって きた！']},
+  maskcat:{name:'なりすましネコ',frame:8,hp:52,attack:11,exp:22,money:40,level:5,color:['#5a4a56','#d6a985'],hints:["ともだちの ふり","リンクを ふむ"],actions:['「ともだちだよ」と いった！','しらない リンクを ふんだ！']}},
  maps
 });
 })();
