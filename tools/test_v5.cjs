@@ -23,7 +23,7 @@ function pngPixels(file){
  decoded.set(file,{data});return {data};
 }
 
-async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false}={}) {
+async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,search='',capacitor=null}={}) {
   const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
@@ -55,7 +55,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const document={hidden:false,activeElement:null,getElementById:id=>{assert(els.has(id),id);return els.get(id)},querySelectorAll:sel=>sel==='.screen'?[...els.values()].filter(e=>e.id.startsWith('screen-')):buttons,createElement:tag=>{const e=new El();e.tagName=tag.toUpperCase();return e;},addEventListener(n,f){(listeners[n]??=[]).push(f)}};
   const storage={getItem(k){if(brokenStorage)throw Error('storage unavailable');return saved.get(k)||null},setItem(k,v){if(brokenStorage)throw Error('storage unavailable');saved.set(k,v)}};
   class Image {set src(s){this._src=s;this.complete=true;if(missingFiles.some(f=>s.endsWith('/'+f))){queueMicrotask(()=>this.onerror?.());return;}let bytes;try{bytes=fs.readFileSync(root+'/'+s)}catch{}this.naturalWidth=bytes?bytes.readUInt32BE(16):200;this.naturalHeight=bytes?bytes.readUInt32BE(20):200;queueMicrotask(()=>this.onload?.())}get src(){return this._src}}
-  const sandbox={Math:Object.create(Math),innerWidth:390,innerHeight:844,document,Image,URLSearchParams,location:{search:'?seed='+seed},localStorage:storage,performance:{now:()=>now},requestAnimationFrame:f=>{const id=++rafId;rafs.push({id,f});return id},cancelAnimationFrame:id=>{rafs=rafs.filter(r=>r.id!==id)},console,queueMicrotask,fetch:async url=>{
+  const sandbox={Math:Object.create(Math),innerWidth:390,innerHeight:844,document,Image,URLSearchParams,location:{search:'?seed='+seed+search},localStorage:storage,performance:{now:()=>now},requestAnimationFrame:f=>{const id=++rafId;rafs.push({id,f});return id},cancelAnimationFrame:id=>{rafs=rafs.filter(r=>r.id!==id)},console,queueMicrotask,fetch:async url=>{
     assert(url.startsWith('assets/')); requests.push(url);
     let path=root+'/'+url;
     if(missing)return {ok:true,json:async()=>[]};
@@ -68,7 +68,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     suspend(){this.state='suspended';return Promise.resolve()}
     resume(){this.state='running';return Promise.resolve()}
   }
-  sandbox.window={innerWidth:390,innerHeight:844,AudioContext,addEventListener(n,f){windowListeners[n]=f}};
+  sandbox.window={Capacitor:capacitor,innerWidth:390,innerHeight:844,AudioContext,addEventListener(n,f){windowListeners[n]=f}};
   if(sdk) sandbox.window.ytgame={
     game:{
       firstFrameReady(){calls.push('first')},
@@ -149,13 +149,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
  {const hero=t.g.lift;t.tick(400);assert(t.g.lift&&t.g.lift.type==='bugking'&&hero);}
  t.key('Escape');assert(!t.g.modal,'the menu stays closed while lifting');
- t.tick(1000);assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
+ t.tick(1000);assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
  {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
   // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
   t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどった'));t.dialogue();assert.equal(c.lines.intro[0],'ソラ','no second むりだ line');}
  t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
- t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
- t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts at once');
+ t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
+ t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts after cheat confirmation');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
   assert(t.g.state.bosses.includes('bugking'));assert(t.g.level>lv||t.g.state.exp!==exp);assert.equal(t.g.state.money,money+t.g.GAME_DATA.enemies.bugking.money);}
  // F15: the town comes back first, then the closing lines. R19: then Sora and RYOSEI make a tiny game at home (the key item for chapter 2).
@@ -601,7 +601,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const D=r.g.GAME_DATA,st=r.g.state;assert(r.g.debugStartChapter(2));const boss=D.maps.minamo.objects.find(o=>o.id==='minamo_boss');assert(boss&&boss.enemy==='kateino'&&D.enemies.kateino.boss);
   assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('あぶないから'));while(r.g.dialogue)r.dialogue();r.tick(3000);assert.equal(r.g.screen,'field','no fight before the owl: '+r.g.screen+' '+JSON.stringify(st.summons));
   r.g.debugEvent([{join:'owl'}]);r.tick(1600);assert.equal(r.g.questStep,'boss');r.g.debugWarp('minamo',11.6,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to the park wall');
-  assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('みせに いこう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);}
+  assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('みせに いこう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);if(r.g.modal==='cheats')r.button('はじめる');}
   assert.equal(r.g.screen,'shooter','boss fight starts');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'kateino');assert.equal(run.lines.intro[1],'しょうらい どうするの');run.onWin({boss:'kateino',seconds:150,hearts:2,maxHearts:3,hurts:1});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
   assert(r.g.state.bosses.includes('kateino'),'kateino beaten');assert(r.g.state.flags.minamoCleared,'park scene plays');assert(read.join('\n').includes('すごいじゃない'),read.join('|'));assert(read.join('\n').includes('でんしゃに のった'),'RYOSEI rides the train');
   // R37: the park scene ends with the chapter card, and its button starts chapter 3 at the ネオンシティ station.
@@ -629,18 +629,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   await settle();const re2=await runtime({saved:re.saved});re2.tick();re2.click('continue-btn');re2.tick(1500);assert(!re2.g.dialogue,'no replay once chapter 3 started');assert.equal(re2.g.map,'neon');
   for(const k of ['trainOpen','trainRide','trainWait','neonSign'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'line fits '+row);}
  result.push('Chapter 2 → 3: chapter card after the park, train between ミナモちょう and ネオンシティ, park scene replays after a reload PASS');
- // R23: ネオンシティ places on the neon sheet; the net cafe night brings HP and battery back; the capsule hotel and the shut stadium talk.
+ // R23: ネオンシティ places on the neon sheet; the net cafe night brings HP and battery back; the capsule hotel talk (R50 opens the stadium).
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,obj=id=>m.objects.find(o=>o.id===id);
   for(const [id,f] of [['neon_station',4],['neon_cafe',3],['neon_selfie',7],['neon_capsule',6],['neon_stadium',2],['neon_mural',5],['neon_ranking',0]])assert(obj(id)&&obj(id).kind==='neon'&&obj(id).frame===f,id);
   const near=(o)=>{r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);};
-  for(const [id,want] of [['neon_ranking','ランキング'],['neon_selfie','いいね'],['neon_stadium','はいれません'],['neon_mural','まっしろ']]){near(obj(id));assert(r.g.dialogue&&r.g.dialogue.lines.map(l=>l[1]).join('').includes(want),id);while(r.g.dialogue)r.dialogue();}
+  for(const [id,want] of [['neon_ranking','ランキング'],['neon_selfie','いいね'],['neon_mural','まっしろ']]){near(obj(id));assert(r.g.dialogue&&r.g.dialogue.lines.map(l=>l[1]).join('').includes(want),id);while(r.g.dialogue)r.dialogue();}
   near(obj('neon_cafe'));assert.equal(r.g.map,'neon_cafe','enter the net cafe');r.g.state.hero.hp=5;r.g.state.battery=3;
   assert(talk(r,'neon_cafe',5.4,7.4).includes('ネットカフェ'));for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'){r.tick(400);r.button('とまる');continue;}r.tick(300);}
   assert.equal(r.g.battery,100,'battery full');assert.equal(r.g.hp.hp,r.g.hp.maxHp,'HP full');
   near(obj('neon_capsule'));assert.equal(r.g.map,'neon_capsule','enter the capsule hotel');assert(talk(r,'neon_capsule',5.4,5.3).includes('スマホ'));while(r.g.dialogue)r.dialogue();
-  for(const k of ['neonSign','rankingTower','selfiePlaza','chartTower','stadiumShut','muralWall','cafeAsk','cafeSleep','cafeMorning','cafeBye','cafePc','capsuleBed'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 line fits '+row);}
- result.push('ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium (shut), mural wall on the neon sheet PASS');
+  for(const k of ['neonSign','rankingTower','selfiePlaza','chartTower','stadiumChallenge','muralWall','cafeAsk','cafeSleep','cafeMorning','cafeBye','cafePc','capsuleBed'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 3 line fits '+row);}
+ result.push('ネオンシティ: station, net cafe (a night fills HP and battery), selfie plaza, capsule hotel, ranking stadium entrance, mural wall on the neon sheet PASS');
  result.push('カテイノジジョウ: park wall needs Search Owl, quest arrow, boss fight, worry walls go, park scene (…すごいじゃない) PASS');
  // R44: prototype event pauses the field, stores its result before continuing, and is optional in old saves/builds.
  {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.aiName='ほし';
@@ -696,6 +696,37 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [enemy,id] of [['crow','glitch'],['spam','spam'],['maskcat','narisumashi'],['bugking','bug']]){r.g.debugWarp('room',5,9);r.g.debugStartBattle(enemy,'words-'+enemy);assert(r.g.debugWords().includes(id));}
  }
  result.push('Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS');
+ // R50/R51: challenge entry, separated records, test-only entitlement and parent gate.
+ {const plain=x=>JSON.parse(JSON.stringify(x)),labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),copy=r=>r.els.get('modal-copy').textContent;
+  const blank={godmode:false,timescale:false,widejudge:false,showhitbox:false},record={stage:0,bestCombo:0,score:0};
+  const answer=r=>{const m=copy(r).match(/(\d+) × (\d+)/);assert(m,'parent multiplication');return Number(m[1])*Number(m[2]);};
+  const r=await runtime({search:'&shop=test'});r.tick();r.g.debugStartChapter(1);r.click('menu-btn');assert(!labels(r).includes('チャレンジ'));assert(labels(r).includes('デバッグモード'));assert.equal(r.g.debugStartChallenge(1),false);
+  r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.key('Escape');r.click('menu-btn');assert(labels(r).includes('チャレンジ'),'chapter 1 boss clear unlocks entry');
+  r.button('チャレンジ');assert.equal(r.g.modal,'cheats');assert.equal(r.shooterRuns.length,0);assert(r.g.debugWords().includes('cheat')&&r.g.debugWords().includes('debugmode'));
+  r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.mode,'challenge');assert.equal(r.shooterRuns.at(-1).cfg.startStage,1);assert.deepEqual(plain(r.shooterRuns.at(-1).cfg.options.cheats),blank);
+  const first=r.shooterRuns.at(-1).cfg;first.onEnd({stage:12,bestCombo:48,score:1000,cheated:false});assert.equal(r.g.screen,'field');assert(copy(r).includes('さいこう ステージ 12')&&copy(r).includes('さいこう コンボ 48'));
+  first.onEnd({stage:99,bestCombo:99,score:99999,cheated:true});assert.deepEqual(plain(r.g.state.challenge.bestCheat),record,'duplicate callback ignored');
+  r.tick(300);r.key('Escape');const shop=r.g.debugShop();assert.equal(shop,r.RYW.Shop);assert.equal(shop.kind,'test');assert.equal(shop.has('debugmode'),false);assert.equal(await shop.buy('unknown'),false);assert.equal(await shop.restore(),false);
+  r.g.debugOpenCheats();r.button('［デバッグモード');assert.equal(r.g.modal,'shop-gate');assert.equal(labels(r).filter(t=>/^\d+$/.test(t)).length,4);assert(!r.g.debugWords().includes('iap'));const q=copy(r),wrong=labels(r).find(t=>/^\d+$/.test(t)&&Number(t)!==answer(r));r.button(wrong);await settle();assert.equal(r.g.modal,'');assert(!shop.has('debugmode'));assert(!r.g.debugWords().includes('iap'));
+  const pending=shop.buy('debugmode');assert.notEqual(copy(r),q);r.key('Escape');assert.equal(await pending,false);assert(!shop.has('debugmode'));
+  r.g.debugOpenCheats();r.button('［デバッグモード');r.button(String(answer(r)));assert.equal(r.g.modal,'debug-shop');assert(copy(r).includes('テスト用（おかねは うごかない）'));assert(r.g.debugWords().includes('iap'));assert(!shop.has('debugmode'),'gate does not buy');r.button('デバッグモードを ひらく');await settle();assert.equal(r.g.modal,'cheats');assert(shop.has('debugmode'));assert.equal(await shop.restore(),true);
+  for(const text of ['ゴッドモード','タイムスケール','はんてい ワイド','あたりはんてい'])r.button(text);assert(Object.values(r.g.state.cheats).every(Boolean));assert(r.g.debugWords().includes('godmode')&&r.g.debugWords().includes('timescale'));
+  const words=[...r.g.debugWords()];r.button('ゴッドモード');r.button('ゴッドモード');assert.deepEqual([...r.g.debugWords()],words,'learning happens once');
+  r.key('Escape');r.g.debugStartChallenge(7);r.button('はじめる');const c=r.shooterRuns.at(-1).cfg;assert.equal(c.startStage,7);assert.equal(c.platform,r.g.platform);assert(Object.values(c.options.cheats).every(Boolean));assert.notEqual(c.options.cheats,r.g.state.cheats,'options copied');
+  c.onEnd({stage:20,bestCombo:60,score:2000,cheated:true});assert(r.els.get('modal-title').textContent.includes('チートつき'));assert.equal(r.g.state.challenge.best.stage,12);assert.equal(r.g.state.challenge.bestCheat.stage,20);
+  r.tick(300);r.button('もう いちど');for(const text of ['ゴッドモード','タイムスケール','はんてい ワイド','あたりはんてい'])r.button(text);r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:8,bestCombo:55,score:800,cheated:false});assert.deepEqual(plain(r.g.state.challenge.best),{stage:12,bestCombo:55,score:1000},'best fields retain independent maxima');
+  r.tick(300);r.key('Escape');r.g.debugOpenCheats();r.button('ゴッドモード');r.key('Escape');r.g.debugStartBoss('bugking');assert.equal(r.g.modal,'cheats');r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.options.cheats.godmode,true,'story boss receives cheats');r.shooterRuns.at(-1).cfg.onLose('retry');assert.equal(r.g.modal,'cheats');r.button('ゴッドモード');r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.options.cheats.godmode,false,'retry reads new switches');r.g.debugWarp('room',5,9);r.g.debugOpenCheats();r.button('タイムスケール');r.key('Escape');
+  await r.g.save(false);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.saveVersion,2);assert.equal(sv.shop.debugmode,true);assert.equal(sv.cheats.timescale,true);assert.equal(sv.cheats.godmode,false);assert.equal(sv.challenge.bestCheat.stage,20);
+  const re=await runtime({search:'&shop=test',saved:new Map(r.saved)});re.tick();re.click('continue-btn');for(const k of ['shop','cheats','challenge'])assert.deepEqual(plain(re.g.state[k]),sv[k],k+' reload');assert(re.RYW.Shop.has('debugmode'));re.g.debugOpenCheats();assert.equal(re.g.debugWords().length,sv.words.length);
+  for(const extra of [{},{shop:null,cheats:[],challenge:null},{shop:{debugmode:'yes'},cheats:{godmode:'true',timescale:1,other:true},challenge:{best:{stage:-3,bestCombo:'bad'},bestCheat:[]}}]){
+   const old={...sv};for(const k of ['shop','cheats','challenge'])delete old[k];Object.assign(old,extra);const o=await runtime({search:'&shop=test',saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(old)]])});o.tick();o.click('continue-btn');assert.equal(o.g.screen,'field');assert.deepEqual(plain(o.g.state.shop),{debugmode:false});assert.deepEqual(plain(o.g.state.cheats),blank);assert.deepEqual(plain(o.g.state.challenge),{best:record,bestCheat:record});}
+  for(const [capacitor,kind] of [[null,'none'],[{isNativePlatform:()=>false,getPlatform:()=> 'ios'},'none'],[{isNativePlatform:()=>true,getPlatform:()=> 'ios'},'ios'],[{isNativePlatform:()=>true,getPlatform:()=> 'android'},'none']]){
+   const b=await runtime({capacitor,saved:new Map(r.saved)});b.tick();b.click('continue-btn');assert.equal(b.RYW.Shop.kind,kind);b.g.debugOpenCheats();assert.equal(copy(b),'デバッグモードは アプリ版で つかえるよ');assert.deepEqual(labels(b),['もどる']);assert.equal(await b.RYW.Shop.buy('debugmode'),false);assert.equal(await b.RYW.Shop.restore(),false);assert(!b.RYW.Shop.has('debugmode'));b.key('Escape');b.g.debugStartChallenge(1);b.button('はじめる');assert.deepEqual(plain(b.shooterRuns.at(-1).cfg.options.cheats),blank,'test ownership cannot enable cheats outside test shop');}
+  const sd=await runtime({sdk:true,search:'&shop=test',rawSave:JSON.stringify({...sv,cheats:{...blank,godmode:true}})});sd.tick();sd.click('continue-btn');assert.equal(sd.RYW.Shop.kind,'none');sd.click('menu-btn');assert(!labels(sd).some(t=>/デバッグ|ひらく/.test(t)));assert(labels(sd).includes('チャレンジ'));const before=sd.g.modal;assert.equal(sd.g.debugOpenCheats(),false);assert.equal(await sd.RYW.Shop.buy('debugmode'),false);assert.equal(await sd.RYW.Shop.restore(),false);assert.equal(sd.g.modal,before);
+  sd.button('チャレンジ');assert.equal(sd.g.modal,'challenge');assert(!/アプリ|おかね|テスト用|デバッグ/.test(copy(sd)+labels(sd).join('')));sd.button('はじめる');assert.deepEqual(plain(sd.shooterRuns.at(-1).cfg.options.cheats),blank);sd.shooterRuns.at(-1).cfg.onEnd({stage:13,bestCombo:49,score:1500,cheated:false});await settle();assert.equal(sd.saves.at(-1).challenge.best.stage,13);for(const k of ['shop','cheats','challenge'])assert(Object.hasOwn(sd.saves.at(-1),k),'cloud allowlist '+k);sd.tick(300);sd.key('Escape');sd.g.debugStartBoss('bugking');assert.equal(sd.g.screen,'shooter','Playables skips debug screen');assert.deepEqual(plain(sd.shooterRuns.at(-1).cfg.options.cheats),blank);
+  const n=await runtime();n.tick();n.g.debugStartChapter(3);const door=n.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_stadium');n.g.debugWarp('neon',door.x,door.y+1.1);n.g.debugFace(3);n.tick(400);n.click('talk-btn');assert.equal(n.g.map,'neon_stadium');assert(talk(n,'neon_stadium',5,7.2).includes('リズム チャレンジ'));n.dialogue();n.tick(300);assert.equal(n.g.modal,'cheats');n.button('はじめる');assert.equal(n.shooterRuns.at(-1).cfg.mode,'challenge');n.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:0,score:0,cheated:false});assert.equal(n.g.map,'neon_stadium');n.tick(300);n.key('Escape');n.g.debugWarp('neon_stadium',5,10.7);n.tick(400);n.key('ArrowDown');n.tick(500);n.key('ArrowDown',true);assert.equal(n.g.map,'neon','stadium exit works');
+ }
+ result.push('R50/R51: chapter gate, stadium entry/exit, challenge starts/results/reload, separate cheat records, story cheats/retry, test parent gate correct/wrong/cancel, vocabulary, browser/iOS/Playables restrictions, old/malformed/cloud saves PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

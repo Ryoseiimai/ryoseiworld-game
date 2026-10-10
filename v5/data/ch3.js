@@ -14,8 +14,7 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  city('neon_selfie',7,6.4,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
  city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,10]}),
  city('neon_charts',1,5.6,33.6,200,240,{label:'いいねビル',dialogue:'chartTower'}),
- // The boss lives in the stadium (R26). Until then it stays shut.
- city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',dialogue:'stadiumShut'}),
+ city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,10]}),
  // The white mural wall: the painting child and Paint Chimera come in R24.
  city('neon_mural',5,24.4,33.6,220,220,{label:'へきがの かべ',dialogue:'muralWall'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
@@ -44,6 +43,12 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  object('ncap_plant','interior',13,9.4,8.8,75,80)],
  enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[24,25.8]}]};
 const wait={text:'ネオンシティを みて まわろう'};
+// R50: a small reception room, using the existing interior and attendant art.
+maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
+ object('nst_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
+ object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
+ object('nst_plant','interior',13,9,7,75,80)],
+ enemies:[],portals:[{x:5,y:11.4,to:'neon',at:[15,35]}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // __v5.debugStartChapter(3): chapters 1 and 2 are done and the train runs.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
@@ -57,7 +62,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   rankingTower:[['おおきな がめん','きょうの ランキング\n1い 2い 3い…'],['おおきな がめん','あなたは なんい？'],['ソラ','ずっと ながれてる。\nめが まわりそう。']],
   selfiePlaza:[['セルフィーひろば','ここで とると\nいいねが ふえる！'],['ソラ','みんな じぶんの\nかおを みてるね。']],
   chartTower:[['いいねビル','いいねの かずが\nいつも のぼっていく。'],['ソラ','グラフしか\nかいてない ビルだ。']],
-  stadiumShut:[['ランキングスタジアム','ほんじつ\nかんけいしゃ いがい\nはいれません。'],['ソラ','なかから\nおおきな こえが する。']],
+  stadiumChallenge:[['うけつけ','リズム チャレンジ！\nビートに のって\nどこまで いけるかな。']],
   muralWall:[['','まっしろな\nおおきな かべ。'],['ソラ','なにも かいてない。\nなにか かけそう。']],
   cafeAsk:[['てんいん','いらっしゃいませ。\nネットカフェ ルミナです。'],['てんいん','いすで ねられます。\nじゅうでんも むりょう。']],
   cafeSleep:[['','いすを たおして\nすこし ねむった。']],
