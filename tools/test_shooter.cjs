@@ -392,6 +392,8 @@ for(const offset of [-161,-81,-79,79,81,161]) {
   check('守護霊配列＋proto＋cheatsが共存',legacy.hasOwl&&legacy.settings.proto.jump===9&&legacy.cheats.widejudge);
 })();
 (() => {
+  const fresh=sim.createWorld({seed:7,mode:'challenge'});
+  check('ステージ1の開始からBPM表示が出る',fresh.beat.tempoUntil>fresh.beat.time,fresh.beat.tempoUntil);
   const w=world({mode:'challenge'});check('チャレンジの開始はBPM100・ライフ3',w.stage===1&&w.beat.bpm===100&&w.p.hearts===3);
   const hp=w.b.maxHp;w.p.hearts=1;sim.setCombo(w,12);sim.win(w);
   check('次のステージで姿・HP・BPM・ライフが変わる',w.stage===2&&w.bossId==='kateino'&&w.b.maxHp>hp&&w.beat.bpm===106&&w.p.hearts===2);
@@ -591,7 +593,11 @@ async function browserAdapterChecks() {
   await advance(1);check('感想のあと10秒の効果が始まる',win.__shooter.crack>9);
   handle.stop();
   for(const n of [1,2,3,4,5,10,20]){
-    drawn.length=0;handle=R.Shooter.start({mode:'challenge',startStage:n,platform,onEnd:r=>ended=r});await ready();await advance(3);
+    drawn.length=0;handle=R.Shooter.start({mode:'challenge',startStage:n,platform,onEnd:r=>ended=r});await ready();tick(1000/60);await ready();
+    const bpm=Math.min(220,100+6*(n-1)),stageLabel=drawn.find(d=>d.text==='ステージ '+n),bpmLabel=drawn.find(d=>d.text==='BPM '+bpm+'！');
+    check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
+    check('stage '+n+' の「ステージ」はBPM帯(y62-91)の下に出る',!!stageLabel&&stageLabel.y-12>=91,stageLabel);
+    await advance(3);
     check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);
     if(n===20){win.__shooter.debugCombo(12);win.__shooter.debugSetHearts(0);await advance(1.2);check('onEndは到達stage/コンボ/score/cheatedを返す',ended&&ended.stage===20&&ended.bestCombo===12&&typeof ended.score==='number'&&ended.cheated===false);}

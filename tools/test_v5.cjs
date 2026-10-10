@@ -107,7 +107,7 @@ const settle=()=>new Promise(setImmediate);
 const TILE=48;
 // Plays one ordinary battle to the end: summon when hurt, otherwise "create".
 function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked||t.g.battle.over){t.tick(400);continue;}if(t.g.hp.hp<25&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else {t.cmd('create');t.button('くりかえし');}t.tick(3000);}assert(guard>0,'battle ends');}
-function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
+function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);t.tick(16);assert(t.els.get('talk-btn').hidden,'はなす is hidden while the dialogue window is open');return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
 function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
 (async()=>{
  const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,hero_ride:16,npc:16,enemies:9,summons:6,buildings:9,props:16,interior:16}))assert.equal(t.g.assets[name],count,'loaded '+name);
@@ -143,19 +143,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  if(t.g.battery<100){t.button('じゅうでん');assert.equal(t.g.battery,100);assert.equal(t.g.state.money,cash-105);}t.button('ありがとう');assert.equal(t.g.questStep,'recruit');
  result.push('3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS');
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
- const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
+ const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
  // BUG KING (SPEC_V6.md 4): the talk, the kickboard lifts, then the side-scrolling battle opens with the hero's weapons.
  t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
  assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
  {const hero=t.g.lift;t.tick(400);assert(t.g.lift&&t.g.lift.type==='bugking'&&hero);}
  t.key('Escape');assert(!t.g.modal,'the menu stays closed while lifting');
- t.tick(1000);assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
+ t.tick(1000);assert(!t.g.modal,'no debugmode owned: the apply-only screen is skipped');assert.equal(t.g.screen,'shooter');assert(!t.g.lift);assert.equal(t.shooterRuns.length,1);
  {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
   // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
   t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどった'));t.dialogue();assert.equal(c.lines.intro[0],'ソラ','no second むりだ line');}
  t.g.debugWarp('electric',5,5.4);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
- t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
- t.shooterRuns[1].cfg.onLose('retry');assert.equal(t.g.modal,'cheats');t.button('はじめる');assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts after cheat confirmation');
+ t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert(!t.g.modal);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
+ t.shooterRuns[1].cfg.onLose('retry');assert(!t.g.modal);assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts without the apply-only screen');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
   assert(t.g.state.bosses.includes('bugking'));assert(t.g.level>lv||t.g.state.exp!==exp);assert.equal(t.g.state.money,money+t.g.GAME_DATA.enemies.bugking.money);}
  // F15: the town comes back first, then the closing lines. R19: then Sora and RYOSEI make a tiny game at home (the key item for chapter 2).
@@ -649,7 +649,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const scene=r.g.GAME_DATA.chapters[1].clearEvent,at=scene.findIndex(s=>s.say==='makeGame');assert.equal(scene[at+1].proto,'lesson');
   const lines=r.g.GAME_DATA.dialogue.makeGame;assert.equal(lines.length,2);for(const [,text] of lines)for(const line of text.split('\n'))assert([...line].length<=30);
   let finished=0,received;r.key('ArrowRight');r.g.debugEvent([{proto:'lesson'},{flag:'protoDone'}],()=>{finished++;received=plain(r.g.debugProto());});
-  assert.equal(r.protoRuns.length,1);const cfg=r.protoRuns[0];assert.equal(cfg.mode,'lesson');assert.deepEqual(plain(cfg.state),defaults);assert.equal(cfg.aiName,'ほし');assert.equal(cfg.platform,r.g.platform);assert.equal(cfg.learn,r.RYW.learn);cfg.learn('prototype');cfg.learn('hensuu');assert(r.g.debugWords().includes('hensuu'));assert.equal(r.els.get('word-card').parentNode,r.els.get('proto-words'));assert.equal(r.els.get('word-card').style.top,'104px');assert(!r.els.get('word-card').hidden);r.resize(540,960);assert.equal(r.els.get('proto-words').style.transform,r.els.get('stage').style.transform);
+  assert.equal(r.protoRuns.length,1);const cfg=r.protoRuns[0];assert.equal(cfg.mode,'lesson');assert.deepEqual(plain(cfg.state),defaults);assert.equal(cfg.aiName,'ほし');assert.equal(cfg.platform,r.g.platform);assert.equal(cfg.learn,r.RYW.learn);cfg.learn('prototype');cfg.learn('hensuu');assert(r.g.debugWords().includes('hensuu'));assert.equal(r.els.get('word-card').parentNode,r.els.get('proto-words'));assert.equal(r.els.get('word-card').style.top,'116px');assert(!r.els.get('word-card').hidden);r.resize(540,960);assert.equal(r.els.get('proto-words').style.transform,r.els.get('stage').style.transform);
   const pos=plain(r.g.position);r.tick(1000);r.key('ArrowDown');r.tick(1000);r.click('menu-btn');r.key('Escape');r.click('talk-btn');assert.equal(r.g.modal,'');assert(!r.g.dialogue);assert.deepEqual(plain(r.g.position),pos);assert(!r.g.state.flags.protoDone);assert.equal(finished,0);
   const next={v:4,jump:3,sprite:2,title:'en',deployed:true};cfg.onDone(next);assert(r.g.state.flags.protoDone);assert.equal(finished,1);assert.deepEqual(received,next);assert.equal(r.els.get('word-card').parentNode,r.els.get('stage'));next.jump=9;assert.equal(r.g.debugProto().jump,3,'completion state is copied');cfg.onDone(defaults);assert.equal(finished,1,'duplicate completion is ignored');
   r.tick(300);assert.deepEqual(plain(r.g.position),pos,'held keys do not resume after closing');r.key('ArrowRight');r.tick(200);r.key('ArrowRight',true);assert(r.g.position.x>pos.x,'walking resumes');

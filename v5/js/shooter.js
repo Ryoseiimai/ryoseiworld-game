@@ -309,7 +309,8 @@
     w.lines = { intro: [w.def.name, 'ビートに あわせて おしてみよう'], bursts: {}, win: 'つぎの ステージ！' };
     w.b.hp = w.b.maxHp = w.b.ghostHp = w.def.hp; w.b.shown = {}; w.b.phase2 = false;
     w.beat.bpm = Math.min(220, 100 + 6 * (w.stage - 1)); w.beat.tempoSteps = 0;
-    if (previousBpm && w.beat.bpm > previousBpm) { learnQuiet(w, 'bpm'); w.beat.tempoUntil = w.beat.time + 1; }
+    w.beat.tempoUntil = w.beat.time + 1;
+    if (previousBpm && w.beat.bpm > previousBpm) learnQuiet(w, 'bpm');
     w.beat.phase = 0; w.beat.previous = 0; w.beat.lastPress = -1; w.beat.feverUntil = -1;
     w.m = { wall: 0, down: 0, crackUntil: -1, showReadyAt: Infinity, made: 0, voices: DEFAULT_VOICES, connected: [], got: 0, rot: 0 };
     w.eb = []; w.bugs = []; w.shots = []; w.pickups = []; w.burst = null; w.burstQ = []; w.toast = null;
@@ -1200,7 +1201,7 @@
       '.ryw-shooter .rs-backdrop{position:absolute;left:-60px;top:-60px;right:-60px;bottom:-60px;background:#050912 center/cover no-repeat;filter:blur(18px) brightness(.32)}' +
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
-      '.ryw-shooter button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
+      '.ryw-shooter button{box-sizing:border-box;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
       '.ryw-shooter .rs-skill{position:absolute;left:350px;top:830px;width:184px;height:44px;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.25;padding:3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
       '.ryw-shooter .rs-beat{position:absolute;left:350px;top:884px;width:184px;height:64px;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none}.ryw-shooter .rs-beat.rs-lit{background:#65511f;border-color:#fff0b0;box-shadow:0 0 18px #ffd76b}' +
       '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;z-index:1}' +
@@ -2127,7 +2128,7 @@
     ctx.font = '700 24px ' + FONT; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
     outlinedText(ctx, r.combo + ' コンボ', 520, 36, '#ffe28a');
     ctx.textAlign = 'left';
-    if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, 100, '#9fd8e6');
+    if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, 108, '#9fd8e6');
     if (r.time < r.tempoUntil) {
       ctx.fillStyle = '#10233a'; ctx.fillRect(12, 62, 516, 29); ctx.textAlign = 'center';
       outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, 77, '#ffe28a');

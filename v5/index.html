@@ -346,7 +346,7 @@ function clearWordCards(){wordQueue=[];wordCurrent=null;wordUntil=0;$('word-card
 function learnQuiet(id){if(!Object.hasOwn(window.RYW?.words||{},id)){if(window.RYW?.words)console.warn('RYW.learn: unknown id',id);return false;}if(g.words.includes(id))return false;g.words.push(id);return true;}
 function learn(id){if(!learnQuiet(id))return false;if(bossWordBatch){if(bossWordBatch.length<2)bossWordBatch.push(id);return true;}if(g.screen==='shooter'||dialogue||g.screen==='ending')return true;if(!wordCurrent){wordQueue.push(id);showWordCard();}else if(wordQueue.length<3)wordQueue.push(id);return true;}
 function showWordCard(){wordCurrent=wordQueue.shift()||null;const el=$('word-card');el.hidden=!wordCurrent;if(!wordCurrent)return;const w=window.RYW.words[wordCurrent];$('word-title').textContent='● '+w.word+'　'+g.aiName;$('word-title').style.color=WORD_KINDS[w.kind][1];$('word-copy').textContent=w.sora;wordUntil=gameTime+2500;positionWordCard();}
-function positionWordCard(){const el=$('word-card');el.style.top=(protoActive?104:modalKind?16:g.screen==='battle'?116:Math.max(190,hudTop))+'px';el.hidden=!wordCurrent||(!protoActive&&(!!dialogue||!['field','battle'].includes(g.screen)));}
+function positionWordCard(){const el=$('word-card');el.style.top=(protoActive?116:modalKind?16:g.screen==='battle'?116:Math.max(190,hudTop))+'px';el.hidden=!wordCurrent||(!protoActive&&(!!dialogue||!['field','battle'].includes(g.screen)));}
 function tickWords(){if(wordCurrent&&gameTime>=wordUntil)showWordCard();positionWordCard();}
 $('word-card').onclick=()=>showWordCard();
 function prepareBossWords(ids){clearWordCards();bossWordBatch=[];for(const id of [...new Set(ids)]){if(bossWordBatch.length<2)window.RYW.learn(id);else window.RYW.learnQuiet(id);}const cards=bossWordBatch.map(id=>({id,...window.RYW.words[id],speaker:g.aiName}));bossWordBatch=null;return cards;}
@@ -375,14 +375,16 @@ function testShop(){if(Shop.kind!=='test'||!shopPending)return;window.RYW.learn(
  openModal('デバッグモード','テスト用（おかねは うごかない）',[{text:'デバッグモードを ひらく',action:()=>{if(Shop.kind!=='test'||!shopPending)return;g.shop.debugmode=true;const done=shopPending;shopPending=null;saveGame(false);closeModal();done(true);}},{text:'とじる',action:closeModal}],'debug-shop');}
 function activeCheats(){return Shop.has('debugmode')?{...g.cheats}:freshCheats();}
 const CHEAT_LABELS={godmode:'ゴッドモード',timescale:'タイムスケール 0.7',widejudge:'はんてい ワイド',showhitbox:'あたりはんてい みえる'};
-function openCheats(next=null){if(isPlayables()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
+function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
+ const owned=Shop.has('debugmode'),test=Shop.kind==='test';
+ if(skipIfUnowned&&!owned&&!test){if(next)next();return true;}
  window.RYW.learn('cheat');window.RYW.learn('debugmode');saveGame(false);
- const owned=Shop.has('debugmode'),test=Shop.kind==='test',buttons=[];
+ const buttons=[];
  if(owned)for(const [id,label] of Object.entries(CHEAT_LABELS))buttons.push({text:label+'\n'+(g.cheats[id]?'オン':'オフ'),action:()=>{g.cheats[id]=!g.cheats[id];if(g.cheats[id]&&['godmode','timescale'].includes(id))window.RYW.learn(id);saveGame(false);openCheats(next);}});
  else if(test){buttons.push({text:'［デバッグモードを ひらく］',action:()=>{Shop.buy('debugmode').then(ok=>{if(ok)openCheats(next);});}},{text:'もっているか たしかめる',action:()=>{Shop.restore().then(()=>openCheats(next));}});}
  if(next)buttons.push({text:'はじめる',action:()=>{closeModal();next();}});
  buttons.push({text:'もどる',action:closeModal});
- openModal('デバッグモード',owned?'つかう どうぐを えらぼう':test?'テスト用（おかねは うごかない）':'デバッグモードは アプリ版で つかえるよ',buttons,'cheats');return true;}
+ openModal('デバッグモード',owned?(test?'テスト用（おかねは うごかない）\nつかう どうぐを えらぼう':'つかう どうぐを えらぼう'):test?'テスト用（おかねは うごかない）':'デバッグモードは アプリ版で つかえるよ',buttons,'cheats');return true;}
 function cleanRecord(r){return Object.fromEntries(Object.keys(freshRecord()).map(k=>[k,Math.max(0,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(num(r?.[k],0))))]));}
 function challengeUnlocked(){return g.chapter>1||g.bosses.includes(GAME_DATA.chapters[1]?.boss);}
 function recordText(r){return'さいこう ステージ '+r.stage+'\nさいこう コンボ '+r.bestCombo;}
@@ -446,7 +448,7 @@ function liftOff(type,id){if(g.screen!=='field'||g.lift||!GAME_DATA.enemies[type
 function bossOptions(){return Object.keys(GAME_DATA.bonds).filter(id=>num(g.bonds[id],0)>=3&&spiritOf(id)!=null).sort((a,b)=>num(g.bonds[b],0)-num(g.bonds[a],0)).slice(0,3).map(id=>{const sp=spiritOf(id);return typeof sp==='number'?'spirit:'+sp:sp;});}
 function bossLines(def){const b=def.bursts||[],out={};for(const [at,text] of b)out[Math.round(at*100)]=text;return Object.keys(out).length?{bursts:out}:undefined;}
 function startBoss(type,id,ready=false){const def=GAME_DATA.enemies[type],S=window.RYW&&window.RYW.Shooter;if(!def||g.battle||shooter)return false;if(!S||typeof S.start!=='function')return startBattle(type,id);
- if(!ready&&!isPlayables()){g.lift=null;g.holdUntil=0;openCheats(()=>startBoss(type,id,true));return true;}
+ if(!ready&&!isPlayables()){g.lift=null;g.holdUntil=0;openCheats(()=>startBoss(type,id,true),true);return true;}
  clearWordCards();screen('shooter');g.lift=null;dialogue=null;$('dialogue').hidden=true;
  try{shooter=S.start({boss:def.shooter||type,weapons:g.weapons.filter(w=>w!=='fuku'),options:Object.assign(bossOptions(),{proto:g.proto,cheats:activeCheats()}),hearts:3,lines:{intro:def.intro||['ソラ','いっしょに なおそう！'],...bossLines(def)},platform,aiName:g.aiName,
   onWin(r){shooter=null;bossWon(type,id,r);},
@@ -560,7 +562,7 @@ function drawTags(m,target){const dest=questDest(questStep());let destObj=null;i
 // Until BUG KING falls the town sits under a blue night tint with a passing static band; the clear fades it out over two seconds.
 function drawNoise(){let a=townCleared()?(g.clearFade==null?0:Math.max(0,1-(gameTime-g.clearFade)/2000)):1;if(a<=0)return;ctx.save();ctx.globalAlpha=a;rect(0,0,W,H,'#10204a55');if(gameTime>noiseNext){noiseNext=gameTime+2000+Math.random()*2000;noiseUntil=gameTime+300;noiseBandY=180+Math.random()*(H-420);}if(gameTime<noiseUntil){rect(0,noiseBandY-22,W,44,'#9aa3a866');for(let i=0;i<520;i++){const v=110+Math.random()*140|0;rect(Math.random()*W,noiseBandY+Math.random()*44-22,4,3,`rgb(${v},${v},${v})`);}}ctx.restore();}
 function drawRecruitFx(){const fx=g.recruitFx;if(!fx)return;const t=gameTime-fx.start;if(t>1500){g.recruitFx=null;return;}const s=GAME_DATA.summons[fx.id];if(!s)return;ctx.save();ctx.globalAlpha=Math.max(0,Math.min(1,t/250,(1500-t)/300));rect(0,0,W,H,'#0b1f3c99');drawSora(270,480,70);sprite('summons',s.frame,270,640-Math.min(1,t/400)*30,290,290,s.name);ctx.restore();}
-function updateHud(m,target){const hp=g.hero.displayHp,q=quest(),talk=target&&!isPerson(target.kind)?'しらべる':'はなす',key=[m.short||m.name,g.level,hp,g.battery,q,talk].join('|');if(key===hudCache)return;hudCache=key;$('map-label').textContent=m.short||m.name;$('st-main').textContent=`Lv${g.level} HP${hp}`;$('st-batt').textContent=g.battery+'%';const fill=$('st-batt-fill');fill.style.width=Math.round(Math.max(0,Math.min(100,g.battery))*.22)+'px';fill.style.background=g.battery<GAME_DATA.rules.lowBattery?'#e98b6d':'';$('quest').textContent=q;$('talk-btn').textContent=talk;}
+function updateHud(m,target){const hp=g.hero.displayHp,q=quest(),talk=target&&!isPerson(target.kind)?'しらべる':'はなす',talking=!!dialogue,key=[m.short||m.name,g.level,hp,g.battery,q,talk,talking].join('|');if(key===hudCache)return;hudCache=key;$('map-label').textContent=m.short||m.name;$('st-main').textContent=`Lv${g.level} HP${hp}`;$('st-batt').textContent=g.battery+'%';const fill=$('st-batt-fill');fill.style.width=Math.round(Math.max(0,Math.min(100,g.battery))*.22)+'px';fill.style.background=g.battery<GAME_DATA.rules.lowBattery?'#e98b6d':'';$('quest').textContent=q;$('talk-btn').textContent=talk;$('talk-btn').hidden=talking;}
 function drawField(){const m=GAME_DATA.maps[g.map];if(gameTime>=hudMeasureAt){hudMeasureAt=gameTime+400;measureHud();}rect(0,0,W,H,m.outside?'#6f9b7e':'#344f4d');camera.x=m.w*TILE<W?(m.w*TILE-W)/2:Math.max(0,Math.min(m.w*TILE-W,g.x-W/2));const band=H-hudTop-HUD_BOTTOM,mh=m.h*TILE;camera.y=mh<=band?(mh-band)/2-hudTop:Math.max(-hudTop+(m.outside?20:0),Math.min(mh-H+HUD_BOTTOM,g.y-hudTop-band*.55));ctx.save();ctx.translate(-Math.round(camera.x),-Math.round(camera.y));ground(m);
  for(const o of m.objects)if(o.floor&&!o.hidden)sprite(o.kind,o.frame,o.x*TILE,o.y*TILE,o.w,o.h,o.label);
  if(!m.outside)for(const p of m.portals){rect(p.x*TILE-28,p.y*TILE-15,56,30,'#e7d29f');label('↓',p.x*TILE,p.y*TILE+10,'#4b655f',28);}
