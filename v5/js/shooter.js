@@ -7,11 +7,15 @@
  *              （別名: pierce=rainbow, heart=letter, tame=charge）
  *   options    守護霊のおとも（最大3）。'nao'|'code'|'search'|'paint'|'kotoba'|'whale'|'spirit:0'〜'spirit:15'
  *              か {id, name, sheet:'spirits'|'summons', frame:[row,col]}。'search'（サーチフクロウ）はヒカクマオウの冠を光らせる
+ *              配列の options.proto / options.cheats も可。オブジェクトなら {companions, proto, cheats}。
+ *   mode       'challenge' は startStage（既定1）から連戦。cfg.cheats も受け取る。
+ *   cheats     {godmode, timescale, widejudge, showhitbox}（trueで有効）。保存は呼び出し側。
+ *   onEnd      チャレンジのライフ0で {stage, bestCombo, score, cheated} を返す。
  *   hearts     最初のハート（既定3）。てづくり おにぎり があると、ここに +1 する
  *   lines      台詞の上書き {intro:[話し手,文], bursts:{75,50,25,0}, half, win, hint:[話し手,文], owlHint, taunts:[],
  *              steps:[[話し手,文]x3], ready, use:[話し手,文], voices:[{name,text,spirit}]}
  *   platform   v5 の platform（onPause/onResume/isAudioEnabled/onAudioChange を使う）。無いときは visibilitychange で止める
- *   onWin(result)   勝ったあと、画面を閉じてから呼ぶ。result = {boss, seconds, hearts, maxHearts, hurts}
+ *   onWin(result)   勝ったあと、画面を閉じてから呼ぶ。result = {boss, seconds, hearts, maxHearts, hurts, cheated, bestCombo, score}
  *   onLose(choice)  負けて選んだあと、画面を閉じてから呼ぶ。choice = 'retry'（すぐ やりなおす）か 'town'（まちに もどる）
  *                   onLose が無いときだけ、'retry' で自分から始め直す
  * 戻り値: { stop(), state }
@@ -188,6 +192,14 @@
     return out;
   }
 
+  var MUSIC = {
+    bugking: { bpm: 150, bass: [45, 45, 57, 45, 48, 48, 60, 48, 43, 43, 55, 43, 47, 47, 59, 50], lead: [69, 0, 72, 74, 76, 0, 74, 72, 67, 0, 71, 72, 74, 0, 71, 0] },
+    kateino: { bpm: 128, bass: [41, 0, 48, 0, 43, 0, 50, 0, 45, 0, 52, 0, 40, 0, 47, 0], lead: [65, 0, 69, 72, 0, 69, 67, 0, 64, 0, 67, 69, 71, 0, 67, 0] },
+    hikaku: { bpm: 158, bass: [38, 50, 38, 50, 41, 53, 41, 53, 36, 48, 36, 48, 43, 55, 43, 55], lead: [74, 0, 77, 0, 81, 79, 77, 0, 72, 0, 76, 0, 79, 77, 74, 0] },
+    jibun: { bpm: 104, bass: [40, 0, 0, 47, 0, 0, 45, 0, 43, 0, 0, 47, 0, 0, 52, 0], lead: [64, 0, 0, 0, 67, 0, 66, 0, 64, 0, 0, 0, 62, 0, 59, 0] },
+    zero: { bpm: 116, bass: [33, 0, 45, 0, 34, 0, 46, 0, 36, 0, 48, 0, 31, 0, 43, 0], lead: [69, 72, 0, 76, 0, 75, 72, 0, 67, 70, 0, 74, 0, 72, 70, 0] }
+  };
+
   // ============ 世界（画面なしで動く部分） ============
   var NO_INPUT = { ax: 0, ay: 0, dx: 0, dy: 0, skill: false, press: false, release: false };
 
@@ -196,13 +208,18 @@
     var id = BOSSES[cfg.boss] ? cfg.boss : 'bugking';
     var def = BOSSES[id];
     var weapons = normalizeWeapons(cfg.weapons);
-    var opts = normalizeOptions(cfg.options);
+    var settings = cfg.options && typeof cfg.options === 'object' ? cfg.options : {};
+    var opts = normalizeOptions(settings.companions || cfg.options);
+    var cheats = Object.assign({}, settings.cheats || {}, cfg.cheats || {});
     var base = Math.round(Number(cfg.hearts));
     if (!(base >= 1)) base = 3;
     base = Math.min(9, base);
     var maxHearts = base + (weapons.onigiri ? 1 : 0);
     var lines = mergeLines(def.lines, cfg.lines);
     var w = {
+      cfg: cfg, settings: settings, cheats: cheats, cheated: ['godmode', 'timescale', 'widejudge', 'showhitbox'].some(function (k) { return !!cheats[k]; }),
+      scale: cheats.timescale ? 0.7 : 1, paused: false, mode: cfg.mode || 'story', stage: 0, score: 0,
+      beat: { time: 0, phase: 0, previous: 0, bpm: MUSIC[id].bpm, lastPress: -1, combo: 0, bestCombo: 0, feverUntil: -1, tempoSteps: 0 },
       bossId: id, def: def, lines: lines, rng: mulberry32((cfg.seed >>> 0) || 20261009),
       t: 0, playT: 0, state: 'intro', stateT: 0, god: !!cfg.god,
       weapons: weapons, hasOwl: opts.some(function (o) { return o.owl; }),
@@ -225,7 +242,92 @@
       m.voices = (lines.voices && lines.voices.length ? lines.voices : DEFAULT_VOICES).slice(0, 8);
       m.connected = []; m.toldImmune = false;
     }
+    if (w.mode === 'challenge') setStage(w, cfg.startStage || 1);
     return w;
+  }
+
+  function learnQuiet(w, id) {
+    w.learned = w.learned || {};
+    if (w.learned[id]) return;
+    w.learned[id] = true;
+    if (typeof RYW.learnQuiet === 'function') RYW.learnQuiet(id);
+  }
+  function beatInfo(w) {
+    var r = w.beat, phase = r.phase, number = Math.floor(phase + 1e-9);
+    return { number: number, phase: phase, bpm: r.bpm, secondsToNext: (number + 1 - phase) * 60 / r.bpm,
+      time: r.time, combo: r.combo, bestCombo: r.bestCombo, fever: phase < r.feverUntil };
+  }
+  function setCombo(w, n) {
+    var r = w.beat;
+    r.combo = Math.max(0, Math.floor(n) || 0); r.bestCombo = Math.max(r.bestCombo, r.combo);
+    if (r.combo >= 2) learnQuiet(w, 'combo');
+    if (r.combo > 0 && r.combo % 8 === 0) { r.feverUntil = r.phase + 4; emit(w, 'fever'); }
+  }
+  function pressBeat(w, offsetMs, inputPhase) {
+    if (w.state !== 'play' || w.paused || w.playtest) return null;
+    var r = w.beat, phase = inputPhase == null ? r.phase : inputPhase;
+    // The debug offset goes through the same nearest-beat rule as live input.
+    if (offsetMs != null) phase = Math.round(phase) + Number(offsetMs) / 1000 * r.bpm / 60;
+    var nearest = Math.round(phase), error = Math.abs(phase - nearest) * 60 / r.bpm;
+    if (nearest <= r.lastPress) return null;
+    r.lastPress = nearest;
+    var wide = w.cheats.widejudge ? 2 : 1;
+    var judge = error <= .080 * wide + 1e-9 ? 'perfect' : error <= .160 * wide + 1e-9 ? 'good' : 'miss';
+    learnQuiet(w, 'timing');
+    r.judgement = { kind: judge, until: r.time + .4 };
+    if (judge === 'miss') setCombo(w, 0);
+    else {
+      setCombo(w, r.combo + 1); w.score += judge === 'perfect' ? 100 : 50;
+      addShot(w, { kind: judge === 'perfect' ? 'tiger' : 'fuku', beatShot: true, x: w.p.x + 44, y: w.p.y - 6,
+        vx: 760, vy: 0, r: judge === 'perfect' ? 30 : 16, dmg: judge === 'perfect' ? 4 : 2,
+        pierce: judge === 'perfect' || !!w.weapons.rainbow, hitBoss: false });
+      emit(w, judge);
+    }
+    return judge;
+  }
+  function updateTempo(w) {
+    if (w.mode === 'challenge' || !w.b.maxHp) return;
+    var count = w.b.hp <= w.b.maxHp * .25 ? 3 : w.b.hp <= w.b.maxHp * .5 ? 2 : w.b.hp <= w.b.maxHp * .75 ? 1 : 0;
+    if (count > w.beat.tempoSteps) {
+      w.beat.bpm += 8 * (count - w.beat.tempoSteps); w.beat.tempoSteps = count;
+      w.beat.tempoUntil = w.beat.time + 1; learnQuiet(w, 'bpm');
+    }
+  }
+  // Keep the old attack intervals, rounded to the nearest beat (half beat in phase two).
+  function attackDue(w, key, dt) {
+    var r = w.beat, sub = w.b.hp <= w.b.maxHp / 2 && w.b.maxHp ? 2 : 1;
+    w.m[key] -= dt;
+    return w.m[key] <= 30 / r.bpm / sub && Math.floor(r.phase * sub + 1e-9) > Math.floor(r.previous * sub + 1e-9);
+  }
+  var CHALLENGE_BOSSES = ['bugking', 'kateino', 'hikaku', 'jibun', 'zero'];
+  function setStage(w, n) {
+    if (w.mode !== 'challenge') return false;
+    var previousBpm = w.stage ? w.beat.bpm : 0;
+    w.stage = Math.max(1, Math.floor(Number(n)) || 1);
+    var id = CHALLENGE_BOSSES[(w.stage - 1) % CHALLENGE_BOSSES.length];
+    w.bossId = id; w.def = Object.assign({}, BOSSES[id], { hp: 180 + 12 * (w.stage - 1), through: false, immune: false });
+    w.lines = { intro: [w.def.name, 'ビートに あわせて おしてみよう'], bursts: {}, win: 'つぎの ステージ！' };
+    w.b.hp = w.b.maxHp = w.b.ghostHp = w.def.hp; w.b.shown = {}; w.b.phase2 = false;
+    w.beat.bpm = Math.min(220, 100 + 6 * (w.stage - 1)); w.beat.tempoSteps = 0;
+    if (previousBpm && w.beat.bpm > previousBpm) { learnQuiet(w, 'bpm'); w.beat.tempoUntil = w.beat.time + 1; }
+    w.beat.phase = 0; w.beat.previous = 0; w.beat.lastPress = -1; w.beat.feverUntil = -1;
+    w.m = { wall: 0, down: 0, crackUntil: -1, showReadyAt: Infinity, made: 0, voices: DEFAULT_VOICES, connected: [], got: 0, rot: 0 };
+    w.eb = []; w.bugs = []; w.shots = []; w.pickups = []; w.burst = null; w.burstQ = []; w.toast = null;
+    w.stageAt = w.playT;
+    return true;
+  }
+  function challengeAttack(w) {
+    var r = w.beat, sub = w.stage >= 20 ? 4 : w.stage >= 10 ? 2 : 1;
+    if (Math.floor(r.phase * sub + 1e-9) <= Math.floor(r.previous * sub + 1e-9)) return;
+    if (w.playT - w.stageAt < HINT_T) return;
+    var tick = Math.floor(r.phase * sub + 1e-9);
+    if (tick % Math.ceil(1 / dens(w))) return;
+    fan(w, spawnX(w, -60, 9), w.b.y, tick % (4 * sub) === 0 ? 3 : 1, .7, 180, 'orb');
+    w.b.attackT = .4;
+  }
+  function result(w) {
+    return { boss: w.bossId, seconds: Math.round(w.playT), hearts: w.p.hearts, maxHearts: w.p.maxHearts,
+      hurts: w.stats.hurts, stage: w.stage, bestCombo: w.beat.bestCombo, score: w.score, cheated: !!w.cheated };
   }
 
   function emit(w, name) { if (w.events.length < 80) w.events.push(name); }
@@ -263,12 +365,14 @@
   }
 
   function skillMode(w) {
-    if (w.state !== 'play') return 'none';
+    if (w.state !== 'play' || w.mode === 'challenge' || w.playtest) return 'none';
     if (w.bossId === 'zero') return w.m.ready && !w.m.used ? 'voices' : 'none';
     if (w.bossId === 'kateino') return w.playT >= w.m.showReadyAt ? 'show' : 'wait';
     return 'none';
   }
   function dmgMult(w, crown) {
+    // An unupgraded automatic shot stream takes about 60 beats at every challenge tempo.
+    if (w.mode === 'challenge') return w.b.maxHp / 180;
     if (w.bossId === 'kateino') return w.playT < w.m.crackUntil ? 2 : 0.5;
     if (w.bossId === 'hikaku') return (1 - 0.2 * w.m.down) * (crown && w.hasOwl ? 2 : 1);
     return 1;
@@ -277,6 +381,15 @@
   // One simulation step. Returns false while the hit stop freezes the world (the caller keeps the input for later).
   function step(w, dt, inp) {
     inp = inp || NO_INPUT;
+    if (w.paused || !Number.isFinite(dt) || dt <= 0) return false;
+    if (w.playtest) {
+      if (w.playtest.phase === 'reaction') { w.playtest.left -= dt; if (w.playtest.left <= 0) { w.playtest = null; finishShow(w); } }
+      return false;
+    }
+    dt *= w.scale;
+    updateTempo(w);
+    w.beat.previous = w.beat.phase; w.beat.time += dt; w.beat.phase += dt * w.beat.bpm / 60;
+    if (inp.beat) pressBeat(w);
     if (w.hitstop > 0) { w.hitstop = Math.max(0, w.hitstop - dt); return false; }
     w.t += dt; w.stateT += dt;
     w.shake = Math.max(0, w.shake - dt * 34);
@@ -356,6 +469,15 @@
   }
 
   function useShow(w) {
+    if (w.playtest) return;
+    if (w.openPlaytest && w.playT >= w.m.showReadyAt) {
+      w.playtest = { phase: 'game' };
+      w.openPlaytest(function () { if (w.playtest) w.playtest = { phase: 'reaction', left: 1 }; });
+      return;
+    }
+    finishShow(w);
+  }
+  function finishShow(w) {
     var m = w.m;
     if (w.playT < m.showReadyAt) { emit(w, 'nope'); return; }
     m.crackUntil = w.playT + SHOW_TIME;
@@ -385,11 +507,13 @@
     emit(w, 'tiger');
   }
 
-  function addShot(w, s) { s.age = 0; w.shots.push(s); w.stats.shots++; }
+  function addShot(w, s) { if (!s.beatShot && w.beat.phase < w.beat.feverUntil) { s.dmg *= 2; s.fever = true; } s.age = 0; w.shots.push(s); w.stats.shots++; }
 
   function firePlayer(w, dt) {
     var p = w.p, wp = w.weapons;
-    p.fireCd -= dt;
+    // Challenge keeps three base shots per beat as the tempo rises; story cadence is unchanged.
+    var fireDt = dt * (w.mode === 'challenge' ? w.beat.bpm / 100 : 1);
+    p.fireCd -= fireDt;
     while (p.fireCd <= 0) {
       p.fireCd += wp.rapid ? RAPID_INTERVAL : FIRE_INTERVAL;
       var sx = p.x + 44, sy = p.y - 6, kind = wp.rainbow ? 'rainbow' : 'fuku';
@@ -403,7 +527,7 @@
       emit(w, 'shot');
     }
     if (wp.letter) {
-      p.letterCd -= dt;
+      p.letterCd -= fireDt;
       if (p.letterCd <= 0) {
         p.letterCd = 0.8; p.letterSide *= -1;
         addShot(w, { kind: 'heart', x: p.x + 20, y: p.y - 10, vx: 300, vy: p.letterSide * 220, r: 11, dmg: 1.3, homing: true });
@@ -432,10 +556,10 @@
     w.playT += dt;
     movePlayer(w, dt, inp);
     handleSkill(w, dt, inp);
-    if (w.state !== 'play') return;
+    if (w.state !== 'play' || w.playtest) return;
     firePlayer(w, dt);
     moveBoss(w, dt);
-    MECH[w.bossId](w, dt);
+    if (w.mode === 'challenge') challengeAttack(w); else MECH[w.bossId](w, dt);
     stepShotHits(w);
     stepEnemyBullets(w, dt);
     stepBugs(w, dt);
@@ -461,7 +585,7 @@
     var a = Math.atan2(w.p.y - sy, w.p.x - sx) + (off || 0);
     return { vx: Math.cos(a) * speed, vy: Math.sin(a) * speed, a: a };
   }
-  function addBullet(w, o) { o.age = 0; w.eb.push(o); w.stats.enemyBullets++; return o; }
+  function addBullet(w, o) { o.bornBeat = w.beat.phase; o.bornTime = w.beat.time; o.age = 0; w.eb.push(o); w.stats.enemyBullets++; return o; }
   // Spawn x for a bullet of half width hw: never inside the area the hero can reach, so nothing appears on top of them.
   function spawnX(w, dx, hw) { return Math.max(w.b.x + dx, P_MAX_X + P_R + 26 + (hw || 0)); }
   function fan(w, sx, sy, n, spread, speed, kind, r, off) {
@@ -486,8 +610,7 @@
   var MECH = {
     bugking: function (w, dt) {
       var m = w.m, b = w.b, f = dens(w);
-      m.blockT -= dt;
-      if (m.blockT <= 0) {
+      if (attackDue(w, 'blockT', dt)) {
         // The first blocks are slow, far apart and aimed loosely (a hero who stands still is not hit every time).
         var r = ramp(w);
         m.blockT = lerp(2.3, 1.6, r) / f;
@@ -499,10 +622,8 @@
         b.phase2 = true; toast(w, w.lines.half, 2.6); w.shake = Math.max(w.shake, 8); emit(w, 'phase');
       }
       if (b.phase2) {
-        m.spreadT -= dt;
-        if (m.spreadT <= 0) { m.spreadT = 3.0 / f; fan(w, spawnX(w, -60, 9), b.y, Math.max(3, Math.round(5 * f)), 0.95, 185, 'orb'); b.attackT = 0.4; }
-        m.bugT -= dt;
-        if (m.bugT <= 0) {
+        if (attackDue(w, 'spreadT', dt)) { m.spreadT = 3.0 / f; fan(w, spawnX(w, -60, 9), b.y, Math.max(3, Math.round(5 * f)), 0.95, 185, 'orb'); b.attackT = 0.4; }
+        if (attackDue(w, 'bugT', dt)) {
           m.bugT = 4.2 / f;
           if (w.bugs.length < 4) w.bugs.push({ x: spawnX(w, -50, 18), y: b.y + (w.rng() - 0.5) * 120, hp: 3, age: 0, ph: w.rng() * 6, r: 18 });
         }
@@ -514,8 +635,7 @@
       if (cyc < 4) target = 125 * cyc / 4; else if (cyc < 10) target = 125; else if (cyc < 13) target = 125 * (1 - (cyc - 10) / 3);
       if (cracked) target = 0;
       m.wall += clamp(target - m.wall, -dt * 240, dt * 70);
-      m.waveT -= dt;
-      if (m.waveT <= 0) {
+      if (attackDue(w, 'waveT', dt)) {
         m.waveT = 3.0 / f;
         var n = Math.max(1, Math.round(2 * f)), g = gap(w);
         for (var i = 0; i < n; i++) {
@@ -528,16 +648,14 @@
         b.attackT = 0.45; emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
-        m.sighT -= dt;
-        if (m.sighT <= 0) { m.sighT = 3.6 / f; fan(w, spawnX(w, -80, 9), b.y, Math.max(1, Math.round(2 * f)), 0.45, 180, 'sigh'); }
+        if (attackDue(w, 'sighT', dt)) { m.sighT = 3.6 / f; fan(w, spawnX(w, -80, 9), b.y, Math.max(1, Math.round(2 * f)), 0.45, 180, 'sigh'); }
       }
       // Sora says it again, plainer, if the button has not been pressed yet.
       if (!m.showed && t >= m.hint2At && w.lines.hint2) { m.hint2At = Infinity; burst(w, w.lines.hint2[0], w.lines.hint2[1], 3.0); }
     },
     hikaku: function (w, dt) {
       var m = w.m, b = w.b, f = dens(w);
-      m.numT -= dt;
-      if (m.numT <= 0) {
+      if (attackDue(w, 'numT', dt)) {
         m.numT = 1.8 / f;
         var text = NUMBER_WORDS[m.k++ % NUMBER_WORDS.length], hw = (textW(text, 24) + 26) / 2;
         var nx = spawnX(w, -70, hw), v = aimV(w, nx, b.y - 10, 235, 0);
@@ -545,15 +663,13 @@
         b.attackT = 0.4; emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
-        m.ringT -= dt;
-        if (m.ringT <= 0) { m.ringT = 3.3 / f; m.rot += 0.4; ring(w, b.x - 20, b.y, Math.max(4, Math.round(8 * f)), 165, m.rot, 'star'); }
+        if (attackDue(w, 'ringT', dt)) { m.ringT = 3.3 / f; m.rot += 0.4; ring(w, b.x - 20, b.y, Math.max(4, Math.round(8 * f)), 165, m.rot, 'star'); }
       }
       if (!hasPickup(w, 'pace') && w.playT >= m.paceAt) spawnPickup(w, 'pace');
     },
     jibun: function (w, dt) {
       var m = w.m, b = w.b, f = dens(w), t = w.playT;
-      m.ballT -= dt;
-      if (m.ballT <= 0) {
+      if (attackDue(w, 'ballT', dt)) {
         var r = ramp(w);
         m.ballT = lerp(2.0, 1.35, r) / f;
         fan(w, spawnX(w, -40, 10), b.y - 6, m.made >= 2 ? Math.max(1, Math.round(3 * f)) : m.made >= 1 ? Math.max(1, Math.round(2 * f)) : 1, 0.5,
@@ -566,10 +682,8 @@
     zero: function (w, dt) {
       var m = w.m, b = w.b, f = dens(w) * (m.ready ? 0.6 : 1);
       var r = ramp(w);
-      m.ringT -= dt;
-      if (m.ringT <= 0) { m.ringT = lerp(4.0, 3.0, r) / f; m.rot += 0.5; ring(w, b.x - 30, b.y, Math.max(5, Math.round(10 * f)), 150, m.rot, 'orb'); b.attackT = 0.5; }
-      m.noiseT -= dt;
-      if (m.noiseT <= 0) {
+      if (attackDue(w, 'ringT', dt)) { m.ringT = lerp(4.0, 3.0, r) / f; m.rot += 0.5; ring(w, b.x - 30, b.y, Math.max(5, Math.round(10 * f)), 150, m.rot, 'orb'); b.attackT = 0.5; }
+      if (attackDue(w, 'noiseT', dt)) {
         m.noiseT = lerp(2.5, 1.7, r) / f;
         var zx = spawnX(w, -60, 14), v = aimV(w, zx, b.y, lerp(165, 220, r), (w.rng() - 0.5) * lerp(0.5, 0.2, r));
         addBullet(w, { kind: 'noise', x: zx, y: b.y, vx: v.vx, vy: v.vy, hw: 14, hh: 14, hp: 1 });
@@ -678,6 +792,8 @@
         w.hitstop = Math.max(w.hitstop, 0.1); w.flash = Math.max(w.flash, 0.3); b.hurtT = 0.4; emit(w, 'line');
       }
     });
+    updateTempo(w);
+    if (w.mode === 'challenge') w.hitstop = 0;
     if (b.hp <= 0) win(w);
   }
 
@@ -690,8 +806,9 @@
       sparks(w, p.x, p.y, 18, '#9fe8ff', 240); w.shake = Math.max(w.shake, 5); emit(w, 'barrier');
       return true;
     }
+    setCombo(w, 0);
     w.stats.hurts++;
-    if (!w.god) p.hearts = Math.max(0, p.hearts - 1);
+    if (!w.god && !w.cheats.godmode) p.hearts = Math.max(0, p.hearts - 1);
     if (p.charging) p.brokeAt = w.t;
     p.inv = INVULN; p.hurtT = 0.5; p.charging = false; p.charge = 0;
     breather(w);
@@ -714,6 +831,7 @@
   function numberHit(w) {
     var m = w.m, p = w.p;
     if (p.inv > 0) return false;
+    setCombo(w, 0);
     p.inv = 0.4;
     m.down = Math.min(3, m.down + 1);
     toast(w, 'すうじに あたって こうげきりょく が さがった', 2.2);
@@ -807,6 +925,7 @@
 
   function win(w) {
     if (w.state !== 'play') return;
+    if (w.mode === 'challenge') { w.score += w.stage * 1000; w.p.hearts = Math.min(w.p.maxHearts, w.p.hearts + 1); setStage(w, w.stage + 1); emit(w, 'stage'); return; }
     w.state = 'win'; w.stateT = 0; w.winKind = w.bossId;
     var p = w.p; p.charging = false; p.charge = 0;
     w.eb.forEach(function (e) { sparks(w, e.x, e.y, 3, '#ffffff', 120); });
@@ -874,6 +993,7 @@
   var SIM = {
     W: W, H: H, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
     BOSSES: BOSSES, WEAPONS: WEAPONS, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
+    hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
   };
@@ -943,13 +1063,6 @@
 
   // ---- 音（Web Audio・外部の音源なし） ----
   var AU = { ctx: null, master: null, noise: null, lastShot: 0, lastHit: 0, lastPop: 0, music: null, nextT: 0, stepI: 0, played: 0 };
-  var MUSIC = {
-    bugking: { bpm: 150, bass: [45, 45, 57, 45, 48, 48, 60, 48, 43, 43, 55, 43, 47, 47, 59, 50], lead: [69, 0, 72, 74, 76, 0, 74, 72, 67, 0, 71, 72, 74, 0, 71, 0] },
-    kateino: { bpm: 128, bass: [41, 0, 48, 0, 43, 0, 50, 0, 45, 0, 52, 0, 40, 0, 47, 0], lead: [65, 0, 69, 72, 0, 69, 67, 0, 64, 0, 67, 69, 71, 0, 67, 0] },
-    hikaku: { bpm: 158, bass: [38, 50, 38, 50, 41, 53, 41, 53, 36, 48, 36, 48, 43, 55, 43, 55], lead: [74, 0, 77, 0, 81, 79, 77, 0, 72, 0, 76, 0, 79, 77, 74, 0] },
-    jibun: { bpm: 104, bass: [40, 0, 0, 47, 0, 0, 45, 0, 43, 0, 0, 47, 0, 0, 52, 0], lead: [64, 0, 0, 0, 67, 0, 66, 0, 64, 0, 0, 0, 62, 0, 59, 0] },
-    zero: { bpm: 116, bass: [33, 0, 45, 0, 34, 0, 46, 0, 36, 0, 48, 0, 31, 0, 43, 0], lead: [69, 72, 0, 76, 0, 75, 72, 0, 67, 70, 0, 74, 0, 72, 70, 0] }
-  };
   function midi(n) { return 440 * Math.pow(2, (n - 69) / 12); }
   function audioAllowed(S) {
     if (!S || S.paused || S.closed) return false;
@@ -993,6 +1106,10 @@
     } catch (_) {}
   }
   var SFX = {
+    perfect: function (S) { tone(S, 1568, .14, 'sine', .09); },
+    good: function (S) { tone(S, 880, .07, 'sine', .07); },
+    fever: function (S) { SFX.pickup(S); },
+    stage: function (S) { SFX.start(S); },
     shot: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastShot < 0.075) return; AU.lastShot = n; tone(S, 1040, 0.05, 'sine', 0.018, 1500); },
     hit: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastHit < 0.06) return; AU.lastHit = n; tone(S, 260, 0.05, 'square', 0.03, 140); },
     crit: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastHit < 0.06) return; AU.lastHit = n; tone(S, 620, 0.07, 'square', 0.04, 300); },
@@ -1018,17 +1135,61 @@
     lose: function (S) { [392, 330, 262, 196].forEach(function (f, i) { tone(S, f, 0.3, 'triangle', 0.1, 0, i * 0.2); }); }
   };
   function musicTick(S) {
-    var w = S.world;
-    if (!audioLive(S) || w.state === 'lose' || (w.state === 'win') || !S.loaded) { AU.nextT = 0; return; }
-    var tr = MUSIC[w.bossId], c = AU.ctx, stepDur = 60 / tr.bpm / 2;
-    if (AU.music !== w.bossId || AU.nextT < c.currentTime - 0.3) { AU.music = w.bossId; AU.nextT = c.currentTime + 0.05; }
-    while (AU.nextT < c.currentTime + 0.18) {
-      var i = AU.stepI++ % 16, at = AU.nextT - c.currentTime, bn = tr.bass[i], ln = tr.lead[i];
-      if (bn) tone(S, midi(bn), stepDur * 0.9, 'triangle', 0.075, 0, at);
-      if (ln) tone(S, midi(ln), stepDur * 0.8, 'square', 0.026, 0, at);
-      if (i % 4 === 0) noise(S, 0.05, 0.035, 5000, at);
-      AU.nextT += stepDur;
+    var w = S.world, r = w.beat;
+    if (!audioLive(S) || w.playtest || w.state === 'lose' || w.state === 'win' || !S.loaded) { S.musicNext = null; return; }
+    var tr = MUSIC[w.bossId], half = r.phase * 2, stepDur = 30 / r.bpm / w.scale;
+    if (S.musicBoss !== w.bossId || S.musicStage !== w.stage || S.musicBpm !== r.bpm || S.musicNext == null) {
+      S.musicBoss = w.bossId; S.musicStage = w.stage; S.musicBpm = r.bpm; S.musicNext = Math.ceil(half - 1e-8);
     }
+    if (S.musicNext < half - 1) S.musicNext = Math.ceil(half);
+    // Schedule just ahead on the AudioContext clock. The phase itself uses that same clock.
+    while (S.musicNext <= half + .035 / stepDur) {
+      var i = S.musicNext % 16, at = Math.max(0, (S.musicNext - half) * stepDur), bn = tr.bass[i], ln = tr.lead[i];
+      if (bn) tone(S, midi(bn), stepDur * .9, 'triangle', .075, 0, at);
+      if (ln) tone(S, midi(ln), stepDur * .8, 'square', .026, 0, at);
+      if (i % 4 === 0) noise(S, .05, .035, 5000, at);
+      S.musicNext++;
+    }
+  }
+  function clockDelta(S, now) {
+    var live = audioLive(S), source = live ? 'audio' : 'game', value = live ? AU.ctx.currentTime : now / 1000;
+    var dt = S.clockSource === source && S.clockAt != null ? value - S.clockAt : S.last == null ? 0 : (now - S.last) / 1000;
+    S.clockSource = source; S.clockAt = value; S.last = now;
+    return Math.max(0, dt);
+  }
+  function sessionBeat(S) {
+    if (S.paused || S.closed || !S.loaded || S.world.playtest || S.wordCards.length) return;
+    // Judge the input event, not the later animation frame (especially on a slow phone).
+    var dt = 0;
+    if (S.clockAt != null) {
+      if (S.clockSource === 'audio' && audioLive(S)) dt = AU.ctx.currentTime - S.clockAt;
+      else if (S.clockSource === 'game') dt = performance.now() / 1000 - S.clockAt;
+    }
+    pressBeat(S.world, null, S.world.beat.phase + Math.max(0, dt) * S.world.scale * S.world.beat.bpm / 60);
+  }
+  function layoutPlaytest(S) {
+    if (!S.protoRect) return;
+    var box = S.stage.getBoundingClientRect(), scale = S.scale;
+    Object.assign(S.protoRect, { x: box.left, y: box.top + (PLAY_B - 470) * scale, width: W * scale, height: H * scale });
+    if (S.protoHost) S.protoHost.style.clipPath = 'inset(' + S.protoRect.y + 'px ' + Math.max(0, window.innerWidth - box.right) + 'px ' + Math.max(0, window.innerHeight - (box.top + PLAY_B * scale)) + 'px ' + box.left + 'px)';
+  }
+  function clearInput(S) {
+    S.keys = {}; S.drag = null; S.dragDx = S.dragDy = 0;
+    S.keySkill = S.ptrSkill = S.press = S.release = S.beatPress = false;
+  }
+  function sessionPlaytest(S, done) {
+    clearInput(S); S.musicNext = null;
+    S.protoRect = {}; layoutPlaytest(S);
+    S.protoHandle = RYW.Proto.open({ mode: 'playtest', state: S.world.settings.proto || S.cfg.proto,
+      rect: S.protoRect,
+      platform: S.platform, learn: function (id) { learnQuiet(S.world, id); },
+      onDone: function () { S.protoHandle = null; S.protoRect = null; S.protoHost = null; if (!S.closed) { clearInput(S); done(); } }
+    });
+    // Proto draws a 540x960 canvas. Crop its unused lower half, retaining 24px text
+    // and the actual jumping game at full logical size directly above the bottom band.
+    S.protoHost = document.querySelector('.ryw-proto');
+    if (S.protoHost) S.protoHost.style.zIndex = '2147483001';
+    layoutPlaytest(S);
   }
 
   // ---- DOM ----
@@ -1040,9 +1201,10 @@
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
-      '.ryw-shooter .rs-skill{position:absolute;left:350px;top:838px;width:184px;height:108px;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.25;padding:4px 3px 10px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
+      '.ryw-shooter .rs-skill{position:absolute;left:350px;top:830px;width:184px;height:44px;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.25;padding:3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
+      '.ryw-shooter .rs-beat{position:absolute;left:350px;top:884px;width:184px;height:64px;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none}.ryw-shooter .rs-beat.rs-lit{background:#65511f;border-color:#fff0b0;box-shadow:0 0 18px #ffd76b}' +
       '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;z-index:1}' +
-      '.ryw-shooter .rs-skill .rs-top{color:#9fd8e6}' +
+      '.ryw-shooter .rs-skill .rs-top{display:none}' +
       '.ryw-shooter .rs-skill i{position:absolute;left:0;bottom:0;height:9px;width:0;background:#ffd76b;z-index:0}' +
       '.ryw-shooter .rs-skill.rs-off{opacity:.55}' +
       '.ryw-shooter .rs-skill.rs-ready{border-color:#ffe08a;background:#3a3216;animation:rs-pulse .9s ease-in-out infinite}' +
@@ -1082,6 +1244,7 @@
     rootEl.setAttribute('aria-label', 'ボスせん ' + S.world.def.name);
     rootEl.innerHTML = '<div class="rs-backdrop" aria-hidden="true"></div><div class="rs-stage"><canvas width="540" height="960" aria-hidden="true"></canvas>' +
       '<button type="button" class="rs-skill" aria-label="とくぎ"><span class="rs-top">とくぎ</span><span class="rs-main"></span><i></i></button>' +
+      '<button type="button" class="rs-beat" aria-label="ビート Z">ビート</button>' +
       '<div class="rs-pause" hidden>ひとやすみ</div>' +
       '<div class="rs-panel" hidden><span class="rs-who">ソラ</span><span class="rs-big">もういちど！</span>' +
       '<button type="button" class="rs-primary" data-choice="retry">すぐ やりなおす</button><button type="button" data-choice="town">まちに もどる</button></div></div>';
@@ -1092,6 +1255,8 @@
     S.canvas = rootEl.querySelector('canvas');
     S.ctx = S.canvas.getContext('2d');
     S.btn = rootEl.querySelector('.rs-skill');
+    S.beatBtn = rootEl.querySelector('.rs-beat');
+    if (RYW.Proto && typeof RYW.Proto.open === 'function') S.world.openPlaytest = function (done) { sessionPlaytest(S, done); };
     S.btnMain = rootEl.querySelector('.rs-main');
     S.btnGauge = rootEl.querySelector('.rs-skill i');
     S.pauseEl = rootEl.querySelector('.rs-pause');
@@ -1099,6 +1264,7 @@
 
     var ids = WEAPONS.filter(function (wp) { return S.world.weapons[wp.id]; }).map(function (wp) { return WEAPON_WORDS[wp.id]; }).concat(['life', 'frame']);
     if (S.world.bossId === 'bugking') ids.unshift('bug');
+    ids.unshift('beat', 'notes');
     if (S.world.bossId === 'kateino') ids.push('playtest');
     S.wordCards = typeof RYW.prepareBossWords === 'function' ? RYW.prepareBossWords(ids) : [];
     S.wordTime = 0;
@@ -1114,7 +1280,7 @@
     S.onResize = function () { resize(S); };
     S.onKeyDown = function (e) { onKeyDown(S, e); };
     S.onKeyUp = function (e) { onKeyUp(S, e); };
-    S.onBlur = function () { S.keys = {}; if (S.keySkill) { S.keySkill = false; S.release = true; } };
+    S.onBlur = function () { clearInput(S); };
     S.onVis = function () { S.hidden = document.hidden; applyPause(S); };
     window.addEventListener('resize', S.onResize);
     window.addEventListener('keydown', S.onKeyDown, true);
@@ -1128,8 +1294,14 @@
     S.stage.addEventListener('pointerup', function (e) { onPointerUp(S, e); });
     S.stage.addEventListener('pointercancel', function (e) { onPointerUp(S, e); });
     S.stage.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    S.beatBtn.addEventListener('pointerdown', function (e) {
+      e.preventDefault(); e.stopPropagation(); audioUnlock(S); S.touched = true;
+      sessionBeat(S);
+    });
+    S.beatBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) sessionBeat(S); });
     S.btn.addEventListener('pointerdown', function (e) {
       e.preventDefault(); e.stopPropagation(); audioUnlock(S); S.touched = true;
+      if (S.paused || S.world.playtest || S.wordCards.length) return;
       if (!S.ptrSkill) { S.ptrSkill = true; S.press = true; }
       try { S.btn.setPointerCapture(e.pointerId); } catch (_) {}
     });
@@ -1148,7 +1320,7 @@
       get state() { return S.closed ? 'closed' : S.loaded ? S.world.state : 'loading'; }
     };
     resize(S);
-    loadAll(S);
+    S.visualBoss = S.world.bossId; loadAll(S);
     S.raf = requestAnimationFrame(function loop(now) { frame(S, now); });
     return S;
   }
@@ -1191,7 +1363,8 @@
   function applyPause(S) {
     var want = S.hostPaused || S.hidden;
     if (want === S.paused) return;
-    S.paused = want;
+    S.paused = want; S.world.paused = want;
+    S.clockAt = null; S.last = null; S.musicNext = null; clearInput(S);
     S.pauseEl.hidden = !want;
     S.keys = {};
     if (want) { try { if (AU.ctx) AU.ctx.suspend().catch(function () {}); } catch (_) {} }
@@ -1207,6 +1380,7 @@
     var s = Math.min(iw / W, ih / H);
     S.scale = s;
     S.stage.style.transform = 'translate(' + ((iw - W * s) / 2) + 'px,' + ((ih - H * s) / 2) + 'px) scale(' + s + ')';
+    layoutPlaytest(S);
     var rs = (window.devicePixelRatio || 1) * s > 1.2 ? 2 : 1;
     if (rs !== S.rs || S.canvas.width !== W * rs) { S.rs = rs; S.canvas.width = W * rs; S.canvas.height = H * rs; }
   }
@@ -1241,6 +1415,7 @@
   function closeSession(S) {
     if (S.closed) return;
     S.closed = true;
+    if (S.protoHandle) { S.protoHandle.close(); S.protoHandle = null; }
     cancelAnimationFrame(S.raf);
     window.removeEventListener('resize', S.onResize);
     window.removeEventListener('keydown', S.onKeyDown, true);
@@ -1257,7 +1432,7 @@
     S.finished = true;
     lastResult = kind === 'win' ? 'win' : payload;
     closeSession(S);
-    var cb = kind === 'win' ? S.cfg.onWin : S.cfg.onLose;
+    var cb = kind === 'end' ? S.cfg.onEnd : kind === 'win' ? S.cfg.onWin : S.cfg.onLose;
     if (typeof cb === 'function') cb(payload);
     else if (kind === 'lose' && payload === 'retry') start(S.cfg);
   }
@@ -1275,11 +1450,12 @@
       else if (e.code === 'KeyZ') { e.preventDefault(); (btns[idx] || btns[0]).click(); }
       return;
     }
+    if (S.paused || S.world.playtest) { e.preventDefault(); return; }
     if (S.wordCards.length) { if (e.code === 'Space' || e.key === 'Enter') { e.preventDefault(); if (!S.paused) nextWord(S); } return; }
     var mv = MOVE_KEYS[e.code] || MOVE_KEYS[e.key];
     if (mv) { S.keys[mv] = true; e.preventDefault(); return; }
     if (e.code === 'KeyX' || e.key === 'x' || e.key === 'X') { e.preventDefault(); if (!S.keySkill) { S.keySkill = true; S.press = true; } return; }
-    if (e.code === 'KeyZ' || e.code === 'Space') e.preventDefault(); // Shots are automatic; Z/Space only keeps the page still.
+    if (e.code === 'KeyZ' || e.code === 'Space') { e.preventDefault(); if (!e.repeat) sessionBeat(S); }
   }
   function onKeyUp(S, e) {
     if (S.closed) return;
@@ -1291,7 +1467,7 @@
   function onPointerDown(S, e) {
     if (e.target.closest && e.target.closest('button')) return;
     audioUnlock(S); S.touched = true;
-    if (S.drag) return;
+    if (S.drag || S.paused || S.world.playtest || S.wordCards.length) return;
     e.preventDefault();
     S.drag = { id: e.pointerId, x: e.clientX, y: e.clientY };
     try { S.stage.setPointerCapture(e.pointerId); } catch (_) {}
@@ -1310,8 +1486,7 @@
   function frame(S, now) {
     if (S.closed) return;
     S.raf = requestAnimationFrame(function (n) { frame(S, n); });
-    var dt = S.last == null ? 0 : Math.min(0.05, (now - S.last) / 1000);
-    S.last = now;
+    var dt = clockDelta(S, now);
     var w = S.world;
     S.cooldownEl.hidden = !S.world.weapons.rapid || (w.state !== 'intro');
     if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); render(S); return; }
@@ -1319,20 +1494,23 @@
       var ax = (S.keys.r ? 1 : 0) - (S.keys.l ? 1 : 0), ay = (S.keys.d ? 1 : 0) - (S.keys.u ? 1 : 0);
       var n = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / n;
       for (var i = 0; i < n; i++) {
-        var inp = { ax: ax, ay: ay, dx: S.dragDx, dy: S.dragDy, skill: S.keySkill || S.ptrSkill, press: S.press, release: S.release };
+        var inp = { ax: ax, ay: ay, dx: S.dragDx, dy: S.dragDy, skill: S.keySkill || S.ptrSkill, press: S.press, release: S.release, beat: S.beatPress };
+        S.beatPress = false;
         if (step(w, h, inp)) { S.dragDx = 0; S.dragDy = 0; S.press = false; S.release = false; }
       }
       if (w.events.length) {
         var evs = w.events.splice(0);
         if (audioLive(S)) evs.forEach(function (ev) { if (SFX[ev]) SFX[ev](S); });
       }
+      if (S.visualBoss !== w.bossId) { S.visualBoss = w.bossId; loadAll(S); }
       musicTick(S);
       if (w.state === 'win' && w.stateT >= winHold(w)) {
         render(S);
-        finish(S, 'win', { boss: w.bossId, seconds: Math.round(w.playT), hearts: w.p.hearts, maxHearts: w.p.maxHearts, hurts: w.stats.hurts });
+        finish(S, 'win', result(w));
         return;
       }
       if (w.state === 'lose' && w.stateT >= 0.9 && !S.loseShown) {
+        if (w.mode === 'challenge') { finish(S, 'end', result(w)); return; }
         S.loseShown = true; S.panel.hidden = false;
         var first = S.panel.querySelector('button');
         try { first.focus({ preventScroll: true }); } catch (_) { first.focus(); }
@@ -1450,6 +1628,7 @@
     if (w.flash > 0.01) { ctx.fillStyle = 'rgba(255,255,255,' + Math.min(0.85, w.flash * 0.7) + ')'; ctx.fillRect(0, 0, W, H); }
     drawTopBand(ctx, S, w);
     drawBottomBand(ctx, S, w);
+    drawRhythm(ctx, S, w);
     drawTicker(ctx, w);
     drawTexts(ctx, S, w);
     updateButton(S);
@@ -1742,7 +1921,7 @@
         ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke(); ctx.globalAlpha = 1;
         return;
       }
-      var rb = s.kind === 'rainbow';
+      var rb = s.kind === 'rainbow' || s.fever;
       var col = rb ? 'hsl(' + Math.floor((s.age * 900 + s.y) % 360) + ',100%,75%)' : s.kind === 'opt' ? '#fff3b0' : '#8ff4ff';
       var len = s.kind === 'opt' ? 10 : s.small ? 14 : 20, rad = s.kind === 'opt' ? 4 : s.small ? 5 : 6;
       ctx.globalAlpha = a;
@@ -1767,9 +1946,10 @@
   }
 
   function drawEnemyBullets(ctx, w) {
-    var t = w.t, i;
+    var t = w.t, i, pulse = Math.pow(1 - w.beat.phase % 1, 5);
     w.eb.forEach(function (e) {
       if (e.dead) return;
+      ctx.save(); ctx.shadowColor = '#fff5d6'; ctx.shadowBlur = 3 + pulse * 14;
       if (e.kind === 'block' || e.kind === 'noise') {
         var s = e.hw * 2, x0 = e.x - e.hw, y0 = e.y - e.hh, n = 4, cs = s / n;
         for (i = 0; i < n * n; i++) {
@@ -1803,6 +1983,7 @@
         ctx.fillStyle = col; ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2); ctx.fill();
         ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(e.x, e.y, e.r * 0.45, 0, Math.PI * 2); ctx.fill();
       }
+      ctx.restore();
     });
   }
 
@@ -1847,20 +2028,20 @@
     ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.font = '800 26px ' + FONT;
     outlinedText(ctx, d.name, 20, 36, '#fff3c4');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'right';
-    if (w.bossId === 'kateino') {
+    if (w.mode !== 'challenge' && w.bossId === 'kateino') {
       var left = w.m.crackUntil - w.playT;
-      if (left > 0) outlinedText(ctx, 'ダメージ 2ばい ' + Math.ceil(left), W - 20, 36, '#ffd76b');
-      else outlinedText(ctx, 'ダメージ はんぶん', W - 20, 36, '#c9d6e8');
-    } else if (w.bossId === 'hikaku') {
+      if (left > 0) outlinedText(ctx, 'ダメージ 2ばい ' + Math.ceil(left), W - 20, 100, '#ffd76b');
+      else outlinedText(ctx, 'ダメージ はんぶん', W - 20, 100, '#c9d6e8');
+    } else if (w.mode !== 'challenge' && w.bossId === 'hikaku') {
       // Attack power as a meter: 4 bars at full power, one goes out per number hit (never below 1).
-      outlinedText(ctx, 'こうげき', W - 110, 36, '#ffe9a8');
+      outlinedText(ctx, 'こうげき', W - 110, 100, '#ffe9a8');
       for (var i = 0; i < 4; i++) {
         var on = i < 4 - w.m.down, bh = 10 + i * 6, px = W - 100 + i * 21;
-        ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, 50 - bh, 15, bh);
-        if (on) { ctx.strokeStyle = 'rgba(90,50,0,0.9)'; ctx.lineWidth = 2; ctx.strokeRect(px, 50 - bh, 15, bh); }
+        ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, 112 - bh, 15, bh);
+        if (on) { ctx.strokeStyle = 'rgba(90,50,0,0.9)'; ctx.lineWidth = 2; ctx.strokeRect(px, 112 - bh, 15, bh); }
       }
-    } else if (w.bossId === 'zero') {
-      outlinedText(ctx, 'つながり ' + w.m.got + '/' + w.m.voices.length, W - 20, 36, '#ffd0f4');
+    } else if (w.mode !== 'challenge' && w.bossId === 'zero') {
+      outlinedText(ctx, 'つながり ' + w.m.got + '/' + w.m.voices.length, W - 20, 100, '#ffd0f4');
     }
     if (d.hp) {
       var x = 20, y = 64, bw = W - 40, bh = 22;
@@ -1915,17 +2096,59 @@
       }
     }
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-    outlinedText(ctx, word('life', 'ハート'), 22, y0 + 120, '#fff5d6');
+
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
     icons.forEach(function (wp) {
-      ctx.fillStyle = 'rgba(255,255,255,0.08)'; rr(ctx, xi - 2, y0 + 62, 44, 44, 8); ctx.fill();
-      drawSprite(ctx, S, 'items', wp.icon[0], wp.icon[1], xi + 20, y0 + 84, 40);
-      xi += 47;
+      ctx.fillStyle = 'rgba(255,255,255,0.08)'; rr(ctx, xi - 2, y0 + 45, 38, 38, 8); ctx.fill();
+      drawSprite(ctx, S, 'items', wp.icon[0], wp.icon[1], xi + 17, y0 + 65, 34);
+      xi += 43;
     });
     if (!icons.length) {
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, WEAPONS[0].name, 22, y0 + 84, '#bfe9f5');
+      outlinedText(ctx, WEAPONS[0].name, 22, y0 + 65, '#bfe9f5');
     }
+  }
+
+  function hitboxes(w) {
+    return [{ x: w.p.x - P_R, y: w.p.y - 4 - P_R, width: P_R * 2, height: P_R * 2 }].concat(w.eb.concat(w.shots, w.bugs).filter(function (e) { return !e.dead; }).map(function (e) {
+      var hw = e.r || e.hw, hh = e.r || e.hh; return { x: e.x - hw, y: e.y - hh, width: hw * 2, height: hh * 2 };
+    }));
+  }
+  function drawRhythm(ctx, S, w) {
+    var r = w.beat, pulse = Math.pow(1 - (r.phase % 1), 5), y = 929, x = 42, right = 328;
+    ctx.save(); ctx.strokeStyle = '#66899e'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(right, y); ctx.stroke();
+    ctx.strokeStyle = pulse > .4 ? '#fff6b0' : '#9fd8e6'; ctx.lineWidth = 3 + pulse * 3;
+    ctx.beginPath(); ctx.arc(x, y, 17 + pulse * 2, 0, Math.PI * 2); ctx.stroke();
+    for (var i = Math.ceil(r.phase); i <= r.phase + 4; i++) {
+      var nx = x + (i - r.phase) * 68, big = i % 4 === 0;
+      ctx.fillStyle = big ? '#ffe28a' : '#9fd8e6'; ctx.beginPath(); ctx.arc(nx, y, big ? 10 : 6, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.font = '700 24px ' + FONT; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
+    outlinedText(ctx, r.combo + ' コンボ', 520, 36, '#ffe28a');
+    ctx.textAlign = 'left';
+    if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, 100, '#9fd8e6');
+    if (r.time < r.tempoUntil) {
+      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 62, 516, 29); ctx.textAlign = 'center';
+      outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, 77, '#ffe28a');
+    }
+    if (r.judgement && r.time < r.judgement.until) {
+      ctx.textAlign = 'center'; var label = { perfect: 'パーフェクト', good: 'グッド', miss: 'ミス' }[r.judgement.kind];
+      outlinedText(ctx, label, clamp(w.p.x, 90, W - 90), Math.max(PLAY_T + 22, w.p.y - 86), '#fff5d6');
+    }
+    if (r.phase < r.feverUntil) {
+      ctx.strokeStyle = 'hsl(' + (r.phase * 100 % 360) + ',100%,70%)'; ctx.lineWidth = 6;
+      ctx.beginPath(); ctx.arc(w.p.x, w.p.y - 4, 65, 0, Math.PI * 2); ctx.stroke();
+      ctx.textAlign = 'center'; outlinedText(ctx, 'フィーバー', clamp(w.p.x, 75, W - 75), Math.min(PLAY_B - 24, w.p.y + 72), ctx.strokeStyle);
+    }
+    if (w.playtest && w.playtest.phase === 'reaction') {
+      ctx.fillStyle = '#10233a'; ctx.fillRect(100, PLAY_B - 90, 340, 60); ctx.textAlign = 'center';
+      outlinedText(ctx, '……たのしい', W / 2, PLAY_B - 60, '#fff5d6');
+    }
+    if (w.cheats.showhitbox) { ctx.strokeStyle = '#7dff9d'; ctx.lineWidth = 2; hitboxes(w).forEach(function (r) { ctx.strokeRect(r.x, r.y, r.width, r.height); }); }
+    ctx.restore();
+    S.beatBtn.className = 'rs-beat' + (pulse > .4 ? ' rs-lit' : '');
+    S.beatBtn.disabled = S.paused || w.state !== 'play' || !!w.playtest || !!S.wordCards.length;
   }
 
   function drawTicker(ctx, w) {
@@ -2007,10 +2230,10 @@
   function updateButton(S) {
     var w = S.world, mode = skillMode(w), p = w.p, label = 'ー', cls = 'rs-off', gauge = 0;
     // No skill in this fight (no ためうち, not カテイノ/ゼロ): the button is not shown at all.
-    var none = !w.weapons.charge && w.bossId !== 'kateino' && w.bossId !== 'zero';
+    var none = !w.weapons.charge && (w.mode === 'challenge' || (w.bossId !== 'kateino' && w.bossId !== 'zero'));
     if (w.state === 'play' || w.state === 'intro') {
       if (mode === 'voices') { label = 'みんなの こえ'; cls = 'rs-ready'; gauge = 1; }
-      else if (w.bossId === 'kateino' && (mode === 'show' || !w.weapons.charge)) {
+      else if (w.mode !== 'challenge' && w.bossId === 'kateino' && (mode === 'show' || !w.weapons.charge)) {
         label = word('playtest', 'みせる');
         if (mode === 'show') { cls = 'rs-ready'; gauge = 1; }
         else { cls = 'rs-off'; gauge = clamp(1 - (w.m.showReadyAt - w.playT) / (SHOW_TIME + SHOW_COOLDOWN), 0, 1); }
@@ -2062,11 +2285,15 @@
     audio: { enumerable: true, get: function () { return AU.ctx ? AU.ctx.state : 'none'; } },
     sounds: { enumerable: true, get: function () { return AU.played; } }
   });
+  dbg.debugBeat = function () { return cw() ? beatInfo(cw()) : null; };
+  dbg.debugPress = function (offsetMs) { return cw() ? pressBeat(cw(), offsetMs) : null; };
+  dbg.debugCombo = function (n) { if (cw()) setCombo(cw(), n); return cw() ? beatInfo(cw()) : null; };
+  dbg.debugStage = function (n) { return cw() ? setStage(cw(), n) : false; };
   dbg.debugWin = function () { return cw() ? debugWin(cw()) : false; };
   dbg.debugSetHearts = function (n) { if (cw()) debugSetHearts(cw(), n); return cw() ? cw().p.hearts : null; };
   dbg.debugSetBossHp = function (n) { var w = cw(); if (!w || !w.def.hp) return null; w.b.hp = clamp(Number(n) || 0, 1, w.b.maxHp); return w.b.hp; };
   dbg.debugCollect = function () { return cw() ? debugCollect(cw()) : false; };
   // Hearts stop going down (screenshots and long checks). The hits are still counted.
-  dbg.debugGod = function (on) { if (cw()) cw().god = on !== false; return cw() ? cw().god : false; };
+  dbg.debugGod = function (on) { if (cw()) { cw().god = on !== false; if (on !== false) cw().cheated = true; } return cw() ? cw().god : false; };
   window.__shooter = dbg;
 })(typeof window !== 'undefined' ? window : globalThis);
