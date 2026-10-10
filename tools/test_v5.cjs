@@ -95,7 +95,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const seen=new Set();let lineTotal=0,counting=true;
   function dialogue(){let limit=120;while(g.dialogue&&limit-->0){if(!seen.has(g.dialogue)){seen.add(g.dialogue);if(counting)lineTotal+=g.dialogue.lines.length;}click('dialogue');}assert(limit>0,'dialogue finishes');}
   function visibility(hidden){document.hidden=hidden;for(const f of listeners.visibilitychange||[])f();}
-  function start(){click('start-btn');assert.equal(g.screen,'prologue');dialogue();assert.equal(g.screen,'naming');els.get('name-input').value='テストソラ';click('naming-confirm');dialogue();assert.equal(g.screen,'battle');tick(300);}
+  function start(mode='kids'){click('start-btn');assert.equal(g.modal,'mode-select');button(mode==='adult'?'おとなモード':'こどもモード');assert.equal(g.screen,'prologue');dialogue();assert.equal(g.screen,'naming');els.get('name-input').value='テストソラ';click('naming-confirm');dialogue();assert.equal(g.screen,'battle');tick(300);}
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
@@ -279,8 +279,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  }
  result.push('Balance: Lv2/HP72/battery100/1 drink beats BUG KING in 6-9 turns; Lv1 with nothing loses (seeds 1,2,3) PASS');
  // F04/F05: title keys and naming keys.
- const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');fresh.key('z');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
- const keep=new Map(t.saved),guarded=await runtime({saved:keep});guarded.tick();const kept=keep.get('ryoseiworld-rpg-v5');guarded.click('start-btn');assert.equal(guarded.g.modal,'confirm');assert.equal(guarded.active().textContent,'やめる');guarded.button('やめる');assert.equal(guarded.g.screen,'title');assert.equal(keep.get('ryoseiworld-rpg-v5'),kept);guarded.click('start-btn');guarded.button('はじめる');assert.equal(guarded.g.screen,'prologue');
+ const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');fresh.key('z');assert.equal(fresh.g.modal,'mode-select');fresh.key('z');assert.equal(fresh.g.state.mode,'adult');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
+ const keep=new Map(t.saved),guarded=await runtime({saved:keep});guarded.tick();const kept=keep.get('ryoseiworld-rpg-v5');guarded.click('start-btn');assert.equal(guarded.g.modal,'confirm');assert.equal(guarded.active().textContent,'やめる');guarded.button('やめる');assert.equal(guarded.g.screen,'title');assert.equal(keep.get('ryoseiworld-rpg-v5'),kept);guarded.click('start-btn');guarded.button('はじめる');assert.equal(guarded.g.modal,'mode-select');guarded.button('こどもモード');assert.equal(guarded.g.screen,'prologue');
  result.push('Title: Z on はじめから without a save; はじめから with a save asks first and やめる keeps it; naming input focused and Z confirms PASS');
  // F07/F16/F17: hand-edited or stale saves never freeze the loop.
  const base=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));
@@ -666,9 +666,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS');
  // R39-R42: vocabulary data, collection, save compatibility, nonblocking cards and prompt turns.
  {const wordsSource=scripts.find(s=>s.file==='v5/data/words.js');assert(wordsSource,'index loads words');
-  const ids=[...wordsSource.code.matchAll(/^ ([a-z]+):\{/gm)].map(m=>m[1]);assert.equal(ids.length,48);assert.equal(new Set(ids).size,48,'no duplicate declarations');
-  const r=await runtime();r.tick();r.g.debugStartChapter(2);const W=r.RYW.words;assert.equal(Object.keys(W).length,48);
-  for(const [id,w] of Object.entries(W)){for(const key of ['word','yomi','kind','sora','real','code','where'])assert.equal(typeof w[key],'string',id+'.'+key);assert(['code','game','ai','net'].includes(w.kind));assert([...w.sora].length<=30,id+' sora');assert([...w.real].length<=30,id+' real');assert.equal(r.RYW.word(id),w.word);}
+  const ids=[...wordsSource.code.matchAll(/^ ([a-z]+):\{/gm)].map(m=>m[1]);assert.equal(ids.length,65);assert.equal(new Set(ids).size,65,'no duplicate declarations');
+  const r=await runtime();r.tick();r.g.debugStartChapter(2);const W=r.RYW.words;assert.equal(Object.keys(W).length,65);assert.equal(r.g.state.mode,'adult','a fresh game defaults to adult mode (SPEC_V7_MANABU.md 9)');r.g.state.mode='kids';r.RYW.setMode('kids');
+  for(const [id,w] of Object.entries(W)){assert.equal(typeof w.kind,'string',id+'.kind');assert.equal(typeof w.where,'string',id+'.where');assert(['code','game','ai','net'].includes(w.kind));
+   for(const key of ['word','yomi','code'])assert.equal(typeof w.kids[key],'string',id+'.kids.'+key);
+   for(const key of ['word','one','mean','work','code'])assert.equal(typeof w.adult[key],'string',id+'.adult.'+key);
+   assert([...w.kids.sora].length<=30,id+' kids.sora');assert([...w.kids.real].length<=30,id+' kids.real');
+   assert([...w.adult.one].length<=30,id+' adult.one');assert(w.adult.mean.split('。').filter(Boolean).length<=2,id+' adult.mean sentences');
+   assert.equal(r.RYW.word(id),w.kids.word);}
   for(const src of scripts)for(const m of src.code.matchAll(/(?:RYW\.(?:learn|word|learnQuiet)|\b(?:word|learnQuiet))\(\s*['"]([^'"]+)['"]/g))assert(Object.hasOwn(W,m[1]),src.file+' word id '+m[1]);
   const warns=[],oldWarn=console.warn;try{console.warn=(...a)=>warns.push(a);assert.equal(r.RYW.word('missing-word'),'missing-word');assert.equal(r.g.debugLearn('missing-word'),false);}finally{console.warn=oldWarn;}assert.equal(warns.length,2);
   r.g.state.aiName='ほし';r.g.debugLearn('jikkou');assert(r.els.get('word-title').textContent.includes('ほし'));assert.equal(r.g.debugLearn('jikkou'),false);
@@ -677,7 +682,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const shown=[];for(let i=0;i<4;i++){shown.push(r.els.get('word-title').textContent);r.click('word-card');}assert(r.els.get('word-card').hidden);assert(shown[0].includes('じっこう')&&shown[3].includes('せいせい'));assert(!shown.some(t=>t.includes('アイテム')),'only three waiting cards');
   r.g.debugLearn('debug');r.tick(2400);assert(!r.els.get('word-card').hidden);r.visibility(true);r.tick(3000);assert(!r.els.get('word-card').hidden);r.visibility(false);r.tick(150);assert(r.els.get('word-card').hidden,'2.5 seconds, excluding host pause');
   r.RYW.learnQuiet('codegen');assert(r.g.debugWords().includes('codegen'));assert(r.els.get('word-card').hidden);
-  r.g.debugOpenNote();assert.equal(r.g.modal,'words');assert(r.els.get('modal-copy').textContent.includes('8 / 48'));assert.equal(r.els.get('modal-buttons').children.filter(e=>e.tagName==='H3').length,4);assert.equal(r.els.get('modal-buttons').children.filter(e=>e.disabled).length,40);r.button('じっこう');assert.equal(r.g.modal,'word-detail');assert(r.els.get('modal-copy').children.some(e=>e.tagName==='CODE'&&e.textContent==='run()'));r.key('Escape');
+  r.g.debugOpenNote();assert.equal(r.g.modal,'words');assert(r.els.get('modal-copy').textContent.includes('8 / 65'));assert.equal(r.els.get('modal-buttons').children.filter(e=>e.tagName==='H3').length,4);assert.equal(r.els.get('modal-buttons').children.filter(e=>e.disabled).length,57);r.button('じっこう');assert.equal(r.g.modal,'word-detail');assert(r.els.get('modal-copy').children.some(e=>e.tagName==='CODE'&&e.textContent==='run()'));r.key('Escape');
   r.click('menu-btn');r.button('ステータス');r.tick(16);assert(!r.els.get('word-card').hidden,'card visible above modal');assert.equal(r.els.get('word-card').style.top,'16px');r.key('Escape');
   await r.g.save(false);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.saveVersion,2);assert.equal(sv.words.length,9);
   const again=await runtime({saved:r.saved});again.tick();again.click('continue-btn');assert.deepEqual([...again.g.debugWords()],sv.words);assert.equal(again.g.debugLearn('debug'),false);
@@ -686,8 +691,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const no=await runtime({omitWords:true});no.tick();no.g.debugStartChapter(2);no.g.debugLearn('hp');no.cmd('attack');no.click('menu-btn');no.button('つよさ');assert.equal(no.g.modal,'menu','old labels work without words');
   const batch=r.RYW.prepareBossWords(['shot','life','frame','vector','if']);assert.equal(batch.length,2);assert(batch.every(w=>w.speaker==='ほし'));for(const id of ['shot','life','frame','vector','if'])assert(r.g.debugWords().includes(id));assert.equal(r.RYW.prepareBossWords(['shot','life','frame']).length,0);
  }
- result.push('Words: 48 unique ids, fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS');
- {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.debugStartBattle('popup','words-create');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});
+ result.push('Words: 65 unique ids (49 kids + 16 adult-only AI/dev terms), adult/kids fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS');
+ {const r=await runtime();r.tick();r.g.debugStartChapter(2);r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugStartBattle('popup','words-create');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});
   const b=r.g.battle,hp=b.enemy.hp;r.cmd('create');assert.equal(r.g.modal,'create');assert(r.g.debugWords().includes('prompt'));assert.equal(b.turn,0);r.button('もどる');assert.equal(b.enemy.hp,hp);assert(!b.locked);
   r.cmd('create');r.button('くりかえし');assert.equal(b.loopHit.n,1);const first=hp-b.enemy.hp;r.tick(400);assert.equal(b.loopHit.n,2);assert.equal(hp-b.enemy.hp,r.g.GAME_DATA.rules.baseAttack+(r.g.level-1)*r.g.GAME_DATA.rules.attackPerLevel+10);assert(first>0&&first<hp-b.enemy.hp);r.tick(700);assert.equal(b.turn,1,'two hits, one enemy move');assert.equal(r.g.state.status,'ひょうじバグ');assert(r.g.debugWords().includes('hyoujibug'));
   for(const [rand,name] of [[0,'しゃべる くつした'],[.4,'ねこの クッション'],[.9,'ちいさな ロボ']]){r.g.hp.hp=r.g.hp.displayHp=r.g.hp.rollTarget=20;r.g.hp.rolling=false;r.setRandom(()=>rand);const turn=b.turn,enemy=b.enemy.hp;r.cmd('create');r.button('なにか');assert.equal(r.g.hp.hp,28);assert.equal(b.enemy.hp,enemy);assert(b.log.includes(name));r.tick(750);assert.equal(b.turn,turn+1);}
@@ -700,7 +705,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const plain=x=>JSON.parse(JSON.stringify(x)),labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),copy=r=>r.els.get('modal-copy').textContent;
   const blank={godmode:false,timescale:false,widejudge:false,showhitbox:false},record={stage:0,bestCombo:0,score:0};
   const answer=r=>{const m=copy(r).match(/(\d+) × (\d+)/);assert(m,'parent multiplication');return Number(m[1])*Number(m[2]);};
-  const r=await runtime({search:'&shop=test'});r.tick();r.g.debugStartChapter(1);r.click('menu-btn');assert(!labels(r).includes('チャレンジ'));assert(labels(r).includes('デバッグモード'));assert.equal(r.g.debugStartChallenge(1),false);
+  const r=await runtime({search:'&shop=test'});r.tick();r.g.debugStartChapter(1);r.g.state.mode='kids';r.RYW.setMode('kids');r.click('menu-btn');assert(!labels(r).includes('チャレンジ'));assert(labels(r).includes('デバッグモード'));assert.equal(r.g.debugStartChallenge(1),false);
   r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.key('Escape');r.click('menu-btn');assert(labels(r).includes('チャレンジ'),'chapter 1 boss clear unlocks entry');
   r.button('チャレンジ');assert.equal(r.g.modal,'cheats');assert.equal(r.shooterRuns.length,0);assert(r.g.debugWords().includes('cheat')&&r.g.debugWords().includes('debugmode'));
   r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.mode,'challenge');assert.equal(r.shooterRuns.at(-1).cfg.startStage,1);assert.deepEqual(plain(r.shooterRuns.at(-1).cfg.options.cheats),blank);
@@ -727,6 +732,30 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const n=await runtime();n.tick();n.g.debugStartChapter(3);const door=n.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_stadium');n.g.debugWarp('neon',door.x,door.y+1.1);n.g.debugFace(3);n.tick(400);n.click('talk-btn');assert.equal(n.g.map,'neon_stadium');assert(talk(n,'neon_stadium',5,7.2).includes('リズム チャレンジ'));n.dialogue();n.tick(300);assert.equal(n.g.modal,'cheats');n.button('はじめる');assert.equal(n.shooterRuns.at(-1).cfg.mode,'challenge');n.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:0,score:0,cheated:false});assert.equal(n.g.map,'neon_stadium');n.tick(300);n.key('Escape');n.g.debugWarp('neon_stadium',5,10.7);n.tick(400);n.key('ArrowDown');n.tick(500);n.key('ArrowDown',true);assert.equal(n.g.map,'neon','stadium exit works');
  }
  result.push('R50/R51: chapter gate, stadium entry/exit, challenge starts/results/reload, separate cheat records, story cheats/retry, test parent gate correct/wrong/cancel, vocabulary, browser/iOS/Playables restrictions, old/malformed/cloud saves PASS');
+ // SPEC_V7_MANABU.md 9・9.1: adult/kids mode picker, settings switch, save compatibility, parent gate kids-only.
+ {const labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),copy=r=>r.els.get('modal-copy').textContent;
+  const a=await runtime();a.tick();a.click('start-btn');assert.equal(a.g.modal,'mode-select');assert.equal(a.active().textContent,'おとなモード','adult is picked first');a.button('おとなモード');assert.equal(a.g.state.mode,'adult');a.dialogue();a.els.get('name-input').value='アダルト';a.click('naming-confirm');a.dialogue();assert.equal(a.g.screen,'battle');
+  assert.equal(a.els.get('commands').children.find(e=>e.dataset.cmd==='create').textContent,'作る');assert.equal(a.els.get('commands').children.find(e=>e.dataset.cmd==='run').textContent,'逃げる');
+  a.g.debugLearn('jikkou');assert.equal(a.RYW.word('jikkou'),'実行');assert.equal(a.RYW.card('jikkou'),'命令を動かそう');
+  a.g.debugWin();a.tick(2100);while(a.g.dialogue)a.dialogue();
+  a.g.debugOpenNote();a.button('実行');const detail=a.els.get('modal-copy').children.map(e=>e.textContent);assert(detail.includes('一言')&&detail.includes('命令を動かそう'));assert(a.els.get('modal-copy').children.some(e=>e.tagName==='CODE'&&e.textContent==='node game.js'));a.key('Escape');a.key('Escape');
+  a.g.debugStartBattle('popup','adult-create');a.tick(300);Object.assign(a.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});a.cmd('create');assert(a.els.get('modal-title').textContent.includes('ソラに頼む'));assert(a.els.get('modal-buttons').children.some(e=>e.textContent.includes('繰り返し攻撃')));assert(a.els.get('modal-buttons').children.some(e=>e.textContent.includes('何か作って')));a.key('Escape');
+  a.g.debugWin();a.tick(2100);while(a.g.dialogue)a.dialogue();a.tick(300);
+  a.click('menu-btn');assert(labels(a).includes('武器')&&labels(a).includes('召喚獣')&&labels(a).includes('設定'),'adult menu labels');assert(!labels(a).some(t=>t==='ぶき'||t==='しょうかんじゅう'));
+  a.button('設定');assert.equal(a.g.modal,'settings');assert(a.els.get('modal-buttons').children.some(e=>e.textContent.includes('おとな')));a.button('モード');assert.equal(a.g.state.mode,'kids');assert.equal(a.RYW.mode,'kids');
+  assert.equal(a.els.get('commands').children.find(e=>e.dataset.cmd==='create').textContent,'つくる');a.button('モード');assert.equal(a.g.state.mode,'adult');a.key('Escape');a.key('Escape');
+  await a.g.save(false);const asv=JSON.parse(a.saved.get('ryoseiworld-rpg-v5'));assert.equal(asv.mode,'adult');
+  const again=await runtime({saved:a.saved});again.tick();again.click('continue-btn');assert.equal(again.g.state.mode,'adult');assert.equal(again.RYW.mode,'adult');
+  const legacy={...asv};delete legacy.mode;const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(legacy)]])});old.tick();old.click('continue-btn');assert.equal(old.g.state.mode,'adult','a save without mode defaults to adult');
+  const kidsRun=await runtime();kidsRun.tick();kidsRun.start('kids');assert.equal(kidsRun.g.state.mode,'kids');kidsRun.g.debugWin();kidsRun.tick(2100);while(kidsRun.g.dialogue)kidsRun.dialogue();kidsRun.tick(300);kidsRun.click('menu-btn');assert(labels(kidsRun).includes('ぶき')&&labels(kidsRun).includes('しょうかんじゅう'));
+ }
+ {const labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),copy=r=>r.els.get('modal-copy').textContent;
+  const k=await runtime({search:'&shop=test'});k.tick();k.g.debugStartChapter(1);k.g.state.mode='kids';k.RYW.setMode('kids');
+  const shop=k.g.debugShop(),pending=shop.buy('debugmode');assert.equal(k.g.modal,'shop-gate','kids mode keeps the parent-gate math question');assert.equal(labels(k).filter(t=>/^\d+$/.test(t)).length,4);k.key('Escape');assert.equal(await pending,false);
+  const ad=await runtime({search:'&shop=test'});ad.tick();ad.g.debugStartChapter(1);
+  const shopA=ad.g.debugShop();shopA.buy('debugmode');assert.equal(ad.g.modal,'shop-gate');assert.equal(labels(ad).filter(t=>/^\d+$/.test(t)).length,0,'adult mode skips the parent-gate math question');assert(labels(ad).includes('買う'));ad.button('買う');assert.equal(ad.g.modal,'debug-shop');assert(labels(ad).includes('デバッグモードを開く'));
+ }
+ result.push('Modes: adult default at title, adult/kids command and menu labels, note one/mean/work/code, settings switch, save/old-save compatibility, kids-only parent gate PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

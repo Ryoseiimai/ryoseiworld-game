@@ -66,10 +66,13 @@
     { id: 'charge', name: 'フクの ためうち', kind: 'love', icon: [1, 3], desc: 'おしつづけて ためると おおきな とらの たま' }
   ];
   var WEAPON_WORDS = { fuku: 'shot', rapid: 'cooldown', twin: 'vector', rainbow: 'hitbox', barrier: 'if', onigiri: 'life', letter: 'homing', charge: 'charge' };
-  if (typeof RYW.word === 'function') {
+  // Weapon names follow RYW.mode (SPEC_V7_MANABU.md 9・9.1), so this recomputes on every syncWeaponNames() call, not just once at load.
+  function syncWeaponNames() {
+    if (typeof RYW.word !== 'function') return;
     var names = { fuku: 'フク・' + RYW.word('shot'), rapid: RYW.word('cooldown') + ' チップ', twin: RYW.word('vector') + ' チップ', rainbow: RYW.word('hitbox') + ' チップ', barrier: RYW.word('if') + ' バリア', onigiri: RYW.word('life') + '+1 おにぎり', letter: RYW.word('homing') + ' レター', charge: 'フクの ' + RYW.word('charge') + 'ショット' };
     WEAPONS.forEach(function (wp) { wp.name = names[wp.id]; if (wp.id === 'rapid') wp.desc = 'つぎに うつまで\n' + cooldownText(); if (wp.id === 'onigiri') wp.desc = 'ライフが 1つ ふえる'; });
   }
+  syncWeaponNames();
   var WEAPON_ALIAS = { pierce: 'rainbow', niji: 'rainbow', heart: 'letter', tegami: 'letter', tame: 'charge', omamori: 'barrier', rensha: 'rapid' };
   function normalizeWeapons(list) {
     var out = { fuku: true };
@@ -999,7 +1002,7 @@
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
   };
 
-  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, _sim: SIM };
+  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
 
@@ -1227,6 +1230,7 @@
 
   function start(cfg) {
     if (current) closeSession(current);
+    syncWeaponNames();
     current = createSession(cfg || {});
     return current.handle;
   }
