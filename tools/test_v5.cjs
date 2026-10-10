@@ -325,7 +325,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   const D=r.g.GAME_DATA,verbs=['say','proto','choice','quiz','join','give','take','flag','if','save','battle','warp','transport','inn','music','shake','flash','wait','chapterClear','ending','bond','gift'];
   const check=(steps,where)=>{assert(Array.isArray(steps),where);for(const s of steps){const v=verbs.filter(k=>Object.hasOwn(s,k));assert.equal(v.length,1,where+' one verb '+JSON.stringify(s));
-   if(v[0]==='proto')assert(['lesson','play'].includes(s.proto),where+' prototype mode');
+   if(v[0]==='proto')assert(['lesson','play','sprite','text','deploy'].includes(s.proto),where+' prototype mode');
    if(v[0]==='say'&&typeof s.say==='string')assert(Object.hasOwn(D.dialogue,s.say),where+' dialogue '+s.say);
    if(['give','take'].includes(v[0]))assert(Object.hasOwn(D.items,s[v[0]]),where+' item '+s[v[0]]);if(v[0]==='join')assert(Object.hasOwn(D.summons,s.join),where+' summon '+s.join);
    if(v[0]==='choice'){assert(s.options.length>=2&&s.options.length<=3,where+' choice 2-3');for(const o of s.options)assert(o.text.length<=16,where+' choice text fits');s.options.forEach((o,i)=>check(o.then||[],where+'.choice'+i));}
@@ -683,16 +683,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(D.summons.whale&&D.summons.whale.backup&&D.summons.whale.frame===5,'whale summon data (backup, sheet frame 5)');
   assert.equal(D.bonds.hacker.spirit,'whale','the hacker now carries the whale as her spirit');
   const painter=D.maps.neon.objects.find(o=>o.id==='neon_painter');assert(painter&&painter.kind==='npc2'&&painter.frame===1,'painter uses the paint-splattered npc2 frame');
-  const step=(pick)=>{for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'&&pick){r.tick(300);r.button(pick);pick=null;continue;}break;}};
+  const step=(pick)=>{let seen=r.protoRuns.length;for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'&&pick){r.tick(300);r.button(pick);pick=null;continue;}if(r.protoRuns.length>seen){const run=r.protoRuns.at(-1);seen=r.protoRuns.length;run.onDone(run.state);continue;}break;}};
   // いいね を おしても まだ 仲間に ならない。もう いちど いって いっしょに かく を えらぶと 仲間になる。
   r.g.debugWarp('neon',painter.x,painter.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');step('いいねを おす');
   assert(!r.g.summons.includes('paint'),'いいね だけでは まだ 仲間に ならない');
   r.click('talk-btn');step('いっしょに かく');
   assert(r.g.summons.includes('paint'),'いっしょに かく で ペイントキメラが 仲間に なる');assert(r.g.state.bonds.neon_painter>=1,'きずなが あがる');
+  assert.equal(r.protoRuns.at(-1).mode,'sprite','R47: ペイントキメラが仲間になるとプロトタイプ v6.3 のスプライトが育つ');
   // ハッカーのお姉さんと なんかいか はなすと きずなが 3に なり、サーバークジラが 仲間に なる。
   const hacker=D.maps.neon.objects.find(o=>o.id==='hacker');assert(hacker&&hacker.kind==='npc','hacker returns to ネオンシティ');
   for(let i=0;i<5&&!r.g.summons.includes('whale');i++){r.g.debugWarp('neon',hacker.x,hacker.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');step();}
   assert(r.g.summons.includes('whale'),'きずな3で サーバークジラが 仲間に なる');assert.equal(r.g.state.bonds.hacker,3);
+  assert.equal(r.protoRuns.at(-1).mode,'deploy','R47: サーバークジラが仲間になるとプロトタイプをデプロイする');
   // 技: スプライトせいせい（みがわり）は つぎの こうげきを まるごと うけとめる。1回だけ。
   st.battery=100;r.g.debugStartBattle('popup','r24-mirror');r.tick(300);const hpBefore=r.g.hp.hp;
   r.cmd('summon');r.button('ペイントキメラ');r.tick(3000);
@@ -712,12 +714,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
   assert(D.summons.kotoba&&D.summons.kotoba.rest&&D.summons.kotoba.frame===4,'kotoba summon data (rest, sheet frame 4)');
   const mio=D.maps.neon.objects.find(o=>o.id==='neon_mio');assert(mio&&mio.kind==='npc2'&&mio.frame===0&&mio.event==='mioRain','Mio stands in ネオンシティ with the npc2 picture');
-  const read=[];const talk=(ev,...picks)=>{r.g.debugEvent(ev);for(let i=0;i<40;i++){if(r.g.dialogue){read.push(...r.g.dialogue.lines.map(l=>l.join(' ')));r.click('dialogue');continue;}if(r.g.modal==='event'){r.tick(300);r.button(picks.shift()||'さきに いく');continue;}break;}assert(!r.g.dialogue&&!r.g.modal,'event '+ev+' finishes');r.tick(300);};
+  const read=[];const talk=(ev,...picks)=>{r.g.debugEvent(ev);let seen=r.protoRuns.length;for(let i=0;i<40;i++){if(r.g.dialogue){read.push(...r.g.dialogue.lines.map(l=>l.join(' ')));r.click('dialogue');continue;}if(r.g.modal==='event'){r.tick(300);r.button(picks.shift()||'さきに いく');continue;}if(r.protoRuns.length>seen){const run=r.protoRuns.at(-1);seen=r.protoRuns.length;run.onDone(run.state);continue;}break;}assert(!r.g.dialogue&&!r.g.modal,'event '+ev+' finishes');r.tick(300);};
   // Before her heart 3, if RYOSEI runs ahead, nothing changes.
   st.bonds.mio=2;talk('mioRain','さきに いく');assert.equal(st.bonds.mio,2,'さきに いく では きずなが あがらない');assert(!r.g.summons.includes('kotoba'));
   // Sharing the umbrella raises her heart to 3, and コトバイルカ joins.
   talk('mioRain','かさに いれる');assert.equal(st.bonds.mio,3,'かさに いれる で きずなが あがる');
   assert(r.g.summons.includes('kotoba'),'きずな3で コトバイルカが 仲間に なる');
+  assert.equal(r.protoRuns.at(-1).mode,'text','R47: コトバイルカが仲間になるとプロトタイプのタイトルをほんやくできる');
   talk('mioRain');const all=read.join('\n');assert(all.includes('コトバイルカ'));
   for(const t of ['すき','キス','デート'])assert(!all.includes(t),'12-year-old story: no '+t);
   // 技: ほんやく（てきの ことばが わかって、てきが 1かい やすむ）。

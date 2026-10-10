@@ -84,16 +84,16 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   muralPainter:[{if:{summon:'paint'},then:[{say:'painterIdle'}],
    else:[{say:'painterAsk'},{choice:'どうする？',options:[
     {text:'いいねを おす',then:[{say:'painterLike'}]},
-    {text:'いっしょに かく',then:[{say:'painterJoin'},{join:'paint'},{bond:'neon_painter'},{save:'quiet'}]}]}]}],
+    {text:'いっしょに かく',then:[{say:'painterJoin'},{join:'paint'},{proto:'sprite'},{bond:'neon_painter'},{save:'quiet'}]}]}]}],
   // R24: ハッカーのお姉さんと また会う（STORY_V4.md）。きずなが3に なると サーバークジラが 本当に 仲間になる。
   hackerNeon:[{if:{summon:'whale'},then:[{say:'hackerNeonIdle'}],
    else:[{if:'hackerNeonMet',then:[{say:'hackerNeonAgain'}],else:[{say:'hackerNeonFirst'},{flag:'hackerNeonMet'}]},
     {bond:'hacker'},
-    {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{save:'quiet'}]}]}],
+    {if:{bond:'hacker',atLeast:3},then:[{say:'hackerNeonJoin'},{join:'whale'},{proto:'deploy'},{save:'quiet'}]}]}],
   // R25: ミオの雨の日（STORY_V4.md 恋愛きずな3）。かさに いれる を えらぶと きずなが あがり、3で コトバイルカが 仲間に なる。
   mioRain:[{if:{summon:'kotoba'},then:[{say:'mioRainIdle'}],
    else:[{if:{bond:'mio',atLeast:2},then:[{say:'mioRainAsk'},{choice:'どうする？',options:[
-     {text:'かさに いれる',then:[{say:'mioRainShare'},{bond:'mio'},{if:{bond:'mio',atLeast:3},then:[{say:'mioRainJoin'},{join:'kotoba'},{save:'quiet'}]}]},
+     {text:'かさに いれる',then:[{say:'mioRainShare'},{bond:'mio'},{if:{bond:'mio',atLeast:3},then:[{say:'mioRainJoin'},{join:'kotoba'},{proto:'text'},{save:'quiet'}]}]},
      {text:'さきに いく',then:[{say:'mioRainSkip'}]}]}],
     else:[{say:'mioRainEarly'}]}]}]
  },

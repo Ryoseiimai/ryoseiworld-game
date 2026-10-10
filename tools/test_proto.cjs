@@ -212,5 +212,45 @@ test('入力で初期hiddenを見直してもplatformのpauseを解除しない'
   p.frame(); p.frame(); assert.equal(p.window.__proto.debugState().cycleTime, 0);
   resume(); assert.equal(p.window.__proto.debugJump(), true);
 });
+function clickNth(p, label, n) {
+  const matches = p.stage.children.filter(el => el.textContent === label);
+  assert.ok(matches[n], label + '#' + n);
+  p.stage.emit('pointerdown'); matches[n].emit('click');
+}
+test('スプライト: えを えらぶと バージョンが あがって おわる', () => {
+  let result = null;
+  const p = page({ mode: 'sprite', state: { v: 1 }, onDone: s => { result = s; } });
+  p.frame();
+  clickNth(p, 'これにする', 1);
+  assert.ok(p.texts().some(t => t.text === 'この えに なった！'));
+  assert.ok(p.texts().some(t => t.text === 'はじめて つくった ゲーム v2 に なった！'));
+  assert.equal(result, null);
+  p.click('できた');
+  assert.equal(result.v, 2); assert.equal(result.sprite, 2);
+});
+test('ほんやく: タイトルを えいごに できて バージョンが あがる', () => {
+  let result = null;
+  const p = page({ mode: 'text', state: { v: 2 }, onDone: s => { result = s; } });
+  p.frame();
+  p.click('えいごに する');
+  assert.ok(p.texts().some(t => t.text === 'My First Game'));
+  p.click('できた');
+  assert.equal(result.v, 3); assert.equal(result.title, 'en');
+});
+test('デプロイ: おくる→3つの かんそう→バージョンが あがる', () => {
+  let result = null;
+  const p = page({ mode: 'deploy', state: { v: 3 }, onDone: s => { result = s; } });
+  p.frame();
+  p.click('さくひんだな へ おくる');
+  assert.ok(p.texts().some(t => t.text === 'おくって いる……'));
+  p.frame(0); p.frame(1); // クリックの pointerdown が last をリセットするので1回挟む。0.9秒を超えると感想が始まる
+  assert.ok(p.texts().some(t => t.text === 'まちの こども'));
+  for (let i = 0; i < 2; i++) p.click('つぎへ');
+  assert.ok(p.texts().some(t => t.text === 'ハッカーの おねえさん'));
+  p.click('つぎへ');
+  assert.ok(p.texts().some(t => t.text === 'はじめて つくった ゲーム v4 に なった！'));
+  p.click('できた');
+  assert.equal(result.v, 4); assert.equal(result.deployed, true);
+});
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 if (failed) process.exitCode = 1;

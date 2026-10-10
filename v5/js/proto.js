@@ -150,6 +150,36 @@
     var ctx = canvas.getContext('2d'), rs = 1, raf = 0, last = null;
     var ac = null, audioOn = true, muted = null, removers = [], buttons = {};
     var stub = ['sprite', 'text', 'deploy'].indexOf(s.mode) >= 0;
+    // sprite/text/deploy are short one-screen upgrades to the v6.3 prototype, not the minigame.
+    var up = { phase: 'ask', timer: 0, feedbackIdx: 0 };
+    var FEEDBACK = [
+      { who: 'まちの こども', text: 'ジャンプ きもちいい！' },
+      { who: 'はちまきの おじさん', text: 'もう いちど あそびたいな' },
+      { who: 'ハッカーの おねえさん', text: 'てんじょうに ぶつかって わらった' }
+    ];
+    function bumpVersion() {
+      s.state.v = s.state.v + 1;
+      if (typeof cfg.learn === 'function') cfg.learn('version');
+    }
+    function pickSprite(idx) {
+      if (up.phase !== 'ask') return;
+      s.state.sprite = idx; bumpVersion(); up.phase = 'done'; sound();
+    }
+    function pickTitle(key) {
+      if (up.phase !== 'ask') return;
+      s.state.title = key; bumpVersion(); up.phase = 'done'; sound();
+    }
+    function sendDeploy() {
+      if (up.phase !== 'ask') return;
+      s.state.deployed = true; up.phase = 'sending'; up.timer = 0;
+      if (typeof cfg.learn === 'function') cfg.learn('deploy');
+      sound();
+    }
+    function nextFeedback() {
+      if (up.phase !== 'feedback') return;
+      up.feedbackIdx++;
+      if (up.feedbackIdx >= FEEDBACK.length) { bumpVersion(); up.phase = 'done'; } else sound();
+    }
     function listen(el, event, fn, capture) {
       el.addEventListener(event, fn, capture);
       removers.push(function () { el.removeEventListener(event, fn, capture); });
@@ -195,6 +225,19 @@
       button('undo', '↩ アンドゥ', 285, 686, 225, 72, s.undo);
       button('done', 'できた', 110, 812, 320, 80, s.finish);
     } else if (s.mode === 'play') button('done', 'もどる', 110, 812, 320, 80, s.finish);
+    else if (s.mode === 'sprite') {
+      button('pickA', 'これにする', 50, 560, 200, 80, function () { pickSprite(1); });
+      button('pickB', 'これにする', 290, 560, 200, 80, function () { pickSprite(2); });
+      button('up-done', 'できた', 110, 760, 320, 80, s.finish);
+    } else if (s.mode === 'text') {
+      button('pickJa', 'このままで', 50, 560, 200, 80, function () { pickTitle('ja'); });
+      button('pickEn', 'えいごに する', 290, 560, 200, 80, function () { pickTitle('en'); });
+      button('up-done', 'できた', 110, 760, 320, 80, s.finish);
+    } else if (s.mode === 'deploy') {
+      button('send', 'さくひんだな へ おくる', 110, 640, 320, 80, sendDeploy);
+      button('next', 'つぎへ', 110, 700, 320, 80, nextFeedback);
+      button('up-done', 'できた', 110, 760, 320, 80, s.finish);
+    }
 
     function resize() {
       var r = cfg.rect || {}, iw = r.width || r.w || root.innerWidth || W, ih = r.height || r.h || root.innerHeight || H;
@@ -208,12 +251,43 @@
       ctx.font = '700 ' + (size || 24) + 'px ' + FONT;
       ctx.fillStyle = color || '#fff5d6'; ctx.textAlign = align || 'center'; ctx.textBaseline = 'middle'; ctx.fillText(str, x, y);
     }
+    function show(id, visible) { if (buttons[id]) buttons[id].style.display = visible ? '' : 'none'; }
+    function drawSpritePreview(x, idx) {
+      ctx.fillStyle = ['#fff9e8', '#77d8f4', '#f7acdb'][idx]; ctx.fillRect(x - 24, 460, 48, 48);
+      ctx.fillStyle = '#132737'; ctx.fillRect(x - 11, 478, 6, 8); ctx.fillRect(x + 5, 478, 6, 8);
+    }
+    function drawUp() {
+      if (buttons['up-done']) buttons['up-done'].className = up.phase === 'done' ? 'rp-glow' : '';
+      if (s.mode === 'sprite') {
+        show('pickA', up.phase === 'ask'); show('pickB', up.phase === 'ask'); show('up-done', up.phase === 'done');
+        if (up.phase === 'ask') {
+          text('どっちの えに する？', 270, 380, '#b9cadc');
+          drawSpritePreview(150, 1); drawSpritePreview(390, 2);
+        } else { text('この えに なった！', 270, 380, '#b9cadc'); drawSpritePreview(270, s.state.sprite);
+          text('はじめて つくった ゲーム v' + s.state.v + ' に なった！', 270, 650, '#ffe29a', 26); }
+      } else if (s.mode === 'text') {
+        show('pickJa', up.phase === 'ask'); show('pickEn', up.phase === 'ask'); show('up-done', up.phase === 'done');
+        text('タイトルを えいごに できるよ', 270, 380, '#b9cadc');
+        if (up.phase === 'done') {
+          text(s.state.title === 'en' ? 'My First Game' : 'はじめての ゲーム', 270, 440, '#ffe29a', 30);
+          text('はじめて つくった ゲーム v' + s.state.v + ' に なった！', 270, 650, '#ffe29a', 26);
+        }
+      } else if (s.mode === 'deploy') {
+        show('send', up.phase === 'ask'); show('next', up.phase === 'feedback'); show('up-done', up.phase === 'done');
+        if (up.phase === 'ask') text('まちの さくひんだな へ おくろう', 270, 440, '#b9cadc');
+        else if (up.phase === 'sending') text('おくって いる……', 270, 440, '#b9cadc');
+        else if (up.phase === 'feedback') {
+          var f = FEEDBACK[up.feedbackIdx];
+          text(f.who, 270, 410, '#b9e8df', 24); text(f.text, 270, 450, '#ffe29a', 28);
+        } else text('はじめて つくった ゲーム v' + s.state.v + ' に なった！', 270, 440, '#ffe29a', 26);
+      }
+    }
     function draw() {
       if (s.closed) return;
       var w = s.world;
       ctx.setTransform(rs, 0, 0, rs, 0, 0); ctx.fillStyle = '#101e30'; ctx.fillRect(0, 0, W, H);
       text(s.state.title === 'en' ? 'My First Game' : 'はじめての ゲーム', 270, 44, '#ffe29a', 30);
-      if (stub) { text('まだ じゅんびちゅう', 270, 440); return; }
+      if (stub) { drawUp(); return; }
       text('よけた ' + w.avoided, 30, 99, '#b9e8df', 24, 'left');
       text('あと ' + Math.max(0, Math.ceil(CYCLE - w.t)) + 'びょう', 510, 99, '#b9e8df', 24, 'right');
       ctx.fillStyle = '#4b7381'; ctx.fillRect(24, CEILING - 3, 492, 3);
@@ -308,13 +382,19 @@
     function frame(now) {
       if (s.closed) return;
       var dt = last == null ? 0 : Math.max(0, (now - last) / 1000); last = now;
-      if (!s.paused) s.advance(dt);
+      if (!s.paused) {
+        if (stub) {
+          if (up.phase === 'sending') {
+            up.timer += dt;
+            if (up.timer >= 0.9) { up.phase = 'feedback'; up.feedbackIdx = 0; if (typeof cfg.learn === 'function') cfg.learn('feedback'); }
+          }
+        } else s.advance(dt);
+      }
       if (s.closed) return;
       // Poll muting too: hosts may expose isAudioEnabled without onAudioChange.
       var mute = !allowed();
       if (ac && mute && muted !== mute) ac.suspend().catch(function () {});
       muted = mute; draw();
-      if (stub && s.elapsed >= 0.8) { s.finish(); return; }
       raf = root.requestAnimationFrame(frame);
     }
     resize(); syncPause();
