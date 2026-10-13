@@ -90,8 +90,8 @@ cmd_plan() {
   # STOP pauses the unattended developer and the art worker. The command center's own lanes
   # (claude/autodev-lead-*) are supervised, so they still go through the same checks and merge.
   local only_lead=""
-  if stopped; then only_lead=1; echo "autodev/STOP が main にあるので、司令塔の枝（claude/autodev-lead-）だけを見る" >&2; fi
-  lead_ok() { [ -z "$only_lead" ] && return 0; case "$1" in claude/autodev-lead-*) return 0 ;; esac; return 1; }
+  if stopped; then only_lead=1; echo "autodev/STOP が main にあるので、司令塔の枝（claude/autodev-lead-）と絵係の枝（claude/autodev-art-）だけを見る" >&2; fi
+  lead_ok() { [ -z "$only_lead" ] && return 0; case "$1" in claude/autodev-lead-*|claude/autodev-art-*) return 0 ;; esac; return 1; }
   needs_check() {
     local tip
     tip="$(git rev-parse -q --verify "refs/remotes/origin/$1^{commit}")" || return 1
@@ -224,7 +224,7 @@ record_one() {
   safe="$(safe_of "$b")"; work="$GATE_TMP/$safe"; rm -rf "$work"; mkdir -p "$work"
   errors="$work/errors.txt"; : > "$errors"
   fetch_one "$b" || { echo "fetch failed for $b"; return 1; }
-  if stopped; then case "$b" in claude/autodev-lead-*) ;; *) echo "autodev/STOP が main にあるので $b は記録しない"; return 2 ;; esac; fi
+  if stopped; then case "$b" in claude/autodev-lead-*|claude/autodev-art-*) ;; *) echo "autodev/STOP が main にあるので $b は記録しない"; return 2 ;; esac; fi
   git checkout -q -B autodev-gate origin/main && git reset -q --hard origin/main && git clean -fdq
   if ! git cat-file -e "$sha^{commit}" 2>/dev/null; then echo "$sha is gone"; return 2; fi
   if git merge-base --is-ancestor "$sha" origin/main; then echo "$b @ ${sha:0:7} はもう main に入っている"; return 2; fi
