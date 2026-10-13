@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-art-20261013-211720",
+  "sha": "09cad0174cece182c3cfdd6ef2bc1964bf7c4ead",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/90/mobile-02-mode-select.jpg",
+    "devlog/shots/90/mobile-12-map-electric.jpg",
+    "devlog/shots/90/mobile-22-chapter-3-play.jpg",
+    "devlog/shots/90/mobile-33-battle-bugking.jpg"
+  ],
+  "at": "2026-10-13T12:22:23.581Z",
+  "merged_sha": "09cad0174cece182c3cfdd6ef2bc1964bf7c4ead",
+  "tested_base": "ce875336b5f7d1216e3d5684483426e2442ab789",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38396230928"
+}
