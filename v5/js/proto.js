@@ -87,6 +87,9 @@
     s.onJump = function () { if (s.mode === 'playtest') s.press = 0.25; if (s.sound) s.sound(); };
     s.setJump = function (n) {
       if (s.closed || VALUES.indexOf(n) < 0 || n === s.state.jump) return;
+      // R-FUN9: learn('hensuu') fires here, the moment the box's number actually changes,
+      // not at session start where the player has not touched anything yet.
+      if (!s.hensuuLearned) { s.hensuuLearned = true; if (typeof cfg.learn === 'function') cfg.learn('hensuu'); }
       s.history.push(s.state.jump); s.state.jump = n; s.restart();
     };
     s.undo = function () {
@@ -115,7 +118,7 @@
       if (s.mode === 'playtest' && s.elapsed >= 2 - 1e-9) s.finish();
     };
     s.handle = { close: s.close, state: s.state };
-    if (s.mode === 'lesson' && typeof cfg.learn === 'function') { cfg.learn('prototype'); cfg.learn('hensuu'); }
+    if (s.mode === 'lesson' && typeof cfg.learn === 'function') cfg.learn('prototype');
     return s;
   }
 

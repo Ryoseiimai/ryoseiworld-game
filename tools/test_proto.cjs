@@ -54,8 +54,9 @@ test('バグに当たって0.5秒後に再開する', () => {
 });
 test('数字の変更とアンドゥは履歴を1つずつ戻す', () => {
   const learned = [], s = sim.createSession({ learn: id => learned.push(id) });
-  assert.deepEqual(learned, ['prototype', 'hensuu']);
+  assert.deepEqual(learned, ['prototype']);
   s.setJump(3); s.setJump(9); s.setJump(9); s.setJump(100);
+  assert.deepEqual(learned, ['prototype', 'hensuu']);
   s.undo(); assert.equal(s.state.jump, 3);
   s.undo(); assert.equal(s.state.jump, 6);
   s.undo(); assert.equal(s.state.jump, 6);
