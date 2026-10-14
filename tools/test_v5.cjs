@@ -685,6 +685,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!r.g.dialogue,'the entrance trigger only fires once');
   // A save terminal on every floor.
   for(const id of ['tower1','tower2','tower3','tower_roof'])assert(D.maps[id].objects.some(o=>o.action==='save'),id+' has a save terminal');
+  // FUN23: every ひかりの ゆか pad carries a direction sign (うえへ／したへ) matching the floor it actually warps to,
+  // so a player standing in front of two identical-looking pads knows which one goes up and which goes down.
+  for(const [id,cells] of [['tower1',D.maps.tower1.cells],['tower2',D.maps.tower2.cells],['tower3',D.maps.tower3.cells],['tower_roof',D.maps.tower_roof.cells]]){
+    const m=D.maps[id];
+    for(const pad of m.objects.filter(o=>o.label==='ひかりの ゆか')){
+      assert(pad.sign==='うえへ'||pad.sign==='したへ',id+' '+pad.id+' pad has an うえへ／したへ sign');
+      const cell=cells.find(c=>Math.abs(c.x-pad.x)<.01&&Math.abs(c.y-pad.y)<.01);
+      assert(cell,id+' '+pad.id+' sits on a warp cell');
+      const order=['tower1','tower2','tower3','tower_roof'];
+      const goesUp=order.indexOf(cell.warp)>order.indexOf(id);
+      assert.equal(pad.sign,goesUp?'うえへ':'したへ',id+' '+pad.id+' sign direction matches where it actually warps');
+    }
+  }
   r.g.debugWarp('tower1',8.4,6.2);r.tick(16);r.click('talk-btn');r.tick(16);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();await settle();
   assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).map==='tower1','the save terminal saves');
   // The light floor (warp cells) carries the hero up through all 3 floors and the rooftop, and back down again.
