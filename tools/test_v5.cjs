@@ -182,6 +182,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  const reloaded=await runtime({saved:t.saved});reloaded.tick();assert(!reloaded.els.get('continue-btn').disabled);assert.equal(reloaded.active().id,'continue-btn');
  // FUN16: the title caption must name where つづきから actually resumes, not always chapter 1's town.
  assert.equal(reloaded.els.get('title-caption').textContent,'2しょう　ミナモちょう','title caption should show the saved chapter, not the chapter 1 default');
+ // FUN24: the title screen must tempt a returning player toward the challenge mode / word-note review they already unlocked.
+ assert(!reloaded.els.get('title-hint').hidden,'a save that already beat BUG KING shows a title hint');assert(reloaded.els.get('title-hint').textContent.includes('チャレンジ'),'challenge is unlocked after chapter 1 boss');
+ const freshNoSave=await runtime();freshNoSave.tick();assert(freshNoSave.els.get('title-hint').hidden,'no save: no hint to show');
  reloaded.key('Enter');assert.equal(reloaded.g.map,'minamo');assert.equal(reloaded.g.chapter,2);assert.equal(reloaded.g.state.items.firstgame,1);assert(reloaded.g.state.bosses.includes('bugking'));assert(reloaded.g.summons.includes('code'));for(const k of ['chapter','map','x','y','level','exp','money','battery','items','summons','bosses'])assert.equal(JSON.stringify(reloaded.g.state[k]),JSON.stringify(JSON.parse(t.saved.get('ryoseiworld-rpg-v5'))[k]),'saved '+k);
  result.push('Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss; title caption names the saved chapter PASS');
  // Drum roll rescue keeps the exact original 45 ms tick.
