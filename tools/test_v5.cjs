@@ -423,7 +423,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [id,b] of Object.entries(D.bonds)){assert(['family','friend','love'].includes(b.kind),id+' kind');assert(b.name&&wide(b.name)<=10,id+' name fits');for(const it of b.likes||[])assert(Object.hasOwn(D.items,it),id+' likes '+it);
    assert(typeof b.spirit==='number'?b.spirit>=0&&b.spirit<16:Object.hasOwn(D.summons,b.spirit),id+' spirit');}
   let tones=0;const bondSfx=r.g.sfx.bond;r.g.sfx.bond=(...a)=>{tones++;return bondSfx(...a);};
-  assert.equal(r.g.bonds.mother??0,0);let done=0;r.g.debugEvent([{bond:'mother'}],()=>done++);assert.equal(read(),'おかあさんとの\nきずなが ふかまった！');assert.equal(tones,1);
+  assert.equal(r.g.bonds.mother??0,0);assert.equal(r.g.fx.flashUntil,0,'no flash before a bond deepens');let done=0;r.g.debugEvent([{bond:'mother'}],()=>done++);assert.equal(read(),'おかあさんとの\nきずなが ふかまった！');assert.equal(tones,1);
+  assert(r.g.fx.flashUntil>0,'a deepened bond lands with a screen flash, not just a sound');assert.notEqual(r.g.fx.flash,'#fff','the bond flash uses its own warm colour');
   for(const l of r.g.dialogue.lines)for(const row of l[1].split('\n'))assert(wide(row)<=12,'bond line fits '+row);while(r.g.dialogue)r.dialogue();assert.equal(done,1);assert.equal(r.g.bonds.mother,1);
   r.g.debugEvent([{bond:'mother',n:9}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.bonds.mother,5,'hearts stop at 5');
   r.g.debugEvent([{bond:'mother'}],()=>done++);assert(!r.g.dialogue,'no line when hearts are full');assert.equal(done,2);
