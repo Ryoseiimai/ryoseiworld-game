@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-lead-20261015-0749-FUN24",
+  "sha": "9afcc6fc7b16360ae0965bd6cead2d94153fb739",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/115/mobile-02-mode-select.jpg",
+    "devlog/shots/115/mobile-14-custom-full-run.jpg",
+    "devlog/shots/115/mobile-26-chapter-2-play.jpg",
+    "devlog/shots/115/mobile-39-battle-bugking.jpg"
+  ],
+  "at": "2026-10-14T23:00:29.290Z",
+  "merged_sha": "9afcc6fc7b16360ae0965bd6cead2d94153fb739",
+  "tested_base": "5c27f34cb13cc0c6c7ccc79f76bdce3ddd9362b4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38650833074"
+}
