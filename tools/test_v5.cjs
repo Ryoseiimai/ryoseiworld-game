@@ -950,6 +950,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.fx.shake=0;r.g.fx.shakeUntil=0;r.tick(3000);
   assert(r.g.fx.shakeUntil>0&&r.g.fx.shake>0,'the zako hitting back also shakes the screen');}
  result.push('FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS');
+ // FUN13: beating a challenge personal best gets its own fanfare+title, and a non-record run shows the next stage as a short goal.
+ {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent;
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
+  r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
+  assert(title(r).includes('きろく こうしん'),'first clear is always a new record');assert(!copy(r).includes('つぎは'),'no next-stage hint on a record run');
+  r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
+  assert.equal(title(r),'チャレンジの きろく','a worse run keeps the plain title');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'a worse run points at the next stage past the best');
+  r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:9,bestCombo:15,score:900,cheated:false});
+  assert(title(r).includes('きろく こうしん'),'beating the best stage is a new record even with a lower combo');assert(!copy(r).includes('つぎは'));}
+ result.push('FUN13: リズムチャレンジで きろく こうしん時に 演出、そうでない時に つぎの もくひょうを 出す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
