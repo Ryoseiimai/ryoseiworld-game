@@ -162,7 +162,7 @@ RYW.words={
   kids:{word:'temperature',yomi:'',sora:'こたえが どれだけ かわるかの せってい',real:'こたえの ばらつきを きめる かず',code:''}},
  embedding:{kind:'ai',where:'まだ',
   adult:{word:'埋め込み',one:'言葉を数の並びに変える',mean:'言葉や文章を意味の近さで比べられる数の並びに変換すること。',work:'検索や似た文章探しの土台になる。',code:''},
-  kids:{word:'埋め込み',yomi:'',sora:'ことばを かずの れつに かえるよ',real:'いみが ちかい ことばを さがせる かずの れつ',code:''}},
+  kids:{word:'埋め込み',yomi:'うめこみ',sora:'ことばを かずの れつに かえるよ',real:'いみが ちかい ことばを さがせる かずの れつ',code:''}},
  rag:{kind:'ai',where:'まだ',
   adult:{word:'RAG',one:'調べてから答えてもらう仕組み',mean:'AIに資料を検索させてから答えさせる仕組み。',work:'ハルシネーションを減らすためによく使う。',code:''},
   kids:{word:'RAG',yomi:'',sora:'しらべてから こたえて もらう しくみ',real:'しりょうを さがして こたえに つかう しくみ',code:''}},
