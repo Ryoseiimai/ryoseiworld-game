@@ -236,7 +236,7 @@
     };
     var m = w.m;
     if (id === 'bugking') { m.blockT = HINT_T; m.spreadT = 1.2; m.bugT = 2.0; }
-    if (id === 'kateino') { m.waveT = 1.0; m.sighT = 2.0; m.wall = 0; m.crackUntil = -1; m.showReadyAt = 0; m.k = 0; m.showed = false; m.hint2At = 16; }
+    if (id === 'kateino') { m.waveT = 1.0; m.sighT = 2.0; m.wall = 0; m.crackUntil = -1; m.showReadyAt = 0; m.k = 0; m.showed = false; m.hint2At = 16; m.waveCycle = 0; }
     if (id === 'hikaku') { m.numT = 3.5; m.ringT = 2.0; m.down = 0; m.paceAt = 9; m.k = 0; m.rot = 0; }
     // makeAt / voiceAt: the lights come on a timetable, so these set how long the fight lasts (2 to 3 minutes).
     if (id === 'jibun') { m.ballT = HINT_T; m.made = 0; m.makeAt = 28; m.tauntAt = 9; m.tauntK = 0; }
@@ -644,13 +644,18 @@
       if (attackDue(w, 'waveT', dt)) {
         m.waveT = 3.0 / f;
         var n = Math.max(1, Math.round(2 * f)), g = gap(w);
-        for (var i = 0; i < n; i++) {
+        // Every 3rd wave lands when the wall is near its highest point (cyc 4〜10): a rare "全部の ことば" triple,
+        // faster and centered, so the usual two-bubble pattern gets a periodic accent instead of repeating forever unchanged.
+        var chord = (m.waveCycle++ % 3 === 2) && !cracked && cyc >= 4 && cyc < 10;
+        var count = chord ? 3 : n;
+        for (var i = 0; i < count; i++) {
           var text = BUBBLE_WORDS[m.k++ % BUBBLE_WORDS.length], hw = (textW(text, 24) + 34) / 2;
           // Bubbles pass above and below the boss line, so the lane in front of the boss stays open for shooting.
-          var off = n === 1 ? (m.k % 2 ? 125 : -125) : (i === 0 ? -125 : 125);
+          var off = chord ? (i - 1) * 125 : n === 1 ? (m.k % 2 ? 125 : -125) : (i === 0 ? -125 : 125);
           var y0 = clamp(b.y + off, g.top + 70, g.bottom - 70);
-          addBullet(w, { kind: 'bubble', x: spawnX(w, -70 - hw, hw), y: y0, y0: y0, vx: -140, vy: 0, hw: hw, hh: 26, hp: 3, text: text, amp: 48, freq: 2.0, ph: i * Math.PI });
+          addBullet(w, { kind: 'bubble', x: spawnX(w, -70 - hw, hw), y: y0, y0: y0, vx: chord ? -175 : -140, vy: 0, hw: hw, hh: 26, hp: 3, text: text, amp: chord ? 30 : 48, freq: 2.0, ph: i * Math.PI, chord: chord });
         }
+        if (chord) { w.shake = Math.max(w.shake, 3); toast(w, '…ぜんぶ いっぺんに？', 1.4); }
         b.attackT = 0.45; emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
@@ -1975,7 +1980,7 @@
         ctx.strokeStyle = e.flash > 0.1 ? '#fff' : e.kind === 'noise' ? '#c9b8ff' : '#ff5a6e'; ctx.lineWidth = 3; ctx.strokeRect(x0, y0, s, s);
       } else if (e.kind === 'bubble') {
         var bw = e.hw * 2, bh = e.hh * 2;
-        ctx.fillStyle = e.flash > 0.1 ? '#ffe7e7' : '#fffaf0'; rr(ctx, e.x - e.hw, e.y - e.hh, bw, bh, 22); ctx.fill();
+        ctx.fillStyle = e.flash > 0.1 ? '#ffe7e7' : e.chord ? '#ffd9b0' : '#fffaf0'; rr(ctx, e.x - e.hw, e.y - e.hh, bw, bh, 22); ctx.fill();
         ctx.beginPath(); ctx.moveTo(e.x + e.hw - 26, e.y + e.hh - 2); ctx.lineTo(e.x + e.hw + 8, e.y + e.hh + 14); ctx.lineTo(e.x + e.hw - 6, e.y + e.hh - 8); ctx.fill();
         ctx.strokeStyle = '#3a2a2a'; ctx.lineWidth = 3; rr(ctx, e.x - e.hw, e.y - e.hh, bw, bh, 22); ctx.stroke();
         ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#2a1c1c';
