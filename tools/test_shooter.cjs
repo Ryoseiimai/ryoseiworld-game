@@ -608,7 +608,10 @@ async function browserAdapterChecks() {
     if(n===20){win.__shooter.debugCombo(12);win.__shooter.debugSetHearts(0);await advance(1.2);check('onEndは到達stage/コンボ/score/cheatedを返す',ended&&ended.stage===20&&ended.bestCombo===12&&typeof ended.score==='number'&&ended.cheated===false);}
     handle.stop();
   }
-  handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(3);win.fire('keydown',{code:'KeyX'});tick(1000/60);handle.stop();
+  handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(2.8);
+  const wordCardShown=doc.querySelector('.rs-word')&&!doc.querySelector('.rs-word').hidden;
+  check('ことばカードが出ていても とうじょう は2.5秒で終わる（FUN10）',win.__shooter.state==='play',{wordCardShown,state:win.__shooter.state});
+  win.fire('keydown',{code:'KeyX'});tick(1000/60);handle.stop();
   check('stopは開いているProtoも閉じる',!doc.querySelector('.ryw-proto'));
 }
 

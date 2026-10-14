@@ -1004,6 +1004,7 @@
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
   };
 
+  SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -1490,13 +1491,20 @@
   function onPointerUp(S, e) { if (S.drag && S.drag.id === e.pointerId) S.drag = null; }
 
   // ---- 1コマ ----
+  // Word cards (words.js first-sight cards) pause combat input, but must not also stall the boss
+  // entrance timer (w.state 'intro') or the fight stays on a blank screen far longer than the card itself (FUN10).
+  function wordCardsFreezeStep(state, wordCardsLen) { return wordCardsLen > 0 && state !== 'intro'; }
+
   function frame(S, now) {
     if (S.closed) return;
     S.raf = requestAnimationFrame(function (n) { frame(S, n); });
     var dt = clockDelta(S, now);
     var w = S.world;
     S.cooldownEl.hidden = !S.world.weapons.rapid || (w.state !== 'intro');
-    if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); render(S); return; }
+    if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); }
+    // Word cards only freeze the fight once it is in play: during the entrance (w.state 'intro') the
+    // boss still walks on and settles so the screen is not blank while the first card is read (FUN10).
+    if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { render(S); return; }
     if (S.loaded && !S.paused && dt > 0) {
       var ax = (S.keys.r ? 1 : 0) - (S.keys.l ? 1 : 0), ay = (S.keys.d ? 1 : 0) - (S.keys.u ? 1 : 0);
       var n = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / n;
