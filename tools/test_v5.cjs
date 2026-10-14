@@ -968,6 +968,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:9,bestCombo:15,score:900,cheated:false});
   assert(title(r).includes('きろく こうしん'),'beating the best stage is a new record even with a lower combo');assert(!copy(r).includes('つぎは'));}
  result.push('FUN13: リズムチャレンジで きろく こうしん時に 演出、そうでない時に つぎの もくひょうを 出す PASS');
+ // FUN21: casting a summon flashes the screen at the moment its effect lands, same as the healing flash elsewhere (warp/lift-off).
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','fun21-summon');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});r.g.hp.hp=10;
+  assert.equal(r.g.fx.flashUntil,0,'no flash before the summon is cast');
+  r.cmd('summon');r.button('ナオスライム');r.tick(900);
+  assert(r.g.fx.flashUntil>0,'the heal effect lands with a screen flash, not just a sound');assert.notEqual(r.g.fx.flash,'#fff','the heal flash uses its own colour');}
+ result.push('FUN21: しょうかんの こうかが とどいた しゅんかんに がめんが フラッシュする PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
