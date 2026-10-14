@@ -107,7 +107,7 @@ const settle=()=>new Promise(setImmediate);
 const TILE=48;
 // Plays one ordinary battle to the end: summon when hurt, otherwise "create".
 function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked||t.g.battle.over){t.tick(400);continue;}if(t.g.hp.hp<25&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else {t.cmd('create');t.button('くりかえし');}t.tick(3000);}assert(guard>0,'battle ends');}
-function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);t.tick(16);assert(t.els.get('talk-btn').hidden,'はなす is hidden while the dialogue window is open');return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
+function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);const tonesBefore=t.calls.length;t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);assert(t.calls.length>tonesBefore,'はなす plays a sound '+map+' '+x+','+y);t.tick(16);assert(t.els.get('talk-btn').hidden,'はなす is hidden while the dialogue window is open');return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
 function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
 (async()=>{
  const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,hero_ride:16,npc:16,enemies:9,summons:9,buildings:9,props:16,interior:16,hikaku_throne:1,numberperson:4}))assert.equal(t.g.assets[name],count,'loaded '+name);
