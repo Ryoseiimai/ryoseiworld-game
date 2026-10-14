@@ -57,3 +57,4 @@ Words: 65 unique ids (49 kids + 16 adult-only AI/dev terms), adult/kids fields/l
 Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS
 R50/R51: chapter gate, stadium entry/exit, challenge starts/results/reload, separate cheat records, story cheats/retry, test parent gate correct/wrong/cancel, vocabulary, browser/iOS/Playables restrictions, old/malformed/cloud saves PASS
 Modes: adult default at title, adult/kids command and menu labels, note one/mean/work/code, settings switch, save/old-save compatibility, kids-only parent gate PASS
+FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS

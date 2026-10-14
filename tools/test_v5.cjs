@@ -942,6 +942,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const shopA=ad.g.debugShop();shopA.buy('debugmode');assert.equal(ad.g.modal,'shop-gate');assert.equal(labels(ad).filter(t=>/^\d+$/.test(t)).length,0,'adult mode skips the parent-gate math question');assert(labels(ad).includes('買う'));ad.button('買う');assert.equal(ad.g.modal,'debug-shop');assert(labels(ad).includes('デバッグモードを開く'));
  }
  result.push('Modes: adult default at title, adult/kids command and menu labels, note one/mean/work/code, settings switch, save/old-save compatibility, kids-only parent gate PASS');
+ // FUN11: command battles shake the screen when a hit lands, giving attacks a sense of impact.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','fun11-attack');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});
+  assert.equal(r.g.fx.shakeUntil,0,'no shake before any hit lands');
+  r.cmd('attack');assert(r.g.fx.shakeUntil>0&&r.g.fx.shake>0,'the hero landing a hit shakes the screen');r.tick(3000);
+  r.g.fx.shake=0;r.g.fx.shakeUntil=0;r.tick(3000);
+  assert(r.g.fx.shakeUntil>0&&r.g.fx.shake>0,'the zako hitting back also shakes the screen');}
+ result.push('FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
