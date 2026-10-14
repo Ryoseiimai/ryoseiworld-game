@@ -63,6 +63,13 @@ test('数字の変更とアンドゥは履歴を1つずつ戻す', () => {
   assert.deepEqual(learned, ['prototype', 'hensuu', 'undo']);
   s.setJump(3); sim.jump(s.world); s.advance(0.2); assert.ok(s.world.maxHeight < 23);
 });
+test('数字を かえると、おすまえに すぐ とんで たかさが わかる', () => {
+  const s = sim.createSession({});
+  s.setJump(9); assert.ok(s.world.vy < 0, 'とんだ まま になる');
+  s.advance(0.3); assert.ok(s.world.maxHeight > 60, 'jump9の たかさに とどく: ' + s.world.maxHeight);
+  s.setJump(3); assert.equal(s.world.t, 0, '新しい周が すぐ はじまる');
+  s.advance(0.3); assert.ok(s.world.maxHeight < 35, 'jump3の ひくさに とどまる: ' + s.world.maxHeight);
+});
 test('未指定のstateを補い、入力を変更しない', () => {
   const input = Object.freeze({ jump: 3, sprite: 2, title: 'en' });
   const s = sim.createSession({ state: input }); s.setJump(9);

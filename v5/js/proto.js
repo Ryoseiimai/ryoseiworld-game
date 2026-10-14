@@ -91,6 +91,9 @@
       // not at session start where the player has not touched anything yet.
       if (!s.hensuuLearned) { s.hensuuLearned = true; if (typeof cfg.learn === 'function') cfg.learn('hensuu'); }
       s.history.push(s.state.jump); s.state.jump = n; s.restart();
+      // R-FUN15: jump right away so the new height is visible the instant the number changes,
+      // instead of making the player wait for じっこう (or find the hidden manual tap) to see it.
+      jump(s.world); if (s.sound) s.sound();
     };
     s.undo = function () {
       if (s.closed) return;
