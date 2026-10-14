@@ -94,8 +94,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   // R29: ゼロの シューティング戦（v5/js/shooter.js の zero: こうげきは きかない。「こえ」の光を取るたびに
   // 町の人の守護霊がつながり、一言が流れる。全員つながると とくぎ が「みんなの こえ」に変わり、撃つとノイズが晴れる）。
   zero:{name:'ゼロ',boss:true,shooter:'zero',intro:['ゼロ','……ザーッ'],hp:1,attack:0,exp:90,money:120,level:9,color:['#1a1030','#b9a7ff'],hints:['こえを あつめている'],actions:['ざつおんが ながれた。']}},
- // R29: ゼロが仲間になった時のために（召喚獣メニューは GAME_DATA.summons[id] を直接読むので要る）。あたらしい絵は依頼中、とどくまでは
- // プレースホルダーの コマ（fallback() の summons 用の形）で動かす（RULES.md 4）。
+ // R29: ゼロが仲間になった時の召喚獣（うす紫のゴーストロボットの子、art-20261010-1422-summons_sheet_v2 の frame 6）。
  summons:{zero:{name:'ゼロ',frame:6,cost:30,damage:64,desc:'みんなの こえを とどける。\nおおきな ダメージ。'}},
  maps
 });

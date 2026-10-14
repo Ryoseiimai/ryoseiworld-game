@@ -110,7 +110,7 @@ function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.batt
 function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);t.tick(16);assert(t.els.get('talk-btn').hidden,'はなす is hidden while the dialogue window is open');return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
 function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
 (async()=>{
- const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,hero_ride:16,npc:16,enemies:9,summons:6,buildings:9,props:16,interior:16}))assert.equal(t.g.assets[name],count,'loaded '+name);
+ const t=await runtime();t.tick();for(const [name,count] of Object.entries({hero_walk:16,hero_ride:16,npc:16,enemies:9,summons:9,buildings:9,props:16,interior:16,hikaku_throne:1,numberperson:4}))assert.equal(t.g.assets[name],count,'loaded '+name);
  t.start();let zakoBattles=0;
  assert.equal(t.g.summons[0],'nao');assert.equal(t.g.hp.hp,30);assert.equal(t.active().dataset.cmd,'summon','tutorial opens on しょうかん');
  // F07: no escape from the tutorial, and no turn spent.
@@ -759,7 +759,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
   for(const id of ['popup','infload','vacuum','hallucination'])assert(m.enemies.some(e=>e.type===id),'neon has a '+id+' zako');
-  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='npc2'&&o.sign,id+' is a numbered person');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
+  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='numberperson'&&o.sign,id+' is a numbered person');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
   assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
   assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
   st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);

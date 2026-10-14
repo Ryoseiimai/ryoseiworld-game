@@ -263,8 +263,8 @@ let paused=false,hostPaused=false,manualPaused=false,booted=false,readySent=fals
 let saved=null,dialogue=null,modalKind='',modalReturnFocus=null,inputGuardUntil=0,toastUntil=0,camera={x:0,y:0},keys=new Set(),stick=null,walk=0,immuneUntil=0,portalUntil=0,musicAt=0,musicStep=0,musicTrack='',burstUntil=0;
 let onCell=null,endingGo=null,epilogueStage='',epilogueDone=null,fx={shakeUntil:0,shake:0,flashUntil:0,flashMs:1,flash:'#fff'},enemyState={},lowBatteryWarned=false,hudTop=190,hudMeasureAt=0,hudCache='',noiseNext=0,noiseUntil=0,noiseBandY=0,loopErrorLogged=false,backdropFrame=0;
 const HUD_BOTTOM=130,BUILDING_BAND={left:.1,right:.9,top:.45,bottom:1};
-// summons bumped to 7 for R29's ゼロ (frame 6); the real art is still pending so frame 6 falls back to the code-drawn placeholder (RULES.md 4).
-const ASSET_COUNTS={hero_walk:16,hero_ride:16,npc:16,npc2:9,enemies:9,summons:7,buildings:9,props:16,interior:16,ryosei:16,bugking:9,spirits:16,neon:9,tower:16},ASSET_COLS={hero_walk:4,hero_ride:4,npc:4,npc2:3,enemies:3,summons:3,buildings:3,props:4,interior:4,ryosei:4,bugking:3,spirits:4,neon:3,tower:4};
+// summons has 9 frames (art-20261010-1422-summons_sheet_v2); frame 6 is R29's ゼロ (うす紫のゴーストロボット), frames 7-8 are spare/blank.
+const ASSET_COUNTS={hero_walk:16,hero_ride:16,npc:16,npc2:9,enemies:9,summons:9,buildings:9,props:16,interior:16,ryosei:16,bugking:9,spirits:16,neon:9,tower:16,hikaku_throne:1,numberperson:4},ASSET_COLS={hero_walk:4,hero_ride:4,npc:4,npc2:3,enemies:3,summons:3,buildings:3,props:4,interior:4,ryosei:4,bugking:3,spirits:4,neon:3,tower:4,hikaku_throne:1,numberperson:2};
 // Big buildings: chapter 1-2 houses and the ネオンシティ towers (v5/assets/neon) share the wide collider, shadow and talk range.
 const BIG=kind=>kind==='buildings'||kind==='neon';
 const assets={},assetStatus={},assetTries={},assetNames=Object.keys(ASSET_COUNTS);

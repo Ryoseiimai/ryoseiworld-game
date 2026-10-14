@@ -30,11 +30,11 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
  ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
- // R38: people with grey faces and a number over their head, numberNn npc2 frames (index%4===3 picks the greyish fallback colour until there is art).
- object('neon_num1','npc2',3,12,19.6,48,65,{label:'かずの ひと',dialogue:'numberPerson1',sign:'86い'}),
- object('neon_num2','npc2',6,18,19.4,48,65,{label:'かずの ひと',dialogue:'numberPerson2',sign:'3204'}),
- object('neon_num3','npc2',3,10,30.4,48,65,{label:'かずの ひと',dialogue:'numberPerson3',sign:'12,840'}),
- object('neon_num4','npc2',6,20,30.6,48,65,{label:'かずの ひと',dialogue:'numberPerson4',sign:'99い'})],
+ // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
+ object('neon_num1','numberperson',0,12,19.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'86い'}),
+ object('neon_num2','numberperson',1,18,19.4,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'3204'}),
+ object('neon_num3','numberperson',2,10,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'12,840'}),
+ object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'99い'})],
  // R38: three street zako (popup, infinite loading, a rampaging vacuum) plus R46's ハルシネーション, patrolling the two cross roads.
  enemies:[{id:'nz1',type:'popup',x:9,y:15.5,axis:'x'},{id:'nz2',type:'infload',x:21,y:15.5,axis:'x'},{id:'nz3',type:'vacuum',x:14.5,y:21,axis:'y'},{id:'nz4',type:'hallucination',x:9,y:26.5,axis:'x'}],portals:[]};
 // Terrain: # city tiles, = road, + sidewalk. Two streets cross the town and one road joins the station and the stadium.
@@ -60,7 +60,7 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
 const bossQuest={text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
 // R50: a small reception room, using the existing interior and attendant art.
-// R26: ヒカクマオウ stands at the back of the stadium floor (no art yet, autodev/ART_REQUESTS.json hikaku_throne; a labelled box until it comes).
+// R26: ヒカクマオウ stands at the back of the stadium floor (art-20261010-hikaku_throne).
 maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
  object('nst_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
