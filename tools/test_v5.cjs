@@ -950,7 +950,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(a.els.get('commands').children.find(e=>e.dataset.cmd==='create').textContent,'作る');assert.equal(a.els.get('commands').children.find(e=>e.dataset.cmd==='run').textContent,'逃げる');
   a.g.debugLearn('jikkou');assert.equal(a.RYW.word('jikkou'),'実行');assert.equal(a.RYW.card('jikkou'),'命令を動かそう');
   a.g.debugWin();a.tick(2100);while(a.g.dialogue)a.dialogue();
-  a.g.debugOpenNote();a.button('実行');const detail=a.els.get('modal-copy').children.map(e=>e.textContent);assert(detail.includes('一言')&&detail.includes('命令を動かそう'));assert(a.els.get('modal-copy').children.some(e=>e.tagName==='CODE'&&e.textContent==='node game.js'));a.key('Escape');a.key('Escape');
+  a.g.debugOpenNote();a.button('実行');const detail=a.els.get('modal-copy').children.map(e=>e.textContent);assert(detail.includes('一言')&&detail.includes('命令を動かそう'));assert(a.els.get('modal-copy').children.some(e=>e.tagName==='CODE'&&e.textContent==='main()'));a.key('Escape');a.key('Escape');
   a.g.debugStartBattle('popup','adult-create');a.tick(300);Object.assign(a.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});a.cmd('create');assert(a.els.get('modal-title').textContent.includes('ソラに頼む'));assert(a.els.get('modal-buttons').children.some(e=>e.textContent.includes('繰り返し攻撃')));assert(a.els.get('modal-buttons').children.some(e=>e.textContent.includes('何か作って')));a.key('Escape');
   a.g.debugWin();a.tick(2100);while(a.g.dialogue)a.dialogue();a.tick(300);
   a.click('menu-btn');assert(labels(a).includes('武器')&&labels(a).includes('召喚獣')&&labels(a).includes('設定'),'adult menu labels');assert(!labels(a).some(t=>t==='ぶき'||t==='しょうかんじゅう'));
