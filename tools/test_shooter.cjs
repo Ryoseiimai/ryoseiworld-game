@@ -391,7 +391,7 @@ for(const offset of [-161,-81,-79,79,81,161]) {
   check('はんていワイドのグッド幅',sim.pressBeat(wide2,200)==='good');
   const boxes=world({cheats:{showhitbox:true}});sim.addBullet(boxes,{x:300,y:200,r:9,vx:0,vy:0});
   const rects=sim.hitboxes(boxes);
-  check('見える当たり判定は主人公と弾の実際の大きさ',rects.length===2&&rects[0].width===22&&rects[0].y===boxes.p.y-15&&rects[1].width===18);
+  check('見える当たり判定は主人公と弾の実際の大きさ',rects.length===2&&rects[0].width===sim.P_HIT_R*2&&rects[0].y===boxes.p.y-4-sim.P_HIT_R&&rects[1].width===18);
   check('4つのチートが結果に残る',[slow,god,wide,boxes].every(w=>sim.result(w).cheated)&&!sim.result(normal).cheated);
   const opts=['search'];opts.proto={jump:9};opts.cheats={widejudge:true};const legacy=world({options:opts});
   check('守護霊配列＋proto＋cheatsが共存',legacy.hasOwl&&legacy.settings.proto.jump===9&&legacy.cheats.widejudge);
@@ -520,6 +520,54 @@ check('ジブン: おともがいると当たる回数が減る', fullRows[3].hu
 const rhythmRows=['bugking','kateino','hikaku'].map(id=>fight(id,{beatBot:true}));
 console.log('ビートを押すボット: '+rhythmRows.map(r=>r.boss+' '+r.real+'秒').join(' / '));
 rhythmRows.forEach((r,i)=>check(r.boss+': ビートで押すと自動だけより早い',r.win&&r.real<rows[i].real*.8,[r,rows[i]]));
+
+// ---- 6. タメ→のび→つぶれ・当たり判定・危ないごほうび（VID4） ----
+(() => {
+  const w = world({ boss: 'bugking' });
+  check('移動を始めると のび が入る', (() => { sim.step(w, DT, { ax: 1, ay: 0, dx: 0, dy: 0 }); return w.p.sqT > 0 && w.p.sqSign === 1; })());
+  run(w, 0.2, { ax: 1, ay: 0, dx: 0, dy: 0 }); check('のびは時間で消える', w.p.sqT === 0);
+  sim.step(w, DT, { ax: 0, ay: 0, dx: 0, dy: 0 });
+  check('止まると つぶれ が入る', w.p.sqT > 0 && w.p.sqSign === -1);
+  run(w, 0.2, { ax: 0, ay: 0, dx: 0, dy: 0 });
+  sim.hurt(w);
+  check('被弾すると つぶれ が入る', w.p.sqT > 0 && w.p.sqSign === -1);
+  const sNeutral = sim.squashScale({ sqT: 0 });
+  check('タメが無ければ拡大縮小は1倍', sNeutral.sx === 1 && sNeutral.sy === 1);
+  const sStretch = sim.squashScale({ sqT: 0.06, sqDur: 0.12, sqSign: 1 });
+  check('のび中はたてに伸びてよこが細い', sStretch.sy > 1 && sStretch.sx < 1);
+  const sSquash = sim.squashScale({ sqT: 0.06, sqDur: 0.12, sqSign: -1 });
+  check('つぶれ中はたてに縮んでよこが太い', sSquash.sy < 1 && sSquash.sx > 1);
+})();
+(() => {
+  const w = world({ boss: 'bugking' });
+  w.b.tell = 0; w.b.tellSquashed = false;
+  w.b.tell = 0.99; sim.step(w, DT, IDLE);
+  check('タメが山場に来るとボスにも のび が入る', w.b.sqT > 0 && w.b.sqSign === 1);
+})();
+check('主人公の当たり判定は見た目(P_R=11)より小さい', sim.P_HIT_R < 11 && Math.abs(sim.P_HIT_R - 11 * 0.7) < 1e-9);
+(() => {
+  // 弾のすぐそばに当たっても、見た目の大きさならアウトだが、小さくした実際の判定ならまだ大丈夫な距離を確かめる
+  const w = world({ boss: 'bugking' });
+  clearBullets(w);
+  w.p.x = 200; w.p.y = 200; w.p.inv = 0;
+  sim.addBullet(w, { kind: 'orb', x: 200 + 11 + 6, y: 200, vx: 0, vy: 0, r: 9 });
+  const heartsBefore = w.p.hearts;
+  sim.step(w, DT, IDLE);
+  check('見た目より小さい当たり判定のおかげで際どい弾をすり抜けられる', w.p.hearts === heartsBefore);
+})();
+(() => {
+  const w = world({ boss: 'bugking' });
+  clearBullets(w);
+  w.rng = () => 0; // 常に「近くに出す」側・「先頭の弾を選ぶ」側を通す
+  sim.addBullet(w, { kind: 'orb', x: 300, y: 500, vx: 0, vy: 0, r: 9 });
+  sim.spawnPickup(w, 'pace');
+  const pk = w.pickups[w.pickups.length - 1];
+  check('ごほうびが敵の弾の近くに出ることがある', Math.abs(pk.y - 500) <= 30);
+  w.rng = () => 0.99; // 常に「近くに出さない」側を通す
+  sim.spawnPickup(w, 'pace');
+  const pk2 = w.pickups[w.pickups.length - 1];
+  check('近くに出さない時は弾と無関係な場所に出る', Math.abs(pk2.y - 500) > 30 || pk2.y !== pk.y);
+})();
 
 // Exercise the public browser adapter without launching a browser or adding a dependency.
 // AudioContext and RAF have separate clocks so an accidental return to frame-time music fails.

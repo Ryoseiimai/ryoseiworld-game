@@ -34,6 +34,8 @@
   function cooldownText() { return FIRE_INTERVAL.toFixed(2) + '→' + RAPID_INTERVAL.toFixed(2) + ' びょう'; }
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
+  // 当たり判定は見た目(P_R)より小さく: 本体の7割だけが実際にぶつかる。デバッグの「あたりはんてい みえる」もこの値を描く
+  var P_HIT_R = P_R * 0.7;
   var CHARGE_FULL = 0.9, TIGER_REST = 4, INVULN = 1.0, BARRIER_BACK = 15, SHOW_TIME = 10, SHOW_COOLDOWN = 12;
   // The move hint stays HINT_T s. No aimed shot comes before it is gone; then shots get to full speed over RAMP_T s.
   // After a hit, bullets within BREATHER_R are cleared so one mistake does not chain into the next.
@@ -228,8 +230,10 @@
       weapons: weapons, hasOwl: opts.some(function (o) { return o.owl; }),
       options: opts.map(function (d, i) { return { def: d, x: 110 - i * 20, y: PLAY_B - 60, cd: 0.2 + i * 0.15, blockCd: 0, flash: 0 }; }),
       p: { x: 150, y: PLAY_B - 70, hearts: maxHearts, maxHearts: maxHearts, inv: 0, hurtT: 0, fireCd: 0.25, letterCd: 0.5, letterSide: 1,
-        charge: 0, charging: false, tigerReadyAt: 0, risen: false, barrier: weapons.barrier ? { up: true, at: 0 } : null },
-      b: { x: W + 170, y: PLAY_MID, hp: def.hp, maxHp: def.hp, ghostHp: def.hp, flash: 0, attackT: 0, hurtT: 0, shown: {}, phase2: false },
+        charge: 0, charging: false, tigerReadyAt: 0, risen: false, barrier: weapons.barrier ? { up: true, at: 0 } : null,
+        sqT: 0, sqDur: 0, sqSign: 0, moving: false },
+      b: { x: W + 170, y: PLAY_MID, hp: def.hp, maxHp: def.hp, ghostHp: def.hp, flash: 0, attackT: 0, hurtT: 0, shown: {}, phase2: false,
+        sqT: 0, sqDur: 0, sqSign: 0, tellSquashed: false },
       m: {}, shots: [], eb: [], bugs: [], pickups: [], fx: [], tickers: [],
       burst: null, burstQ: [], toast: null, events: [], hitstop: 0, shake: 0, flash: 0, lastStopAt: -1, roar: 0,
       prevSkill: false, winKind: '', stats: { shots: 0, hits: 0, damage: 0, hurts: 0, enemyBullets: 0, byKind: {} }
@@ -341,6 +345,14 @@
   }
 
   function emit(w, name) { if (w.events.length < 80) w.events.push(name); }
+
+  // タメ→のび→つぶれ: sign>0はのび(伸びて細く)、sign<0はつぶれ(縮んで太く)。絵は描き直さず ctx.scale だけで表現する
+  function squash(obj, sign, dur) { obj.sqT = dur; obj.sqDur = dur; obj.sqSign = sign; }
+  function squashScale(obj) {
+    if (!obj.sqT || obj.sqT <= 0) return { sx: 1, sy: 1 };
+    var k = Math.sin((obj.sqT / obj.sqDur) * Math.PI) * obj.sqSign;
+    return { sx: 1 - k * 0.14, sy: 1 + k * 0.22 };
+  }
   // urgent: a line that answers what just happened (みせた・HPの節目・つくる) goes before plain lines and cuts a plain one that is showing.
   function burst(w, speaker, text, dur, urgent) {
     if (!text) return;
@@ -408,6 +420,9 @@
     var b = w.b, p = w.p;
     b.flash = Math.max(0, b.flash - dt * 7); b.attackT -= dt; b.hurtT -= dt;
     b.tell = Math.max(0, (b.tell || 0) - dt * 4);
+    p.sqT = Math.max(0, (p.sqT || 0) - dt); b.sqT = Math.max(0, (b.sqT || 0) - dt);
+    if (b.tell > 0.92 && !b.tellSquashed) { squash(b, 1, 0.14); b.tellSquashed = true; }
+    if (b.tell < 0.1) b.tellSquashed = false;
     b.whiteT = Math.max(0, (b.whiteT || 0) - dt); b.kick = Math.max(0, (b.kick || 0) - dt * 40);
     if (b.ghostHp > b.hp) b.ghostHp = Math.max(b.hp, b.ghostHp - Math.max(8, b.maxHp * 0.3) * dt);
     p.inv = Math.max(0, p.inv - dt); p.hurtT = Math.max(0, p.hurtT - dt);
@@ -451,6 +466,11 @@
     if (len > 1) { ax /= len; ay /= len; }
     p.x = clamp(p.x + ax * P_SPEED * dt + (inp.dx || 0), P_MIN_X, P_MAX_X);
     p.y = clamp(p.y + ay * P_SPEED * dt + (inp.dy || 0), g.top + 48, g.bottom - 48);
+    // 移動の始まり(タメ→のび)。止まった瞬間は少しつぶれて「着地」のような手ごたえを出す
+    var movingNow = len > 0.05 || Math.abs(inp.dx || 0) > 0.5 || Math.abs(inp.dy || 0) > 0.5;
+    if (movingNow && !p.moving) squash(p, 1, 0.12);
+    else if (!movingNow && p.moving) squash(p, -1, 0.1);
+    p.moving = movingNow;
   }
 
   function handleSkill(w, dt, inp) {
@@ -614,6 +634,12 @@
   }
   function spawnPickup(w, kind, data) {
     var g = gap(w), y = g.top + 110 + w.rng() * Math.max(10, g.bottom - g.top - 220);
+    // 危ないけれど取りたくなる所: 3割くらいは、いまある敵の弾の近くに出す。取れなくても勝てる難しさは変えない
+    var live = w.eb.filter(function (e) { return !e.dead; });
+    if (live.length && w.rng() < 0.3) {
+      var pick = live[Math.floor(w.rng() * live.length)];
+      y = clamp(pick.y + (w.rng() - 0.5) * 60, g.top + 90, g.bottom - 90);
+    }
     w.pickups.push({ kind: kind, data: data || null, x: W + 50, y: y, y0: y, vx: kind === 'voice' ? -82 : -72, age: 0, ph: w.rng() * 6 });
   }
   function hasPickup(w, kind) { return w.pickups.some(function (pk) { return pk.kind === kind; }); }
@@ -627,7 +653,7 @@
         m.blockT = lerp(2.3, 1.6, r) / f;
         var bx = spawnX(w, -70, 17), v = aimV(w, bx, b.y + 16, lerp(160, 225, r), (w.rng() - 0.5) * lerp(0.55, 0.16, r));
         addBullet(w, { kind: 'block', x: bx, y: b.y + 16, vx: v.vx, vy: v.vy, hw: 17, hh: 17, hp: 2 });
-        b.attackT = 0.4; emit(w, 'eshot');
+        b.attackT = 0.4; squash(b, -1, 0.12); emit(w, 'eshot');
       }
       if (!b.phase2 && b.hp <= b.maxHp / 2) {
         b.phase2 = true; toast(w, w.lines.half, 2.6); w.shake = Math.max(w.shake, 8); emit(w, 'phase');
@@ -661,7 +687,7 @@
           addBullet(w, { kind: 'bubble', x: spawnX(w, -70 - hw, hw), y: y0, y0: y0, vx: chord ? -175 : -140, vy: 0, hw: hw, hh: 26, hp: 3, text: text, amp: chord ? 30 : 48, freq: 2.0, ph: i * Math.PI, chord: chord });
         }
         if (chord) { w.shake = Math.max(w.shake, 3); toast(w, '…ぜんぶ いっぺんに？', 1.4); }
-        b.attackT = 0.45; emit(w, 'eshot');
+        b.attackT = 0.45; squash(b, -1, 0.12); emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
         if (attackDue(w, 'sighT', dt)) { m.sighT = 3.6 / f; fan(w, spawnX(w, -80, 9), b.y, Math.max(1, Math.round(2 * f)), 0.45, 180, 'sigh'); }
@@ -676,7 +702,7 @@
         var text = NUMBER_WORDS[m.k++ % NUMBER_WORDS.length], hw = (textW(text, 24) + 26) / 2;
         var nx = spawnX(w, -70, hw), v = aimV(w, nx, b.y - 10, 235, 0);
         addBullet(w, { kind: 'number', x: nx, y: b.y - 10, vx: v.vx, vy: v.vy, hw: hw, hh: 23, hp: 3, text: text });
-        b.attackT = 0.4; emit(w, 'eshot');
+        b.attackT = 0.4; squash(b, -1, 0.12); emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
         if (attackDue(w, 'ringT', dt)) { m.ringT = 3.3 / f; m.rot += 0.4; ring(w, b.x - 20, b.y, Math.max(4, Math.round(8 * f)), 165, m.rot, 'star'); }
@@ -690,7 +716,7 @@
         m.ballT = lerp(2.0, 1.35, r) / f;
         fan(w, spawnX(w, -40, 10), b.y - 6, m.made >= 2 ? Math.max(1, Math.round(3 * f)) : m.made >= 1 ? Math.max(1, Math.round(2 * f)) : 1, 0.5,
           lerp(150, 180, r), 'gray', 10, (w.rng() - 0.5) * lerp(0.5, 0.14, r));
-        b.attackT = 0.4; emit(w, 'eshot');
+        b.attackT = 0.4; squash(b, -1, 0.12); emit(w, 'eshot');
       }
       if (t >= m.tauntAt) { m.tauntAt = t + 13; var tl = w.lines.taunts || []; if (tl.length) burst(w, w.def.name, tl[m.tauntK++ % tl.length], 2.4); }
       if (!hasPickup(w, 'make') && t >= m.makeAt && m.made < w.def.makes) spawnPickup(w, 'make');
@@ -827,6 +853,7 @@
     if (!w.god && !w.cheats.godmode) p.hearts = Math.max(0, p.hearts - 1);
     if (p.charging) p.brokeAt = w.t;
     p.inv = INVULN; p.hurtT = 0.5; p.charging = false; p.charge = 0;
+    squash(p, -1, 0.16);
     breather(w);
     w.shake = Math.max(w.shake, 12); w.hitstop = Math.max(w.hitstop, 0.12); w.flash = Math.max(w.flash, 0.25);
     sparks(w, p.x, p.y, 16, '#ff9aa8', 230);
@@ -874,7 +901,7 @@
         }
         if (e.dead) continue;
       }
-      if (w.state === 'play' && overlapEB(e, p.x, p.y - 4, P_R)) {
+      if (w.state === 'play' && overlapEB(e, p.x, p.y - 4, P_HIT_R)) {
         if (e.kind === 'number') { if (numberHit(w)) e.dead = true; }
         else if (hurt(w)) e.dead = true;
       }
@@ -889,7 +916,7 @@
       bg.x -= 118 * dt;
       bg.y += clamp(p.y - bg.y, -60, 60) * dt * 0.9 + Math.sin(bg.age * 4 + bg.ph) * 50 * dt;
       if (bg.x < -40) bg.dead = true;
-      else if (w.state === 'play' && dist2(bg.x, bg.y, p.x, p.y) < (bg.r + P_R) * (bg.r + P_R) && hurt(w)) { bg.dead = true; sparks(w, bg.x, bg.y, 10, '#9dff8a', 200); }
+      else if (w.state === 'play' && dist2(bg.x, bg.y, p.x, p.y) < (bg.r + P_HIT_R) * (bg.r + P_HIT_R) && hurt(w)) { bg.dead = true; sparks(w, bg.x, bg.y, 10, '#9dff8a', 200); }
     });
     w.bugs = w.bugs.filter(function (bg) { return !bg.dead; });
   }
@@ -1011,7 +1038,8 @@
     BOSSES: BOSSES, WEAPONS: WEAPONS, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
-    addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect
+    addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect,
+    P_HIT_R: P_HIT_R, squash: squash, squashScale: squashScale
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
@@ -1831,6 +1859,8 @@
     if (w.bossId === 'zero' && w.state === 'win' && w.stateT > 2.8) {
       h = 170; glow(ctx, b.x, b.y, 150, 'rgba(255,240,200,0.9)', 0.6 + Math.sin(w.t * 4) * 0.15);
     }
+    var bsq = squashScale(b);
+    ctx.save(); ctx.translate(bx, b.y); ctx.scale(bsq.sx, bsq.sy); ctx.translate(-bx, -b.y);
     drawSprite(ctx, S, d.sheet, f[0], f[1], bx, b.y, h, false, d.name);
     var wimg = b.whiteT > 0 && whiteOf(frameImg(S, d.sheet, f[0], f[1]));
     if (wimg) {
@@ -1842,6 +1872,7 @@
       drawSprite(ctx, S, d.sheet, f[0], f[1], bx, b.y, h, false);
       ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
     }
+    ctx.restore();
     if (d.crown && w.hasOwl && w.state === 'play') {
       var cx = bx + d.crown[0], cy = b.y + d.crown[1], pr = d.crown[2] + Math.sin(w.t * 8) * 4;
       glow(ctx, cx, cy, pr * 1.8, 'rgba(255,236,120,0.9)', 0.75);
@@ -1927,7 +1958,10 @@
     }
     var blink = w.state === 'play' && p.inv > 0 && Math.floor(t * 18) % 2 === 0;
     ctx.globalAlpha = blink ? 0.35 : 1;
+    var psq = squashScale(p);
+    ctx.save(); ctx.translate(p.x, p.y); ctx.scale(psq.sx, psq.sy); ctx.translate(-p.x, -p.y);
     drawSprite(ctx, S, 'ryosei', r, c, p.x, p.y, P_DRAW_H, false, 'RYOSEI');
+    ctx.restore();
     ctx.globalAlpha = 1;
     if (p.barrier && p.barrier.up && w.state === 'play') {
       ctx.strokeStyle = 'rgba(150,230,255,' + (0.55 + Math.sin(t * 5) * 0.15) + ')'; ctx.lineWidth = 3;
@@ -2139,7 +2173,7 @@
   }
 
   function hitboxes(w) {
-    return [{ x: w.p.x - P_R, y: w.p.y - 4 - P_R, width: P_R * 2, height: P_R * 2 }].concat(w.eb.concat(w.shots, w.bugs).filter(function (e) { return !e.dead; }).map(function (e) {
+    return [{ x: w.p.x - P_HIT_R, y: w.p.y - 4 - P_HIT_R, width: P_HIT_R * 2, height: P_HIT_R * 2 }].concat(w.eb.concat(w.shots, w.bugs).filter(function (e) { return !e.dead; }).map(function (e) {
       var hw = e.r || e.hw, hh = e.r || e.hh; return { x: e.x - hw, y: e.y - hh, width: hw * 2, height: hh * 2 };
     }));
   }
