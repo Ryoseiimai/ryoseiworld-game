@@ -1122,7 +1122,8 @@
     good: function (S) { tone(S, 880, .07, 'sine', .07); },
     fever: function (S) { SFX.pickup(S); },
     stage: function (S) { SFX.start(S); },
-    shot: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastShot < 0.075) return; AU.lastShot = n; tone(S, 1040, 0.05, 'sine', 0.018, 1500); },
+    // FUN-VID2: a tiny random pitch wobble on every shot (±6%) so rapid fire doesn't sound like one note on repeat.
+    shot: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastShot < 0.075) return; AU.lastShot = n; var j = 0.94 + Math.random() * 0.12; tone(S, 1040 * j, 0.05, 'sine', 0.018, 1500 * j); },
     hit: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastHit < 0.06) return; AU.lastHit = n; tone(S, 260, 0.05, 'square', 0.03, 140); },
     crit: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastHit < 0.06) return; AU.lastHit = n; tone(S, 620, 0.07, 'square', 0.04, 300); },
     pop: function (S) { var n = AU.ctx && AU.ctx.currentTime; if (n - AU.lastPop < 0.05) return; AU.lastPop = n; tone(S, 520, 0.06, 'square', 0.035, 240); noise(S, 0.06, 0.05, 3000); },

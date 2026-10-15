@@ -586,6 +586,8 @@ async function browserAdapterChecks() {
   check('musicTickはタイムスケール込みの半拍間隔',bass.length>=5&&bass.slice(1).every((t,i)=>Math.abs(t.at-bass[i].at-30/150/.7)<.025),bass.map(t=>t.at));
   win.__shooter.debugSetBossHp(280);await advance(.1);const fastStart=tones.length;await advance(2);const fast=tones.slice(fastStart).filter(t=>t.type==='triangle'&&t.freq<300);
   check('BPMが上がると曲の間隔も縮む',win.__shooter.debugBeat().bpm===158&&fast.length>=5&&fast.slice(1).every((t,i)=>Math.abs(t.at-fast[i].at-30/158/.7)<.025));
+  const shotStart=tones.length;await advance(1.5);const shots=tones.slice(shotStart).filter(t=>t.type==='sine'&&t.freq>900&&t.freq<1150);
+  check('FUN-VID2: れんしゃのピュン音は毎回ピッチが少し変わる',shots.length>=3&&new Set(shots.map(t=>t.freq)).size>1&&shots.every(t=>t.freq>=1040*0.93&&t.freq<=1040*1.07),shots.map(t=>t.freq));
   win.__shooter.debugWin();await advance(7);check('onWinにcheatedが入る',won&&won.cheated===true&&handle.state==='closed');
   handle=R.Shooter.start({boss:'kateino',platform,options:{proto:{jump:9}}});await ready();await advance(3);
   win.fire('keydown',{code:'KeyX'});tick(1000/60);win.fire('keyup',{code:'KeyX'});await ready();
