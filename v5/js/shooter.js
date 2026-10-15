@@ -299,10 +299,14 @@
     }
   }
   // Keep the old attack intervals, rounded to the nearest beat (half beat in phase two).
+  // The fire timing itself never changes; this only brightens the boss (b.tell) for the
+  // last TELL_WINDOW seconds before a shot, so the attack is seen coming without being delayed.
+  var TELL_WINDOW = 0.3;
   function attackDue(w, key, dt) {
-    var r = w.beat, sub = w.b.hp <= w.b.maxHp / 2 && w.b.maxHp ? 2 : 1;
+    var r = w.beat, sub = w.b.hp <= w.b.maxHp / 2 && w.b.maxHp ? 2 : 1, thresh = 30 / r.bpm / sub;
     w.m[key] -= dt;
-    return w.m[key] <= 30 / r.bpm / sub && Math.floor(r.phase * sub + 1e-9) > Math.floor(r.previous * sub + 1e-9);
+    if (w.m[key] <= thresh + TELL_WINDOW) w.b.tell = Math.max(w.b.tell || 0, clamp(1 - (w.m[key] - thresh) / TELL_WINDOW, 0, 1));
+    return w.m[key] <= thresh && Math.floor(r.phase * sub + 1e-9) > Math.floor(r.previous * sub + 1e-9);
   }
   var CHALLENGE_BOSSES = ['bugking', 'kateino', 'hikaku', 'jibun', 'zero'];
   function setStage(w, n) {
@@ -312,7 +316,7 @@
     var id = CHALLENGE_BOSSES[(w.stage - 1) % CHALLENGE_BOSSES.length];
     w.bossId = id; w.def = Object.assign({}, BOSSES[id], { hp: 180 + 12 * (w.stage - 1), through: false, immune: false });
     w.lines = { intro: [w.def.name, 'ビートに あわせて おしてみよう'], bursts: {}, win: 'つぎの ステージ！' };
-    w.b.hp = w.b.maxHp = w.b.ghostHp = w.def.hp; w.b.shown = {}; w.b.phase2 = false;
+    w.b.hp = w.b.maxHp = w.b.ghostHp = w.def.hp; w.b.shown = {}; w.b.phase2 = false; w.b.tell = 0;
     w.beat.bpm = Math.min(220, 100 + 6 * (w.stage - 1)); w.beat.tempoSteps = 0;
     w.beat.tempoUntil = w.beat.time + 1;
     if (previousBpm && w.beat.bpm > previousBpm) learnQuiet(w, 'bpm');
@@ -403,6 +407,7 @@
     w.roar = Math.max(0, w.roar - dt);
     var b = w.b, p = w.p;
     b.flash = Math.max(0, b.flash - dt * 7); b.attackT -= dt; b.hurtT -= dt;
+    b.tell = Math.max(0, (b.tell || 0) - dt * 4);
     b.whiteT = Math.max(0, (b.whiteT || 0) - dt); b.kick = Math.max(0, (b.kick || 0) - dt * 40);
     if (b.ghostHp > b.hp) b.ghostHp = Math.max(b.hp, b.ghostHp - Math.max(8, b.maxHp * 0.3) * dt);
     p.inv = Math.max(0, p.inv - dt); p.hurtT = Math.max(0, p.hurtT - dt);
@@ -1808,8 +1813,11 @@
   function drawBoss(ctx, S, w) {
     var b = w.b, d = w.def;
     if (b.x > W + 220) return;
-    var auraA = 0.22 + Math.sin(w.t * 3) * 0.06 + b.flash * 0.25;
+    var tell = b.tell || 0, auraA = 0.22 + Math.sin(w.t * 3) * 0.06 + b.flash * 0.25 + tell * 0.3;
     if (!(w.bossId === 'zero' && w.state === 'win' && w.stateT > 2.8)) glow(ctx, b.x, b.y + d.bodyDY, d.drawH * 0.75, d.color, auraA);
+    // Tame (telegraph): a warm pulse grows on the boss just before each shot, so an attack is seen coming
+    // without the fire timing itself changing (see attackDue's TELL_WINDOW).
+    if (tell > 0.1 && w.state === 'play') glow(ctx, b.x, b.y + d.bodyDY, d.drawH * (0.35 + tell * 0.25), 'rgba(255,230,160,0.9)', tell * 0.4);
     if (w.bossId === 'jibun') {
       var c = Math.floor(w.t * 10) % 4, sat = w.m.made / d.makes, gimg = S.gray && S.gray[c];
       var alpha = w.state === 'play' && Math.floor(w.t * 3) % 2 ? 0.92 : 1;
@@ -2302,6 +2310,7 @@
     made: { enumerable: true, get: function () { return cw() && cw().bossId === 'jibun' ? cw().m.made : 0; } },
     voices: { enumerable: true, get: function () { return cw() && cw().bossId === 'zero' ? cw().m.got : 0; } },
     bullets: { enumerable: true, get: function () { return cw() ? cw().eb.length : 0; } },
+    bossTell: { enumerable: true, get: function () { return cw() ? (cw().b.tell || 0) : 0; } },
     shots: { enumerable: true, get: function () { return cw() ? cw().shots.length : 0; } },
     paused: { enumerable: true, get: function () { return !!(current && current.paused); } },
     player: { enumerable: true, get: function () { return cw() ? { x: Math.round(cw().p.x), y: Math.round(cw().p.y) } : null; } },
