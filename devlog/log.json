@@ -1753,5 +1753,20 @@
   ],
   "sha": "3fa755e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38971455687"
+ },
+ {
+  "at": "2026-10-16T22:45:06.217Z",
+  "branch": "claude/autodev-20261017-0721-R78",
+  "task": "R78 遊んで一番気になる所を1つ直す",
+  "summary": "タイトル画面の下の章の名前と「つづきから」の案内が、淡い緑の地面に埋もれて読めなかった\n2行の下に暗い帯を敷いた。前と後のスクショは docs/shots/R78\n確認を足した。月が英字の一行に重なる件と、下の操作の箱が出口の矢印を隠す件も残る",
+  "result": "pass",
+  "shots": [
+   "shots/159/mobile-02-mode-select.jpg",
+   "shots/159/mobile-15-custom-full-run.jpg",
+   "shots/159/mobile-27-chapter-2-play.jpg",
+   "shots/159/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "592c279",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38977068988"
  }
 ]
