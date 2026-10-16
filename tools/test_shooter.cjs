@@ -573,7 +573,7 @@ check('主人公の当たり判定は見た目(P_R=11)より小さい', sim.P_HI
 // AudioContext and RAF have separate clocks so an accidental return to frame-time music fails.
 async function browserAdapterChecks() {
   const fs=require('node:fs'),vm=require('node:vm');
-  const drawn=[], tones=[], frames=new Map();let fid=0, now=0;
+  const drawn=[], tones=[], frames=new Map(), sources=[];let fid=0, now=0, fakeFetch=async()=>({ok:false}), decoded={};
   function events(o){o.events={};o.addEventListener=(k,f)=>(o.events[k]||(o.events[k]=[])).push(f);o.removeEventListener=(k,f)=>o.events[k]=(o.events[k]||[]).filter(x=>x!==f);o.fire=(k,extra={})=>{const e={type:k,target:o,preventDefault(){},stopPropagation(){},stopImmediatePropagation(){},...extra};for(const f of o.events[k]||[])f(e);};return o;}
   function canvasContext(){const c={font:'24px sans-serif',measureText(t){return{width:[...String(t)].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*(parseFloat(this.font.match(/([\d.]+)px/)?.[1])||24)};},fillText(t,x,y){drawn.push({text:t,x,y,font:this.font});},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};},createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};}};return new Proxy(c,{get:(t,k)=>k in t?t[k]:()=>{}});}
   class El {
@@ -599,16 +599,17 @@ async function browserAdapterChecks() {
   class Audio {
     constructor(){this.currentTime=0;this.state='running';this.sampleRate=1000;Audio.instances.push(this);}
     resume(){this.state='running';return Promise.resolve();} suspend(){this.state='suspended';return Promise.resolve();}close(){this.state='closed';return Promise.resolve();}
-    createGain(){return{gain:{value:0,setValueAtTime(){},exponentialRampToValueAtTime(){}},connect(){}};}
+    createGain(){const g={value:0,ramps:[],setValueAtTime(){},exponentialRampToValueAtTime(){},linearRampToValueAtTime(v,t){g.ramps.push({v,t});},cancelScheduledValues(){}};return{gain:g,connect(){}};}
     createBuffer(){return{getChannelData:()=>new Float32Array(500)};}
     createOscillator(){const n={frequency:{setValueAtTime(f){n.freq=f;},exponentialRampToValueAtTime(){}},connect(){},start(at){tones.push({at,freq:n.freq,type:n.type});},stop(){},disconnect(){}};return n;}
-    createBufferSource(){return{connect(){},start(){},stop(){}};}
+    createBufferSource(){const c=this,n={connect(g){n.out=g;},start(at,offset){if(n.buffer&&n.buffer.url){n.at=at;n.offset=offset;n.now=c.currentTime;n.beat=win.__shooter.debugBeat();sources.push(n);}},stop(at){n.stoppedAt=at==null?c.currentTime:at;}};return n;}
+    decodeAudioData(bytes,ok,fail){const d=decoded[bytes.url];if(!(d>0)){fail?.(Error('decode'));return Promise.reject(Error('decode'));}const b={duration:d,url:bytes.url};ok?.(b);return Promise.resolve(b);}
     createBiquadFilter(){return{frequency:{value:0},connect(){}};}
   }
   Audio.instances=[];
   const win=events({document:doc,console,URL,location:{href:'https://test.invalid/v5/'},innerWidth:540,innerHeight:960,devicePixelRatio:1,
     performance:{now:()=>now},AudioContext:Audio,requestAnimationFrame:f=>{frames.set(++fid,f);return fid;},cancelAnimationFrame:id=>frames.delete(id),
-    setTimeout:()=>0,fetch:async()=>({ok:false}),Image:class{set src(v){queueMicrotask(()=>this.onerror?.());}}});
+    setTimeout:()=>0,fetch:(...a)=>fakeFetch(...a),Image:class{set src(v){queueMicrotask(()=>this.onerror?.());}}});
   win.window=win;const ctx=vm.createContext(win);
   for(const f of ['v5/data/words.js','v5/js/proto.js','v5/js/shooter.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,'..',f),'utf8'),ctx);
   const R=win.RYW;let audioOn=false,paused=[] ,resumed=[],changed=[];
@@ -666,6 +667,52 @@ async function browserAdapterChecks() {
   check('ことばカードが出ていても とうじょう は2.5秒で終わる（FUN10）',win.__shooter.state==='play',{wordCardShown,state:win.__shooter.state});
   win.fire('keydown',{code:'KeyX'});tick(1000/60);handle.stop();
   check('stopは開いているProtoも閉じる',!doc.querySelector('.ryw-proto'));
+
+  // SPEC_V9_MUSIC 2 and 4: recorded boss music with a fake ledger, fake files and fake decoded lengths.
+  const bars=bpm=>8*4*60/bpm,T=(n,file)=>{const bpm=150+8*n;return{file:'assets/music/'+(file||'bug_s'+n)+'.mp3',bpm,loopStart:4*60/bpm,loopEnd:4*60/bpm+bars(bpm),gain:.8};};
+  const ledgerOf=list=>{const tracks={};list.forEach((t,n)=>{if(t)tracks['shooter_bugking_s'+n]=t;});return{version:1,tracks};};
+  let ledger=ledgerOf([0,1,2,3].map(n=>T(n)));
+  const MURL='https://test.invalid/v5/';
+  fakeFetch=async url=>{if(url===MURL+'data/music.json')return{ok:true,json:async()=>ledger};if(url.startsWith(MURL+'assets/music/'))return{ok:true,arrayBuffer:async()=>({url:url.slice(MURL.length)})};return{ok:false};};
+  for(let n=0;n<4;n++)decoded['assets/music/bug_s'+n+'.mp3']=bars(150+8*n)+3*4*60/(150+8*n);
+  const expectOffset=src=>{const t=src.track,bpm=t.bpm,beats=Math.round((t.loopEnd-t.loopStart)*bpm/60),ph=src.beat.phase+(src.at-src.now)*bpm/60;return t.loopStart+(((ph%beats)+beats)%beats)*60/bpm;};
+  const tag=src=>{const n=+src.buffer.url.match(/_s(\d)/)[1];src.track=ledger.tracks['shooter_bugking_s'+n];return n;};
+  // Sound comes on 3s into the fight: the recording starts from the beat reached by then, not from its top.
+  audioOn=false;sources.length=0;handle=R.Shooter.start({boss:'bugking',platform});await ready();await advance(3);
+  check('録音: 音が使えるまでは鳴らさない',sources.length===0);
+  audioOn=true;changed.forEach(f=>f(true));win.fire('keydown',{code:'ArrowUp'});win.fire('keyup',{code:'ArrowUp'});await advance(.1);
+  const s0=sources[0];
+  check('録音: ストーリーのボス戦は台帳の4段で録音を使う',win.__shooter.debugMusic().mode==='rec'&&!!s0&&tag(s0)===0,win.__shooter.debugMusic());
+  check('録音: 開始はloop・loopStart/loopEndが台帳どおり',s0&&s0.loop===true&&Math.abs(s0.loopStart-T(0).loopStart)<1e-9&&Math.abs(s0.loopEnd-T(0).loopEnd)<1e-9);
+  check('録音: 開始のoffsetは拍の位置の式どおり(1ms以内)',s0&&s0.beat.phase>1&&Math.abs(s0.offset-expectOffset(s0))<.001,s0&&[s0.offset,expectOffset(s0)]);
+  const synthBefore=tones.filter(t=>t.type==='triangle').length;await advance(1);
+  check('録音: 録音中は合成の曲を予約しない',tones.filter(t=>t.type==='triangle').length===synthBefore);
+  win.__shooter.debugSetBossHp(Math.floor(win.__shooter.bossMaxHp*.74));await advance(.1);
+  const s1=sources.find(s=>s!==s0&&tag(s)===1);
+  check('録音: HP75%で s1 に切り替わる',!!s1&&win.__shooter.debugBeat().bpm===158&&win.__shooter.debugMusic().stage===1);
+  check('録音: s1 のoffsetは新しいbpmの式どおり(1ms以内)',s1&&Math.abs(s1.offset-expectOffset(s1))<.001,s1&&[s1.offset,expectOffset(s1)]);
+  check('録音: 古い音は重ねてから止まる(30〜50ms)',s1&&s0.stoppedAt!=null&&s0.stoppedAt-s1.now>=.03&&s0.stoppedAt-s1.now<=.1,s0.stoppedAt-(s1&&s1.now));
+  const outRamp=s0.out.gain.ramps.at(-1),inRamp=s1&&s1.out.gain.ramps.at(-1);
+  check('録音: 古い音が下がる間に新しい音が上がる(重ねる長さ30〜50ms)',s1&&outRamp.v===0&&Math.abs(outRamp.t-inRamp.t)<1e-9&&inRamp.v===.8&&inRamp.t-s1.at>=.03&&inRamp.t-s1.at<=.05,{outRamp,inRamp,at:s1&&s1.at});
+  check('録音: 切り替えは同じ時刻に重なる',s1&&s1.at<=s0.stoppedAt);
+  const count=sources.length;paused.forEach(f=>f());await advance(.5);
+  const stoppedOnPause=sources.slice(0,count).every(s=>s.stoppedAt!=null);
+  check('録音: 一時停止で止まる',stoppedOnPause&&sources.length===count);
+  resumed.forEach(f=>f());await advance(.5);const sr=sources[count];
+  check('録音: 再開は拍の位置から頭出しする',!!sr&&tag(sr)===1&&Math.abs(sr.offset-expectOffset(sr))<.001,sr&&[sr.offset,expectOffset(sr)]);
+  check('録音: 再開は頭から鳴らさない',!!sr&&Math.abs(sr.offset-sr.track.loopStart)>.05);
+  win.__shooter.debugWin();await advance(.5);
+  check('録音: ボス戦の終わりで止まる',sources.every(s=>s.stoppedAt!=null));
+  await advance(7);
+  const synthCase=async(name,cfg,fn)=>{fn&&fn();sources.length=0;handle=R.Shooter.start({platform,...cfg});await ready();await advance(3);const t0=tones.filter(t=>t.type==='triangle').length;await advance(1.5);
+    check('録音: '+name+'は合成のまま',win.__shooter.debugMusic().mode==='synth'&&sources.length===0&&tones.filter(t=>t.type==='triangle').length-t0>=5,{m:win.__shooter.debugMusic(),n:sources.length});handle.stop();ledger=ledgerOf([0,1,2,3].map(n=>T(n)));};
+  await synthCase('チャレンジモード',{mode:'challenge',startStage:1,onEnd:()=>{}});
+  await synthCase('時間のチート中',{boss:'bugking',options:{cheats:{timescale:true}}});
+  await synthCase('4段がそろわないとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),T(1),T(2),null]);});
+  await synthCase('読み込み失敗のとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),T(1),T(2),T(3,'broken_s3')]);});
+  await synthCase('ループが整数小節から2msずれるとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),{...T(1),loopEnd:T(1).loopEnd+.002},T(2),T(3)]);});
+  await synthCase('bpmが段とちがうとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),T(1),{...T(2),bpm:170},T(3)]);});
+  fakeFetch=async()=>({ok:false});
 }
 
 browserAdapterChecks().then(()=>{

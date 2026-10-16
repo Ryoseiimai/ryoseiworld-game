@@ -1197,6 +1197,85 @@
       S.musicNext++;
     }
   }
+  // ---- 録音の曲（SPEC_V9_MUSIC 2） ----
+  // Story fights at normal speed play shooter_<boss>_s0..s3 from data/music.json when all four decode in the 9s load wait.
+  // The beat clock stays as it is; the recording is cued from the beat position, so it never drives the game.
+  var REC_FADE = 0.04, REC_LEAD = 0.03, recBuffers = {}, recOffline = null;
+  function recUrl(p) { try { return new URL('../' + p, SCRIPT_URL).href; } catch (_) { return p; } }
+  function recValid(t, bpm) {
+    if (!t || typeof t.file !== 'string' || !/^assets\/music\/[-a-zA-Z0-9_]+\.(mp3|m4a|aac)$/.test(t.file)) return false;
+    var n = [t.bpm, t.loopStart, t.loopEnd, t.gain];
+    if (!n.every(function (v) { return typeof v === 'number' && isFinite(v); }) || t.bpm !== bpm || t.loopStart < 0 || t.loopEnd <= t.loopStart || t.gain < 0 || t.gain > 2) return false;
+    // Whole bars within 1ms: the offset is cued on the beat grid, so a longer or shorter loop would drift every lap.
+    var bars = Math.round((t.loopEnd - t.loopStart) * t.bpm / 240);
+    return bars >= 1 && Math.abs(t.loopEnd - t.loopStart - bars * 240 / t.bpm) < 0.001;
+  }
+  function recDecode(bytes) {
+    var OC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    try { if (!AU.ctx && !recOffline && OC) recOffline = new OC(2, 1, 44100); } catch (_) {}
+    var c = AU.ctx || recOffline;
+    if (!c || !c.decodeAudioData) return Promise.resolve(null);
+    return new Promise(function (resolve) {
+      try { var p = c.decodeAudioData(bytes, resolve, function () { resolve(null); }); if (p && p.then) p.then(resolve, function () { resolve(null); }); } catch (_) { resolve(null); }
+    });
+  }
+  // Resolves to [{track, buffer} x4] or null. The ledger is read again for each fight; decoded files are kept.
+  function recLoad(bossId) {
+    var base = MUSIC[bossId].bpm;
+    return fetch(recUrl('data/music.json')).then(function (r) { return r && r.ok ? r.json() : null; }).then(function (d) {
+      var tracks = d && d.version === 1 && d.tracks && typeof d.tracks === 'object' ? d.tracks : null;
+      if (!tracks) return null;
+      var list = [0, 1, 2, 3].map(function (n) { return tracks['shooter_' + bossId + '_s' + n]; });
+      if (!list.every(function (t, n) { return recValid(t, base + 8 * n); })) return null;
+      return Promise.all(list.map(function (t) {
+        if (recBuffers[t.file]) return recBuffers[t.file];
+        return fetch(recUrl(t.file)).then(function (r) { if (!r || !r.ok) throw new Error('missing'); return r.arrayBuffer(); }).then(recDecode).then(function (buf) {
+          if (!buf || !(buf.duration >= t.loopEnd)) throw new Error('short');
+          recBuffers[t.file] = buf; return buf;
+        });
+      })).then(function (bufs) { return list.map(function (t, n) { return { track: t, buffer: bufs[n] }; }); });
+    }).catch(function () { return null; });
+  }
+  // fadeAt: the time the fade out starts (the next file's start, so both overlap for REC_FADE). Without it the loop stops now.
+  function recStop(S, fadeAt) {
+    var p = S.recPlay, o = S.recOld; S.recPlay = null; S.recOld = null;
+    if (o && fadeAt == null) { try { o.src.stop(); } catch (_) {} }
+    if (!p) return;
+    try {
+      var c = AU.ctx, t = c.currentTime;
+      if (fadeAt != null && fadeAt >= p.at + REC_FADE) {
+        var g = p.gain.gain;
+        if (g.cancelScheduledValues) g.cancelScheduledValues(t);
+        g.setValueAtTime(p.track.gain, Math.max(t, fadeAt)); g.linearRampToValueAtTime(0, Math.max(t, fadeAt) + REC_FADE);
+        p.src.stop(Math.max(t, fadeAt) + REC_FADE + 0.01); S.recOld = p;
+      } else p.src.stop();
+    } catch (_) { try { p.src.stop(); } catch (_) {} }
+  }
+  function recStart(S, n) {
+    var w = S.world, c = AU.ctx, e = S.rec[n], t = e.track, bpm = w.beat.bpm;
+    // The frame's beat position belongs to the audio time S.clockAt; T is just ahead of it.
+    var at = S.clockSource === 'audio' && S.clockAt != null ? S.clockAt : c.currentTime, T = Math.max(c.currentTime, at) + REC_LEAD;
+    var phase = w.beat.phase + (T - at) * bpm / 60, beats = Math.round((t.loopEnd - t.loopStart) * bpm / 60);
+    var offset = t.loopStart + (((phase % beats) + beats) % beats) * 60 / bpm;
+    var src = c.createBufferSource(), gain = c.createGain();
+    src.buffer = e.buffer; src.loop = true; src.loopStart = t.loopStart; src.loopEnd = t.loopEnd;
+    gain.gain.setValueAtTime(0, T); gain.gain.linearRampToValueAtTime(t.gain, T + REC_FADE);
+    src.connect(gain); gain.connect(AU.master); src.start(T, offset);
+    S.recPlay = { src: src, gain: gain, track: t, stage: n, bpm: bpm, at: T, offset: offset };
+  }
+  function recTick(S) {
+    var w = S.world;
+    if (!audioLive(S) || w.playtest || w.state === 'lose' || w.state === 'win' || !S.loaded) {
+      if (S.recPlay || S.recOld) recStop(S, audioLive(S) && (w.state === 'lose' || w.state === 'win') ? AU.ctx.currentTime : null);
+      return;
+    }
+    var n = Math.min(3, w.beat.tempoSteps || 0);
+    if (S.recPlay && S.recPlay.stage === n && S.recPlay.bpm === w.beat.bpm) return;
+    // Tempo step: the next file fades in over REC_FADE while the old one fades out over the same span.
+    var old = S.recPlay; S.recPlay = null;
+    try { recStart(S, n); } catch (_) { S.recPlay = null; }
+    if (old) { var next = S.recPlay; S.recPlay = old; recStop(S, next ? next.at : null); S.recPlay = next; }
+  }
   function clockDelta(S, now) {
     var live = audioLive(S), source = live ? 'audio' : 'game', value = live ? AU.ctx.currentTime : now / 1000;
     var dt = S.clockSource === source && S.clockAt != null ? value - S.clockAt : S.last == null ? 0 : (now - S.last) / 1000;
@@ -1412,7 +1491,7 @@
     S.clockAt = null; S.last = null; S.musicNext = null; clearInput(S);
     S.pauseEl.hidden = !want;
     S.keys = {};
-    if (want) { try { if (AU.ctx) AU.ctx.suspend().catch(function () {}); } catch (_) {} }
+    if (want) { recStop(S); try { if (AU.ctx) AU.ctx.suspend().catch(function () {}); } catch (_) {} }
     else {
       S.last = null;
       if (S.world.state === 'play') S.world.p.inv = Math.max(S.world.p.inv, 1);
@@ -1441,7 +1520,10 @@
     var bgName = S.cfg.background || w.def.bg;
     S.theme = BG_THEME[bgName] || BG_THEME[w.def.bg] || 'town';
     var timeout = new Promise(function (resolve) { setTimeout(resolve, 9000); });
+    // Recorded music is decided once, inside this wait: a late file never switches the fight away from the synth.
+    var music = !S.loaded && !S.recTried && w.mode === 'story' && w.scale === 1 ? (S.recTried = true, recLoad(w.bossId).then(function (r) { if (!S.loaded) S.recReady = r; })) : null;
     var all = Promise.all(names.map(function (n) { return loadSheet(n).then(function (sh) { S.sheets[n] = sh; }); })
+      .concat(music ? [music] : [])
       .concat([loadImage(bgUrl(bgName)).then(function (img) {
         S.bg = img;
         // The side margins (wide screens) show the same picture, dark and blurred.
@@ -1453,6 +1535,7 @@
         if (!grayCache) { grayCache = {}; for (var c = 0; c < 4; c++) { var img = S.sheets.ryosei.frames['1_' + c]; if (img) grayCache[c] = makeGray(img); } }
         S.gray = grayCache;
       }
+      if (!S.loaded && S.recReady && w.mode === 'story' && w.scale === 1) S.rec = S.recReady;
       S.loaded = true; S.last = null;
     });
   }
@@ -1468,6 +1551,7 @@
     window.removeEventListener('blur', S.onBlur);
     if (S.ownVisibility) document.removeEventListener('visibilitychange', S.onVis);
     if (S.root && S.root.parentNode) S.root.parentNode.removeChild(S.root);
+    recStop(S);
     AU.nextT = 0;
     if (current === S) { lastState = 'closed'; current = null; }
   }
@@ -1540,7 +1624,7 @@
     if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); }
     // Word cards only freeze the fight once it is in play: during the entrance (w.state 'intro') the
     // boss still walks on and settles so the screen is not blank while the first card is read (FUN10).
-    if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { render(S); return; }
+    if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { recStop(S); render(S); return; }
     if (S.loaded && !S.paused && dt > 0) {
       var ax = (S.keys.r ? 1 : 0) - (S.keys.l ? 1 : 0), ay = (S.keys.d ? 1 : 0) - (S.keys.u ? 1 : 0);
       var n = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / n;
@@ -1554,7 +1638,7 @@
         if (audioLive(S)) evs.forEach(function (ev) { if (SFX[ev]) SFX[ev](S); });
       }
       if (S.visualBoss !== w.bossId) { S.visualBoss = w.bossId; loadAll(S); }
-      musicTick(S);
+      if (S.rec) recTick(S); else musicTick(S);
       if (w.state === 'win' && w.stateT >= winHold(w)) {
         render(S);
         finish(S, 'win', result(w));
@@ -2364,6 +2448,7 @@
     audio: { enumerable: true, get: function () { return AU.ctx ? AU.ctx.state : 'none'; } },
     sounds: { enumerable: true, get: function () { return AU.played; } }
   });
+  dbg.debugMusic = function () { var p = current && current.recPlay; return current ? { mode: current.rec ? 'rec' : 'synth', stage: p ? p.stage : -1, at: p ? p.at : null, offset: p ? p.offset : null } : null; };
   dbg.debugBeat = function () { return cw() ? beatInfo(cw()) : null; };
   dbg.debugPress = function (offsetMs) { return cw() ? pressBeat(cw(), offsetMs) : null; };
   dbg.debugCombo = function (n) { if (cw()) setCombo(cw(), n); return cw() ? beatInfo(cw()) : null; };
