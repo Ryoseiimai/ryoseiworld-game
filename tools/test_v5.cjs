@@ -29,7 +29,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(String(a[0]?.src).includes('numberperson')){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(String(a[0]?.src).includes('numberperson')){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -1066,6 +1066,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   }
  }
  result.push('R68: おとなモードとこどもモードで、チュートリアルの説明・ソラの台詞がボタンの名前と同じ PASS');
+ // R70: while a word card is up in battle (under the enemy name, SPEC_V7 4.1), a summon's name and its effect text are drawn below the card's real bottom, not behind it.
+ for(const [id,h] of [['nao',96],['code',124],['whale',124]]){const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const D=r.g.GAME_DATA;
+  r.g.debugStartBattle('crow','r70-'+id);r.tick(300);if(r.els.get('word-card').hidden)r.g.debugLearn('bpm');r.tick(16);
+  const card=r.els.get('word-card');assert(!card.hidden,'card shows in battle');card.offsetHeight=h;const bottom=parseFloat(card.style.top)+h;
+  if(!r.g.summons.includes(id))r.g.summons.push(id);r.g.state.battery=100;r.g.command('cast',id);assert(r.g.battle.cast,id+' cast starts');r.tick(400);r.canvasCalls.length=0;r.tick(16);assert(!card.hidden,'card still up during the cast');
+  const name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===D.summons[id].name).at(-1);assert(name,id+' name drawn');assert(name[3]-30>=bottom,id+' name top '+(name[3]-30)+' is below the card bottom '+bottom);
+  const extra=r.canvasCalls.filter(c=>c[0]==='fillText'&&(/fire/.test(c[1])||c[1]==='HP ほぞん'));if(id!=='nao')assert(extra.length,id+' effect text drawn');assert(extra.every(c=>c[3]-24>=bottom),id+' effect text below the card');}
+ result.push('R70: 戦闘でことばカードが出ている間、召喚の名前と効果の文字がカードの下に出る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
