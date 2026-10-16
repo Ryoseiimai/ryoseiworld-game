@@ -575,7 +575,7 @@ async function browserAdapterChecks() {
   const fs=require('node:fs'),vm=require('node:vm');
   const drawn=[], tones=[], frames=new Map(), sources=[];let fid=0, now=0, fakeFetch=async()=>({ok:false}), decoded={};
   function events(o){o.events={};o.addEventListener=(k,f)=>(o.events[k]||(o.events[k]=[])).push(f);o.removeEventListener=(k,f)=>o.events[k]=(o.events[k]||[]).filter(x=>x!==f);o.fire=(k,extra={})=>{const e={type:k,target:o,preventDefault(){},stopPropagation(){},stopImmediatePropagation(){},...extra};for(const f of o.events[k]||[])f(e);};return o;}
-  function canvasContext(){const c={font:'24px sans-serif',measureText(t){return{width:[...String(t)].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*(parseFloat(this.font.match(/([\d.]+)px/)?.[1])||24)};},fillText(t,x,y){drawn.push({text:t,x,y,font:this.font});},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};},createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};}};return new Proxy(c,{get:(t,k)=>k in t?t[k]:()=>{}});}
+  function canvasContext(){const c={font:'24px sans-serif',measureText(t){return{width:[...String(t)].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*(parseFloat(this.font.match(/([\d.]+)px/)?.[1])||24)};},fillText(t,x,y){drawn.push({text:t,x,y,font:this.font});},beginPath(){this._pts=[];},moveTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},lineTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},fill(){const p=this._pts||[];if(p.length)drawn.push({fill:String(this.fillStyle),top:Math.min(...p.map(q=>q[1])),bottom:Math.max(...p.map(q=>q[1])),left:Math.min(...p.map(q=>q[0])),right:Math.max(...p.map(q=>q[0]))});},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};},createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};}};return new Proxy(c,{get:(t,k)=>k in t?t[k]:()=>{}});}
   class El {
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.className='';this.hidden=false;this.attrs={};events(this);}
     appendChild(c){c.parentNode=this;this.children.push(c);return c;}
@@ -641,6 +641,12 @@ async function browserAdapterChecks() {
   for(let i=0;i<400;i++){tick(1000/60);await ready();tellSamples.push(win.__shooter.bossTell);if(win.__shooter.bullets>bulletsBefore)break;}
   check('FUN-VID3: タメ(発射前の予告)は発射が近づくほど強くなる',tellSamples[0]<0.5&&Math.max(...tellSamples)>0.7,tellSamples);
   win.__shooter.debugWin();await advance(7);check('onWinにcheatedが入る',won&&won.cheated===true&&handle.state==='closed');
+  // R75: the entrance lines sit on a dark plate, so they stay readable over the bright neon city.
+  drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
+  {const l1=drawn.filter(d=>d.text==='フクの ちからで').at(-1),l2=drawn.filter(d=>d.text==='キックボードが うかんだ！').at(-1);
+   const plate=l1&&l2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=l1.y-15&&d.bottom>=l2.y+15&&d.left<=l2.x-180&&d.right>=l2.x+180);
+   check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
+  handle.stop();
   handle=R.Shooter.start({boss:'kateino',platform,options:{proto:{jump:9}}});await ready();await advance(3);
   win.fire('keydown',{code:'KeyX'});tick(1000/60);win.fire('keyup',{code:'KeyX'});await ready();
   const mini=doc.querySelector('.ryw-proto');const bt=win.__shooter.debugBeat();
