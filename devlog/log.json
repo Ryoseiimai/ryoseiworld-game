@@ -1723,5 +1723,20 @@
   ],
   "sha": "2dc1736",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38963092182"
+ },
+ {
+  "at": "2026-10-16T20:49:54.157Z",
+  "branch": "claude/autodev-20261017-0540-R76",
+  "task": "R76 遊んで一番気になる所を1つ直す",
+  "summary": "町や店の左下の「ドラッグで あるく」の案内が、出口の矢印や人を隠していた\n2.5秒ほど歩いたら案内が消えるようにした。前と後のスクショは docs/shots/R76\n確認を足した。ことばカードが出口や敵の名前を隠す件は R71 の決まり待ち",
+  "result": "pass",
+  "shots": [
+   "shots/156/mobile-02-mode-select.jpg",
+   "shots/156/mobile-15-custom-full-run.jpg",
+   "shots/156/mobile-27-chapter-2-play.jpg",
+   "shots/156/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5480f89",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38964408044"
  }
 ]
