@@ -715,6 +715,22 @@ async function browserAdapterChecks() {
   fakeFetch=async()=>({ok:false});
 }
 
+// R72: while a word card stops the fight, a boss line or notice caught mid-fade is held at full strength (not left see-through).
+(() => {
+  const w = world({ boss: 'hikaku' });
+  const alpha = o => Math.max(0, Math.min(1, Math.min((w.t - o.t) * 6, (o.dur - (w.t - o.t)) * 3)));
+  const out = { speaker: 'ヒカクマオウ', text: 'おなじ としで もう しゃちょう', dur: 2.0, t: w.t - 1.85 };
+  const into = { text: 'すうじに あたった', dur: 2.2, t: w.t - 0.05 };
+  w.burst = out; w.toast = into;
+  check('R72: 消えかけの台詞は半透明', alpha(out) < 0.5 && alpha(into) < 0.5, [alpha(out), alpha(into)]);
+  sim.holdTextsForCards(w);
+  check('R72: カードの間は台詞とお知らせが濃いまま', alpha(out) === 1 && alpha(into) === 1, [alpha(out), alpha(into)]);
+  const mid = { text: 'まんなか', dur: 2.6, t: w.t - 1.0 }; w.burst = mid; sim.holdTextsForCards(w);
+  check('R72: 途中の台詞の残り時間は変えない', Math.abs(w.t - mid.t - 1.0) < 1e-9);
+  w.burst = out; w.toast = null; run(w, 0.5);
+  check('R72: カードが消えたら台詞は消えていく', w.burst !== out);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

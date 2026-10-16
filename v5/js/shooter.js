@@ -1022,6 +1022,17 @@
     p.hearts = n;
     if (n <= 0) { if (w.state === 'intro') { w.state = 'play'; w.stateT = 0; } lose(w); }
   }
+  // R72: a word card stops the clock, so a line or notice caught while fading in or out would stay
+  // see-through over the background for as long as the card is up. Hold them at full strength instead;
+  // after the card they fade in or out from there as usual.
+  function holdTextsForCards(w) {
+    [w.burst, w.toast].forEach(function (o) {
+      if (!o) return;
+      var lo = 0.17, hi = o.dur - 0.34; // just inside the 1/6 s fade-in and 1/3 s fade-out
+      if (hi > lo) o.t = w.t - clamp(w.t - o.t, lo, hi);
+    });
+  }
+
   function debugCollect(w) {
     if (w.state !== 'play') return false;
     var kind = w.bossId === 'hikaku' ? 'pace' : w.bossId === 'jibun' ? 'make' : w.bossId === 'zero' ? 'voice' : '';
@@ -1039,7 +1050,7 @@
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect,
-    P_HIT_R: P_HIT_R, squash: squash, squashScale: squashScale
+    P_HIT_R: P_HIT_R, squash: squash, squashScale: squashScale, holdTextsForCards: holdTextsForCards
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
@@ -1624,7 +1635,7 @@
     if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); }
     // Word cards only freeze the fight once it is in play: during the entrance (w.state 'intro') the
     // boss still walks on and settles so the screen is not blank while the first card is read (FUN10).
-    if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { recStop(S); render(S); return; }
+    if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { holdTextsForCards(w); recStop(S); render(S); return; }
     if (S.loaded && !S.paused && dt > 0) {
       var ax = (S.keys.r ? 1 : 0) - (S.keys.l ? 1 : 0), ay = (S.keys.d ? 1 : 0) - (S.keys.u ? 1 : 0);
       var n = Math.max(1, Math.ceil(dt / (1 / 120))), h = dt / n;
