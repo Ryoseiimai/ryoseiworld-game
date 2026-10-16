@@ -1054,6 +1054,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const none=await runtime({musicLedger:null});for(let i=0;i<12;i++)await settle();none.tick(100);assert.equal(none.els.get('music-hint').hidden,false,'the synth also waits for a tap, so the hint shows without a ledger too');
   none.click('start-btn');none.tick(100);assert.equal(none.els.get('music-hint').hidden,true);assert.equal(none.sources.length,0);}
  result.push('R62: タイトル・プロローグ・名前の画面は録音の title、フィールドで town に切り替え、title が無ければ town、最初のタップまで「♪ タップで音楽」 PASS');
+ // R68: the tutorial hint, the goal line and Sora's line name the summon button the way the button reads in each mode.
+ {for(const [mode,label,other] of [['adult','呼び出す','よびだす'],['kids','よびだす','呼び出す']]){const r=await runtime();r.tick();r.click('start-btn');r.button(mode==='adult'?'おとなモード':'こどもモード');r.dialogue();r.els.get('name-input').value='テスト';r.click('naming-confirm');
+   const welcome=r.g.dialogue.lines.map(l=>l[1]).join('');assert(welcome.includes('「'+label+'」'),mode+' welcome: '+welcome);assert(!welcome.includes(other)&&!welcome.includes('{'),mode+' welcome has no other label: '+welcome);
+   r.tick(16);const goal=r.els.get('quest').textContent;assert(goal.includes(label+'で')&&!goal.includes('{'),mode+' goal: '+goal);
+   r.dialogue();assert.equal(r.g.screen,'battle');r.tick(300);const btn=r.els.get('commands').children.find(e=>e.dataset.cmd==='summon').textContent;assert.equal(btn,label,mode+' button');
+   const hint=r.els.get('battle-log').textContent;assert(hint.includes('「'+label+'」')&&!hint.includes(other),mode+' battle hint: '+hint);
+   r.cmd('attack');const nudge=r.els.get('battle-log').textContent;assert(nudge.includes('「'+label+'」')&&!nudge.includes(other),mode+' nudge: '+nudge);
+  }
+ }
+ result.push('R68: おとなモードとこどもモードで、チュートリアルの説明・ソラの台詞がボタンの名前と同じ PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

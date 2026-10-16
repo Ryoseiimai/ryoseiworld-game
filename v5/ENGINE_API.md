@@ -130,6 +130,8 @@ dialogue:{
 エンジンが名前で呼ぶ会話（1章の ch1.js にある。章ごとに変える時だけ同じ名前で書く）:
 `zakoWin`（`{name}` 敵の名前・`{exp}`・`{money}`）・`zakoLeft`（`{n}` 残り）・`zakoDone`・`levelUp`（`{lv}` `{hp}` `{atk}`）・`tutorialEnd`・`defeated`
 
+会話と quests の文に `{yobidasu}` と書くと、今のモードの「呼び出す」ボタンの名前（おとな: 呼び出す・こども: よびだす）に置き換わる。ボタンの名前を文に直接書かない。
+
 ## 4. イベントの手順
 
 イベントは手順の配列。人に話す（`event`）・マスを踏む（`trigger`）・`__v5.debugEvent(手順)` で動く。1つの手順は動詞1つのオブジェクト。
