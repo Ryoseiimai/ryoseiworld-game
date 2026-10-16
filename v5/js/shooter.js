@@ -1263,7 +1263,7 @@
       '.ryw-shooter .rs-panel button.rs-primary{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700}' +
       '.ryw-shooter .rs-panel button:focus-visible{outline:4px solid #fff5d6;outline-offset:3px}' +
       '.ryw-shooter .rs-pause{position:absolute;inset:0;background:#0a1626d9;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff5d6}' +
-      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-cooldown{position:absolute;left:20px;right:20px;top:272px;text-align:center;font-size:24px;color:#fff5d6}' +
+      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}' +
       '.ryw-shooter [hidden]{display:none!important}';
     var st = document.createElement('style');
     st.textContent = css;
@@ -1319,9 +1319,6 @@
     S.wordEl.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
     S.wordEl.addEventListener('click', function (e) { e.stopPropagation(); if (!S.paused) nextWord(S); });
     S.stage.appendChild(S.wordEl);
-    S.cooldownEl = document.createElement('div'); S.cooldownEl.className = 'rs-cooldown';
-    S.cooldownEl.textContent = S.world.weapons.rapid ? word('cooldown', 'れんしゃ') + ' ' + cooldownText() : '';
-    S.stage.appendChild(S.cooldownEl);
     showWord(S);
 
     S.onResize = function () { resize(S); };
@@ -1540,7 +1537,6 @@
     S.raf = requestAnimationFrame(function (n) { frame(S, n); });
     var dt = clockDelta(S, now);
     var w = S.world;
-    S.cooldownEl.hidden = !S.world.weapons.rapid || (w.state !== 'intro');
     if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); }
     // Word cards only freeze the fight once it is in play: during the entrance (w.state 'intro') the
     // boss still walks on and settles so the screen is not blank while the first card is read (FUN10).
@@ -2261,6 +2257,13 @@
       ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillStyle = '#ffe9a8';
       lines.forEach(function (ln, i) { ctx.fillText(ln, W / 2, y + 9 + i * 30); });
       ctx.globalAlpha = 1;
+      y += hh + 6;
+    }
+    // R56: the rapid chip's wait time shows during the entrance, in the same flow as the lines above,
+    // so a word card or a two-line boss line pushes it down instead of drawing over it.
+    if (w.state === 'intro' && w.weapons.rapid) {
+      ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownText(), W / 2, cooldownNoteY(y), '#fff5d6');
     }
     if (w.state === 'play' && w.stateT < HINT_T) {
       var ha = clamp(Math.min(w.stateT * 4, (HINT_T - w.stateT) * 2), 0, 1);
@@ -2271,6 +2274,9 @@
       ctx.globalAlpha = 1;
     }
   }
+
+  // Center y of the cooldown note: just under the stacked lines, but never down on the intro line at y 420.
+  function cooldownNoteY(y) { return Math.min(y + 18, 384); }
 
   function drawTexts(ctx, S, w) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
