@@ -6,6 +6,7 @@
 
 ## つぎにやること
 
+- [ ] R65 | スマホ幅でボス戦の画面がはみ出す所を直す | 390x844・isMobile・hasTouch で #stage がページ幅を540に広げない。html・body か外側で横のはみ出しを切り、拡大率は visualViewport か documentElement.clientWidth で出す。町とボス戦の両方で画面が収まり、ビートのボタンが画面の中に見える。直す前と後のスクショで確かめる
 - [x] R62 | タイトル画面に専用の曲（title）を付ける | 台帳に title があれば、タイトルとプロローグの間は title を鳴らし、フィールドに出たら town に切り替える。無ければ今のまま town。タイトルのどこを押しても鳴り始め、鳴らせない間は隅に小さく「♪ タップで音楽」と出す。SPEC_V9_MUSIC.md の key の一覧に title を足す。テストで確かめる
 - [!] R63 | SPEC_V9_MUSIC.md の key の一覧に title を足す（ルートの .md なので開発係は変えない） | 司令塔が1の key の一覧に「title（タイトル・プロローグ・名前の画面。無ければ town）」を足し、この行を [x] にする
 - [x] R57 | 町と戦闘の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の1と3） | v5/data/music.json があれば town・battle・boss_turn・victory を録音でループし（victory は1回）、切り替えは300msで重ねる。台帳が無ければ今の合成のまま。偽の AudioContext のテストで確かめる
