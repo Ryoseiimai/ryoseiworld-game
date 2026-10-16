@@ -1119,6 +1119,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
  result.push('R80: 出口の矢印や敵・人が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
+ // R81: the title captions break only at spaces, so 「ことばノートの」 is not cut into 「ことばノー」「トの」.
+ {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
+  const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
+ result.push('R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
