@@ -10,7 +10,7 @@
 - [x] R58 | ボス戦の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の2） | ストーリーモードで s0〜s3 がそろえば拍の位置から頭出しし、テンポの段で重ねて切り替え、一時停止で止める。それ以外は合成。4の1〜4のテストが通る
 - [x] R59 | 試験用のクリック音で拍のずれを測る（SPEC_V9_MUSIC の1と4）（前半: Chromium で測り docs/MUSIC_MEASURE.md に書いた） | tools/make_click_track の道具で拍ごとの音を作り、Chromium と WebKit で読んだ長さと拍のずれを測って SPEC_V9_MUSIC.md の末尾に書く
 - [!] R61 | WebKit で拍のずれを測り、結果を SPEC_V9_MUSIC.md に写す | 司令塔が WebKit の入った所で tools/measure_click_track.cjs を流し、docs/MUSIC_MEASURE.md と合わせて SPEC_V9_MUSIC.md の末尾に書き、この行を [x] にする
-- [ ] R60 | Playables の束に曲の台帳と曲を入れる | tools/build_playables_v5.sh が v5/data/music.json と v5/assets/music/ の中身も束にコピーする。束の中で data/music.json が 404 にならない
+- [x] R60 | Playables の束に曲の台帳と曲を入れる | tools/build_playables_v5.sh が v5/data/music.json と v5/assets/music/ の中身も束にコピーする。束の中で data/music.json が 404 にならない
 - [x] R35 | カテイノジジョウ戦の文字の重なりと吹き出しの切れを直す | ボス戦の上の台詞とお知らせが縦に重ならない。左へ流れる吹き出しが画面の左端で途中から切れず、左端に着いたら はじけて消える。540x960 のスクショとテストで確かめる
 - [x] R34 | イベントの「待つ」の間にメニューが開く件を直す | wait の手順の間は、Esc やメニューのボタンでメニューが開かない。待ち時間が明けた後の会話や選択が、メニューと重ならない。テストで確かめる
 - [x] R1 | 戦闘の主人公を新しい絵にする | v5/assets/ryosei の中身が ryosei_v3（4x4・同じ並び）に入れ替わり、前の絵は v5/assets/ryosei_v2 に残る。戦闘画面のスクショに新しい主人公が出る

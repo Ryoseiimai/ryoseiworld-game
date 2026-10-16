@@ -29,6 +29,15 @@ for (const f of allFiles) {
 assert(allFiles.includes('index.html'));
 assert(allFiles.includes('data/ch1.js') && allFiles.includes('data/ch4.js') && allFiles.includes('data/words.js'));
 assert(allFiles.includes('js/shooter.js') && allFiles.includes('js/proto.js'));
+// SPEC_V9_MUSIC: the ledger ships (no 404 for data/music.json) and every track it lists is in the bundle.
+assert(allFiles.includes('data/music.json'), 'data/music.json is in the bundle');
+const shippedLedger = JSON.parse(fs.readFileSync(path.join(bundle, 'data', 'music.json'), 'utf8'));
+assert.deepEqual(shippedLedger, JSON.parse(fs.readFileSync(path.join(root, 'v5', 'data', 'music.json'), 'utf8')));
+for (const [key, t] of Object.entries(shippedLedger.tracks || {})) assert(allFiles.includes(t.file), 'music ' + key + ' ships ' + t.file);
+const musicDir = path.join(root, 'v5', 'assets', 'music');
+const musicFiles = (fs.existsSync(musicDir) ? fs.readdirSync(musicDir) : []).filter(f => /^[-a-zA-Z0-9_]+\.(mp3|m4a|aac)$/.test(f) && fs.lstatSync(path.join(musicDir, f)).isFile());
+for (const f of musicFiles) assert(allFiles.includes('assets/music/' + f), 'music file ships: ' + f);
+result.push('build: data/music.json and every v5/assets/music file are in the bundle PASS');
 result.push(`build: ${allFiles.length} files written to dist/playables_v5 PASS`);
 
 // --- The report line (SPEC_V5_ENGINE.md 7: total size + largest file) ---
