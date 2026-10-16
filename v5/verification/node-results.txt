@@ -60,3 +60,4 @@ Modes: adult default at title, adult/kids command and menu labels, note one/mean
 FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS
 FUN13: リズムチャレンジで きろく こうしん時に 演出、そうでない時に つぎの もくひょうを 出す PASS
 FUN21: しょうかんの こうかが とどいた しゅんかんに がめんが フラッシュする PASS
+SPEC_V9_MUSIC 3: 台帳ありで町・戦闘を録音でループし300msで重ねて切り替え、victory は1回、台帳なし・読めない・小節が合わない時は合成 PASS

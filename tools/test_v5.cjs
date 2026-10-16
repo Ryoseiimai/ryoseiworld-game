@@ -23,8 +23,8 @@ function pngPixels(file){
  decoded.set(file,{data});return {data};
 }
 
-async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,search='',capacitor=null}={}) {
-  const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
+async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,search='',capacitor=null,musicLedger,musicDurations={}}={}) {
+  const sources=[];const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
@@ -56,6 +56,9 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const storage={getItem(k){if(brokenStorage)throw Error('storage unavailable');return saved.get(k)||null},setItem(k,v){if(brokenStorage)throw Error('storage unavailable');saved.set(k,v)}};
   class Image {set src(s){this._src=s;this.complete=true;if(missingFiles.some(f=>s.endsWith('/'+f))){queueMicrotask(()=>this.onerror?.());return;}let bytes;try{bytes=fs.readFileSync(root+'/'+s)}catch{}this.naturalWidth=bytes?bytes.readUInt32BE(16):200;this.naturalHeight=bytes?bytes.readUInt32BE(20):200;queueMicrotask(()=>this.onload?.())}get src(){return this._src}}
   const sandbox={Math:Object.create(Math),innerWidth:390,innerHeight:844,document,Image,URLSearchParams,location:{search:'?seed='+seed+search},localStorage:storage,performance:{now:()=>now},requestAnimationFrame:f=>{const id=++rafId;rafs.push({id,f});return id},cancelAnimationFrame:id=>{rafs=rafs.filter(r=>r.id!==id)},console,queueMicrotask,fetch:async url=>{
+    // SPEC_V9_MUSIC: the ledger defaults to the shipped data/music.json; a test passes its own ledger (null = missing) and fake decoded lengths.
+    if(url==='data/music.json'){requests.push(url);if(musicLedger===undefined)return {ok:true,json:async()=>JSON.parse(fs.readFileSync(root+'/'+url,'utf8'))};return musicLedger?{ok:true,json:async()=>musicLedger}:{ok:false};}
+    if(url.startsWith('assets/music/')){requests.push(url);return {ok:url in musicDurations,arrayBuffer:async()=>({url})};}
     assert(url.startsWith('assets/')); requests.push(url);
     let path=root+'/'+url;
     if(missing)return {ok:true,json:async()=>[]};
@@ -63,12 +66,14 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   }};
   class AudioContext {
     constructor(){this.currentTime=0;this.destination={};this.gains=[];audio.push(this)}
-    createGain(){const gain={value:1,setValueAtTime(v){this.value=v},exponentialRampToValueAtTime(){}};this.gains.push(gain);return {gain,connect(){}}}
+    decodeAudioData(bytes,ok,fail){const d=musicDurations[bytes.url];if(!(d>0)){fail?.(Error('decode'));return Promise.reject(Error('decode'));}const b={duration:d,url:bytes.url};ok?.(b);return Promise.resolve(b);}
+    createBufferSource(){const s={loop:false,connect(){},start(t,offset,dur){s.started={t,offset,dur}},stop(t){s.stopped=t}};sources.push(s);return s;}
+    createGain(){const gain={value:1,setValueAtTime(v){this.value=v},exponentialRampToValueAtTime(){},linearRampToValueAtTime(v,t){this.ramp=[v,t]}};this.gains.push(gain);return {gain,connect(){}}}
     createOscillator(){calls.push('tone');return {frequency:{setValueAtTime(){},linearRampToValueAtTime(){}},connect(){},start(){},stop(){}}}
     suspend(){this.state='suspended';return Promise.resolve()}
     resume(){this.state='running';return Promise.resolve()}
   }
-  sandbox.window={Capacitor:capacitor,innerWidth:390,innerHeight:844,AudioContext,addEventListener(n,f){windowListeners[n]=f}};
+  sandbox.window={Capacitor:capacitor,innerWidth:390,innerHeight:844,AudioContext,OfflineAudioContext:class{decodeAudioData(...a){return AudioContext.prototype.decodeAudioData.apply(this,a)}},addEventListener(n,f){windowListeners[n]=f}};
   if(sdk) sandbox.window.ytgame={
     game:{
       firstFrameReady(){calls.push('first')},
@@ -99,7 +104,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,host,listeners,resize,
+  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -211,13 +216,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  const f=await runtime({missing:true});f.tick();f.start();f.tick(1000);assert.equal(f.g.screen,'battle');assert.equal(f.g.assets.hero_walk,0);f.g.debugWin();f.tick(2100);f.dialogue();assert.equal(f.g.screen,'field');
  await f.g.reloadAssets();assert.equal(f.g.assets.hero_walk,0);f.setMissingArt(false);await f.g.reloadAssets();assert.equal(f.g.assets.hero_walk,16);assert.equal(f.g.assets.interior,16);assert.equal(f.g.screen,'field');result.push('All art absent: fallback render PASS; late material arrival swaps in real PNGs without restarting PASS');
  // F29: one missing interior PNG is retried three times, then left to the stand-in.
- const gap=await runtime({missingFiles:['interior_r0_c0.png']});for(let i=0;i<8;i++){gap.tick(16000);await settle();await settle();}const interiorFetches=gap.requests.filter(u=>u==='assets/interior/interior_frames.json').length;assert.equal(interiorFetches,4,'1 load + 3 retries');assert.equal(gap.g.assets.interior,15);assert.equal(gap.requests.filter(u=>u==='assets/props/props_frames.json').length,1);gap.g.debugWarp('room',5,9);gap.tick(100);assert.equal(gap.g.screen,'field');
+ const gap=await runtime({missingFiles:['interior_r0_c0.png']});for(let i=0;i<8;i++){gap.tick(16000);for(let i=0;i<12;i++)await settle();}const interiorFetches=gap.requests.filter(u=>u==='assets/interior/interior_frames.json').length;assert.equal(interiorFetches,4,'1 load + 3 retries');assert.equal(gap.g.assets.interior,15);assert.equal(gap.requests.filter(u=>u==='assets/props/props_frames.json').length,1);gap.g.debugWarp('room',5,9);gap.tick(100);assert.equal(gap.g.screen,'field');
  result.push('Missing interior frame: 1 load + 3 retries then stops; other art untouched PASS');
  const s=await runtime({sdk:true});s.tick();assert.deepEqual(s.calls,['load','first','ready']);s.start();await settle();assert(s.saves.length);assert(!('aiName' in s.saves[0]));assert.equal(s.saves[0].version,5);assert(!s.listeners.visibilitychange);assert.equal(s.audio.length,0);
  s.host.enabled=true;s.host.audio(true);s.cmd('summon');s.button('ナオスライム');s.tick(100);assert(s.audio.length>0);s.host.enabled=false;s.host.audio(false);assert.equal(s.audio[0].state,'suspended');s.host.pause();assert(s.g.paused);const battery=s.g.battery;s.tick(2000);s.cmd('attack');assert.equal(s.g.battery,battery);s.host.resume();s.tick(2000);assert(!s.g.paused);
  result.push('SDK load/save allowlist, local-only AI name, readiness, host pause and audio off/on PASS');
  // F20: firstFrameReady fires while the loading screen is up and loadData is still pending; gameReady waits for the title.
- const early=await runtime({sdk:true,holdLoad:true});assert.deepEqual(early.calls,['load']);early.tick();assert.deepEqual(early.calls,['load','first']);assert.equal(early.els.get('loading').hidden,false);assert(!early.hasFrame());early.resolveLoad('');await settle();await settle();early.tick();early.tick(100);assert.deepEqual(early.calls,['load','first','ready']);
+ const early=await runtime({sdk:true,holdLoad:true});assert.deepEqual(early.calls,['load']);early.tick();assert.deepEqual(early.calls,['load','first']);assert.equal(early.els.get('loading').hidden,false);assert(!early.hasFrame());early.resolveLoad('');for(let i=0;i<12;i++)await settle();early.tick();early.tick(100);assert.deepEqual(early.calls,['load','first','ready']);
  result.push('firstFrameReady before loadData/art completes, gameReady once at the title PASS');
  const broken=await runtime({brokenStorage:true});broken.tick();broken.start();await settle();assert.equal(await broken.g.save(false),'unavailable');
  result.push('Slow SDK load and disabled localStorage handled without uncaught error PASS');
@@ -993,6 +998,32 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.cmd('summon');r.button('ナオスライム');r.tick(900);
   assert(r.g.fx.flashUntil>0,'the heal effect lands with a screen flash, not just a sound');assert.notEqual(r.g.fx.flash,'#fff','the heal flash uses its own colour');}
  result.push('FUN21: しょうかんの こうかが とどいた しゅんかんに がめんが フラッシュする PASS');
+ // SPEC_V9_MUSIC 3: recorded town/battle/boss/victory tracks loop from data/music.json; missing, broken or invalid entries keep the synth.
+ {const T=(file,extra={})=>({file:'assets/music/'+file,bpm:120,loopStart:2,loopEnd:18,gain:.8,once:false,...extra});
+  const ledger={version:1,tracks:{town:T('town.mp3'),battle:T('battle.mp3'),boss_turn:T('boss.mp3'),victory:T('victory.mp3',{once:true,loopEnd:10})}};
+  const durations={'assets/music/town.mp3':20,'assets/music/battle.mp3':20,'assets/music/boss.mp3':20,'assets/music/victory.mp3':12};
+  const fieldTones=async r=>{r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'field');r.tick(500);const before=r.calls.length;r.tick(3000);return r.calls.length-before;};
+  const r=await runtime({musicLedger:ledger,musicDurations:durations});for(let i=0;i<12;i++)await settle();
+  assert.deepEqual([...r.g.debugMusic().loaded].sort(),['battle','boss_turn','town','victory'],'all four recorded tracks decode before the first tap');
+  assert.equal(r.g.debugMusic().key,'','no AudioContext before the first tap, so nothing plays yet');
+  assert.equal(await fieldTones(r),0,'with recordings the synth melody stays silent in town');
+  assert.equal(r.g.debugMusic().key,'town');const town=r.sources.find(s=>s.buffer.url.endsWith('town.mp3')&&!s.stopped);
+  assert(town&&town.loop,'town loops');assert.equal(town.loopStart,2);assert.equal(town.loopEnd,18);assert.equal(town.started.offset,2,'the loop starts on beat 0');
+  r.g.debugStartBattle('vending','rec-battle');r.tick(100);assert.equal(r.g.debugMusic().key,'battle');
+  const ctx=r.audio[0];assert(Math.abs(town.stopped-ctx.currentTime-.32)<1e-6,'the old track stops after the 300ms fade');
+  const battle=r.sources[r.sources.length-1];assert(battle.buffer.url.endsWith('battle.mp3')&&battle.loop&&!battle.stopped);
+  const g=ctx.gains.find(x=>x.ramp&&x.ramp[0]===.8);assert(g&&Math.abs(g.ramp[1]-ctx.currentTime-.3)<1e-6,'the new track fades in over 300ms to the ledger gain');
+  r.g.debugEvent([{chapterClear:true}]);r.tick(100);assert.equal(r.g.screen,'ending');assert.equal(r.g.debugMusic().key,'victory');
+  const vic=r.sources[r.sources.length-1];assert.equal(vic.loop,false,'victory plays once');assert.equal(vic.started.offset,2);assert.equal(vic.started.dur,8);
+  const n=r.calls.length;r.tick(6000);assert.equal(r.calls.length,n,'the synth does not take over after the recorded victory ends');
+  // No ledger, a broken file, and a ledger whose loop is not a whole number of bars: the synth plays as before.
+  const none=await runtime({musicLedger:null});for(let i=0;i<12;i++)await settle();assert(await fieldTones(none)>0,'without a ledger the synth plays');assert.equal(none.sources.length,0);
+  const shipped=await runtime();for(let i=0;i<12;i++)await settle();assert(await fieldTones(shipped)>0,'the shipped empty ledger keeps the synth');assert.equal(shipped.sources.length,0);
+  const broken=await runtime({musicLedger:{version:1,tracks:{town:T('town.mp3'),battle:T('nope.mp3')}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
+  assert.equal(await fieldTones(broken),0,'town still uses its recording');broken.g.debugStartBattle('vending','rec-broken');broken.tick(100);assert.equal(broken.g.debugMusic().key,'','a missing battle file falls back to the synth');
+  const odd=await runtime({musicLedger:{version:1,tracks:{town:T('town.mp3',{loopEnd:17})}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
+  assert(await fieldTones(odd)>0,'a loop that is not whole 4/4 bars is rejected');assert.equal(odd.g.debugMusic().loaded.length,0);}
+ result.push('SPEC_V9_MUSIC 3: 台帳ありで町・戦闘を録音でループし300msで重ねて切り替え、victory は1回、台帳なし・読めない・小節が合わない時は合成 PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
