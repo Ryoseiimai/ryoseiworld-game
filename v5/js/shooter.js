@@ -2261,9 +2261,9 @@
     }
     // R56: the rapid chip's wait time shows during the entrance, in the same flow as the lines above,
     // so a word card or a two-line boss line pushes it down instead of drawing over it.
-    if (w.state === 'intro' && w.weapons.rapid) {
+    if (w.state === 'intro' && w.weapons.rapid && cooldownNoteY(y) != null) {
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownText(), W / 2, cooldownNoteY(y), '#fff5d6');
+      outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownText(), W / 2, y + 18, '#fff5d6');
     }
     if (w.state === 'play' && w.stateT < HINT_T) {
       var ha = clamp(Math.min(w.stateT * 4, (HINT_T - w.stateT) * 2), 0, 1);
@@ -2275,8 +2275,9 @@
     }
   }
 
-  // Center y of the cooldown note: just under the stacked lines, but never down on the intro line at y 420.
-  function cooldownNoteY(y) { return Math.min(y + 18, 384); }
+  // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
+  // line at y 420 there is no free row, so the note is left out (the rapid chip's message already showed it).
+  function cooldownNoteY(y) { return y + 18 <= 372 ? y + 18 : null; }
 
   function drawTexts(ctx, S, w) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
