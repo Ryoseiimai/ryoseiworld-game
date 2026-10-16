@@ -217,10 +217,13 @@ async function runViewport(browser, url, vp, errors, shots) {
               const p = pn.getBoundingClientRect(), r = back ? back.getBoundingClientRect() : null;
               // R66: a long list scrolls inside #modal-copy, and もどる stays inside the panel and the screen without scrolling.
               return { top: pn.scrollTop + cp.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 || cp.scrollHeight > cp.clientHeight + 4,
-                back: r && r.top >= p.top - 1 && r.bottom <= p.bottom + 1 && r.top >= -1 && r.bottom <= innerHeight + 1 }; });
+                back: r && r.top >= p.top - 1 && r.bottom <= p.bottom + 1 && r.top >= -1 && r.bottom <= innerHeight + 1,
+                // R74: a scrolling list shows whole lines only, so the last line above the dashed line is not cut in half.
+                cut: (() => { const lh = parseFloat(getComputedStyle(cp).lineHeight), ch = cp.clientHeight; if (!(lh > 0) || cp.scrollHeight <= ch + 4) return 0; const r = ch % lh; return Math.min(r, lh - r) > 1 ? Math.round(r) : 0; })() }; });
             await shot('menu-bonds');
             if (!m.over) scenes.push({ name: 'menu-bonds-note', skipped: 'きずな list fits without scrolling, so the top check proves little' });
             if (!m.back) errors.push({ kind: 'layout', viewport: vp.name, message: tag('きずな menu: もどる is hidden below the list') });
+            if (m.cut) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the last visible line is cut ${m.cut}px into the line`) });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
             await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる'); b && b.click(); } });
