@@ -1075,6 +1075,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===D.summons[id].name).at(-1);assert(name,id+' name drawn');assert(name[3]-30>=bottom,id+' name top '+(name[3]-30)+' is below the card bottom '+bottom);
   const extra=r.canvasCalls.filter(c=>c[0]==='fillText'&&(/fire/.test(c[1])||c[1]==='HP ほぞん'));if(id!=='nao')assert(extra.length,id+' effect text drawn');assert(extra.every(c=>c[3]-24>=bottom),id+' effect text below the card');}
  result.push('R70: 戦闘でことばカードが出ている間、召喚の名前と効果の文字がカードの下に出る PASS');
+ // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
+  const plated=sign=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1);assert(txt,sign+' is drawn');
+   assert(r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=txt[2]-36&&c[1]+c[3]>=txt[2]+36&&c[2]<=txt[3]-24&&c[2]+c[4]>=txt[3]+6),sign+' has a dark plate behind all of its letters');};
+  plated('うえへ');r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);plated('したへ');
+  r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1);
+  assert(park,'the park board sign is drawn');assert(!r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=park[2]&&c[1]+c[3]>=park[2]&&c[2]<=park[3]&&c[2]+c[4]>=park[3]),'the park board has no plate');}
+ result.push('R73: ノイズのとうの「うえへ」は暗い下じきの上に出る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
