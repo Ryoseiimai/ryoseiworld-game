@@ -1107,6 +1107,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/font-size:24px/.test(cap),'caption letters stay 24px');const m=cap.match(/margin:0 -(\d+)px/);const left=70-(m?Number(m[1]):0);assert(left>=16,'the band stays inside the 540 screen');
   assert(/id="title-caption" class="caption"/.test(html)&&/id="title-hint" class="caption"/.test(html),'both lines use the band');}
  result.push('R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS');
+ // R79: the title moon sat on 「A LITTLE LIGHT」 (top 110px) on the right; it now hangs in the top left, clear of that line and of 「♪ タップで音楽」 (top right).
+ {const m=html.match(/function drawTitle\(\)\{[^]*?ellipse\((\d+),(\d+),(\d+),(\d+),'#f6dda2'\)/);assert(m,'the title draws a moon');const [x,y,rx,ry]=m.slice(1).map(Number);
+  const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
+  assert(y+ry<=top-8,'the moon ends above the English line');assert(x+rx<540/2-60,'the moon stays on the left, away from the music hint');assert(x-rx>=8&&y-ry>=8,'the moon stays on screen');}
+ result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
