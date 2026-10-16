@@ -209,9 +209,14 @@ async function runViewport(browser, url, vp, errors, shots) {
           const opened = await page.evaluate(() => { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'きずな'); if (!b) return false; b.click(); return true; });
           await sleep(300);
           if (opened) {
-            const m = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'); return { top: pn.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 }; });
+            const m = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'), cp = document.getElementById('modal-copy'), back = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる');
+              const p = pn.getBoundingClientRect(), r = back ? back.getBoundingClientRect() : null;
+              // R66: a long list scrolls inside #modal-copy, and もどる stays inside the panel and the screen without scrolling.
+              return { top: pn.scrollTop + cp.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 || cp.scrollHeight > cp.clientHeight + 4,
+                back: r && r.top >= p.top - 1 && r.bottom <= p.bottom + 1 && r.top >= -1 && r.bottom <= innerHeight + 1 }; });
             await shot('menu-bonds');
             if (!m.over) scenes.push({ name: 'menu-bonds-note', skipped: 'きずな list fits without scrolling, so the top check proves little' });
+            if (!m.back) errors.push({ kind: 'layout', viewport: vp.name, message: tag('きずな menu: もどる is hidden below the list') });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
             await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる'); b && b.click(); } });
