@@ -1588,5 +1588,20 @@
   ],
   "sha": "acb48b4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38907403723"
+ },
+ {
+  "at": "2026-10-16T14:52:52.706Z",
+  "branch": "claude/autodev-20261016-2322-R66",
+  "task": "R66 遊んで一番気になる所を1つ直す",
+  "summary": "きずなの一覧が長い時、もどるボタンが一覧の下に隠れて見えなかったのを直した\n一覧の本文だけがスクロールし、続きがある時は下に点線を出す。ボタンはいつも見える\nスモークに、もどるが画面に見えるかの確認を足した。前と後のスクショは docs/shots/R66",
+  "result": "pass",
+  "shots": [
+   "shots/146/mobile-02-mode-select.jpg",
+   "shots/146/mobile-15-custom-full-run.jpg",
+   "shots/146/mobile-27-chapter-2-play.jpg",
+   "shots/146/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "744193f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38918608523"
  }
 ]
