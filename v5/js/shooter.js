@@ -1263,7 +1263,7 @@
       '.ryw-shooter .rs-panel button.rs-primary{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700}' +
       '.ryw-shooter .rs-panel button:focus-visible{outline:4px solid #fff5d6;outline-offset:3px}' +
       '.ryw-shooter .rs-pause{position:absolute;inset:0;background:#0a1626d9;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff5d6}' +
-      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233af5;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-cooldown{position:absolute;left:20px;right:20px;top:272px;text-align:center;font-size:24px;color:#fff5d6}' +
+      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-cooldown{position:absolute;left:20px;right:20px;top:272px;text-align:center;font-size:24px;color:#fff5d6}' +
       '.ryw-shooter [hidden]{display:none!important}';
     var st = document.createElement('style');
     st.textContent = css;
@@ -1380,6 +1380,7 @@
     title.textContent = '● ' + w.word + '　' + w.speaker; copy.textContent = w.sora;
     S.wordEl.appendChild(title); S.wordEl.appendChild(copy);
   }
+  function wordCardH(S) { return S.wordEl && !S.wordEl.hidden && S.wordCards.length && S.wordEl.offsetHeight ? S.wordEl.offsetHeight + 8 : 0; }
   function nextWord(S) { S.wordCards.shift(); S.wordTime = 0; showWord(S); }
 
   function hookPlatform(S) {
@@ -2243,8 +2244,9 @@
   }
 
   // Lines, short notices and the move hint. Drawn under the hero and the bullets (see render).
+  // While a word card is up it sits at the top of the field, so the lines and notices start under it.
   function drawFieldTexts(ctx, S, w) {
-    var y = PLAY_T + 8;
+    var y = PLAY_T + 8 + wordCardH(S);
     if (w.burst) {
       var bt = w.t - w.burst.t, a = Math.min(1, bt * 6, (w.burst.dur - bt) * 3);
       y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, clamp(a, 0, 1)) + 6;

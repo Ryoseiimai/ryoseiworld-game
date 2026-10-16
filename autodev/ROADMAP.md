@@ -58,6 +58,7 @@
 - [x] R31 | Playables 用の書き出し | tools/build_playables_v5.sh で dist/playables_v5/ に書き出し、合計と一番大きいファイルの大きさを表示する（SPEC_V5_ENGINE.md の7）。dist/ は commit しない
 - [x] R32 | 全章の通し確認 | Playwright（390x844）で タイトルから1〜4章、ジブン、ゼロ、エンディング、タイトルまで通る。コンソールエラー0。1280x720 と 800x800 でも崩れない。この流れを tools/smoke_v5.cjs に足す
 - [!] R33 | v5 を正式版に入れ替える（要GO） | 今井さんが REQUESTS.md に GO と書いたら、開発係は入れ替えの準備（v5 側の仕上げと docs/GOLIVE.md の手順）だけをする。本番のファイルは司令塔が入れ替え、今の rpg.html は rpg_v4.html として残す
+- [ ] R53 | 遊んで一番気になる所を1つ直す | tools/smoke_v5.cjs で全章を通し、スクショを確認役に見せて気になる所を挙げさせ、一番大きい1つを直す。直した所の前と後のスクショがある
 
 ## くりかえし
 
