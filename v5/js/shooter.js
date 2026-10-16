@@ -2246,7 +2246,9 @@
   // Lines, short notices and the move hint. Drawn under the hero and the bullets (see render).
   // While a word card is up it sits at the top of the field, so the lines and notices start under it.
   function drawFieldTexts(ctx, S, w) {
-    var y = PLAY_T + 8 + wordCardH(S);
+    // Slide toward the new start instead of jumping when a card appears or goes away.
+    var off = wordCardH(S); S.textOff = S.textOff == null ? off : Math.abs(off - S.textOff) < 1 ? off : S.textOff + (off - S.textOff) * 0.2;
+    var y = PLAY_T + 8 + S.textOff;
     if (w.burst) {
       var bt = w.t - w.burst.t, a = Math.min(1, bt * 6, (w.burst.dur - bt) * 3);
       y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, clamp(a, 0, 1)) + 6;
