@@ -1296,7 +1296,7 @@
     if (!S.protoRect) return;
     var box = S.stage.getBoundingClientRect(), scale = S.scale;
     Object.assign(S.protoRect, { x: box.left, y: box.top + (PLAY_B - 470) * scale, width: W * scale, height: H * scale });
-    if (S.protoHost) S.protoHost.style.clipPath = 'inset(' + S.protoRect.y + 'px ' + Math.max(0, window.innerWidth - box.right) + 'px ' + Math.max(0, window.innerHeight - (box.top + PLAY_B * scale)) + 'px ' + box.left + 'px)';
+    if (S.protoHost) S.protoHost.style.clipPath = 'inset(' + S.protoRect.y + 'px ' + Math.max(0, ((document.documentElement || {}).clientWidth || window.innerWidth) - box.right) + 'px ' + Math.max(0, ((document.documentElement || {}).clientHeight || window.innerHeight) - (box.top + PLAY_B * scale)) + 'px ' + box.left + 'px)';
   }
   function clearInput(S) {
     S.keys = {}; S.drag = null; S.dragDx = S.dragDy = 0;
@@ -1500,7 +1500,7 @@
   }
 
   function resize(S) {
-    var iw = window.innerWidth || 540, ih = window.innerHeight || 960;
+    var de = document.documentElement || {}, iw = de.clientWidth || window.innerWidth || 540, ih = de.clientHeight || window.innerHeight || 960;
     var s = Math.min(iw / W, ih / H);
     S.scale = s;
     S.stage.style.transform = 'translate(' + ((iw - W * s) / 2) + 'px,' + ((ih - H * s) / 2) + 'px) scale(' + s + ')';

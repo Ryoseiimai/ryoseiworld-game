@@ -23,7 +23,8 @@ const OUT = path.resolve(arg('out', process.env.SMOKE_OUT || path.join(require('
 const EXTERNAL_URL = arg('url', '');
 const FORMAT = arg('format', 'png') === 'jpeg' ? 'jpeg' : 'png'; // CI uses jpeg to keep the repo small
 const VIEWPORTS = [
-  { name: 'mobile', width: 390, height: 844 },
+  // isMobile/hasTouch like a real phone: there, a 540px-wide box can widen the page past the screen (R65).
+  { name: 'mobile', width: 390, height: 844, isMobile: true, hasTouch: true },
   { name: 'desktop', width: 1280, height: 720 },
   { name: 'square', width: 800, height: 800 },
 ];
@@ -72,7 +73,7 @@ async function launch(chromium) {
 }
 
 async function runViewport(browser, url, vp, errors, shots) {
-  const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 1 });
+  const context = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: 1, isMobile: !!vp.isMobile, hasTouch: !!vp.hasTouch });
   // v5 shares the ryoseiimai.github.io origin with rpg.html and other apps, so it may only write its own
   // save keys and must never clear storage. Violations are collected and reported as errors.
   // (Patched on Storage.prototype: defineProperty on the storage object itself would store a key named "setItem".)
@@ -234,7 +235,15 @@ async function runViewport(browser, url, vp, errors, shots) {
         return Array.isArray(window.__v5.smokeScenes) && window.__v5.smokeScenes.some(s => s && s.name === 'full-run') ? all.filter(b => !skipFull.has(b)) : all;
       });
       for (const b of bosses.slice(0, MAX_BOSSES)) {
-        try { await call('debugStartBoss', [b]); await sleep(800); await shot('boss-' + b); await page.waitForTimeout(1500); await shot('boss-' + b + '-later'); }
+        try {
+          await call('debugStartBoss', [b]); await sleep(800); await shot('boss-' + b);
+          // R65: the page must not grow wider than the screen, and the visible beat button must stay on screen.
+          const fit = await page.evaluate(() => ({ iw: innerWidth, sw: document.documentElement.scrollWidth,
+            beat: [...document.querySelectorAll('.rs-beat')].filter(e => e.offsetParent).map(e => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.right, r.bottom]; }) }));
+          if (fit.iw > vp.width || fit.sw > vp.width) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`boss ${b}: page is ${Math.max(fit.iw, fit.sw)}px wide on a ${vp.width}px screen`) });
+          for (const r of fit.beat) if (r[0] < -1 || r[1] < -1 || r[2] > vp.width + 1 || r[3] > vp.height + 1) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`boss ${b}: beat button ${r.map(Math.round).join(',')} is off the ${vp.width}x${vp.height} screen`) });
+          await page.waitForTimeout(1500); await shot('boss-' + b + '-later');
+        }
         catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`boss ${b}: ${e.message}`) }); }
       }
     } else skip('bosses', 'no __v5.debugStartBoss');
