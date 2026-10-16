@@ -1783,5 +1783,20 @@
   ],
   "sha": "bba036c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38978256035"
+ },
+ {
+  "at": "2026-10-16T23:39:48.533Z",
+  "branch": "claude/autodev-20261017-0821-R80",
+  "task": "R80 遊んで一番気になる所を1つ直す",
+  "summary": "左下の「ドラッグで あるく」の箱が、でんきやの出口の矢印を隠していた\n出口の矢印・敵・人・建物の入口が箱の後ろに来たら、箱を薄くした。前と後のスクショは docs/shots/R80\n確認を足した。ボス戦の台詞が出始めの間、ネオンの看板が文字に透けて見える件は残る",
+  "result": "pass",
+  "shots": [
+   "shots/161/mobile-02-mode-select.jpg",
+   "shots/161/mobile-15-custom-full-run.jpg",
+   "shots/161/mobile-27-chapter-2-play.jpg",
+   "shots/161/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "07744a8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38982141319"
  }
 ]
