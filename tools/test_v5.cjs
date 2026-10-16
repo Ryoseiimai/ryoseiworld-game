@@ -1112,6 +1112,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
   assert(y+ry<=top-8,'the moon ends above the English line');assert(x+rx<540/2-60,'the moon stays on the left, away from the music hint');assert(x-rx>=8&&y-ry>=8,'the moon stays on screen');}
  result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
+ // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(/\.walk-help\.behind\{opacity:\.3\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
+  for(let y=3;y<=14;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
+  assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
+  r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
+ result.push('R80: 出口の矢印や敵・人が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
