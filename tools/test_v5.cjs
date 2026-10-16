@@ -785,6 +785,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
   for(const id of ['popup','infload','vacuum','hallucination'])assert(m.enemies.some(e=>e.type===id),'neon has a '+id+' zako');
   for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='numberperson'&&o.sign,id+' is a numbered person');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
+  // R69: a number never sits on a street light (the lamp heads are drawn where the number floats).
+  for(const o of m.objects.filter(x=>x.kind==='numberperson'))for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')))assert(Math.abs(o.x-l.x)>=1.5||Math.abs(o.y-l.y)>=2.5,o.id+' stands clear of '+l.id+' ('+o.x+','+o.y+' vs '+l.x+','+l.y+')');
   // R64: the number floats above the person's head, not on the face.
   {const o=m.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
    const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
