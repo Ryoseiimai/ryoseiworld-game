@@ -1039,6 +1039,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.abs(title.stopped-r.audio[0].currentTime-.32)<1e-6,'the title track fades out over 300ms');
   const plain=await runtime({musicLedger:{version:1,tracks:{town:T('town.mp3')}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
   plain.tick(100);plain.els.get('stage').listeners.pointerdown[0]({target:plain.els.get('stage')});plain.tick(100);assert.equal(plain.g.debugMusic().key,'town','without a title track the title plays town as before');
+  // A title that decodes after the synth town is already audible does not cut in mid-screen; the next track change picks it up.
+  const lateFiles={'assets/music/town.mp3':20};const late=await runtime({musicLedger:{version:1,tracks:{title:T('title.mp3'),town:T('town.mp3')}},musicDurations:lateFiles});for(let i=0;i<12;i++)await settle();
+  late.tick(100);late.els.get('stage').listeners.pointerdown[0]({target:late.els.get('stage')});late.tick(100);assert.equal(late.g.debugMusic().key,'town','without a decoded title the title screen plays town');
+  lateFiles['assets/music/title.mp3']=20;late.tick(16000);for(let i=0;i<12;i++)await settle();late.tick(100);
+  assert(late.g.debugMusic().loaded.includes('title'),'the retry decodes the title');assert.equal(late.g.debugMusic().key,'town','a title decoded after town became audible does not cut in');
   const none=await runtime({musicLedger:null});for(let i=0;i<12;i++)await settle();none.tick(100);assert.equal(none.els.get('music-hint').hidden,false,'the synth also waits for a tap, so the hint shows without a ledger too');
   none.click('start-btn');none.tick(100);assert.equal(none.els.get('music-hint').hidden,true);assert.equal(none.sources.length,0);}
  result.push('R62: タイトル・プロローグ・名前の画面は録音の title、フィールドで town に切り替え、title が無ければ town、最初のタップまで「♪ タップで音楽」 PASS');
