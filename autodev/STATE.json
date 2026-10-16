@@ -5,7 +5,7 @@
     "branch": "claude/autodev-20261016-1921-R65",
     "attempts": 1,
     "conflicts": 0,
-    "retriggers": 0,
+    "retriggers": 1,
     "started_at": "2026-10-16T19:21:28+09:00"
   },
   "history": [
