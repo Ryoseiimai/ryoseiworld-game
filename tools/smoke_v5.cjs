@@ -185,6 +185,10 @@ async function runViewport(browser, url, vp, errors, shots) {
           const s = await state();
           if (s.map !== m.id) { skip('map-' + m.id, `debugWarp did not move (map=${s.map}, screen=${s.screen})`); continue; }
           await shot('map-' + m.id);
+          // R67: the quest line and the walk help sit over the map art, so each needs a near-solid backing to stay readable.
+          const thin = await page.evaluate(() => ['#quest', '.walk-help'].filter(sel => { const el = document.querySelector(sel); if (!el || !el.offsetParent || !el.textContent.trim()) return false;
+            const c = getComputedStyle(el).backgroundColor.match(/[\d.]+/g) || []; return (c.length < 4 ? (c.length ? 1 : 0) : Number(c[3])) < 0.85; }));
+          if (thin.length) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`map ${m.id}: ${thin.join(', ')} has a see-through background over the map`) });
         } catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`map ${m.id}: ${e.message}`) }); }
       }
     } else skip('maps', 'no __v5.debugWarp');
