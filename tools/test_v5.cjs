@@ -1084,6 +1084,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1);
   assert(park,'the park board sign is drawn');assert(!r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=park[2]&&c[1]+c[3]>=park[2]&&c[2]<=park[3]&&c[2]+c[4]>=park[3]),'the park board has no plate');}
  result.push('R73: ノイズのとうの「うえへ」は暗い下じきの上に出る PASS');
+ // R76: the walk help at the bottom fades out after about 2.5 s of walking, so it stops hiding exits and people; a short step keeps it.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('town',5,32);r.tick(16);const help=r.els.get('walk-help');assert(help&&!help.classes.has('learned'),'the walk help shows at first');
+  for(const k of ['ArrowRight','ArrowLeft']){r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(!help.classes.has('learned'),'one second of walking keeps the help');
+  for(let i=0;i<4;i++){const k=i%2?'ArrowLeft':'ArrowRight';r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(help.classes.has('learned'),'after 3 s of walking the help fades out');}
+ result.push('R76: 2.5秒ほど歩くと「ドラッグで あるく」が消える PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
