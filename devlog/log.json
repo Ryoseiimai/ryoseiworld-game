@@ -1768,5 +1768,20 @@
   ],
   "sha": "592c279",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38977068988"
+ },
+ {
+  "at": "2026-10-16T22:57:46.915Z",
+  "branch": "claude/autodev-20261017-0745-R79",
+  "task": "R79 タイトル画面で、月が「A LITTLE LIGHT」の英字に重ならないようにする",
+  "summary": "タイトル画面の月が「A LITTLE LIGHT」の英字に重なっていた\n月を左上へ移し、英字と「♪ タップで音楽」から離した。前と後のスクショは docs/shots/R79\n確認を足した。下の操作の箱が出口の矢印や敵を隠す件も残る",
+  "result": "pass",
+  "shots": [
+   "shots/160/mobile-02-mode-select.jpg",
+   "shots/160/mobile-15-custom-full-run.jpg",
+   "shots/160/mobile-27-chapter-2-play.jpg",
+   "shots/160/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bba036c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38978256035"
  }
 ]
