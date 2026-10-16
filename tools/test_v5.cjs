@@ -1101,6 +1101,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(btn.textContent,'はなす','still 「はなす」, so only the near flag changes the hud');assert(!btn.classes.has('idle'),'someone near: the button is solid');
   r.click('talk-btn');assert(r.g.dialogue,'the button starts the talk');r.tick(16);assert(btn.hidden,'the button hides while talking');}
  result.push('R77: 近くに誰もいない時、「はなす」ボタンが透けて下の人が見える PASS');
+ // R78: the chapter name and the continue hint under the title buttons sit on a dark band, because the pale green ground (#6c927e) left them at about 2.3:1.
+ {const cap=(html.match(/\.caption\{([^}]*)\}/)||[])[1]||'';const bg=cap.match(/background:rgba\((\d+),(\d+),(\d+),([\d.]+)\)/);
+  assert(bg,'the title captions have a background band');const [r,g,b,a]=bg.slice(1).map(Number);assert(a>=0.7&&r+g+b<120,'the band is dark and mostly solid');
+  assert(/font-size:24px/.test(cap),'caption letters stay 24px');const m=cap.match(/margin:0 -(\d+)px/);const left=70-(m?Number(m[1]):0);assert(left>=16,'the band stays inside the 540 screen');
+  assert(/id="title-caption" class="caption"/.test(html)&&/id="title-hint" class="caption"/.test(html),'both lines use the band');}
+ result.push('R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
