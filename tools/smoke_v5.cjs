@@ -200,7 +200,7 @@ async function runViewport(browser, url, vp, errors, shots) {
     // R55: a long menu (きずな with every bond met) must open at its top so the title shows, not scrolled to the focused bottom button.
     if (await has('debugBond')) {
       try {
-        await page.evaluate(() => { for (const id of Object.keys(window.__v5.GAME_DATA.bonds || {})) window.__v5.debugBond(id, 2); });
+        const savedBonds = await page.evaluate(() => { const out = {}; for (const id of Object.keys(window.__v5.GAME_DATA.bonds || {})) { out[id] = 0; } try { Object.assign(out, JSON.parse(JSON.stringify(window.__v5.bonds || {}))); } catch (_) {} for (const id of Object.keys(out)) window.__v5.debugBond(id, 2); return out; });
         await settle();
         const menuBtn = page.locator('#menu-btn');
         if (await menuBtn.count() && await menuBtn.isVisible()) {
@@ -210,6 +210,7 @@ async function runViewport(browser, url, vp, errors, shots) {
           if (opened) {
             const m = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'); return { top: pn.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 }; });
             await shot('menu-bonds');
+            if (!m.over) scenes.push({ name: 'menu-bonds-note', skipped: 'きずな list fits without scrolling, so the top check proves little' });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
             await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる'); b && b.click(); } });
@@ -217,6 +218,7 @@ async function runViewport(browser, url, vp, errors, shots) {
             await sleep(200);
           } else skip('menu-bonds', 'no きずな button in the menu');
         } else skip('menu-bonds', '#menu-btn not visible');
+        await page.evaluate(saved => { for (const [id, h] of Object.entries(saved)) window.__v5.debugBond(id, h); }, savedBonds);
       } catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`menu-bonds: ${e.message}`) }); }
     } else skip('menu-bonds', 'no __v5.debugBond');
 
