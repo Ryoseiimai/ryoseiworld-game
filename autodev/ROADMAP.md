@@ -6,6 +6,7 @@
 
 ## つぎにやること
 
+- [x] R62 | タイトル画面に専用の曲（title）を付ける | 台帳に title があれば、タイトルとプロローグの間は title を鳴らし、フィールドに出たら town に切り替える。無ければ今のまま town。タイトルのどこを押しても鳴り始め、鳴らせない間は隅に小さく「♪ タップで音楽」と出す。SPEC_V9_MUSIC.md の key の一覧に title を足す。テストで確かめる
 - [x] R57 | 町と戦闘の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の1と3） | v5/data/music.json があれば town・battle・boss_turn・victory を録音でループし（victory は1回）、切り替えは300msで重ねる。台帳が無ければ今の合成のまま。偽の AudioContext のテストで確かめる
 - [x] R58 | ボス戦の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の2） | ストーリーモードで s0〜s3 がそろえば拍の位置から頭出しし、テンポの段で重ねて切り替え、一時停止で止める。それ以外は合成。4の1〜4のテストが通る
 - [x] R59 | 試験用のクリック音で拍のずれを測る（SPEC_V9_MUSIC の1と4）（前半: Chromium で測り docs/MUSIC_MEASURE.md に書いた） | tools/make_click_track の道具で拍ごとの音を作り、Chromium と WebKit で読んだ長さと拍のずれを測って SPEC_V9_MUSIC.md の末尾に書く

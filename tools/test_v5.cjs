@@ -1024,6 +1024,24 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const odd=await runtime({musicLedger:{version:1,tracks:{town:T('town.mp3',{loopEnd:17})}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
   assert(await fieldTones(odd)>0,'a loop that is not whole 4/4 bars is rejected');assert.equal(odd.g.debugMusic().loaded.length,0);}
  result.push('SPEC_V9_MUSIC 3: 台帳ありで町・戦闘を録音でループし300msで重ねて切り替え、victory は1回、台帳なし・読めない・小節が合わない時は合成 PASS');
+ // R62: a recorded title track plays on the title, prologue and naming screens and hands over to town in the field; without one the title keeps town.
+ {const T=(file,extra={})=>({file:'assets/music/'+file,bpm:120,loopStart:2,loopEnd:18,gain:.8,once:false,...extra});
+  const durations={'assets/music/title.mp3':20,'assets/music/town.mp3':20};
+  const r=await runtime({musicLedger:{version:1,tracks:{title:T('title.mp3'),town:T('town.mp3')}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
+  r.tick(100);assert.equal(r.g.screen,'title');assert(r.g.debugMusic().loaded.includes('title'),'the title track decodes before the first tap');
+  assert.equal(r.els.get('music-hint').hidden,false,'before the first tap the title shows the tap-for-music hint');assert.equal(r.audio.length,0);
+  r.els.get('stage').listeners.pointerdown[0]({target:r.els.get('stage')});r.tick(100);
+  assert.equal(r.audio.length,1,'a tap anywhere on the title opens the audio');assert.equal(r.g.debugMusic().key,'title','the title track starts after the tap');assert.equal(r.els.get('music-hint').hidden,true,'the hint goes away once music can play');
+  const title=r.sources.find(s=>s.buffer.url.endsWith('title.mp3'));assert(title&&title.loop&&title.started.offset===2,'the title track loops from beat 0');
+  r.click('start-btn');r.button('こどもモード');r.tick(100);assert.equal(r.g.screen,'prologue');assert.equal(r.g.debugMusic().key,'title','the prologue keeps the title track');
+  r.dialogue();assert.equal(r.g.screen,'naming');r.tick(100);assert.equal(r.g.debugMusic().key,'title','naming keeps the title track');assert.equal(title.stopped,undefined);
+  r.click('naming-confirm');r.tick(100);assert.equal(r.g.screen,'field');assert.equal(r.g.debugMusic().key,'town','the field switches to town');
+  assert(Math.abs(title.stopped-r.audio[0].currentTime-.32)<1e-6,'the title track fades out over 300ms');
+  const plain=await runtime({musicLedger:{version:1,tracks:{town:T('town.mp3')}},musicDurations:durations});for(let i=0;i<12;i++)await settle();
+  plain.tick(100);plain.els.get('stage').listeners.pointerdown[0]({target:plain.els.get('stage')});plain.tick(100);assert.equal(plain.g.debugMusic().key,'town','without a title track the title plays town as before');
+  const none=await runtime({musicLedger:null});for(let i=0;i<12;i++)await settle();none.tick(100);assert.equal(none.els.get('music-hint').hidden,false,'the synth also waits for a tap, so the hint shows without a ledger too');
+  none.click('start-btn');none.tick(100);assert.equal(none.els.get('music-hint').hidden,true);assert.equal(none.sources.length,0);}
+ result.push('R62: タイトル・プロローグ・名前の画面は録音の title、フィールドで town に切り替え、title が無ければ town、最初のタップまで「♪ タップで音楽」 PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
