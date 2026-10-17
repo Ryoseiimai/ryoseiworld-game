@@ -1165,7 +1165,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
  // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
-  assert(/\.walk-help\.behind\{background:#16353b33;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule (R114: the plate, not the words), and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
+  assert(/\.walk-help\.behind\{opacity:\.55;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
   for(let y=3;y<=14;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
   assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
@@ -1193,10 +1193,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
  result.push('R112: 「はなす」の地が薄い間は、字が明るい色と濃いふちになり、後ろの人に溶けない PASS');
- // R114: while the walk help box is see-through, only its plate fades; the words stay solid, light, with a dark outline on all four sides.
- {const css=(html.match(/\.walk-help\.behind\{[^}]*\}/)||[''])[0];assert(!/opacity/.test(css),'the words do not fade with the plate: '+css);assert(/background:#16353b33/.test(css)&&/color:#fff5d6/.test(css),'see-through plate, light words: '+css);
+ // R114: while the walk help box is see-through, it fades only half way (smoke R67 keeps its plate itself near-solid), and the words get a dark outline on all four sides.
+ {const css=(html.match(/\.walk-help\.behind\{[^}]*\}/)||[''])[0];const op=Number((css.match(/opacity:([\d.]+)/)||[])[1]);assert(op>=.5&&op<1,'the box fades only half way (it was .3): '+css);assert(/color:#fff5d6/.test(css),'light words: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
- result.push('R114: 「ドラッグで あるく」の地が薄い間も、字は濃いふちで読める PASS');
+ result.push('R114: 「ドラッグで あるく」の箱が薄い間も、字は濃いふちで読める PASS');
  // R81: the title captions break only at spaces, so 「ことばノートの」 is not cut into 「ことばノー」「トの」.
  {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
   const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
