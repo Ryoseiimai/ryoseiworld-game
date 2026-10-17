@@ -1048,6 +1048,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:9,bestCombo:15,score:900,cheated:false});
   assert(title(r).includes('きろく こうしん'),'beating the best stage is a new record even with a lower combo');assert(!copy(r).includes('つぎは'));}
  result.push('FUN13: リズムチャレンジで きろく こうしん時に 演出、そうでない時に つぎの もくひょうを 出す PASS');
+ // R115: the challenge result shows this run's stage and combo before the best, also on a run that did not beat the best.
+ {const copy=r=>r.els.get('modal-copy').textContent;
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
+  r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
+  assert(copy(r).startsWith('こんかい ステージ 5\nこんかい コンボ 20\n\n'),'a record run shows this run first');
+  r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
+  const c=copy(r);assert(c.startsWith('こんかい ステージ 3\nこんかい コンボ 10\n\n'),'a worse run shows how far it got');
+  assert(c.includes('さいこう ステージ 5')&&c.includes('さいこう コンボ 20'),'the best stays below');assert(c.indexOf('こんかい')<c.indexOf('さいこう')&&c.indexOf('さいこう')<c.indexOf('つぎは'),'order: this run, best, next goal');
+  r.g.state.cheats.godmode=true;r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:2,bestCombo:4,score:50,cheated:true});
+  assert(copy(r).startsWith('こんかい ステージ 2\nこんかい コンボ 4\n（チートつき）\n\n'),'a cheat run is marked so it is not read as a plain run');}
+ result.push('R115: チャレンジの結果に、今回のステージとコンボを最高の記録の前に出す PASS');
  // FUN21: casting a summon flashes the screen at the moment its effect lands, same as the healing flash elsewhere (warp/lift-off).
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   r.g.debugStartBattle('vending','fun21-summon');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});r.g.hp.hp=10;
