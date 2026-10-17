@@ -49,7 +49,7 @@ R27: ノイズのとう 3かい＋おくじょう（くもの もん・あおい
 R28: 4章 ジブンのシューティング版（おくじょうの もんから はいる・たまは すりぬけ・つくるの ひかり3つで いろが もどる・勝っても まだ 章は つづく）PASS
 R29: 4章 ゼロのシューティング版（「こえ」の光で守護霊がつながり、みんなの こえ で ノイズが晴れる・会話・仲間になる）PASS
 R30/FUN2: エンディング（まちの カード）→ エピローグ（かいた ことばを ソラが 読みかえす）→ タイトル PASS
-ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps PASS
+ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps; R96 signs on a dark plate PASS
 R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS
 R25: ミオの雨の日（かさに いれる で きずな3・コトバイルカが 仲間に なる）とほんやく（てきが 1かい やすむ）PASS
 Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS

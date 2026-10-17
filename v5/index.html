@@ -620,7 +620,9 @@ const SIGN_EDGE=16;
 function signHalf(text){return[...text].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;}
 function signX(o){const x=o.x*TILE;if(o.kind!=='numberperson')return x;const half=signHalf(o.sign),lo=camera.x+half+SIGN_EDGE,hi=camera.x+W-half-SIGN_EDGE,want=Math.max(lo,Math.min(hi,x));return x+Math.max(-half,Math.min(half,want-x));}
 // R89: a numbered person's sign is drawn after every sprite, so a street lamp drawn later never crosses its digits.
-function drawSign(o){const d=dimensions(o),sy=o.kind==='numberperson'?o.foot-d.h-10:o.foot-d.h*.42;if(o.kind==='tower'){const tw=[...o.sign].length*24+20;rect(o.x*TILE-tw/2,sy-27,tw,36,'#244b49ee');}const sx=signX(o);ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle='#3b2a1b';ctx.strokeText(o.sign,sx,sy);label(o.sign,sx,sy,'#fbeccb',24);}
+// R96: it also gets a dark plate, so a lamp head behind it (when the sign slides at the screen edge) does not show through 「いいね 3204」.
+const SIGN_PLATE='#1f2a44e6';
+function drawSign(o){const d=dimensions(o),sy=o.kind==='numberperson'?o.foot-d.h-10:o.foot-d.h*.42;if(o.kind==='tower'){const tw=[...o.sign].length*24+20;rect(o.x*TILE-tw/2,sy-27,tw,36,'#244b49ee');}const sx=signX(o);if(o.kind==='numberperson'){const half=signHalf(o.sign),l=Math.max(camera.x+2,sx-half-8),r=Math.min(camera.x+W-2,sx+half+8);rect(l,sy-25,r-l,32,SIGN_PLATE);}ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle='#3b2a1b';ctx.strokeText(o.sign,sx,sy);label(o.sign,sx,sy,'#fbeccb',24);}
 function label(text,x,y,color='#fff1c6',size=24){ctx.fillStyle=color;ctx.font=`${size}px 'Hiragino Sans',system-ui,sans-serif`;ctx.textAlign='center';ctx.fillText(text,x,y);}
 function ellipse(x,y,rx,ry,color){ctx.fillStyle=color;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();}
 function sprite(kind,index,x,y,w,h,name){const f=frameFor(kind,index);if(f){const s=Math.min(w/f.w,h/f.h);ctx.drawImage(f.img,Math.round(x-f.w*s/2),Math.round(y-f.h*s),Math.round(f.w*s),Math.round(f.h*s));return true;}fallback(kind,index,x,y,w,h,name);return false;}
