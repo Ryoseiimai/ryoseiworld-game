@@ -46,8 +46,8 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
- // R88: after the ending the field stays on this line, so it points to what is left to play (チャレンジ opens from chapter 2 on).
- quests:{cleared:{text:'メニューの チャレンジで あそぼう'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
+ // R88: cleared shows during the rooftop scene; after the ending (towerEnded) the field points to what is left to play (チャレンジ opens from chapter 2 on).
+ quests:{cleared:{text:'とうの なかが しずかに なった。'},ended:{text:'メニューの チャレンジで あそぼう',flag:'towerEnded'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   boss:{text:'とうの いちばん うえを めざそう'},
   zako:{text:'とうの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
@@ -61,7 +61,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   // R29: ゼロに勝った後（STORY_V4.md「最後はみんなの守護霊が…」）。ゼロが仲間になり、章が終わる。
   // R30: 章が終わったら すぐ タイトルへ ではなく、3つの町の 直った様子 → エピローグ（SPEC_V5_CH234.md 4章）。
   // 背景は shooter.js の bg_town/bg_minamo/bg_neon をそのまま使う（新しい絵を依頼せず、ある絵で「見せる」を満たす）。
-  zeroJoin:[{join:'zero'},{save:'quiet'},{finale:{towns:[
+  zeroJoin:[{join:'zero'},{flag:'towerEnded'},{save:'quiet'},{finale:{towns:[
    {heading:'ヒダマリちょう',bg:'bg_town',copy:'あかりが もどり、\nこうえんで みんなが\nあそんでいる。'},
    {heading:'ミナモちょう',bg:'bg_minamo',copy:'しんぱいの かべが きえて、\nおやこで さんぽ している。'},
    {heading:'ネオンシティ',bg:'bg_neon',copy:'かおの いろが もどり、\nすきな ものの はなしを\nしている。'}

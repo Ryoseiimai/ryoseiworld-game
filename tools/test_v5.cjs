@@ -1148,9 +1148,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(pt+off+70<666,'the sign ends above the move hint');}
  result.push('R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS');
  // R88: after the ending the quest line in every map was 「とうの なかが しずかに なった。」, which told nothing to do next.
- {const c4=fs.readFileSync(path.join(root,'data','ch4.js'),'utf8');const m=c4.match(/quests:\{cleared:\{text:'([^']*)'\}/);assert(m,'chapter 4 has a cleared quest line');
-  assert(m[1].includes('チャレンジ')&&!m[1].includes('しずかに なった'),'the cleared line points to the challenge');assert([...m[1]].length<=18,'the cleared line fits on one row');
-  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/function challengeUnlocked\(\)\{return g\.chapter>1\|\|/.test(html),'the challenge is open after chapter 1, so it is open after chapter 4');}
+ // During the rooftop scene it stays as is; once the ending ran (and on a save from after it) the line points to the challenge.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const ended=r.g.GAME_DATA.chapters[4].quests.ended;
+  assert(ended&&ended.text.includes('チャレンジ')&&[...ended.text].length<=18,'chapter 4 has an ended line to the challenge');
+  r.g.state.bosses.push('zero');r.tick(16);assert.equal(r.g.questStep,'cleared');assert(r.els.get('quest').textContent.includes('しずかに'),'rooftop scene: '+r.els.get('quest').textContent);
+  const ev=r.g.GAME_DATA.events.zeroJoin;assert(ev.some(e=>e.flag===ended.flag)&&ev.findIndex(e=>e.flag===ended.flag)<ev.findIndex(e=>e.save),'the join event sets the flag before it saves');
+  r.g.debugEvent([{flag:ended.flag}]);r.tick(16);assert.equal(r.g.questStep,'ended');assert.equal(r.els.get('quest').textContent,ended.text);
+  r.g.debugEvent([{save:'quiet'}]);r.tick(16);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));delete sv.flags[ended.flag];assert(sv.bosses.includes('zero'));
+  const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(sv)]])});back.tick();back.click('continue-btn');while(back.g.dialogue)back.dialogue();back.tick(16);
+  assert.equal(back.g.questStep,'ended','a save from after the ending (made before R88) shows the challenge line');}
  result.push('R88: 4章を終えた後の目的の文が、メニューのチャレンジへ案内する PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
