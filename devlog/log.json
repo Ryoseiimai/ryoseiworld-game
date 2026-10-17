@@ -1963,5 +1963,20 @@
   ],
   "sha": "846336e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39006190290"
+ },
+ {
+  "at": "2026-10-17T05:39:19.108Z",
+  "branch": "claude/autodev-20261017-1421-R89",
+  "task": "R89 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンの数字の札「じゅんい 86」「いいね 3204」に、後から描く街灯が重なっていた\n札を全部の絵の後に描き、画面の端から16px離すようにした。確認を足した\n前と後は docs/shots/R89。ことばカードが塔の出口を隠す件は R71 の決まり待ちで外した",
+  "result": "pass",
+  "shots": [
+   "shots/174/mobile-02-mode-select.jpg",
+   "shots/174/mobile-15-custom-full-run.jpg",
+   "shots/174/mobile-27-chapter-2-play.jpg",
+   "shots/174/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "6ee0a5e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39006722661"
  }
 ]
