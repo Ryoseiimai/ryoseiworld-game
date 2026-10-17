@@ -914,7 +914,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(r.RYW.word(id),w.kids.word);}
   for(const src of scripts)for(const m of src.code.matchAll(/(?:RYW\.(?:learn|word|learnQuiet)|\b(?:word|learnQuiet))\(\s*['"]([^'"]+)['"]/g))assert(Object.hasOwn(W,m[1]),src.file+' word id '+m[1]);
   const warns=[],oldWarn=console.warn;try{console.warn=(...a)=>warns.push(a);assert.equal(r.RYW.word('missing-word'),'missing-word');assert.equal(r.g.debugLearn('missing-word'),false);}finally{console.warn=oldWarn;}assert.equal(warns.length,2);
-  r.g.state.aiName='ほし';r.g.debugLearn('jikkou');assert(r.els.get('word-title').textContent.includes('ほし'));assert.equal(r.g.debugLearn('jikkou'),false);
+  r.g.state.aiName='ほし';r.g.debugLearn('jikkou');assert.equal(r.els.get('word-who').textContent,'ほし','the renamed partner is named on the card');assert.equal(r.g.debugLearn('jikkou'),false);
   r.key('ArrowRight');const x=r.g.position.x;r.tick(200);r.key('ArrowRight',true);assert(r.g.position.x>x,'card does not stop walking');
   const queued=['prompt','forloop','seisei','item','cost'];queued.forEach(id=>r.g.debugLearn(id));assert.equal(r.g.debugWords().length,6,'queue overflow still collected');
   const shown=[];for(let i=0;i<4;i++){shown.push(r.els.get('word-title').textContent);r.click('word-card');}assert(r.els.get('word-card').hidden);assert(shown[0].includes('じっこう')&&shown[3].includes('せいせい'));assert(!shown.some(t=>t.includes('アイテム')),'only three waiting cards');
@@ -1177,6 +1177,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/b\.wonAt=gameTime/.test(html)&&/ctx\.globalAlpha=1-\.6\*calm;sprite\([^;]*\);ctx\.globalAlpha=1;/.test(html),'the fade is put back to 1 right after the enemy');
   assert(/def\.animCols\?Math\.floor\(\(calm\?b\.wonAt:gameTime\)\/200\)%def\.animCols:def\.frame/.test(html),'bosses with animCols keep the frame they had at the win (they have no frame of their own)');}
  result.push('R92: 勝った後、敵がゆれを止めて少し沈み、うすくなる PASS');
+ // R93: the card's first line read 「● HP　ソラ」 as if ソラ were part of the word (SPEC_V7 4.1: line 1 is the dot and the word).
+ // The name now sits in its own tag at the right end of line 1, so the card keeps its two-line height over the enemy and the loop numbers.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(2);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugLearn('temperature'),'a word not met yet');r.tick(16);assert(!r.els.get('word-card').hidden,'the card shows');assert.equal(r.els.get('word-title').textContent,'● '+r.RYW.word('temperature'),'line 1 holds only the dot and the word');
+  assert.equal(r.els.get('word-who').textContent,'ソラ','the speaker is in its own tag');assert.equal(r.els.get('word-copy').textContent,r.RYW.card('temperature'),'line 2 is the line alone');
+  assert(/<span class="word-head"><span id="word-title" class="word-title"><\/span><span id="word-who" class="word-who"><\/span><\/span>/.test(html),'title and name share line 1');
+  const head=(html.match(/\.word-card \.word-head\{([^}]*)\}/)||[])[1]||'';assert(/display:flex/.test(head)&&/space-between/.test(head),'the name is pushed to the right end');
+  const who=(html.match(/\.word-card \.word-who\{([^}]*)\}/)||[])[1]||'';assert(who&&!/font-size/.test(who),'the name keeps the 24px card letters');}
+ result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
