@@ -2008,5 +2008,20 @@
   ],
   "sha": "000834f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39010476377"
+ },
+ {
+  "at": "2026-10-17T06:55:04.980Z",
+  "branch": "claude/autodev-20261017-1542-R91",
+  "task": "R91 遊んで一番気になる所を1つ直す",
+  "summary": "R90: ボス戦の始めのカードの間も、ビートのボタンを押せるようにした（自動確認を通った）\nR91: セーブがある時、タイトルで「つづきから」を明るいボタンにし「はじめから」をふつうにした\n前と後は docs/shots/R91。はじめからの枠は撮影時のマウスの位置によるもので、遊ぶ時は出ない",
+  "result": "pass",
+  "shots": [
+   "shots/178/mobile-02-mode-select.jpg",
+   "shots/178/mobile-15-custom-full-run.jpg",
+   "shots/178/mobile-27-chapter-2-play.jpg",
+   "shots/178/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "df15add",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39011338294"
  }
 ]
