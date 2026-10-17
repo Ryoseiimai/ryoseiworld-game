@@ -1365,7 +1365,7 @@
       '.ryw-shooter .rs-panel button.rs-primary{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700}' +
       '.ryw-shooter .rs-panel button:focus-visible{outline:4px solid #fff5d6;outline-offset:3px}' +
       '.ryw-shooter .rs-pause{position:absolute;inset:0;background:#0a1626d9;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff5d6}' +
-      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}' +
+      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-word .rs-word-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.ryw-shooter .rs-word .rs-word-head span{display:inline}.ryw-shooter .rs-word .rs-word-who{flex:none;color:#bfd3cf;border:2px solid #bfd3cf66;border-radius:6px;padding:0 8px;line-height:1.2}' +
       '.ryw-shooter [hidden]{display:none!important}';
     var st = document.createElement('style');
     st.textContent = css;
@@ -1474,10 +1474,13 @@
   function showWord(S) {
     var w = S.wordCards[0]; S.wordEl.hidden = !w; S.wordEl.replaceChildren();
     if (!w) return;
-    var title = document.createElement('span'), copy = document.createElement('span');
+    // R94: like the town and battle cards (R93), line 1 is the dot and the word, with the speaker in its own tag at the right end.
+    var head = document.createElement('span'), title = document.createElement('span'), who = document.createElement('span'), copy = document.createElement('span');
+    head.className = 'rs-word-head'; title.className = 'rs-word-title'; who.className = 'rs-word-who';
     title.style.color = { code: '#8de2ff', game: '#f1cd7c', ai: '#d9b5ff', net: '#a1edb0' }[w.kind];
-    title.textContent = '● ' + w.word + '　' + w.speaker; copy.textContent = w.sora;
-    S.wordEl.appendChild(title); S.wordEl.appendChild(copy);
+    title.textContent = '● ' + w.word; who.textContent = w.speaker; copy.textContent = w.sora;
+    head.appendChild(title); head.appendChild(who);
+    S.wordEl.appendChild(head); S.wordEl.appendChild(copy);
   }
   function wordCardH(S) { return S.wordEl && !S.wordEl.hidden && S.wordCards.length && S.wordEl.offsetHeight ? S.wordEl.offsetHeight + 8 : 0; }
   function nextWord(S) { S.wordCards.shift(); S.wordTime = 0; showWord(S); }

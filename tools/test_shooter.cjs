@@ -722,6 +722,12 @@ async function browserAdapterChecks() {
   // R90: the first boss card says "press with the beat"; the beat button must not look switched off then.
   R.prepareBossWords=ids=>ids.slice(0,2).map(id=>({id,kind:'game',word:id,sora:'ビートに合わせて押してみて',speaker:'ソラ'}));
   handle=R.Shooter.start({boss:'bugking',platform});await ready();await advance(.2);
+  // R94: the boss's first card reads like the town card (R93): line 1 is the dot and the word, the speaker sits in its own tag.
+  {const card=doc.querySelector('.rs-word'),head=card&&card.children[0],kids=head?head.children:[];
+   check('R94: ボス戦のことばの札は1行目にことばと名前の札を並べる',card&&!card.hidden&&head.className==='rs-word-head'&&kids.length===2&&kids[0].className==='rs-word-title'&&kids[1].className==='rs-word-who'&&card.children.length===2,card&&card.children.map(c=>c.className));
+   check('R94: 1行目はことばだけで、名前は右端の札に出る',kids[0]&&/^● \S/.test(kids[0].textContent)&&!kids[0].textContent.includes('　')&&kids[1].textContent.length>0&&!kids[0].textContent.includes(kids[1].textContent),kids.map&&kids.map(k=>k.textContent));
+   const css=(doc.head.children.find(c=>/rs-word-who/.test(c.textContent||''))||{}).textContent||'',who=(css.match(/\.rs-word \.rs-word-who\{([^}]*)\}/)||[])[1]||'',hd=(css.match(/\.rs-word \.rs-word-head\{([^}]*)\}/)||[])[1]||'';
+   check('R94: 名前の札は右端に寄り、24pxの文字のまま',/display:flex/.test(hd)&&/space-between/.test(hd)&&who&&!/font-size/.test(who),{hd,who});}
   const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;
   check('R90: カードが出ている間もビートのボタンは押せる見た目',win.__shooter.cards===2&&!beatBtn.disabled,[win.__shooter.cards,beatBtn.disabled]);
   beatBtn.fire('pointerdown',{pointerId:1});await advance(.05);
