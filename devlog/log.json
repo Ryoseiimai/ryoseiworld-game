@@ -2113,5 +2113,20 @@
   ],
   "sha": "edd45e9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39022699574"
+ },
+ {
+  "at": "2026-10-17T10:43:36.852Z",
+  "branch": "claude/autodev-20261017-1921-R97",
+  "task": "R97 ボス戦の台詞を読み切れる長さだけ出す",
+  "summary": "ボス戦の上の台詞を、文字数に合わせて読み切れる時間（1秒＋1字ごとに0.125秒）出すようにした\n後ろでソラのヒントが待つ間は延ばさず、ヒントの長さ（R86）はそのまま。始まりの台詞は前の2秒のまま\n急ぎの台詞の割り込みは変えず、テストを7つ足した。手元のテストとブラウザの確認は通った",
+  "result": "pass",
+  "shots": [
+   "shots/185/mobile-02-mode-select.jpg",
+   "shots/185/mobile-15-custom-full-run.jpg",
+   "shots/185/mobile-27-chapter-2-play.jpg",
+   "shots/185/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0ff7a6a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39025652488"
  }
 ]
