@@ -1918,5 +1918,20 @@
   ],
   "sha": "f0170c9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39000088072"
+ },
+ {
+  "at": "2026-10-17T04:45:51.288Z",
+  "branch": "claude/autodev-20261017-1321-R87",
+  "task": "R87 遊んで一番気になる所を1つ直す",
+  "summary": "ボス戦の始まりに「キックボードが うかんだ！」の帯が、入ってくるボスを隠していた\n帯を1.85秒で消し、ボスは1.7秒から右の端に入るようにした。登場の長さは2.5秒のまま\n確認を足した。前と後は docs/shots/R87。ボスの声はボスより先に聞こえる形で、今のまま",
+  "result": "pass",
+  "shots": [
+   "shots/171/mobile-02-mode-select.jpg",
+   "shots/171/mobile-15-custom-full-run.jpg",
+   "shots/171/mobile-27-chapter-2-play.jpg",
+   "shots/171/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d0cf901",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39003430403"
  }
 ]
