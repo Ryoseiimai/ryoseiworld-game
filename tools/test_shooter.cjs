@@ -780,6 +780,33 @@ async function browserAdapterChecks() {
   check('R86: 待ったヒントは短くなる', late && late.speaker === 'ソラ' && late.t + late.dur <= start + 5.5 + 1e-6, late && [late.t - start, late.dur]);
 })();
 
+// R97: ボス戦の上の台詞は、文字数に合わせて読み切れる時間（短くても前の長さ）出てから消える。急ぎの台詞の割り込みはそのまま。
+(() => {
+  const rd = sim.readDur;
+  check('R97: 短い台詞は前の長さのまま', rd('みせた', 2.4) === 2.4, rd('みせた', 2.4));
+  const longText = 'あいうえおかきくけこ さしすせそたちつてと なにぬねの';
+  check('R97: 長い台詞は文字数に合わせて延びる（空白は数えない）', Math.abs(rd(longText, 2.4) - (1 + 25 / 8)) < 1e-9, rd(longText, 2.4));
+  const w = sim.createWorld({ seed: 7, boss: 'kateino', god: true }); toPlay(w);
+  w.burst = null; w.burstQ = [];
+  sim.burst(w, 'ボス', longText, 2.4); run(w, DT);
+  const it = w.burst;
+  check('R97: 長い台詞が出る', it && it.text === longText && Math.abs(it.dur - (1 + 25 / 8)) < 1e-9, it && it.dur);
+  run(w, 3.0);
+  check('R97: 前の長さを過ぎても読み切るまで残る', w.burst === it, w.burst && w.burst.text);
+  run(w, 1.3);
+  check('R97: 読み切る時間が過ぎたら消える', w.burst !== it);
+  w.burst = null; w.burstQ = [];
+  sim.burst(w, 'ボス', longText, 2.4); run(w, DT);
+  const plain = w.burst; run(w, 2.6);
+  sim.burst(w, 'RYOSEI', 'みせた', 2.2, true); run(w, DT);
+  // 始まりの台詞は、後ろでヒントが待つので前の長さ（2.0秒）に戻り、ヒントの長さ（R86）を減らさない。
+  const w2 = sim.createWorld({ seed: 7, boss: 'hikaku', god: true }); let g2 = 0, intro = null;
+  while (w2.state === 'intro' && g2++ < 1000) { sim.step(w2, DT, IDLE); if (w2.burst) intro = w2.burst; }
+  sim.step(w2, DT, IDLE);
+  check('R97: 始まりの台詞はヒントが待つと前の長さに戻る', intro && intro.base === 2.0 && intro.dur === 2.0, intro && [intro.base, intro.dur]);
+  check('R97: 延びた台詞にも急ぎの台詞が割り込む', w.burst && w.burst.text === 'みせた' && plain !== w.burst, w.burst && w.burst.text);
+})();
+
 // R87: ボス戦の始まりの「フクの ちからで／キックボードが うかんだ！」の帯（画面の真ん中）に、右から入るボスが重ならない。
 (() => {
   const I = sim.INTRO;

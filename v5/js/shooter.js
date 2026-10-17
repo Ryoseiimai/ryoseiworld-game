@@ -368,6 +368,9 @@
     w.burstQ.splice(k, 0, it);
     if (w.burst && !w.burst.urgent) w.burst = null;
   }
+  // R97: a line stays at least long enough to read: READ_T0 s plus 1/READ_CPS s per letter (spaces not counted), never shorter than asked.
+  var READ_T0 = 1.0, READ_CPS = 8;
+  function readDur(text, dur) { return Math.max(dur, READ_T0 + String(text).replace(/\s/g, '').length / READ_CPS); }
   function ramp(w) { return clamp((w.playT - HINT_T) / RAMP_T, 0, 1); }
   function toast(w, text, dur) { if (text) w.toast = { text: String(text), t: w.t, dur: dur || 2.4 }; }
   function ticker(w, text) {
@@ -1005,11 +1008,14 @@
     w.fx = w.fx.filter(function (f) { return f.age < f.life; });
   }
   function stepTexts(w, dt) {
+    // R97: the extra reading time gives way to a waiting hint with an end time, so the hint keeps its R86 length.
+    if (w.burst && w.burst.base != null && w.burst.dur > w.burst.base && w.burstQ.some(function (q) { return q.until != null; })) w.burst.dur = w.burst.base;
     if (w.burst && w.t - w.burst.t > w.burst.dur) w.burst = null;
     // R86: a line with an end time (the opening hint) that had to wait behind other lines only shows for what is left, or not at all.
     while (!w.burst && w.burstQ.length) {
       var nx = w.burstQ.shift();
       if (nx.until != null) { if (nx.until - w.t < 1) continue; nx.dur = Math.min(nx.dur, nx.until - w.t); }
+      if (nx.until == null) { nx.base = nx.dur; nx.dur = readDur(nx.text, nx.dur); }
       w.burst = nx; w.burst.t = w.t;
     }
     if (w.toast && w.t - w.toast.t > w.toast.dur) w.toast = null;
@@ -1061,7 +1067,7 @@
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect,
-    P_HIT_R: P_HIT_R, squash: squash, squashScale: squashScale, holdTextsForCards: holdTextsForCards
+    P_HIT_R: P_HIT_R, squash: squash, squashScale: squashScale, holdTextsForCards: holdTextsForCards, readDur: readDur, burst: burst
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
