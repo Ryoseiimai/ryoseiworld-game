@@ -41,7 +41,10 @@
   // The move hint stays HINT_T s. No aimed shot comes before it is gone; then shots get to full speed over RAMP_T s.
   // After a hit, bullets within BREATHER_R are cleared so one mistake does not chain into the next.
   var HINT_T = 4.5, RAMP_T = 12, BREATHER_R = 170;
-  var INTRO_PLATE_T = 392, INTRO_PLATE_H = 98; // R75: the plate behind the entrance lines at y 420 and 462
+  // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
+  // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
+  var INTRO_PLATE_T = 352, INTRO_PLATE_H = 98;
+  var INTRO_LINE_Y = [INTRO_PLATE_T + 28, INTRO_PLATE_T + 70];
   // R87: the entrance lines sit in the middle of the field, where the boss rides in. They are gone by INTRO_TEXT_END s,
   // and the boss starts in from the right edge at INTRO_BOSS_IN s, so it does not slide in behind them (its voice comes first).
   var INTRO_TEXT_END = 1.85, INTRO_BOSS_IN = 1.7, INTRO_END = 2.5;
@@ -1071,7 +1074,7 @@
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
-  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H };
+  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H };
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2404,8 +2407,8 @@
   }
 
   // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
-  // line at y 420 there is no free row, so the note is left out (the rapid chip's message already showed it).
-  function cooldownNoteY(y) { return y + 18 <= 372 ? y + 18 : null; }
+  // plate (INTRO_PLATE_T) there is no free row, so the note is left out (the rapid chip's message already showed it).
+  function cooldownNoteY(y) { return y + 18 <= INTRO_PLATE_T - 20 ? y + 18 : null; }
 
   function drawTexts(ctx, S, w) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
@@ -2415,8 +2418,8 @@
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
       var iw = Math.max(ctx.measureText('フクの ちからで').width, ctx.measureText('キックボードが うかんだ！').width) + 48;
       ctx.fillStyle = 'rgba(8,14,34,0.74)'; rr(ctx, (W - iw) / 2, INTRO_PLATE_T, iw, INTRO_PLATE_H, 14); ctx.fill();
-      outlinedText(ctx, 'フクの ちからで', W / 2, 420, '#bff6ff');
-      outlinedText(ctx, 'キックボードが うかんだ！', W / 2, 462, '#bff6ff');
+      outlinedText(ctx, 'フクの ちからで', W / 2, INTRO_LINE_Y[0], '#bff6ff');
+      outlinedText(ctx, 'キックボードが うかんだ！', W / 2, INTRO_LINE_Y[1], '#bff6ff');
       ctx.globalAlpha = 1;
     }
     if (w.state === 'win' && w.stateT > 1.0 && w.bossId !== 'zero') {

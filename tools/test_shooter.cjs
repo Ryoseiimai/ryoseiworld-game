@@ -840,6 +840,19 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R110: 始まりの帯は、上がってくる主人公の絵の枠とネオンの看板の上に収まり、字にかからない。
+(() => {
+  const I = sim.INTRO, plateB = I.plateT + I.plateH;
+  const w = sim.createWorld({ seed: 7, boss: 'hikaku' }); let worst = Infinity, g = 0;
+  while (w.state === 'intro' && g++ < 1000) {
+    sim.step(w, DT, IDLE);
+    const s = w.stateT, a = Math.min((s - 0.2) * 4, (I.textEnd - s) * 3);
+    if (w.state === 'intro' && a > 0) worst = Math.min(worst, w.p.y - I.heroH / 2 - plateB);
+  }
+  check('R110: 主人公の絵は帯の下に離れている', worst >= 0 && worst < Infinity, worst);
+  check('R110: ネオンの看板は帯から40px以上下', I.signY - plateB >= 40, [I.signY, plateB]);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
