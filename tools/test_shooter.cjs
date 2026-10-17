@@ -728,6 +728,12 @@ async function browserAdapterChecks() {
    check('R94: 1行目はことばだけで、名前は右端の札に出る',kids[0]&&/^● \S/.test(kids[0].textContent)&&!kids[0].textContent.includes('　')&&kids[1].textContent.length>0&&!kids[0].textContent.includes(kids[1].textContent),kids.map&&kids.map(k=>k.textContent));
    const css=(doc.head.children.find(c=>/rs-word-who/.test(c.textContent||''))||{}).textContent||'',who=(css.match(/\.rs-word \.rs-word-who\{([^}]*)\}/)||[])[1]||'',hd=(css.match(/\.rs-word \.rs-word-head\{([^}]*)\}/)||[])[1]||'';
    check('R94: 名前の札は右端に寄り、24pxの文字のまま',/display:flex/.test(hd)&&/space-between/.test(hd)&&who&&!/font-size/.test(who),{hd,who});}
+  // R95: index.html sets button{min-height:58px}; the skill button must undo it, or it grows from 44px down over the beat button.
+  {const css=(doc.head.children.find(c=>/rs-skill/.test(c.textContent||''))||{}).textContent||'',sk=(css.match(/\.rs-skill\{([^}]*)\}/)||[])[1]||'',bt=(css.match(/\.rs-beat\{([^}]*)\}/)||[])[1]||'',n=(r,k)=>+((r.match(new RegExp('(?:^|;)'+k+':(\\d+)px'))||[])[1]);
+   check('R95: とくぎのボタンは高さを44pxのまま保ち、ビートのボタンに重ならない',/min-height:0/.test(sk)&&n(sk,'top')+n(sk,'height')+5<n(bt,'top'),{sk,bt});
+   // The 44px button centres its 24px label, so the gauge at the bottom must fit under the label: label + 2 gauges <= the 38px inside.
+   {const lh=+((sk.match(/line-height:([\d.]+)/)||[])[1]),gi=(css.match(/\.rs-skill i\{([^}]*)\}/)||[])[1]||'',gh=n(gi,'height');
+    check('R95: とくぎのゲージは文字の下に重ならない',lh>0&&gh>0&&24*lh+2*gh<=44-6,{lh,gh});}}
   const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;
   check('R90: カードが出ている間もビートのボタンは押せる見た目',win.__shooter.cards===2&&!beatBtn.disabled,[win.__shooter.cards,beatBtn.disabled]);
   beatBtn.fire('pointerdown',{pointerId:1});await advance(.05);

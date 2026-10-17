@@ -253,6 +253,9 @@ async function runViewport(browser, url, vp, errors, shots) {
           const fit = await page.evaluate(() => ({ iw: innerWidth, sw: document.documentElement.scrollWidth,
             beat: [...document.querySelectorAll('.rs-beat')].filter(e => e.offsetParent).map(e => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.right, r.bottom]; }) }));
           if (fit.iw > vp.width || fit.sw > vp.width) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`boss ${b}: page is ${Math.max(fit.iw, fit.sw)}px wide on a ${vp.width}px screen`) });
+          // R95: the game's own button{min-height:58px} once stretched the skill button down over the beat button.
+          const pair = await page.evaluate(() => { const v = s => { const e = document.querySelector(s); return e && e.offsetParent ? e.getBoundingClientRect() : null; }; const k = v('.rs-skill'), b = v('.rs-beat'); return k && b ? [k.bottom, b.top] : null; });
+          if (pair && pair[0] > pair[1] - 4) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`boss ${b}: skill button ends at ${Math.round(pair[0])}, touching the beat button at ${Math.round(pair[1])}`) });
           for (const r of fit.beat) if (r[0] < -1 || r[1] < -1 || r[2] > vp.width + 1 || r[3] > vp.height + 1) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`boss ${b}: beat button ${r.map(Math.round).join(',')} is off the ${vp.width}x${vp.height} screen`) });
           await page.waitForTimeout(1500); await shot('boss-' + b + '-later');
         }
