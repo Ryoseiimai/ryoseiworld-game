@@ -575,7 +575,7 @@ async function browserAdapterChecks() {
   const fs=require('node:fs'),vm=require('node:vm');
   const drawn=[], tones=[], frames=new Map(), sources=[];let fid=0, now=0, fakeFetch=async()=>({ok:false}), decoded={};
   function events(o){o.events={};o.addEventListener=(k,f)=>(o.events[k]||(o.events[k]=[])).push(f);o.removeEventListener=(k,f)=>o.events[k]=(o.events[k]||[]).filter(x=>x!==f);o.fire=(k,extra={})=>{const e={type:k,target:o,preventDefault(){},stopPropagation(){},stopImmediatePropagation(){},...extra};for(const f of o.events[k]||[])f(e);};return o;}
-  function canvasContext(){const c={font:'24px sans-serif',measureText(t){return{width:[...String(t)].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*(parseFloat(this.font.match(/([\d.]+)px/)?.[1])||24)};},fillText(t,x,y){drawn.push({text:t,x,y,font:this.font});},beginPath(){this._pts=[];},moveTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},lineTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},fill(){const p=this._pts||[];if(p.length)drawn.push({fill:String(this.fillStyle),top:Math.min(...p.map(q=>q[1])),bottom:Math.max(...p.map(q=>q[1])),left:Math.min(...p.map(q=>q[0])),right:Math.max(...p.map(q=>q[0]))});},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};},createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};}};return new Proxy(c,{get:(t,k)=>k in t?t[k]:()=>{}});}
+  function canvasContext(){const c={font:'24px sans-serif',measureText(t){return{width:[...String(t)].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*(parseFloat(this.font.match(/([\d.]+)px/)?.[1])||24)};},fillText(t,x,y){drawn.push({text:t,x,y,font:this.font});},beginPath(){this._pts=[];},moveTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},arc(x,y,r){(this._pts||(this._pts=[])).push([x-r,y-r],[x+r,y+r]);},lineTo(x,y){(this._pts||(this._pts=[])).push([x,y]);},fill(){const p=this._pts||[];if(p.length)drawn.push({fill:String(this.fillStyle),top:Math.min(...p.map(q=>q[1])),bottom:Math.max(...p.map(q=>q[1])),left:Math.min(...p.map(q=>q[0])),right:Math.max(...p.map(q=>q[0]))});},createLinearGradient(){return{addColorStop(){}};},createRadialGradient(){return{addColorStop(){}};},createImageData(w,h){return{data:new Uint8ClampedArray(w*h*4)};}};return new Proxy(c,{get:(t,k)=>k in t?t[k]:()=>{}});}
   class El {
     constructor(tag){this.tagName=tag.toUpperCase();this.children=[];this.style={};this.className='';this.hidden=false;this.attrs={};events(this);}
     appendChild(c){c.parentNode=this;this.children.push(c);return c;}
@@ -654,6 +654,12 @@ async function browserAdapterChecks() {
    check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 55, 516, 30\)/.test(src));
    handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
    check('R102: ダメージ はんぶん の字が上の帯の線にかからない',fits('ダメージ はんぶん'),drawn.filter(d=>d.text==='ダメージ はんぶん').at(-1));}
+  // R104: with 7 or 8 voices the circles ran into the つながり label on the right of the top band.
+  for(const n of [6,8]){handle.stop();drawn.length=0;const voices=Array.from({length:n},(_,i)=>({name:'v'+i,text:'こえ'+i}));
+   handle=R.Shooter.start({boss:'zero',platform,lines:{voices}});await ready();await advance(1.2);
+   const lab=drawn.filter(d=>d.text==='つながり 0/'+n).at(-1),circles=drawn.filter(d=>d.fill==='rgba(0,0,0,0.5)'&&d.top>=60&&d.bottom<=104&&d.right-d.left<=40);
+   const labLeft=lab&&lab.x-[...lab.text].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*24;
+   check('R104: こえが'+n+'つでも、丸の列が「つながり」の字の手前で止まる',!!lab&&circles.length>=n&&Math.max(...circles.map(c=>c.right))<=labLeft-8&&circles.every(c=>c.right-c.left>=30),{labLeft,right:Math.max(...circles.map(c=>c.right)),k:circles.length});}
   handle.stop();
   handle=R.Shooter.start({boss:'kateino',platform,options:{proto:{jump:9}}});await ready();await advance(3);
   win.fire('keydown',{code:'KeyX'});tick(1000/60);win.fire('keyup',{code:'KeyX'});await ready();

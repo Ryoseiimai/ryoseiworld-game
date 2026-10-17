@@ -2247,13 +2247,15 @@
         ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 2; rr(ctx, sx, 64, 138, 24, 8); ctx.stroke();
       }
     } else if (w.bossId === 'zero') {
-      var nv = w.m.voices.length, step = Math.min(48, (W - 40) / Math.max(1, nv));
+      // R104: the row of voice circles stops 12px before the つながり label (up to 8 voices), so they never run into its letters.
+      var nv = w.m.voices.length, room = W - 20 - ctx.measureText('つながり ' + nv + '/' + nv).width - 12 - 20;
+      var step = Math.min(48, room / Math.max(1, nv)), cr = Math.min(19, step / 2 - 2);
       for (var v = 0; v < nv; v++) {
         var cx = 20 + step / 2 + v * step, cy = 82;
         ctx.fillStyle = v < w.m.got ? 'rgba(255,200,240,0.35)' : 'rgba(0,0,0,0.5)';
-        ctx.beginPath(); ctx.arc(cx, cy, 19, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI * 2); ctx.fill();
         ctx.strokeStyle = v < w.m.got ? '#ffd0f4' : 'rgba(255,255,255,0.35)'; ctx.lineWidth = 2; ctx.stroke();
-        if (v < w.m.got) { var sd = spiritDef(w.m.voices[v].spirit || ('spirit:' + v)); if (sd) drawSprite(ctx, S, sd.sheet, sd.frame[0], sd.frame[1], cx, cy, 34); }
+        if (v < w.m.got) { var sd = spiritDef(w.m.voices[v].spirit || ('spirit:' + v)); if (sd) drawSprite(ctx, S, sd.sheet, sd.frame[0], sd.frame[1], cx, cy, cr * 2 - 4); }
       }
     }
   }
