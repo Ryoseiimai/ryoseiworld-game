@@ -29,7 +29,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(String(a[0]?.src).includes('numberperson')){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -803,6 +803,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);
    assert(txt,id+' sign is drawn');assert(txt[2]-half>=camX&&txt[2]+half<=camX+540,id+' sign stays on screen (x '+txt[2]+', screen '+camX+'..'+(camX+540)+')');
    assert(Math.abs(txt[2]-o.x*48)<=half,id+' sign still sits over its person');}
+  // R89: the sign is drawn after every sprite (a street lamp drawn later crossed 「86」 / 「3204」), and keeps 16px from the screen edge (unless it already slid half its width, so it stays over the person).
+  // From the street between them (hero x 15), both signs slide less than half their width, so the 16px check really runs.
+  for(const [id,hx] of [['neon_num1',15],['neon_num2',15]]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===o.sign),txt=calls[at];
+   const lastProp=calls.findLastIndex(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/'));
+   assert(txt&&lastProp>=0,id+' sign and street lamps are drawn');assert(at>lastProp,id+' sign is drawn after the street lamps (sign call '+at+', last lamp call '+lastProp+')');
+   assert(Math.abs(txt[2]-o.x*48)<half,id+' sign slid less than half its width here');assert(txt[2]-half>=camX+16&&txt[2]+half<=camX+540-16,id+' sign keeps 16px from the screen edge (x '+txt[2]+', half '+half+', screen '+camX+'..'+(camX+540)+')');}
   assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
   assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
   st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);
@@ -816,7 +823,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const before2=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);const doubleDmg=before2-r.g.battle.enemy.hp;
   assert(doubleDmg>=halfDmg*3,'けんさく のあとはダメージ2倍（半分→2倍で4倍前後）: '+halfDmg+' -> '+doubleDmg);
   assert(Number.parseFloat(r.els.get('enemy-meter').style.width)<100,'the real HP bar shows once revealed');}
- result.push('ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after PASS');
+ result.push('ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps PASS');
  // R24: 壁画のペイントキメラ（いっしょに かく／スプライトせいせい＝みがわり）とハッカーのお姉さん（また会う／きずな3でサーバークジラ＝バックアップ）。
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,st=r.g.state;
