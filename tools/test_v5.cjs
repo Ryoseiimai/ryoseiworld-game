@@ -1155,6 +1155,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R77: with nobody close enough to talk to, the 「はなす」 button's background turns see-through (its letters stay solid) so the people under it stay visible.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#talk-btn\.idle\{background:#f1cd7c4d/.test(html)&&!/#talk-btn\.idle\{[^}]*opacity/.test(html),'idle talk button: see-through background, solid letters');
+  // R116: the idle letters are light with a hard dark outline, not dark letters blurred by a white glow that read as a disabled button.
+  {const idle=html.match(/#talk-btn\.idle\{([^}]*)\}/)[1];assert(/color:#fff5d6/.test(idle),'idle talk letters are light');assert(/text-shadow:-2px -2px #173e3c/.test(idle)&&!/0 0 \d+px #fff5d6/.test(idle),'idle talk letters have a dark outline and no white glow');}
   const btn=r.els.get('talk-btn');assert(btn,'the talk button exists');const town=r.g.GAME_DATA.maps.town;
   const objs=town.objects.filter(x=>x.dialogue||x.action||x.enter||x.event);let freeSpot=null;
   for(let y=2;y<town.h-2&&!freeSpot;y++)for(let x=2;x<town.w-2&&!freeSpot;x++)if(objs.every(q=>Math.hypot(q.x-x,q.y-y)>4))freeSpot=[x,y];
