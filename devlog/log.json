@@ -1813,5 +1813,20 @@
   ],
   "sha": "599fcf4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38983116951"
+ },
+ {
+  "at": "2026-10-17T00:53:57.168Z",
+  "branch": "claude/autodev-20261017-0921-R82",
+  "task": "R82 遊んで一番気になる所を1つ直す",
+  "summary": "仲間を呼んだとき、足元の輪と四角が下の HP の欄の文字に重なっていた\n輪と四角を仲間の足元に上げ、欄の上で止まるようにした。前と後のスクショは docs/shots/R82\n確認を足した。ことばカードが雲の行き先を隠す件は R71（司令塔の番）なので触らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/164/mobile-02-mode-select.jpg",
+   "shots/164/mobile-15-custom-full-run.jpg",
+   "shots/164/mobile-27-chapter-2-play.jpg",
+   "shots/164/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4bd459b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38988059924"
  }
 ]
