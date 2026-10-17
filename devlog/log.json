@@ -2338,5 +2338,20 @@
   ],
   "sha": "96e600d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39059051739"
+ },
+ {
+  "at": "2026-10-17T18:50:05.467Z",
+  "branch": "claude/autodev-20261018-0321-R109",
+  "task": "R109 遊んで一番気になる所を1つ直す",
+  "summary": "ミナモで「こうえん」の看板の字が、左下の「ドラッグで あるく」の箱に隠れていた\n看板の字が箱やはなすボタンの後ろに来ても、箱が薄くなるようにした\nテストと前と後のスクショ（docs/shots/R109）で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/203/mobile-02-mode-select.jpg",
+   "shots/203/mobile-15-custom-full-run.jpg",
+   "shots/203/mobile-27-chapter-2-play.jpg",
+   "shots/203/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a364e37",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39059178834"
  }
 ]
