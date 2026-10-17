@@ -190,6 +190,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // FUN24: the title screen must tempt a returning player toward the challenge mode / word-note review they already unlocked.
  assert(!reloaded.els.get('title-hint').hidden,'a save that already beat BUG KING shows a title hint');assert(reloaded.els.get('title-hint').textContent.includes('チャレンジ'),'challenge is unlocked after chapter 1 boss');
  const freshNoSave=await runtime();freshNoSave.tick();assert(freshNoSave.els.get('title-hint').hidden,'no save: no hint to show');
+ // R105: the hint line must not push the buttons up onto the town art; with the hint the block keeps its top (the road), without it the bottom anchor stays.
+ assert(reloaded.els.get('title-actions').classes.has('with-hint'),'R105: the hint pins the buttons to the road');assert(!freshNoSave.els.get('title-actions').classes.has('with-hint'),'R105: no hint, no pin');
+ {const html=require('node:fs').readFileSync(require('node:path').join(__dirname,'..','v5','index.html'),'utf8');const m=html.match(/\.title-actions\.with-hint\{top:(\d+)px;bottom:auto;gap:(\d+)px\}/),bottom=+(html.match(/\.title-actions\{[^}]*bottom:(\d+)px/)||[])[1];assert(m&&bottom,'R105: pinned title-actions rule');const top=+m[1],gap=+m[2];
+  // Without the hint the block is two 58px buttons + caption (24px*1.65+4) with 18px gaps, ending at bottom:115px; the pinned top sits on the road (y>=620) a little above that.
+  // Even if a wider font wraps the hint to three lines, the block still ends on the screen.
+  const plainTop=960-bottom-(58+18+58+18+24*1.65+4),hint3=24*1.65*3+4;assert(top>=620&&top<=plainTop+2,'R105: pinned top '+top+' stays on the road (plain top '+plainTop+')');assert(top+58+gap+58+gap+24*1.65+4+gap+hint3<=960,'R105: a three-line hint still fits on the screen');}
  // R91: with a save, つづきから is the bright button (はじめから only asks before wiping); without one, はじめから is.
  assert(reloaded.els.get('continue-btn').classes.has('primary')&&!reloaded.els.get('start-btn').classes.has('primary'),'a save makes つづきから the bright button');assert(freshNoSave.els.get('start-btn').classes.has('primary')&&!freshNoSave.els.get('continue-btn').classes.has('primary'),'no save: はじめから stays the bright button');
  reloaded.key('Enter');assert.equal(reloaded.g.map,'minamo');assert.equal(reloaded.g.chapter,2);assert.equal(reloaded.g.state.items.firstgame,1);assert(reloaded.g.state.bosses.includes('bugking'));assert(reloaded.g.summons.includes('code'));for(const k of ['chapter','map','x','y','level','exp','money','battery','items','summons','bosses'])assert.equal(JSON.stringify(reloaded.g.state[k]),JSON.stringify(JSON.parse(t.saved.get('ryoseiworld-rpg-v5'))[k]),'saved '+k);
@@ -796,6 +802,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const [dy,alpha] of [[-1.2,.45],[1.8,1]]){r.g.debugWarp(map,o.x,o.y+dy);r.tick(16);r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const i=r.imageLog.findLastIndex(src=>String(src).endsWith('props_r2_c3.png'));
     assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero '+(dy<0?'behind':'in front'));}}}
  result.push('R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS');
+ result.push('R105: タイトルの案内が出ても、ボタンが町の絵に乗らず道の上に残る PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;

@@ -50,6 +50,7 @@ R28: 4章 ジブンのシューティング版（おくじょうの もんから
 R29: 4章 ゼロのシューティング版（「こえ」の光で守護霊がつながり、みんなの こえ で ノイズが晴れる・会話・仲間になる）PASS
 R30/FUN2: エンディング（まちの カード）→ エピローグ（かいた ことばを ソラが 読みかえす）→ タイトル PASS
 R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS
+R105: タイトルの案内が出ても、ボタンが町の絵に乗らず道の上に残る PASS
 ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps; R96 signs on a dark plate PASS
 R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS
 R25: ミオの雨の日（かさに いれる で きずな3・コトバイルカが 仲間に なる）とほんやく（てきが 1かい やすむ）PASS
