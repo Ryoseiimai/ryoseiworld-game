@@ -646,6 +646,14 @@ async function browserAdapterChecks() {
   {const l1=drawn.filter(d=>d.text==='フクの ちからで').at(-1),l2=drawn.filter(d=>d.text==='キックボードが うかんだ！').at(-1);
    const plate=l1&&l2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=l1.y-15&&d.bottom>=l2.y+15&&d.left<=l2.x-180&&d.right>=l2.x+180);
    check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
+  // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
+  {const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=80&&d.y+12+2.5<=113;};
+   check('R102: こうげき の字が上の帯の線にかからない',fits('こうげき'),drawn.filter(d=>d.text==='こうげき').at(-1));
+   const src=fs.readFileSync(shooterPath,'utf8');
+   check('R102: こうげき の棒は線の上で止まり、HPの枠にもかからない',/var LABEL_Y = 97;/.test(src)&&/var x = 20, y = 58, bw = W - 40, bh = 22;/.test(src)&&/bh = 8 \+ i \* 5/.test(src)&&/LABEL_Y \+ 11 - bh/.test(src));
+   check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 55, 516, 30\)/.test(src));
+   handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
+   check('R102: ダメージ はんぶん の字が上の帯の線にかからない',fits('ダメージ はんぶん'),drawn.filter(d=>d.text==='ダメージ はんぶん').at(-1));}
   handle.stop();
   handle=R.Shooter.start({boss:'kateino',platform,options:{proto:{jump:9}}});await ready();await advance(3);
   win.fire('keydown',{code:'KeyX'});tick(1000/60);win.fire('keyup',{code:'KeyX'});await ready();
@@ -661,7 +669,7 @@ async function browserAdapterChecks() {
     drawn.length=0;handle=R.Shooter.start({mode:'challenge',startStage:n,platform,onEnd:r=>ended=r});await ready();tick(1000/60);await ready();
     const bpm=Math.min(220,100+6*(n-1)),stageLabel=drawn.find(d=>d.text==='ステージ '+n),bpmLabel=drawn.find(d=>d.text==='BPM '+bpm+'！');
     check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
-    check('stage '+n+' の「ステージ」はBPM帯(y62-91)の下に出る',!!stageLabel&&stageLabel.y-12>=91,stageLabel);
+    check('stage '+n+' の「ステージ」はBPM帯(y55-85)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12>=85&&stageLabel.y+12+2.5<=113,stageLabel);
     await advance(3);
     check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);

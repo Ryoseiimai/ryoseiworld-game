@@ -2202,6 +2202,9 @@
     ctx.globalAlpha = 1;
   }
 
+  // R101 follow-up (R102): the right-hand label row sits between the HP bar (58..80) and the band's bottom line (PLAY_T - 3),
+  // with its 24px letters and outline clear of both; the attack bars end 2px above the line too.
+  var LABEL_Y = 97;
   function drawTopBand(ctx, S, w) {
     var d = w.def, b = w.b;
     var g = ctx.createLinearGradient(0, 0, 0, PLAY_T);
@@ -2213,21 +2216,21 @@
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'right';
     if (w.mode !== 'challenge' && w.bossId === 'kateino') {
       var left = w.m.crackUntil - w.playT;
-      if (left > 0) outlinedText(ctx, 'ダメージ 2ばい ' + Math.ceil(left), W - 20, 100, '#ffd76b');
-      else outlinedText(ctx, 'ダメージ はんぶん', W - 20, 100, '#c9d6e8');
+      if (left > 0) outlinedText(ctx, 'ダメージ 2ばい ' + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
+      else outlinedText(ctx, 'ダメージ はんぶん', W - 20, LABEL_Y, '#c9d6e8');
     } else if (w.mode !== 'challenge' && w.bossId === 'hikaku') {
       // Attack power as a meter: 4 bars at full power, one goes out per number hit (never below 1).
-      outlinedText(ctx, 'こうげき', W - 110, 100, '#ffe9a8');
+      outlinedText(ctx, 'こうげき', W - 110, LABEL_Y, '#ffe9a8');
       for (var i = 0; i < 4; i++) {
-        var on = i < 4 - w.m.down, bh = 10 + i * 6, px = W - 100 + i * 21;
-        ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, 112 - bh, 15, bh);
-        if (on) { ctx.strokeStyle = 'rgba(90,50,0,0.9)'; ctx.lineWidth = 2; ctx.strokeRect(px, 112 - bh, 15, bh); }
+        var on = i < 4 - w.m.down, bh = 8 + i * 5, px = W - 100 + i * 21;
+        ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, LABEL_Y + 11 - bh, 15, bh);
+        if (on) { ctx.strokeStyle = 'rgba(90,50,0,0.9)'; ctx.lineWidth = 2; ctx.strokeRect(px, LABEL_Y + 11 - bh, 15, bh); }
       }
     } else if (w.mode !== 'challenge' && w.bossId === 'zero') {
-      outlinedText(ctx, 'つながり ' + w.m.got + '/' + w.m.voices.length, W - 20, 100, '#ffd0f4');
+      outlinedText(ctx, 'つながり ' + w.m.got + '/' + w.m.voices.length, W - 20, LABEL_Y, '#ffd0f4');
     }
     if (d.hp) {
-      var x = 20, y = 64, bw = W - 40, bh = 22;
+      var x = 20, y = 58, bw = W - 40, bh = 22;
       ctx.fillStyle = 'rgba(0,0,0,0.55)'; rr(ctx, x, y, bw, bh, 8); ctx.fill();
       ctx.fillStyle = 'rgba(255,236,170,0.8)'; rr(ctx, x + 3, y + 3, Math.max(0, (bw - 6) * b.ghostHp / b.maxHp), bh - 6, 6); ctx.fill();
       var hg = ctx.createLinearGradient(x, 0, x + bw, 0); hg.addColorStop(0, '#ff6b8a'); hg.addColorStop(1, d.color);
@@ -2310,10 +2313,10 @@
     ctx.font = '700 24px ' + FONT; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
     outlinedText(ctx, r.combo + ' コンボ', 520, 36, '#ffe28a');
     ctx.textAlign = 'left';
-    if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, 108, '#9fd8e6');
+    if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, LABEL_Y, '#9fd8e6');
     if (r.time < r.tempoUntil) {
-      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 62, 516, 29); ctx.textAlign = 'center';
-      outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, 77, '#ffe28a');
+      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 55, 516, 30); ctx.textAlign = 'center';
+      outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, 70, '#ffe28a');
     }
     if (r.judgement && r.time < r.judgement.until) {
       ctx.textAlign = 'center'; var label = { perfect: 'パーフェクト', good: 'グッド', miss: 'ミス' }[r.judgement.kind];
