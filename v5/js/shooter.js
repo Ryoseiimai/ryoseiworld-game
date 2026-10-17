@@ -33,6 +33,7 @@
   function word(id, fallback) { return typeof RYW.word === 'function' ? RYW.word(id) : fallback; }
   function cooldownText() { return FIRE_INTERVAL.toFixed(2) + '→' + RAPID_INTERVAL.toFixed(2) + ' びょう'; }
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
+  var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
   // 当たり判定は見た目(P_R)より小さく: 本体の7割だけが実際にぶつかる。デバッグの「あたりはんてい みえる」もこの値を描く
   var P_HIT_R = P_R * 0.7;
@@ -1829,15 +1830,16 @@
         ctx.fillStyle = '#ffe2a6'; ctx.fillRect(x + 22, PLAY_T + 158, 16, 10);
       }
     } else if (theme === 'neon') {
-      var sp3 = 420, off3 = (t * 210) % sp3;
+      // R83: the signs hang below the lines, notices and the entrance plate (see NEON_SIGN_Y), so their bright bars never show through text.
+      var sp3 = 420, off3 = (t * 210) % sp3, sy = NEON_SIGN_Y;
       for (x = -off3 - sp3; x < W + sp3; x += sp3) {
-        ctx.fillStyle = 'rgba(14,10,30,0.85)'; ctx.fillRect(x - 4, PLAY_T + 120, 8, PLAY_B - PLAY_T - 120);
+        ctx.fillStyle = 'rgba(14,10,30,0.85)'; ctx.fillRect(x - 4, sy + 80, 8, PLAY_B - sy - 80);
         var hue = (x * 0.3 + 300) % 360;
         ctx.strokeStyle = 'hsla(' + hue + ',100%,65%,0.85)'; ctx.lineWidth = 4;
-        rr(ctx, x - 50, PLAY_T + 40, 100, 70, 10); ctx.stroke();
+        rr(ctx, x - 50, sy, 100, 70, 10); ctx.stroke();
         ctx.fillStyle = 'hsla(' + hue + ',100%,60%,0.25)'; ctx.fill();
         ctx.fillStyle = 'hsla(' + hue + ',100%,80%,0.9)';
-        for (i = 0; i < 4; i++) ctx.fillRect(x - 36 + i * 20, PLAY_T + 100 - (8 + hash(i + Math.floor(t * 4)) * 40), 12, 8 + hash(i + Math.floor(t * 4)) * 40);
+        for (i = 0; i < 4; i++) ctx.fillRect(x - 36 + i * 20, sy + 60 - (8 + hash(i + Math.floor(t * 4)) * 40), 12, 8 + hash(i + Math.floor(t * 4)) * 40);
       }
     } else {
       ctx.strokeStyle = 'rgba(120,200,255,0.35)'; ctx.lineWidth = 3;

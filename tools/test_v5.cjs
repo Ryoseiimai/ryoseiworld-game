@@ -1130,6 +1130,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(y+4<card,'the summon stands above the card');assert(ringY+ringRy+3<card,'the ring (with its 5px line) ends above the card');assert(ringY-11+10+22<card,'the squares end above the card');assert(/rect\(222\+i\*24[^;]*,SUMMON_RING_Y-8\+Math\.sin\(i\+gameTime\/150\)\*8\*k,16,16/.test(html),'paint squares use the named position');assert(ringY-8+8+16<card,'paint squares end above the card');assert(!/rect\([^;]*,5[0-9]{2}\+Math\.sin\(i/.test(html.match(/if\(b\.cast\)\{[^\n]*/)[0]),'no summon squares are left at a fixed y over the card');
   assert(ringY-ringRy<y&&ringY+ringRy>y-30,'the ring sits under the summon’s feet');}
  result.push('R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS');
+// R83: in the ヒカクマオウ fight the neon city's sign (bright bars) hung at the top of the field, right behind Sora's and the boss's lines, and showed through them.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const pt=Number((sh.match(/PLAY_T = (\d+)/)||[])[1]);const off=Number((sh.match(/var NEON_SIGN_Y = PLAY_T \+ (\d+);/)||[])[1]);assert(pt>0&&off>0,'the neon sign has a named y');
+  const neon=(sh.match(/theme === 'neon'\) \{\n[^]*?\n    \} else/)||[''])[0];assert(neon.includes('sy = NEON_SIGN_Y')&&!/PLAY_T \+ (40|100|120)/.test(neon),'the sign and its pole use the named y');
+  // Lines start at PLAY_T+8, pushed down by a two-line word card (about 130px); a three-line line (113px) plus a two-line notice (74px) and their gaps follow.
+  assert(off>8+130+113+6+74+6,'the sign hangs below a word card, a three-line line and a two-line notice');
+  const plate=sh.match(/var INTRO_PLATE_T = (\d+), INTRO_PLATE_H = (\d+);/);assert(plate,'the entrance plate has a named place');assert(pt+off>Number(plate[1])+Number(plate[2]),'the sign hangs below the entrance plate');
+  assert(pt+off+70<666,'the sign ends above the move hint');}
+ result.push('R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
