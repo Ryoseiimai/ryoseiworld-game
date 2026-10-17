@@ -1101,7 +1101,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===D.summons[id].name).at(-1);assert(name,id+' name drawn');assert(name[3]-30>=bottom,id+' name top '+(name[3]-30)+' is below the card bottom '+bottom);
   const extra=r.canvasCalls.filter(c=>c[0]==='fillText'&&(/fire/.test(c[1])||c[1]==='HP ほぞん'));if(id!=='nao')assert(extra.length,id+' effect text drawn');assert(extra.every(c=>c[3]-24>=bottom),id+' effect text below the card');
   // R98: a dark plate sits behind the summon's name and covers the whole name.
-  const plate=r.canvasCalls.filter(c=>c[0]==='summonplate').at(-1),nw=D.summons[id].name.length*30;assert(plate,id+' name plate drawn');assert(plate[1]<=270-nw/2&&plate[1]+plate[3]>=270+nw/2,id+' plate covers the name width');assert(plate[2]<=name[3]-30&&plate[2]+plate[4]>=name[3],id+' plate covers the name height');
+  const plate=r.canvasCalls.filter(c=>c[0]==='summonplate').at(-1),nw=D.summons[id].name.length*30;assert(plate,id+' name plate drawn');assert(plate[1]<=name[2]-nw/2-8&&plate[1]+plate[3]>=name[2]+nw/2+8,id+' plate covers the name width with a margin');assert(plate[2]>=bottom&&plate[2]+plate[4]<=488,id+' plate sits between the word card and the RYOSEI/HP card');assert(plate[2]<=name[3]-30&&plate[2]+plate[4]>=name[3],id+' plate covers the name height');
   assert(r.canvasCalls.indexOf(plate)<r.canvasCalls.indexOf(name),id+' plate is drawn before the name');}
  result.push('R70: 戦闘でことばカードが出ている間、召喚の名前と効果の文字がカードの下に出る PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
