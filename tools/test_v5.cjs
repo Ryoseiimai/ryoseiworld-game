@@ -1308,6 +1308,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(texts[1].startsWith('ミナモの')&&texts[2].startsWith('ネオンの'),texts.join(' / '));
   for(const t of texts)assert([...t.replace('{n}/{goal}','0/3')].length<=19,'the goal stays short: '+t);}
  result.push('R117: ノイズの目標に章ごとの町の名前を入れ、1〜3章で同じ文にならない PASS');
+ // R118: the win line read 「12けいけんち　30えん」, a number glued to the front of the word. Now it reads like the つよさ menu.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.tick(3000);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','calm');r.tick(1500);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle','a vending battle');
+  const def=r.g.GAME_DATA.enemies.vending;r.g.debugWin();const log=r.els.get('battle-log').textContent;
+  assert(log.includes('けいけんち '+def.exp+'　'+def.money+'えん'),'win line: '+log);assert(!/\dけいけんち/.test(log),'no number glued to けいけんち: '+log);
+  for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))assert(!/\{exp\}けいけんち/.test(fs.readFileSync(path.join(root,'data',f),'utf8')),f+': the win dialogue also puts けいけんち before the number');}
+ result.push('R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
