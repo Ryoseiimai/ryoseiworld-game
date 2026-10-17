@@ -1442,9 +1442,9 @@
     S.stage.addEventListener('contextmenu', function (e) { e.preventDefault(); });
     S.beatBtn.addEventListener('pointerdown', function (e) {
       e.preventDefault(); e.stopPropagation(); audioUnlock(S); S.touched = true;
-      sessionBeat(S);
+      beatOrNextWord(S);
     });
-    S.beatBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) sessionBeat(S); });
+    S.beatBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); if (e.detail === 0) beatOrNextWord(S); });
     S.btn.addEventListener('pointerdown', function (e) {
       e.preventDefault(); e.stopPropagation(); audioUnlock(S); S.touched = true;
       if (S.paused || S.world.playtest || S.wordCards.length) return;
@@ -1481,6 +1481,12 @@
   }
   function wordCardH(S) { return S.wordEl && !S.wordEl.hidden && S.wordCards.length && S.wordEl.offsetHeight ? S.wordEl.offsetHeight + 8 : 0; }
   function nextWord(S) { S.wordCards.shift(); S.wordTime = 0; showWord(S); }
+  // R90: the first card says "press with the beat", so the beat button stays pressable while cards are up;
+  // a press then reads on to the next card (like Space/Enter) and does not count as a beat.
+  function beatOrNextWord(S) {
+    if (S.wordCards.length) { if (S.loaded && !S.paused && !S.closed && !S.world.playtest) nextWord(S); return; }
+    sessionBeat(S);
+  }
 
   function hookPlatform(S) {
     var pf = S.platform;
@@ -2320,7 +2326,7 @@
     if (w.cheats.showhitbox) { ctx.strokeStyle = '#7dff9d'; ctx.lineWidth = 2; hitboxes(w).forEach(function (r) { ctx.strokeRect(r.x, r.y, r.width, r.height); }); }
     ctx.restore();
     S.beatBtn.className = 'rs-beat' + (pulse > .4 ? ' rs-lit' : '');
-    S.beatBtn.disabled = S.paused || w.state !== 'play' || !!w.playtest || !!S.wordCards.length;
+    S.beatBtn.disabled = S.paused || !!w.playtest || (!S.wordCards.length && w.state !== 'play');
   }
 
   function drawTicker(ctx, w) {

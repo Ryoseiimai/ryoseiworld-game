@@ -719,6 +719,18 @@ async function browserAdapterChecks() {
   await synthCase('ループが整数小節から2msずれるとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),{...T(1),loopEnd:T(1).loopEnd+.002},T(2),T(3)]);});
   await synthCase('bpmが段とちがうとき',{boss:'bugking'},()=>{ledger=ledgerOf([T(0),T(1),{...T(2),bpm:170},T(3)]);});
   fakeFetch=async()=>({ok:false});
+  // R90: the first boss card says "press with the beat"; the beat button must not look switched off then.
+  R.prepareBossWords=ids=>ids.slice(0,2).map(id=>({id,kind:'game',word:id,sora:'ビートに合わせて押してみて',speaker:'ソラ'}));
+  handle=R.Shooter.start({boss:'bugking',platform});await ready();await advance(.2);
+  const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;
+  check('R90: カードが出ている間もビートのボタンは押せる見た目',win.__shooter.cards===2&&!beatBtn.disabled,[win.__shooter.cards,beatBtn.disabled]);
+  beatBtn.fire('pointerdown',{pointerId:1});await advance(.05);
+  check('R90: ビートのボタンでカードが次へ進む',win.__shooter.cards===1&&!beatBtn.disabled,[win.__shooter.cards,beatBtn.disabled]);
+  beatBtn.fire('pointerdown',{pointerId:1});await advance(.05);
+  check('R90: カードを送った押し方はビートに数えない',win.__shooter.cards===0&&win.__shooter.debugBeat().combo===combo0,[win.__shooter.cards,win.__shooter.debugBeat().combo]);
+  paused.forEach(f=>f());await advance(.05);
+  check('R90: 一時停止の間はビートのボタンを押せない',beatBtn.disabled);
+  resumed.forEach(f=>f());handle.stop();R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
 }
 
 // R72: while a word card stops the fight, a boss line or notice caught mid-fade is held at full strength (not left see-through).
