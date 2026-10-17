@@ -78,7 +78,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // The quest steps for recruit/key/zako come with the people and noises (R24・R25・R38). Until then the stadium boss is reachable directly (no requires on the object).
  quests:{cleared:{text:'まちが すこし おだやかに なった。'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
-  zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
+  zako:{text:'ネオンの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
   key:bossQuest,battery:bossQuest,recruit:bossQuest,boss:bossQuest},
  // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
  summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。'},

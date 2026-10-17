@@ -1302,6 +1302,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R101: 戦闘でことばの札が出ている間、敵が札の下へ寄り、頭が札に隠れない PASS');
  // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
  result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');
+ // R117: chapters 1 to 3 all showed 「まちの ノイズを しずめよう 0/3」, so the goal line did not tell which town you were in.
+ {const r=await runtime();const C=r.g.GAME_DATA.chapters,texts=[1,2,3,4].map(n=>C[n].quests.zako.text);
+  assert.equal(new Set(texts).size,4,'each chapter has its own noise goal: '+texts.join(' / '));
+  assert(texts[1].startsWith('ミナモの')&&texts[2].startsWith('ネオンの'),texts.join(' / '));
+  for(const t of texts)assert([...t.replace('{n}/{goal}','0/3')].length<=19,'the goal stays short: '+t);}
+ result.push('R117: ノイズの目標に章ごとの町の名前を入れ、1〜3章で同じ文にならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
