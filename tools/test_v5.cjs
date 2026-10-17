@@ -798,6 +798,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of m.objects.filter(x=>x.kind==='numberperson')){assert(/^(じゅんい|いいね|フォロワー) [0-9,]+$/.test(o.sign),o.id+' sign names what the number is: '+o.sign);
    const half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;
    for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')&&Math.abs(x.y-o.y)<2.5))assert(Math.abs(o.x-l.x)*48-14>=half,o.id+' sign ('+o.sign+') ends clear of '+l.id);}
+  // R85: a sign whose person stands at the screen edge slides inward and is drawn whole (it was cut to 「じゅんい 86」 / 「いいね 320」 on a phone).
+  for(const [id,hx] of [['neon_num1',16],['neon_num2',14]]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
+   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);
+   assert(txt,id+' sign is drawn');assert(txt[2]-half>=camX&&txt[2]+half<=camX+540,id+' sign stays on screen (x '+txt[2]+', screen '+camX+'..'+(camX+540)+')');
+   assert(Math.abs(txt[2]-o.x*48)<=half,id+' sign still sits over its person');}
   assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
   assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
   st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);
