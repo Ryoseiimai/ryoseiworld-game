@@ -1123,6 +1123,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
   const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
  result.push('R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS');
+ // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
+ {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);
+  const card=Number((html.match(/\.hp-card\{[^}]*top:(\d+)px/)||[])[1]);assert(card>0,'the HP card has a top');
+  assert(html.includes('ctx.ellipse(270,SUMMON_RING_Y,155*Math.min(1,t/400),SUMMON_RING_RY,'),'the ring uses the named position');assert(/rect\(225\+i\*30[^,]*,SUMMON_RING_Y-11\+Math\.sin\(i\)\*10\*k,22,22/.test(html),'the squares use the named position');
+  assert(y+4<card,'the summon stands above the card');assert(ringY+ringRy+3<card,'the ring (with its 5px line) ends above the card');assert(ringY-11+10+22<card,'the squares end above the card');assert(/rect\(222\+i\*24[^;]*,SUMMON_RING_Y-8\+Math\.sin\(i\+gameTime\/150\)\*8\*k,16,16/.test(html),'paint squares use the named position');assert(ringY-8+8+16<card,'paint squares end above the card');assert(!/rect\([^;]*,5[0-9]{2}\+Math\.sin\(i/.test(html.match(/if\(b\.cast\)\{[^\n]*/)[0]),'no summon squares are left at a fixed y over the card');
+  assert(ringY-ringRy<y&&ringY+ringRy>y-30,'the ring sits under the summon’s feet');}
+ result.push('R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
