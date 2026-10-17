@@ -1,0 +1,39 @@
+{
+  "branch": "claude/autodev-20261017-1944-R98",
+  "sha": "99e51b9c24703a81a5085c46d53c819a53dca9f5",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "    at /tmp/tmp.WNh7FrRafU/tree-claude__autodev-20261017-1944-R98/tools/test_v5.cjs:1033:40",
+    "TypeError: Cannot read properties of undefined (reading 'width')",
+    "    at drawBattle (v5/index.html:659:743)",
+    "    at Object.loop [as f] (v5/index.html:681:671)",
+    "    at Object.tick (/tmp/tmp.WNh7FrRafU/tree-claude__autodev-20261017-1944-R98/tools/test_v5.cjs:95:112)",
+    "    at /tmp/tmp.WNh7FrRafU/tree-claude__autodev-20261017-1944-R98/tools/test_v5.cjs:1100:142",
+    "AssertionError [ERR_ASSERTION]: nao name drawn",
+    "    at /tmp/tmp.WNh7FrRafU/tree-claude__autodev-20261017-1944-R98/tools/test_v5.cjs:1101:91 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: undefined,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/186/mobile-02-mode-select.jpg",
+    "devlog/shots/186/mobile-15-custom-full-run.jpg",
+    "devlog/shots/186/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/186/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-10-17T11:01:12.051Z",
+  "merged_sha": null,
+  "tested_base": "107a98216f6048a02efc68d6f72c847302112661",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39026760156"
+}
