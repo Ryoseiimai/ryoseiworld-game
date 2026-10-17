@@ -29,7 +29,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){if(this.fillStyle==='#0b1f3ce0')canvasCalls.push(['summonplate',...a]);if(this.fillStyle==='#1f2a44e6'){canvasCalls.push(['plate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){if(this.fillStyle==='#0b1f3ce0')canvasCalls.push(['summonplate',...a]);if(this.fillStyle==='#1f2a44e6'){canvasCalls.push(['plate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\/|\/enemies\/|\/bugking\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -1227,6 +1227,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   if(card.hidden)r.g.debugLearn(fresh());r.tick(16);assert(!card.hidden,'the card shows over the quiz answer');assert.equal(card.style.top,(28+82+8)+'px','the card sits under the enemy name, not over it');
   r.els.get('modal').querySelector=()=>({offsetTop:150});r.tick(16);assert.equal(card.style.top,'16px','a tall answer panel keeps the card at the top so the panel is not covered');}
  result.push('R99: ことばの札が とう2F の階段の札と、戦闘中のクイズの敵の名前を隠さない PASS');
+ // R101: in battle the word card sat over the enemy's head (バグったじはんき lost its top). While the card shows, the enemy eases down between the card and the HP panel.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const fresh=()=>Object.keys(r.RYW.words).find(id=>!r.g.debugWords().includes(id));
+  for(const type of ['vending','bugking']){
+   r.g.debugStartBattle(type,'r101');r.tick(300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle',type+' battle');
+   const card=r.els.get('word-card'),def=r.g.GAME_DATA.enemies[type],art=def.art||'enemies';
+   const enemy=()=>{r.canvasCalls.length=0;r.tick(16);const c=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes(art)).at(-1);assert(c,type+' is drawn');return c;};
+   if(!card.hidden)r.tick(3000);if(!card.hidden)card.hidden=true;let e=enemy();for(let i=0;i<40;i++)e=enemy();const freeBottom=e[3]+e[5];
+   assert(Math.abs(freeBottom-385)<=8,type+' stands at its usual place without a card: '+freeBottom);
+   assert(r.g.debugLearn(fresh()),'a new word');card.offsetTop=137;card.offsetHeight=90;r.tick(16);assert(!card.hidden,'the card shows in battle');
+   for(let i=0;i<40;i++)e=enemy();const cardBottom=137+90;
+   assert(e[3]>=cardBottom,type+' top '+Math.round(e[3])+' is below the card '+cardBottom);assert(e[3]+e[5]<=446,type+' stays above the ちらつき label (y=466) and the HP panel: '+Math.round(e[3]+e[5]));
+   for(let i=0;i<8&&!card.hidden;i++)r.tick(3000);assert(card.hidden,'the card goes away by itself');for(let i=0;i<40;i++)e=enemy();assert(Math.abs(e[3]+e[5]-freeBottom)<=14,type+' goes back to its place in the same battle once the card is gone: '+Math.round(e[3]+e[5]));
+   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(3000);while(r.g.dialogue)r.dialogue();}
+  assert(/let enemyEase=null;/.test(html)&&/enemyEase\.bot\+=\(bot-enemyEase\.bot\)\*k/.test(html),'the move is eased, not a jump');}
+ result.push('R101: 戦闘でことばの札が出ている間、敵が札の下へ寄り、頭が札に隠れない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
