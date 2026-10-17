@@ -1234,15 +1234,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const fresh=()=>Object.keys(r.RYW.words).find(id=>!r.g.debugWords().includes(id));
   assert(r.g.debugLearn(fresh()),'a new word');r.canvasCalls.length=0;r.tick(16);r.tick(16);const card=r.els.get('word-card');assert(!card.hidden,'the card shows on the field');
   const top=parseFloat(card.style.top),h=card.offsetHeight||96,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
-  assert(signs.length>=2,'both stairs signs drawn');assert(top>Math.max(190,r.g.hudTop),'the card left the top spot over the stairs signs');for(const c of signs){const y=c[3]-cy;assert(y+10<=top||y-30>=top+h,c[1]+' sign at '+Math.round(y)+' is not under the card '+top+'..'+(top+h));}
+  assert(signs.length>=2,'both stairs signs drawn');assert(top<Math.max(190,r.g.hudTop),'the card left the top spot over the stairs signs for the goal line above it (R108)');for(const c of signs){const y=c[3]-cy;assert(y+10<=top||y-30>=top+h,c[1]+' sign at '+Math.round(y)+' is not under the card '+top+'..'+(top+h));}
   assert(top+h<=960-130,'the card stays above the bottom buttons');const hy=r.g.state.y-cy;assert(hy<=top||hy-100>=top+h,'the card does not cover the hero');
   r.tick(16);assert.equal(parseFloat(card.style.top),top,'the card stays put between frames');
+  // R108: the card goes up over the goal line (hidden meanwhile) rather than down over the floor, and the line comes back with the card gone.
+  const minY=Math.min(...signs.map(c=>c[3]-cy))-30;assert(top+h<=minY,'the card sits above the stairs signs, not over the floor ('+top+'..'+(top+h)+' vs '+Math.round(minY)+')');
+  const quest=r.els.get('quest');assert.equal(quest.style.visibility,'hidden','the goal line hides under the card');
+  for(let i=0;i<40&&!card.hidden;i++)r.tick(500);assert(card.hidden,'the card goes away');assert.equal(quest.style.visibility,'','the goal line is back');
   r.g.debugStartBattle('crow','r99-quiz');r.tick(300);for(let i=0;i<4;i++)r.g.debugLearn(fresh());r.tick(16);
   const bt=r.els.get('battle-top');bt.offsetTop=28;bt.offsetHeight=82;r.els.get('modal').querySelector=()=>({offsetTop:400});
   r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[0].onclick();assert.equal(r.g.modal,'quiz-feedback');r.setRandom(Math.random);
   if(card.hidden)r.g.debugLearn(fresh());r.tick(16);assert(!card.hidden,'the card shows over the quiz answer');assert.equal(card.style.top,(28+82+8)+'px','the card sits under the enemy name, not over it');
   r.els.get('modal').querySelector=()=>({offsetTop:150});r.tick(16);assert.equal(card.style.top,'16px','a tall answer panel keeps the card at the top so the panel is not covered');}
  result.push('R99: ことばの札が とう2F の階段の札と、戦闘中のクイズの敵の名前を隠さない PASS');
+ result.push('R108: とう2F でことばの札が床を隠さず、目標の帯の上に出て、その間は目標の字を隠す PASS');
  // R101: in battle the word card sat over the enemy's head (バグったじはんき lost its top). While the card shows, the enemy eases down between the card and the HP panel.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   const fresh=()=>Object.keys(r.RYW.words).find(id=>!r.g.debugWords().includes(id));
