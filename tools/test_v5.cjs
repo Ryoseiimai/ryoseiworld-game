@@ -975,7 +975,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.key('Escape');r.click('menu-btn');assert(labels(r).includes('チャレンジ'),'chapter 1 boss clear unlocks entry');
   r.button('チャレンジ');assert.equal(r.g.modal,'cheats');assert.equal(r.shooterRuns.length,0);assert(r.g.debugWords().includes('cheat')&&r.g.debugWords().includes('debugmode'));
   r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.mode,'challenge');assert.equal(r.shooterRuns.at(-1).cfg.startStage,1);assert.deepEqual(plain(r.shooterRuns.at(-1).cfg.options.cheats),blank);
-  const first=r.shooterRuns.at(-1).cfg;first.onEnd({stage:12,bestCombo:48,score:1000,cheated:false});assert.equal(r.g.screen,'field');assert(copy(r).includes('さいこう ステージ 12')&&copy(r).includes('さいこう コンボ 48'));
+  const first=r.shooterRuns.at(-1).cfg;first.onEnd({stage:12,bestCombo:48,score:1000,cheated:false});assert.equal(r.g.screen,'field');assert(copy(r).includes('さいこう ステージ 12')&&copy(r).includes('さいこう コンボ 48'));assert(!copy(r).includes('チートつき'),'R103: no cheat record row before any cheat run');
   first.onEnd({stage:99,bestCombo:99,score:99999,cheated:true});assert.deepEqual(plain(r.g.state.challenge.bestCheat),record,'duplicate callback ignored');
   r.tick(300);r.key('Escape');const shop=r.g.debugShop();assert.equal(shop,r.RYW.Shop);assert.equal(shop.kind,'test');assert.equal(shop.has('debugmode'),false);assert.equal(await shop.buy('unknown'),false);assert.equal(await shop.restore(),false);
   r.g.debugOpenCheats();r.button('［デバッグモード');assert.equal(r.g.modal,'shop-gate');assert.equal(labels(r).filter(t=>/^\d+$/.test(t)).length,4);assert(!r.g.debugWords().includes('iap'));const q=copy(r),wrong=labels(r).find(t=>/^\d+$/.test(t)&&Number(t)!==answer(r));r.button(wrong);await settle();assert.equal(r.g.modal,'');assert(!shop.has('debugmode'));assert(!r.g.debugWords().includes('iap'));
@@ -984,7 +984,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const text of ['ゴッドモード','タイムスケール','はんてい ワイド','あたりはんてい'])r.button(text);assert(Object.values(r.g.state.cheats).every(Boolean));assert(r.g.debugWords().includes('godmode')&&r.g.debugWords().includes('timescale'));
   const words=[...r.g.debugWords()];r.button('ゴッドモード');r.button('ゴッドモード');assert.deepEqual([...r.g.debugWords()],words,'learning happens once');
   r.key('Escape');r.g.debugStartChallenge(7);r.button('はじめる');const c=r.shooterRuns.at(-1).cfg;assert.equal(c.startStage,7);assert.equal(c.platform,r.g.platform);assert(Object.values(c.options.cheats).every(Boolean));assert.notEqual(c.options.cheats,r.g.state.cheats,'options copied');
-  c.onEnd({stage:20,bestCombo:60,score:2000,cheated:true});assert(r.els.get('modal-title').textContent.includes('チートつき'));assert.equal(r.g.state.challenge.best.stage,12);assert.equal(r.g.state.challenge.bestCheat.stage,20);
+  c.onEnd({stage:20,bestCombo:60,score:2000,cheated:true});assert(r.els.get('modal-title').textContent.includes('チートつき'));assert.equal(r.g.state.challenge.best.stage,12);assert.equal(r.g.state.challenge.bestCheat.stage,20);assert(/チートつき\nさいこう ステージ 20/.test(copy(r)),'R103: the cheat record shows after a cheat run');
   r.tick(300);r.button('もう いちど');for(const text of ['ゴッドモード','タイムスケール','はんてい ワイド','あたりはんてい'])r.button(text);r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:8,bestCombo:55,score:800,cheated:false});assert.deepEqual(plain(r.g.state.challenge.best),{stage:12,bestCombo:55,score:1000},'best fields retain independent maxima');
   r.tick(300);r.key('Escape');r.g.debugOpenCheats();r.button('ゴッドモード');r.key('Escape');r.g.debugStartBoss('bugking');assert.equal(r.g.modal,'cheats');r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.options.cheats.godmode,true,'story boss receives cheats');r.shooterRuns.at(-1).cfg.onLose('retry');assert.equal(r.g.modal,'cheats');r.button('ゴッドモード');r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.options.cheats.godmode,false,'retry reads new switches');r.g.debugWarp('room',5,9);r.g.debugOpenCheats();r.button('タイムスケール');r.key('Escape');
   await r.g.save(false);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.saveVersion,2);assert.equal(sv.shop.debugmode,true);assert.equal(sv.cheats.timescale,true);assert.equal(sv.cheats.godmode,false);assert.equal(sv.challenge.bestCheat.stage,20);
@@ -1243,6 +1243,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(3000);while(r.g.dialogue)r.dialogue();}
   assert(/let enemyEase=null;/.test(html)&&/enemyEase\.bot\+=\(bot-enemyEase\.bot\)\*k/.test(html),'the move is eased, not a jump');}
  result.push('R101: 戦闘でことばの札が出ている間、敵が札の下へ寄り、頭が札に隠れない PASS');
+ // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
+ result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

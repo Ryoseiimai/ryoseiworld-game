@@ -432,7 +432,8 @@ function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||pro
 function cleanRecord(r){return Object.fromEntries(Object.keys(freshRecord()).map(k=>[k,Math.max(0,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(num(r?.[k],0))))]));}
 function challengeUnlocked(){return g.chapter>1||g.bosses.includes(GAME_DATA.chapters[1]?.boss);}
 function recordText(r){return'さいこう ステージ '+r.stage+'\nさいこう コンボ '+r.bestCombo;}
-function challengeRecords(){return'ふつう\n'+recordText(g.challenge.best)+'\n\nチートつき\n'+recordText(g.challenge.bestCheat);}
+// R103: the cheat record shows only after a run with cheats, so a player who never used them does not see a row of zeros.
+function challengeRecords(){const c=g.challenge.bestCheat;return'ふつう\n'+recordText(g.challenge.best)+(c.stage||c.bestCombo?'\n\nチートつき\n'+recordText(c):'');}
 function openChallenge(stage=1){if(!challengeUnlocked()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
  const begin=()=>startChallenge(stage);if(isPlayables())openModal('チャレンジ',recordText(g.challenge.best),[{text:'はじめる',action:begin},{text:'もどる',action:closeModal}],'challenge');else openCheats(begin);return true;}
 function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return false;const cheats=activeCheats(),used=Object.values(cheats).some(Boolean);clearWordCards();screen('shooter');let ended=false;
