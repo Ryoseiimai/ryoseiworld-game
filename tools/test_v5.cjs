@@ -1170,6 +1170,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
  result.push('R80: 出口の矢印や敵・人が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
+ // R107: the talk button (bottom right) turns its plate see-through (letters stay solid, as in R77) while a person, an enemy or an exit is behind it, like the walk help box.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/background:#f1cd7c1a/.test(css)&&!/opacity/.test(css),'only the plate turns see-through, the word stays solid (R77): '+css);}const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const seen=[];
+  for(let y=3;y<=14;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(btn.classes.has('behind'));}
+  for(let x=2;x<=20;x++)for(let y=4;y<=30;y+=2){r.g.debugWarp('town',x,y);r.tick(16);seen.push(btn.classes.has('behind'));}
+  assert(seen.some(Boolean),'somewhere a person or exit sits behind the talk button: '+seen.filter(Boolean).length);
+  r.g.debugWarp('room',5,5);r.tick(16);assert(!btn.classes.has('behind'),'in the room nothing is behind the talk button');}
+ result.push('R107: 人や敵・出口が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる（字は濃いまま） PASS');
  // R81: the title captions break only at spaces, so 「ことばノートの」 is not cut into 「ことばノー」「トの」.
  {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
   const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
