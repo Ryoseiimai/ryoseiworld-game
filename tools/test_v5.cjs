@@ -782,6 +782,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r2=await runtime();r2.tick();r2.g.debugEvent([{finale:{towns:[]}}]);assert.equal(r2.g.screen,'epilogue');
   r2.key('Enter',false,r2.els.get('epilogue-input'));assert.equal(r2.els.get('epilogue-text').textContent,'わかった。つくろう','なにも かかずに おくると もとの ことば（Enterキーでも おくれる）');}
  result.push('R30/FUN2: エンディング（まちの カード）→ エピローグ（かいた ことばを ソラが 読みかえす）→ タイトル PASS');
+ // R100: the park sign's 「こうえん」 sits inside its board (between the posts, under the top beam) and at the board's middle, in both towns.
+ // Board of props 11 (frame 236x248): posts end at x 62 and start at x 174, the panel runs y 96..166 and its middle is y 128.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);
+  for(const [map,id] of [['town','parksign'],['minamo','minamo_parksign']]){const o=r.g.GAME_DATA.maps[map].objects.find(x=>x.id===id);assert(o&&o.sign==='こうえん',id+' is a park sign');
+   r.g.debugWarp(map,o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+   assert(txt&&img,id+' sign art and words are drawn');const [,,x,y,w,h]=img,left=x+w*63/236,right=x+w*174/236,top=y+h*96/248,bottom=y+h*166/248,half=[...o.sign].length*24/2+3;
+   assert(txt[2]-half>=left&&txt[2]+half<=right,id+' words stay between the posts (words '+(txt[2]-half)+'..'+(txt[2]+half)+', board '+left.toFixed(1)+'..'+right.toFixed(1)+')');
+   assert(txt[3]-22>=top&&txt[3]+4<=bottom,id+' words stay on the panel (glyphs '+(txt[3]-22)+'..'+(txt[3]+4)+', panel '+top.toFixed(1)+'..'+bottom.toFixed(1)+')');
+   assert(Math.abs(txt[2]-(left+right)/2)<=2&&Math.abs(txt[3]-9-(y+h*128/248))<=2,id+' words sit at the middle of the board (text '+txt[2]+','+txt[3]+')');
+   // The hero standing behind the board (on its upper half) sees through it; in front of it, the sign is solid.
+   for(const [dy,alpha] of [[-1.2,.45],[1.8,1]]){r.g.debugWarp(map,o.x,o.y+dy);r.tick(16);r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const i=r.imageLog.findLastIndex(src=>String(src).endsWith('props_r2_c3.png'));
+    assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero '+(dy<0?'behind':'in front'));}}}
+ result.push('R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
