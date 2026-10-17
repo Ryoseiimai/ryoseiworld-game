@@ -794,6 +794,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.canvasCalls.length=0;r.tick(16);
    const t2=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),tag=r.canvasCalls.filter(c=>c[0]==='tag'&&Math.abs(c[1]+c[3]/2-t2?.[2])<4).at(-1);
    assert(t2&&tag,'name tag is shown when the person is the talk target');assert(t2[3]-24>=tag[2]+tag[4],'name tag does not cover the number (text top '+(t2[3]-24)+', tag bottom '+(tag[2]+tag[4])+')');}
+  // R84: each number says what it counts (SPEC_V5_CH234.md: followers, likes, rank), and the wider sign still ends before the nearest lamp head.
+  for(const o of m.objects.filter(x=>x.kind==='numberperson')){assert(/^(じゅんい|いいね|フォロワー) [0-9,]+$/.test(o.sign),o.id+' sign names what the number is: '+o.sign);
+   const half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;
+   for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')&&Math.abs(x.y-o.y)<2.5))assert(Math.abs(o.x-l.x)*48-14>=half,o.id+' sign ('+o.sign+') ends clear of '+l.id);}
   assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
   assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
   st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);

@@ -31,11 +31,13 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // R69: num1/num2 stand 1.8 tiles off the street lights at x 12.4/17.6, so the numbers never sit on a lamp.
+ // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
+ // num3 stands at x 9.4 so its longer フォロワー sign ends clear of the lamp head at x 12.4.
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
- object('neon_num1','numberperson',0,10.6,19.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'86い'}),
- object('neon_num2','numberperson',1,19.4,19.4,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'3204'}),
- object('neon_num3','numberperson',2,10,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'12,840'}),
- object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'99い'})],
+ object('neon_num1','numberperson',0,10.6,19.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
+ object('neon_num2','numberperson',1,19.4,19.4,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
+ object('neon_num3','numberperson',2,9.4,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
+ object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'じゅんい 99'})],
  // R38: three street zako (popup, infinite loading, a rampaging vacuum) plus R46's ハルシネーション, patrolling the two cross roads.
  enemies:[{id:'nz1',type:'popup',x:9,y:15.5,axis:'x'},{id:'nz2',type:'infload',x:21,y:15.5,axis:'x'},{id:'nz3',type:'vacuum',x:14.5,y:21,axis:'y'},{id:'nz4',type:'hallucination',x:9,y:26.5,axis:'x'}],portals:[]};
 // Terrain: # city tiles, = road, + sidewalk. Two streets cross the town and one road joins the station and the stadium.
