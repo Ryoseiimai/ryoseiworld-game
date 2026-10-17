@@ -1178,6 +1178,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(seen.some(Boolean),'somewhere a person or exit sits behind the talk button: '+seen.filter(Boolean).length);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!btn.classes.has('behind'),'in the room nothing is behind the talk button');}
  result.push('R107: 人や敵・出口が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる（字は濃いまま） PASS');
+ // R109: the words of a sign (こうえん in ミナモ) behind the walk help box or the talk button make them see-through too.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;
+  const sweep=()=>{let h=0,b=0;for(let x=2;x<=24;x++)for(let y=14;y<=36;y++){r.g.debugWarp('minamo',x,y);r.tick(16);h+=help.classes.has('behind');b+=btn.classes.has('behind');}return [h,b];};
+  const sign=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.sign==='こうえん');assert(sign,'ミナモ has the こうえん sign');
+  const withSign=sweep();delete sign.sign;const without=sweep();sign.sign='こうえん';
+  assert(withSign[0]>without[0],'the sign words behind the walk help box turn it see-through: '+withSign+' / '+without);
+  assert(withSign[1]>=without[1],'the talk button never gets less see-through with the sign: '+withSign+' / '+without);}
+ result.push('R109: 看板の字が「ドラッグで あるく」の箱やボタンの後ろに来ても、箱が薄くなる PASS');
  // R81: the title captions break only at spaces, so 「ことばノートの」 is not cut into 「ことばノー」「トの」.
  {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
   const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
