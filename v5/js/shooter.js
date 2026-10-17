@@ -43,8 +43,8 @@
   var HINT_T = 4.5, RAMP_T = 12, BREATHER_R = 170;
   var INTRO_PLATE_T = 392, INTRO_PLATE_H = 98; // R75: the plate behind the entrance lines at y 420 and 462
   // R87: the entrance lines sit in the middle of the field, where the boss rides in. They are gone by INTRO_TEXT_END s,
-  // and the boss starts in from the right edge at INTRO_BOSS_IN s, so it does not slide in behind them.
-  var INTRO_TEXT_END = 1.9, INTRO_BOSS_IN = 1.7, INTRO_END = 2.5;
+  // and the boss starts in from the right edge at INTRO_BOSS_IN s, so it does not slide in behind them (its voice comes first).
+  var INTRO_TEXT_END = 1.85, INTRO_BOSS_IN = 1.7, INTRO_END = 2.5;
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
