@@ -42,6 +42,9 @@
   // After a hit, bullets within BREATHER_R are cleared so one mistake does not chain into the next.
   var HINT_T = 4.5, RAMP_T = 12, BREATHER_R = 170;
   var INTRO_PLATE_T = 392, INTRO_PLATE_H = 98; // R75: the plate behind the entrance lines at y 420 and 462
+  // R87: the entrance lines sit in the middle of the field, where the boss rides in. They are gone by INTRO_TEXT_END s,
+  // and the boss starts in from the right edge at INTRO_BOSS_IN s, so it does not slide in behind them.
+  var INTRO_TEXT_END = 1.9, INTRO_BOSS_IN = 1.7, INTRO_END = 2.5;
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -443,12 +446,12 @@
     var p = w.p, s = w.stateT, k = clamp((s - 0.5) / 1.1, 0, 1), e = k * k * (3 - 2 * k);
     p.y = (PLAY_B - 70) + (PLAY_MID + 40 - (PLAY_B - 70)) * e;
     p.risen = s > 0.45;
-    var kb = clamp((s - 0.6) / 1.0, 0, 1), eb = 1 - Math.pow(1 - kb, 3);
+    var kb = clamp((s - INTRO_BOSS_IN) / (INTRO_END - INTRO_BOSS_IN), 0, 1), eb = 1 - Math.pow(1 - kb, 3);
     w.b.x = W + 170 + (w.def.x - (W + 170)) * eb;
     w.b.y = PLAY_MID;
     if (!w.introRise && s >= 0.45) { w.introRise = true; emit(w, 'rise'); sparks(w, p.x, p.y + 56, 18, '#8ff8ff', 220); }
     if (!w.introSaid && s >= 0.7) { w.introSaid = true; burst(w, w.lines.intro[0], w.lines.intro[1], 2.0); }
-    if (s >= 2.5) {
+    if (s >= INTRO_END) {
       w.state = 'play'; w.stateT = 0; emit(w, 'start');
       var L = w.lines, hint = w.hasOwl && L.owlHint ? L.owlHint : L.hint;
       // R86: the hint comes up together with the move hint at the bottom, so it stays a second past it (it was gone in 3.2 s).
@@ -1062,6 +1065,7 @@
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
+  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H };
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2385,8 +2389,8 @@
 
   function drawTexts(ctx, S, w) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    if (w.state === 'intro' && w.stateT > 0.2) {
-      var ia = clamp(Math.min((w.stateT - 0.2) * 4, (2.5 - w.stateT) * 3), 0, 1);
+    if (w.state === 'intro' && w.stateT > 0.2 && w.stateT < INTRO_TEXT_END) {
+      var ia = clamp(Math.min((w.stateT - 0.2) * 4, (INTRO_TEXT_END - w.stateT) * 3), 0, 1);
       ctx.globalAlpha = ia; ctx.font = '800 30px ' + FONT;
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
       var iw = Math.max(ctx.measureText('フクの ちからで').width, ctx.measureText('キックボードが うかんだ！').width) + 48;

@@ -756,6 +756,25 @@ async function browserAdapterChecks() {
   check('R86: 待ったヒントは短くなる', late && late.speaker === 'ソラ' && late.t + late.dur <= start + 5.5 + 1e-6, late && [late.t - start, late.dur]);
 })();
 
+// R87: ボス戦の始まりの「フクの ちからで／キックボードが うかんだ！」の帯（画面の真ん中）に、右から入るボスが重ならない。
+(() => {
+  const I = sim.INTRO;
+  check('R87: 帯が消えてからボスが入りきる', I && I.textEnd <= I.end && I.bossIn < I.end, I);
+  // 帯の右端: 30px の太字で「キックボードが うかんだ！」（全角12字と空白）に左右の余白48px。多めに見積もる。
+  const plateR = (540 + 12 * 31 + 10 + 48) / 2;
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss }); let worst = Infinity, g = 0, rows = 0;
+    while (w.state === 'intro' && g++ < 1000) {
+      sim.step(w, DT, IDLE);
+      const s = w.stateT, a = Math.min((s - 0.2) * 4, (I.textEnd - s) * 3);
+      const top = w.b.y - B[boss].drawH / 2, bottom = w.b.y + B[boss].drawH / 2;
+      if (w.state !== 'intro' || a < 0.5 || bottom < I.plateT || top > I.plateT + I.plateH) continue;
+      rows++; worst = Math.min(worst, w.b.x - B[boss].drawH / 2 - plateR);
+    }
+    check('R87: ' + boss + ' は帯がはっきり見えている間、帯の右に離れている', rows > 0 && worst >= 0, [rows, worst]);
+  }
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
