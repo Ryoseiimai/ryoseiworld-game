@@ -24,12 +24,12 @@ function pngPixels(file){
 }
 
 async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,search='',capacitor=null,musicLedger,musicDurations={}}={}) {
-  const sources=[];const listeners = {}, els = new Map(), draws=[], imageLog=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
+  const sources=[];const listeners = {}, els = new Map(), draws=[], imageLog=[], imageAlpha=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),fillRect(...a){if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -104,7 +104,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
+  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -1168,6 +1168,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(sv)]])});back.tick();back.click('continue-btn');while(back.g.dialogue)back.dialogue();back.tick(16);
   assert.equal(back.g.questStep,'ended','a save from after the ending (made before R88) shows the challenge line');}
  result.push('R88: 4章を終えた後の目的の文が、メニューのチャレンジへ案内する PASS');
+ // R92: after a win the enemy stayed bright and bobbing under 「おとなしく なった！」; now it settles and fades to about half.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.tick(3000);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','calm');r.tick(1500);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle','a vending battle');
+  const enemyAlpha=()=>{r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const art=r.g.GAME_DATA.enemies[r.g.battle.type].art||'enemies';const i=r.imageLog.findIndex(s=>String(s).includes(art));assert(i>=0,'the enemy is drawn: '+art+' '+r.imageLog.slice(0,8));return r.imageAlpha[i];};
+  assert.equal(enemyAlpha(),1,'during the fight the enemy is solid');r.g.debugWin();assert(r.g.battle&&r.g.battle.over,'the battle shows its result');
+  r.tick(1000);const a=enemyAlpha();assert(a<=0.5&&a>=0.3,'after the win the enemy fades: '+a);
+  assert(/b\.wonAt=gameTime/.test(html)&&/ctx\.globalAlpha=1-\.6\*calm;sprite\([^;]*\);ctx\.globalAlpha=1;/.test(html),'the fade is put back to 1 right after the enemy');
+  assert(/def\.animCols\?Math\.floor\(\(calm\?b\.wonAt:gameTime\)\/200\)%def\.animCols:def\.frame/.test(html),'bosses with animCols keep the frame they had at the win (they have no frame of their own)');}
+ result.push('R92: 勝った後、敵がゆれを止めて少し沈み、うすくなる PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
