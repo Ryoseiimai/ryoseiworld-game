@@ -1197,6 +1197,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const head=(html.match(/\.word-card \.word-head\{([^}]*)\}/)||[])[1]||'';assert(/display:flex/.test(head)&&/space-between/.test(head),'the name is pushed to the right end');
   const who=(html.match(/\.word-card \.word-who\{([^}]*)\}/)||[])[1]||'';assert(who&&!/font-size/.test(who),'the name keeps the 24px card letters');}
  result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
+ // R99: on とう2F the card no longer covers the stairs signs (うえへ / したへ) at the top of the floor: it moves to the bottom of the map band, clear of the hero.
+ // In battle a quiz answer (おさらい) puts the card under the enemy name instead of over it.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower2',5,10);r.tick(1300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'tower2');
+  const fresh=()=>Object.keys(r.RYW.words).find(id=>!r.g.debugWords().includes(id));
+  assert(r.g.debugLearn(fresh()),'a new word');r.canvasCalls.length=0;r.tick(16);r.tick(16);const card=r.els.get('word-card');assert(!card.hidden,'the card shows on the field');
+  const top=parseFloat(card.style.top),h=card.offsetHeight||96,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
+  assert(signs.length>=2,'both stairs signs drawn');assert(top>Math.max(190,r.g.hudTop),'the card left the top spot over the stairs signs');for(const c of signs){const y=c[3]-cy;assert(y+10<=top||y-30>=top+h,c[1]+' sign at '+Math.round(y)+' is not under the card '+top+'..'+(top+h));}
+  assert(top+h<=960-130,'the card stays above the bottom buttons');const hy=r.g.state.y-cy;assert(hy<=top||hy-100>=top+h,'the card does not cover the hero');
+  r.tick(16);assert.equal(parseFloat(card.style.top),top,'the card stays put between frames');
+  r.g.debugStartBattle('crow','r99-quiz');r.tick(300);for(let i=0;i<4;i++)r.g.debugLearn(fresh());r.tick(16);
+  const bt=r.els.get('battle-top');bt.offsetTop=28;bt.offsetHeight=82;r.els.get('modal').querySelector=()=>({offsetTop:400});
+  r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[0].onclick();assert.equal(r.g.modal,'quiz-feedback');r.setRandom(Math.random);
+  if(card.hidden)r.g.debugLearn(fresh());r.tick(16);assert(!card.hidden,'the card shows over the quiz answer');assert.equal(card.style.top,(28+82+8)+'px','the card sits under the enemy name, not over it');
+  r.els.get('modal').querySelector=()=>({offsetTop:150});r.tick(16);assert.equal(card.style.top,'16px','a tall answer panel keeps the card at the top so the panel is not covered');}
+ result.push('R99: ことばの札が とう2F の階段の札と、戦闘中のクイズの敵の名前を隠さない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
