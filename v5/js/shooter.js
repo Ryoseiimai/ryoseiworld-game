@@ -41,6 +41,7 @@
   // The move hint stays HINT_T s. No aimed shot comes before it is gone; then shots get to full speed over RAMP_T s.
   // After a hit, bullets within BREATHER_R are cleared so one mistake does not chain into the next.
   var HINT_T = 4.5, RAMP_T = 12, BREATHER_R = 170;
+  var HINT_PLATE_T = PLAY_B - 160, HINT_FREE = 1.2; // R111: top of the move hint's plate; the boss keeps above it until HINT_T + HINT_FREE
   // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
   // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
   var INTRO_PLATE_T = 352, INTRO_PLATE_H = 98;
@@ -620,6 +621,12 @@
     } else {
       b.y = PLAY_MID + Math.sin(t * d.moveF) * d.moveA + Math.sin(t * 1.37) * 34;
       b.x = d.x + Math.sin(t * 0.7) * 10;
+      // R111: while the move hint is up, the boss's picture stays above its plate so it does not hide the two lines.
+      // The limit then drops away over HINT_FREE s, so the boss eases back into its full swing instead of jumping.
+      if (w.state === 'play' && w.stateT < HINT_T + HINT_FREE) {
+        var lim = HINT_PLATE_T - 6 - d.drawH / 2 + Math.max(0, w.stateT - HINT_T) / HINT_FREE * d.moveA;
+        if (b.y > lim) b.y = lim;
+      }
     }
     if (w.bossId === 'kateino') { var g = gap(w); b.y = clamp(b.y, g.top + 90, g.bottom - 90); }
   }
@@ -1074,7 +1081,7 @@
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
-  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H };
+  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T };
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2398,7 +2405,7 @@
     }
     if (w.state === 'play' && w.stateT < HINT_T) {
       var ha = clamp(Math.min(w.stateT * 4, (HINT_T - w.stateT) * 2), 0, 1);
-      ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, PLAY_B - 160, W - 120, 82, 14); ctx.fill();
+      ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 136, '#fff5d6');
       outlinedText(ctx, 'やじるし・WASD でも うごく', W / 2, PLAY_B - 102, '#c9e8f2');

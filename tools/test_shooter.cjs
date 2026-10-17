@@ -853,6 +853,24 @@ async function browserAdapterChecks() {
   check('R110: ネオンの看板は帯から40px以上下', I.signY - plateB >= 40, [I.signY, plateB]);
 })();
 
+// R111: 「ゆびを すべらせて うごく」の案内が出ている間、ボスの絵は案内の板より上にいて、字を隠さない。案内が消えた後もボスは飛ばない。
+(() => {
+  const I = sim.INTRO;
+  for (const boss of Object.keys(B)) {
+    if (boss === 'jibun') continue; // ジブンは主人公の高さを追う
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let worst = Infinity, jump = 0, prev = null, g = 0, rows = 0;
+    while (g++ < 2000 && !(w.state === 'play' && w.stateT > I.hintT + 3)) {
+      sim.step(w, DT, IDLE);
+      if (w.state !== 'play') { prev = null; continue; }
+      if (w.stateT < I.hintT) { rows++; worst = Math.min(worst, I.hintPlateT - (w.b.y + B[boss].drawH / 2)); }
+      if (prev != null) jump = Math.max(jump, Math.abs(w.b.y - prev));
+      prev = w.b.y;
+    }
+    check('R111: ' + boss + ' は案内の間、案内の板より上', rows > 0 && worst >= 0, [rows, worst]);
+    check('R111: ' + boss + ' は案内が消えても飛ばない', jump < 4, jump);
+  }
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
