@@ -2263,5 +2263,20 @@
   ],
   "sha": "fedddc0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39042226497"
+ },
+ {
+  "at": "2026-10-17T15:48:06.120Z",
+  "branch": "claude/autodev-20261018-0022-R105",
+  "task": "R105 遊んで一番気になる所を1つ直す",
+  "summary": "続きのタイトルで、案内の2行がボタンを桜の絵の上へ押し上げていたのを直した\n案内が出る時はボタンの列を道の上に止め、案内が3行になっても画面に収まるようにした\nテストと前と後のスクショ（docs/shots/R105）で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/197/mobile-02-mode-select.jpg",
+   "shots/197/mobile-15-custom-full-run.jpg",
+   "shots/197/mobile-27-chapter-2-play.jpg",
+   "shots/197/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bb9d205",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39046223460"
  }
 ]
