@@ -737,6 +737,25 @@ async function browserAdapterChecks() {
   check('R72: カードが消えたら台詞は消えていく', w.burst !== out);
 })();
 
+// R86: ソラのヒントは下の「ゆびを すべらせて うごく」より長く出る（3.2秒で消えて、読む前に薄くなっていた）。
+(() => {
+  for (const boss of ['kateino', 'hikaku']) {
+    const w = world({ boss, god: true });
+    let g = 0; while (!(w.burst && w.burst.speaker === 'ソラ') && g++ < 1000) sim.step(w, DT, IDLE);
+    const hint = w.burst;
+    check('R86: ' + boss + ' のヒントが出る', hint && hint.speaker === 'ソラ', hint && hint.speaker);
+    run(w, 5.0);
+    const a = hint ? Math.min(1, (hint.dur - (w.t - hint.t)) * 3) : 0;
+    check('R86: ' + boss + ' のヒントは下の案内が消えた後も読める', w.burst === hint && a > 0.9, [w.t - (hint ? hint.t : 0), hint && hint.dur, a]);
+  }
+  // 先に出た台詞の後ろで待ったヒントは、遊び始めから HINT_T+1 秒で終わる（押した後まで「みせて みよう」が残らない）。
+  const w = sim.createWorld({ seed: 7, boss: 'kateino', god: true }); toPlay(w);
+  const start = w.t; w.burst = { speaker: 'RYOSEI', text: 'みせた', dur: 3.0, t: w.t, urgent: true };
+  let g = 0; while (!(w.burst && w.burst.speaker === 'ソラ') && g++ < 2000) sim.step(w, DT, IDLE);
+  const late = w.burst; run(w, 0.2);
+  check('R86: 待ったヒントは短くなる', late && late.speaker === 'ソラ' && late.t + late.dur <= start + 5.5 + 1e-6, late && [late.t - start, late.dur]);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

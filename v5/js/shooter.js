@@ -451,7 +451,8 @@
     if (s >= 2.5) {
       w.state = 'play'; w.stateT = 0; emit(w, 'start');
       var L = w.lines, hint = w.hasOwl && L.owlHint ? L.owlHint : L.hint;
-      if (hint) burst(w, hint[0], hint[1], 3.2);
+      // R86: the hint comes up together with the move hint at the bottom, so it stays a second past it (it was gone in 3.2 s).
+      if (hint) { burst(w, hint[0], hint[1], HINT_T + 1); var hq = w.burstQ[w.burstQ.length - 1]; if (hq) hq.until = w.t + HINT_T + 1; }
     }
   }
 
@@ -1002,7 +1003,12 @@
   }
   function stepTexts(w, dt) {
     if (w.burst && w.t - w.burst.t > w.burst.dur) w.burst = null;
-    if (!w.burst && w.burstQ.length) { w.burst = w.burstQ.shift(); w.burst.t = w.t; }
+    // R86: a line with an end time (the opening hint) that had to wait behind other lines only shows for what is left, or not at all.
+    while (!w.burst && w.burstQ.length) {
+      var nx = w.burstQ.shift();
+      if (nx.until != null) { if (nx.until - w.t < 1) continue; nx.dur = Math.min(nx.dur, nx.until - w.t); }
+      w.burst = nx; w.burst.t = w.t;
+    }
     if (w.toast && w.t - w.toast.t > w.toast.dur) w.toast = null;
     w.tickers.forEach(function (tk) { tk.x -= 130 * dt; });
     w.tickers = w.tickers.filter(function (tk) { return tk.x + textW(tk.text, 26) > -20; });
@@ -2443,6 +2449,9 @@
     state: { enumerable: true, get: function () { return current ? (current.loaded ? current.world.state : 'loading') : lastState; } },
     result: { enumerable: true, get: function () { return lastResult; } },
     boss: { enumerable: true, get: function () { return cw() ? cw().bossId : null; } },
+    // R86: the line on show now (who, what, seconds shown, seconds it lasts) and how many word cards are up.
+    line: { enumerable: true, get: function () { var w = cw(); return w && w.burst ? { speaker: w.burst.speaker, text: w.burst.text, age: w.t - w.burst.t, dur: w.burst.dur } : null; } },
+    cards: { enumerable: true, get: function () { return current ? current.wordCards.length : 0; } },
     bossHp: { enumerable: true, get: function () { return cw() ? Math.ceil(cw().b.hp) : null; } },
     bossMaxHp: { enumerable: true, get: function () { return cw() ? cw().b.maxHp : null; } },
     hearts: { enumerable: true, get: function () { return cw() ? cw().p.hearts : null; } },
