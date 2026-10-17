@@ -2023,5 +2023,20 @@
   ],
   "sha": "df15add",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39011338294"
+ },
+ {
+  "at": "2026-10-17T07:39:39.442Z",
+  "branch": "claude/autodev-20261017-1621-R92",
+  "task": "R92 遊んで一番気になる所を1つ直す",
+  "summary": "R92: コマンド戦闘で勝った後、敵がゆれを止めて少し沈み、うすくなるようにした\n動くコマを持つボスは、勝った時のコマのまま残す（確認役の指摘で直した）\n前と後は docs/shots/R92。手元のテストとブラウザの確認は通った",
+  "result": "pass",
+  "shots": [
+   "shots/179/mobile-02-mode-select.jpg",
+   "shots/179/mobile-15-custom-full-run.jpg",
+   "shots/179/mobile-27-chapter-2-play.jpg",
+   "shots/179/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8cd7448",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39014125566"
  }
 ]
