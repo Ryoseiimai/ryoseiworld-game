@@ -1147,6 +1147,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const plate=sh.match(/var INTRO_PLATE_T = (\d+), INTRO_PLATE_H = (\d+);/);assert(plate,'the entrance plate has a named place');assert(pt+off>Number(plate[1])+Number(plate[2]),'the sign hangs below the entrance plate');
   assert(pt+off+70<666,'the sign ends above the move hint');}
  result.push('R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS');
+ // R88: after the ending the quest line in every map was 「とうの なかが しずかに なった。」, which told nothing to do next.
+ {const c4=fs.readFileSync(path.join(root,'data','ch4.js'),'utf8');const m=c4.match(/quests:\{cleared:\{text:'([^']*)'\}/);assert(m,'chapter 4 has a cleared quest line');
+  assert(m[1].includes('チャレンジ')&&!m[1].includes('しずかに なった'),'the cleared line points to the challenge');assert([...m[1]].length<=18,'the cleared line fits on one row');
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/function challengeUnlocked\(\)\{return g\.chapter>1\|\|/.test(html),'the challenge is open after chapter 1, so it is open after chapter 4');}
+ result.push('R88: 4章を終えた後の目的の文が、メニューのチャレンジへ案内する PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

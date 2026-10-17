@@ -46,7 +46,8 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
- quests:{cleared:{text:'とうの なかが しずかに なった。'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
+ // R88: after the ending the field stays on this line, so it points to what is left to play (チャレンジ opens from chapter 2 on).
+ quests:{cleared:{text:'メニューの チャレンジで あそぼう'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   boss:{text:'とうの いちばん うえを めざそう'},
   zako:{text:'とうの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
