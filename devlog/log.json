@@ -2068,5 +2068,20 @@
   ],
   "sha": "10d26b2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39017381452"
+ },
+ {
+  "at": "2026-10-17T08:51:02.552Z",
+  "branch": "claude/autodev-20261017-1732-R95",
+  "task": "R95 遊んで一番気になる所を1つ直す",
+  "summary": "ボス戦の「とくぎ」ボタンが下の「ビート」ボタンに4px重なっていたのを直した\nとくぎのゲージが文字の下の端にかかっていたので、細くして離した\nテストと smoke に、2つのボタンが離れていることを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/182/mobile-02-mode-select.jpg",
+   "shots/182/mobile-15-custom-full-run.jpg",
+   "shots/182/mobile-27-chapter-2-play.jpg",
+   "shots/182/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bb58a4b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39018559126"
  }
 ]
