@@ -2413,5 +2413,20 @@
   ],
   "sha": "43683ce",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39067805073"
+ },
+ {
+  "at": "2026-10-17T21:37:22.839Z",
+  "branch": "claude/autodev-20261018-0621-R114",
+  "task": "R114 遊んで一番気になる所を1つ直す",
+  "summary": "「ドラッグで あるく」の札は、後ろに人がいる時に字ごと薄くなり読めなかった\n地だけを薄くし、字は明るい色と濃いふちのまま残した\nテストと前と後のスクショ（docs/shots/R114）で確かめた",
+  "result": "fail",
+  "shots": [
+   "shots/209/mobile-02-mode-select.jpg",
+   "shots/209/mobile-15-custom-full-run.jpg",
+   "shots/209/mobile-27-chapter-2-play.jpg",
+   "shots/209/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "867c3b4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39071322443"
  }
 ]
