@@ -1238,8 +1238,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;
   const nums=r.g.GAME_DATA.maps.neon.objects.filter(o=>o.kind==='numberperson');assert(nums.length>=4,'ネオン has the number people: '+nums.length);
   const sweep=()=>{let b=0;for(let x=2;x<=26;x++)for(let y=12;y<=36;y++){r.g.debugWarp('neon',x,y);r.tick(16);b+=btn.classes.has('behind');}return b;};
-  const withPeople=sweep();nums.forEach(o=>o.kind='numberperson_off');let without;try{without=sweep();}finally{nums.forEach(o=>o.kind='numberperson');}
-  assert(withPeople>without,'a number person behind the talk button turns it see-through: '+withPeople+' / '+without);}
+  const signs=nums.map(o=>o.sign);nums.forEach(o=>delete o.sign);let withPeople,without;try{withPeople=sweep();nums.forEach(o=>o.kind='numberperson_off');without=sweep();}finally{nums.forEach((o,i)=>{o.kind='numberperson';o.sign=signs[i];});}
+  assert(withPeople>without,'(signs taken away) a number person body behind the talk button turns it see-through: '+withPeople+' / '+without);}
  result.push('R141: ネオンの「かずの ひと」が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
