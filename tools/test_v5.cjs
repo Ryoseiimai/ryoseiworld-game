@@ -1385,6 +1385,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(sb.f(R,0,9),7,'page 1 ends after the blank row under d e');assert.equal(sb.f(R,7,9),11,'page 2 starts at f and ends after its blank row');assert.equal(sb.f(['a','b','c','d'],0,3),3,'no blank row keeps the full page');
   const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();for(const id of Object.keys(r.g.GAME_DATA.bonds))r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);r.click('menu-btn');r.tick(400);r.button('きずな');assert.equal(r.els.get('modal-title').textContent,'きずな','the list still opens without a real layout');assert(r.els.get('modal-copy').textContent.includes('［家］'),'with its entries');}
  result.push('R140: きずなの一覧が長い時、項目の途中ではなく空いた行で切れ、▼ つづきで次の項目から出る PASS');
+ // R142: 「押した時間とビートのずれを測ること。」 has no spaces, so keep-all could not break it and it ran past the right edge of the quiz panel.
+ // fitModalCopy now lets such a text break by phrase (auto-phrase, else normal) only when it is wider than the box (the browser check is in smoke_v5.cjs).
+ {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
+  assert(/cp\.style\.wordBreak='';for\(const b of bs\)b\.style\.wordBreak='';if\(cp\.scrollWidth>cp\.clientWidth\+1\)cp\.style\.wordBreak=wb;/.test(fit),'an over-wide text switches off keep-all, and the next modal starts from keep-all again');
+  assert(/if\(pw&&pw\.scrollWidth>pw\.clientWidth\+1\)for\(const b of bs\)b\.style\.wordBreak=wb;/.test(fit),'an over-wide choice button (the same answer in the question) breaks too');
+  assert(/'auto-phrase'\)\?'auto-phrase':'normal'/.test(fit),'break by phrase where the browser can');
+  assert(/\.modal p,\.menu-list button\{word-break:keep-all/.test(html),'normal texts keep words whole');}
+ result.push('R142: 空白のない長い答えの文が、クイズの窓と選択肢のボタンの右からはみ出さず、文節で折り返す PASS');
  result.push('R139: 戦いに勝った時、長い名前は「は」の後で折り返し、「なった！」だけが次の行に残らない PASS');
  // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
  result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');

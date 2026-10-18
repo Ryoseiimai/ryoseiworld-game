@@ -162,7 +162,10 @@ async function runViewport(browser, url, vp, errors, shots) {
     // Hook for the game itself: window.__v5.smokeScenes = [{name, run(){...}}] adds scenes without editing this file.
     const custom = await page.evaluate(() => Array.isArray(window.__v5.smokeScenes) ? window.__v5.smokeScenes.map(s => s && s.name).filter(Boolean) : []);
     for (const name of custom) {
-      try { await page.evaluate(nm => window.__v5.smokeScenes.find(s => s.name === nm).run(), name); await settle(); await shot('custom-' + name); }
+      try { await page.evaluate(nm => window.__v5.smokeScenes.find(s => s.name === nm).run(), name); await settle(); await shot('custom-' + name);
+        // R142: a window's text must not run past its right edge (a long line with no spaces did, in the quiz answer).
+        const wide = await page.evaluate(() => { const m = document.getElementById('modal'), c = document.getElementById('modal-copy'); const p = m && m.firstElementChild; return m && !m.hidden && c && (c.scrollWidth > c.clientWidth + 1 || p && p.scrollWidth > p.clientWidth + 1) ? c.textContent.slice(0, 40) : ''; });
+        if (wide) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`custom scene ${name}: the window text runs past the edge: ${wide}`) }); }
       catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene ${name}: ${e.message}`) }); }
     }
 
