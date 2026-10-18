@@ -1040,7 +1040,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS');
  // FUN13: beating a challenge personal best gets its own fanfare+title, and a non-record run shows the next stage as a short goal.
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent;
-  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.mode='kids';r.RYW.setMode('kids');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
   assert(title(r).includes('きろく こうしん'),'first clear is always a new record');assert(!copy(r).includes('つぎは'),'no next-stage hint on a record run');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
@@ -1050,7 +1050,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('FUN13: リズムチャレンジで きろく こうしん時に 演出、そうでない時に つぎの もくひょうを 出す PASS');
  // R115: the challenge result shows this run's stage and combo before the best, also on a run that did not beat the best.
  {const copy=r=>r.els.get('modal-copy').textContent;
-  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.mode='kids';r.RYW.setMode('kids');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
   assert(copy(r).startsWith('こんかい ステージ 5\nこんかい コンボ 20\n\n'),'a record run shows this run first');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
@@ -1362,6 +1362,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   openShop();c=copy();l=labels().join('|');assert(/^おこづかい \d+えん\nでんち \d+％$/.test(c)&&/おにぎり　35えん/.test(l)&&/じゅうでん　\d+えん/.test(l),c+l);r.button('ありがとう');
   r.click('menu-btn');r.button('アイテム');c=copy();l=labels().join('|');assert(c==='ポケットは ちいさな そうこ。'&&/でんち\+50/.test(l),c+l);}
  result.push('R124: おとなモードの店とアイテムと召喚の画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R125: the challenge result window read all in hiragana in adult mode; it now reads in kanji there (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana one.
+ {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
+  r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
+  let c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n通常\n最高ステージ 5\n最高コンボ 20'),c);assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
+  r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
+  c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ 6を目指そう'),c);fits(c);
+  r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:2,bestCombo:4,score:50,cheated:true});
+  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.startsWith('今回ステージ 2\n今回コンボ 4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ 2'),c);fits(c);
+  r.g.state.cheats.godmode=false;r.tick(300);r.button('もう一度');r.g.state.mode='kids';r.RYW.setMode('kids');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:2,score:10,cheated:false});
+  c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);}
+ result.push('R125: おとなモードのチャレンジの結果の窓を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

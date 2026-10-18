@@ -437,11 +437,12 @@ function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||pro
  openModal('デバッグモード',owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ'),buttons,'cheats');return true;}
 function cleanRecord(r){return Object.fromEntries(Object.keys(freshRecord()).map(k=>[k,Math.max(0,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(num(r?.[k],0))))]));}
 function challengeUnlocked(){return g.chapter>1||g.bosses.includes(GAME_DATA.chapters[1]?.boss);}
-function recordText(r){return'さいこう ステージ '+r.stage+'\nさいこう コンボ '+r.bestCombo;}
+// R125: the challenge texts read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
+function recordText(r){return menuLabel('最高ステージ ','さいこう ステージ ')+r.stage+menuLabel('\n最高コンボ ','\nさいこう コンボ ')+r.bestCombo;}
 // R115: the result shows this run first, so a run that did not beat the best still tells the player how far it got.
-function runText(r){return'こんかい ステージ '+r.stage+'\nこんかい コンボ '+r.bestCombo;}
+function runText(r){return menuLabel('今回ステージ ','こんかい ステージ ')+r.stage+menuLabel('\n今回コンボ ','\nこんかい コンボ ')+r.bestCombo;}
 // R103: the cheat record shows only after a run with cheats, so a player who never used them does not see a row of zeros.
-function challengeRecords(){const c=g.challenge.bestCheat;return'ふつう\n'+recordText(g.challenge.best)+(c.stage||c.bestCombo?'\n\nチートつき\n'+recordText(c):'');}
+function challengeRecords(){const c=g.challenge.bestCheat;return menuLabel('通常\n','ふつう\n')+recordText(g.challenge.best)+(c.stage||c.bestCombo?menuLabel('\n\nチート付き\n','\n\nチートつき\n')+recordText(c):'');}
 function openChallenge(stage=1){if(!challengeUnlocked()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
  const begin=()=>startChallenge(stage);if(isPlayables())openModal('チャレンジ',recordText(g.challenge.best),[{text:'はじめる',action:begin},{text:'もどる',action:closeModal}],'challenge');else openCheats(begin);return true;}
 function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return false;const cheats=activeCheats(),used=Object.values(cheats).some(Boolean);clearWordCards();screen('shooter');let ended=false;
@@ -450,13 +451,13 @@ function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return fa
    const key=used||result?.cheated?'bestCheat':'best',record=cleanRecord(result),best=g.challenge[key],prevStage=best.stage,prevCombo=best.bestCombo;
    for(const k of Object.keys(best))best[k]=Math.max(best[k],record[k]);saveGame(false);
    // FUN13: a cleared-best run gets its own fanfare+title so a fresh record feels different from a repeat run; otherwise show the next stage as a short-term goal to pull the player into another try.
-   const newRecord=best.stage>prevStage||best.bestCombo>prevCombo,cheatTag=key==='bestCheat'?' チートつき':'';
+   const newRecord=best.stage>prevStage||best.bestCombo>prevCombo,cheatTag=key==='bestCheat'?menuLabel(' チート付き',' チートつき'):'';
    if(newRecord)sfx.levelup();
-   const title=newRecord?('きろく こうしん！'+cheatTag):(key==='bestCheat'?'チャレンジ・チートつき':'チャレンジの きろく'),
-    goal=newRecord?'':'\n\nつぎは ステージ '+(best.stage+1)+' を めざそう',
-    body=runText(record)+(cheatTag?'\n（チートつき）':'')+'\n\n'+(isPlayables()?recordText(best):challengeRecords())+goal;
-   openModal(title,body,[{text:'もう いちど',action:()=>openChallenge()},{text:'もどる',action:closeModal}],'challenge-result');}});
- }catch(e){console.warn('challenge',e);shooter=null;screen('field');toast('いまは はじめられない。');return false;}return true;}
+   const title=newRecord?(menuLabel('記録更新！','きろく こうしん！')+cheatTag):(key==='bestCheat'?menuLabel('チャレンジ・チート付き','チャレンジ・チートつき'):menuLabel('チャレンジの記録','チャレンジの きろく')),
+    goal=newRecord?'':menuLabel('\n\n次はステージ '+(best.stage+1)+'を目指そう','\n\nつぎは ステージ '+(best.stage+1)+' を めざそう'),
+    body=runText(record)+(cheatTag?menuLabel('\n（チート付き）','\n（チートつき）'):'')+'\n\n'+(isPlayables()?recordText(best):challengeRecords())+goal;
+   openModal(title,body,[{text:menuLabel('もう一度','もう いちど'),action:()=>openChallenge()},{text:'もどる',action:closeModal}],'challenge-result');}});
+ }catch(e){console.warn('challenge',e);shooter=null;screen('field');toast(menuLabel('今は始められない。','いまは はじめられない。'));return false;}return true;}
 // Bonds and weapons lists (SPEC_V6.md 2, 3). People show once met (talked to) or once their hearts rise.
 const SPIRIT_NAMES=['うさぎ','たぬき','おりづる','きつね','こまいぬ','ひのたま','ねこまた','かめ','すずめ','おばけ','しろぎつね','おんぷどり','こい','ほたる','ひつじ','きんぎょ'],BOND_MARK={family:'家',friend:'友',love:'恋'};
 function bondHint(b,hearts){const r=b.rewards||{};for(let h=hearts+1;h<=5;h++){const x=r[h];if(!x)continue;const what=x.weapon&&Object.hasOwn(GAME_DATA.weapons,x.weapon)?menuLabel('武器の力','ぶきの ちから'):num(x.money,0)>0?(b.kind==='family'?menuLabel('お小遣い','おこづかい'):menuLabel('お礼','おれい')):'';if(what)return`${menuLabel('次は','つぎ')} ♥${h}で ${what}`;}return Object.keys(r).length?menuLabel('ごほうびは全部もらった','ごほうびは ぜんぶ もらった'):'';}
