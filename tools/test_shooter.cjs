@@ -31,6 +31,10 @@ check('新しい武器名8種（こどもモード）', sim.WEAPONS.map(w => w.n
 globalThis.RYW.setMode('adult'); Shooter.syncWeaponNames();
 check('新しい武器名8種（おとなモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','当たり判定 チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
 globalThis.RYW.setMode('kids'); Shooter.syncWeaponNames();
+globalThis.RYW.setMode('adult');
+check('R122: おとなモードの待ち時間は「秒」で出す', Shooter.cooldownLabel() === sim.FIRE_INTERVAL.toFixed(2) + '→' + sim.RAPID_INTERVAL.toFixed(2) + '秒');
+globalThis.RYW.setMode('kids');
+check('R122: こどもモードの待ち時間は「びょう」のまま', Shooter.cooldownLabel() === Shooter.cooldownText());
 check('クールダウンの実値を表示', Shooter.cooldownText() === sim.FIRE_INTERVAL.toFixed(2) + '→' + sim.RAPID_INTERVAL.toFixed(2) + ' びょう' && sim.WEAPONS[1].desc.includes(Shooter.cooldownText()));
 (() => {
   const w = world({boss:'jibun',weapons:['twin','barrier']});

@@ -1336,6 +1336,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);fits(c);}
  result.push('R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS');
+ // R122: the bonds menu hints read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
+  r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('話しかけて'),c);fits(c);r.button('もどる');r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);D.bonds.r122={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r122',5);D.bonds.r122b={name:'テストの とも',kind:'friend',spirit:15,rewards:{3:{money:5}}};r.g.debugBond('r122b',1);
+  r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('次は ♥5で 武器の力')&&c.includes('次は ♥2で お小遣い')&&c.includes('次は ♥3で お礼')&&c.includes('ごほうびは全部もらった'),c);fits(c);r.button('もどる');r.button('もどる');
+  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('つぎ ♥5で ぶきの ちから')&&c.includes('つぎ ♥3で おれい')&&c.includes('ごほうびは ぜんぶ もらった'),c);fits(c);
+  for(const k of ['r122','r122b']){delete D.bonds[k];delete st.bonds[k];}}
+ result.push('R122: おとなモードのきずなの画面のヒントを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

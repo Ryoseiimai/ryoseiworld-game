@@ -32,6 +32,8 @@
   var FIRE_INTERVAL = 0.20, RAPID_INTERVAL = 0.14;
   function word(id, fallback) { return typeof RYW.word === 'function' ? RYW.word(id) : fallback; }
   function cooldownText() { return FIRE_INTERVAL.toFixed(2) + '→' + RAPID_INTERVAL.toFixed(2) + ' びょう'; }
+  // SPEC_V7_MANABU.md 9: the wait time on screen reads in kanji in adult mode (cooldownText stays the kids form other code builds on).
+  function cooldownLabel() { return RYW.mode === 'adult' ? cooldownText().replace(' びょう', '秒') : cooldownText(); }
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
   var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
@@ -1082,7 +1084,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T };
-  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, syncWeaponNames: syncWeaponNames, _sim: SIM };
+  RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
 
@@ -2401,7 +2403,7 @@
     // so a word card or a two-line boss line pushes it down instead of drawing over it.
     if (w.state === 'intro' && w.weapons.rapid && cooldownNoteY(y) != null) {
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownText(), W / 2, y + 18, '#fff5d6');
+      outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownLabel(), W / 2, y + 18, '#fff5d6');
     }
     if (w.state === 'play' && w.stateT < HINT_T) {
       var ha = clamp(Math.min(w.stateT * 4, (HINT_T - w.stateT) * 2), 0, 1);
