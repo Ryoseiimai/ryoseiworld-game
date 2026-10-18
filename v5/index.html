@@ -363,7 +363,7 @@ const word=(id,fallback)=>window.RYW?.word?window.RYW.word(id):fallback;
 function refreshCommandLabels(){const LABELS={attack:'jikkou',summon:'yobidasu',item:'item'};for(const el of $('commands').children){const id=LABELS[el.dataset.cmd];if(id)el.textContent=word(id,el.textContent);else if(el.dataset.cmd==='create')el.textContent=g.mode==='adult'?'作る':'つくる';else if(el.dataset.cmd==='run')el.textContent=g.mode==='adult'?'逃げる':'にげる';}}
 // SPEC_V7_MANABU.md 9: weapon descriptions are part of the learning side, so adult mode reads them in kanji. Kids keep the hiragana ones.
 const WEAPON_DESC_ADULT={fuku:'まっすぐ右へ撃つ',twin:'斜め上と斜め下にも撃つ',rainbow:'敵の弾を貫く',barrier:'1回当たっても平気。\n15秒で戻る',onigiri:'ライフが1つ増える',letter:'敵を追いかけるハートの弾',charge:'押し続けてためると\n大きな虎の弾'};
-function weaponDescAdult(id){return id==='rapid'?'次に撃つまで\n'+window.RYW.Shooter.cooldownText().replace(' びょう','秒'):WEAPON_DESC_ADULT[id];}
+function weaponDescAdult(id){return id==='rapid'?'次に撃つまで\n'+window.RYW.Shooter.cooldownLabel():WEAPON_DESC_ADULT[id];}
 function refreshWeaponData(){if(!window.RYW?.Shooter?.syncWeaponNames)return;window.RYW.Shooter.syncWeaponNames();for(const w of window.RYW.Shooter._sim.WEAPONS||[])if(Object.hasOwn(GAME_DATA.weapons,w.id)){const d=GAME_DATA.weapons[w.id];if(d.kidsDesc==null)d.kidsDesc=d.desc;const kids=['rapid','onigiri'].includes(w.id)?w.desc:d.kidsDesc;Object.assign(d,{name:w.name,desc:g.mode==='adult'&&weaponDescAdult(w.id)||kids});}}
 function applyMode(){window.RYW?.setMode?.(g.mode);refreshCommandLabels();refreshWeaponData();}
 const menuLabel=(adultText,kidsText)=>g.mode==='adult'?adultText:kidsText;
