@@ -1350,6 +1350,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(y+2<=484,'while ちらつき shakes the hero by 2px, it still ends above the HP card: '+(y+2));}
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
  result.push('R137: 戦闘の主人公の足が、RYOSEI と HP の欄の枠にかからない PASS');
+ // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
+  const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);
+  const arrow=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),words=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1);
+  assert(arrow&&words,'the ↓ plate and its words are drawn');assert.equal(words[2],arrow[2],'the words sit under the plate');assert(words[3]-24>=arrow[3]+5,'the words start under the plate: '+words[3]);
+  assert(words[3]+9<=r.g.GAME_DATA.maps.tower1.h*48,'the words stay inside the floor: '+words[3]);
+  assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'the words are outlined like うえへ');
+  r.g.debugWarp('room');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
+  assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓')&&!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='そとへ'),'a room exit stays a plain ↓');}
+ result.push('R138: とう1Fの出口の ↓ の下に「そとへ」の札が出て、ほかの部屋は ↓ のまま PASS');
  // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
  result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');
  // R117: chapters 1 to 3 all showed 「まちの ノイズを しずめよう 0/3」, so the goal line did not tell which town you were in.

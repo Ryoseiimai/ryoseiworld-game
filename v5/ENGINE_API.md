@@ -71,6 +71,7 @@ maps.minamo={
  objects:[/* 下の object など */],
  enemies:[{id:'m1',type:'worry',x:19,y:21.6,axis:'y'}],   // 町を うろうろするザコ。type は enemies のキー、axis は動く向き
  portals:[{x:5,y:12,to:'minamo',at:[6,25.5]}],            // 部屋の出口（↓のしるし）。objects・enemies・portals は空でも [] を書く
+                                                            // 屋内の地図だけ、sign:'そとへ' を足すと ↓ の下に字の札が出る（R138・とう1F）
  cells:[/* 下の「マスのしかけ」 */]
 };
 ```

@@ -15,7 +15,8 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう1F',w:11,h:13,spawn:
  tower('tw1_rack',0,8.4,9.4,80,90),tower('tw1_cable',1,2.2,9.6,80,80),
  tower('tw1_up',6,8.4,2.6,90,90,{label:'ひかりの ゆか',sign:'うえへ'})],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
- portals:[{x:5,y:11.4,to:'neon',at:[15,5.4]}],
+ // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
+ portals:[{x:5,y:11.4,to:'neon',at:[15,5.4],sign:'そとへ'}],
  // R27: ひかりの ゆか (up pad) is always at (8.4,2.6), the down pad at (2.2,2.6); landing always on the next floor's spawn.
  cells:[{x:8.4,y:2.6,warp:'tower2',at:[5,10]},
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
