@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T08:55:45.316Z",
-  "branch": "claude/autodev-20261009-1751-R1",
-  "task": "R1 戦闘の主人公を新しい絵にする",
-  "summary": "戦闘の主人公の絵を ryosei_v3 に入れ替え、前の絵を ryosei_v2 に残した\n絵の入れ替えを調べるテストを tools/test_v5.cjs に1つ足した\n部屋のはじまりの場面も新しい絵になる。部屋の絵は R2 と R3 で決める",
-  "result": "pass",
-  "shots": [
-   "shots/3/mobile-03-after-start.jpg",
-   "shots/3/mobile-05-map-room.jpg",
-   "shots/3/mobile-07-map-electric.jpg",
-   "shots/3/mobile-10-battle-bugking.jpg"
-  ],
-  "sha": "5c76b2e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37907830351"
- },
- {
   "at": "2026-10-09T09:50:46.533Z",
   "branch": "claude/autodev-20261009-1842-R2",
   "task": "R2 町はキックボード、建物の中は歩きにする",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "0dee751",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39141548026"
+ },
+ {
+  "at": "2026-10-18T16:49:32.326Z",
+  "branch": "claude/autodev-20261019-0121-R142",
+  "task": "R142 遊んで一番気になる所を1つ直す",
+  "summary": "おとなモードのおさらいで、長い答えの文が窓の右からはみ出していた\nはみ出す時だけ文節で折り返すようにし、選択肢のボタンも同じにした\nテストと、窓のはみ出しを見るブラウザの確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/253/mobile-02-mode-select.jpg",
+   "shots/253/mobile-15-custom-full-run.jpg",
+   "shots/253/mobile-27-chapter-2-play.jpg",
+   "shots/253/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "7682c95",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39146341101"
  }
 ]
