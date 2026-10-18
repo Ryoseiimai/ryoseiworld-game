@@ -1356,9 +1356,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const openShop=()=>{talk(r,'store',5,5.6);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.modal,'shop');r.tick(300);},st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,labels=()=>r.els.get('modal-buttons').children.map(b=>b.textContent),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
   r.click('menu-btn');r.button('アイテム');let c=copy(),l=labels().join('|');assert(c==='ポケットは小さな倉庫。'&&/電池\+50/.test(l)&&!/でんち/.test(l),c+l);fits(c);r.button('もどる');r.button('もどる');
   openShop();c=copy();l=labels().join('|');assert(/^お小遣い \d+円\n電池 \d+％$/.test(c)&&/おにぎり　35円/.test(l)&&/充電　\d+円/.test(l)&&!/えん|でんち|じゅうでん/.test(c+l),c+l);fits(c);r.button('ありがとう');
-  st.mode='kids';r.tick(300);openShop();c=copy();l=labels().join('|');assert(/^おこづかい \d+えん\nでんち \d+％$/.test(c)&&/おにぎり　35えん/.test(l)&&/じゅうでん　\d+えん/.test(l),c+l);r.button('ありがとう');
+  r.g.debugStartBattle('popup','r124');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.cmd('item');assert.equal(copy(),'使うと1ターン。');r.button('もどる');
+  r.cmd('summon');c=copy();assert(/^電池 \d+％$/.test(c),c);const sid=st.summons[0],sn=r.g.GAME_DATA.summons[sid].name;r.button('もどる');st.battery=0;r.cmd('summon');r.button(sn);assert(r.g.battle.log.includes('電池が足りない！'),r.g.battle.log);
+  st.mode='kids';r.tick(300);r.cmd('summon');r.button(sn);assert(r.g.battle.log.includes('でんちが たりない！'),r.g.battle.log);r.g.state.battle=null;r.g.debugWarp('town',8,27);r.tick(300);
+  openShop();c=copy();l=labels().join('|');assert(/^おこづかい \d+えん\nでんち \d+％$/.test(c)&&/おにぎり　35えん/.test(l)&&/じゅうでん　\d+えん/.test(l),c+l);r.button('ありがとう');
   r.click('menu-btn');r.button('アイテム');c=copy();l=labels().join('|');assert(c==='ポケットは ちいさな そうこ。'&&/でんち\+50/.test(l),c+l);}
- result.push('R124: おとなモードの店とアイテムの画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ result.push('R124: おとなモードの店とアイテムと召喚の画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
