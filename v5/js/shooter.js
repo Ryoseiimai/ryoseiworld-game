@@ -1372,7 +1372,7 @@
       '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;z-index:1}' +
       '.ryw-shooter .rs-skill .rs-top{display:none}' +
       '.ryw-shooter .rs-skill i{position:absolute;left:0;bottom:0;height:5px;width:0;background:#ffd76b;z-index:0}' +
-      '.ryw-shooter .rs-skill.rs-off{opacity:.55}' +
+      '.ryw-shooter .rs-skill.rs-off{background:#0f2030;border-color:#4f6f7c;color:#e6dfc4;box-shadow:0 5px 0 #08121b}' +
       '.ryw-shooter .rs-skill.rs-ready{border-color:#ffe08a;background:#3a3216;animation:rs-pulse .9s ease-in-out infinite}' +
       '.ryw-shooter .rs-skill.rs-hold{transform:translateY(3px);box-shadow:0 2px 0 #0b1a27}' +
       '@keyframes rs-pulse{0%,100%{box-shadow:0 5px 0 #0b1a27,0 0 0 0 rgba(255,224,138,.6)}50%{box-shadow:0 5px 0 #0b1a27,0 0 22px 6px rgba(255,224,138,.55)}}' +

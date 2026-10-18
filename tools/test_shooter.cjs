@@ -751,7 +751,9 @@ async function browserAdapterChecks() {
    check('R95: とくぎのボタンは高さを44pxのまま保ち、ビートのボタンに重ならない',/min-height:0/.test(sk)&&n(sk,'top')+n(sk,'height')+5<n(bt,'top'),{sk,bt});
    // The 44px button centres its 24px label, so the gauge at the bottom must fit under the label: label + 2 gauges <= the 38px inside.
    {const lh=+((sk.match(/line-height:([\d.]+)/)||[])[1]),gi=(css.match(/\.rs-skill i\{([^}]*)\}/)||[])[1]||'',gh=n(gi,'height');
-    check('R95: とくぎのゲージは文字の下に重ならない',lh>0&&gh>0&&24*lh+2*gh<=44-6,{lh,gh});}}
+    check('R95: とくぎのゲージは文字の下に重ならない',lh>0&&gh>0&&24*lh+2*gh<=44-6,{lh,gh});}
+   // R132: a skill button that cannot be used yet (こえ 2/5, フク やすみ) keeps its words readable: no fading of the whole button, only a dark plate.
+   {const off=(css.match(/\.rs-skill\.rs-off\{([^}]*)\}/)||[])[1]||'';check('R132: 押せない時のとくぎのボタンは全体を薄くせず、字が読める',off&&!/opacity/.test(off)&&/color:#e6dfc4/.test(off)&&/background:#0f2030/.test(off),off);}}
   const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;
   check('R90: カードが出ている間もビートのボタンは押せる見た目',win.__shooter.cards===2&&!beatBtn.disabled,[win.__shooter.cards,beatBtn.disabled]);
   beatBtn.fire('pointerdown',{pointerId:1});await advance(.05);
