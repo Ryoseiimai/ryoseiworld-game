@@ -2633,5 +2633,20 @@
   ],
   "sha": "825608d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39090580937"
+ },
+ {
+  "at": "2026-10-18T02:52:40.565Z",
+  "branch": "claude/autodev-20261018-1140-R124",
+  "task": "R124 おとなモードの店・召喚・アイテムの画面に残るひらがなの表記を漢字かな交じりにする",
+  "summary": "おとなモードの店の文と値段と充電を、お小遣い・円・電池・充電の表記にした\nアイテムと召喚の画面の電池の表記と、電池が足りない時の文も漢字かな交じりにした\nこどもモードは今のままと確かめるテストと、店の前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/226/mobile-02-mode-select.jpg",
+   "shots/226/mobile-15-custom-full-run.jpg",
+   "shots/226/mobile-27-chapter-2-play.jpg",
+   "shots/226/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "36a3f11",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39091299715"
  }
 ]
