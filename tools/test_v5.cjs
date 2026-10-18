@@ -1303,7 +1303,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R136: the stairs signs now sit on the floor under their clouds, so a normal card keeps the top spot and the goal line stays readable.
   {const t0=parseFloat(card.style.top),h0=card.offsetHeight||96,cy0=r.g.camera.y,s0=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
    assert(s0.length>=2,'both stairs signs drawn');assert.equal(t0,Math.max(190,r.g.hudTop),'a normal card keeps the top spot (R136)');assert.equal(r.els.get('quest').style.visibility,'','the goal line stays (R136)');
-   for(const c of s0){const y=c[3]-cy0;assert(y+10<=t0||y-30>=t0+h0,c[1]+' sign at '+Math.round(y)+' is not under the card '+t0+'..'+(t0+h0));}}
+   for(const c of s0){const y=c[3]-cy0;assert(y+10<=t0||y-30>=t0+h0,c[1]+' sign at '+Math.round(y)+' is not under the card '+t0+'..'+(t0+h0));}
+   // the sign is drawn after the hero, so the hero walking up to the pad never hides its letters.
+   r.g.debugWarp('tower2',8.4,3.6);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]==='うえへ');
+   assert(at>=0,'the うえへ sign is drawn with the hero under it');assert(r.canvasCalls.slice(at).every(c=>c[0]!=='drawImage'),'no sprite is drawn over the うえへ sign');r.g.debugWarp('tower2',5,10);r.tick(16);}
   // R108 still holds when the top spot does cover the signs: a tall card (two lines more) goes up over the goal line.
   card.offsetHeight=170;r.canvasCalls.length=0;r.tick(16);r.tick(16);
   const top=parseFloat(card.style.top),h=card.offsetHeight,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
@@ -1313,7 +1316,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R108: the card goes up over the goal line (hidden meanwhile) rather than down over the floor, and the line comes back with the card gone.
   const minY=Math.min(...signs.map(c=>c[3]-cy))-30;assert(top+h<=minY,'the card sits above the stairs signs, not over the floor ('+top+'..'+(top+h)+' vs '+Math.round(minY)+')');
   const quest=r.els.get('quest');assert.equal(quest.style.visibility,'hidden','the goal line hides under the card');
-  for(let i=0;i<40&&!card.hidden;i++)r.tick(500);assert(card.hidden,'the card goes away');assert.equal(quest.style.visibility,'','the goal line is back');
+  for(let i=0;i<40&&!card.hidden;i++)r.tick(500);assert(card.hidden,'the card goes away');card.offsetHeight=0;assert.equal(quest.style.visibility,'','the goal line is back');
   r.g.debugStartBattle('crow','r99-quiz');r.tick(300);for(let i=0;i<4;i++)r.g.debugLearn(fresh());r.tick(16);
   const bt=r.els.get('battle-top');bt.offsetTop=28;bt.offsetHeight=82;r.els.get('modal').querySelector=()=>({offsetTop:400});
   r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[0].onclick();assert.equal(r.g.modal,'quiz-feedback');r.setRandom(Math.random);
