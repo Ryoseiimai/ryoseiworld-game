@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T10:03:25.905Z",
-  "branch": "claude/autodev-20261009-1851-R3",
-  "task": "R3 タイトルの横切りと、部屋の「たたみなさい」",
-  "summary": "タイトルで、主人公がキックボードで左から右へ横切るようにした\n町から家に初めて入った時だけ、おかあさんが「たたみなさい」と言う\nこの2つを調べるテストを足した。ゲームは部屋から始まるので、声は町から帰った時に出る",
-  "result": "pass",
-  "shots": [
-   "shots/5/mobile-03-after-start.jpg",
-   "shots/5/mobile-05-map-room.jpg",
-   "shots/5/mobile-07-map-electric.jpg",
-   "shots/5/mobile-10-battle-bugking.jpg"
-  ],
-  "sha": "c629d4e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37915008506"
- },
- {
   "at": "2026-10-09T11:50:45.997Z",
   "branch": "claude/autodev-20261009-2040-R4",
   "task": "R4 1章のデータを v5/data/ch1.js に移す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d240100",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39150701149"
+ },
+ {
+  "at": "2026-10-18T17:58:09.825Z",
+  "branch": "claude/autodev-20261019-0248-R144",
+  "task": "R144 遊んで一番気になる所を1つ直す",
+  "summary": "ボス戦の右下の2つのボタンが、画面の右端から6pxしか離れていなかった\nボタンを左へ寄せて少し細くし、左のハートと同じ22pxの余白にした\n技の名前が細いボタンに収まることを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/255/mobile-02-mode-select.jpg",
+   "shots/255/mobile-15-custom-full-run.jpg",
+   "shots/255/mobile-27-chapter-2-play.jpg",
+   "shots/255/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8fe638a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39151556559"
  }
 ]
