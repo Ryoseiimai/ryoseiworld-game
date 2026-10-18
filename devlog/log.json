@@ -2573,5 +2573,20 @@
   "shots": [],
   "sha": "2f12abd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087157603"
+ },
+ {
+  "at": "2026-10-18T01:46:06.575Z",
+  "branch": "claude/autodev-20261018-1021-R121",
+  "task": "R121 遊んで一番気になる所を1つ直す",
+  "summary": "おとなモードの武器の画面で、説明と残りの数がひらがなのままだった\n武器の説明を「まっすぐ右へ撃つ」のような漢字かな交じりにし、こどもモードはひらがなのまま\nおとなとこどもを行き来しても説明が正しく戻るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/222/mobile-02-mode-select.jpg",
+   "shots/222/mobile-15-custom-full-run.jpg",
+   "shots/222/mobile-27-chapter-2-play.jpg",
+   "shots/222/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bdc613f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087372000"
  }
 ]
