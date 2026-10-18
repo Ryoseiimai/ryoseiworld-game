@@ -842,6 +842,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(pl&&pi>lastProp,id+' sign has a plate drawn after the street lamps');
    assert(pl[1]<=txt[2]-half&&pl[1]+pl[3]>=txt[2]+half&&pl[2]<=txt[3]-24&&pl[2]+pl[4]>=txt[3]+6,id+' plate covers the whole sign (plate '+pl.slice(1).join(',')+', text x '+txt[2]+' y '+txt[3]+')');
    assert(Math.abs(txt[2]-o.x*48)<half,id+' sign slid less than half its width here');assert(txt[2]-half>=camX+16&&txt[2]+half<=camX+540-16,id+' sign keeps 16px from the screen edge (x '+txt[2]+', half '+half+', screen '+camX+'..'+(camX+540)+')');}
+  // R129: from the street (hero x 13..17), the dark plate of each number never overlaps a street lamp picture (it slid onto the lamp head on a phone).
+  for(const id of ['neon_num1','neon_num2'])for(const hx of [13,15,17]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+   const calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===o.sign),pl=calls.findLast((c,i)=>i<at&&c[0]==='plate');
+   assert(at>=0&&pl,id+' sign and plate are drawn from x '+hx);
+   for(const l of calls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/'))){const lx=l.length>9?l[6]:l[2],ly=l.length>9?l[7]:l[3],lw=l.length>9?l[8]:l[4],lh=l.length>9?l[9]:l[5];
+    const lamp=m.objects.filter(x=>x.id.startsWith('neon_light')).some(x=>Math.abs(x.x*48-(lx+lw/2))<4);if(!lamp)continue;
+    assert(pl[1]+pl[3]<=lx||pl[1]>=lx+lw||pl[2]+pl[4]<=ly||pl[2]>=ly+lh,id+' plate ('+pl.slice(1).join(',')+') stays off the lamp ('+[lx,ly,lw,lh].join(',')+') from x '+hx);}}
   assert(r.g.summons.includes('owl'),'サーチフクロウ is already recruited by chapter 3 (debugStartChapter)');
   assert(!r.g.debugWords().includes('hallucination'),'not learned yet');
   st.battery=100;r.g.debugStartBattle('hallucination','r38-hall');r.tick(300);
@@ -1334,6 +1341,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   st.summons=Object.keys(S);r.click('menu-btn');r.button('召喚獣');let c=copy();assert(c.includes('弱みを見せる。')&&c.includes('今のHPを保存。')&&c.includes('HPを38回復。')&&!/よわみ|ほぞん|かいふく/.test(c),c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('しょうかんじゅう');c=copy();assert(c.includes('よわみを みせる。')&&c.includes('いまの HPを ほぞん。')&&!/弱み|保存/.test(c),c);}
  result.push('R128: おとなモードのメニューの召喚獣の説明を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ result.push('R129: ネオンの数字の人を街灯の足元より下に立たせ、数字の札が街灯の絵に重ならない PASS');
  // R119: ヒカクマオウ's opening line 「おなじ としで もう しゃちょう」 broke between もう and しゃちょう on the 540-wide shooter canvas.
  // The shooter panel (24px, 476px wide, the speaker's name in front of the first line) must not have to wrap any boss's opening line.
  {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);

@@ -26,16 +26,17 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
- prop('neon_bench',4,19.4,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
+ prop('neon_bench',4,21.8,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
  ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // R69: num1/num2 stand 1.8 tiles off the street lights at x 12.4/17.6, so the numbers never sit on a lamp.
  // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
+ // R129: num1/num2 stand 3 tiles below the lamps at y 18.6, so the sign plate starts under the lamp foot even when it slides inward from the screen edge.
  // num3 stands at x 9.4 so its longer フォロワー sign ends clear of the lamp head at x 12.4.
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
- object('neon_num1','numberperson',0,10.6,19.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
- object('neon_num2','numberperson',1,19.4,19.4,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
+ object('neon_num1','numberperson',0,10.6,21.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
+ object('neon_num2','numberperson',1,19.4,21.6,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'じゅんい 99'})],
  // R38: three street zako (popup, infinite loading, a rampaging vacuum) plus R46's ハルシネーション, patrolling the two cross roads.
