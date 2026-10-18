@@ -66,7 +66,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  // People without bonds yet (their stories come with the boss in R22).
  spirits:{minamo_dad:5,minamo_mom:6,minamo_boy:2},
  // Search Owl lives in the library search machine: it shows the weak spot and the next move, then 2 turns do 1.5 times (STORY_V3.md, SPEC_V5_ENGINE.md).
- summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。'}},
+ summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。',descAdult:'弱みを見せる。\n2ターン ダメージ1.5倍。'}},
  // The grandpa is the owl's person (STORY_V4.md, family). Hearts: waking the owl, the returned book, one onigiri.
  bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
  quests:{cleared:{text:'まちに こえが もどった。'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},

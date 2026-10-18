@@ -81,10 +81,10 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   zako:{text:'ネオンの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
   key:bossQuest,battery:bossQuest,recruit:bossQuest,boss:bossQuest},
  // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
- summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。'},
-  whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。'},
+ summons:{paint:{name:'ペイントキメラ',frame:3,cost:20,mirror:true,desc:'えの みがわりを つくる。\nつぎの こうげきを うけとめる。',descAdult:'絵の身代わりを作る。\n次の攻撃を受け止める。'},
+  whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。',descAdult:'今のHPを保存。\n3ターン以内に倒れたら\n1回戻れる。'},
   // R25: ことばが わかって、てきが 1かい やすむ（SPEC_V7_MANABU.md 3.2 ほんやく）。
-  kotoba:{name:'コトバイルカ',frame:4,cost:20,rest:true,desc:'てきの ことばが わかる。\nつぎの てきの ターンを\n1かい やすませる。'}},
+  kotoba:{name:'コトバイルカ',frame:4,cost:20,rest:true,desc:'てきの ことばが わかる。\nつぎの てきの ターンを\n1かい やすませる。',descAdult:'敵の言葉が分かる。\n次の敵のターンを\n1回休ませる。'}},
  bonds:{neon_painter:{name:'えを かく こ',kind:'friend',spirit:'paint',likes:['drink'],rewards:{2:{money:90}}}},
  events:{
   netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}],

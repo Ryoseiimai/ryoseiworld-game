@@ -96,7 +96,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
   // 町の人の守護霊がつながり、一言が流れる。全員つながると とくぎ が「みんなの こえ」に変わり、撃つとノイズが晴れる）。
   zero:{name:'ゼロ',boss:true,shooter:'zero',intro:['ゼロ','……ザーッ'],hp:1,attack:0,exp:90,money:120,level:9,color:['#1a1030','#b9a7ff'],hints:['こえを あつめている'],actions:['ざつおんが ながれた。']}},
  // R29: ゼロが仲間になった時の召喚獣（うす紫のゴーストロボットの子、art-20261010-1422-summons_sheet_v2 の frame 6）。
- summons:{zero:{name:'ゼロ',frame:6,cost:30,damage:64,desc:'みんなの こえを とどける。\nおおきな ダメージ。'}},
+ summons:{zero:{name:'ゼロ',frame:6,cost:30,damage:64,desc:'みんなの こえを とどける。\nおおきな ダメージ。',descAdult:'みんなの声を届ける。\n大きなダメージ。'}},
  maps
 });
 })();
