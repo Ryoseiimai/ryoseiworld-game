@@ -775,6 +775,16 @@ async function browserAdapterChecks() {
   check('R72: カードが消えたら台詞は消えていく', w.burst !== out);
 })();
 
+// R119: the standalone boss opening lines (used when the game passes none) fit the 476px line panel without wrapping mid-phrase, like ch*.js.
+(() => {
+  const wd = s => [...s].reduce((a, c) => a + (c === ' ' ? 12 : 24), 0);
+  for (const [id, b] of Object.entries(B)) {
+    const intro = b.lines && b.lines.intro; if (!intro) continue;
+    const ok = intro[1].split('\n').every((para, i) => wd(para) <= 476 - (i ? 0 : wd(intro[0]) + 14));
+    check('R119: ' + id + ' の始めの台詞が言葉の途中で折り返されない', ok, intro);
+  }
+})();
+
 // R86: ソラのヒントは下の「ゆびを すべらせて うごく」より長く出る（3.2秒で消えて、読む前に薄くなっていた）。
 (() => {
   for (const boss of ['kateino', 'hikaku']) {

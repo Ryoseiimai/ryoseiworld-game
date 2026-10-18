@@ -153,7 +153,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   mioRainIdle:[['ミオ','あめの ひ、かさに\nいれて くれたの\nわすれないよ。']]},
  enemies:{
   // The boss is a shooter fight (v5/js/shooter.js hikaku: number blocks that weaken the shot, rings from half HP, じぶんの ペース pickups).
-  hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで もう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']},
+  hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで\nもう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']},
   // R38: the two new street zako (frames 5, 6; popup already comes from ch1.js).
   infload:{name:'むげんローディング',frame:5,hp:62,attack:11,exp:24,money:40,level:6,color:['#2a3a52','#9fc4e0'],hints:["くるくる まわる","おわらない バー"],actions:['ぐるぐる まわった！','バーが すすんで、また もどった！']},
   vacuum:{name:'ぼうそうそうじき',frame:6,hp:70,attack:13,exp:26,money:44,level:6,color:['#4a3a2a','#d8a85a'],hints:["とつげき","コードを すう"],actions:['まっすぐ とつげきした！','コードを ズルズル すいこんだ！']},

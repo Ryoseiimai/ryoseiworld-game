@@ -1315,6 +1315,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.includes('けいけんち '+def.exp+'　'+def.money+'えん'),'win line: '+log);assert(!/\dけいけんち/.test(log),'no number glued to けいけんち: '+log);
   for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))assert(!/\{exp\}けいけんち/.test(fs.readFileSync(path.join(root,'data',f),'utf8')),f+': the win dialogue also puts けいけんち before the number');}
  result.push('R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS');
+ // R119: ヒカクマオウ's opening line 「おなじ としで もう しゃちょう」 broke between もう and しゃちょう on the 540-wide shooter canvas.
+ // The shooter panel (24px, 476px wide, the speaker's name in front of the first line) must not have to wrap any boss's opening line.
+ {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);
+  for(const [id,e] of Object.entries(r.g.GAME_DATA.enemies)){if(!e.intro)continue;const [who,text]=e.intro;
+   text.split('\n').forEach((para,i)=>assert(wd(para)<=476-(i?0:wd(who)+14),id+': the opening line has to wrap mid-phrase: '+JSON.stringify(text)));}
+  assert.equal(r.g.GAME_DATA.enemies.hikaku.intro[1],'おなじ としで\nもう しゃちょう');}
+ result.push('R119: ボスの始めの台詞が言葉の途中で折り返されず、ヒカクマオウは「おなじ としで」で改行する PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
