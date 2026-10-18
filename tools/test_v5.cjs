@@ -1367,6 +1367,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.startsWith(name+'は\nおとなしく なった！\n'),log);for(const row of log.split('\n'))assert([...row].length<=18,'row fits: '+row);
   r.tick(2100);while(r.g.dialogue)r.dialogue();}
  assert(/return wide>room\?name\+'は\\nおとなしく なった！':text;/.test(html),'a short name keeps the line on one row');
+ // R140: the きずな list was cut after the first row of an entry (［友］ゲームの こ showed, its 守護霊 and 次は rows were under the dashed line).
+ // A scrolling list of blocks parted by blank lines now ends on a blank line, and ▼ つづき scrolls by that many whole rows (the browser check is in smoke_v5.cjs).
+ {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
+  assert(/rows=String\(cp\.textContent\|\|''\)\.split\('\\n'\)/.test(fit)&&/Math\.abs\(h-rows\.length\*lh\)<2/.test(fit),'only a list without wrapped rows is cut by its text rows');
+  assert(/while\(k>1&&rows\[k-1\]!==''\)k--;if\(k\*2>=n\)\{n=k;page=k\*lh;\}/.test(fit),'the cut moves up to a blank row, never below half the box');
+  assert(/top:page\|\|Math\.max\(lh\|\|30,cp\.clientHeight-\(lh\|\|30\)\)/.test(fit),'▼ scrolls one page of whole entries');
+  const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();for(const id of Object.keys(r.g.GAME_DATA.bonds))r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);r.click('menu-btn');r.tick(400);r.button('きずな');assert.equal(r.els.get('modal-title').textContent,'きずな','the list still opens without a real layout');assert(r.els.get('modal-copy').textContent.includes('［家］'),'with its entries');}
+ result.push('R140: きずなの一覧が長い時、項目の途中ではなく空いた行で切れ、▼ つづきで次の項目から出る PASS');
  result.push('R139: 戦いに勝った時、長い名前は「は」の後で折り返し、「なった！」だけが次の行に残らない PASS');
  // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
  result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');
