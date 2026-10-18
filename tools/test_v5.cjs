@@ -1312,9 +1312,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.tick(3000);while(r.g.dialogue)r.dialogue();
   r.g.debugStartBattle('vending','calm');r.tick(1500);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle','a vending battle');
   const def=r.g.GAME_DATA.enemies.vending;r.g.debugWin();const log=r.els.get('battle-log').textContent;
-  assert(log.includes('けいけんち '+def.exp+'　'+def.money+'えん'),'win line: '+log);assert(!/\dけいけんち/.test(log),'no number glued to けいけんち: '+log);
+  // R126: in adult mode the win line reads in kanji like the status menu (R123); kids mode keeps the hiragana one.
+  assert(log.includes('経験値 '+def.exp+'　'+def.money+'円')&&!/けいけんち|えん/.test(log),'adult win line: '+log);assert(!/\d(けいけんち|経験値)/.test(log),'no number glued to the word: '+log);
+  r.g.state.mode='kids';r.RYW.setMode('kids');r.tick(4000);while(r.g.dialogue)r.dialogue();r.g.debugStartBattle('vending','calm2');r.tick(1500);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle','a second vending battle');r.g.debugWin();const kidsLog=r.els.get('battle-log').textContent;
+  assert(kidsLog.includes('けいけんち '+def.exp+'　'+def.money+'えん'),'kids win line: '+kidsLog);assert(!/\dけいけんち/.test(kidsLog),'no number glued to けいけんち: '+kidsLog);
   for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))assert(!/\{exp\}けいけんち/.test(fs.readFileSync(path.join(root,'data',f),'utf8')),f+': the win dialogue also puts けいけんち before the number');}
  result.push('R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS');
+ result.push('R126: おとなモードで勝った時の行を「経験値／円」で出し、こどもモードは「けいけんち／えん」のまま PASS');
  // R119: ヒカクマオウ's opening line 「おなじ としで もう しゃちょう」 broke between もう and しゃちょう on the 540-wide shooter canvas.
  // The shooter panel (24px, 476px wide, the speaker's name in front of the first line) must not have to wrap any boss's opening line.
  {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);
