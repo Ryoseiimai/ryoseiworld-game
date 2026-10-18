@@ -1159,6 +1159,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const k of ['ArrowRight','ArrowLeft']){r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(!help.classes.has('learned'),'one second of walking keeps the help');
   for(let i=0;i<4;i++){const k=i%2?'ArrowLeft':'ArrowRight';r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(help.classes.has('learned'),'after 3 s of walking the help fades out');}
  result.push('R76: 2.5秒ほど歩くと「ドラッグで あるく」が消える PASS');
+ // R131: once learned, the walk help stays gone after a reload (the flag is saved), and a player at level 3 or more never sees it covering exits.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('town',5,32);r.tick(16);const help=r.els.get('walk-help');assert(!help.classes.has('learned'),'a new player sees the help');assert(!r.g.state.flags.walkLearned,'not learned yet');
+  for(let i=0;i<6;i++){const k=i%2?'ArrowLeft':'ArrowRight';r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(help.classes.has('learned')&&r.g.state.flags.walkLearned===true,'walking 3 s saves the learned flag');}
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  r.g.state.flags.walkLearned=true;r.g.debugWarp('electric',5,8);r.tick(16);const help=r.els.get('walk-help');assert(help.classes.has('learned')&&!help.classes.has('behind'),'a saved learned flag hides the help without walking');}
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  r.g.state.level=3;r.g.debugWarp('electric',5,8);r.tick(16);assert(r.els.get('walk-help').classes.has('learned'),'level 3 or more: the help is already gone');}
+ result.push('R131: 歩き方を覚えた人（保存に残る）とレベル3以上の人には「ドラッグで あるく」を出さない PASS');
  // R77: with nobody close enough to talk to, the 「はなす」 button's background turns see-through (its letters stay solid) so the people under it stay visible.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#talk-btn\.idle\{background:#f1cd7c4d/.test(html)&&!/#talk-btn\.idle\{[^}]*opacity/.test(html),'idle talk button: see-through background, solid letters');
