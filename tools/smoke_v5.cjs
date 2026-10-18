@@ -219,10 +219,15 @@ async function runViewport(browser, url, vp, errors, shots) {
               return { top: pn.scrollTop + cp.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 || cp.scrollHeight > cp.clientHeight + 4,
                 back: r && r.top >= p.top - 1 && r.bottom <= p.bottom + 1 && r.top >= -1 && r.bottom <= innerHeight + 1,
                 // R74: a scrolling list shows whole lines only, so the last line above the dashed line is not cut in half.
+                // R130: while more is below, the "▼ つづき" tag shows between the dashed line and the first button.
+                more: (() => { const mm = document.getElementById('modal-more'); if (cp.scrollHeight <= cp.clientHeight + 4) return 'none'; if (!mm || mm.hidden || !mm.offsetParent) return 'hidden';
+                  const t = mm.getBoundingClientRect(), c = cp.getBoundingClientRect(), b0 = document.querySelector('#modal-buttons > *:not([hidden])'), bt = b0 ? b0.getBoundingClientRect().top : p.bottom;
+                  return t.top >= c.bottom - 1 && t.bottom <= bt - 2 && t.right <= p.right + 1 ? 'ok' : `at ${Math.round(t.top)}-${Math.round(t.bottom)}, list ends ${Math.round(c.bottom)}, button at ${Math.round(bt)}`; })(),
                 cut: (() => { const lh = parseFloat(getComputedStyle(cp).lineHeight), ch = cp.clientHeight; if (!(lh > 0) || cp.scrollHeight <= ch + 4) return 0; const r = ch % lh; return Math.min(r, lh - r) > 1 ? Math.round(r) : 0; })() }; });
             await shot('menu-bonds');
             if (!m.over) scenes.push({ name: 'menu-bonds-note', skipped: 'きずな list fits without scrolling, so the top check proves little' });
             if (!m.back) errors.push({ kind: 'layout', viewport: vp.name, message: tag('きずな menu: もどる is hidden below the list') });
+            if (m.more !== 'ok' && m.more !== 'none') errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the "▼ つづき" tag is ${m.more}`) });
             if (m.cut) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the last visible line is cut ${m.cut}px into the line`) });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
