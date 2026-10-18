@@ -1265,6 +1265,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'each mode has its own line: '+JSON.stringify(rows));
   for(const row of rows)assert(wide(row)<=17,'the row fits the 540px window without wrapping: '+row);}
  result.push('R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS');
+ // R147: the tap-for-music hint on the title is full gold (it was 70% see-through and sank into the night sky) with a dark outline.
+ {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/color:#f1cd7c;/.test(css),'the hint is solid gold, not see-through: '+css);
+  for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);assert(/font-size:24px/.test(css),'the hint stays at 24px: '+css);}
+ result.push('R147: タイトルの「♪ タップで音楽」が透けない金色になり、ふちも付いて夜空に沈まない PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
