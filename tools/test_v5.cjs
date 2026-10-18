@@ -1241,6 +1241,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const signs=nums.map(o=>o.sign);nums.forEach(o=>delete o.sign);let withPeople,without;try{withPeople=sweep();nums.forEach(o=>o.kind='numberperson_off');without=sweep();}finally{nums.forEach((o,i)=>{o.kind='numberperson';o.sign=signs[i];});}
   assert(withPeople>without,'(signs taken away) a number person body behind the talk button turns it see-through: '+withPeople+' / '+without);}
  result.push('R141: ネオンの「かずの ひと」が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる PASS');
+ // R143: the pond (~) and the sandbox (:) draw a rim only on the sides that face other ground, so they are not plain squares.
+ {const src=(html.match(/function rim\(m,x,y,t,w,c,d\)\{.*\}\n/)||[''])[0];assert(src,'index.html has rim()');const rects=[];const rim=new Function('rect','TILE','return '+src.trim())((x,y,w,h,c)=>rects.push([x,y,w,h,c]),48);
+  const m={tiles:['....','.~~.','.~~.','....'].map(r=>[...r])};const rimAt=(x,y)=>{rects.length=0;rim(m,x,y,'~',8,'#c','#d');return rects.filter(r=>r[4]==='#c');};
+  const corner=rimAt(1,1);assert(corner.length===2&&corner.some(r=>r[0]===48&&r[1]===48&&r[3]===8)&&corner.some(r=>r[0]===48&&r[2]===8),'the top left water tile gets a top and a left rim: '+JSON.stringify(corner));
+  const m2={tiles:['~~~','~~~','~~~'].map(r=>[...r])};rects.length=0;rim(m2,1,1,'~',8,'#c','#d');assert(rects.length===0,'a water tile inside the pond has no rim');rim(m2,0,0,'~',8,'#c','#d');assert(rects.length===0,'the map edge does not count as other ground');
+  rects.length=0;rim({tiles:[['.','.','.'],['.','~','.'],['.','.','.']]},1,1,'~',8,'#c','#d');assert(rects.filter(r=>r[4]==='#c').length===4&&rects.findIndex(r=>r[4]==='#c')>rects.findLastIndex(r=>r[4]==='#d'),'a lone tile gets all four rims, drawn after the dark lines so no dark line crosses a corner');
+  const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/rim\(m,x,y,'~'/.test(g)&&/rim\(m,x,y,':'/.test(g),'ground() draws the rim for the pond and the sandbox');}
+ result.push('R143: 町の池と砂場に、ほかの地面と接する辺だけ縁を描く PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
