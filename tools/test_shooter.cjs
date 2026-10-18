@@ -785,6 +785,17 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R120: the boss's HP-milestone lines (bursts, said with the boss's name in front) also keep each phrase on one line.
+(() => {
+  const wd = s => [...s].reduce((a, c) => a + (c === ' ' ? 12 : 24), 0);
+  for (const [id, b] of Object.entries(B)) {
+    for (const [at, text] of Object.entries((b.lines && b.lines.bursts) || {})) {
+      const ok = text.split('\n').every((para, i) => wd(para) <= 476 - (i ? 0 : wd(b.name) + 14));
+      check('R120: ' + id + ' の ' + at + '% の台詞が言葉の途中で折り返されない', ok, text);
+    }
+  }
+})();
+
 // R86: ソラのヒントは下の「ゆびを すべらせて うごく」より長く出る（3.2秒で消えて、読む前に薄くなっていた）。
 (() => {
   for (const boss of ['kateino', 'hikaku']) {

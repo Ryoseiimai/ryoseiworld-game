@@ -1322,6 +1322,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    text.split('\n').forEach((para,i)=>assert(wd(para)<=476-(i?0:wd(who)+14),id+': the opening line has to wrap mid-phrase: '+JSON.stringify(text)));}
   assert.equal(r.g.GAME_DATA.enemies.hikaku.intro[1],'おなじ としで\nもう しゃちょう');}
  result.push('R119: ボスの始めの台詞が言葉の途中で折り返されず、ヒカクマオウは「おなじ としで」で改行する PASS');
+ // R120: the HP-milestone lines a chapter hands to the shooter (enemies[*].bursts) win over shooter.js's own, so they get the same check.
+ {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);
+  for(const [id,e] of Object.entries(r.g.GAME_DATA.enemies))for(const [at,text] of e.bursts||[])
+   text.split('\n').forEach((para,i)=>assert(wd(para)<=476-(i?0:wd(e.name)+14),id+' '+at+': the milestone line has to wrap mid-phrase: '+JSON.stringify(text)));}
+ result.push('R120: 章のデータからボス戦に渡る節目の台詞も、言葉の途中で折り返されない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
