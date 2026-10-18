@@ -378,7 +378,7 @@ function showWordCard(){wordCurrent=wordQueue.shift()||null;const el=$('word-car
 // R70: a summon's name sits below the word card's real bottom (a two-line card is taller than the old fixed 55px shift).
 // R98: the summon's name has a dark plate behind it, so it stays readable over the summon's light-colored art.
 // R82: the summon's ring and the squares of Naoslime and paint end above the RYOSEI/HP card (top 488px), so they never cross its text.
-// R137: the battle hero's wheels end 8px above the RYOSEI/HP card (top 488px), so the feet never sit on its frame line.
+// R137: the battle hero's wheels end 8px (6px while ちらつき shakes it) above the RYOSEI/HP card (top 488px), so the feet never sit on its frame line.
 const SUMMON_Y=470,SUMMON_RING_Y=462,SUMMON_RING_RY=20;
 const HERO_BATTLE_Y=480;
 function summonNameY(){const el=$('word-card');if(!wordCurrent||el.hidden)return 185;return Math.max(185,Math.round((parseFloat(el.style.top)||0)+(el.offsetHeight||96)+34));}
