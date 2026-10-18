@@ -274,6 +274,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  const css=html.split('<style>')[1].split('</style>')[0],decls=sel=>css.split('}').filter(r=>r.includes('{')&&r.split('{')[0].split(',').map(x=>x.trim()).includes(sel)).map(r=>r.split('{')[1]).join(';');
  assert(/word-break:keep-all/.test(decls('.battle-log'))&&/line-break:strict/.test(decls('.battle-log')),'battle-log wrapping');
  assert(parseFloat(decls('#stage.compact .battle-log').match(/font-size:([\d.]+)px/)[1])<=28,'compact battle-log font');
+ // R134: the RYOSEI/HP card, the battle log and the command buttons never overlap (the card is 98px tall, 107px when compact, as measured in Chromium), and the log still holds 3 rows.
+ {const px=(d,k)=>{const m=d.match(new RegExp('(?:^|;)'+k+':([\\d.]+)px'));return m?Number(m[1]):null;},last=(...v)=>v.filter(x=>x!=null).pop();
+  const card=px(decls('.hp-card'),'top'),btnH=px(decls('.commands button'),'min-height'),gap=px(decls('.commands'),'gap');
+  for(const [mode,cardH,pre] of [['normal',98,''],['compact',107,'#stage.compact ']]){
+   const L=decls('.battle-log')+(pre?';'+decls(pre+'.battle-log'):''),C=decls('.commands')+(pre?';'+decls(pre+'.commands'):'');
+   const top=last(...[...L.matchAll(/(?:^|;)top:([\d.]+)px/g)].map(m=>Number(m[1]))),h=last(...[...L.matchAll(/(?:^|;)height:([\d.]+)px/g)].map(m=>Number(m[1]))),bottom=last(...[...C.matchAll(/(?:^|;)bottom:([\d.]+)px/g)].map(m=>Number(m[1])));
+   const font=last(...[...L.matchAll(/font-size:([\d.]+)px/g)].map(m=>Number(m[1]))),lh=last(...[...L.matchAll(/line-height:([\d.]+)(?:;|$)/g)].map(m=>Number(m[1]))),pad=last(...[...L.matchAll(/padding:([\d.]+)px/g)].map(m=>Number(m[1])));
+   const cmdTop=960-bottom-(3*btnH+2*gap);
+   assert(card+cardH+4<=top,mode+': the log starts below the HP card ('+(card+cardH)+' vs '+top+')');
+   assert(top+h+4<=cmdTop,mode+': the log ends above the buttons ('+(top+h)+' vs '+cmdTop+')');
+   assert(h-2*pad-6>=3*font*lh,mode+': the log holds 3 rows');assert(btnH>=58&&bottom>=8,mode+': buttons stay big and on screen');
+   assert(px(decls('.commands button'),'height')===btnH&&px(decls('.commands button'),'padding')<=6,mode+': the buttons have a fixed height, so a tall font cannot push them up');}}
  const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),tl=await runtime();tl.tick();tl.start();const tutorialLogs=[tl.g.battle.log];tl.cmd('attack');tutorialLogs.push(tl.g.battle.log);tl.cmd('run');tutorialLogs.push(tl.g.battle.log);
  assert(tutorialLogs[0].includes('ナオスライムを よぼう')&&tutorialLogs[1].includes('まず')&&tutorialLogs[2].includes('にげられない'),tutorialLogs.join('|'));
  for(const text of tutorialLogs){const rows=text.split('\n');assert(rows.length<=3,text);for(const row of rows)assert(wide(row)<=16,'tutorial log row too wide: '+row);}
@@ -804,6 +816,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero at dy '+dy);}}}
  result.push('R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS');
  result.push('R133: こうえん の看板は、主人公が板の上の何もない所にいる時は透けない PASS');
+ result.push('R134: 戦闘の「RYOSEI／HP」の欄・話の窓・ボタンが重ならない PASS');
  result.push('R105: タイトルの案内が出ても、ボタンが町の絵に乗らず道の上に残る PASS');
  result.push('R106: きずなの一覧で、名前とハートを1行にまとめた（R36 の確かめで見る） PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
