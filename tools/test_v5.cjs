@@ -1330,7 +1330,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R121: in adult mode the 武器 menu (part of the learning side, SPEC_V7_MANABU.md 9) reads in kanji, and kids mode gets its hiragana back.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
-  r.click('menu-btn');r.button('武器');assert.equal(r.g.modal,'weapons');let c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ右へ撃つ'),c);assert(c.includes('あと 7つ。\nきずなが深まると増える。'),c);fits(c);
+  r.click('menu-btn');r.button('武器');assert.equal(r.g.modal,'weapons');let c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ右へ撃つ'),c);assert(c.includes('あと7つ。\nきずなが深まると増える。'),c);fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('武器');c=copy();assert(c.includes('全部そろった！'),c);
   for(const w of Object.values(D.weapons)){assert(w.desc&&c.includes(w.desc),w.name+' desc');assert(!/[ぁ-ん]{2,} [ぁ-ん]{2,}/.test(w.desc),'adult desc reads in kanji: '+w.desc);}
   assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
