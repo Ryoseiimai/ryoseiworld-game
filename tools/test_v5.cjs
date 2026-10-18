@@ -1327,6 +1327,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [id,e] of Object.entries(r.g.GAME_DATA.enemies))for(const [at,text] of e.bursts||[])
    text.split('\n').forEach((para,i)=>assert(wd(para)<=476-(i?0:wd(e.name)+14),id+' '+at+': the milestone line has to wrap mid-phrase: '+JSON.stringify(text)));}
  result.push('R120: 章のデータからボス戦に渡る節目の台詞も、言葉の途中で折り返されない PASS');
+ // R121: in adult mode the 武器 menu (part of the learning side, SPEC_V7_MANABU.md 9) reads in kanji, and kids mode gets its hiragana back.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
+  r.click('menu-btn');r.button('武器');assert.equal(r.g.modal,'weapons');let c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ右へ撃つ'),c);assert(c.includes('あと 7つ。\nきずなが深まると増える。'),c);fits(c);
+  for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('武器');c=copy();assert(c.includes('全部そろった！'),c);
+  for(const w of Object.values(D.weapons)){assert(w.desc&&c.includes(w.desc),w.name+' desc');assert(!/[ぁ-ん]{2,} [ぁ-ん]{2,}/.test(w.desc),'adult desc reads in kanji: '+w.desc);}
+  assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
+  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);fits(c);}
+ result.push('R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
