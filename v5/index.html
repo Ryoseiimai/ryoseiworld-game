@@ -485,7 +485,7 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
   const hall=s.boost&&GAME_DATA.enemies[b.type].fakeHp;
   // R24: sprite (ペイントキメラ) makes a mirror image that catches the enemy's next hit; backup (サーバークジラ) saves the current HP for 3 turns and restores it once if the hero would fall.
   later(()=>{if(g.battle!==b||b.over)return;let msg;fx.flashUntil=gameTime+(fx.flashMs=500);fx.flash=s.damage?'#ffcf8a':'#d6fff0';if(s.heal){if(!rescue)healEntity(g.hero,s.heal);g.status=null;sfx.heal();msg=menuLabel('デバッグ！ HPが戻った。\n表示バグも直った！','デバッグ！ HPが もどった。\nひょうじバグも なおった！');}
-   else if(s.boost){if(hall)b.hallReveal=true;else b.boost={x:s.boost,left:(s.turns||2)+1};sfx.heal();msg=hall?menuLabel('出どころが無い！\n本当のHPが見えた。ダメージ2倍！','でどころが ない！\nほんとうの HPが みえた。ダメージ 2ばい！'):seeLine(b,s);}
+   else if(s.boost){if(hall)b.hallReveal=true;else b.boost={x:s.boost,left:(s.turns||2)+1};sfx.heal();msg=hall?menuLabel('出どころがない！\n本当のHPが見えた。ダメージ2倍！','でどころが ない！\nほんとうの HPが みえた。ダメージ 2ばい！'):seeLine(b,s);}
    else if(s.mirror){b.mirror=true;sfx.heal();msg=menuLabel('絵の身代わりを作った！\n次の攻撃を受け止める。','えの みがわりを つくった！\nつぎの こうげきを うけとめる。');}
    else if(s.backup){b.backup={hp:g.hero.hp,turnsLeft:3};sfx.heal();msg=menuLabel('今のHPを保存した！\n倒れても1回戻れる。','いまの HPを ほぞんした！\nたおれても 1かい もどれる。');}
    else if(s.rest){b.restEnemy=true;sfx.heal();msg=menuLabel('敵の言葉が分かった！\n次は1回休みそう。','てきの ことばが わかった！\nつぎは 1かい やすみそう。');}
@@ -504,12 +504,12 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
 function finishTurn(){const b=g.battle;if(!b||b.over)return;later(()=>{if(b!==g.battle||b.over)return;if(b.enemy.hp<=0){win();return;}enemyTurn();},700);}
 function enemyTurn(){const b=g.battle,def=GAME_DATA.enemies[b.type];b.turn++;if(b.boost&&--b.boost.left<=0)b.boost=null;
  // R25: honyaku (コトバイルカ) makes the enemy understood, so it rests this one turn instead of attacking.
- if(b.restEnemy){b.restEnemy=false;sfx.heal();log(def.name+'は\nことばが つたわって\nひとやすみ した。');b.locked=false;focusBattle();return;}
+ if(b.restEnemy){b.restEnemy=false;sfx.heal();log(def.name+menuLabel('は\n言葉が伝わって\n一休みした。','は\nことばが つたわって\nひとやすみ した。'));b.locked=false;focusBattle();return;}
  const dmg=b.tutorial?3:def.attack+(def.specialEvery&&b.turn%def.specialEvery===0?def.specialDamage:0);
  // R24: the mirror (スプライトせいせい) catches this whole hit; backup (バックアップ) only steps in when the hit would be fatal, within its 3-turn window.
- if(b.mirror){b.mirror=false;sfx.heal();log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+'\nえの みがわりが うけとめた！');b.locked=false;focusBattle();return;}
+ if(b.mirror){b.mirror=false;sfx.heal();log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+menuLabel('\n絵の身代わりが受け止めた！','\nえの みがわりが うけとめた！'));b.locked=false;focusBattle();return;}
  const newHp=g.hero.hp-dmg;
- if(newHp<=0&&b.backup){const savedHp=b.backup.hp;b.backup=null;startRoll(g.hero,savedHp);g.status=null;sfx.heal();log('たおれる ところだった！\nバックアップで HPが もどった！');b.locked=false;focusBattle();return;}
+ if(newHp<=0&&b.backup){const savedHp=b.backup.hp;b.backup=null;startRoll(g.hero,savedHp);g.status=null;sfx.heal();log(menuLabel('倒れる所だった！\nバックアップでHPが戻った！','たおれる ところだった！\nバックアップで HPが もどった！'));b.locked=false;focusBattle();return;}
  if(b.backup&&--b.backup.turnsLeft<=0)b.backup=null;
  startRoll(g.hero,newHp);g.status=def.status||null;if(g.status==='ひょうじバグ')window.RYW.learn('hyoujibug');sfx.hurt();fx.shakeUntil=gameTime+220;fx.shake=Math.max(fx.shake,4);log(def.name+'は\n'+def.actions[(b.turn-1)%def.actions.length]+' '+dmg+'ダメージ。');b.locked=false;focusBattle();}
 function rewards(def){g.exp+=def.exp;g.money+=def.money;let ups=0;while(g.exp>=g.level*GAME_DATA.rules.expStep){g.exp-=g.level*GAME_DATA.rules.expStep;g.level++;g.hero.maxHp+=GAME_DATA.rules.hpPerLevel;healEntity(g.hero,24);ups++;}return ups;}
