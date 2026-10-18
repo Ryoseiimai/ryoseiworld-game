@@ -2678,5 +2678,20 @@
   ],
   "sha": "73baf1c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39094332843"
+ },
+ {
+  "at": "2026-10-18T03:57:30.633Z",
+  "branch": "claude/autodev-20261018-1245-R126",
+  "task": "R126 おとなモードで戦いに勝った時の「けいけんち／えん」の行を漢字かな交じりにする",
+  "summary": "チャレンジの結果の窓に続き、勝った時の戦いの記録をおとなモードで「経験値／円」にした\nこどもモードは「けいけんち／えん」のままで、両方のモードをテストで確かめた\n戦いの画面の「でんち 100％」と召喚の結果の文が、まだおとなモードでもひらがなのまま",
+  "result": "pass",
+  "shots": [
+   "shots/229/mobile-02-mode-select.jpg",
+   "shots/229/mobile-15-custom-full-run.jpg",
+   "shots/229/mobile-27-chapter-2-play.jpg",
+   "shots/229/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ee979ff",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39095141402"
  }
 ]
