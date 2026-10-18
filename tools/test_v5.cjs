@@ -1517,6 +1517,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.cheats.godmode=false;r.tick(300);r.button('もう一度');r.g.state.mode='kids';r.RYW.setMode('kids');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:2,score:10,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);}
  result.push('R125: おとなモードのチャレンジの結果の窓を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R149: the number people's art floats a small 1-4 over each head that never matched the sign; the rows above the head are not drawn.
+ {const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);assert.equal(crop.length,4);
+  const opaque=(d,y)=>{let n=0;for(let x=0;x<210;x++)if(d[(y*210+x)*4+3]>80)n++;return n;};
+  // Frame 0 has no empty row between its digit and the hair, so only frames 1-3 check the gap.
+  ['r0_c0','r0_c1','r1_c0','r1_c1'].forEach((f,i)=>{const {data}=pngPixels(path.join(root,'assets/numberperson/numberperson_'+f+'.png'));
+   let above=0;for(let y=0;y<crop[i];y++)above+=opaque(data,y);assert(above>0,f+' has the floating digit above the crop line');
+   if(i)assert.equal(opaque(data,crop[i]),0,f+' crop line '+crop[i]+' sits in the empty gap between digit and head');
+   let below=0;for(let y=crop[i];y<crop[i]+12;y++)below+=opaque(data,y);assert(below>0,f+' head starts just under the crop line');});
+  const r=await runtime();r.tick();r.g.debugStartChapter(3);const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
+  assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===o.sign),'the sign still tells the number');}
+ result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
