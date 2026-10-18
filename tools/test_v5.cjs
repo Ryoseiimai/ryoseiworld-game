@@ -1508,7 +1508,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
   const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  let c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n通常\n最高ステージ 5\n最高コンボ 20'),c);assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  let c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n最高ステージ 5\n最高コンボ 20'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
   assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
   r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ 6を目指そう'),c);fits(c);

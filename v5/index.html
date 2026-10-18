@@ -451,7 +451,8 @@ function recordText(r){return menuLabel('最高ステージ ','さいこう ス�
 // R115: the result shows this run first, so a run that did not beat the best still tells the player how far it got.
 function runText(r){return menuLabel('今回ステージ ','こんかい ステージ ')+r.stage+menuLabel('\n今回コンボ ','\nこんかい コンボ ')+r.bestCombo;}
 // R103: the cheat record shows only after a run with cheats, so a player who never used them does not see a row of zeros.
-function challengeRecords(){const c=g.challenge.bestCheat;return menuLabel('通常\n','ふつう\n')+recordText(g.challenge.best)+(c.stage||c.bestCombo?menuLabel('\n\nチート付き\n','\n\nチートつき\n')+recordText(c):'');}
+// R148: the 通常 heading shows only next to a cheat record; alone it named nothing to compare with.
+function challengeRecords(){const c=g.challenge.bestCheat;return c.stage||c.bestCombo?menuLabel('通常\n','ふつう\n')+recordText(g.challenge.best)+menuLabel('\n\nチート付き\n','\n\nチートつき\n')+recordText(c):recordText(g.challenge.best);}
 function openChallenge(stage=1){if(!challengeUnlocked()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
  const begin=()=>startChallenge(stage);if(isPlayables())openModal('チャレンジ',recordText(g.challenge.best),[{text:'はじめる',action:begin},{text:'もどる',action:closeModal}],'challenge');else openCheats(begin);return true;}
 function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return false;const cheats=activeCheats(),used=Object.values(cheats).some(Boolean);clearWordCards();screen('shooter');let ended=false;
