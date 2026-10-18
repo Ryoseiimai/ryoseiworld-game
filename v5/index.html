@@ -643,9 +643,9 @@ function signX(o){const x=o.x*TILE;if(o.kind!=='numberperson')return x;const hal
 // R96: it also gets a dark plate, so a lamp head behind it (when the sign slides at the screen edge) does not show through 「いいね 3204」.
 const SIGN_PLATE='#1f2a44e6';
 // R100: a board sign's words sit at the middle of its board (fraction of the frame height, centre of the 24px glyphs); props 11 is the park sign, whose board runs 0.27..0.73 across between its posts.
-const SIGN_BOARD={'props:11':.516};
+const SIGN_BOARD={'props:11':.516},SIGN_BOARD_TOP={'props:11':.2}; // R133: the park board picture is clear above its beam (49 of 248 px)
 // R100: the big park sign turns see-through while the hero stands behind it, so the hero is never hidden by its board.
-function seeThrough(o){if(!o.sign||!SIGN_BOARD[o.kind+':'+o.frame]||g.y>=o.foot)return false;const d=dimensions(o);return Math.abs(g.x-o.x*TILE)<d.w/2+12&&g.y>o.foot-d.h;}
+function seeThrough(o){if(!o.sign||!SIGN_BOARD[o.kind+':'+o.frame]||g.y>=o.foot)return false;const d=dimensions(o);return Math.abs(g.x-o.x*TILE)<d.w/2+12&&g.y>o.foot-d.h*(1-(frameFor(o.kind,o.frame)?.top??SIGN_BOARD_TOP[o.kind+':'+o.frame]??0));}
 function signY(o){const d=dimensions(o),board=SIGN_BOARD[o.kind+':'+o.frame];return o.kind==='numberperson'?o.foot-d.h-10:board?Math.round(o.foot-d.h*(1-board)+9):o.foot-d.h*.42;}
 function drawSign(o){const sy=signY(o);fieldSignRects.push([sy-30-camera.y,sy+10-camera.y]);if(o.kind==='tower'){const tw=[...o.sign].length*24+20;rect(o.x*TILE-tw/2,sy-27,tw,36,'#244b49ee');}const sx=signX(o);if(o.kind==='numberperson'){const half=signHalf(o.sign),l=Math.max(camera.x+2,sx-half-8),r=Math.min(camera.x+W-2,sx+half+8);rect(l,sy-25,r-l,32,SIGN_PLATE);}ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle='#3b2a1b';ctx.strokeText(o.sign,sx,sy);label(o.sign,sx,sy,'#fbeccb',24);}
 function label(text,x,y,color='#fff1c6',size=24){ctx.fillStyle=color;ctx.font=`${size}px 'Hiragino Sans',system-ui,sans-serif`;ctx.textAlign='center';ctx.fillText(text,x,y);}

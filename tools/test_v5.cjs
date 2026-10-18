@@ -799,9 +799,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(txt[3]-22>=top&&txt[3]+4<=bottom,id+' words stay on the panel (glyphs '+(txt[3]-22)+'..'+(txt[3]+4)+', panel '+top.toFixed(1)+'..'+bottom.toFixed(1)+')');
    assert(Math.abs(txt[2]-(left+right)/2)<=2&&Math.abs(txt[3]-9-(y+h*128/248))<=2,id+' words sit at the middle of the board (text '+txt[2]+','+txt[3]+')');
    // The hero standing behind the board (on its upper half) sees through it; in front of it, the sign is solid.
-   for(const [dy,alpha] of [[-1.2,.45],[1.8,1]]){r.g.debugWarp(map,o.x,o.y+dy);r.tick(16);r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const i=r.imageLog.findLastIndex(src=>String(src).endsWith('props_r2_c3.png'));
-    assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero '+(dy<0?'behind':'in front'));}}}
+   // R133: above the beam (the clear top of the picture, 4.5 tiles up) nothing hides the hero, so the sign stays solid too.
+   for(const [dy,alpha] of [[-1.2,.45],[-3.5,.45],[-4.5,1],[1.8,1]]){r.g.debugWarp(map,o.x,o.y+dy);r.tick(16);r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const i=r.imageLog.findLastIndex(src=>String(src).endsWith('props_r2_c3.png'));
+    assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero at dy '+dy);}}}
  result.push('R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS');
+ result.push('R133: こうえん の看板は、主人公が板の上の何もない所にいる時は透けない PASS');
  result.push('R105: タイトルの案内が出ても、ボタンが町の絵に乗らず道の上に残る PASS');
  result.push('R106: きずなの一覧で、名前とハートを1行にまとめた（R36 の確かめで見る） PASS');
  // R38: numbered people and three street zako in ネオンシティ; R46: ハルシネーション's fake HP bar and half/double damage around サーチフクロウ.
