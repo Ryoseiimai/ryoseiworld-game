@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T11:53:59.030Z",
-  "branch": "claude/autodev-20261009-2040-R4",
-  "task": "R4 1章のデータを v5/data/ch1.js に移す",
-  "summary": "1章のデータを v5/data/ch1.js に移し、RYW.registerChapter で読むようにした\n移す前と後で GAME_DATA が同じことを確かめ、テストも新しい読み方にした\n確認役の指摘で、章どうしで名前が重なった時に警告を出すようにした",
-  "result": "pass",
-  "shots": [
-   "shots/7/mobile-03-after-start.jpg",
-   "shots/7/mobile-05-map-room.jpg",
-   "shots/7/mobile-07-map-electric.jpg",
-   "shots/7/mobile-10-battle-bugking.jpg"
-  ],
-  "sha": "a5b4c51",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37926369207"
- },
- {
   "at": "2026-10-09T12:32:21.217Z",
   "branch": "claude/autodev-20261009-2122-R5",
   "task": "R5 イベントの手順（会話・選択・クイズ・どうぐ・フラグ）",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "07fb058",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39155343889"
+ },
+ {
+  "at": "2026-10-18T19:42:32.824Z",
+  "branch": "claude/autodev-20261019-0420-R146",
+  "task": "R146 遊んで一番気になる所を1つ直す",
+  "summary": "モードを えらぶ窓で「こども＝」が行の終わりで切れていた\nおとなと こどもの説明を1行ずつに分け、3行で収まるようにした\n行が窓に収まることを確かめるテストを足し、前と後のスクショで見た",
+  "result": "pass",
+  "shots": [
+   "shots/258/mobile-02-mode-select.jpg",
+   "shots/258/mobile-15-custom-full-run.jpg",
+   "shots/258/mobile-27-chapter-2-play.jpg",
+   "shots/258/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "643a48c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39159551109"
  }
 ]
