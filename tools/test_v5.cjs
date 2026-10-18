@@ -1370,9 +1370,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R140: the きずな list was cut after the first row of an entry (［友］ゲームの こ showed, its 守護霊 and 次は rows were under the dashed line).
  // A scrolling list of blocks parted by blank lines now ends on a blank line, and ▼ つづき scrolls by that many whole rows (the browser check is in smoke_v5.cjs).
  {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
-  assert(/rows=String\(cp\.textContent\|\|''\)\.split\('\\n'\)/.test(fit)&&/Math\.abs\(h-rows\.length\*lh\)<2/.test(fit),'only a list without wrapped rows is cut by its text rows');
-  assert(/while\(k>1&&rows\[k-1\]!==''\)k--;if\(k\*2>=n\)\{n=k;page=k\*lh;\}/.test(fit),'the cut moves up to a blank row, never below half the box');
-  assert(/top:page\|\|Math\.max\(lh\|\|30,cp\.clientHeight-\(lh\|\|30\)\)/.test(fit),'▼ scrolls one page of whole entries');
+  assert(/all=text\.split\('\\n'\)/.test(fit)&&/!text\.endsWith\('\\n'\)&&Math\.abs\(h-all\.length\*lh\)<2/.test(fit),'only a list without wrapped rows is cut by its text rows');
+  assert(/if\(k\*2>=n&&k\*lh\+3>=Math\.min\(h,120\)\)n=k;/.test(fit),'the cut moves up to a blank row, never below half the box or the 120px floor (R66)');
+  assert(/cp\.scrollTo\(\{top:blockEnd\(rows,t,n\)\*lh/.test(fit),'▼ scrolls to the first entry not shown whole');
+  const sb={};vm.runInNewContext((html.match(/function blockEnd\([^\n]*/)||[''])[0]+';this.f=blockEnd;',sb);const R=['a','b','c','','d','e','','f','g','h','','i'];
+  assert.equal(sb.f(R,0,9),7,'page 1 ends after the blank row under d e');assert.equal(sb.f(R,7,9),11,'page 2 starts at f and ends after its blank row');assert.equal(sb.f(['a','b','c','d'],0,3),3,'no blank row keeps the full page');
   const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();for(const id of Object.keys(r.g.GAME_DATA.bonds))r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);r.click('menu-btn');r.tick(400);r.button('きずな');assert.equal(r.els.get('modal-title').textContent,'きずな','the list still opens without a real layout');assert(r.els.get('modal-copy').textContent.includes('［家］'),'with its entries');}
  result.push('R140: きずなの一覧が長い時、項目の途中ではなく空いた行で切れ、▼ つづきで次の項目から出る PASS');
  result.push('R139: 戦いに勝った時、長い名前は「は」の後で折り返し、「なった！」だけが次の行に残らない PASS');
