@@ -1345,6 +1345,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('つぎ ♥5で ぶきの ちから')&&c.includes('つぎ ♥3で おれい')&&c.includes('ごほうびは ぜんぶ もらった'),c);fits(c);
   for(const k of ['r122','r122b']){delete D.bonds[k];delete st.bonds[k];}}
  result.push('R122: おとなモードのきずなの画面のヒントを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R123: the status screen reads in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana one.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
+  r.click('menu-btn');r.button('ステータス');let c=copy();assert(/攻撃力 \d+　電池 \d+％/.test(c)&&/お金 \d+円/.test(c)&&/経験値 \d+ \/ \d+/.test(c)&&!/こうげき|でんち|おかね|けいけんち/.test(c),c);fits(c);r.button('もどる');r.button('もどる');
+  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ステータス');c=copy();assert(/こうげき \d+　でんち \d+％/.test(c)&&/おかね \d+えん/.test(c)&&/けいけんち \d+ \/ \d+/.test(c),c);fits(c);}
+ result.push('R123: おとなモードのステータスの画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
