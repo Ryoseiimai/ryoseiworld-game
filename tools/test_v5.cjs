@@ -1260,6 +1260,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!at('room',5,9),'inside a room the HUD stays solid');
   const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0];assert(/background:#16353b[0-9a-f]{2}/.test(css)&&/text-shadow/.test(css),'the see-through HUD keeps an outline on its words: '+css);assert(!/#hud\.over \.quest/.test(html),'the goal line keeps its solid backing (R67)');}
  result.push('R145: ネオンの駅で、くもの もんが上の表示の後ろに来ると、表示の地が薄くなる PASS');
+ // R146: the mode choice puts each mode on its own line, so こども＝ is not left at the end of a line apart from ひらがな中心.
+ {const r=await runtime();r.tick();r.click('start-btn');assert.equal(r.g.modal,'mode-select');const rows=r.els.get('modal-copy').textContent.split('\n'),wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'each mode has its own line: '+JSON.stringify(rows));
+  for(const row of rows)assert(wide(row)<=17,'the row fits the 540px window without wrapping: '+row);}
+ result.push('R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
