@@ -2548,5 +2548,30 @@
   ],
   "sha": "8588923",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39086209397"
+ },
+ {
+  "at": "2026-10-18T01:38:59.294Z",
+  "branch": "claude/autodev-20261018-1021-R121",
+  "task": "R121 遊んで一番気になる所を1つ直す",
+  "summary": "ボス戦の節目の台詞5つが、言葉の途中で折り返される所があった\nバグキングとカテイノジジョウとヒカクマオウの節目の台詞を、言葉の切れ目で改行した\n1章のデータ側の台詞も直し、章のデータと戦闘の両方を調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/220/mobile-02-mode-select.jpg",
+   "shots/220/mobile-15-custom-full-run.jpg",
+   "shots/220/mobile-27-chapter-2-play.jpg",
+   "shots/220/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "fac0fa4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39086925517"
+ },
+ {
+  "at": "2026-10-18T01:39:59.367Z",
+  "branch": "claude/autodev-20261018-1021-R121",
+  "task": "R121 遊んで一番気になる所を1つ直す",
+  "summary": "おとなモードの武器の画面で、説明と残りの数がひらがなのままだった\n武器の説明を「まっすぐ右へ撃つ」のような漢字かな交じりにし、こどもモードはひらがなのまま\nおとなとこどもを行き来しても説明が正しく戻るテストを足した",
+  "result": "fail",
+  "shots": [],
+  "sha": "2f12abd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087157603"
  }
 ]

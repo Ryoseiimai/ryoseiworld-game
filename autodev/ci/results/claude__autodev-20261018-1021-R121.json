@@ -1,22 +1,28 @@
 {
   "branch": "claude/autodev-20261018-1021-R121",
-  "sha": "858892317ec019c9195d8caeff07a7800eeb7991",
-  "result": "pass",
+  "sha": "2f12abd35edbde91e82662b9f2c4cbe86e62652f",
+  "result": "fail",
   "checks": {
-    "fence": "pass",
-    "merge": "ff",
-    "test_v5": "pass",
-    "smoke": "pass"
+    "fence": "fail",
+    "merge": "skipped",
+    "test_v5": "skipped",
+    "smoke": "skipped"
   },
-  "errors": [],
-  "shots": [
-    "devlog/shots/219/mobile-02-mode-select.jpg",
-    "devlog/shots/219/mobile-15-custom-full-run.jpg",
-    "devlog/shots/219/mobile-27-chapter-2-play.jpg",
-    "devlog/shots/219/mobile-41-battle-bugking.jpg"
+  "errors": [
+    "fence: autodev/ci/results/claude__autodev-20261018-1021-R121.json は自動確認だけが書く",
+    "fence: devlog/log.json は自動確認だけが書く",
+    "fence: devlog/shots/172/mobile-02-mode-select.jpg は自動確認だけが書く",
+    "fence: devlog/shots/172/mobile-15-custom-full-run.jpg は自動確認だけが書く",
+    "fence: devlog/shots/172/mobile-27-chapter-2-play.jpg は自動確認だけが書く",
+    "fence: devlog/shots/172/mobile-41-battle-bugking.jpg は自動確認だけが書く",
+    "fence: devlog/shots/219/mobile-02-mode-select.jpg は自動確認だけが書く",
+    "fence: devlog/shots/219/mobile-15-custom-full-run.jpg は自動確認だけが書く",
+    "fence: devlog/shots/219/mobile-27-chapter-2-play.jpg は自動確認だけが書く",
+    "fence: devlog/shots/219/mobile-41-battle-bugking.jpg は自動確認だけが書く"
   ],
-  "at": "2026-10-18T01:27:26.907Z",
-  "merged_sha": "858892317ec019c9195d8caeff07a7800eeb7991",
-  "tested_base": "935b4078da2f6f55cfa5f2c4bfa198778a4fe1ca",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39086209397"
+  "shots": [],
+  "at": "2026-10-18T01:39:59.367Z",
+  "merged_sha": null,
+  "tested_base": "36c345a5e097c81535c0da6b4050ac3b17546bd2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087157603"
 }
