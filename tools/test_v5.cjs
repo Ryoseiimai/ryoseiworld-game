@@ -1360,6 +1360,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('room');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓')&&!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='そとへ'),'a room exit stays a plain ↓');}
  result.push('R138: とう1Fの出口の ↓ の下に「そとへ」の札が出て、ほかの部屋は ↓ のまま PASS');
+ // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','r139');r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);
+  const log=r.g.battle?.log||r.els.get('battle-log').textContent,name=r.g.GAME_DATA.enemies.vending.name;
+  assert(log.startsWith(name+'は\nおとなしく なった！\n'),log);for(const row of log.split('\n'))assert([...row].length<=18,'row fits: '+row);
+  r.tick(2100);while(r.g.dialogue)r.dialogue();}
+ assert(/return wide>room\?name\+'は\\nおとなしく なった！':text;/.test(html),'a short name keeps the line on one row');
+ result.push('R139: 戦いに勝った時、長い名前は「は」の後で折り返し、「なった！」だけが次の行に残らない PASS');
  // R103: the challenge result listed "チートつき さいこう ステージ 0" to a player who never used cheats.
  result.push('R103: チートを使っていない人には、チャレンジのきろくに「チートつき」の0の行を出さない PASS');
  // R117: chapters 1 to 3 all showed 「まちの ノイズを しずめよう 0/3」, so the goal line did not tell which town you were in.
