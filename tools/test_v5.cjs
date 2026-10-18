@@ -1319,6 +1319,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))assert(!/\{exp\}けいけんち/.test(fs.readFileSync(path.join(root,'data',f),'utf8')),f+': the win dialogue also puts けいけんち before the number');}
  result.push('R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS');
  result.push('R126: おとなモードで勝った時の行を「経験値／円」で出し、こどもモードは「けいけんち／えん」のまま PASS');
+ // R127: the battle screen's battery label and the summon result lines read in kanji in adult mode (SPEC_V7_MANABU.md 9); kids mode keeps the hiragana ones.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();const st=r.g.state,S=r.g.GAME_DATA.summons,ids=Object.keys(S),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  st.summons=[...ids];const kidsWords=/よんだ|もどった|なおった|でどころ|ほんとう|みがわり|うけとめる|ほぞん|たおれ|わかった|やすみ|せいせい！|とじて|よわみ|ばい！|けんさく/;
+  const cast=(id,tag)=>{r.g.debugStartBattle('popup',tag);r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.g.battle.enemy.hp=r.g.battle.enemy.displayHp=r.g.battle.enemy.maxHp=999;st.battery=100;st.summons=[...ids];r.cmd('summon');r.button(S[id].name);const first=r.g.battle.log;r.tick(1000);return[first,r.g.battle.log];};
+  r.g.debugStartBattle('popup','r127');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);assert(/^電池 \d+％$/.test(r.els.get('battle-battery').textContent),r.els.get('battle-battery').textContent);r.g.state.battle=null;
+  for(const id of ids){const[first,msg]=cast(id,'r127'+id);assert(first.includes(S[id].name+'を呼んだ！'),id+': '+first);assert(msg&&!kidsWords.test(msg),id+' adult summon line: '+msg);assert(msg.split('\n').reduce((n,row)=>n+Math.ceil(wide(row)/15),0)<=3,id+' fits 3 rows: '+msg);r.tick(3000);r.g.state.battle=null;}
+  st.mode='kids';r.RYW.setMode('kids');r.tick(300);const[kFirst,kMsg]=cast(ids[0],'r127kids');assert(kFirst.includes('を よんだ！'),kFirst);assert(kidsWords.test(kMsg),'kids summon line: '+kMsg);assert(/^でんち \d+％$/.test(r.els.get('battle-battery').textContent),r.els.get('battle-battery').textContent);}
+ result.push('R127: おとなモードの戦いの画面の電池と召喚の結果の文を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R119: ヒカクマオウ's opening line 「おなじ としで もう しゃちょう」 broke between もう and しゃちょう on the 540-wide shooter canvas.
  // The shooter panel (24px, 476px wide, the speaker's name in front of the first line) must not have to wrap any boss's opening line.
  {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);
