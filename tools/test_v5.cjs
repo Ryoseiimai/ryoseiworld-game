@@ -1233,6 +1233,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(onWith&&!onWithout,'at (13,16) only the こうえん words sit behind the walk help box: '+onWith+' / '+onWithout);
   assert(!at(13,30),'far from the sign the box stays solid');}
  result.push('R109: 看板の字が「ドラッグで あるく」の箱やボタンの後ろに来ても、箱が薄くなる PASS');
+ // R141: the number people in ネオン (いいね 3204 etc.) behind the talk button make it see-through too, not only their sign.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;
+  const nums=r.g.GAME_DATA.maps.neon.objects.filter(o=>o.kind==='numberperson');assert(nums.length>=4,'ネオン has the number people: '+nums.length);
+  const sweep=()=>{let b=0;for(let x=2;x<=26;x++)for(let y=12;y<=36;y++){r.g.debugWarp('neon',x,y);r.tick(16);b+=btn.classes.has('behind');}return b;};
+  const withPeople=sweep();nums.forEach(o=>o.kind='numberperson_off');let without;try{without=sweep();}finally{nums.forEach(o=>o.kind='numberperson');}
+  assert(withPeople>without,'a number person behind the talk button turns it see-through: '+withPeople+' / '+without);}
+ result.push('R141: ネオンの「かずの ひと」が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
