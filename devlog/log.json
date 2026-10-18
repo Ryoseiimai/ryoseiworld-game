@@ -2588,5 +2588,20 @@
   ],
   "sha": "bdc613f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087372000"
+ },
+ {
+  "at": "2026-10-18T01:55:26.317Z",
+  "branch": "claude/autodev-20261018-1047-R122",
+  "task": "R122 おとなモードのきずなの画面と、ボス戦の連射の待ち時間を漢字かな交じりにする",
+  "summary": "おとなモードの武器の画面で、説明と残りの数がひらがなのままだった\n武器の説明を「まっすぐ右へ撃つ」のような漢字かな交じりにし、こどもモードはひらがなのまま\nおとなとこどもを行き来しても説明が正しく戻るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/223/mobile-02-mode-select.jpg",
+   "shots/223/mobile-15-custom-full-run.jpg",
+   "shots/223/mobile-27-chapter-2-play.jpg",
+   "shots/223/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0e721c6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087877220"
  }
 ]
