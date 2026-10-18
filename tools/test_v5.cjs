@@ -145,7 +145,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  t.g.debugWarp('town',22,24.7);t.tick(1300);walkUp(t,180);assert.equal(t.g.map,'store');
  assert(talk(t,'store',5,5.6).includes('パスワード'));t.dialogue();assert.equal(t.g.modal,'shop');t.tick(300);
  const cash=t.g.state.money;t.button('モバイルバッテリー');assert.equal(t.g.state.items.battery,1);assert.equal(t.g.state.money,cash-75);
- if(t.g.battery<100){t.button('じゅうでん');assert.equal(t.g.battery,100);assert.equal(t.g.state.money,cash-105);}t.button('ありがとう');assert.equal(t.g.questStep,'recruit');
+ if(t.g.battery<100){t.button(t.g.state.mode==='kids'?'じゅうでん':'充電');assert.equal(t.g.battery,100);assert.equal(t.g.state.money,cash-105);}t.button('ありがとう');assert.equal(t.g.questStep,'recruit');
  result.push('3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS');
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
  const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
@@ -1351,6 +1351,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('menu-btn');r.button('ステータス');let c=copy();assert(/攻撃力 \d+　電池 \d+％/.test(c)&&/お金 \d+円/.test(c)&&/経験値 \d+ \/ \d+/.test(c)&&!/こうげき|でんち|おかね|けいけんち/.test(c),c);fits(c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ステータス');c=copy();assert(/こうげき \d+　でんち \d+％/.test(c)&&/おかね \d+えん/.test(c)&&/けいけんち \d+ \/ \d+/.test(c),c);fits(c);}
  result.push('R123: おとなモードのステータスの画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R124: the shop, items and summon screens read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const openShop=()=>{talk(r,'store',5,5.6);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();assert.equal(r.g.modal,'shop');r.tick(300);},st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,labels=()=>r.els.get('modal-buttons').children.map(b=>b.textContent),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
+  r.click('menu-btn');r.button('アイテム');let c=copy(),l=labels().join('|');assert(c==='ポケットは小さな倉庫。'&&/電池\+50/.test(l)&&!/でんち/.test(l),c+l);fits(c);r.button('もどる');r.button('もどる');
+  openShop();c=copy();l=labels().join('|');assert(/^お小遣い \d+円\n電池 \d+％$/.test(c)&&/おにぎり　35円/.test(l)&&/充電　\d+円/.test(l)&&!/えん|でんち|じゅうでん/.test(c+l),c+l);fits(c);r.button('ありがとう');
+  st.mode='kids';r.tick(300);openShop();c=copy();l=labels().join('|');assert(/^おこづかい \d+えん\nでんち \d+％$/.test(c)&&/おにぎり　35えん/.test(l)&&/じゅうでん　\d+えん/.test(l),c+l);r.button('ありがとう');
+  r.click('menu-btn');r.button('アイテム');c=copy();l=labels().join('|');assert(c==='ポケットは ちいさな そうこ。'&&/でんち\+50/.test(l),c+l);}
+ result.push('R124: おとなモードの店とアイテムの画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
