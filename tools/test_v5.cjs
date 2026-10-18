@@ -1249,6 +1249,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   rects.length=0;rim({tiles:[['.','.','.'],['.','~','.'],['.','.','.']]},1,1,'~',8,'#c','#d');assert(rects.filter(r=>r[4]==='#c').length===4&&rects.findIndex(r=>r[4]==='#c')>rects.findLastIndex(r=>r[4]==='#d'),'a lone tile gets all four rims, drawn after the dark lines so no dark line crosses a corner');
   const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/rim\(m,x,y,'~'/.test(g)&&/rim\(m,x,y,':'/.test(g),'ground() draws the rim for the pond and the sandbox');}
  result.push('R143: 町の池と砂場に、ほかの地面と接する辺だけ縁を描く PASS');
+ // R144: the boss fight buttons (skill and beat) on the bottom right keep about 22px from the right edge, like the hearts on the left.
+ {const sh=fs.readFileSync(path.join(root,'js/shooter.js'),'utf8');for(const c of ['rs-skill','rs-beat']){const m=sh.match(new RegExp('\\.'+c+'\\{position:absolute;left:(\\d+)px;top:\\d+px;width:(\\d+)px'));assert(m,c+' has a left and a width');const right=540-Number(m[1])-Number(m[2]);assert(right>=18&&right<=26,c+' keeps about 22px from the right edge: '+right);}}
+ result.push('R144: ボス戦の右下のボタンが、画面の右端から22pxはなれる PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
