@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T08:47:19.917Z",
-  "branch": "claude/autodev-20261009-1745-R0",
-  "task": "R0",
-  "summary": "試運転: 自動確認から合流までの通り道を確かめた\n次: R1 戦闘の主人公を新しい絵にする",
-  "result": "pass",
-  "shots": [
-   "shots/2/mobile-03-after-start.jpg",
-   "shots/2/mobile-05-map-room.jpg",
-   "shots/2/mobile-07-map-electric.jpg",
-   "shots/2/mobile-10-battle-bugking.jpg"
-  ],
-  "sha": "9e5f022",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37906933376"
- },
- {
   "at": "2026-10-09T08:55:45.316Z",
   "branch": "claude/autodev-20261009-1751-R1",
   "task": "R1 戦闘の主人公を新しい絵にする",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "6ed77a6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39141202019"
+ },
+ {
+  "at": "2026-10-18T15:47:53.609Z",
+  "branch": "claude/autodev-20261019-0021-R141",
+  "task": "R141 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンで「かずの ひと」が「はなす」ボタンの後ろに隠れていた\n後ろに来たらボタンの地が薄くなるようにし、テストを足した\n上の表示やボス戦の文字の混み合いは、確認役が挙げたが次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/251/mobile-02-mode-select.jpg",
+   "shots/251/mobile-15-custom-full-run.jpg",
+   "shots/251/mobile-27-chapter-2-play.jpg",
+   "shots/251/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0dee751",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39141548026"
  }
 ]
