@@ -1252,6 +1252,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R144: the boss fight buttons (skill and beat) on the bottom right keep about 22px from the right edge, like the hearts on the left.
  {const sh=fs.readFileSync(path.join(root,'js/shooter.js'),'utf8');for(const c of ['rs-skill','rs-beat']){const m=sh.match(new RegExp('\\.'+c+'\\{position:absolute;left:(\\d+)px;top:\\d+px;width:(\\d+)px'));assert(m,c+' has a left and a width');const right=540-Number(m[1])-Number(m[2]);assert(right>=18&&right<=26,c+' keeps about 22px from the right edge: '+right);}}
  result.push('R144: ボス戦の右下のボタンが、画面の右端から22pxはなれる PASS');
+ // R145: the cloud gate above the neon station sits under the HUD at the station; the HUD plate turns see-through there, and stays solid where no building is under it.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const hud=r.els.get('hud'),at=(map,x,y)=>{r.g.debugWarp(map,x,y);r.tick(16);return hud.classes.has('over');};
+  assert(at('neon',15,13.6),'at the neon station the cloud gate is under the HUD, so the HUD turns see-through');
+  assert(!at('neon',15,30),'far below the gate the HUD stays solid');
+  assert(!at('room',5,9),'inside a room the HUD stays solid');
+  const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0];assert(/background:#16353b[0-9a-f]{2}/.test(css)&&/text-shadow/.test(css),'the see-through HUD keeps an outline on its words: '+css);assert(!/#hud\.over \.quest/.test(html),'the goal line keeps its solid backing (R67)');}
+ result.push('R145: ネオンの駅で、くもの もんが上の表示の後ろに来ると、表示の地が薄くなる PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
