@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-09T12:52:15.422Z",
-  "branch": "claude/autodev-20261009-2141-R6",
-  "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
-  "summary": "R6 は別の回（2132 の枝）が先に終えて合流していたので、この枝の作り直しは取り消した\nこの枝の中身は main と同じにした\n次: R7 保存の版2と、章へ飛ぶ検証用の入口",
-  "result": "conflict",
-  "shots": [],
-  "sha": "f79c491",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37932701261"
- },
- {
   "at": "2026-10-09T12:53:31.748Z",
   "branch": "claude/autodev-20261009-2141-R6",
   "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
@@ -2978,5 +2968,20 @@
   ],
   "sha": "9415973",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39168619966"
+ },
+ {
+  "at": "2026-10-18T22:03:17.458Z",
+  "branch": "claude/autodev-20261019-0643-R149",
+  "task": "R149 遊んで一番気になる所を1つ直す",
+  "summary": "チャレンジの結果で、チート付きの記録が無い時は「通常」の見出しを出さないようにした（R148）\nネオンのかずの人の頭の上に、札と合わない小さな数字が浮いていた。頭より上の行を描かないようにした\n前と後のスクショで、数字が消えて頭が欠けないことを見た。1人目は髪の上の約1pxも消える",
+  "result": "pass",
+  "shots": [
+   "shots/263/mobile-02-mode-select.jpg",
+   "shots/263/mobile-15-custom-full-run.jpg",
+   "shots/263/mobile-27-chapter-2-play.jpg",
+   "shots/263/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "51b4f8b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39170146240"
  }
 ]
