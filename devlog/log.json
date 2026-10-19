@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T15:33:27.312Z",
-  "branch": "claude/autodev-20261010-0022-R36",
-  "task": "R36 メニューに「きずな」と「ぶき」を足す",
-  "summary": "メニューに「きずな」を足し、会った人の家/友/恋・ハート・守護霊・次のごほうびを出した\nメニューに「ぶき」を足し、持っている武器と中身を出した\n話した人を保存に入れ、一覧とスクショの場面とテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/24/mobile-03-after-start.jpg",
-   "shots/24/mobile-06-custom-weapons-menu.jpg",
-   "shots/24/mobile-10-map-electric.jpg",
-   "shots/24/mobile-15-battle-bugking.jpg"
-  ],
-  "sha": "9ae32c3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37952393184"
- },
- {
   "at": "2026-10-09T18:52:29.667Z",
   "branch": "claude/autodev-20261010-0342-R16",
   "task": "R16 1章の BUG KING 戦をシューティングに置きかえる",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "5a287ca",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39257492135"
+ },
+ {
+  "at": "2026-10-19T16:38:49.689Z",
+  "branch": "claude/autodev-20261020-0042-R157",
+  "task": "R157 遊んで一番気になる所を1つ直す（前半: 全章のスクショを確認役に見せて調べた）",
+  "summary": "全章のスモークを2回流し、スクショ127枚を確認役に見せた\n勝った直後の空の会話枠は、文字送りの始まりを撮っただけだった\nボス戦の始めに文字の箱が3つ同時に出る所は、次の件 R158 に分けた",
+  "result": "pass",
+  "shots": [
+   "shots/278/mobile-02-mode-select.jpg",
+   "shots/278/mobile-15-custom-full-run.jpg",
+   "shots/278/mobile-27-chapter-2-play.jpg",
+   "shots/278/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "c20a8b8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39284962160"
  }
 ]
