@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T12:55:23.861Z",
-  "branch": "claude/autodev-20261009-2141-R6",
-  "task": "R6 イベントの手順（戦闘・移動・のりもの・演出・章クリア）",
-  "summary": "R6 は別の回（2132 の枝）が先に終えて合流していたので、この枝の作り直しは取り消した\nこの枝の中身は main と同じにした\n確認役が、main の R6 では「待つ」の間にメニューが開くと指摘したので、直す件を ROADMAP の先頭に足した",
-  "result": "pass",
-  "shots": [
-   "shots/14/mobile-03-after-start.jpg",
-   "shots/14/mobile-05-map-room.jpg",
-   "shots/14/mobile-08-chapter-1.jpg",
-   "shots/14/mobile-12-battle-bugking.jpg"
-  ],
-  "sha": "d71a8b0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37933009037"
- },
- {
   "at": "2026-10-09T13:08:23.286Z",
   "branch": "claude/autodev-lead-R12",
   "task": "R12 横スクロールのボス戦の土台（shooter.js）",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "3e4f71e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39184059931"
+ },
+ {
+  "at": "2026-10-19T03:56:38.451Z",
+  "branch": "claude/autodev-20261019-1241-R151",
+  "task": "R151 遊んで一番気になる所を1つ直す",
+  "summary": "戦闘のことばカードが、上の敵の名前の窓より左右に4pxずつ広かった\nカードの左右を戦闘は上下の窓に、フィールドは上の表示にそろえ、テストを足した\n確認役が挙げた目標の行と「はなす」の文字は、前の決まりで濃いままにしたので触らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/266/mobile-02-mode-select.jpg",
+   "shots/266/mobile-15-custom-full-run.jpg",
+   "shots/266/mobile-27-chapter-2-play.jpg",
+   "shots/266/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "156358e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39196582655"
  }
 ]
