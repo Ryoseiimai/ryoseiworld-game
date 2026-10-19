@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T13:08:23.286Z",
-  "branch": "claude/autodev-lead-R12",
-  "task": "R12 横スクロールのボス戦の土台（shooter.js）",
-  "summary": "横スクロールのボス戦を v5/js/shooter.js に作った（5体・武器8種・守護霊のおとも・とくぎ）\nv5/shooter_test.html?boss=bugking などで単独で遊べる。きずな0で1体約2分\nはじめの4.5秒は撃たない・当たると近くの弾が消える、で初めての子でもすぐ負けない",
-  "result": "pass",
-  "shots": [
-   "shots/15/mobile-03-after-start.jpg",
-   "shots/15/mobile-05-map-room.jpg",
-   "shots/15/mobile-08-chapter-1.jpg",
-   "shots/15/mobile-12-battle-bugking.jpg"
-  ],
-  "sha": "12b2330",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37934526666"
- },
- {
   "at": "2026-10-09T13:31:28.345Z",
   "branch": "claude/autodev-20261009-2222-R35",
   "task": "R35 カテイノジジョウ戦の文字の重なりと吹き出しの切れを直す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "156358e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39196582655"
+ },
+ {
+  "at": "2026-10-19T04:04:41.344Z",
+  "branch": "claude/autodev-20261019-1241-R151",
+  "task": "R151 遊んで一番気になる所を1つ直す",
+  "summary": "モードを えらぶ窓で、指の下に残ったボタンにも金の枠が出て、2つとも選ばれて見えた\n金の枠は選んでいるボタンだけにし、指をのせた時の色はマウスの時だけにした\nテストと前と後のスクショを足した。確認役が挙げた残り4件は次の回に回した",
+  "result": "pass",
+  "shots": [
+   "shots/267/mobile-02-mode-select.jpg",
+   "shots/267/mobile-15-custom-full-run.jpg",
+   "shots/267/mobile-27-chapter-2-play.jpg",
+   "shots/267/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2ff64f6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39197234943"
  }
 ]
