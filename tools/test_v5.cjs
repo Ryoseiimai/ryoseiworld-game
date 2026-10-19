@@ -1180,6 +1180,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugOpenNote();r.setRandom(()=>0);r.button('おさらい');assert.equal(r.g.modal,'quiz');assert(card.hidden,'word card is hidden while the quiz asks');
   r.tick(3000);assert(card.hidden,'no queued card comes back over the quiz');}
  result.push('R152: おさらいを始めると、ことばカードを片づけ、問題の上に光ったまま残さない PASS');
+ // R159: the review quiz (ことばノートの おさらい) read all in hiragana in adult mode; it now reads in kanji there (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana one.
+ {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent);
+  const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.g.debugWarp('room',5,5);r.tick(16);
+  ['jikkou','item','cost','prompt'].forEach(id=>r.RYW.learnQuiet(id));r.tick(1000);r.g.debugOpenNote();assert(copy(r).startsWith('集めた言葉 '),copy(r));
+  r.setRandom(()=>0);r.button('おさらい');assert(/の意味は？$/.test(copy(r))&&!/いみ/.test(copy(r)),copy(r));
+  for(let i=1;i<=3;i++){r.els.get('modal-buttons').children[0].onclick();assert.equal(title(r),'正解！');assert.deepEqual(labels(r),[i<3?'次へ':'結果']);r.button(i<3?'次へ':'結果');}
+  assert(copy(r).startsWith('3問中 3問 正解\n'),copy(r));assert(!/もん|せいかい\n/.test(copy(r).split('\n')[0]),copy(r));r.key('Escape');
+  r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[1].onclick();assert.equal(title(r),'不正解');assert(copy(r).includes('の答えは\n')&&!/こたえ/.test(copy(r)),copy(r));assert.deepEqual(labels(r),['次へ']);r.key('Escape');
+  r.g.state.mode='kids';r.RYW.setMode('kids');r.tick(16);r.g.debugOpenNote();assert(copy(r).startsWith('あつめた ことば '),copy(r));r.button('おさらい');assert(/ の いみは？$/.test(copy(r)),copy(r));
+  r.els.get('modal-buttons').children[1].onclick();assert.equal(title(r),'ざんねん…');assert(copy(r).includes(' の こたえは\n'),copy(r));assert.deepEqual(labels(r),['つぎへ']);r.key('Escape');r.setRandom(Math.random);}
+ result.push('R159: おとなモードの ことばノートの おさらいを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
