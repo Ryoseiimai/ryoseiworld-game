@@ -1167,6 +1167,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugStartBattle('crow','r150');r.tick(300);if(card.hidden)r.g.debugLearn('temperature');r.tick(16);assert(!card.hidden,'card shows in battle');assert.equal(r.g.screen,'battle');
   assert.equal(card.style.left,bl,'battle card left = enemy name left');assert.equal(card.style.right,br,'battle card right = enemy name right');}
  result.push('R150: ことばカードの左右の端が、上と下の窓（戦闘は敵の名前とHP、フィールドは上の表示）とそろう PASS');
+ // R151: on a phone the hover sticks to the last tapped spot, so only the focused button gets the gold frame.
+ {const css=(html.match(/<style>([\s\S]*?)<\/style>/)||['',''])[1];const top=css.replace(/@media[^{]*\{(?:[^{}]*\{[^}]*\})*[^{}]*\}/g,'');
+  for(const rule of top.match(/[^{}]+\{[^}]*\}/g)||[]){const [sel]=rule.split('{');if(/:hover/.test(sel))assert.fail('hover rule outside @media (hover:hover): '+sel);}
+  assert(/@media \(hover:hover\)\{button:hover\{[^}]*\}\}/.test(css),'button hover sits under @media (hover:hover)');
+  const hov=css.match(/@media \(hover:hover\)\{button:hover\{([^}]*)\}\}/)[1];assert(!/outline/.test(hov),'hover has no outline, so it never looks like the focus');
+  assert(/button:focus-visible\{[^}]*outline:3px solid #f5cf78/.test(css),'focused button keeps the gold frame');}
+ result.push('R151: モードを えらぶ窓で、指の下に残ったボタンが選ばれているように見えない（金の枠は選んでいるボタンだけ） PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
