@@ -2434,10 +2434,10 @@
     }
   }
 
-  // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
-  // plate (INTRO_PLATE_T) there is no free row, so the note is left out (the rapid chip's message already showed it).
   function touchOnly() { return !!(root.document && root.document.documentElement && root.document.documentElement.classList.contains('touch-only')); }
 
+  // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
+  // plate (INTRO_PLATE_T) there is no free row, so the note is left out (the rapid chip's message already showed it).
   function cooldownNoteY(y) { return y + 18 <= INTRO_PLATE_T - 20 ? y + 18 : null; }
 
   function drawTexts(ctx, S, w) {
