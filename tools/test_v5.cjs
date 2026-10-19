@@ -1174,6 +1174,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const hov=css.match(/@media \(hover:hover\)\{button:hover\{([^}]*)\}\}/)[1];assert(!/outline/.test(hov),'hover has no outline, so it never looks like the focus');
   assert(/button:focus-visible\{[^}]*outline:3px solid #f5cf78/.test(css),'focused button keeps the gold frame');}
  result.push('R151: モードを えらぶ窓で、指の下に残ったボタンが選ばれているように見えない（金の枠は選んでいるボタンだけ） PASS');
+ // R152: the word card sits above the modal (z-index), so starting the review quiz puts any card away instead of leaving it lit over the question.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.g.debugWarp('room',5,5);r.tick(16);
+  ['jikkou','item','cost','prompt'].forEach(id=>r.g.debugLearn(id));r.tick(16);const card=r.els.get('word-card');assert(!card.hidden,'a word card is up before the quiz');
+  r.g.debugOpenNote();r.setRandom(()=>0);r.button('おさらい');assert.equal(r.g.modal,'quiz');assert(card.hidden,'word card is hidden while the quiz asks');
+  r.tick(3000);assert(card.hidden,'no queued card comes back over the quiz');}
+ result.push('R152: おさらいを始めると、ことばカードを片づけ、問題の上に光ったまま残さない PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
