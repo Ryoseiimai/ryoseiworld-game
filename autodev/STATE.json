@@ -3,7 +3,7 @@
   "current": {
     "id": "R159",
     "branch": "claude/autodev-20261020-0641-R159",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-10-20T06:41:45+09:00"
