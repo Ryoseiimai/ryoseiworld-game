@@ -147,6 +147,12 @@ async function runViewport(browser, url, vp, errors, shots) {
     if (!ready) errors.push({ kind: 'stuck', viewport: vp.name, message: tag('title screen never became ready (window.__v5.screen !== "title" or #loading still visible after 20s)') });
     await shot('title');
     if (!ready) return scenes;
+    // R156: a touch phone shows no keyboard hints (Z / Enter, arrows / WASD); a desktop keeps them.
+    const kbd = await page.evaluate(() => ({ touch: document.documentElement.classList.contains('touch-only'),
+      hints: [...document.querySelectorAll('.kbd')].map(e => getComputedStyle(e).display !== 'none') }));
+    if (!kbd.hints.length) errors.push({ kind: 'layout', viewport: vp.name, message: tag('no .kbd keyboard hint found') });
+    else if (vp.hasTouch ? (!kbd.touch || kbd.hints.some(Boolean)) : (kbd.touch || !kbd.hints.every(Boolean)))
+      errors.push({ kind: 'layout', viewport: vp.name, message: tag(`keyboard hints: touch-only=${kbd.touch}, shown=${kbd.hints.join(',')}`) });
 
     const start = page.locator('#start-btn');
     if (await start.count()) { await start.click({ timeout: 5000 }); } else { skip('start', '#start-btn not found'); }

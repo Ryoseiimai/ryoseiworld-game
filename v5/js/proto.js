@@ -341,9 +341,10 @@
         text('かずを かえると とびかたが かわる', 270, 665, '#b9cadc');
         buttons.less.disabled = s.state.jump === 3; buttons.more.disabled = s.state.jump === 9;
         buttons.done.className = s.elapsed >= 60 ? 'rp-glow' : '';
-      } else if (s.mode === 'play') text('スペースでも ジャンプ', 270, 610, '#b9cadc');
+      } else if (s.mode === 'play' && !touchOnly()) text('スペースでも ジャンプ', 270, 610, '#b9cadc'); // R156: no keyboard line on a touch-only device
       if (s.paused) { ctx.fillStyle = 'rgba(10,18,32,.9)'; ctx.fillRect(0, 260, W, 110); text('ひとやすみ', 270, 315); }
     }
+    function touchOnly() { return document.documentElement.classList.contains('touch-only'); }
     var inputVisible = false;
     function syncPause(fromInput) {
       // A real input proves visibility even when the initial hidden flag is stale.
