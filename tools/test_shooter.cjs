@@ -910,6 +910,35 @@ async function browserAdapterChecks() {
   check('R153: 時間が来たら案内は消える', A(I.hintT) === 0);
 })();
 
+// R154: when the move hint queued behind the boss's opening line, the line's time was cut and it dropped from full to about half
+// in one frame (kateino・hikaku・jibun at 2.5 s). Now it fades out smoothly from full and never vanishes while still bright.
+(() => {
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let pa = null, pb = null, worst = 0, pop = 0;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst, a = b ? sim.burstAlpha(b, w.t) : null;
+      if (b && b === pb) worst = Math.max(worst, pa - a);
+      if (pb && b !== pb && pa > 0.1 && !(b && b.urgent)) pop = Math.max(pop, pa);
+      pa = a; pb = b;
+    }
+    check('R154: ' + boss + ' の台詞は1コマで薄くならない', worst <= 0.2, worst);
+    check('R154: ' + boss + ' の台詞は濃いまま消えない', pop === 0, pop);
+  }
+  // A long line whose reading time is cut close to its end still goes away, and the waiting hint then shows.
+  for (const at of [1.0, 2.3, 2.5, 3.0]) {
+    const w = world({ boss: 'kateino' }); w.burst = null; w.burstQ = [];
+    sim.burst(w, 'ボス', 'ながい せりふを ここで いって じかんを のばす ための ぶん', 2.4); run(w, DT);
+    const line = w.burst; run(w, at);
+    sim.burst(w, 'ソラ', 'ヒント', 3); w.burstQ[w.burstQ.length - 1].until = w.t + 3; run(w, 1.5);
+    check('R154: ' + at + '秒で切られた台詞も消えてヒントが出る', w.burst !== line && w.burst && w.burst.text === 'ヒント', [w.burst && w.burst.text, line.dur]);
+  }
+  // R72 holds a cut line just inside its own (shorter) fade-out, not 1/3 s before its end.
+  { const w = world({ boss: 'hikaku' }); const c = { text: 'x', dur: 2, out: 0.15, t: w.t - 1.95 }; w.burst = c; sim.holdTextsForCards(w);
+    check('R154: カードの間、切られた台詞は濃いまま', sim.burstAlpha(c, w.t) === 1 && w.t - c.t > 1.8, w.t - c.t); }
+  const o = { t: 0, dur: 2, out: 0.15 };
+  check('R154: 短く切られた台詞は残りの時間で消えていく', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0 && sim.burstAlpha({ t: 0, dur: 2 }, 1.85) < 0.5);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

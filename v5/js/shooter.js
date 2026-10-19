@@ -47,6 +47,9 @@
   // R153: the move hint fades out over HINT_OUT s. A half-faded hint over a bright city could not be read,
   // so it leaves quickly instead of lingering see-through.
   var HINT_OUT = 0.15;
+  // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
+  var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
+  function burstAlpha(o, t) { var bt = t - o.t; return clamp(Math.min(bt * 6, (o.dur - bt) / (o.out || BURST_OUT)), 0, 1); }
   function hintAlpha(t) { return clamp(Math.min(t * 4, (HINT_T - t) / HINT_OUT), 0, 1); }
   // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
   // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
@@ -1025,7 +1028,13 @@
   }
   function stepTexts(w, dt) {
     // R97: the extra reading time gives way to a waiting hint with an end time, so the hint keeps its R86 length.
-    if (w.burst && w.burst.base != null && w.burst.dur > w.burst.base && w.burstQ.some(function (q) { return q.until != null; })) w.burst.dur = w.burst.base;
+    // R154: cutting the time short used to drop the line from full to half in one frame; now it fades out from full over what is left.
+    if (w.burst && w.burst.base != null && w.burst.dur > w.burst.base && w.burstQ.some(function (q) { return q.until != null; })) {
+      var cb = w.t - w.burst.t;
+      w.burst.dur = w.burst.base - cb >= BURST_MIN_OUT ? w.burst.base : cb + BURST_MIN_OUT;
+      w.burst.out = Math.min(BURST_OUT, w.burst.dur - cb);
+      w.burst.base = w.burst.dur; // cut only once, so the time does not grow again next frame
+    }
     if (w.burst && w.t - w.burst.t > w.burst.dur) w.burst = null;
     // R86: a line with an end time (the opening hint) that had to wait behind other lines only shows for what is left, or not at all.
     while (!w.burst && w.burstQ.length) {
@@ -1061,7 +1070,7 @@
   function holdTextsForCards(w) {
     [w.burst, w.toast].forEach(function (o) {
       if (!o) return;
-      var lo = 0.17, hi = o.dur - 0.34; // just inside the 1/6 s fade-in and 1/3 s fade-out
+      var lo = 0.17, hi = o.dur - (o.out || BURST_OUT) - 0.01; // just inside the 1/6 s fade-in and the fade-out
       if (hi > lo) o.t = w.t - clamp(w.t - o.t, lo, hi);
     });
   }
@@ -1088,7 +1097,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2391,8 +2400,7 @@
     var off = wordCardH(S); S.textOff = S.textOff == null ? off : Math.abs(off - S.textOff) < 1 ? off : S.textOff + (off - S.textOff) * 0.2;
     var y = PLAY_T + 8 + S.textOff;
     if (w.burst) {
-      var bt = w.t - w.burst.t, a = Math.min(1, bt * 6, (w.burst.dur - bt) * 3);
-      y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, clamp(a, 0, 1)) + 6;
+      y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, burstAlpha(w.burst, w.t)) + 6;
     }
     if (w.toast) {
       var tt = w.t - w.toast.t, ta = clamp(Math.min(tt * 6, (w.toast.dur - tt) * 3), 0, 1);
