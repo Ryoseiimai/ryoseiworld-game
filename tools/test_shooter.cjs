@@ -874,6 +874,28 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R158: 上にことばカードが出ている間は、ボスの始めの台詞は真ん中の帯が消えてから出る（文字の箱が3つ同時に出ない）。後ろのヒントの長さ（R86）は変えない。
+(() => {
+  const I = sim.INTRO;
+  for (const boss of ['kateino', 'hikaku']) {
+    const run1 = card => {
+      const w = sim.createWorld({ seed: 7, boss, god: true }); let said = null, three = 0, g = 0;
+      while (!(w.burst && w.burst.speaker === 'ソラ') && g++ < 3000) {
+        w.cardUp = card && w.state === 'intro';
+        sim.step(w, DT, IDLE);
+        if (w.burst && said == null) said = w.stateT;
+        const band = w.state === 'intro' && w.stateT > 0.2 && w.stateT < I.textEnd;
+        if (w.cardUp && band && w.burst) three++;
+      }
+      const hint = w.burst; return { said, three, hint, w };
+    };
+    const a = run1(false), b = run1(true);
+    check('R158: ' + boss + ' カードが無い時は台詞が今までどおり 0.7 秒で出る', a.said != null && Math.abs(a.said - 0.7) < 0.02, a.said);
+    check('R158: ' + boss + ' カードと帯と台詞が同時に出ない', b.three === 0 && b.said >= I.textEnd - 1e-6, [b.three, b.said]);
+    check('R158: ' + boss + ' カードがあってもヒントの長さは同じ', a.hint && b.hint && Math.abs(a.hint.dur - b.hint.dur) < 0.02, [a.hint && a.hint.dur, b.hint && b.hint.dur]);
+  }
+})();
+
 // R110: 始まりの帯は、上がってくる主人公の絵の枠とネオンの看板の上に収まり、字にかからない。
 (() => {
   const I = sim.INTRO, plateB = I.plateT + I.plateH;

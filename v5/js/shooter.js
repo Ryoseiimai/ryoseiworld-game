@@ -466,12 +466,14 @@
     w.b.x = W + 170 + (w.def.x - (W + 170)) * eb;
     w.b.y = PLAY_MID;
     if (!w.introRise && s >= 0.45) { w.introRise = true; emit(w, 'rise'); sparks(w, p.x, p.y + 56, 18, '#8ff8ff', 220); }
-    if (!w.introSaid && s >= 0.7) { w.introSaid = true; burst(w, w.lines.intro[0], w.lines.intro[1], 2.0); }
+    // R158: while a word card is up at the top (w.cardUp, set by the session), the opening line waits until the band in the middle
+    // is gone, so no more than two text boxes are up at once. The hint behind it keeps its R86 length (introLate below).
+    if (!w.introSaid && s >= (w.cardUp ? INTRO_TEXT_END : 0.7)) { w.introSaid = true; w.introLate = Math.max(0, s - 0.7); burst(w, w.lines.intro[0], w.lines.intro[1], 2.0); }
     if (s >= INTRO_END) {
       w.state = 'play'; w.stateT = 0; emit(w, 'start');
       var L = w.lines, hint = w.hasOwl && L.owlHint ? L.owlHint : L.hint;
       // R86: the hint comes up together with the move hint at the bottom, so it stays a second past it (it was gone in 3.2 s).
-      if (hint) { burst(w, hint[0], hint[1], HINT_T + 1); var hq = w.burstQ[w.burstQ.length - 1]; if (hq) hq.until = w.t + HINT_T + 1; }
+      if (hint) { burst(w, hint[0], hint[1], HINT_T + 1); var hq = w.burstQ[w.burstQ.length - 1]; if (hq) hq.until = w.t + HINT_T + 1 + (w.introLate || 0); }
     }
   }
 
@@ -1687,6 +1689,7 @@
     var dt = clockDelta(S, now);
     var w = S.world;
     if (S.loaded && !S.paused && S.wordCards.length) { S.wordTime += dt; if (S.wordTime >= 2.5) nextWord(S); }
+    w.cardUp = S.wordCards.length > 0;
     // Word cards only freeze the fight once it is in play: during the entrance (w.state 'intro') the
     // boss still walks on and settles so the screen is not blank while the first card is read (FUN10).
     if (S.loaded && !S.paused && wordCardsFreezeStep(w.state, S.wordCards.length)) { holdTextsForCards(w); recStop(S); render(S); return; }
