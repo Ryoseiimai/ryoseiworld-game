@@ -900,6 +900,16 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R153: the move hint (「ゆびを すべらせて うごく」) used to spend its last 0.5 s half see-through over the city.
+// Now it is full until the last moment and gone within 0.2 s, so no half-faded frame lasts long enough to read badly.
+(() => {
+  const I = sim.INTRO, A = sim.hintAlpha;
+  check('R153: 案内は出てすぐ濃くなる', A(0.3) === 1, A(0.3));
+  check('R153: 案内は消える0.2秒前まで濃いまま', A(I.hintT - 0.2) === 1, A(I.hintT - 0.2));
+  check('R153: 案内は半透明の時間が短い（前は0.5秒）', I.hintOut <= 0.2 && A(I.hintT - 0.5) === 1, [I.hintOut, A(I.hintT - 0.5)]);
+  check('R153: 時間が来たら案内は消える', A(I.hintT) === 0);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

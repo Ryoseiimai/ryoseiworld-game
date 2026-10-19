@@ -44,6 +44,10 @@
   // After a hit, bullets within BREATHER_R are cleared so one mistake does not chain into the next.
   var HINT_T = 4.5, RAMP_T = 12, BREATHER_R = 170;
   var HINT_PLATE_T = PLAY_B - 160, HINT_FREE = 1.2; // R111: top of the move hint's plate; the boss keeps above it until HINT_T + HINT_FREE
+  // R153: the move hint fades out over HINT_OUT s. A half-faded hint over a bright city could not be read,
+  // so it leaves quickly instead of lingering see-through.
+  var HINT_OUT = 0.15;
+  function hintAlpha(t) { return clamp(Math.min(t * 4, (HINT_T - t) / HINT_OUT), 0, 1); }
   // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
   // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
   var INTRO_PLATE_T = 352, INTRO_PLATE_H = 98;
@@ -1083,7 +1087,8 @@
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
-  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T };
+  SIM.INTRO = { textEnd: INTRO_TEXT_END, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
+  SIM.hintAlpha = hintAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2406,7 +2411,7 @@
       outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownLabel(), W / 2, y + 18, '#fff5d6');
     }
     if (w.state === 'play' && w.stateT < HINT_T) {
-      var ha = clamp(Math.min(w.stateT * 4, (HINT_T - w.stateT) * 2), 0, 1);
+      var ha = hintAlpha(w.stateT);
       ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 136, '#fff5d6');
