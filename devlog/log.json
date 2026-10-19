@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T14:59:25.433Z",
-  "branch": "claude/autodev-20261009-2350-R11",
-  "task": "R11 きずなの ごほうび（武器とお金）",
-  "summary": "R11 を ごほうび（R11）と メニュー（R36）の2件に分けた\nハートが上がると章データの rewards どおり武器とお金が入るようにした\n武器を保存に入れ、古い保存はハートの数から武器を戻すようにした",
-  "result": "pass",
-  "shots": [
-   "shots/23/mobile-03-after-start.jpg",
-   "shots/23/mobile-06-map-room.jpg",
-   "shots/23/mobile-09-chapter-1.jpg",
-   "shots/23/mobile-13-battle-bugking.jpg"
-  ],
-  "sha": "dfd1f3c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37948057190"
- },
- {
   "at": "2026-10-09T15:33:27.312Z",
   "branch": "claude/autodev-20261010-0022-R36",
   "task": "R36 メニューに「きずな」と「ぶき」を足す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "c981de5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39256139909"
+ },
+ {
+  "at": "2026-10-19T13:13:38.825Z",
+  "branch": "claude/autodev-20261019-2142-R156",
+  "task": "R156 遊んで一番気になる所を1つ直す",
+  "summary": "スマホでも「Z / Enter」「矢印 / WASD でも」が出ていた\nタッチだけの端末では、キーボードの説明を出さないようにした\n前と後のスクショで比べ、スモークに確かめを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/277/mobile-02-mode-select.jpg",
+   "shots/277/mobile-15-custom-full-run.jpg",
+   "shots/277/mobile-27-chapter-2-play.jpg",
+   "shots/277/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5a287ca",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39257492135"
  }
 ]
