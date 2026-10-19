@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T14:48:31.329Z",
-  "branch": "claude/autodev-20261009-2338-R10",
-  "task": "R10 町の人のそばに守護霊を出す",
-  "summary": "ソラが目をさました後、町の人の頭の横に守護霊がゆれて浮くようにした\nハート0〜1は灰色で半透明、2以上で色つき、5で光と粒を出す\nハッカーのお姉さんはクジラの召喚獣がまだ無いので、仮にきつねにした",
-  "result": "pass",
-  "shots": [
-   "shots/22/mobile-03-after-start.jpg",
-   "shots/22/mobile-06-map-room.jpg",
-   "shots/22/mobile-09-chapter-1.jpg",
-   "shots/22/mobile-13-battle-bugking.jpg"
-  ],
-  "sha": "b6e3f08",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37946694784"
- },
- {
   "at": "2026-10-09T14:59:25.433Z",
   "branch": "claude/autodev-20261009-2350-R11",
   "task": "R11 きずなの ごほうび（武器とお金）",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "65a8ac3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39255060815"
+ },
+ {
+  "at": "2026-10-19T13:03:07.806Z",
+  "branch": "claude/autodev-20261019-2142-R156",
+  "task": "R156 遊んで一番気になる所を1つ直す",
+  "summary": "スマホでも「Z / Enter」「矢印 / WASD でも」が出ていた\nタッチだけの端末では、キーボードの説明を出さないようにした\n前と後のスクショで比べ、スモークに確かめを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/276/mobile-02-mode-select.jpg",
+   "shots/276/mobile-15-custom-full-run.jpg",
+   "shots/276/mobile-27-chapter-2-play.jpg",
+   "shots/276/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "c981de5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39256139909"
  }
 ]
