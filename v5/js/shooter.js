@@ -2424,14 +2424,20 @@
       var ha = hintAlpha(w.stateT);
       ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
-      outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 136, '#fff5d6');
-      outlinedText(ctx, 'やじるし・WASD でも うごく', W / 2, PLAY_B - 102, '#c9e8f2');
+      // R156: on a touch-only device (index.html sets .touch-only) the keyboard line is left out.
+      if (touchOnly()) outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 119, '#fff5d6');
+      else {
+        outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 136, '#fff5d6');
+        outlinedText(ctx, 'やじるし・WASD でも うごく', W / 2, PLAY_B - 102, '#c9e8f2');
+      }
       ctx.globalAlpha = 1;
     }
   }
 
   // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
   // plate (INTRO_PLATE_T) there is no free row, so the note is left out (the rapid chip's message already showed it).
+  function touchOnly() { return !!(root.document && root.document.documentElement && root.document.documentElement.classList.contains('touch-only')); }
+
   function cooldownNoteY(y) { return y + 18 <= INTRO_PLATE_T - 20 ? y + 18 : null; }
 
   function drawTexts(ctx, S, w) {
