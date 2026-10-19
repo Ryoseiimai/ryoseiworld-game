@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T18:52:29.667Z",
-  "branch": "claude/autodev-20261010-0342-R16",
-  "task": "R16 1章の BUG KING 戦をシューティングに置きかえる",
-  "summary": "BUG KING と話すと、キックボードが光って浮かび、横スクロールのボス戦になるようにした\n勝つと町に戻って1章の終わりへ進む。負けて「まちに もどる」を選ぶと全快して前の場所に戻る\nテストを新しい流れに直し、浮かぶ場面とボス戦のスクショを手元で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/26/mobile-03-after-start.jpg",
-   "shots/26/mobile-07-map-town.jpg",
-   "shots/26/mobile-11-chapter-1.jpg",
-   "shots/26/mobile-17-battle-bugking.jpg"
-  ],
-  "sha": "0f717ed",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37976071010"
- },
- {
   "at": "2026-10-09T19:02:06.169Z",
   "branch": "claude/autodev-20261010-0342-R16",
   "task": "R16 1章の BUG KING 戦をシューティングに置きかえる",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "c20a8b8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39284962160"
+ },
+ {
+  "at": "2026-10-19T18:54:36.821Z",
+  "branch": "claude/autodev-20261020-0341-R158",
+  "task": "R158 ボス戦の始めに、上のことばカードとボスの台詞と真ん中の帯が同時に出る所を見直す（後半）",
+  "summary": "ことばカードが出ている間、ボスの始めの台詞を帯が消えてから出すようにした\nソラのヒントは遅れた分だけ終わりを延ばし、長さを変えないようにした\n文字の箱が3つ同時に出ないことを確かめるテストと、前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/280/mobile-02-mode-select.jpg",
+   "shots/280/mobile-15-custom-full-run.jpg",
+   "shots/280/mobile-27-chapter-2-play.jpg",
+   "shots/280/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5c0708a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39305751361"
  }
 ]
