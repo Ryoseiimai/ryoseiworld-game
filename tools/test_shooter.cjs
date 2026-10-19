@@ -764,6 +764,11 @@ async function browserAdapterChecks() {
   check('R90: カードを送った押し方はビートに数えない',win.__shooter.cards===0&&win.__shooter.debugBeat().combo===combo0,[win.__shooter.cards,win.__shooter.debugBeat().combo]);
   paused.forEach(f=>f());await advance(.05);
   check('R90: 一時停止の間はビートのボタンを押せない',beatBtn.disabled);
+  // R155: before the fight starts (no cards) the beat button cannot be pressed; it keeps its word readable on a dark plate, not faded to .45.
+  {const css=(doc.head.children.find(c=>/rs-beat/.test(c.textContent||''))||{}).textContent||'',off=(css.match(/\.rs-beat:disabled\{([^}]*)\}/)||[])[1]||'';
+   check('R155: 押せない時のビートのボタンは全体を薄くせず、字が読める',/opacity:1/.test(off)&&/color:#e6dfc4/.test(off)&&/background:#0f2030/.test(off)&&css.indexOf('.rs-beat:disabled')>css.indexOf('.rs-beat.rs-lit'),off);}
+  {handle=R.Shooter.start({boss:'hikaku',platform});await ready();let lit=0,off=0;for(let i=0;i<20;i++){await advance(.1);const b=doc.querySelector('.rs-beat');if(b.disabled){off++;if(b.className.includes('rs-lit'))lit++;}}
+   check('R155: 始めの間（押せない間）のビートのボタンは金色に光らない',off>0&&lit===0,{off,lit});handle.stop();}
   resumed.forEach(f=>f());handle.stop();R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
 }
 
