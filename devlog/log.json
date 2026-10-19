@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T13:48:28.732Z",
-  "branch": "claude/autodev-20261009-2241-R8",
-  "task": "R8 エンジンの使い方を v5/ENGINE_API.md に書く",
-  "summary": "v5/ENGINE_API.md に章の足し方を書いた（registerChapter・マップ・物・マスのしかけ）\nイベント手順の全17種類を、書き方の例つきの表にした\n会話・条件・敵の書き方と、確かめ方の入口もまとめた",
-  "result": "pass",
-  "shots": [
-   "shots/20/mobile-03-after-start.jpg",
-   "shots/20/mobile-05-map-room.jpg",
-   "shots/20/mobile-08-chapter-1.jpg",
-   "shots/20/mobile-12-battle-bugking.jpg"
-  ],
-  "sha": "5263645",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37939285848"
- },
- {
   "at": "2026-10-09T14:37:00.224Z",
   "branch": "claude/autodev-20261009-2322-R9",
   "task": "R9 きずなの仕組み（bond と gift）",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "c87eaf7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39233002041"
+ },
+ {
+  "at": "2026-10-19T10:05:28.376Z",
+  "branch": "claude/autodev-20261019-1841-R155",
+  "task": "R155 遊んで一番気になる所を1つ直す",
+  "summary": "ボス戦の始めの約2.5秒、ビートのボタンが灰色に薄くなり壊れて見えた\n押せない間は暗い板で字を読めるまま出し、金色に光らないようにした\n前と後のスクショ（ヒカクマオウ戦の始め）で比べ、テストを2つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/273/mobile-02-mode-select.jpg",
+   "shots/273/mobile-15-custom-full-run.jpg",
+   "shots/273/mobile-27-chapter-2-play.jpg",
+   "shots/273/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "6444601",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39234199973"
  }
 ]
