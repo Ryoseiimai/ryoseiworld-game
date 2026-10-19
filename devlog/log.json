@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T19:51:47.665Z",
-  "branch": "claude/autodev-20261010-0444-R18",
-  "task": "R18 1章のミオ（イルカの髪どめ）",
-  "summary": "学校の横にミオを立たせた。すなばで拾ったイルカの髪どめを届けるとハートが上がる\n町が直った後に紙の手紙をもらい、ハートの てがみ（武器）が入る\n新しい人の絵（npc2）をエンジンが読み、守護霊と きずな一覧にも出るようにした",
-  "result": "pass",
-  "shots": [
-   "shots/30/mobile-03-after-start.jpg",
-   "shots/30/mobile-07-map-town.jpg",
-   "shots/30/mobile-11-chapter-1.jpg",
-   "shots/30/mobile-17-battle-bugking.jpg"
-  ],
-  "sha": "6ce5443",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37982874641"
- },
- {
   "at": "2026-10-09T19:58:54.236Z",
   "branch": "claude/autodev-20261010-0444-R18",
   "task": "R18 1章のミオ（イルカの髪どめ）",
@@ -2988,5 +2973,15 @@
   ],
   "sha": "5366df5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39331432285"
+ },
+ {
+  "at": "2026-10-19T22:04:06.180Z",
+  "branch": "claude/autodev-20261020-0641-R159",
+  "task": "R159 遊んで一番気になる所を1つ直す",
+  "summary": "おとなモードのことばノートの「おさらい」を漢字かな交じりにした（正解！・不正解・次へ など）\nことばの説明の見出し「しゅるい」も、おとなモードでは「種類」にした\nこどもモードは前のまま。テストと前後のスクショ（docs/shots/R159）を足した",
+  "result": "fail",
+  "shots": [],
+  "sha": "236e668",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39332122374"
  }
 ]
