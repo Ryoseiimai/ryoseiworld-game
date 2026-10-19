@@ -1159,6 +1159,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const plate=r.canvasCalls.filter(c=>c[0]==='summonplate').at(-1),nw=D.summons[id].name.length*30;assert(plate,id+' name plate drawn');assert(plate[1]<=name[2]-nw/2-8&&plate[1]+plate[3]>=name[2]+nw/2+8,id+' plate covers the name width with a margin');assert(plate[2]>=bottom&&plate[2]+plate[4]<=488,id+' plate sits between the word card and the RYOSEI/HP card');assert(plate[2]<=name[3]-30&&plate[2]+plate[4]>=name[3],id+' plate covers the name height');
   assert(r.canvasCalls.indexOf(plate)<r.canvasCalls.indexOf(name),id+' plate is drawn before the name');}
  result.push('R70: 戦闘でことばカードが出ている間、召喚の名前と効果の文字がカードの下に出る PASS');
+ // R150: the word card lines up with the panels above and below it: the enemy name and HP card in battle, the HUD on the field.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const side=sel=>((html.match(new RegExp(sel.replace('.','\\.')+'\\{[^}]*\\}'))||[''])[0].match(/left:(\d+)px;right:(\d+)px/)||[]).slice(1).map(v=>v+'px');
+  const [bl,br]=side('.battle-top'),[hl,hr]=side('.hud');assert(bl&&hl,'panel sides found: '+bl+' '+hl);assert.deepEqual(side('.hp-card'),[bl,br],'enemy name and HP card share their sides');
+  const card=r.els.get('word-card');r.g.debugWarp('room',5,5);r.tick(16);assert.equal(r.g.screen,'field');r.g.debugLearn('bpm');r.tick(16);assert(!card.hidden,'card shows on the field');assert.equal(card.style.left,hl,'field card left = HUD left');assert.equal(card.style.right,hr,'field card right = HUD right');
+  r.g.debugStartBattle('crow','r150');r.tick(300);if(card.hidden)r.g.debugLearn('temperature');r.tick(16);assert(!card.hidden,'card shows in battle');assert.equal(r.g.screen,'battle');
+  assert.equal(card.style.left,bl,'battle card left = enemy name left');assert.equal(card.style.right,br,'battle card right = enemy name right');}
+ result.push('R150: ことばカードの左右の端が、上と下の窓（戦闘は敵の名前とHP、フィールドは上の表示）とそろう PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
