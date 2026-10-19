@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T13:31:28.345Z",
-  "branch": "claude/autodev-20261009-2222-R35",
-  "task": "R35 カテイノジジョウ戦の文字の重なりと吹き出しの切れを直す",
-  "summary": "上の壁の「しんぱいの かべ」を、台詞とお知らせが出ている間は消した\n吹き出しが左端に着いたら、はじけて消えるようにした（文字が切れない）\n下の壁の名前も、うごき方の説明と重ならないようにし、テストを5つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/16/mobile-03-after-start.jpg",
-   "shots/16/mobile-05-map-room.jpg",
-   "shots/16/mobile-08-chapter-1.jpg",
-   "shots/16/mobile-12-battle-bugking.jpg"
-  ],
-  "sha": "1493125",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37937235921"
- },
- {
   "at": "2026-10-09T13:33:34.422Z",
   "branch": "claude/autodev-20261009-2222-R35",
   "task": "R35 カテイノジジョウ戦の文字の重なりと吹き出しの切れを直す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "2ff64f6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39197234943"
+ },
+ {
+  "at": "2026-10-19T04:20:24.920Z",
+  "branch": "claude/autodev-20261019-1305-R152",
+  "task": "R152 遊んで一番気になる所を1つ直す",
+  "summary": "おさらいを始めても、HPのことばカードが問題の上に光って残っていた\nおさらいを始める時に、ことばカードを片づけるようにした\nテストと前と後のスクショを足した。テストは直す前の形で落ちるのを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/268/mobile-02-mode-select.jpg",
+   "shots/268/mobile-15-custom-full-run.jpg",
+   "shots/268/mobile-27-chapter-2-play.jpg",
+   "shots/268/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b6771f8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39198472543"
  }
 ]
