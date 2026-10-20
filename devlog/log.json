@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T22:55:44.523Z",
-  "branch": "claude/autodev-art-20261010-075316",
-  "task": "絵",
-  "summary": "できた絵: station_sign",
-  "result": "pass",
-  "shots": [
-   "shots/43/mobile-03-after-start.jpg",
-   "shots/43/mobile-11-map-minamo.jpg",
-   "shots/43/mobile-19-chapter-3.jpg",
-   "shots/43/mobile-29-battle-kateino.jpg"
-  ],
-  "sha": "9d2f2e7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38001616995"
- },
- {
   "at": "2026-10-10T01:30:04.322Z",
   "branch": "claude/autodev-lead-20261010-R39",
   "task": "R39 ことばの土台（words.js・ひとこと・ことばノート）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "528bc11",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39479591534"
+ },
+ {
+  "at": "2026-10-20T21:55:41.403Z",
+  "branch": "claude/autodev-20261021-0641-R167",
+  "task": "R167 遊んで一番気になる所を1つ直す",
+  "summary": "会話の窓の下に「ドラッグで あるく」が透けて、台詞と重なっていた\n話している間は「ドラッグで あるく」を消し、会話が終わると戻すようにした\nテストと前後のスクショ（docs/shots/R166）を足した。メニューの窓は重ならないので変えていない",
+  "result": "pass",
+  "shots": [
+   "shots/303/mobile-02-mode-select.jpg",
+   "shots/303/mobile-15-custom-full-run.jpg",
+   "shots/303/mobile-27-chapter-2-play.jpg",
+   "shots/303/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e69ce7f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39503503879"
  }
 ]
