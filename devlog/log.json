@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T21:52:36.667Z",
-  "branch": "claude/autodev-20261010-0639-R22",
-  "task": "R22 2章 カテイノジジョウのシューティング版",
-  "summary": "2章の公園に大きな かべを置き、サーチフクロウがいると カテイノジジョウ戦が始まるようにした\n勝つと しんぱいの かべが全部消え、公園で親子が話す場面になる。町の人の言葉も変わる\n章クリアのカードと3章へのつなぎは、3章ができてから R37 でする",
-  "result": "pass",
-  "shots": [
-   "shots/38/mobile-03-after-start.jpg",
-   "shots/38/mobile-10-map-electric.jpg",
-   "shots/38/mobile-17-chapter-2-play.jpg",
-   "shots/38/mobile-26-battle-kateino.jpg"
-  ],
-  "sha": "00ff487",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37995791696"
- },
- {
   "at": "2026-10-09T22:31:04.662Z",
   "branch": "claude/autodev-20261010-0721-R37",
   "task": "R37 2章の終わりを3章へつなぐ",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "0dca0c4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39404813543"
+ },
+ {
+  "at": "2026-10-20T10:13:11.400Z",
+  "branch": "claude/autodev-20261020-1842-R163",
+  "task": "R163 遊んで一番気になる所を1つ直す",
+  "summary": "主人公が人の右に立つと、灰色の守護霊が主人公の頭にかぶさっていた\n守護霊を、主人公とまわりの人に重ならない側（左か右）に出すようにした\nテストと前後のスクショ（docs/shots/R163）を足した。町の灰色のもやの見た目と、ボタンの下にかくれる人は次の候補",
+  "result": "pass",
+  "shots": [
+   "shots/295/mobile-02-mode-select.jpg",
+   "shots/295/mobile-15-custom-full-run.jpg",
+   "shots/295/mobile-27-chapter-2-play.jpg",
+   "shots/295/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a4ee883",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39405738991"
  }
 ]
