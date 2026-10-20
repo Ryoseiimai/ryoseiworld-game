@@ -1338,6 +1338,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const plate=sh.match(/var INTRO_PLATE_T = (\d+), INTRO_PLATE_H = (\d+);/);assert(plate,'the entrance plate has a named place');assert(pt+off>Number(plate[1])+Number(plate[2]),'the sign hangs below the entrance plate');
   assert(pt+off+70<666,'the sign ends above the move hint');}
  result.push('R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS');
+// R161: the sign at the hero's height had bright bars jumping each beat, which looked like the attack meter or a pickup.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const neon=(sh.match(/theme === 'neon'\) \{\n[^]*?\n    \} else/)||[''])[0];assert(neon,'the neon block is found');
+  assert(!/Math\.floor\(t \*/.test(neon),'the sign does not change with time');
+  for(const a of neon.match(/hsla\([^)]*?,(0?\.\d+)\)'/g)||[])assert(Number(a.match(/,(0?\.\d+)\)'$/)[1])<=0.4,'the sign stays faint: '+a);}
+ result.push('R161: ヒカクマオウ戦の背景の看板を薄くして中の棒を止め、こうげきの棒や拾う物に見えないようにした PASS');
  // R88: after the ending the quest line in every map was 「とうの なかが しずかに なった。」, which told nothing to do next.
  // During the rooftop scene it stays as is; once the ending ran (and on a save from after it) the line points to the challenge.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();

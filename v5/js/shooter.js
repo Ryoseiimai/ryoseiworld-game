@@ -1888,13 +1888,15 @@
       // R83: the signs hang below the lines, notices and the entrance plate (see NEON_SIGN_Y), so their bright bars never show through text.
       var sp3 = 420, off3 = (t * 210) % sp3, sy = NEON_SIGN_Y;
       for (x = -off3 - sp3; x < W + sp3; x += sp3) {
-        ctx.fillStyle = 'rgba(14,10,30,0.85)'; ctx.fillRect(x - 4, sy + 80, 8, PLAY_B - sy - 80);
+        // R161: the sign sits at the hero's height, so it is drawn faint and still (two dim rows like lettering, no
+        // moving bars): bright jumping bars read as the attack meter or as something to dodge or pick up.
+        ctx.fillStyle = 'rgba(14,10,30,0.6)'; ctx.fillRect(x - 3, sy + 80, 6, PLAY_B - sy - 80);
         var hue = (x * 0.3 + 300) % 360;
-        ctx.strokeStyle = 'hsla(' + hue + ',100%,65%,0.85)'; ctx.lineWidth = 4;
+        ctx.strokeStyle = 'hsla(' + hue + ',80%,60%,0.4)'; ctx.lineWidth = 3;
         rr(ctx, x - 50, sy, 100, 70, 10); ctx.stroke();
-        ctx.fillStyle = 'hsla(' + hue + ',100%,60%,0.25)'; ctx.fill();
-        ctx.fillStyle = 'hsla(' + hue + ',100%,80%,0.9)';
-        for (i = 0; i < 4; i++) ctx.fillRect(x - 36 + i * 20, sy + 60 - (8 + hash(i + Math.floor(t * 4)) * 40), 12, 8 + hash(i + Math.floor(t * 4)) * 40);
+        ctx.fillStyle = 'hsla(' + hue + ',80%,50%,0.12)'; ctx.fill();
+        ctx.fillStyle = 'hsla(' + hue + ',80%,75%,0.3)';
+        ctx.fillRect(x - 34, sy + 20, 68, 8); ctx.fillRect(x - 34, sy + 40, 44, 8);
       }
     } else {
       ctx.strokeStyle = 'rgba(120,200,255,0.35)'; ctx.lineWidth = 3;
