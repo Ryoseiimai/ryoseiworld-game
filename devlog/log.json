@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T20:36:32.730Z",
-  "branch": "claude/autodev-20261010-0521-R19",
-  "task": "R19 1章の終わり（はじめて つくった ゲーム と バス停）",
-  "summary": "BUG KING の後、家のパソコンでソラと小さなゲームを作り「はじめて つくった ゲーム」が入る\nこうばんの横のバス停から2章のミナモちょうへ行ける。2回目からは町どうしをバスで行き来できる\n2章の間に1章の町へ戻っても、ノイズとザコが戻らないようにした。2章の町は仮の看板だけ",
-  "result": "pass",
-  "shots": [
-   "shots/32/mobile-03-after-start.jpg",
-   "shots/32/mobile-08-map-room.jpg",
-   "shots/32/mobile-13-chapter-1-play.jpg",
-   "shots/32/mobile-20-battle-bugking.jpg"
-  ],
-  "sha": "1a9e9e3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37987880559"
- },
- {
   "at": "2026-10-09T20:50:43.943Z",
   "branch": "claude/autodev-20261010-0537-R20",
   "task": "R20 2章 ミナモちょうの町と人",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "2d82ccf",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39332449847"
+ },
+ {
+  "at": "2026-10-20T01:15:28.754Z",
+  "branch": "claude/autodev-20261020-0942-R160",
+  "task": "R160 遊んで一番気になる所を1つ直す",
+  "summary": "最初の目当ての行「呼び出すで ナオスライムを よぼう」を直した\nボタンの名前を「」でくくり「「呼び出す」で ナオスライムを よぶ」にした\n小さい画面でも1行に収まる長さにし、テストと前後のスクショ（docs/shots/R160）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/288/mobile-02-mode-select.jpg",
+   "shots/288/mobile-15-custom-full-run.jpg",
+   "shots/288/mobile-27-chapter-2-play.jpg",
+   "shots/288/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0309af8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39351862042"
  }
 ]
