@@ -1064,7 +1064,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent;
   const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.mode='kids';r.RYW.setMode('kids');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  assert(title(r).includes('きろく こうしん'),'first clear is always a new record');assert(!copy(r).includes('つぎは'),'no next-stage hint on a record run');
+  // R162: the first run has no record to beat, so it reads はじめての きろく and already points at the next stage.
+  assert.equal(title(r),'はじめての きろく','the first run reads as a first record');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'the first record shows the next stage');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   assert.equal(title(r),'チャレンジの きろく','a worse run keeps the plain title');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'a worse run points at the next stage past the best');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:9,bestCombo:15,score:900,cheated:false});
@@ -1551,14 +1552,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
   const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  let c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n最高ステージ 5\n最高コンボ 20'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  let c=copy(r);assert.equal(title(r),'初めての記録');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n最高ステージ 5\n最高コンボ 20')&&c.endsWith('\n\n次はステージ 6を目指そう'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
   assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
   r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ 6を目指そう'),c);fits(c);
   r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:2,bestCombo:4,score:50,cheated:true});
-  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.startsWith('今回ステージ 2\n今回コンボ 4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ 2'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'初めての記録 チート付き');assert(c.startsWith('今回ステージ 2\n今回コンボ 4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ 2'),c);fits(c);
   r.g.state.cheats.godmode=false;r.tick(300);r.button('もう一度');r.g.state.mode='kids';r.RYW.setMode('kids');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:2,score:10,cheated:false});
-  c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);}
+  c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);
+  // R162: a run that beats an earlier record still reads 記録更新！ without a goal line.
+  r.tick(300);r.button('もう いちど');r.g.state.mode='adult';r.RYW.setMode('adult');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:7,bestCombo:3,score:900,cheated:false});
+  c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 7\n今回コンボ 3\n\n通常\n最高ステージ 7\n最高コンボ 20')&&!c.includes('目指そう'),c);fits(c);
+  r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:4,bestCombo:4,score:90,cheated:true});
+  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.includes('\n\nチート付き\n最高ステージ 4')&&!c.includes('目指そう'),c);fits(c);}
  result.push('R125: おとなモードのチャレンジの結果の窓を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R149: the number people's art floats a small 1-4 over each head that never matched the sign; the rows above the head are not drawn.
  {const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);assert.equal(crop.length,4);

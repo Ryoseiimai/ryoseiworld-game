@@ -463,11 +463,12 @@ function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return fa
   onEnd(result){if(ended)return;ended=true;shooter=null;screen('field');keys.clear();stick=null;immuneUntil=gameTime+2500;g.holdUntil=gameTime+300;inputGuardUntil=performance.now()+250;
    const key=used||result?.cheated?'bestCheat':'best',record=cleanRecord(result),best=g.challenge[key],prevStage=best.stage,prevCombo=best.bestCombo;
    for(const k of Object.keys(best))best[k]=Math.max(best[k],record[k]);saveGame(false);
-   // FUN13: a cleared-best run gets its own fanfare+title so a fresh record feels different from a repeat run; otherwise show the next stage as a short-term goal to pull the player into another try.
-   const newRecord=best.stage>prevStage||best.bestCombo>prevCombo,cheatTag=key==='bestCheat'?menuLabel(' チート付き',' チートつき'):'';
+   // FUN13: a cleared-best run gets its own fanfare+title so a fresh record feels different from a repeat run; otherwise (and on the first run) show the next stage as a short-term goal to pull the player into another try.
+   // R162: the very first run always beat the empty record, so it read 記録更新！ on any result; it now reads 初めての記録 and shows the next goal.
+   const newRecord=best.stage>prevStage||best.bestCombo>prevCombo,firstRecord=!prevStage&&!prevCombo,cheatTag=key==='bestCheat'?menuLabel(' チート付き',' チートつき'):'';
    if(newRecord)sfx.levelup();
-   const title=newRecord?(menuLabel('記録更新！','きろく こうしん！')+cheatTag):(key==='bestCheat'?menuLabel('チャレンジ・チート付き','チャレンジ・チートつき'):menuLabel('チャレンジの記録','チャレンジの きろく')),
-    goal=newRecord?'':menuLabel('\n\n次はステージ '+(best.stage+1)+'を目指そう','\n\nつぎは ステージ '+(best.stage+1)+' を めざそう'),
+   const title=firstRecord?(menuLabel('初めての記録','はじめての きろく')+cheatTag):newRecord?(menuLabel('記録更新！','きろく こうしん！')+cheatTag):(key==='bestCheat'?menuLabel('チャレンジ・チート付き','チャレンジ・チートつき'):menuLabel('チャレンジの記録','チャレンジの きろく')),
+    goal=newRecord&&!firstRecord?'':menuLabel('\n\n次はステージ '+(best.stage+1)+'を目指そう','\n\nつぎは ステージ '+(best.stage+1)+' を めざそう'),
     body=runText(record)+(cheatTag?menuLabel('\n（チート付き）','\n（チートつき）'):'')+'\n\n'+(isPlayables()?recordText(best):challengeRecords())+goal;
    openModal(title,body,[{text:menuLabel('もう一度','もう いちど'),action:()=>openChallenge()},{text:'もどる',action:closeModal}],'challenge-result');}});
  }catch(e){console.warn('challenge',e);shooter=null;screen('field');toast(menuLabel('今は始められない。','いまは はじめられない。'));return false;}return true;}
