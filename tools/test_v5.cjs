@@ -1594,6 +1594,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   let hid=false;for(const dx of [6.5,-6.5,7,-7]){r.g.debugWarp('town',o.x+dx,o.y);r.tick(32);const c=r.g.camera;if(o.x*48+25<c.x||o.x*48-25>c.x+540){assert(!at(),'no spirit with its person off screen '+JSON.stringify([c,at()]));hid=true;break;}}
   assert(hid,'found a spot with the mother off screen');}
  result.push('R164: 灰色の守護霊にうすい光の輪を付けて見やすくし、人が画面の外にいる時は出さないようにした PASS');
+ // R165: a guardian spirit under the talk button also turns it see-through, and with no one to talk to the whole button fades so the person under it shows.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(/#talk-btn\.idle\.behind\{opacity:\.55\}/.test(html),'an idle talk button with something behind it fades as a whole');
+  assert(/#talk-btn\.behind\{[^}]*\}/.test(html)&&!/opacity/.test(html.match(/#talk-btn\.behind\{[^}]*\}/)[0]),'a button with someone to talk to keeps its word solid (R77)');
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;let under=0,miss=[];
+  for(let x=2;x<=24;x++)for(let y=4;y<=32;y+=1){r.g.debugWarp('town',x,y);r.tick(16);r.tick(16);const c=r.g.camera,x1=c.x+540-22,y1=c.y+960-24,x0=x1-142,y0=y1-80;
+   for(const s of r.g.spirits)if(s.x+22>x0&&s.x-22<x1&&s.y>y0&&s.y-44<y1){under++;if(!btn.classes.has('behind'))miss.push([x,y,s.id]);}}
+  assert(under>0,'somewhere in town a spirit floats under the talk button');assert.deepEqual(miss,[],'the button is see-through whenever a spirit is under it');}
+ result.push('R165: 守護霊が「はなす」の後ろに来ても ボタンを薄くし、話す相手がいない時はボタンごと薄くした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
