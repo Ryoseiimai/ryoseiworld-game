@@ -1609,6 +1609,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.dialogue();r.g.debugWin();r.tick(2100);while(r.g.dialogue){r.tick(16);assert(help.classes.has('talking'),'hidden under the after-battle talk too');r.dialogue();}r.tick(16);
   assert.equal(r.g.screen,'field');assert(!help.classes.has('talking'),'the walk help comes back when the talk ends');}
  result.push('R166: 会話の窓の下に「ドラッグで あるく」が透けて重ならないよう、話している間は消すようにした PASS');
+ // R167: a summon's name plate sits under the word card; with a card up the art is shrunk (smoothly) just enough to start under the plate, without one it keeps its full size.
+ {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
+  assert(/const nameY=summonNameY\(\);sprite\('summons',s\.frame,270,y,285,summonEaseH\(b\.cast,summonFitH\(s\.frame,nameY\)\),s\.name\);/.test(html),'the summon is sized after the plate is placed');
+  assert(/\[[^\]]*'summons'\]\.includes\(name\)\)scanAlpha\(img,entry\)/.test(html),'summon frames get their top row measured on load');
+  let frame,gameTime=0;const fn=new Function('frameFor','SUMMON_Y','clock',src('summonFitH')+'\n'+src('summonEaseH').replace(/gameTime/g,'clock()')+'\nreturn {summonFitH,summonEaseH};')(()=>frame,470,()=>gameTime);
+  const s0=Math.min(285/339,300/342),tops=[4,25,83,100,140];
+  for(const top of tops){frame={w:339,h:342,top:top/342};assert.equal(fn.summonFitH(0,185),300,'no word card: full size (top '+top+')');
+   for(const nameY of [230,260,290]){const h=fn.summonFitH(0,nameY),s=Math.min(285/339,h/342),artTop=470-4-342*s*(1-top/342);
+    if(s>s0*.6+1e-9)assert(artTop>=nameY+12+6-0.01,'the art starts under the plate '+[top,nameY,artTop]);else assert.equal(h,342*s0*.6,'never below 60%');}}
+  frame={w:339,h:342};assert.equal(fn.summonFitH(0,260),300,'top not measured (file://, not loaded): same as before');frame=undefined;assert.equal(fn.summonFitH(0,260),300,'no frame: same as before');
+  const c={};assert.equal(fn.summonEaseH(c,200),200,'starts at the first size');gameTime=16;const h1=fn.summonEaseH(c,300);assert(h1>200&&h1<230,'grows back smoothly, no jump '+h1);gameTime=2000;assert(Math.abs(fn.summonEaseH(c,300)-300)<0.01,'settles at full size');}
+ result.push('R167: 召喚の名前の札がナオスライムのアンテナに重ならないよう、札の下に収まる大きさで描くようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
