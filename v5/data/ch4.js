@@ -48,7 +48,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // R88: cleared shows during the rooftop scene; after the ending (towerEnded) the field points to what is left to play (チャレンジ opens from chapter 2 on).
- quests:{cleared:{text:'とうの なかが しずかに なった。'},ended:{text:'メニューの チャレンジで あそぼう',flag:'towerEnded'},tutorial:{text:'{yobidasu}で ナオスライムを よぼう'},
+ quests:{cleared:{text:'とうの なかが しずかに なった。'},ended:{text:'メニューの チャレンジで あそぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   boss:{text:'とうの いちばん うえを めざそう'},
   zako:{text:'とうの ノイズを しずめよう {n}/{goal}',dest:'enemy'},

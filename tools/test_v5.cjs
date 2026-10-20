@@ -1140,13 +1140,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R68: the tutorial hint, the goal line and Sora's line name the summon button the way the button reads in each mode.
  {for(const [mode,label,other] of [['adult','呼び出す','よびだす'],['kids','よびだす','呼び出す']]){const r=await runtime();r.tick();r.click('start-btn');r.button(mode==='adult'?'おとなモード':'こどもモード');r.dialogue();r.els.get('name-input').value='テスト';r.click('naming-confirm');
    const welcome=r.g.dialogue.lines.map(l=>l[1]).join('');assert(welcome.includes('「'+label+'」'),mode+' welcome: '+welcome);assert(!welcome.includes(other)&&!welcome.includes('{'),mode+' welcome has no other label: '+welcome);
-   r.tick(16);const goal=r.els.get('quest').textContent;assert(goal.includes(label+'で')&&!goal.includes('{'),mode+' goal: '+goal);
+   r.tick(16);const goal=r.els.get('quest').textContent;assert(goal.startsWith('「'+label+'」で ')&&!goal.includes('{'),mode+' goal: '+goal);
    r.dialogue();assert.equal(r.g.screen,'battle');r.tick(300);const btn=r.els.get('commands').children.find(e=>e.dataset.cmd==='summon').textContent;assert.equal(btn,label,mode+' button');
    const hint=r.els.get('battle-log').textContent;assert(hint.includes('「'+label+'」')&&!hint.includes(other),mode+' battle hint: '+hint);
    r.cmd('attack');const nudge=r.els.get('battle-log').textContent;assert(nudge.includes('「'+label+'」')&&!nudge.includes(other),mode+' nudge: '+nudge);
   }
  }
  result.push('R68: おとなモードとこどもモードで、チュートリアルの説明・ソラの台詞がボタンの名前と同じ PASS');
+ // R160: the goal line read 「呼び出すで ナオスライムを よぼう」 in adult mode; every chapter now quotes the button name, as Sora does.
+ {const r=await runtime();r.tick();for(const [id,ch] of Object.entries(r.g.GAME_DATA.chapters)){const text=ch.quests.tutorial.text;assert.equal(text,'「{yobidasu}」で ナオスライムを よぶ',id+': '+text);}
+  // The compact HUD draws the line at 28px in a 480px box: 16 full-width chars and 2 spaces stay on one line.
+  for(const label of ['呼び出す','よびだす']){const line=r.g.GAME_DATA.chapters[1].quests.tutorial.text.replace('{yobidasu}',label),w=[...line].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,line+' '+w);}}
+ result.push('R160: 最初の目当ての行で、呼び出すボタンの名前を「」でくくった PASS');
  // R70: while a word card is up in battle (under the enemy name, SPEC_V7 4.1), a summon's name and its effect text are drawn below the card's real bottom, not behind it.
  for(const [id,h] of [['nao',96],['code',124],['whale',124]]){const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const D=r.g.GAME_DATA;
