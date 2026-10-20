@@ -1602,6 +1602,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const s of r.g.spirits)if(s.x+34>x0&&s.x-34<x1&&s.y+6>y0&&s.y-60<y1){under++;if(!btn.classes.has('behind'))miss.push([x,y,s.id]);}}
   assert(under>0,'somewhere in town a spirit floats under the talk button');assert.deepEqual(miss,[],'the plate is see-through whenever a spirit is under it');}
  result.push('R165: 守護霊が「はなす」の後ろに来た時も、ボタンの地を薄くした PASS');
+ // R166: the talk window is a little see-through; the walk help under it is hidden at once while someone talks, and comes back after.
+ {assert(/\.walk-help\.talking\{opacity:0;transition:none\}/.test(html),'the walk help goes at once while someone talks');
+  const r=await runtime();r.tick();r.click('start-btn');r.button('こどもモード');r.dialogue();r.click('naming-confirm');r.tick(16);
+  const help=r.els.get('walk-help');assert(r.g.dialogue&&r.g.screen==='field','the welcome talk is open in the room');assert(!help.classes.has('learned'),'a new player still has the walk help');assert(help.classes.has('talking'),'the walk help is hidden under the welcome talk');
+  r.dialogue();r.g.debugWin();r.tick(2100);while(r.g.dialogue){r.tick(16);assert(help.classes.has('talking'),'hidden under the after-battle talk too');r.dialogue();}r.tick(16);
+  assert.equal(r.g.screen,'field');assert(!help.classes.has('talking'),'the walk help comes back when the talk ends');}
+ result.push('R166: 会話の窓の下に「ドラッグで あるく」が透けて重ならないよう、話している間は消すようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
