@@ -1577,6 +1577,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.g.debugStartChapter(3);const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===o.sign),'the sign still tells the number');}
  result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
+ // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother'),at=()=>r.g.spirits.find(s=>s.id==='mother');
+  r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);assert.equal(at().side,1,'away from the hero the spirit floats right');
+  r.g.debugWarp('town',o.x+0.7,o.y);r.tick(32);assert(Math.abs(r.g.position.x/48-(o.x+0.7))<0.2,'hero stands right of the mother '+r.g.position.x);assert.equal(at().side,-1,'with the hero on the right the spirit moves left');
+  r.g.debugWarp('town',o.x-0.7,o.y);r.tick(32);assert.equal(at().side,1,'with the hero on the left the spirit stays right');}
+ result.push('R163: 主人公が人の右に立つと、守護霊を人の左に出し、主人公の頭にかぶせないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
