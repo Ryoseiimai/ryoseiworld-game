@@ -1585,6 +1585,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   {const sp=at(),h=r.g.position;assert(sp.x+22<=h.x-25||sp.x-22>=h.x+25||sp.y<=h.y-70,'the spirit box stays off the hero '+JSON.stringify([sp,h]));}
   r.g.debugWarp('town',o.x-0.7,o.y);r.tick(32);assert.equal(at().side,1,'with the hero on the left the spirit stays right');}
  result.push('R163: 主人公が人の右に立つと、守護霊を人の左に出し、主人公の頭にかぶせないようにした PASS');
+ // R164: the grey spirit read as a smudge on the road and floated alone with its person off screen; now a pale halo at .7, and only with the person on screen.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother'),at=()=>r.g.spirits.find(s=>s.id==='mother');
+  r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);const sp=at();assert.equal(sp.stage,'gray');assert(sp.halo,'the grey spirit has a halo');assert(sp.alpha>=.65&&sp.alpha<1,'grey stays see-through but readable '+sp.alpha);
+  assert(/if\(stage==='gray'\)\{const halo=ctx\.createRadialGradient\([^}]*ctx\.fillRect\([^}]*ctx\.globalAlpha=GRAY_SPIRIT_ALPHA;\}/.test(html),'the halo is painted before the grey spirit at that alpha');
+  r.g.debugBond('mother',2);r.tick(32);assert.equal(at().alpha,1);assert(!at().halo,'a colour spirit has no grey halo');r.g.debugBond('mother',0);r.tick(32);
+  let hid=false;for(const dx of [6.5,-6.5,7,-7]){r.g.debugWarp('town',o.x+dx,o.y);r.tick(32);const c=r.g.camera;if(o.x*48+25<c.x||o.x*48-25>c.x+540){assert(!at(),'no spirit with its person off screen '+JSON.stringify([c,at()]));hid=true;break;}}
+  assert(hid,'found a spot with the mother off screen');}
+ result.push('R164: 灰色の守護霊にうすい光の輪を付けて見やすくし、人が画面の外にいる時は出さないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
