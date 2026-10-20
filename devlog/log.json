@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T20:50:43.943Z",
-  "branch": "claude/autodev-20261010-0537-R20",
-  "task": "R20 2章 ミナモちょうの町と人",
-  "summary": "2章ミナモちょうに 川ぞいの道・公園・図書館・ともだちの家と、しんぱいのかべ3つを置いた\nスパムメール・ろうでんケーブル・なりすましネコの3種と、おじいちゃん・ともだち親子・つかれたお父さんを足した\nノイズを3つ しずめると、おじいちゃんが けんさくの きかいを使わせてくれる。かべの絵は絵係に頼んだ",
-  "result": "pass",
-  "shots": [
-   "shots/33/mobile-03-after-start.jpg",
-   "shots/33/mobile-09-map-store.jpg",
-   "shots/33/mobile-15-chapter-1-play.jpg",
-   "shots/33/mobile-22-battle-bugking.jpg"
-  ],
-  "sha": "8c771e6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37989443457"
- },
- {
   "at": "2026-10-09T20:54:44.528Z",
   "branch": "claude/autodev-art-20261010-055209",
   "task": "絵",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "0309af8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39351862042"
+ },
+ {
+  "at": "2026-10-20T04:05:32.369Z",
+  "branch": "claude/autodev-20261020-1241-R161",
+  "task": "R161 遊んで一番気になる所を1つ直す",
+  "summary": "ヒカクマオウ戦の背景の看板が、主人公の高さで明るい棒を動かしていた\nこうげきの棒や拾う物に見えるので、看板を薄くし、中の棒を止めた\n看板の位置（R83）は変えず、テストと前後のスクショ（docs/shots/R161）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/290/mobile-02-mode-select.jpg",
+   "shots/290/mobile-15-custom-full-run.jpg",
+   "shots/290/mobile-27-chapter-2-play.jpg",
+   "shots/290/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bf3a7b4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39367178890"
  }
 ]
