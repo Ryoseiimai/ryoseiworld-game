@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-09T20:54:44.528Z",
-  "branch": "claude/autodev-art-20261010-055209",
-  "task": "絵",
-  "summary": "できた絵: worry_wall",
-  "result": "pass",
-  "shots": [
-   "shots/34/mobile-03-after-start.jpg",
-   "shots/34/mobile-09-map-store.jpg",
-   "shots/34/mobile-15-chapter-1-play.jpg",
-   "shots/34/mobile-22-battle-bugking.jpg"
-  ],
-  "sha": "3a18763",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37989864329"
- },
- {
   "at": "2026-10-09T21:33:28.340Z",
   "branch": "claude/autodev-20261010-0621-R21",
   "task": "R21 2章 図書館のサーチフクロウとおじいちゃん",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "bf3a7b4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39367178890"
+ },
+ {
+  "at": "2026-10-20T06:59:19.733Z",
+  "branch": "claude/autodev-20261020-1541-R162",
+  "task": "R162 遊んで一番気になる所を1つ直す",
+  "summary": "チャレンジの初回は、ステージ1・コンボ0でも「記録更新！」と出ていた\n初回の題を「初めての記録」にし、次に目指すステージの行も出した\n2回目からの記録更新はそのまま。テストと前後のスクショ（docs/shots/R162）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/291/mobile-02-mode-select.jpg",
+   "shots/291/mobile-15-custom-full-run.jpg",
+   "shots/291/mobile-27-chapter-2-play.jpg",
+   "shots/291/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "69f146d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39383066279"
  }
 ]
