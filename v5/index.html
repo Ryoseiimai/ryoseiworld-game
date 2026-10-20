@@ -708,15 +708,16 @@ let spiritsDrawn=[];const greyFrames={};
 // A grey copy of a frame is made once with the saturation blend, since ctx.filter is missing on older iOS Safari.
 function greyFrame(kind,frame){const key=kind+frame;if(key in greyFrames)return greyFrames[key];const f=frameFor(kind,frame);if(!f)return null;try{const c=document.createElement('canvas');c.width=f.w;c.height=f.h;const x=c.getContext('2d');x.drawImage(f.img,0,0);x.globalCompositeOperation='saturation';x.fillStyle='#888';x.fillRect(0,0,f.w,f.h);x.globalCompositeOperation='destination-in';x.drawImage(f.img,0,0);greyFrames[key]={img:c,w:f.w,h:f.h};}catch(_){greyFrames[key]=null;}return greyFrames[key];}
 function spiritOf(id){const b=Object.hasOwn(GAME_DATA.bonds,id)?GAME_DATA.bonds[id]:null;return b&&b.spirit!=null?b.spirit:Object.hasOwn(GAME_DATA.spirits,id)?GAME_DATA.spirits[id]:null;}
-function drawSpirits(list){spiritsDrawn=[];if(!g.summons.length)return;for(const o of list){if(!isPerson(o.kind))continue;const sp=spiritOf(o.id);if(sp==null)continue;const side=spiritSide(o),x=o.x*TILE+34*side;if(x<camera.x-60||x>camera.x+W+60||o.foot<camera.y-30||o.foot>camera.y+H+120)continue;
+function drawSpirits(list){spiritsDrawn=[];if(!g.summons.length)return;for(const o of list){if(!isPerson(o.kind))continue;const sp=spiritOf(o.id);if(sp==null)continue;const side=spiritSide(o,list),x=o.x*TILE+34*side;if(x<camera.x-60||x>camera.x+W+60||o.foot<camera.y-30||o.foot>camera.y+H+120)continue;
  const hearts=Math.max(0,Math.min(5,num(g.bonds[o.id],0))),stage=hearts>=5?'glow':hearts>=2?'color':'gray',phase=(o.x*7+o.y*3)%6,y=o.foot-62+Math.sin(gameTime/520+phase)*6,kind=typeof sp==='number'?'spirits':'summons',frame=typeof sp==='number'?sp:GAME_DATA.summons[sp]?.frame??0;
  ctx.save();if(stage==='glow'){const glow=ctx.createRadialGradient(x,y-20,0,x,y-20,48);glow.addColorStop(0,'#fff6b8ee');glow.addColorStop(.5,'#ffe98a88');glow.addColorStop(1,'#fff6b800');ctx.fillStyle=glow;ctx.fillRect(x-48,y-68,96,96);}
  const grey=stage==='gray'?greyFrame(kind,frame):null;if(stage==='gray')ctx.globalAlpha=.45;
  if(grey){const k=Math.min(44/grey.w,44/grey.h);ctx.drawImage(grey.img,Math.round(x-grey.w*k/2),Math.round(y-grey.h*k),Math.round(grey.w*k),Math.round(grey.h*k));}else if(frameFor(kind,frame))sprite(kind,frame,x,y,44,44);else ellipse(x,y-20,15,15,stage==='gray'?'#9aa3a8':'#9fe0d4');ctx.restore();
  if(stage==='glow')for(let i=0;i<8;i++){const a=gameTime/700+i*Math.PI/4,r=30+Math.sin(gameTime/300+i)*5,d=i%2?6:4;rect(x+Math.cos(a)*r-d/2,y-20+Math.sin(a)*r-d/2,d,d,i%2?'#fff3a8':'#ffffff');}
- spiritsDrawn.push({id:o.id,hearts,stage,kind,frame,side,y:Math.round(y)});}}
-// R163: the spirit floats right of the head, but when the hero stands there it would cover the hero's head, so it moves to the left.
-function spiritSide(o){const y=o.foot-62,hh=heroKind()==='hero_ride'?84:70;return Math.abs(g.x-(o.x*TILE+34))<48&&g.y>y-50&&g.y-hh<y+6?-1:1;}
+ spiritsDrawn.push({id:o.id,hearts,stage,kind,frame,side,x:Math.round(x),y:Math.round(y)});}}
+// R163: the spirit floats right of the head, but the hero standing there got it drawn over their head.
+// It goes to whichever side covers less of the hero (counted double) and the other people, and stays right on a tie.
+function spiritSide(o,list){const y=o.foot-62,cover=sx=>{let n=0;for(const b of list){if(b===o||!(b.id==='hero'||isPerson(b.kind)))continue;const bx=b.x*TILE,top=b.foot-(b.lift||0)-b.h,ox=Math.min(sx+22,bx+b.w/2)-Math.max(sx-22,bx-b.w/2),oy=Math.min(y,top+b.h)-Math.max(y-44,top);if(ox>0&&oy>0)n+=ox*oy*(b.id==='hero'?2:1);}return n;};return cover(o.x*TILE-34)<cover(o.x*TILE+34)?-1:1;}
 function drawSora(x,y,r){const glow=ctx.createRadialGradient(x,y,0,x,y,r*2);glow.addColorStop(0,'#bce6dd');glow.addColorStop(.3,'#7fcad6aa');glow.addColorStop(1,'#7fcad600');ctx.fillStyle=glow;ctx.fillRect(x-r*2,y-r*2,r*4,r*4);ellipse(x,y,r*.25,r*.25,'#efffe1');}
 // The hero rides the kickboard across the title screen, left to right, then comes round again.
 function titleRideX(){return gameTime*.12%(W+200)-100;}

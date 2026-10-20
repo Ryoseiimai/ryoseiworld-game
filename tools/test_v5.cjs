@@ -1582,6 +1582,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother'),at=()=>r.g.spirits.find(s=>s.id==='mother');
   r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);assert.equal(at().side,1,'away from the hero the spirit floats right');
   r.g.debugWarp('town',o.x+0.7,o.y);r.tick(32);assert(Math.abs(r.g.position.x/48-(o.x+0.7))<0.2,'hero stands right of the mother '+r.g.position.x);assert.equal(at().side,-1,'with the hero on the right the spirit moves left');
+  {const sp=at(),h=r.g.position;assert(sp.x+22<=h.x-25||sp.x-22>=h.x+25||sp.y<=h.y-70,'the spirit box stays off the hero '+JSON.stringify([sp,h]));}
   r.g.debugWarp('town',o.x-0.7,o.y);r.tick(32);assert.equal(at().side,1,'with the hero on the left the spirit stays right');}
  result.push('R163: 主人公が人の右に立つと、守護霊を人の左に出し、主人公の頭にかぶせないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
