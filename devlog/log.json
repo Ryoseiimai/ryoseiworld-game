@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-10-09T21:33:28.340Z",
-  "branch": "claude/autodev-20261010-0621-R21",
-  "task": "R21 2章 図書館のサーチフクロウとおじいちゃん",
-  "summary": "図書館の けんさくの きかいで、サーチフクロウが ITクイズを3問 出すようにした\n全問正解で仲間になり、戦闘で次の手を見せて2回 ダメージ1.5倍にする\nおじいちゃんに きずなを足した。本を返す頼みごととおにぎりで、おこづかいと てづくり おにぎりが入る",
-  "result": "pass",
-  "shots": [
-   "shots/36/mobile-03-after-start.jpg",
-   "shots/36/mobile-09-map-store.jpg",
-   "shots/36/mobile-15-chapter-1-play.jpg",
-   "shots/36/mobile-22-battle-bugking.jpg"
-  ],
-  "sha": "02e39a4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37993964097"
- },
- {
-  "at": "2026-10-09T21:38:14.344Z",
-  "branch": "claude/autodev-20261010-0621-R21",
-  "task": "R21 2章 図書館のサーチフクロウとおじいちゃん",
-  "summary": "図書館の けんさくの きかいで、サーチフクロウが ITクイズを3問 出すようにした\n全問正解で仲間になり、戦闘で敵の次の手を見せて2ターン ダメージ1.5倍にする\nおじいちゃんに きずなを足した。本を返す頼みごととおにぎりで、おこづかいと てづくり おにぎりが入る",
-  "result": "pass",
-  "shots": [
-   "shots/37/mobile-03-after-start.jpg",
-   "shots/37/mobile-09-map-store.jpg",
-   "shots/37/mobile-15-chapter-1-play.jpg",
-   "shots/37/mobile-22-battle-bugking.jpg"
-  ],
-  "sha": "fe0184c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/37994409882"
- },
- {
   "at": "2026-10-09T21:52:36.667Z",
   "branch": "claude/autodev-20261010-0639-R22",
   "task": "R22 2章 カテイノジジョウのシューティング版",
@@ -2983,5 +2953,35 @@
   ],
   "sha": "69f146d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39383066279"
+ },
+ {
+  "at": "2026-10-20T09:55:36.220Z",
+  "branch": "claude/autodev-20261020-1842-R163",
+  "task": "R163 遊んで一番気になる所を1つ直す",
+  "summary": "チャレンジの初回は、ステージ1・コンボ0でも「記録更新！」と出ていた\n初回の題を「初めての記録」にし、次に目指すステージの行も出した\n2回目からの記録更新はそのまま。テストと前後のスクショ（docs/shots/R162）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/293/mobile-02-mode-select.jpg",
+   "shots/293/mobile-15-custom-full-run.jpg",
+   "shots/293/mobile-27-chapter-2-play.jpg",
+   "shots/293/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a59c139",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39403571820"
+ },
+ {
+  "at": "2026-10-20T10:06:19.489Z",
+  "branch": "claude/autodev-20261020-1842-R163",
+  "task": "R163 遊んで一番気になる所を1つ直す",
+  "summary": "チャレンジの初回は、ステージ1・コンボ0でも「記録更新！」と出ていた\n初回の題を「初めての記録」にし、次に目指すステージの行も出した\n2回目からの記録更新はそのまま。テストと前後のスクショ（docs/shots/R162）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/294/mobile-02-mode-select.jpg",
+   "shots/294/mobile-15-custom-full-run.jpg",
+   "shots/294/mobile-27-chapter-2-play.jpg",
+   "shots/294/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0dca0c4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39404813543"
  }
 ]
