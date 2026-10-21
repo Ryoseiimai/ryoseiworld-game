@@ -186,7 +186,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push(`Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines ${t.lines()}, ordinary battles ${zakoBattles} PASS`);
  const reloaded=await runtime({saved:t.saved});reloaded.tick();assert(!reloaded.els.get('continue-btn').disabled);assert.equal(reloaded.active().id,'continue-btn');
  // FUN16: the title caption must name where つづきから actually resumes, not always chapter 1's town.
- assert.equal(reloaded.els.get('title-caption').textContent,'2しょう　ミナモちょう','title caption should show the saved chapter, not the chapter 1 default');
+ assert.equal(reloaded.els.get('title-caption').textContent,'つづきは 2しょう　ミナモちょう','title caption should show the saved chapter, not the chapter 1 default');
  // FUN24: the title screen must tempt a returning player toward the challenge mode / word-note review they already unlocked.
  assert(!reloaded.els.get('title-hint').hidden,'a save that already beat BUG KING shows a title hint');assert(reloaded.els.get('title-hint').textContent.includes('チャレンジ'),'challenge is unlocked after chapter 1 boss');
  const freshNoSave=await runtime();freshNoSave.tick();assert(freshNoSave.els.get('title-hint').hidden,'no save: no hint to show');
@@ -310,7 +310,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  }
  result.push('Balance: Lv2/HP72/battery100/1 drink beats BUG KING in 6-9 turns; Lv1 with nothing loses (seeds 1,2,3) PASS');
  // F04/F05: title keys and naming keys.
- const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');assert.equal(fresh.els.get('title-caption').textContent,'1しょう　ヒダマリちょう','no save: caption keeps the chapter 1 default');fresh.key('z');assert.equal(fresh.g.modal,'mode-select');fresh.key('z');assert.equal(fresh.g.state.mode,'adult');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
+ const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');assert.equal(fresh.els.get('title-caption').textContent,'はじまりは 1しょう　ヒダマリちょう','no save: caption keeps the chapter 1 default (R170: says it is where the story starts, so it does not read as a save under the grey つづきから)');fresh.key('z');assert.equal(fresh.g.modal,'mode-select');fresh.key('z');assert.equal(fresh.g.state.mode,'adult');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
  const keep=new Map(t.saved),guarded=await runtime({saved:keep});guarded.tick();const kept=keep.get('ryoseiworld-rpg-v5');guarded.click('start-btn');assert.equal(guarded.g.modal,'confirm');assert.equal(guarded.active().textContent,'やめる');guarded.button('やめる');assert.equal(guarded.g.screen,'title');assert.equal(keep.get('ryoseiworld-rpg-v5'),kept);guarded.click('start-btn');guarded.button('はじめる');assert.equal(guarded.g.modal,'mode-select');guarded.button('こどもモード');assert.equal(guarded.g.screen,'prologue');
  result.push('Title: Z on はじめから without a save; はじめから with a save asks first and やめる keeps it; naming input focused and Z confirms PASS');
  // F07/F16/F17: hand-edited or stale saves never freeze the loop.
