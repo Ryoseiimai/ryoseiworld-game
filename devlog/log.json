@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T02:19:10.067Z",
-  "branch": "claude/autodev-lead-20261010-R53",
-  "task": "R53",
-  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/54/mobile-03-after-start.jpg",
-   "shots/54/mobile-11-map-minamo.jpg",
-   "shots/54/mobile-19-chapter-3.jpg",
-   "shots/54/mobile-29-battle-kateino.jpg"
-  ],
-  "sha": "34efcc6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38016379277"
- },
- {
   "at": "2026-10-10T03:18:11.049Z",
   "branch": "claude/autodev-lead-20261010-R54",
   "task": "R54",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "e7da4fc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39558061824"
+ },
+ {
+  "at": "2026-10-21T07:06:26.325Z",
+  "branch": "claude/autodev-20261021-1557-R172",
+  "task": "R172 ボス戦の始めにボスの台詞が「キックボードが うかんだ」の帯の下で出て、ひとりで読める時間が0.85秒しかない件を調べた（コードは変えていない）",
+  "summary": "R171: おさらいで間違えた時、選んだ答えも出すようにした。自動確認に通った\nR172: ボス戦の始めにボスの台詞がひとりで読める時間が0.85秒しかない件を調べた\n直すと前に決めた時間のテスト（R86・R158）を変えることになるので、コードは変えず人の番の行（R173）にした",
+  "result": "pass",
+  "shots": [
+   "shots/313/mobile-02-mode-select.jpg",
+   "shots/313/mobile-15-custom-full-run.jpg",
+   "shots/313/mobile-27-chapter-2-play.jpg",
+   "shots/313/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b9eb5eb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39559114820"
  }
 ]
