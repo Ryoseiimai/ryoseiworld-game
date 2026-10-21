@@ -1621,6 +1621,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   frame={w:339,h:342};assert.equal(fn.summonFitH(0,260),300,'top not measured (file://, not loaded): same as before');frame=undefined;assert.equal(fn.summonFitH(0,260),300,'no frame: same as before');
   const c={};assert.equal(fn.summonEaseH(c,200),200,'starts at the first size');gameTime=16;const h1=fn.summonEaseH(c,300);assert(h1>200&&h1<230,'grows back smoothly, no jump '+h1);gameTime=2000;assert(Math.abs(fn.summonEaseH(c,300)-300)<0.01,'settles at full size');}
  result.push('R167: 召喚の名前の札がナオスライムのアンテナに重ならないよう、札の下に収まる大きさで描くようにした PASS');
+ // R168: the noise band in town picks a row away from the hero and from the one they can talk to (and its name tag); with no free row it skips this time.
+ {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
+  assert(/noiseBandY=noiseRow\(target\);/.test(html),'the band row comes from noiseRow');assert(/if\(m\.outside\)drawNoise\(target\);/.test(html),'the field passes the talk target');
+  assert(/gameTime<noiseUntil&&noiseBandY>0/.test(html),'no band is drawn when no row was free');
+  const mk=(g,camera)=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190);
+  for(let k=0;k<300;k++){const g={y:300+Math.random()*900},camera={y:Math.random()*400},t={x:5,y:(g.y+Math.random()*200-100)/48,w:60,h:90,kind:'npc'};
+   const y=mk(g,camera)(t);if(y===-999)continue;assert(y>=180&&y<=540+180,'still inside the field '+y);
+   const hy=g.y-camera.y,ty=t.y*48-camera.y;assert(y+22<hy-100||y-22>hy+30,'not across the hero '+[y,hy]);const top=ty-90-72;assert(y+22<top||y-22>(top<234?Math.max(ty+30,274):ty+30),'not across the target, its tag or the ▼ '+[y,ty]);}
+  {let free=0;for(let k=0;k<200;k++){const y=mk({y:900},{y:400})({x:5,y:(900+30)/48,w:200,h:400,kind:'buildings'});if(y!==-999)free++;}assert(free>100,'a tall building only keeps its door part clear, the band still shows '+free);}
+  const g={y:500},camera={y:100},full={x:0,y:0,w:0,h:0,kind:'npc'};const f=mk(g,camera);Object.assign(full,{y:(760+100)/48,h:800});assert.equal(f(full),-999,'no free row: no band');}
+ result.push('R168: 町のノイズの帯が、主人公と話せる相手（名前の札も）の上を横切らないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
