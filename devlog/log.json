@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T01:52:29.123Z",
-  "branch": "claude/autodev-lead-20261010-R50",
-  "task": "R50 リズム チャレンジ（どんどん難しく）",
-  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/53/mobile-03-after-start.jpg",
-   "shots/53/mobile-11-map-minamo.jpg",
-   "shots/53/mobile-19-chapter-3.jpg",
-   "shots/53/mobile-29-battle-kateino.jpg"
-  ],
-  "sha": "4890fd4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38014661877"
- },
- {
   "at": "2026-10-10T02:19:10.067Z",
   "branch": "claude/autodev-lead-20261010-R53",
   "task": "R53",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "1f683da",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39542557107"
+ },
+ {
+  "at": "2026-10-21T06:57:12.399Z",
+  "branch": "claude/autodev-20261021-1542-R171",
+  "task": "R171 遊んで一番気になる所を1つ直す",
+  "summary": "おさらいで間違えた時、正しい答えしか出ず、何と取り違えたか分からなかった\n間違えた時は「選んだ答え」を先に出し、1行あけて正しい答えを出すようにした\n前後のスクショは docs/shots/R171。前の回の R170 は自動確認に通った",
+  "result": "pass",
+  "shots": [
+   "shots/312/mobile-02-mode-select.jpg",
+   "shots/312/mobile-15-custom-full-run.jpg",
+   "shots/312/mobile-27-chapter-2-play.jpg",
+   "shots/312/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e7da4fc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39558061824"
  }
 ]
