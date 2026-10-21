@@ -2246,13 +2246,14 @@
     ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.font = '800 26px ' + FONT;
     outlinedText(ctx, d.name, 20, 36, '#fff3c4');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'right';
+    // R169: say whose damage / attack the label is about, so the player can read it as a hint.
     if (w.mode !== 'challenge' && w.bossId === 'kateino') {
       var left = w.m.crackUntil - w.playT;
-      if (left > 0) outlinedText(ctx, 'ダメージ 2ばい ' + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
-      else outlinedText(ctx, 'ダメージ はんぶん', W - 20, LABEL_Y, '#c9d6e8');
+      if (left > 0) outlinedText(ctx, 'ボスへの ダメージ 2ばい ' + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
+      else outlinedText(ctx, 'ボスへの ダメージ はんぶん', W - 20, LABEL_Y, '#c9d6e8');
     } else if (w.mode !== 'challenge' && w.bossId === 'hikaku') {
       // Attack power as a meter: 4 bars at full power, one goes out per number hit (never below 1).
-      outlinedText(ctx, 'こうげき', W - 110, LABEL_Y, '#ffe9a8');
+      outlinedText(ctx, 'きみの こうげき', W - 110, LABEL_Y, '#ffe9a8');
       for (var i = 0; i < 4; i++) {
         var on = i < 4 - w.m.down, bh = 8 + i * 5, px = W - 100 + i * 21;
         ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, LABEL_Y + 11 - bh, 15, bh);

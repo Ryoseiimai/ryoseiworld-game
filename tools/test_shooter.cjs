@@ -652,12 +652,16 @@ async function browserAdapterChecks() {
    check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
   {const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=80&&d.y+12+2.5<=113;};
-   check('R102: こうげき の字が上の帯の線にかからない',fits('こうげき'),drawn.filter(d=>d.text==='こうげき').at(-1));
+   check('R102: きみの こうげき の字が上の帯の線にかからない',fits('きみの こうげき'),drawn.filter(d=>d.text==='きみの こうげき').at(-1));
+   {const lab=drawn.filter(d=>d.text==='きみの こうげき').at(-1);check('R169: きみの こうげき の字は棒(x=440から)の手前で止まる',!!lab&&lab.x+2.5<=440-4,lab);}
    const src=fs.readFileSync(shooterPath,'utf8');
    check('R102: こうげき の棒は線の上で止まり、HPの枠にもかからない',/var LABEL_Y = 97;/.test(src)&&/var x = 20, y = 58, bw = W - 40, bh = 22;/.test(src)&&/bh = 8 \+ i \* 5/.test(src)&&/LABEL_Y \+ 11 - bh/.test(src));
    check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 55, 516, 30\)/.test(src));
    handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
-   check('R102: ダメージ はんぶん の字が上の帯の線にかからない',fits('ダメージ はんぶん'),drawn.filter(d=>d.text==='ダメージ はんぶん').at(-1));}
+   check('R102: ボスへの ダメージ はんぶん の字が上の帯の線にかからない',fits('ボスへの ダメージ はんぶん'),drawn.filter(d=>d.text==='ボスへの ダメージ はんぶん').at(-1));
+   // R169: the label said only ダメージ はんぶん / こうげき; it now names whose damage and attack it means, and stays clear of the boss name and the HP bar.
+   {const lab=drawn.filter(d=>d.text==='ボスへの ダメージ はんぶん').at(-1),labLeft=lab&&lab.x-[...lab.text].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*24;
+    check('R169: ボスへの ダメージ の字は画面の中に収まる',!!lab&&labLeft>=20&&lab.x<=540-20,{labLeft,x:lab&&lab.x});}}
   // R104: with 7 or 8 voices the circles ran into the つながり label on the right of the top band.
   for(const n of [6,8]){handle.stop();drawn.length=0;const voices=Array.from({length:n},(_,i)=>({name:'v'+i,text:'こえ'+i}));
    handle=R.Shooter.start({boss:'zero',platform,lines:{voices}});await ready();await advance(1.2);
