@@ -1628,13 +1628,23 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
   assert(/noiseBandY=noiseRow\(target\);/.test(html),'the band row comes from noiseRow');assert(/if\(m\.outside\)drawNoise\(target\);/.test(html),'the field passes the talk target');
   assert(/gameTime<noiseUntil&&noiseBandY>0/.test(html),'no band is drawn when no row was free');
-  const mk=(g,camera)=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190);
+  const mk=(g,camera,signs=[])=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
   for(let k=0;k<300;k++){const g={y:300+Math.random()*900},camera={y:Math.random()*400},t={x:5,y:(g.y+Math.random()*200-100)/48,w:60,h:90,kind:'npc'};
    const y=mk(g,camera)(t);if(y===-999)continue;assert(y>=180&&y<=540+180,'still inside the field '+y);
    const hy=g.y-camera.y,ty=t.y*48-camera.y;assert(y+22<hy-100||y-22>hy+30,'not across the hero '+[y,hy]);const top=ty-90-72;assert(y+22<top||y-22>(top<234?Math.max(ty+30,274):ty+30),'not across the target, its tag or the ▼ '+[y,ty]);}
   {let free=0;for(let k=0;k<200;k++){const y=mk({y:900},{y:400})({x:5,y:(900+30)/48,w:200,h:400,kind:'buildings'});if(y!==-999)free++;}assert(free>100,'a tall building only keeps its door part clear, the band still shows '+free);}
   const g={y:500},camera={y:100},full={x:0,y:0,w:0,h:0,kind:'npc'};const f=mk(g,camera);Object.assign(full,{y:(760+100)/48,h:800});assert.equal(f(full),-999,'no free row: no band');}
  result.push('R168: 町のノイズの帯が、主人公と話せる相手（名前の札も）の上を横切らないようにした PASS');
+ // R175: the band also keeps clear of the words on signs (こうえん etc.) and the name tags drawn this frame (fieldSignRects).
+ {assert(/function noiseRow\(target\)\{const keep=\[[^\n]*\.\.\.fieldSignRects\]/.test(html),'noiseRow keeps the sign rows clear');
+  const src=n=>html.match(new RegExp('function '+n+'\\([^\\n]*'))[0];
+  const mk=(g,camera,signs)=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
+  let shown=0;for(let k=0;k<300;k++){const a=180+Math.random()*500,signs=[[a,a+40],[a+200,a+230]];const y=mk({y:1400},{y:0},signs)(null);if(y===-999)continue;shown++;
+   for(const [t,b] of signs)assert(y+22<t||y-22>b,'not across a sign '+[y,t,b]);}
+  assert(shown>200,'the band still shows when signs leave free rows '+shown);
+  // The park sign row in ミナモ (like mobile-26-chapter-2): the band never lands on it.
+  for(let k=0;k<200;k++){const y=mk({y:1400},{y:0},[[230,270]])(null);assert(y===-999||y+22<230||y-22>270,'not across こうえん '+y);}}
+ result.push('R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
