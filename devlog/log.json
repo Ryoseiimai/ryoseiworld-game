@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-10-10T04:38:22.687Z",
-  "branch": "claude/autodev-lead-20261010-1323-R47",
-  "task": "R47 3章でプロトタイプを育てる v2〜v4（R24・R25・R44 の後）",
-  "summary": "v5/data/ch3.js に壁画の前で絵をかく子（npc2フレーム1）とハッカーのお姉さん（また会う）を置いた。子に話しかけ「いっしょに かく」を選ぶとペイントキメラが仲間になる。ハッカーのお姉さんは話すたびにきずなが上がり、3になるとサーバークジラが仲間になる\nv5/data/ch1.js のハッカーさんの守護霊（spirit）を仮のきつねからサーバークジラに直した（コメントに書いてあった「チャプター3で解決する」を実行した）\nv5/data/ch3.js に summons.paint（スプライトせいせい＝みがわり）と summons.whale（バックアップ）を足した。絵（summons_sheet.pngのフレーム3・5）は既に用意されていたので新規依頼は不要だった",
-  "result": "pass",
-  "shots": [
-   "shots/61/mobile-02-mode-select.jpg",
-   "shots/61/mobile-12-map-minamo.jpg",
-   "shots/61/mobile-21-chapter-3-play.jpg",
-   "shots/61/mobile-32-battle-kateino.jpg"
-  ],
-  "sha": "d08f2f7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38024597066"
- },
- {
-  "at": "2026-10-10T04:50:05.775Z",
-  "branch": "claude/autodev-lead-20261010-1339-FUN1",
-  "task": "lead-20261010-1339-FUN1",
-  "summary": "v5/data/ch3.js に壁画の前で絵をかく子（npc2フレーム1）とハッカーのお姉さん（また会う）を置いた。子に話しかけ「いっしょに かく」を選ぶとペイントキメラが仲間になる。ハッカーのお姉さんは話すたびにきずなが上がり、3になるとサーバークジラが仲間になる\nv5/data/ch1.js のハッカーさんの守護霊（spirit）を仮のきつねからサーバークジラに直した（コメントに書いてあった「チャプター3で解決する」を実行した）\nv5/data/ch3.js に summons.paint（スプライトせいせい＝みがわり）と summons.whale（バックアップ）を足した。絵（summons_sheet.pngのフレーム3・5）は既に用意されていたので新規依頼は不要だった",
-  "result": "pass",
-  "shots": [
-   "shots/62/mobile-02-mode-select.jpg",
-   "shots/62/mobile-12-map-minamo.jpg",
-   "shots/62/mobile-21-chapter-3-play.jpg",
-   "shots/62/mobile-32-battle-kateino.jpg"
-  ],
-  "sha": "df7a849",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38025266062"
- },
- {
   "at": "2026-10-10T05:09:38.304Z",
   "branch": "claude/autodev-lead-20261010-1350-R27",
   "task": "R27 4章 ノイズのとうの3階と屋上",
@@ -2988,5 +2958,35 @@
   ],
   "sha": "ec358f0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39840093020"
+ },
+ {
+  "at": "2026-10-22T21:48:48.943Z",
+  "branch": "claude/autodev-20261023-0641-R178",
+  "task": "R178 遊んで一番気になる所を1つ直す",
+  "summary": "確認役が、右下の「はなす」ボタンが「いいね」の人などを隠すと挙げた\n下に人がいる時は、ボタンが96〜288px上の空いた所へずれるようにした\n押した時の沈みが残るよう translate で動かし、すぐ戻らない間を入れた",
+  "result": "pass",
+  "shots": [
+   "shots/328/mobile-02-mode-select.jpg",
+   "shots/328/mobile-15-custom-full-run.jpg",
+   "shots/328/mobile-27-chapter-2-play.jpg",
+   "shots/328/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "327e2c1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39859367563"
+ },
+ {
+  "at": "2026-10-22T22:04:30.021Z",
+  "branch": "claude/autodev-20261023-0641-R178",
+  "task": "R178 遊んで一番気になる所を1つ直す",
+  "summary": "確認役が、右下の「はなす」ボタンが「いいね」の人などを隠すと挙げた\n下に人がいる時は、ボタンが96〜288px上の空いた所へずれるようにした\n押した時の沈みが残るよう translate で動かし、すぐ戻らない間を入れた",
+  "result": "pass",
+  "shots": [
+   "shots/329/mobile-02-mode-select.jpg",
+   "shots/329/mobile-15-custom-full-run.jpg",
+   "shots/329/mobile-27-chapter-2-play.jpg",
+   "shots/329/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f619ee0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39861353927"
  }
 ]
