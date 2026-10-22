@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T03:53:53.885Z",
-  "branch": "claude/autodev-lead-20261010-1240-R38",
-  "task": "R38 3章 ネオンシティの人とザコ",
-  "summary": "v5/data/ch3.js にネオンシティの道へ、頭に数字が浮いた灰色の顔の人を4人、ザコ3種（ポップアップおばけ・むげんローディング・ぼうそうそうじき）を置いた\n新しいザコ「ハルシネーション」（SPEC_V7_MANABU.md の7）を足した。じっこう・つくるのダメージは半分で、HPの棒はうそ（いつも まんたん）。サーチフクロウを使うと「でどころが ない！」と出て、そこからダメージ2倍・ほんとうのHPが見える。v5/index.html の damageEnemy・owl召喚の処理・HPバー表示を直した\n初めて出会うと RYW.learn('hallucination') を呼び、ひとことの札が出る。ことばの中身は既に words.js にあったので足していない",
-  "result": "pass",
-  "shots": [
-   "shots/58/mobile-02-mode-select.jpg",
-   "shots/58/mobile-12-map-minamo.jpg",
-   "shots/58/mobile-21-chapter-3-play.jpg",
-   "shots/58/mobile-32-battle-kateino.jpg"
-  ],
-  "sha": "7ca9f6a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38021996773"
- },
- {
   "at": "2026-10-10T04:11:49.687Z",
   "branch": "claude/autodev-lead-20261010-1254-R24",
   "task": "R24 3章 壁画のペイントキメラとハッカーのお姉さん",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "978b32f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39759857809"
+ },
+ {
+  "at": "2026-10-22T16:03:42.335Z",
+  "branch": "claude/autodev-20261023-0042-R176",
+  "task": "R176 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nミナモで、ノイズの帯が「こうえん」の看板の字を横切っていた（150回中42回）\n帯が看板の字と名前の札を避けるようにし、150回中0回になった",
+  "result": "pass",
+  "shots": [
+   "shots/324/mobile-02-mode-select.jpg",
+   "shots/324/mobile-15-custom-full-run.jpg",
+   "shots/324/mobile-27-chapter-2-play.jpg",
+   "shots/324/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "402830e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39808524864"
  }
 ]
