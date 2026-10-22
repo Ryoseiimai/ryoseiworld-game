@@ -1644,6 +1644,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(shown>200,'the band still shows when signs leave free rows '+shown);
   // The park sign row in ミナモ (like mobile-26-chapter-2): the band never lands on it.
   for(let k=0;k<200;k++){const y=mk({y:1400},{y:0},[[230,270]])(null);assert(y===-999||y+22<230||y-22>270,'not across こうえん '+y);}}
+ assert(/if\(name\)\{fieldSignRects\.push\(/.test(html)&&/if\(name&&!ASSET_COLS\[kind\]\)\{fieldSignRects\.push\(/.test(html),'R175: the names on stand-in pictures count as sign rows too');
  result.push('R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
