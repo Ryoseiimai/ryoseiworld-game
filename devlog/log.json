@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T03:23:29.965Z",
-  "branch": "claude/autodev-lead-20261010-R54",
-  "task": "R54",
-  "summary": "ネオンシティの町を作り、駅・ネットカフェ・セルフィー広場・カプセルホテル・スタジアム・壁画の壁を置いた\nネットカフェで泊まると HP とでんちが全部もどる。スタジアムは まだ入れない\n頭に数字の人たちとザコ3種は R38 に分けた。駅と壁画の絵の下に写る切れはしは絵の側なので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/56/mobile-02-mode-select.jpg",
-   "shots/56/mobile-11-map-electric.jpg",
-   "shots/56/mobile-19-chapter-2-play.jpg",
-   "shots/56/mobile-30-battle-kateino.jpg"
-  ],
-  "sha": "18c1840",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38020229072"
- },
- {
   "at": "2026-10-10T03:40:30.735Z",
   "branch": "claude/autodev-lead-20261010-1229-R26",
   "task": "R26 3章 ヒカクマオウのシューティング版",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "e18ba90",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39581998938"
+ },
+ {
+  "at": "2026-10-22T10:04:55.582Z",
+  "branch": "claude/autodev-20261022-1841-R175",
+  "task": "R175 遊んで一番気になる所を1つ直す",
+  "summary": "全章を通したスクショを確認役に見せ、気になる所を5つ挙げてもらった\nおさらいの不正解の画面で「〜の答えは」を問題と同じ「〜の意味は」にした\n窓の文の最後の行が「こと。」だけにならないよう、行の切り方を整えた",
+  "result": "pass",
+  "shots": [
+   "shots/321/mobile-02-mode-select.jpg",
+   "shots/321/mobile-15-custom-full-run.jpg",
+   "shots/321/mobile-27-chapter-2-play.jpg",
+   "shots/321/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ededca4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39759449335"
  }
 ]
