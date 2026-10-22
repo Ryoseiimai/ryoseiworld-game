@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T05:09:38.304Z",
-  "branch": "claude/autodev-lead-20261010-1350-R27",
-  "task": "R27 4章 ノイズのとうの3階と屋上",
-  "summary": "v5/data/ch4.js を新規作成し、4章 ノイズのとうを登録した。1〜3かい＋おくじょうの4つのマップ（青いグリッドの床・tower素材の小物）、各階のセーブたんまつ、ひかりの ゆかで階を行き来するワープ、1〜3かいに暗い強い版のザコ3種（ウイルスだま・グリッチカラス・むげんローディング）を置いた\nv5/data/ch3.js にネオンシティの「くもの もん」（frame 8、以前から予約していたコマ）を足し、ヒカクマオウを倒すと開く（lock:'neonCleared'）。倒した直後は clearEvent（hikakuTower）でひかりの エレベーターの一言を流してから4章へ進む\nv5/index.html: ASSET_COUNTS/ASSET_COLSに tower（4x4・16コマ）を足し、屋内マップの tiles に 'g' を書くと青いグリッドの床になるようにした（ほかの町の床は変わらない）",
-  "result": "pass",
-  "shots": [
-   "shots/63/mobile-02-mode-select.jpg",
-   "shots/63/mobile-12-map-minamo.jpg",
-   "shots/63/mobile-22-chapter-4.jpg",
-   "shots/63/mobile-34-battle-kateino.jpg"
-  ],
-  "sha": "6b14c66",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38026364792"
- },
- {
   "at": "2026-10-10T05:21:43.732Z",
   "branch": "claude/autodev-lead-20261010-1409-R28",
   "task": "R28 4章 ジブンのシューティング版",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "f619ee0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39861353927"
+ },
+ {
+  "at": "2026-10-22T22:28:32.880Z",
+  "branch": "claude/autodev-20261023-0641-R178",
+  "task": "R178 上にずらした「はなす」ボタンが、街灯・信号・電柱・じはんきの上になるべく乗らないようにした",
+  "summary": "確認役がスマホのスクショで、ずれた「はなす」ボタンを街灯が貫く所を挙げた\nずれ先の3段から、背の高い置物が一番少ない段を選ぶようにした\n置物に重なる回数は114回中19回から8回に減った（テストを足した）",
+  "result": "pass",
+  "shots": [
+   "shots/330/mobile-02-mode-select.jpg",
+   "shots/330/mobile-15-custom-full-run.jpg",
+   "shots/330/mobile-27-chapter-2-play.jpg",
+   "shots/330/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "15003a3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39864351146"
  }
 ]
