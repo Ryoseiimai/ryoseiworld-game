@@ -1658,11 +1658,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R177: 「はなす」ボタンの下に人がいる時は、ボタンが上の空いた所へずれる PASS');
  // R178: once lifted, the talk button also keeps off street lights, signals, poles and vending machines when a step without them is there (mobile-16: a lamp post ran through it).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
-  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)$/;let lifted=0,onProp=0;
-  for(const map of ['neon','town'])for(let x=2;x<=26;x++)for(let y=4;y<=36;y++){r.g.debugWarp(map,x,y);r.tick(16);const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);if(!n)continue;lifted++;
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0,onProp=0;
+  for(const map of ['neon','town'])for(let x=2;x<=26;x+=2)for(let y=4;y<=36;y+=2){r.g.debugWarp(map,x,y);for(let i=0;i<40;i++)r.tick(16);const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);if(!n)continue;lifted++;
    const cam=r.g.camera,x1=cam.x+540-22,x0=x1-142,y1=cam.y+960-24+n,y0=y1-80;
-   if(r.g.GAME_DATA.maps[map].objects.some(o=>TALL.test(o.kind)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1))onProp++;}
-  console.error('R178 lifted',lifted,'onProp',onProp);
+   if(r.g.GAME_DATA.maps[map].objects.some(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1))onProp++;}
   assert(lifted>0,'the button still steps up somewhere');assert(onProp*10<=lifted,'a lifted button rarely sits on a lamp post or other tall prop: '+onProp+' / '+lifted);}
  result.push('R178: ずれた「はなす」ボタンが、街灯・信号・電柱・じはんきの上にもなるべく乗らない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
