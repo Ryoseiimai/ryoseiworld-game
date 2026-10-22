@@ -1646,6 +1646,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let k=0;k<200;k++){const y=mk({y:1400},{y:0},[[230,270]])(null);assert(y===-999||y+22<230||y-22>270,'not across こうえん '+y);}}
  assert(/if\(name\)\{fieldSignRects\.push\(/.test(html)&&/if\(name&&!ASSET_COLS\[kind\]\)\{fieldSignRects\.push\(/.test(html),'R175: the names on stand-in pictures count as sign rows too');
  result.push('R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS');
+ // R177: when a person sits under the talk button, the button steps up (96, 192 or 288px) to a spot with nobody under it and off the hero; the plate still turns see-through (R107).
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(/#talk-btn\{transition:[^}]*translate /.test(html),'the button slides when it steps up');
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;let lifted=0,behind=0,bad=[];
+  for(const map of ['neon','town'])for(let x=2;x<=26;x++)for(let y=4;y<=36;y++){r.g.debugWarp(map,x,y);r.tick(16);const tf=btn.style.translate||'',b=btn.classes.has('behind');behind+=b;
+   if(tf){lifted++;const n=Number((tf.match(/^0 (-?\d+)px$/)||[])[1]);if(![-96,-192,-288].includes(n))bad.push([map,x,y,tf,b]);}}
+  assert(behind>0&&lifted>0,'somewhere the button steps up off a person: '+lifted+' / '+behind);assert.deepEqual(bad,[],'it steps up only by one of the fixed steps (translate, so button:active can still press it down)');
+  {let jumps=0,frames=0;for(const map of ['neon','town'])for(let x=2;x<=26;x+=3)for(let y=4;y<=36;y+=3){r.g.debugWarp(map,x,y);for(let i=0;i<80;i++)r.tick(16);const a=btn.style.translate||'';for(let i=0;i<20;i++){r.tick(16);frames++;if((btn.style.translate||'')!==a)jumps++;}}assert(jumps*50<frames,'standing still, the button stays where it went (only a walking person can move it): '+jumps+' / '+frames);}
+  r.g.debugWarp('room',5,5);r.tick(16);assert.equal(btn.style.translate||'','','in the room the button stays in its place');}
+ result.push('R177: 「はなす」ボタンの下に人がいる時は、ボタンが上の空いた所へずれる PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
