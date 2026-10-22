@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T03:40:30.735Z",
-  "branch": "claude/autodev-lead-20261010-1229-R26",
-  "task": "R26 3章 ヒカクマオウのシューティング版",
-  "summary": "v5/data/ch3.js にヒカクマオウを置いた。ランキングスタジアムの奥に立ち、話すとシューティング戦に入る\nシューティングの仕組み（数字で弱くなる・サーチフクロウで冠が2倍・じぶんの ペースで1段戻る）は v5/js/shooter.js に前から入っていたので、そのまま使った\n勝つと「頭の上の数字が消えた」場面が流れ、4章 ノイズのとう への章カードにつながる",
-  "result": "pass",
-  "shots": [
-   "shots/57/mobile-02-mode-select.jpg",
-   "shots/57/mobile-12-map-minamo.jpg",
-   "shots/57/mobile-21-chapter-3-play.jpg",
-   "shots/57/mobile-32-battle-kateino.jpg"
-  ],
-  "sha": "a357784",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38021245576"
- },
- {
   "at": "2026-10-10T03:53:53.885Z",
   "branch": "claude/autodev-lead-20261010-1240-R38",
   "task": "R38 3章 ネオンシティの人とザコ",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "ededca4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39759449335"
+ },
+ {
+  "at": "2026-10-22T10:10:12.706Z",
+  "branch": "claude/autodev-20261022-1841-R175",
+  "task": "R175 町のノイズの帯が、看板の字（こうえん など）と仮の絵の名前を横切らないようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nミナモで、ノイズの帯が「こうえん」の看板の字を横切っていた（150回中42回）\n帯が看板の字と名前の札を避けるようにし、150回中0回になった",
+  "result": "pass",
+  "shots": [
+   "shots/322/mobile-02-mode-select.jpg",
+   "shots/322/mobile-15-custom-full-run.jpg",
+   "shots/322/mobile-27-chapter-2-play.jpg",
+   "shots/322/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "978b32f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39759857809"
  }
 ]
