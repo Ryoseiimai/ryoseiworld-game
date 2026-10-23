@@ -1791,8 +1791,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps))for(const e of m.enemies||[]){const t=m.tiles&&m.tiles[Math.floor(e.y)]&&m.tiles[Math.floor(e.y)][Math.floor(e.x)];assert(t!=='='&&t!=='~',id+' '+e.id+' does not live on a road or water tile ('+t+')');}
   for(const [ch,map] of [[1,'town'],[2,'minamo'],[3,'neon']]){assert(r.g.debugStartChapter(ch));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps[map];
-   r.g.debugWarp(map,2,m.h-2);const start=m.enemies.map(e=>({...r.g.enemyPos(e.id)}));for(let i=0;i<120;i++)r.tick(50);
-   m.enemies.forEach((e,i)=>{const p=r.g.enemyPos(e.id);assert(Math.hypot(p.x-start[i].x,p.y-start[i].y)>5,map+' '+e.id+' walks its patrol: '+JSON.stringify([start[i],p]));});}}
+   r.g.debugWarp(map,2,m.h-2);const start=m.enemies.map(e=>({...r.g.enemyPos(e.id)})),far=m.enemies.map(()=>0);
+   for(let i=0;i<240;i++){r.tick(50);m.enemies.forEach((e,j)=>{const p=r.g.enemyPos(e.id);far[j]=Math.max(far[j],Math.hypot(p.x-start[j].x,p.y-start[j].y));});}
+   m.enemies.forEach((e,i)=>assert(far[i]>=48,map+' '+e.id+' walks a tile or more of its patrol: '+far[i].toFixed(1)));}}
  result.push('R195: ネオンの敵が道の上で止まらず、歩道を歩く PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
