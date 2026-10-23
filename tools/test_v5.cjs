@@ -1698,7 +1698,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const cam=r.g.camera,x1=cam.x+540-22,x0=x1-142,y1=cam.y+960-24+n,y0=y1-80;
    const o=r.g.GAME_DATA.maps[map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.9<y1);if(o)onProp.push([map,x,y,n,o.id].join(':'));}
   assert(lifted>0,'the button still steps up somewhere');assert.deepEqual(onProp.slice(0,5),[],'a lifted button never sits on a lamp post or other tall prop ('+onProp.length+' / '+lifted+')');
-  r.g.debugWarp('town',15,18);for(let i=0;i<40;i++)r.tick(16);assert.equal(btn.style.translate||'','','at the crossing of mobile-16 the button stays down instead of going onto the lamp');}
+  r.g.debugWarp('town',15,18);for(let i=0;i<40;i++)r.tick(16);assert.equal(btn.style.translate||'','','at the crossing of mobile-16 the button stays down instead of going onto the lamp');assert(btn.classes.has('behind'),'and its plate is see-through over the person there (R107)');}
  result.push('R191: ずれた「はなす」ボタンが街灯・信号・電柱・じはんきの上に乗らない（乗るなら下のまま透ける） PASS');
  // R189: arriving in ミナモ (mobile-27-chapter-2-play) the hero stood squeezed between the bus stop sign and a street lamp; every spawn now keeps a tall prop at least a tile away, on a free spot.
  {const r=await runtime();r.tick();const TALL=/(^|_)(light|signal|pole|post|machine|bus|sign)\d*$/,close=[];
