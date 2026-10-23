@@ -1705,12 +1705,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=html.match(/const RECOLOR=[^\n]*\nfunction hueOf[^\n]*\nfunction fromHsl[^\n]*\n/);assert(src,'RECOLOR and the colour helpers are in index.html');
   const {RECOLOR,hueOf,fromHsl}=new Function(src[0]+'return {RECOLOR,hueOf,fromHsl};')();
   const r=await runtime();const boy=r.g.GAME_DATA.maps.minamo_friend.objects.find(o=>o.id==='minamo_boy');assert(boy&&boy.kind==='npc2','the ミナモ boy uses the npc2 sheet');
-  const rules=RECOLOR['npc2:'+Math.floor(boy.frame/3)+'_'+boy.frame%3];assert(rules,'the boy\'s frame has a recolor rule');
-  const paint=rgb=>{const [h,s,l]=hueOf(...rgb.map(v=>v/255));for(const [lo,hi,least,to] of rules){if(s<least||(lo<hi?h<lo||h>hi:h<lo&&h>hi))continue;return fromHsl(to,s,l);}return rgb;};
+  const plan=RECOLOR['npc2:'+Math.floor(boy.frame/3)+'_'+boy.frame%3];assert(plan&&plan.rules&&plan.skip,'the boy\'s frame has a recolor rule');const rules=plan.rules;
+  assert.deepEqual(Object.keys(RECOLOR),['npc2:2_1'],'no other picture is recoloured');
+  const paint=rgb=>{const [h,s,l]=hueOf(...rgb.map(v=>v/255));if(l>.85)return rgb;for(const [lo,hi,least,to] of rules){if(s<least||(lo<hi?h<lo||h>hi:h<lo&&h>hi))continue;return fromHsl(to,s,l);}return rgb;};
   const cap=paint([214,40,44]),shirt=paint([242,204,48]),skin=paint([245,198,161]),hair=paint([92,60,40]);
   assert(cap[1]>cap[0],'the red cap is no longer red: '+cap);assert(shirt[2]>shirt[0]&&shirt[1]>shirt[0],'the yellow shirt turns teal: '+shirt);
-  assert.deepEqual(skin,[245,198,161],'skin keeps its colour');assert.deepEqual(hair,[92,60,40],'brown hair keeps its colour');
-  const req=JSON.parse(fs.readFileSync(path.join(root,'..','autodev','ART_REQUESTS.json'),'utf8')).find(a=>a.task==='R185');assert(req&&req.name&&req.status,'a new picture for the boy is requested');}
+  assert.deepEqual(skin,[245,198,161],'skin keeps its colour');assert.deepEqual(hair,[92,60,40],'brown hair keeps its colour');assert.deepEqual(paint([248,235,207]),[248,235,207],'the white front of the cap stays white');
+  assert(plan.skip[0]<152/289&&plan.skip[1]>152/289,'the face band keeps the red mouth');
+  const req=JSON.parse(fs.readFileSync(path.join(root,'..','autodev','ART_REQUESTS.json'),'utf8')).find(a=>a.task==='R185');assert(req&&req.status==='pending'&&req.ref!=='v5/assets/npc2_sheet.png','a new picture for the boy is requested, without the old boy as the reference');}
  result.push('R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
