@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-10T08:12:05.231Z",
-  "branch": "claude/autodev-lead-20261010-1702-FUN5",
-  "task": "lead-20261010-1702-FUN5",
-  "summary": "v5/data/ch4.js を新規作成し、4章 ノイズのとうを登録した。1〜3かい＋おくじょうの4つのマップ（青いグリッドの床・tower素材の小物）、各階のセーブたんまつ、ひかりの ゆかで階を行き来するワープ、1〜3かいに暗い強い版のザコ3種（ウイルスだま・グリッチカラス・むげんローディング）を置いた\nv5/data/ch3.js にネオンシティの「くもの もん」（frame 8、以前から予約していたコマ）を足し、ヒカクマオウを倒すと開く（lock:'neonCleared'）。倒した直後は clearEvent（hikakuTower）でひかりの エレベーターの一言を流してから4章へ進む\nv5/index.html: ASSET_COUNTS/ASSET_COLSに tower（4x4・16コマ）を足し、屋内マップの tiles に 'g' を書くと青いグリッドの床になるようにした（ほかの町の床は変わらない）",
-  "result": "pass",
-  "shots": [
-   "shots/71/mobile-02-mode-select.jpg",
-   "shots/71/mobile-12-map-electric.jpg",
-   "shots/71/mobile-22-chapter-3-play.jpg",
-   "shots/71/mobile-33-battle-bugking.jpg"
-  ],
-  "sha": "e9c3dd0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38036784421"
- },
- {
   "at": "2026-10-10T08:24:27.651Z",
   "branch": "claude/autodev-lead-20261010-1712-FUN6",
   "task": "lead-20261010-1712-FUN6",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "3d8c593",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39908360673"
+ },
+ {
+  "at": "2026-10-23T06:52:48.238Z",
+  "branch": "claude/autodev-20261023-1522-R183",
+  "task": "R183 ボス戦で急に出てくる「フク」を、最初の会話でRYOSEIの虎の守護霊として紹介した",
+  "summary": "ボス戦の「フクの ちからで」が、だれのことか分からなかった\n最初の会話で、ソラとフクが虎の守護霊フク（帽子の福から）を紹介するようにした\n紹介の順と台詞をテストに足し、前と後のスクショを docs/shots/R183 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/339/mobile-02-mode-select.jpg",
+   "shots/339/mobile-15-custom-full-run.jpg",
+   "shots/339/mobile-27-chapter-2-play.jpg",
+   "shots/339/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "6999de5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39913432835"
  }
 ]
