@@ -1768,7 +1768,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R192: 1しょうの始めで、守護霊が自転車の上に乗らない PASS');
  // R193: at the ネオン start (mobile-29) the vacuum stood on the road edge right beside ミオ; noises now keep 1.6 tiles from townspeople on every map.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const people=m=>m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind));const gap=(m,p)=>Math.min(...people(m).map(o=>Math.hypot(p.x-o.x*48,p.y-o.y*48)));
+  const people=m=>m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)&&o.id!=='dog'&&o.id!=='cat');const gap=(m,p)=>Math.min(...people(m).map(o=>Math.hypot(p.x-o.x*48,p.y-o.y*48)));
   const neon=r.g.GAME_DATA.maps.neon,nz3=neon.enemies.find(e=>e.id==='nz3'),mio=neon.objects.find(o=>o.id==='neon_mio');
   assert(Math.hypot(nz3.x-mio.x,nz3.y-mio.y)>=2,'the vacuum lives 2 tiles or more from ミオ');
   const tiles=neon.tiles[Math.floor(nz3.y)][Math.floor(nz3.x)];assert.notEqual(tiles,'=','the vacuum home is not on the road it can never move on');

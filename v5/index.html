@@ -645,8 +645,9 @@ function bounds(o){if(o.collider===false||gone(o))return null;const d=dimensions
 function blocked(x,y){const m=GAME_DATA.maps[g.map];if(x<TILE||y<TILE*2||x>(m.w-1)*TILE||y>(m.h-1)*TILE)return true;if(m.tiles&&[[-10,0],[10,0],[0,-8],[0,3]].some(([dx,dy])=>m.tiles[Math.floor((y+dy)/TILE)]?.[Math.floor((x+dx)/TILE)]==='~'))return true;return m.objects.some(o=>{const b=bounds(o);if(!b)return false;return x+10>b.x&&x-10<b.x+b.w&&y+3>b.y&&y-8<b.y+b.h;});}
 function enemyFree(m,x,y){const tile=m.tiles?.[Math.floor(y/TILE)]?.[Math.floor(x/TILE)];return tile!=='='&&tile!=='~'&&!blocked(x,y);}
 // R193: noises keep 1.6 tiles from townspeople so their sprites never stand right beside a person; a step that moves away is always fine.
-const PERSON=kind=>kind==='npc'||kind==='npc2'||kind==='numberperson',PERSON_GAP=1.6*TILE;
-function personGap(m,x,y){let d=Infinity;for(const o of m.objects)if(PERSON(o.kind)&&!gone(o))d=Math.min(d,Math.hypot(x-o.x*TILE,y-o.y*TILE));return d;}
+// The dog and cat are npc too, but a noise may walk past them.
+const PERSON=o=>(o.kind==='npc'||o.kind==='npc2'||o.kind==='numberperson')&&o.id!=='dog'&&o.id!=='cat',PERSON_GAP=1.6*TILE;
+function personGap(m,x,y){let d=Infinity;for(const o of m.objects)if(PERSON(o)&&!gone(o))d=Math.min(d,Math.hypot(x-o.x*TILE,y-o.y*TILE));return d;}
 function enemyStep(m,x,y,px,py){if(!enemyFree(m,x,y))return false;const d=personGap(m,x,y);return d>=PERSON_GAP||d>=personGap(m,px,py);}
 // Town noises pace near home and lean toward the player inside three tiles; they never step onto roads or into buildings.
 function moveEnemies(dt){const m=GAME_DATA.maps[g.map];if(!m.enemies.length||townCleared())return;for(const e of m.enemies){const p=enemyPos(e),ox=e.x*TILE,oy=e.y*TILE;if(g.defeated[e.id]>gameTime){p.x=ox;p.y=oy;continue;}const near=Math.hypot(g.x-p.x,g.y-p.y)<3*TILE&&gameTime>immuneUntil;let tx,ty;if(near){tx=g.x;ty=g.y;}else{const swing=Math.sin(gameTime/1000*.7+ox*.37)*1.5*TILE;tx=ox+(e.axis==='x'?swing:0);ty=oy+(e.axis==='x'?0:swing);}const lim=2.5*TILE;tx=Math.max(ox-lim,Math.min(ox+lim,tx));ty=Math.max(oy-lim,Math.min(oy+lim,ty));const dx=tx-p.x,dy=ty-p.y,d=Math.hypot(dx,dy);if(d<1)continue;const step=Math.min(d,(near?46:34)*dt),nx=p.x+dx/d*step,ny=p.y+dy/d*step;if(enemyStep(m,nx,p.y,p.x,p.y))p.x=nx;if(enemyStep(m,p.x,ny,p.x,p.y))p.y=ny;}}

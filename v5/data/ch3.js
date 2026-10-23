@@ -39,7 +39,7 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  object('neon_num2','numberperson',1,19.4,21.6,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'じゅんい 99'})],
- // R193: the vacuum walks the right sidewalk (x 16): at x 14.5 it stood on the road, which noises never move on, right beside ミオ at x 13.4.
+ // R193: the vacuum walks the right sidewalk (x 16.4): at x 14.5 it stood on the road, which noises never move on, right beside ミオ at x 13.4.
  // R38: three street zako (popup, infinite loading, a rampaging vacuum) plus R46's ハルシネーション, patrolling the two cross roads.
  enemies:[{id:'nz1',type:'popup',x:9,y:15.5,axis:'x'},{id:'nz2',type:'infload',x:21,y:15.5,axis:'x'},{id:'nz3',type:'vacuum',x:16.4,y:21,axis:'y'},{id:'nz4',type:'hallucination',x:9,y:26.5,axis:'x'}],portals:[]};
 // Terrain: # city tiles, = road, + sidewalk. Two streets cross the town and one road joins the station and the stadium.
