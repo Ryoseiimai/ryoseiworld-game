@@ -1802,6 +1802,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(near>=1.8,o.id+' stands 1.8 tiles or more from a signal, pole or street light ('+near.toFixed(2)+')');}
   const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');}
  result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
+ // R197: in the store (mobile-18) the clerk is drawn 26px up behind the counter, but the spirit was placed from the feet and sank into the clerk's hair.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  const m=r.g.GAME_DATA.maps.store,c=m.objects.find(o=>o.id==='clerk');assert(c&&c.raise>0,'the clerk is drawn raised behind the counter');
+  r.g.debugWarp('store',...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);
+  const sp=r.g.spirits.find(s=>s.id==='clerk');assert(sp,'the clerk has a spirit on screen');const foot=c.y*48,head=foot-c.raise-c.h;
+  if(sp.side===0)assert(sp.y<=head+6,'the spirit floats over the drawn head, not in the hair '+JSON.stringify([sp,head]));
+  else assert(sp.y<=foot-c.raise-62+6,'the side spirit sits beside the drawn body '+JSON.stringify([sp,foot]));}
+ result.push('R197: コンビニの店員さんの守護霊が、頭にめりこまない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
