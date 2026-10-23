@@ -1664,6 +1664,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(r.g.GAME_DATA.maps[map].objects.some(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1))onProp++;}
   assert(lifted>0,'the button still steps up somewhere');assert(onProp*10<=lifted,'a lifted button rarely sits on a lamp post or other tall prop: '+onProp+' / '+lifted);}
  result.push('R178: ずれた「はなす」ボタンが、街灯・信号・電柱・じはんきの上にもなるべく乗らない PASS');
+ // R180: when a person (the police officer in ヒダマリ, desktop-24) stands behind the メニュー button, the button turns see-through like the talk button, and stays solid elsewhere.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(/#menu-btn\.behind\{[^}]*background:#244a50[0-9a-f]{2}[^}]*text-shadow:-2px -2px #173e3c/.test(html),'the see-through menu button keeps a dark outline on its word');
+  assert(/coverMenuBtn\(m,drawables\)/.test(html),'the field checks what is behind the menu button every frame');
+  const btn=r.els.get('menu-btn');let behind=0,solid=0,wrong=[];
+  for(const map of ['town','minamo','neon'])for(let x=2;x<=26;x+=1)for(let y=4;y<=36;y+=1){r.g.debugWarp(map,x,y);r.tick(16);const b=btn.classes.has('behind');b?behind++:solid++;
+   const cam=r.g.camera,x0=cam.x+386,x1=cam.x+520,y0=cam.y+24,y1=cam.y+84;
+   const person=r.g.GAME_DATA.maps[map].objects.some(o=>/^(people|npc|numberperson)/.test(o.kind)&&o.x*48+20>x0&&o.x*48-20<x1&&o.y*48>y0+10&&o.y*48-60<y1-10);
+   if(person&&!b)wrong.push([map,x,y]);}
+  assert(behind>0&&solid>behind,'the button is see-through only sometimes: '+behind+' / '+solid);assert(wrong.length<=behind/10,'a person well inside the button rarely leaves it solid: '+JSON.stringify(wrong.slice(0,5)));
+  r.g.debugWarp('room',5,9);r.tick(16);assert(!btn.classes.has('behind'),'in the room with nobody behind it the button stays solid');}
+ result.push('R180: 「メニュー」ボタンの後ろに人がいる時、ボタンが透けて人が見える PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
