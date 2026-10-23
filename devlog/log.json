@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-13T12:22:23.581Z",
-  "branch": "claude/autodev-art-20261013-211720",
-  "task": "絵",
-  "summary": "できた絵: hikaku_throne、enemies、numberperson",
-  "result": "pass",
-  "shots": [
-   "shots/90/mobile-02-mode-select.jpg",
-   "shots/90/mobile-12-map-electric.jpg",
-   "shots/90/mobile-22-chapter-3-play.jpg",
-   "shots/90/mobile-33-battle-bugking.jpg"
-  ],
-  "sha": "09cad01",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38396230928"
- },
- {
   "at": "2026-10-13T12:26:43.175Z",
   "branch": "claude/autodev-art-20261013-211831",
   "task": "絵",
@@ -2983,5 +2968,20 @@
   "shots": [],
   "sha": "3f35edd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39926718715"
+ },
+ {
+  "at": "2026-10-23T09:58:01.916Z",
+  "branch": "claude/autodev-20261023-1821-R186",
+  "task": "R186 ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませないよう、フィールドの台詞を変えた",
+  "summary": "ボス戦の前に「フクの ちからで」「うかんだ」を2回続けて読ませていた\nフィールドの台詞を「フクが キックボードに とびこんだ」に変え、浮くのはボス戦の帯だけにした\n前と後のスクショを docs/shots/R186 に置き、同じ言葉が戻らない確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/346/mobile-02-mode-select.jpg",
+   "shots/346/mobile-15-custom-full-run.jpg",
+   "shots/346/mobile-27-chapter-2-play.jpg",
+   "shots/346/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "cc6b09e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39934921363"
  }
 ]
