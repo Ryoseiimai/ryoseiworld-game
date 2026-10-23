@@ -98,8 +98,10 @@
     "name": "minamo_boy",
     "prompt": "Pixel art sprite, top-down RPG town NPC in the same soft 16-bit style as the reference. A shy 12-year-old boy who loves making games, standing still facing forward and holding a small handheld game console with both hands. Bare head with messy dark brown hair, round glasses, a loose olive-green zip-up hoodie over a plain grey T-shirt, beige cargo shorts, white sneakers. Single frame, centered, transparent background, no text.",
     "ref": "v5/assets/npc_sheet.png",
-    "status": "pending",
+    "status": "failed",
     "task": "R185",
-    "requested_at": "2026-10-23T17:45:00+09:00"
+    "requested_at": "2026-10-23T17:45:00+09:00",
+    "done_at": "2026-10-23T20:45:35+09:00",
+    "reason": "自動確認に通らなかった: test_v5: 失敗（最後の15行）"
   }
 ]
