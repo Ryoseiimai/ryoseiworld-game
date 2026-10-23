@@ -1779,6 +1779,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    m.enemies.forEach((e,i)=>{const p=r.g.enemyPos(e.id);if(Math.hypot(p.x-start[i].x,p.y-start[i].y)>5)moved++;});
    assert(moved>0,map+' noises still walk');}}
  result.push('R193: マップの敵が、町の人のすぐ横に来ない PASS');
+ // R194: on the tower floors (mobile-31) and in the library the small room floated in a plain grey void; its walls now reach the screen edges.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  for(const map of ['tower1','tower2','minamo_library']){const m=r.g.GAME_DATA.maps[map];assert(m,map+' exists');r.g.debugWarp(map,...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);
+   const f=r.g.roomFill;assert(f,map+' draws the walls round the room');
+   assert(f.top>0&&f.bottom<960,map+' is smaller than the screen, so there is space round it to fill '+JSON.stringify(f));
+   assert.notEqual(f.wall,'#344f4d');assert.notEqual(f.front,'#344f4d');}
+  r.g.debugWarp('town',2,2);r.tick(32);assert.equal(r.g.roomFill,null,'outside there is no room wall');}
+ result.push('R194: 小さな部屋のまわりが灰色のままにならず、かべが画面のはしまで続く PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
