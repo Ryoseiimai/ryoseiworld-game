@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-14T20:44:58.740Z",
-  "branch": "claude/autodev-lead-20261015-0532-FUN17",
-  "task": "lead-20261015-0532-FUN17",
-  "summary": "v5/data/ch4.js を新規作成し、4章 ノイズのとうを登録した。1〜3かい＋おくじょうの4つのマップ（青いグリッドの床・tower素材の小物）、各階のセーブたんまつ、ひかりの ゆかで階を行き来するワープ、1〜3かいに暗い強い版のザコ3種（ウイルスだま・グリッチカラス・むげんローディング）を置いた\nv5/data/ch3.js にネオンシティの「くもの もん」（frame 8、以前から予約していたコマ）を足し、ヒカクマオウを倒すと開く（lock:'neonCleared'）。倒した直後は clearEvent（hikakuTower）でひかりの エレベーターの一言を流してから4章へ進む\nv5/index.html: ASSET_COUNTS/ASSET_COLSに tower（4x4・16コマ）を足し、屋内マップの tiles に 'g' を書くと青いグリッドの床になるようにした（ほかの町の床は変わらない）",
-  "result": "pass",
-  "shots": [
-   "shots/107/mobile-02-mode-select.jpg",
-   "shots/107/mobile-13-map-store.jpg",
-   "shots/107/mobile-23-chapter-3.jpg",
-   "shots/107/mobile-35-battle-bugking.jpg"
-  ],
-  "sha": "29bc442",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38633979514"
- },
- {
   "at": "2026-10-14T20:57:21.984Z",
   "branch": "claude/autodev-lead-20261015-0545-FUN19",
   "task": "lead-20261015-0545-FUN19",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "7906e3d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39980452489"
+ },
+ {
+  "at": "2026-10-23T15:57:49.604Z",
+  "branch": "claude/autodev-20261024-0021-R192",
+  "task": "R192 1章の始めで、おかあさんの守護霊が自転車の上に乗っていたので、頭の上に出るようにした",
+  "summary": "1章の始めで、おかあさんの守護霊が自転車の上に乗っていた\n左右どちらも何かに重なる時は、頭の上に出すようにした\n自転車に乗らない確認を足した（直す前は落ち、後は通る）",
+  "result": "pass",
+  "shots": [
+   "shots/359/mobile-02-mode-select.jpg",
+   "shots/359/mobile-15-custom-full-run.jpg",
+   "shots/359/mobile-27-chapter-2-play.jpg",
+   "shots/359/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "82930fb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39981405370"
  }
 ]
