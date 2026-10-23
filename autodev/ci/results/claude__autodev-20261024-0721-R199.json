@@ -1,20 +1,22 @@
 {
   "branch": "claude/autodev-20261024-0721-R199",
-  "sha": "3fdf9cc10e4425cb1ceb89d6bcc8fa0cada7e49e",
-  "result": "conflict",
+  "sha": "b68925aca9c09ee32d8bc98ad378a9c90c64808a",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "conflict",
-    "test_v5": "skipped",
-    "smoke": "skipped"
+    "merge": "merge",
+    "test_v5": "pass",
+    "smoke": "pass"
   },
-  "errors": [
-    "merge: main と衝突した。main を取り込んでから直して push し直す",
-    "merge: 衝突 autodev/last_run.md"
+  "errors": [],
+  "shots": [
+    "devlog/shots/371/mobile-02-mode-select.jpg",
+    "devlog/shots/371/mobile-15-custom-full-run.jpg",
+    "devlog/shots/371/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/371/mobile-41-battle-bugking.jpg"
   ],
-  "shots": [],
-  "at": "2026-10-23T23:03:52.887Z",
-  "merged_sha": null,
-  "tested_base": "d21c0a31823354827b4cbdba2bbc30ddf84565f4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037372001"
+  "at": "2026-10-23T23:16:18.433Z",
+  "merged_sha": "eb2142e100c9088f610e681b338106e53e0c58ee",
+  "tested_base": "87ac499a7af4361c98a7c9e622d70006deaa13cc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037900222"
 }

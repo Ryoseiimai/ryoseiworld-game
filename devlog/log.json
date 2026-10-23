@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-15T03:47:06.011Z",
-  "branch": "claude/autodev-lead-20261015-1237-VID2",
-  "task": "lead-20261015-1237-VID2",
-  "summary": "v5/data/ch4.js を新規作成し、4章 ノイズのとうを登録した。1〜3かい＋おくじょうの4つのマップ（青いグリッドの床・tower素材の小物）、各階のセーブたんまつ、ひかりの ゆかで階を行き来するワープ、1〜3かいに暗い強い版のザコ3種（ウイルスだま・グリッチカラス・むげんローディング）を置いた\nv5/data/ch3.js にネオンシティの「くもの もん」（frame 8、以前から予約していたコマ）を足し、ヒカクマオウを倒すと開く（lock:'neonCleared'）。倒した直後は clearEvent（hikakuTower）でひかりの エレベーターの一言を流してから4章へ進む\nv5/index.html: ASSET_COUNTS/ASSET_COLSに tower（4x4・16コマ）を足し、屋内マップの tiles に 'g' を書くと青いグリッドの床になるようにした（ほかの町の床は変わらない）",
-  "result": "pass",
-  "shots": [
-   "shots/119/mobile-02-mode-select.jpg",
-   "shots/119/mobile-15-custom-full-run.jpg",
-   "shots/119/mobile-27-chapter-2-play.jpg",
-   "shots/119/mobile-40-battle-bugking.jpg"
-  ],
-  "sha": "1669f50",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38677566375"
- },
- {
   "at": "2026-10-15T03:57:09.612Z",
   "branch": "claude/autodev-lead-20261015-1247-VID3",
   "task": "lead-20261015-1247-VID3",
@@ -2978,5 +2963,20 @@
   "shots": [],
   "sha": "3fdf9cc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037372001"
+ },
+ {
+  "at": "2026-10-23T23:16:18.433Z",
+  "branch": "claude/autodev-20261024-0721-R199",
+  "task": "R199 塔の ひかりの ゆか が上の壁に半分めりこんで見えたので、台を床の上まで下げた",
+  "summary": "塔の各階で、上下へ移る雲の台が上の壁に半分めりこんでいた\n台と移る場所を約1マス下げ、床の上に乗るようにした\n台が床に乗る確認をテストに足し、カードの確認の高さを合わせた",
+  "result": "pass",
+  "shots": [
+   "shots/371/mobile-02-mode-select.jpg",
+   "shots/371/mobile-15-custom-full-run.jpg",
+   "shots/371/mobile-27-chapter-2-play.jpg",
+   "shots/371/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b68925a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037900222"
  }
 ]
