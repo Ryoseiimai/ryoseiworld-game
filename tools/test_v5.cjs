@@ -1354,6 +1354,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let x=-900;x<=900;x+=7){const h=Function('x','return '+hue)(x);assert(h>=180&&h<=300,'the sign stays blue to purple: '+h+' at x='+x);}
   const w=neon.match(/fillRect\(x - (\d+), sy \+ \d+, (\d+), (\d+)\)/);assert(w&&Number(w[2])>=140&&Number(w[2])>Number(w[3])*2,'the sign is a wide board');}
  result.push('R181: ヒカクマオウ戦の背景の看板を青から紫の横長の板にして、すうじの箱に見えないようにした PASS');
+// R182: the store clerk stood so low behind the register that only the top of the head showed over the counter.
+ {const r=await runtime();const objs=r.g.GAME_DATA.maps.store.objects,c=objs.find(o=>o.id==='clerk'),k=objs.find(o=>o.id==='register');
+  assert(c.y<k.y,'the clerk is still drawn behind the counter');
+  assert(c.y*48-c.h*0.5<=k.y*48-k.h*0.55,'the clerk shows down to the waist over the counter top');
+  assert(c.y*48-c.h>=48,'the clerk head stays on the floor area, under the wall');}
+ result.push('R182: コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた PASS');
  // R88: after the ending the quest line in every map was 「とうの なかが しずかに なった。」, which told nothing to do next.
  // During the rooftop scene it stays as is; once the ending ran (and on a save from after it) the line points to the challenge.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
