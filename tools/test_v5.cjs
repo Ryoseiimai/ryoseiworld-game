@@ -270,6 +270,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const [k,list] of Object.entries(nav.g.GAME_DATA.dialogue))for(const [,text] of list){const rows=text.replace(/\{\w+\}/g,'99').split('\n');assert(rows.length<=3,k+' has '+rows.length+' lines');for(const row of rows)assert([...row].length<=16,k+': '+row);}
  assert.equal(nav.g.GAME_DATA.dialogue.welcome[0][0],'ナオスライム');assert(/keep-all/.test(html)&&/line-break:strict/.test(html));
  result.push('Dialogue: every line ≤16 chars and ≤3 lines, keep-all wrapping, welcome speaker is ナオスライム PASS');
+ // R183: the boss lift and the shot say フク, so the first talk after Sora wakes names フク as RYOSEI's tiger guardian.
+ {const w=nav.g.GAME_DATA.dialogue.welcome;const i=w.findIndex(([who,t])=>t.includes('フク')&&t.includes('とら'));const joined=w.findIndex(([,t])=>t.includes('なかまに なった'));assert(joined>0&&i>joined,'welcome introduces フク as the tiger guardian after ナオスライム joins');assert.equal(w.filter(([who])=>who==='フク').length,1,'フク speaks once in the welcome');assert(w[i+1][0]==='フク'&&w[i+1][1].includes('福'),'フク says the name comes from 福 on the cap');assert(w[w.length-1][1].includes('「{yobidasu}」'),'Sora still ends the welcome with the summon hint');}
+ result.push('R183: 最初の会話で、ボス戦に出てくる「フク」がRYOSEIの とらの しゅごれいだと紹介される PASS');
  // fix2: battle-log wraps whole words; tutorial log rows are ≤16 wide (ASCII counts half) in ≤3 rows; the compact log is ≤28px.
  const css=html.split('<style>')[1].split('</style>')[0],decls=sel=>css.split('}').filter(r=>r.includes('{')&&r.split('{')[0].split(',').map(x=>x.trim()).includes(sel)).map(r=>r.split('{')[1]).join(';');
  assert(/word-break:keep-all/.test(decls('.battle-log'))&&/line-break:strict/.test(decls('.battle-log')),'battle-log wrapping');
