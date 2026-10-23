@@ -50,7 +50,8 @@
   // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
   var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
   function burstAlpha(o, t) { var bt = t - o.t; return clamp(Math.min(bt * 6, (o.dur - bt) / (o.out || BURST_OUT)), 0, 1); }
-  function hintAlpha(t) { return clamp(Math.min(t * 4, (HINT_T - t) / HINT_OUT), 0, 1); }
+  var HINT_IN = 0.25; // fade-in of the move hint
+  function hintAlpha(t) { return clamp(Math.min(t / HINT_IN, (HINT_T - t) / HINT_OUT), 0, 1); }
   // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
   // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
   var INTRO_PLATE_T = 352, INTRO_PLATE_H = 98;
@@ -1075,6 +1076,13 @@
       var lo = 0.17, hi = o.dur - (o.out || BURST_OUT) - 0.01; // just inside the 1/6 s fade-in and the fade-out
       if (hi > lo) o.t = w.t - clamp(w.t - o.t, lo, hi);
     });
+    // R179: the first word card of the fight comes up on the first frame of play, so the move hint
+    // (「ゆびを すべらせて うごく」) was held almost see-through for the whole card. Hold it full, or
+    // let it go when the card catches it already fading out.
+    if (w.state === 'play' && w.stateT < HINT_T) {
+      if (w.stateT < HINT_IN) w.stateT = HINT_IN;
+      else if (w.stateT > HINT_T - HINT_OUT) w.stateT = HINT_T;
+    }
   }
 
   function debugCollect(w) {

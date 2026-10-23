@@ -970,6 +970,26 @@ async function browserAdapterChecks() {
   check('R154: 短く切られた台詞は残りの時間で消えていく', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0 && sim.burstAlpha({ t: 0, dur: 2 }, 1.85) < 0.5);
 })();
 
+// R179: the first word card comes up on the first frame of play and stops the clock. The move hint was held at
+// about 6% (a ghost of 「ゆびを すべらせて うごく」 over the city) for the whole card. Now it is held full, and a hint
+// caught while fading out is let go instead of staying half see-through.
+(() => {
+  const I = sim.INTRO, A = sim.hintAlpha;
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let g = 0;
+    while (w.state !== 'play' && g++ < 2000) sim.step(w, DT, IDLE);
+    sim.step(w, DT, IDLE);
+    const before = A(w.stateT); sim.holdTextsForCards(w);
+    check('R179: ' + boss + ' のカードの間、案内は濃い', before < 0.2 && A(w.stateT) === 1, [before, A(w.stateT)]);
+  }
+  const w = sim.createWorld({ seed: 7, boss: 'hikaku', god: true }); let g = 0;
+  while (w.state !== 'play' && g++ < 2000) sim.step(w, DT, IDLE);
+  w.stateT = I.hintT - 0.05; sim.holdTextsForCards(w);
+  check('R179: 消えかけの案内はカードの間に半透明で残らない', A(w.stateT) === 0, A(w.stateT));
+  w.stateT = 2; sim.holdTextsForCards(w);
+  check('R179: 途中の案内の時間は変えない', w.stateT === 2, w.stateT);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
