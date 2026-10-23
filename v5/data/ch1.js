@@ -31,7 +31,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('signal',12,110,[[12.5,8.9],[17.5,11.9],[17.5,16.9],[12.5,19.9],[17.5,25.9],[12.5,29.9]]),
  ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,22.6],[17.5,32.4],[9.5,19.6],[27.5,11.6]]),
  ...props('light',5,120,[[17.5,4.6],[17.5,13.6],[17.5,22.6],[12.5,32.4],[4.5,11.6],[24.5,29.6]]),
- ...[['mother',4.5,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',18.8,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
+ ...[['mother',4.5,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',20.2,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.

@@ -1795,6 +1795,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(let i=0;i<240;i++){r.tick(50);m.enemies.forEach((e,j)=>{const p=r.g.enemyPos(e.id);far[j]=Math.max(far[j],Math.hypot(p.x-start[j].x,p.y-start[j].y));});}
    m.enemies.forEach((e,i)=>assert(far[i]>=48,map+' '+e.id+' walks a tile or more of its patrol: '+far[i].toFixed(1)));}}
  result.push('R195: ネオンの敵が道の上で止まらず、歩道を歩く PASS');
+ // R196: in the town (mobile-16) the スマホの おねえさん stood glued to the signal pole by the store; people keep off the poles.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);const m=r.g.GAME_DATA.maps.town;
+  const poles=m.objects.filter(o=>/^(signal|pole|light)\d+$/.test(o.id));assert(poles.length>=15,'the town has its signals, poles and lights');
+  for(const o of m.objects.filter(o=>/^(npc|npc2)$/.test(o.kind)&&o.id!=='dog'&&o.id!=='cat')){const near=Math.min(...poles.map(q=>Math.hypot(o.x-q.x,o.y-q.y)));
+   assert(near>=1.8,o.id+' stands 1.8 tiles or more from a signal, pole or street light ('+near.toFixed(2)+')');}
+  const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');}
+ result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
