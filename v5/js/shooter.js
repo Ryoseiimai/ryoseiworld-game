@@ -1898,13 +1898,13 @@
       for (x = -off3 - sp3; x < W + sp3; x += sp3) {
         // R161: the sign sits at the hero's height, so it is drawn faint and still (two dim rows like lettering, no
         // moving bars): bright jumping bars read as the attack meter or as something to dodge or pick up.
-        ctx.fillStyle = 'rgba(14,10,30,0.6)'; ctx.fillRect(x - 3, sy + 80, 6, PLAY_B - sy - 80);
-        var hue = (x * 0.3 + 300) % 360;
-        ctx.strokeStyle = 'hsla(' + hue + ',80%,60%,0.4)'; ctx.lineWidth = 3;
-        rr(ctx, x - 50, sy, 100, 70, 10); ctx.stroke();
-        ctx.fillStyle = 'hsla(' + hue + ',80%,50%,0.12)'; ctx.fill();
-        ctx.fillStyle = 'hsla(' + hue + ',80%,75%,0.3)';
-        ctx.fillRect(x - 34, sy + 20, 68, 8); ctx.fillRect(x - 34, sy + 40, 44, 8);
+        // R181: a wide, square-cornered board in blue to purple only, so it never looks like an orange rounded number block.
+        ctx.fillStyle = 'rgba(14,10,30,0.6)'; ctx.fillRect(x - 3, sy + 64, 6, PLAY_B - sy - 64);
+        var hue = 190 + ((x * 0.3) % 110 + 110) % 110;
+        ctx.fillStyle = 'hsla(' + hue + ',70%,45%,0.12)'; ctx.fillRect(x - 75, sy + 8, 150, 56);
+        ctx.strokeStyle = 'hsla(' + hue + ',70%,60%,0.35)'; ctx.lineWidth = 2; ctx.strokeRect(x - 75, sy + 8, 150, 56);
+        ctx.fillStyle = 'hsla(' + hue + ',70%,75%,0.25)';
+        ctx.fillRect(x - 58, sy + 24, 116, 6); ctx.fillRect(x - 58, sy + 42, 70, 6);
       }
     } else {
       ctx.strokeStyle = 'rgba(120,200,255,0.35)'; ctx.lineWidth = 3;
