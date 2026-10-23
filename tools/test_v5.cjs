@@ -1737,6 +1737,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/ちから|うかん|うい/.test(lift),'the field lift lines leave 「フクの ちからで」 and the floating to the shooter band: '+lift);assert(/しゃりん/.test(lift),'the field still shows the wheels (STORY_V4)');
   const shooter=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(shooter.includes("'キックボードが うかんだ！'"),'the shooter band still says the board floats');}
  result.push('R186: ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませない PASS');
+ // R190: at the ミナモ start the grey spirit of the woman by the tree (mobile-27) sat on the tree's crown; things like trees now count when the spirit picks a side.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(2));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.minamo,mom=m.objects.find(o=>o.id==='minamo_mom');
+  const tree=m.objects.filter(o=>o.kind==='props'&&o.id.startsWith('minamo_tree')).sort((a,b)=>Math.hypot(a.x-mom.x,a.y-mom.y)-Math.hypot(b.x-mom.x,b.y-mom.y))[0];
+  assert(tree&&tree.x>mom.x&&Math.abs(tree.y-mom.y)<1,'a tree stands just right of the woman');
+  for(const at of [[10.9,31.4],[8,31.4]]){r.g.debugWarp('minamo',at[0],at[1]);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='minamo_mom');assert(sp,'the woman has a spirit on screen');
+   assert.equal(sp.side,-1,'the spirit floats left, away from the tree, with the hero at '+at);assert(sp.x+22<=tree.x*48-tree.w*.3,'the spirit box stays off the tree crown '+JSON.stringify([sp,tree.x*48]));}
+  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother');r.g.debugStartChapter(1);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
+  assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with nothing beside her the spirit still floats right');}
+ result.push('R190: ミナモの木のそばの人の守護霊を、木の上ではなく反対の側に出す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
