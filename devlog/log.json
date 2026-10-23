@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-13T12:26:43.175Z",
-  "branch": "claude/autodev-art-20261013-211831",
-  "task": "絵",
-  "summary": "できた絵: summons",
-  "result": "fail",
-  "shots": [
-   "shots/91/mobile-02-mode-select.jpg",
-   "shots/91/mobile-12-map-electric.jpg",
-   "shots/91/mobile-22-chapter-3-play.jpg",
-   "shots/91/mobile-33-battle-bugking.jpg"
-  ],
-  "sha": "d6133a7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38396379159"
- },
- {
   "at": "2026-10-14T18:26:48.628Z",
   "branch": "claude/autodev-lead-20261015-0309-ART1",
   "task": "lead-20261015-0309-ART1",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "cc6b09e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39934921363"
+ },
+ {
+  "at": "2026-10-23T10:40:00.734Z",
+  "branch": "claude/autodev-20261023-1921-R187",
+  "task": "R187 ネオンの町で、ずれた「はなす」ボタンが街灯の上に乗るのを見つけた（前半）",
+  "summary": "全章を通し、ネオンの町で「はなす」ボタンが街灯の上に乗る所を見つけた\n手元のテストの画面ではボタンは街灯を避けたので、直すのは次の回にした\nボス戦の始めの札が「ビート」から出る件は、ビートで押す遊びに合わせた形なので残した",
+  "result": "pass",
+  "shots": [
+   "shots/347/mobile-02-mode-select.jpg",
+   "shots/347/mobile-15-custom-full-run.jpg",
+   "shots/347/mobile-27-chapter-2-play.jpg",
+   "shots/347/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8d2f1df",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39939805217"
  }
 ]
