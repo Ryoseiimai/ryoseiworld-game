@@ -1691,6 +1691,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lamp=r.g.GAME_DATA.maps[r.g.map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1);
   assert(!lamp,'at the start of chapter 3 the talk button does not sit on '+(lamp&&lamp.id)+' (lift '+n+')');}
  result.push('R188: 3章の始めで、ずれた「はなす」ボタンが街灯に乗らない PASS');
+ // R191: in ヒダマリちょう (mobile-16) every lamp-free step had a person, so the button still went onto a lamp; a step on a tall prop is now never taken, and the button stays down, see-through.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0;const onProp=[];
+  for(const map of ['neon','town','minamo'])for(let x=2;x<=26;x+=2)for(let y=4;y<=36;y+=2){if(!r.g.GAME_DATA.maps[map])continue;r.g.debugWarp(map,x,y);for(let i=0;i<40;i++)r.tick(16);const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);if(!n)continue;lifted++;
+   const cam=r.g.camera,x1=cam.x+540-22,x0=x1-142,y1=cam.y+960-24+n,y0=y1-80;
+   const o=r.g.GAME_DATA.maps[map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.9<y1);if(o)onProp.push([map,x,y,n,o.id].join(':'));}
+  assert(lifted>0,'the button still steps up somewhere');assert.deepEqual(onProp.slice(0,5),[],'a lifted button never sits on a lamp post or other tall prop ('+onProp.length+' / '+lifted+')');
+  r.g.debugWarp('town',15,18);for(let i=0;i<40;i++)r.tick(16);assert.equal(btn.style.translate||'','','at the crossing of mobile-16 the button stays down instead of going onto the lamp');}
+ result.push('R191: ずれた「はなす」ボタンが街灯・信号・電柱・じはんきの上に乗らない（乗るなら下のまま透ける） PASS');
  // R189: arriving in ミナモ (mobile-27-chapter-2-play) the hero stood squeezed between the bus stop sign and a street lamp; every spawn now keeps a tall prop at least a tile away, on a free spot.
  {const r=await runtime();r.tick();const TALL=/(^|_)(light|signal|pole|post|machine|bus|sign)\d*$/,close=[];
   const stops=[];JSON.stringify(r.g.GAME_DATA.events,(k,v)=>{if(v&&Array.isArray(v.stops))for(const s of v.stops)if(s.at)stops.push([s.map,...s.at]);return v;});
