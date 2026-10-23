@@ -1,0 +1,35 @@
+{
+  "branch": "claude/autodev-art-20261023-204535",
+  "sha": "f3beeded490355bf38103fb2088bd66dc3e0ebb4",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "merge",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: a new picture for the boy is requested, without the old boy as the reference",
+    "    at /tmp/tmp.TDQmad9KyH/tree-claude__autodev-art-20261023-204535/tools/test_v5.cjs:1723:125 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/351-2/mobile-02-mode-select.jpg",
+    "devlog/shots/351-2/mobile-15-custom-full-run.jpg",
+    "devlog/shots/351-2/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/351-2/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-10-23T12:06:23.168Z",
+  "merged_sha": null,
+  "tested_base": "8e03a22c749727188608fdd0b10bc47f2e24981f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39948674499"
+}
