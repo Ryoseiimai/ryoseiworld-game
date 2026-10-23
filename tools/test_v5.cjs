@@ -729,7 +729,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
       assert.equal(pad.sign,goesUp?'うえへ':'したへ',id+' '+pad.id+' sign direction matches where it actually warps');
     }
   }
-  r.g.debugWarp('tower1',8.4,6.2);r.tick(16);r.click('talk-btn');r.tick(16);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();await settle();
+  r.g.debugWarp('tower1',8.4,8.2);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();await settle();
   assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).map==='tower1','the save terminal saves');
   // The light floor (warp cells) carries the hero up through all 3 floors and the rooftop, and back down again.
   const up=(from,x,to)=>{r.g.debugWarp(from,x,4.4);r.tick(16);r.key('ArrowUp');r.tick(260);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,to,'warp '+from+' -> '+to);};
@@ -1407,7 +1407,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(s0.length>=2,'both stairs signs drawn');assert.equal(t0,Math.max(190,r.g.hudTop),'a normal card keeps the top spot (R136)');assert.equal(r.els.get('quest').style.visibility,'','the goal line stays (R136)');
    for(const c of s0){const y=c[3]-cy0;assert(y+10<=t0||y-30>=t0+h0,c[1]+' sign at '+Math.round(y)+' is not under the card '+t0+'..'+(t0+h0));}
    // the sign is drawn after the hero, so the hero walking up to the pad never hides its letters.
-   r.g.debugWarp('tower2',8.4,3.6);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]==='うえへ');
+   r.g.debugWarp('tower2',8.4,4.1);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]==='うえへ');
    assert(at>=0,'the うえへ sign is drawn with the hero under it');assert(r.canvasCalls.slice(at).every(c=>c[0]!=='drawImage'),'no sprite is drawn over the うえへ sign');r.g.debugWarp('tower2',5,10);r.tick(16);}
   // R108 still holds when the top spot does cover the signs: a tall card (two lines more) goes up over the goal line. R199: the pads moved down 0.9 tile onto the floor, so the tall card is 215 high to still reach their signs.
   card.offsetHeight=215;r.canvasCalls.length=0;r.tick(16);r.tick(16);
@@ -1824,6 +1824,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     assert(m.cells.some(c=>c.warp&&Math.abs(c.x-o.x)<.01&&Math.abs(c.y-o.y)<.01),id+' '+o.id+' still sits on its warp cell');}}
   assert.equal(pads,6,'all 6 pads are checked');}
  result.push('R199: 塔の ひかりの ゆか が、上の壁にめりこまず床の上に乗る PASS');
+ // R200: with the pads moved down (R199), the セーブたんまつ name tag (drawTags) sat right on the うえへ sign when the hero faced the terminal.
+ // On floors 1-3 the terminal stands lower, so its tag and the stairs signs never share a line, and the zako on y=6.6 can still walk past it.
+ {const r=await runtime();r.tick();let floors=0;
+  for(const id of ['tower1','tower2','tower3']){const m=r.g.GAME_DATA.maps[id],s=m.objects.find(o=>o.label==='セーブたんまつ');
+   for(const [dx,dy,face] of [[0,.8,3],[-1.2,0,2]]){r.g.debugWarp(id,s.x+dx,s.y+dy);r.g.debugFace(face);r.canvasCalls.length=0;r.tick(16);
+    const texts=r.canvasCalls.filter(c=>c[0]==='fillText'||c[0]==='strokeText'),tag=texts.find(c=>c[1]==='セーブたんまつ'),signs=texts.filter(c=>['うえへ','したへ'].includes(c[1]));
+    assert(tag,id+': the terminal tag shows when the hero faces it');assert(signs.length>=1,id+': the stairs signs are drawn');
+    for(const c of signs){const half=[...c[1]].length*12+10,tagHalf=[...tag[1]].length*12+10,overX=Math.abs(c[2]-tag[2])<half+tagHalf,overY=tag[3]-25<c[3]+10&&tag[3]+9>c[3]-27;
+     assert(!(overX&&overY),id+': the terminal tag at '+Math.round(tag[3])+' is not on the '+c[1]+' sign at '+Math.round(c[3]));}}
+   for(const e of m.enemies.filter(e=>e.axis==='x'))for(let x=e.x-1.5;x<=e.x+1.5;x+=.25){assert(!(Math.abs(x-s.x)*48<45+12&&Math.abs(e.y*48-s.y*48)<100*.22+12),id+': '+e.id+' path is clear of the terminal at x='+x);}
+   floors++;}
+  assert.equal(floors,3,'floors 1-3 are checked');}
+ result.push('R200: 塔のセーブたんまつの名札が、うえへ・したへ の札に重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

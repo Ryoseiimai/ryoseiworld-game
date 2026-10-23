@@ -11,7 +11,7 @@ const grid=Array.from({length:13},()=>'g'.repeat(11));
 const maps={};
 maps.tower1={name:'ノイズのとう 1かい',short:'とう1F',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  object('tw1_guide','npc2',4,2.2,7.4,48,65,{label:'あんないロボ',dialogue:'towerGuide'}),
- tower('tw1_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
+ tower('tw1_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw1_rack',0,8.4,9.4,80,90),tower('tw1_cable',1,2.2,9.6,80,80),
  tower('tw1_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'})],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
@@ -22,13 +22,13 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう1F',w:11,h:13,spawn:
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
   {x:5,y:8.6,trigger:'towerEntrance',once:'towerEntranceSeen'}]};
 maps.tower2={name:'ノイズのとう 2かい',short:'とう2F',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
- tower('tw2_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
+ tower('tw2_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
  tower('tw2_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  enemies:[{id:'tz2a',type:'crow2',x:4,y:6.6,axis:'x'},{id:'tz2b',type:'infload2',x:7,y:9.6,axis:'y'}],
  portals:[],cells:[{x:2.2,y:3.5,warp:'tower1',at:[5,10]},{x:8.4,y:3.5,warp:'tower3',at:[5,10]}]};
 maps.tower3={name:'ノイズのとう 3かい',short:'とう3F',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
- tower('tw3_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
+ tower('tw3_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,6.4,80,90),
  tower('tw3_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  enemies:[{id:'tz3',type:'virusball',x:5,y:6.6,axis:'x'}],
