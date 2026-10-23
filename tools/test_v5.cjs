@@ -1756,6 +1756,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother');r.g.debugStartChapter(1);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
   assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with nothing beside her the spirit still floats right');}
  result.push('R190: ミナモの木のそばの人の守護霊を、木の上ではなく反対の側に出す PASS');
+ // R192: at the 1st chapter start (mobile-24) the hero stands right of the sister and the bicycle stands left of her, so her spirit sat on the bicycle.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];const m=r.g.GAME_DATA.maps.town,bike=m.objects.find(o=>o.id==='bike');
+  r.g.debugWarp('town',...m.spawn);r.tick(32);
+  const near=r.g.spirits.filter(s=>Math.abs(s.x-bike.x*48)<bike.w/2+22&&s.y>bike.y*48-bike.w&&s.y-44<bike.y*48);
+  assert.equal(near.length,0,'no spirit floats over the bicycle at the chapter 1 start '+JSON.stringify(near));
+  const all=r.g.spirits;assert(all.length>0,'spirits are drawn at the chapter 1 start');}
+ result.push('R192: 1しょうの始めで、守護霊が自転車の上に乗らない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
