@@ -1760,9 +1760,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];const m=r.g.GAME_DATA.maps.town,bike=m.objects.find(o=>o.id==='bike');
   r.g.debugWarp('town',...m.spawn);r.tick(32);
-  const near=r.g.spirits.filter(s=>Math.abs(s.x-bike.x*48)<bike.w/2+22&&s.y>bike.y*48-bike.w&&s.y-44<bike.y*48);
-  assert.equal(near.length,0,'no spirit floats over the bicycle at the chapter 1 start '+JSON.stringify(near));
-  const all=r.g.spirits;assert(all.length>0,'spirits are drawn at the chapter 1 start');}
+  const sp=r.g.spirits.find(s=>s.id==='mother');assert(sp,'the mother has a spirit on screen');
+  assert.equal(sp.side,0,'with the hero on her right and the bicycle on her left, her spirit floats over her head '+JSON.stringify(sp));
+  assert(sp.x-22>=bike.x*48+bike.w*.35,'the spirit box stays off the bicycle '+JSON.stringify([sp,bike.x*48]));
+  const o=m.objects.find(x=>x.id==='mother');r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
+  assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with the hero away from her the spirit still floats right');}
  result.push('R192: 1しょうの始めで、守護霊が自転車の上に乗らない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
