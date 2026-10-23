@@ -1683,6 +1683,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(r.g.GAME_DATA.maps[map].objects.some(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1))onProp++;}
   assert(lifted>0,'the button still steps up somewhere');assert(onProp*10<=lifted,'a lifted button rarely sits on a lamp post or other tall prop: '+onProp+' / '+lifted);}
  result.push('R178: ずれた「はなす」ボタンが、街灯・信号・電柱・じはんきの上にもなるべく乗らない PASS');
+ // R188: at the start of chapter 3 (mobile-29) the only step with no margin around it was free of lamps, yet the button went to a step on a lamp; a step clear of things and lamps now wins.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;
+  r.g.debugStartChapter(3);for(let i=0;i<40&&(r.g.dialogue||r.g.modal);i++){if(r.g.dialogue)r.dialogue();else r.tick(400);}for(let i=0;i<60;i++)r.tick(16);
+  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1])||0,cam=r.g.camera,x1=cam.x+540-22,x0=x1-142,y1=cam.y+960-24+n,y0=y1-80;
+  const lamp=r.g.GAME_DATA.maps[r.g.map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1);
+  assert(!lamp,'at the start of chapter 3 the talk button does not sit on '+(lamp&&lamp.id)+' (lift '+n+')');}
+ result.push('R188: 3章の始めで、ずれた「はなす」ボタンが街灯に乗らない PASS');
  // R180: when a person (the police officer in ヒダマリ, desktop-24) stands behind the メニュー button, the button turns see-through like the talk button, and stays solid elsewhere.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#menu-btn\.behind\{[^}]*background:#244a50[0-9a-f]{2}[^}]*text-shadow:-2px -2px #173e3c/.test(html),'the see-through menu button keeps a dark outline on its word');
