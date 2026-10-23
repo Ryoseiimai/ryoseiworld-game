@@ -1833,7 +1833,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     assert(tag,id+': the terminal tag shows when the hero faces it');assert(signs.length>=1,id+': the stairs signs are drawn');
     for(const c of signs){const half=[...c[1]].length*12+10,tagHalf=[...tag[1]].length*12+10,overX=Math.abs(c[2]-tag[2])<half+tagHalf,overY=tag[3]-25<c[3]+10&&tag[3]+9>c[3]-27;
      assert(!(overX&&overY),id+': the terminal tag at '+Math.round(tag[3])+' is not on the '+c[1]+' sign at '+Math.round(c[3]));}}
-   for(const e of m.enemies.filter(e=>e.axis==='x'))for(let x=e.x-1.5;x<=e.x+1.5;x+=.25){assert(!(Math.abs(x-s.x)*48<45+12&&Math.abs(e.y*48-s.y*48)<100*.22+12),id+': '+e.id+' path is clear of the terminal at x='+x);}
+   // the terminal's real collider (bounds) stays off every zako's line, over the full 2.5-tile reach an enemy may walk or chase (moveEnemies), with blocked()'s margins.
+   const b=r.g.debugBounds(s);assert(b,id+': the terminal has a collider');
+   for(const e of m.enemies)for(let k=-2.5;k<=2.5;k+=.125){const x=(e.axis==='x'?e.x+k:e.x)*48,y=(e.axis==='x'?e.y:e.y+k)*48;
+    assert(!(x+10>b.x&&x-10<b.x+b.w&&y+3>b.y&&y-8<b.y+b.h),id+': '+e.id+' path is clear of the terminal at '+(x/48).toFixed(2)+','+(y/48).toFixed(2));}
    floors++;}
   assert.equal(floors,3,'floors 1-3 are checked');}
  result.push('R200: 塔のセーブたんまつの名札が、うえへ・したへ の札に重ならない PASS');
