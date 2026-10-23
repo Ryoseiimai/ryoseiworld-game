@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-14T21:23:02.516Z",
-  "branch": "claude/autodev-lead-20261015-0613-FUN20",
-  "task": "lead-20261015-0613-FUN20",
-  "summary": "v5/data/ch4.js を新規作成し、4章 ノイズのとうを登録した。1〜3かい＋おくじょうの4つのマップ（青いグリッドの床・tower素材の小物）、各階のセーブたんまつ、ひかりの ゆかで階を行き来するワープ、1〜3かいに暗い強い版のザコ3種（ウイルスだま・グリッチカラス・むげんローディング）を置いた\nv5/data/ch3.js にネオンシティの「くもの もん」（frame 8、以前から予約していたコマ）を足し、ヒカクマオウを倒すと開く（lock:'neonCleared'）。倒した直後は clearEvent（hikakuTower）でひかりの エレベーターの一言を流してから4章へ進む\nv5/index.html: ASSET_COUNTS/ASSET_COLSに tower（4x4・16コマ）を足し、屋内マップの tiles に 'g' を書くと青いグリッドの床になるようにした（ほかの町の床は変わらない）",
-  "result": "pass",
-  "shots": [
-   "shots/111/mobile-02-mode-select.jpg",
-   "shots/111/mobile-13-map-store.jpg",
-   "shots/111/mobile-23-chapter-3.jpg",
-   "shots/111/mobile-35-battle-bugking.jpg"
-  ],
-  "sha": "149718d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38639157284"
- },
- {
   "at": "2026-10-14T21:40:55.558Z",
   "branch": "claude/autodev-lead-20261015-0623-FUN21",
   "task": "lead-20261015-0623-FUN21",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "5872690",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39992099261"
+ },
+ {
+  "at": "2026-10-23T18:11:11.262Z",
+  "branch": "claude/autodev-20261024-0221-R194",
+  "task": "R194 とうの各階と としょかんで、部屋のまわりが灰色のままだったので、かべを画面のはしまで続けた",
+  "summary": "とうの各階と としょかんで、部屋のまわりが無地の灰色のまま見えていた\n部屋の上と横はかべの色、床の下は巾木と暗い前のかべで、画面のはしまで塗った\n部屋のまわりを塗る確認をテストに足した（直す前は落ち、後は通る）",
+  "result": "pass",
+  "shots": [
+   "shots/362/mobile-02-mode-select.jpg",
+   "shots/362/mobile-15-custom-full-run.jpg",
+   "shots/362/mobile-27-chapter-2-play.jpg",
+   "shots/362/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "181ffc9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39997830228"
  }
 ]
