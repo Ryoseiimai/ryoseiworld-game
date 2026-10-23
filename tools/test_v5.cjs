@@ -586,7 +586,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   {const w=walls[0];assert(talk(r,'minamo',w.x,w.y+1.2).includes('あぶないから'));while(r.g.dialogue)r.dialogue();r.g.debugWarp('minamo',w.x,w.y+1.4);r.tick(16);const y0=r.g.position.y;r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>w.y*48-4,'the wall blocks the way '+y0+' -> '+r.g.position.y);}
   // The grandpa asks for three quiet noises, then opens the search machine; the quest arrow points at the town noises first.
   assert(talk(r,'minamo_library',3.4,8.5).includes('3つ しずめて'));while(r.g.dialogue)r.dialogue();assert(!r.g.state.flags.minamoKey);
-  r.g.debugWarp('minamo',11.6,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to a minamo noise: '+r.els.get('quest').textContent);
+  r.g.debugWarp('minamo',10.9,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to a minamo noise: '+r.els.get('quest').textContent);
   const said=[];for(const type of ['spam','cable','maskcat']){r.g.debugStartBattle(type,'r20-'+type);r.tick(300);r.g.debugWin();r.tick(2100);while(r.g.dialogue){said.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}}
   assert.equal(r.g.state.flags.zakoWins,3);assert(said.join('\n').includes('としょかんに いこう'),'chapter 2 has its own "go to the library" line');assert(!said.join('\n').includes('こうばん'));
   assert.equal(r.g.questStep,'key');assert(talk(r,'minamo_library',3.4,8.5).includes('つかえるように なった'));while(r.g.dialogue)r.dialogue();assert(r.g.state.flags.minamoKey);assert.equal(r.g.questStep,'recruit');
@@ -635,7 +635,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   const D=r.g.GAME_DATA,st=r.g.state;assert(r.g.debugStartChapter(2));const boss=D.maps.minamo.objects.find(o=>o.id==='minamo_boss');assert(boss&&boss.enemy==='kateino'&&D.enemies.kateino.boss);
   assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('あぶないから'));while(r.g.dialogue)r.dialogue();r.tick(3000);assert.equal(r.g.screen,'field','no fight before the owl: '+r.g.screen+' '+JSON.stringify(st.summons));
-  r.g.debugEvent([{join:'owl'}]);r.tick(1600);assert.equal(r.g.questStep,'boss');r.g.debugWarp('minamo',11.6,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to the park wall');
+  r.g.debugEvent([{join:'owl'}]);r.tick(1600);assert.equal(r.g.questStep,'boss');r.g.debugWarp('minamo',10.9,31.4);r.tick(16);assert(/[←→↑↓]/.test(r.els.get('quest').textContent),'arrow to the park wall');
   assert(talk(r,'minamo',boss.x,boss.y+1.3).includes('みせに いこう'));for(let i=0;i<60&&r.g.screen==='field';i++){if(r.g.dialogue)r.dialogue();r.tick(200);if(r.g.modal==='cheats')r.button('はじめる');}
   assert.equal(r.g.screen,'shooter','boss fight starts');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'kateino');assert.equal(run.lines.intro[1],'しょうらい\nどうするの？');run.onWin({boss:'kateino',seconds:150,hearts:2,maxHearts:3,hurts:1});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
   assert(r.g.state.bosses.includes('kateino'),'kateino beaten');assert(r.g.state.flags.minamoCleared,'park scene plays');assert(read.join('\n').includes('すごいじゃない'),read.join('|'));assert(read.join('\n').includes('でんしゃに のった'),'RYOSEI rides the train');
@@ -1691,6 +1691,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lamp=r.g.GAME_DATA.maps[r.g.map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1);
   assert(!lamp,'at the start of chapter 3 the talk button does not sit on '+(lamp&&lamp.id)+' (lift '+n+')');}
  result.push('R188: 3章の始めで、ずれた「はなす」ボタンが街灯に乗らない PASS');
+ // R189: arriving in ミナモ (mobile-27-chapter-2-play) the hero stood squeezed between the bus stop sign and a street lamp; every spawn now keeps a tall prop at least a tile away, on a free spot.
+ {const r=await runtime();r.tick();const TALL=/(^|_)(light|signal|pole|post|machine|bus|sign)\d*$/,close=[];
+  const stops=[];JSON.stringify(r.g.GAME_DATA.events,(k,v)=>{if(v&&Array.isArray(v.stops))for(const s of v.stops)if(s.at)stops.push([s.map,...s.at]);return v;});
+  const spots=[...Object.entries(r.g.GAME_DATA.maps).filter(([,m])=>m.spawn).map(([id,m])=>[id,...m.spawn]),...stops];
+  assert(stops.some(s=>s[0]==='minamo'),'the bus stop list reaches ミナモ');
+  for(const [id,sx,sy] of spots){const m=r.g.GAME_DATA.maps[id];
+   for(const o of m.objects)if(o.kind==='props'&&TALL.test(o.id)&&Math.abs(o.x-sx)<1&&Math.abs(o.y-sy)<1.6)close.push(id+':'+o.id);
+   r.g.debugWarp(id,sx,sy);r.tick(16);assert(!r.g.debugBlocked(sx*48,sy*48),id+' arrival '+[sx,sy]+' is on a free spot');}
+  assert.deepEqual(close,[],'no lamp, sign or bus stop right next to where the hero appears');}
+ result.push('R189: ミナモちょうに着いた時、主人公がバスていと街灯の間にはさまらない PASS');
  // R180: when a person (the police officer in ヒダマリ, desktop-24) stands behind the メニュー button, the button turns see-through like the talk button, and stays solid elsewhere.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#menu-btn\.behind\{[^}]*background:#244a50[0-9a-f]{2}[^}]*text-shadow:-2px -2px #173e3c/.test(html),'the see-through menu button keeps a dark outline on its word');

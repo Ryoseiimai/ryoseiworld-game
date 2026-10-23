@@ -11,7 +11,7 @@ const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:
 const maps={};
 // Worry walls have no picture yet (autodev/ART_REQUESTS.json worry_wall); the engine draws a grey block with eyes until it comes.
 const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
-maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,spawn:[11.6,31.4],objects:[
+maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,spawn:[10.9,31.4],objects:[
  object('minamo_house1','buildings',0,6,15.4,194,194),
  object('minamo_house2','buildings',0,22,15.4,194,194),
  object('minamo_library','buildings',5,22,26.2,210,188,{label:'としょかん',enter:'minamo_library',arrival:[5,11]}),
