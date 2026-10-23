@@ -1766,6 +1766,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const o=m.objects.find(x=>x.id==='mother');r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
   assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with the hero away from her the spirit still floats right');}
  result.push('R192: 1しょうの始めで、守護霊が自転車の上に乗らない PASS');
+ // R193: at the ネオン start (mobile-29) the vacuum stood on the road edge right beside ミオ; noises now keep 1.6 tiles from townspeople on every map.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const people=m=>m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind));const gap=(m,p)=>Math.min(...people(m).map(o=>Math.hypot(p.x-o.x*48,p.y-o.y*48)));
+  const neon=r.g.GAME_DATA.maps.neon,nz3=neon.enemies.find(e=>e.id==='nz3'),mio=neon.objects.find(o=>o.id==='neon_mio');
+  assert(Math.hypot(nz3.x-mio.x,nz3.y-mio.y)>=2,'the vacuum lives 2 tiles or more from ミオ');
+  const tiles=neon.tiles[Math.floor(nz3.y)][Math.floor(nz3.x)];assert.notEqual(tiles,'=','the vacuum home is not on the road it can never move on');
+  for(const [ch,map] of [[1,'town'],[2,'minamo'],[3,'neon']]){assert(r.g.debugStartChapter(ch));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps[map];
+   r.g.debugWarp(map,2,m.h-2);let moved=0;const start=m.enemies.map(e=>({...r.g.enemyPos(e.id)}));
+   for(let i=0;i<300;i++){r.tick(50);for(const e of m.enemies){const p=r.g.enemyPos(e.id);const home=gap(m,{x:e.x*48,y:e.y*48});
+    assert(gap(m,p)>=Math.min(1.6*48,home)-1,map+' '+e.id+' never comes closer to a person than 1.6 tiles: '+JSON.stringify([p,gap(m,p)]));}}
+   m.enemies.forEach((e,i)=>{const p=r.g.enemyPos(e.id);if(Math.hypot(p.x-start[i].x,p.y-start[i].y)>5)moved++;});
+   assert(moved>0,map+' noises still walk');}}
+ result.push('R193: マップの敵が、町の人のすぐ横に来ない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
