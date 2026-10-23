@@ -88,5 +88,18 @@
     "requested_at": "2026-10-10T14:22:00+09:00",
     "done_at": "2026-10-13T21:18:31+09:00",
     "actual_size": "1024x1024"
+  },
+  {
+    "id": "art-20261023-1745-minamo_boy",
+    "file": "v5/assets/minamo_boy_sheet.png",
+    "size": "1024x1024",
+    "grid": "1x1",
+    "out": "v5/assets/minamo_boy",
+    "name": "minamo_boy",
+    "prompt": "Pixel art sprite, top-down RPG town NPC in the same soft 16-bit style as the reference. A shy 12-year-old boy who loves making games, standing still facing forward and holding a small handheld game console with both hands. Messy dark brown hair with no hat, round glasses, a loose green zip-up hoodie over a grey T-shirt, beige cargo shorts, white sneakers. Original character design: no baseball cap, no striped shirt, no backpack. Single frame, centered, transparent background, no text.",
+    "ref": "v5/assets/npc2_sheet.png",
+    "status": "pending",
+    "task": "R185",
+    "requested_at": "2026-10-23T17:45:00+09:00"
   }
 ]

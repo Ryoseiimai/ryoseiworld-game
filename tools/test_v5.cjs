@@ -1701,6 +1701,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const q=r.els.get('quest').textContent;assert(/↓/.test(q),'the arrow points down at the noise in view: '+q);
   r.g.debugWarp('neon',9,13);r.tick(16);r.tick(16);assert(/↓/.test(r.els.get('quest').textContent),'standing above nz1 the arrow still points at it: '+r.els.get('quest').textContent);}
  result.push('R184: ネオンの道しるべの矢印が、画面の外の敵より画面に見えている敵を指す PASS');
+ // R185: ミナモの友だちの子（赤い帽子・黄色の服）が、ほかのゲームの主人公に似ないよう、新しい絵が届くまで帽子と服の色を変えて描く（RULES 4）。
+ {const src=html.match(/const RECOLOR=[^\n]*\nfunction hueOf[^\n]*\nfunction fromHsl[^\n]*\n/);assert(src,'RECOLOR and the colour helpers are in index.html');
+  const {RECOLOR,hueOf,fromHsl}=new Function(src[0]+'return {RECOLOR,hueOf,fromHsl};')();
+  const r=await runtime();const boy=r.g.GAME_DATA.maps.minamo_friend.objects.find(o=>o.id==='minamo_boy');assert(boy&&boy.kind==='npc2','the ミナモ boy uses the npc2 sheet');
+  const rules=RECOLOR['npc2:'+Math.floor(boy.frame/3)+'_'+boy.frame%3];assert(rules,'the boy\'s frame has a recolor rule');
+  const paint=rgb=>{const [h,s,l]=hueOf(...rgb.map(v=>v/255));for(const [lo,hi,least,to] of rules){if(s<least||(lo<hi?h<lo||h>hi:h<lo&&h>hi))continue;return fromHsl(to,s,l);}return rgb;};
+  const cap=paint([214,40,44]),shirt=paint([242,204,48]),skin=paint([245,198,161]),hair=paint([92,60,40]);
+  assert(cap[1]>cap[0],'the red cap is no longer red: '+cap);assert(shirt[2]>shirt[0]&&shirt[1]>shirt[0],'the yellow shirt turns teal: '+shirt);
+  assert.deepEqual(skin,[245,198,161],'skin keeps its colour');assert.deepEqual(hair,[92,60,40],'brown hair keeps its colour');
+  const req=JSON.parse(fs.readFileSync(path.join(root,'..','autodev','ART_REQUESTS.json'),'utf8')).find(a=>a.task==='R185');assert(req&&req.name&&req.status,'a new picture for the boy is requested');}
+ result.push('R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
