@@ -30,8 +30,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2],[11.3,32.4,1]]),
  ...props('signal',12,110,[[12.5,8.9],[17.5,11.9],[17.5,16.9],[12.5,19.9],[17.5,25.9],[12.5,29.9]]),
  ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,23.2],[17.5,32.4],[9.5,19.6],[27.5,11.6]]),
- // R198: a pole or street light right under a signal on the same sidewalk read as one tall post (mobile-16), so they keep a gap or step onto the grass.
- ...props('light',5,120,[[17.5,4.6],[18.4,13.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
+ // R198: a pole or street light right under a signal on the same sidewalk read as one tall post (mobile-16), so they keep a gap; the short walk between the two signals by the electric shop has no light.
+ ...props('light',5,120,[[17.5,4.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
  ...[['mother',4.5,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',20,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
