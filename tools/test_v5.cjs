@@ -1355,10 +1355,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=neon.match(/fillRect\(x - (\d+), sy \+ \d+, (\d+), (\d+)\)/);assert(w&&Number(w[2])>=140&&Number(w[2])>Number(w[3])*2,'the sign is a wide board');}
  result.push('R181: ヒカクマオウ戦の背景の看板を青から紫の横長の板にして、すうじの箱に見えないようにした PASS');
 // R182: the store clerk stood so low behind the register that only the top of the head showed over the counter.
- {const r=await runtime();const objs=r.g.GAME_DATA.maps.store.objects,c=objs.find(o=>o.id==='clerk'),k=objs.find(o=>o.id==='register');
-  assert(c.y<k.y,'the clerk is still drawn behind the counter');
-  assert(c.y*48-c.h*0.5<=k.y*48-k.h*0.55,'the clerk shows down to the waist over the counter top');
-  assert(c.y*48-c.h>=48,'the clerk head stays on the floor area, under the wall');}
+// The clerk is drawn higher (raise) but keeps the old spot, so talking from the front of the counter still reaches the clerk.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);const objs=r.g.GAME_DATA.maps.store.objects,c=objs.find(o=>o.id==='clerk'),k=objs.find(o=>o.id==='register');
+  assert(c.y<k.y,'the clerk is still drawn behind the counter');const top=c.y*48-(c.raise||0);
+  assert(top-c.h*0.5<=k.y*48-k.h*0.55,'the clerk shows down to the waist over the counter top');
+  assert(top-c.h>=48,'the clerk head stays on the floor area, under the wall');
+  r.g.debugWarp('store',6.5,4.92);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue,'talk from the front of the counter');
+  assert(r.g.dialogue.lines.some(l=>l[0]==='コンビニの ひと'&&/プリンター/.test(l[1])),'the clerk request starts from the front of the counter: '+JSON.stringify(r.g.dialogue.lines));}
  result.push('R182: コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた PASS');
  // R88: after the ending the quest line in every map was 「とうの なかが しずかに なった。」, which told nothing to do next.
  // During the rooftop scene it stays as is; once the ending ran (and on a save from after it) the line points to the challenge.

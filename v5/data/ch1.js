@@ -49,7 +49,7 @@ maps.room={name:'じぶんの へや',w:11,h:14,spawn:[5,9],objects:[
  object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear'}),
  object('cushion','spot',0,9.3,11.2,60,40,{hidden:true,label:'ざぶとん',event:'cushion',collider:false})],enemies:[],portals:[{x:5,y:12,to:'town',at:[6,25.5]}]};
 maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
- object('clerk','npc',3,5.7,3.35,56,75,{event:'clerk'}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
+ object('clerk','npc',3,5.7,3.9,56,75,{event:'clerk',raise:26}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
  object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'})],enemies:[],portals:[{x:5,y:11,to:'town',at:[22,25.3]}]};
 maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや・ジャンク',w:11,h:17,spawn:[5,14],objects:[
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
