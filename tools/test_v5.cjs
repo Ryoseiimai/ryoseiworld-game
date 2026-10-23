@@ -1695,6 +1695,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(behind>0&&solid>behind,'the button is see-through only sometimes: '+behind+' / '+solid);assert(wrong.length<=behind/10,'a person well inside the button rarely leaves it solid: '+JSON.stringify(wrong.slice(0,5)));
   r.g.debugWarp('room',5,9);r.tick(16);assert(!btn.classes.has('behind'),'in the room with nobody behind it the button stays solid');}
  result.push('R180: 「メニュー」ボタンの後ろに人がいる時、ボタンが透けて人が見える PASS');
+ // R184: at the ネオン start the quest arrow pointed left at nz1 (off screen) while nz3 stood in view just below (mobile-29). A noise on screen now wins over a nearer hidden one.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();r.g.debugWarp('neon',15,13.6);r.tick(16);r.tick(16);
+  const q=r.els.get('quest').textContent;assert(/↓/.test(q),'the arrow points down at the noise in view: '+q);
+  r.g.debugWarp('neon',9,13);r.tick(16);r.tick(16);assert(/↓/.test(r.els.get('quest').textContent),'standing above nz1 the arrow still points at it: '+r.els.get('quest').textContent);}
+ result.push('R184: ネオンの道しるべの矢印が、画面の外の敵より画面に見えている敵を指す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
