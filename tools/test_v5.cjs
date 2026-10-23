@@ -1716,7 +1716,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS');
  // R186: the field said 「フクの ちからで…しゃりんが ひかった」「うかんでる！」 and the shooter band then said 「フクの ちからで／キックボードが うかんだ！」 again.
  {const r=await runtime();const lift=r.g.GAME_DATA.dialogue.lift.map(l=>l[1]).join('\n');
-  assert(!/ちからで|うかん/.test(lift),'the field lift lines leave 「フクの ちからで」 and the floating to the shooter band: '+lift);assert(/しゃりん/.test(lift),'the field still shows the wheels (STORY_V4)');
+  assert(!/ちから|うかん|うい/.test(lift),'the field lift lines leave 「フクの ちからで」 and the floating to the shooter band: '+lift);assert(/しゃりん/.test(lift),'the field still shows the wheels (STORY_V4)');
   const shooter=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(shooter.includes("'キックボードが うかんだ！'"),'the shooter band still says the board floats');}
  result.push('R186: ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');

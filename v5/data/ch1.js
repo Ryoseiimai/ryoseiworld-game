@@ -176,7 +176,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  shrineSign:[['おみくじ','きょうの うんせい：ちゅうきち。\nラッキーアイテム：ほぞん。']],
  codeIdle:[['コードラゴン','ねぐせも コードの うち。']],
  // R186: the shooter opens with 「フクの ちからで／キックボードが うかんだ！」, so the field only shows the wheels starting to glow.
- lift:[['','フクが キックボードに\nとびこんだ。\nしゃりんが ひかりだす。'],['ソラ','つかまって！\nいくよ！']],
+ lift:[['','フクが キックボードに\nとびこんだ。\nしゃりんが ひかった。'],['ソラ','つかまって！\nいくよ！']],
  bossRetreat:[['ソラ','まちに もどったよ。\nじゅんびして また こよう。']],
  bossLocked:[['ソラ','さきに サーバーに\nはなしかけよう。'],['ソラ','ひとりで ねむってる\nこが いる。']],
  defeated:[['ソラ','さいごに ほぞんした ところから\nやりなおそう。']],
