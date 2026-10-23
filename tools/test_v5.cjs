@@ -1714,6 +1714,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(plan.skip[0]<152/289&&plan.skip[1]>152/289,'the face band keeps the red mouth');
   const req=JSON.parse(fs.readFileSync(path.join(root,'..','autodev','ART_REQUESTS.json'),'utf8')).find(a=>a.task==='R185');assert(req&&req.status==='pending'&&req.ref!=='v5/assets/npc2_sheet.png','a new picture for the boy is requested, without the old boy as the reference');}
  result.push('R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS');
+ // R186: the field said 「フクの ちからで…しゃりんが ひかった」「うかんでる！」 and the shooter band then said 「フクの ちからで／キックボードが うかんだ！」 again.
+ {const r=await runtime();const lift=r.g.GAME_DATA.dialogue.lift.map(l=>l[1]).join('\n');
+  assert(!/ちからで|うかん/.test(lift),'the field lift lines leave 「フクの ちからで」 and the floating to the shooter band: '+lift);assert(/しゃりん/.test(lift),'the field still shows the wheels (STORY_V4)');
+  const shooter=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(shooter.includes("'キックボードが うかんだ！'"),'the shooter band still says the board floats');}
+ result.push('R186: ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
