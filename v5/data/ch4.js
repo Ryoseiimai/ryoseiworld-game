@@ -13,26 +13,26 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう1F',w:11,h:13,spawn:
  object('tw1_guide','npc2',4,2.2,7.4,48,65,{label:'あんないロボ',dialogue:'towerGuide'}),
  tower('tw1_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw1_rack',0,8.4,9.4,80,90),tower('tw1_cable',1,2.2,9.6,80,80),
- tower('tw1_up',6,8.4,2.6,90,90,{label:'ひかりの ゆか',sign:'うえへ'})],
+ tower('tw1_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'})],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
  // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
  portals:[{x:5,y:11.4,to:'neon',at:[15,5.4],sign:'そとへ'}],
- // R27: ひかりの ゆか (up pad) is always at (8.4,2.6), the down pad at (2.2,2.6); landing always on the next floor's spawn.
- cells:[{x:8.4,y:2.6,warp:'tower2',at:[5,10]},
+ // R27: ひかりの ゆか (up pad) is always at (8.4,3.5), the down pad at (2.2,3.5); landing always on the next floor's spawn.
+ cells:[{x:8.4,y:3.5,warp:'tower2',at:[5,10]},
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
   {x:5,y:8.6,trigger:'towerEntrance',once:'towerEntranceSeen'}]};
 maps.tower2={name:'ノイズのとう 2かい',short:'とう2F',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('tw2_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
- tower('tw2_down',6,8.4,2.6,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_up',6,2.2,2.6,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('tw2_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  enemies:[{id:'tz2a',type:'crow2',x:4,y:6.6,axis:'x'},{id:'tz2b',type:'infload2',x:7,y:9.6,axis:'y'}],
- portals:[],cells:[{x:2.2,y:2.6,warp:'tower1',at:[5,10]},{x:8.4,y:2.6,warp:'tower3',at:[5,10]}]};
+ portals:[],cells:[{x:2.2,y:3.5,warp:'tower1',at:[5,10]},{x:8.4,y:3.5,warp:'tower3',at:[5,10]}]};
 maps.tower3={name:'ノイズのとう 3かい',short:'とう3F',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('tw3_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,6.4,80,90),
- tower('tw3_down',6,8.4,2.6,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_up',6,2.2,2.6,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('tw3_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  enemies:[{id:'tz3',type:'virusball',x:5,y:6.6,axis:'x'}],
- portals:[],cells:[{x:2.2,y:2.6,warp:'tower2',at:[5,10]},{x:8.4,y:2.6,warp:'tower_roof',at:[5,10]}]};
+ portals:[],cells:[{x:2.2,y:3.5,warp:'tower2',at:[5,10]},{x:8.4,y:3.5,warp:'tower_roof',at:[5,10]}]};
 maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょう',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('twr_save',14,8.4,6.2,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('twr_pillar',7,5,5,110,140),tower('twr_cloud1',13,8.6,9.4,70,70),
@@ -40,8 +40,8 @@ maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょ�
  tower('twr_gate',15,5,2.6,110,130,{label:'ひかる もん',action:'boss',enemy:'jibun',dialogue:'jibunTalk',clearedDialogue:'jibunGone',goneWhenCleared:true}),
  // R29: a second, fainter door for ゼロ. requiresBoss keeps it locked until ジブン is beaten (jibun.winEvent pushes 'jibun' into g.bosses).
  tower('twr_gate2',15,7.4,2.6,90,110,{label:'かすかな ひかり',action:'boss',enemy:'zero',requiresBoss:'jibun',dialogue:'zeroTalk',lockedDialogue:'zeroLocked',clearedDialogue:'zeroGone',goneWhenCleared:true}),
- tower('twr_down',6,2.2,2.6,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
- enemies:[],portals:[],cells:[{x:2.2,y:2.6,warp:'tower3',at:[5,10]}]};
+ tower('twr_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ enemies:[],portals:[],cells:[{x:2.2,y:3.5,warp:'tower3',at:[5,10]}]};
 RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  // R29: ジブンに勝っても まだ 章は終わらない（jibun.winEvent が jibunWin を走らせるだけ）。章の ほんとうの ボスは ゼロ。
  boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',

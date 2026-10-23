@@ -732,7 +732,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('tower1',8.4,6.2);r.tick(16);r.click('talk-btn');r.tick(16);for(let i=0;i<20&&r.g.dialogue;i++)r.dialogue();await settle();
   assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).map==='tower1','the save terminal saves');
   // The light floor (warp cells) carries the hero up through all 3 floors and the rooftop, and back down again.
-  const up=(from,x,to)=>{r.g.debugWarp(from,x,3.4);r.tick(16);r.key('ArrowUp');r.tick(260);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,to,'warp '+from+' -> '+to);};
+  const up=(from,x,to)=>{r.g.debugWarp(from,x,4.4);r.tick(16);r.key('ArrowUp');r.tick(260);r.key('ArrowUp',true);r.tick(16);assert.equal(r.g.map,to,'warp '+from+' -> '+to);};
   up('tower1',8.4,'tower2');up('tower2',8.4,'tower3');up('tower3',8.4,'tower_roof');
   up('tower_roof',2.2,'tower3');up('tower3',2.2,'tower2');up('tower2',2.2,'tower1');
   // The 3 dark, stronger zako named in SPEC_V5_CH234.md, roaming the floors (not the rooftop).
@@ -1409,8 +1409,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    // the sign is drawn after the hero, so the hero walking up to the pad never hides its letters.
    r.g.debugWarp('tower2',8.4,3.6);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]==='うえへ');
    assert(at>=0,'the うえへ sign is drawn with the hero under it');assert(r.canvasCalls.slice(at).every(c=>c[0]!=='drawImage'),'no sprite is drawn over the うえへ sign');r.g.debugWarp('tower2',5,10);r.tick(16);}
-  // R108 still holds when the top spot does cover the signs: a tall card (two lines more) goes up over the goal line.
-  card.offsetHeight=170;r.canvasCalls.length=0;r.tick(16);r.tick(16);
+  // R108 still holds when the top spot does cover the signs: a tall card (two lines more) goes up over the goal line. R199: the pads moved down 0.9 tile onto the floor, so the tall card is 215 high to still reach their signs.
+  card.offsetHeight=215;r.canvasCalls.length=0;r.tick(16);r.tick(16);
   const top=parseFloat(card.style.top),h=card.offsetHeight,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
   assert(signs.length>=2,'both stairs signs drawn');assert(top<Math.max(190,r.g.hudTop),'the card left the top spot over the stairs signs for the goal line above it (R108)');for(const c of signs){const y=c[3]-cy;assert(y+10<=top||y-30>=top+h,c[1]+' sign at '+Math.round(y)+' is not under the card '+top+'..'+(top+h));}
   assert(top+h<=960-130,'the card stays above the bottom buttons');const hy=r.g.state.y-cy;assert(hy<=top||hy-100>=top+h,'the card does not cover the hero');
@@ -1816,6 +1816,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const a of tall)for(const b of tall){if(a===b||a.y>=b.y||Math.abs(a.x-b.x)>=.5)continue;pairs++;const gap=(b.y*48-b.h)-a.y*48;assert(gap>=16,id+': '+b.id+' starts '+gap.toFixed(0)+'px under '+a.id+' (16px or more)');}}
   assert(pairs>=4,'the town and Minamo still have posts on the same sidewalk ('+pairs+')');}
  result.push('R198: 信号と電柱・街灯が、同じ歩道で1本の柱につながって見えない PASS');
+ // R199: in the tower (mobile-31) the ひかりの ゆか clouds stood on the wall line, half over the wall strip (rows 0-1).
+ // The cloud and its platform fill about the lower 3/4 of the 90 px picture, so that part must start on the floor, and each pad still sits on its warp cell.
+ {const r=await runtime();r.tick();let pads=0;
+  for(const id of ['tower1','tower2','tower3','tower_roof']){const m=r.g.GAME_DATA.maps[id];
+   for(const o of m.objects.filter(x=>x.label==='ひかりの ゆか')){pads++;assert(o.y*48-o.h*.75>=2*48,id+' '+o.id+' cloud starts on the floor, not on the wall ('+(o.y*48-o.h*.75)+')');
+    assert(m.cells.some(c=>c.warp&&Math.abs(c.x-o.x)<.01&&Math.abs(c.y-o.y)<.01),id+' '+o.id+' still sits on its warp cell');}}
+  assert.equal(pads,6,'all 6 pads are checked');}
+ result.push('R199: 塔の ひかりの ゆか が、上の壁にめりこまず床の上に乗る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
