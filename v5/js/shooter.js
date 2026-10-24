@@ -172,8 +172,8 @@
         win: 'カテイノジジョウは おとなしく なった' }
     },
     hikaku: {
-      name: 'ヒカクマオウ', sheet: 'hikaku', bg: 'bg_neon', hp: 350, x: 420, drawH: 240, bodyR: 72, bodyDY: 24,
-      crown: [-6, -84, 34], moveA: 180, moveF: 0.6, color: '#ffd94a',
+      name: 'ヒカクマオウ', sheet: 'hikaku', bg: 'bg_neon', hp: 370, x: 392, drawH: 224, bodyR: 67, bodyDY: 22,
+      crown: [-6, -78, 32], moveA: 180, moveF: 0.6, color: '#ffd94a',
       lines: { intro: ['ヒカクマオウ', 'おなじ としで\nもう しゃちょう'],
         bursts: { 75: 'きのうの じぶんより\nすすんでる', 50: 'くらべる あいては\nきのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' },
         hint: ['ソラ', 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう'],
@@ -736,7 +736,7 @@
         b.attackT = 0.4; squash(b, -1, 0.12); emit(w, 'eshot');
       }
       if (b.hp <= b.maxHp / 2) {
-        if (attackDue(w, 'ringT', dt)) { m.ringT = 3.3 / f; m.rot += 0.4; ring(w, b.x - 20, b.y, Math.max(4, Math.round(8 * f)), 165, m.rot, 'star'); }
+        if (attackDue(w, 'ringT', dt)) { m.ringT = 3.3 / f; m.rot += 0.4; ring(w, spawnX(w, -20, 10), b.y, Math.max(4, Math.round(8 * f)), 165, m.rot, 'star'); }
       }
       if (!hasPickup(w, 'pace') && w.playT >= m.paceAt) spawnPickup(w, 'pace');
     },
