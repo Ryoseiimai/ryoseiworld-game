@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T20:38:58.388Z",
-  "branch": "claude/autodev-20261017-0521-R75",
-  "task": "R75 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の始めの「キックボードが うかんだ」が、明るい街の絵に直に書かれて読みにくかった\n2行の後ろに暗い下じきを付けた。前と後のスクショは docs/shots/R75\n確認を足した。ことばカードが塔の出口札を隠す件は R71 の決まり待ちなので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/155/mobile-02-mode-select.jpg",
-   "shots/155/mobile-15-custom-full-run.jpg",
-   "shots/155/mobile-27-chapter-2-play.jpg",
-   "shots/155/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2dc1736",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38963092182"
- },
- {
   "at": "2026-10-16T20:49:54.157Z",
   "branch": "claude/autodev-20261017-0540-R76",
   "task": "R76 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "f5d3365",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40113132072"
+ },
+ {
+  "at": "2026-10-24T18:05:08.932Z",
+  "branch": "claude/autodev-20261025-0221-R219",
+  "task": "R219 ナオスライムを呼んだ後、水色の四角3つが足のように残っていたので、0.9秒で消えるようにした",
+  "summary": "ナオスライムを呼ぶと、水色の四角3つがスライムの下に残り、足のように見えていた\n絵の具の粒と同じく、四角を回復の0.9秒までで消えるようにした\n四角が0.9秒で止まることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/401/mobile-02-mode-select.jpg",
+   "shots/401/mobile-15-custom-full-run.jpg",
+   "shots/401/mobile-27-chapter-2-play.jpg",
+   "shots/401/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a74bf21",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40118345464"
  }
 ]
