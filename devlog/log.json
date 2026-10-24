@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T16:41:19.388Z",
-  "branch": "claude/autodev-20261017-0121-R68",
-  "task": "R68 遊んで一番気になる所を1つ直す",
-  "summary": "おとなモードで、戦闘の説明と目標の文が「よびだす」のままで、ボタンの「呼び出す」と違っていたのを直した\n章の文に {yobidasu} と書くと、モードに合ったボタン名に置き換わるようにし、テストを足した\nことばカードが敵の上の方を隠す件は、置き場所の作り直しになるので今回は見送った。前と後のスクショは docs/shots/R68",
-  "result": "pass",
-  "shots": [
-   "shots/148/mobile-02-mode-select.jpg",
-   "shots/148/mobile-15-custom-full-run.jpg",
-   "shots/148/mobile-27-chapter-2-play.jpg",
-   "shots/148/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5996025",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38933184777"
- },
- {
   "at": "2026-10-16T16:56:03.039Z",
   "branch": "claude/autodev-20261017-0142-R69",
   "task": "R69 ネオンの町で、かずの ひとの数字が街灯と重ならないようにする",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "3891b2b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40091514301"
+ },
+ {
+  "at": "2026-10-24T12:29:12.799Z",
+  "branch": "claude/autodev-20261024-2121-R214",
+  "task": "R214",
+  "summary": "町の東側の歩道で、信号3本の柱の根元が車道の上に立っていた\n東側の信号を 0.6 マス東へ動かし、柱が歩道の上に立つようにした\n信号の柱が車道のマスに乗らないことを確かめるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/394/mobile-02-mode-select.jpg",
+   "shots/394/mobile-15-custom-full-run.jpg",
+   "shots/394/mobile-27-chapter-2-play.jpg",
+   "shots/394/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "72343f7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40093628035"
  }
 ]
