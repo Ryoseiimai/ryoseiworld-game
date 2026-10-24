@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T18:51:05.988Z",
-  "branch": "claude/autodev-20261017-0340-R73",
-  "task": "R73 ノイズのとうで、ひかりの ゆかの「うえへ」「したへ」を読みやすくする",
-  "summary": "ノイズのとうで、ひかりの ゆかの「うえへ」「したへ」が白い雲に直に書かれて読みにくかった\n行き先の文字に暗い下じきを付けた。こうえんの看板と、かずの ひとの数字は今のまま。前と後のスクショは docs/shots/R73\nテストを足した。主人公がゆかのすぐ奥に立つと下じきが体に少し重なるが、文字のときと同じ描く順なので今回は変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/153/mobile-02-mode-select.jpg",
-   "shots/153/mobile-15-custom-full-run.jpg",
-   "shots/153/mobile-27-chapter-2-play.jpg",
-   "shots/153/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "0c9d66f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38949848920"
- },
- {
   "at": "2026-10-16T19:49:22.868Z",
   "branch": "claude/autodev-20261017-0421-R74",
   "task": "R74 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "64a57ac",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40104070205"
+ },
+ {
+  "at": "2026-10-24T15:52:35.593Z",
+  "branch": "claude/autodev-20261025-0021-R217",
+  "task": "R217 塔2階で、カラスの敵が行き来する間にファンの上に重なっていたので、敵の出発点を東へ動かした",
+  "summary": "塔2階で、カラスの敵が左へ行くたびにファンの上に重なっていた\nカラスの出発点を東へ1.2マス動かした。3階の敵も金庫から、2階のもう1体もセーブたんまつから離した\n塔の敵が行き来の両はしで物に重ならないことを確かめるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/399/mobile-02-mode-select.jpg",
+   "shots/399/mobile-15-custom-full-run.jpg",
+   "shots/399/mobile-27-chapter-2-play.jpg",
+   "shots/399/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3a141ba",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40108253598"
  }
 ]
