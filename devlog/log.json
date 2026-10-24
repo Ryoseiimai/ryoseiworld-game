@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T18:39:26.955Z",
-  "branch": "claude/autodev-20261017-0321-R72",
-  "task": "R72 遊んで一番気になる所を1つ直す",
-  "summary": "全章を通し、ヒカクマオウ戦でことばカードの間にボスの台詞が半透明のまま止まり、背景に紛れる所を見つけた\nカードで戦闘が止まっている間は、台詞とお知らせを濃いまま出すようにした。前と後のスクショは docs/shots/R72\nテストを足した。下の移動のヒントも同じく薄いまま止まるが、カードと重ならないので今回は直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/152/mobile-02-mode-select.jpg",
-   "shots/152/mobile-15-custom-full-run.jpg",
-   "shots/152/mobile-27-chapter-2-play.jpg",
-   "shots/152/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "fc274a5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38948303838"
- },
- {
   "at": "2026-10-16T18:51:05.988Z",
   "branch": "claude/autodev-20261017-0340-R73",
   "task": "R73 ノイズのとうで、ひかりの ゆかの「うえへ」「したへ」を読みやすくする",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "50234ce",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40098586990"
+ },
+ {
+  "at": "2026-10-24T14:56:49.902Z",
+  "branch": "claude/autodev-20261024-2321-R216",
+  "task": "R216 町のコンビニの前で、信号の灯器が自販機の足元に重なっていたので、自販機を北へ少し動かした",
+  "summary": "町のコンビニの前で、信号の灯器が自販機の足元に重なっていた\n自販機を0.7マス北と0.2マス西へ動かし、信号の絵から離した\n自販機と信号の絵が重ならないことを確かめるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/398/mobile-02-mode-select.jpg",
+   "shots/398/mobile-15-custom-full-run.jpg",
+   "shots/398/mobile-27-chapter-2-play.jpg",
+   "shots/398/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "64a57ac",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40104070205"
  }
 ]
