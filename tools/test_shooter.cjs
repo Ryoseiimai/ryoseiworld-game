@@ -55,6 +55,7 @@ check('ゼロの みぎうでが 右はしで 切れない（R210: 絵の右は�
 check('R210: ゼロの わの たまは 主人公が とどく所に 出ない（spawnX を通す）', /ring\(w, spawnX\(w, -30, 9\), b\.y,/.test(require('fs').readFileSync(shooterPath, 'utf8')));
 check('ヒカクマオウの マントが 右はしで 切れない（R211: 絵の右はしは いちばん広いコマで中心から 168/326、ゆれ10と のけぞり5と よこの のびる 1.14 を足す）', B.hikaku.x + 10 + 5 + 1.14 * B.hikaku.drawH * 168 / 326 <= 540);
 check('R211: ヒカクマオウの ほしの わも 主人公が とどく所に 出ない（spawnX を通す）', /ring\(w, spawnX\(w, -20, 10\), b\.y,/.test(require('fs').readFileSync(shooterPath, 'utf8')));
+check('BUG KING の 攻撃の コマが 右はしで 切れない（R212: 絵の右はしは いちばん広いコマで中心から 171/288、ゆれ10と のけぞり5と よこの のびる 1.14 を足す）', B.bugking.x + 10 + 5 + 1.14 * B.bugking.drawH * 171 / 288 <= 540);
 
 (() => {
   const w = sim.createWorld({ boss: 'kateino', lines: { intro: 'テスト', bursts: { 50: 'まんなか' } } });

@@ -155,7 +155,7 @@
   var NUMBER_WORDS = ['10まん', 'いいね 999', '1い', 'フォロワー', 'しゃちょう'];
   var BOSSES = {
     bugking: {
-      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 418, drawH: 214, bodyR: 82, bodyDY: 8,
+      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7,
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
