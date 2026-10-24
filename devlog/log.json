@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T06:48:17.276Z",
-  "branch": "claude/autodev-20261016-1523-R57",
-  "task": "R57 町と戦闘の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の1と3）",
-  "summary": "録音の曲の要望を R57・R58・R59・R60 に分けた\n町・戦闘・勝利の曲を data/music.json の録音で鳴らすようにした\n台帳が空なら今の合成のまま。台帳に書いた曲のファイルが無いと smoke が 404 で落ちるので、台帳と曲は一緒に入れてください",
-  "result": "pass",
-  "shots": [
-   "shots/134/mobile-02-mode-select.jpg",
-   "shots/134/mobile-15-custom-full-run.jpg",
-   "shots/134/mobile-27-chapter-2-play.jpg",
-   "shots/134/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "10e9dfa",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38862671428"
- },
- {
   "at": "2026-10-16T07:38:49.721Z",
   "branch": "claude/autodev-20261016-1621-R58",
   "task": "R58 ボス戦の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の2）",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "ecf297c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40060136645"
+ },
+ {
+  "at": "2026-10-24T04:56:15.454Z",
+  "branch": "claude/autodev-20261024-1321-R205",
+  "task": "R205 ミナモちょうで、つかれた おとうさんが車道のまん中に立っていたので、歩道へ移した",
+  "summary": "ミナモちょうで、つかれた おとうさんが車道のまん中に立っていた\nおとうさんを1マスほど上の歩道へ移した\n人が車道や川のマスに立たないテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/381/mobile-02-mode-select.jpg",
+   "shots/381/mobile-15-custom-full-run.jpg",
+   "shots/381/mobile-27-chapter-2-play.jpg",
+   "shots/381/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "55eb23f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40063751663"
  }
 ]
