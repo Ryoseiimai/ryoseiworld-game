@@ -162,7 +162,7 @@
         half: 'BUG KING は こわれかけている', win: 'BUG KING は おとなしく なった' }
     },
     kateino: {
-      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 420, drawH: 212, bodyR: 84, bodyDY: 6,
+      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6,
       moveA: 120, moveF: 0.45, color: '#ffc27a',
       lines: { intro: ['カテイノジジョウ', 'しょうらい\nどうするの？'],
         bursts: { 75: '…ほんとは\nしんぱいなだけ', 50: 'あの子 なにか\nつくってるの?', 25: 'ちょっと みせて', 0: '…すごいじゃない' },

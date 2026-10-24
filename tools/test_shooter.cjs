@@ -50,6 +50,7 @@ check('5体のボスがいる', ['bugking', 'kateino', 'hikaku', 'jibun', 'zero'
 check('背景が仕様どおり', B.bugking.bg === 'bg_town' && B.kateino.bg === 'bg_minamo' && B.hikaku.bg === 'bg_neon' && B.jibun.bg === 'bg_tower' && B.zero.bg === 'bg_tower');
 check('HPの節目の一行が4つずつある', ['bugking', 'kateino', 'hikaku'].every(id => [75, 50, 25, 0].every(t => B[id].lines.bursts[t])));
 check('カテイノジジョウの親の本音（rpg.html と同じ）', B.kateino.lines.bursts[60] === undefined && B.kateino.lines.bursts[0] === '…すごいじゃない');
+check('カテイノジジョウの でんたくが 右はしで 切れない（R209: 絵の右はしは中心から 145/281、ゆれ10と のけぞり5と よこの のびる 1.14 を足す）', B.kateino.x + 10 + 5 + 1.14 * B.kateino.drawH * 145 / 281 <= 540);
 
 (() => {
   const w = sim.createWorld({ boss: 'kateino', lines: { intro: 'テスト', bursts: { 50: 'まんなか' } } });
