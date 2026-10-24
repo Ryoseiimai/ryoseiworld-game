@@ -24,7 +24,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
  prop('minamo_bench',4,6.6,24.6,90),prop('minamo_bin',14,11.4,24.8,60),prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
- ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10.8,22.6,1],[27.6,20.6],[1.2,33.4,1],[11,34.4]]),
+ ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,22.6,1],[27.6,20.6],[1.2,33.4,1],[11,34.4]]),
  ...props('minamo_light',5,120,[[12.5,12.6],[17.5,22.6],[12.5,33.5],[17.5,6.2],[6,6.2],[25,6.2]]),
  ...props('minamo_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // Worry walls on the riverside path, at the park and on the east street. They go away after the boss (R22).

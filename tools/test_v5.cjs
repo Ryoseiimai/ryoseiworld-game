@@ -1901,6 +1901,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let i=0;i<3;i++)for(let j=i+1;j<3;j++){const a=sp[i],b=sp[j];assert(Math.abs(a.x-b.x)>=90||Math.abs(a.y-b.y)>=75,'the halos of '+a.id+' and '+b.id+' do not touch '+JSON.stringify([a,b]));}
   for(const id of ['grandpa','musician']){const o=town.objects.find(x=>x.id===id);for(const dx of [-.4,0,.4])assert(!'~=:'.includes(town.tiles[Math.floor(o.y)][Math.floor(o.x+dx)]),id+' stands on grass, not in the pond, sandbox or road');}}
  result.push('R208: 1しょうの公園で、3人の守護霊がかたまって見えない PASS');
+ // R214: at the ミナモ crossing (mobile-20) the left post of the town sign stuck into the cherry tree's crown. The crown is about 85% of the tree picture's width, the sign board about 75% of its own.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,sign=m.objects.find(o=>o.id==='minamo_sign');
+  for(const t of m.objects.filter(o=>o.id.startsWith('minamo_tree'))){const gap=Math.abs(t.x-sign.x)*48-(t.w*.85+sign.w*.75)/2;
+   assert(gap>=8||Math.abs(t.y-sign.y)>3,t.id+' crown stays off the minamo sign, gap '+gap.toFixed(1)+'px');}
+  const w=m.objects.find(o=>o.id==='minamo_wall2'),t=m.objects.filter(o=>o.id.startsWith('minamo_tree')).sort((a,b)=>Math.hypot(a.x-sign.x,a.y-sign.y)-Math.hypot(b.x-sign.x,b.y-sign.y))[0];
+  assert((t.x-w.x)*48-(t.w*.85+w.w)/2>=8,'the moved tree keeps off the worry wall');}
+ result.push('R214: ミナモの十字路で、看板が桜の木にささって見えない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
