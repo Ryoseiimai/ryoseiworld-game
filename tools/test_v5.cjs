@@ -1473,6 +1473,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(back.includes('ctx.fillRect(x - 5, PLAY_T + 150, 10, MINAMO_BANK_Y - PLAY_T - 150);'),'the lamp pole ends on the bank top');
   assert(!/PLAY_B - PLAY_T - 150/.test(back),'the lamp pole no longer reaches the bottom of the play area');}
  result.push('R223: ミナモのボス戦で、街灯の柱が川の中まで立たない PASS');
+ // R224: the bicycle and car frames end far above the bottom of their cells, so they floated over their shadows. sprite() draws them lower by the extra empty rows.
+ {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42}};'),'the bicycle and the car have a foot pad');
+  assert(html.includes('y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;'),'sprite() lowers a padded frame onto its foot');
+  assert(html.includes('y:o.y*TILE-d.h+d.h*band.top+pad,'),'the collider moves down with the drawn frame');
+  const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(300);while(r.g.dialogue)r.dialogue();
+  const bike=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='bike');assert(bike&&bike.frame===8,'the town has the bicycle (props 8)');}
+ result.push('R224: 町の自転車と車が、影より上に浮かない PASS');
  // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
   const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);
