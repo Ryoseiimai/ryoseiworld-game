@@ -1827,6 +1827,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     assert(!(a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]),id+': '+o.id+' overlaps '+s.id+' '+JSON.stringify([a,b]));}}
   assert(checked>0,'the town still has a signal and a vending machine');}
  result.push('R216: 町の信号の絵が、自販機の絵に重ならない PASS');
+ // R217: on tower 2F the グリッチカラス (x 4, swinging 1.5 tiles) flew over the fan at (2.2, 6.4). An enemy's 56px picture at either end of its swing stays clear of the floor's things.
+ {const r=await runtime();r.tick();let checked=0;
+  for(const id of ['tower1','tower2','tower3']){const m=r.g.GAME_DATA.maps[id],box=o=>[o.x*48-o.w/2,o.y*48-o.h,o.x*48+o.w/2,o.y*48];
+   for(const e of m.enemies){for(const s of [-1.5,1.5]){const x=e.x+(e.axis==='x'?s:0),y=e.y+(e.axis==='x'?0:s),a=box({x,y,w:56,h:68});
+    for(const o of m.objects){if(o.floor)continue;const b=box(o);checked++;assert(!(a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]),id+': '+e.id+' at '+x.toFixed(1)+','+y.toFixed(1)+' overlaps '+o.id);}}}}
+  assert(checked>0,'the tower floors still have enemies and things');}
+ result.push('R217: 塔の敵が、行き来する間に ファン・金庫・セーブたんまつに重ならない PASS');
  // R199: in the tower (mobile-31) the ひかりの ゆか clouds stood on the wall line, half over the wall strip (rows 0-1).
  // The cloud and its platform fill about the lower 3/4 of the 90 px picture, so that part must start on the floor, and each pad still sits on its warp cell.
  {const r=await runtime();r.tick();let pads=0;
