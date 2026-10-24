@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T07:38:49.721Z",
-  "branch": "claude/autodev-20261016-1621-R58",
-  "task": "R58 ボス戦の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の2）",
-  "summary": "ボス戦で s0〜s3 の録音がそろえば、拍の位置から頭出しして鳴らすようにした\nテンポの段では40ms重ねて切り替え、一時停止・ミニゲーム・ことばカード・戦いの終わりで止める\nチャレンジ・時間のチート・4段がそろわない・読めない・小節が1msより合わない時は合成のまま",
-  "result": "pass",
-  "shots": [
-   "shots/136/mobile-02-mode-select.jpg",
-   "shots/136/mobile-15-custom-full-run.jpg",
-   "shots/136/mobile-27-chapter-2-play.jpg",
-   "shots/136/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "20dce97",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38867972998"
- },
- {
   "at": "2026-10-16T07:49:15.289Z",
   "branch": "claude/autodev-20261016-1639-R59",
   "task": "R59 試験用のクリック音で拍のずれを測る（SPEC_V9_MUSIC の1と4）（前半: Chromium で測り docs/MUSIC_MEASURE.md に書いた）",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "55eb23f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40063751663"
+ },
+ {
+  "at": "2026-10-24T05:04:37.960Z",
+  "branch": "claude/autodev-20261024-1321-R205",
+  "task": "R205 ミナモちょうで、つかれた おとうさんが車道のまん中に立っていたので、歩道へ移した",
+  "summary": "ミナモちょうで、つかれた おとうさんが車道のまん中に立っていた\nおとうさんを1マスほど上の歩道へ移した\n人が車道や川のマスに立たないテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/382/mobile-02-mode-select.jpg",
+   "shots/382/mobile-15-custom-full-run.jpg",
+   "shots/382/mobile-27-chapter-2-play.jpg",
+   "shots/382/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "aca70db",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40063947292"
  }
 ]
