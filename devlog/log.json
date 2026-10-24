@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T13:28:23.891Z",
-  "branch": "claude/autodev-20261016-1921-R65",
-  "task": "R65 スマホ幅でボス戦の画面がはみ出す所を直す",
-  "summary": "ネオンシティの かずの ひと の数字を、顔の上から頭の上へ移した\n話しかける時の名札を少し上げ、数字と重ならないようにした。テストを足した\n前と後のスクショは docs/shots/R64 にある。数字は街灯と少し重なるが、ふちどりで読める",
-  "result": "pass",
-  "shots": [
-   "shots/145/mobile-02-mode-select.jpg",
-   "shots/145/mobile-15-custom-full-run.jpg",
-   "shots/145/mobile-27-chapter-2-play.jpg",
-   "shots/145/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "acb48b4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38907403723"
- },
- {
   "at": "2026-10-16T14:52:52.706Z",
   "branch": "claude/autodev-20261016-2322-R66",
   "task": "R66 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "7c03c2e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40083224663"
+ },
+ {
+  "at": "2026-10-24T10:02:13.123Z",
+  "branch": "claude/autodev-20261024-1843-R211",
+  "task": "R211 ネオンのボス戦で、ヒカクマオウのマントが画面の右はしにかかり攻撃で切れていたので、ボスを左へ動かして小さくした",
+  "summary": "ネオンのボス戦で、ヒカクマオウのマントが右はしにかかり、攻撃で切れていた\nボスの位置を 420 から 392 へ、高さを 240 から 224 にし、HP を 370 に上げて長さを2分にそろえた\n星の輪の弾が主人公の上に出ないよう、出る位置を右へ寄せた",
+  "result": "pass",
+  "shots": [
+   "shots/390/mobile-02-mode-select.jpg",
+   "shots/390/mobile-15-custom-full-run.jpg",
+   "shots/390/mobile-27-chapter-2-play.jpg",
+   "shots/390/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d5c2294",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40083394521"
  }
 ]
