@@ -705,6 +705,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.map,'tower1','the cloud gate opens once the stadium boss is cleared');assert.equal(r.g.position.x,5*48);assert.equal(r.g.position.y,10*48);
   assert(!r.g.dialogue,'arriving on the spawn tile does not fire the entrance trigger yet');
   // 4 floors, all with the blue grid floor tile ('g').
+  // R201: the dark tower tiles get a dark seam under them, not the wooden floor colour (tan seams looked like a test grid).
+  assert(/m\.tiles\?\.\[y\]\?\.\[x\]==='g'\)\{rect\(px,py,TILE,TILE,'#0d1d2e'\)/.test(html),'tower floor seams are dark');
   for(const id of ['tower1','tower2','tower3','tower_roof']){const m=D.maps[id];assert(m,'map '+id+' exists');assert(m.tiles.every(row=>[...row].every(c=>c==='g')),id+' is the blue grid floor');}
   assert(!r.g.summons.includes('kotoba'),'コトバイルカ is not yet recruited');
   // Walking a step further in triggers the automatic join (SPEC_V5_CH234.md: 入口で コトバイルカ が仲間になる).
