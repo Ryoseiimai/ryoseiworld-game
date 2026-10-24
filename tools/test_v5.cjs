@@ -1886,6 +1886,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(txt[3]>=roadEnd,'the words こうえん stand on the sidewalk side of the road (words bottom '+(txt[3]-shift)+', road ends '+(29*48)+')');
   assert(o.w<240,'the board is smaller than before');}
  result.push('R206: 町の「こうえん」の看板の字が、車道の上にかからない PASS');
+ // R207: after R206 the park sign's right post stood right behind the bench (mobile-25); the bench now sits well below the sign's feet.
+ {const r=await runtime();const m=r.g.GAME_DATA.maps.town,s=m.objects.find(x=>x.id==='parksign'),b=m.objects.find(x=>x.id==='bench');
+  assert(s&&b,'park sign and bench are in town');assert(b.y-s.y>=2.5,'the bench stands clear of the sign posts (bench '+b.y+', sign '+s.y+')');
+  assert(b.y<m.h-1,'the bench stays inside the park');}
+ result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
