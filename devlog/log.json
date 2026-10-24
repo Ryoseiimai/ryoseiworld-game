@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T09:53:55.197Z",
-  "branch": "claude/autodev-20261016-1821-R64",
-  "task": "R64 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンシティの かずの ひと の数字を、顔の上から頭の上へ移した\n話しかける時の名札を少し上げ、数字と重ならないようにした。テストを足した\n前と後のスクショは docs/shots/R64 にある。数字は街灯と少し重なるが、ふちどりで読める",
-  "result": "pass",
-  "shots": [
-   "shots/142/mobile-02-mode-select.jpg",
-   "shots/142/mobile-15-custom-full-run.jpg",
-   "shots/142/mobile-27-chapter-2-play.jpg",
-   "shots/142/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "14441d9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38882977140"
- },
- {
   "at": "2026-10-16T13:28:23.891Z",
   "branch": "claude/autodev-20261016-1921-R65",
   "task": "R65 スマホ幅でボス戦の画面がはみ出す所を直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "479bf9c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40082399282"
+ },
+ {
+  "at": "2026-10-24T09:52:33.193Z",
+  "branch": "claude/autodev-20261024-1843-R211",
+  "task": "R211 遊んで一番気になる所を1つ直す",
+  "summary": "塔のボス戦で、ゼロの右うでが画面の右はしで切れていた\nゼロの立つ位置を 412 から 376 へ動かし、高さを 280 から 260 にした\n輪の弾が主人公の上に出ないよう、出る位置を右へ寄せた",
+  "result": "pass",
+  "shots": [
+   "shots/389/mobile-02-mode-select.jpg",
+   "shots/389/mobile-15-custom-full-run.jpg",
+   "shots/389/mobile-27-chapter-2-play.jpg",
+   "shots/389/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "7c03c2e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40083224663"
  }
 ]
