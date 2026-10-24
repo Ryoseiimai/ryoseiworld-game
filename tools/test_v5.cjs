@@ -1891,6 +1891,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(s&&b,'park sign and bench are in town');assert(b.y-s.y>=2.5,'the bench stands clear of the sign posts (bench '+b.y+', sign '+s.y+')');
   assert(b.y<m.h-1,'the bench stays inside the park');}
  result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
+ // R208: in the 1st chapter park (mobile-25) the kid in the sandbox, grandpa and the musician stood so close that their three grey spirits bunched into one cloud over the sandbox and read as the town noises.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  r.g.debugWarp('town',7,25.5);r.tick(32);const town=r.g.GAME_DATA.maps.town,ids=['kid','grandpa','musician'],sp=r.g.spirits.filter(s=>ids.includes(s.id));
+  assert.equal(sp.length,3,'the three park people show their spirits '+JSON.stringify(sp));
+  for(let i=0;i<3;i++)for(let j=i+1;j<3;j++){const a=sp[i],b=sp[j];assert(Math.abs(a.x-b.x)>=90||Math.abs(a.y-b.y)>=75,'the halos of '+a.id+' and '+b.id+' do not touch '+JSON.stringify([a,b]));}
+  for(const id of ['grandpa','musician']){const o=town.objects.find(x=>x.id===id);for(const dx of [-.4,0,.4])assert(!'~=:'.includes(town.tiles[Math.floor(o.y)][Math.floor(o.x+dx)]),id+' stands on grass, not in the pond, sandbox or road');}}
+ result.push('R208: 1しょうの公園で、3人の守護霊がかたまって見えない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
