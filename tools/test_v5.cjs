@@ -1460,6 +1460,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
   assert(y+6<=486,'the hero shadow ends above the HP card (top 488): '+(y+6));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
+ // R222: in ミナモ's boss fight the riverside rail was drawn after the hero, so its posts covered the hero's feet and board. The rail now goes behind the hero.
+ {const sh=scripts.find(s=>s.file==='v5/js/shooter.js').code;const front=sh.slice(sh.indexOf('function drawThemeFront('),sh.indexOf('function drawThemeFront(')+2000);
+  assert(/function drawThemeRail\(ctx, S, w\) \{\s*if \(S\.theme !== 'minamo'\) return;/.test(sh),'the ミナモ rail has its own layer');
+  const rail=sh.indexOf('drawThemeRail(ctx, S, w);'),hero=sh.indexOf('drawPlayer(ctx, S, w);');assert(rail>0&&hero>0&&rail<hero,'the rail is drawn before the hero');
+  assert(!/theme === 'minamo'\)[^}]*fillRect/.test(front),'the front layer draws no ミナモ rail over the hero');}
+ result.push('R222: ミナモのボス戦で、川の柵が主人公の足とキックボードの上に描かれない PASS');
  // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
   const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);

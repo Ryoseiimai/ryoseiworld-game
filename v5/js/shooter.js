@@ -1821,6 +1821,7 @@
       if (gray > 0.01) { ctx.globalCompositeOperation = 'saturation'; ctx.globalAlpha = gray; ctx.fillStyle = '#7f7f7f'; ctx.fillRect(-20, PLAY_T - 20, W + 40, PLAY_B - PLAY_T + 40); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
     }
     drawWalls(ctx, S, w);
+    drawThemeRail(ctx, S, w);
     drawBoss(ctx, S, w);
     // Messages in the play area are drawn under the hero and the bullets, so they never hide what can hit you.
     ctx.save(); ctx.translate(-shx, -shy); drawFieldTexts(ctx, S, w); ctx.restore();
@@ -1923,6 +1924,14 @@
     }
   }
 
+  // ミナモ's rail stands behind the hero: drawn in front, its posts covered the hero's feet and board (R222).
+  function drawThemeRail(ctx, S, w) {
+    if (S.theme !== 'minamo') return;
+    var x, base = PLAY_B - 36;
+    ctx.fillStyle = 'rgba(40,30,30,0.9)'; ctx.fillRect(-20, base + 6, W + 40, 8); ctx.fillRect(-20, base + 26, W + 40, 6);
+    for (x = -((w.t * 290) % 64); x < W + 64; x += 64) ctx.fillRect(x, base, 9, 50);
+  }
+
   function drawThemeFront(ctx, S, w) {
     var t = w.t, theme = S.theme, x, base = PLAY_B - 36;
     if (theme === 'town') {
@@ -1931,8 +1940,7 @@
       ctx.fillStyle = 'rgba(255,240,200,0.75)';
       for (x = -((t * 300) % 110); x < W + 110; x += 110) ctx.fillRect(x, base + 18, 52, 6);
     } else if (theme === 'minamo') {
-      ctx.fillStyle = 'rgba(40,30,30,0.9)'; ctx.fillRect(-20, base + 6, W + 40, 8); ctx.fillRect(-20, base + 26, W + 40, 6);
-      for (x = -((t * 290) % 64); x < W + 64; x += 64) ctx.fillRect(x, base, 9, 50);
+      // The riverside rail is drawn by drawThemeRail, behind the hero.
     } else if (theme === 'neon') {
       ctx.fillStyle = 'rgba(16,12,34,0.92)'; ctx.fillRect(-20, base, W + 40, 60);
       for (x = -((t * 310) % 90); x < W + 90; x += 90) { ctx.fillStyle = 'rgba(80,240,255,0.85)'; ctx.fillRect(x, base + 6, 44, 5); ctx.fillStyle = 'rgba(255,80,220,0.7)'; ctx.fillRect(x + 50, base + 20, 26, 4); }
