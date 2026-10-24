@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T00:53:57.168Z",
-  "branch": "claude/autodev-20261017-0921-R82",
-  "task": "R82 遊んで一番気になる所を1つ直す",
-  "summary": "仲間を呼んだとき、足元の輪と四角が下の HP の欄の文字に重なっていた\n輪と四角を仲間の足元に上げ、欄の上で止まるようにした。前と後のスクショは docs/shots/R82\n確認を足した。ことばカードが雲の行き先を隠す件は R71（司令塔の番）なので触らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/164/mobile-02-mode-select.jpg",
-   "shots/164/mobile-15-custom-full-run.jpg",
-   "shots/164/mobile-27-chapter-2-play.jpg",
-   "shots/164/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4bd459b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38988059924"
- },
- {
   "at": "2026-10-17T01:46:06.589Z",
   "branch": "claude/autodev-20261017-1021-R83",
   "task": "R83 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "774d5f6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40135059628"
+ },
+ {
+  "at": "2026-10-24T22:10:46.467Z",
+  "branch": "claude/autodev-20261025-0650-R224",
+  "task": "R224 町の自転車と車が影より上に浮いて見えたので、絵の下の余白の分だけ下げて描いた",
+  "summary": "町の自転車と車の絵が、地面の影より約18px上に浮いて見えた\n絵の下の透明な余白の分だけ下げて描き、当たり判定も同じだけ下げた\n余白の分を下げることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/410/mobile-02-mode-select.jpg",
+   "shots/410/mobile-15-custom-full-run.jpg",
+   "shots/410/mobile-27-chapter-2-play.jpg",
+   "shots/410/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b6940fb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40136706942"
  }
 ]
