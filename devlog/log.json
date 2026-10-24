@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T07:58:55.050Z",
-  "branch": "claude/autodev-20261016-1650-R60",
-  "task": "R60 Playables の束に曲の台帳と曲を入れる",
-  "summary": "Playables の束を作る道具が、曲の台帳 data/music.json と v5/assets/music の曲を束に入れるようにした\n台帳にある曲のファイルが束に無いと、束づくりを止めて名前を出す。8MBを超える曲も止める\n台帳が無いときは写さずに作る。曲でないファイルとフォルダは束に入れない",
-  "result": "pass",
-  "shots": [
-   "shots/138/mobile-02-mode-select.jpg",
-   "shots/138/mobile-15-custom-full-run.jpg",
-   "shots/138/mobile-27-chapter-2-play.jpg",
-   "shots/138/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1c74a40",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38870065011"
- },
- {
   "at": "2026-10-16T08:32:38.113Z",
   "branch": "claude/autodev-20261016-1721-R62",
   "task": "R62 タイトル画面に専用の曲（title）を付ける",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "20b3429",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40069106834"
+ },
+ {
+  "at": "2026-10-24T07:00:32.122Z",
+  "branch": "claude/autodev-20261024-1521-R207",
+  "task": "R207 1章の町の公園で、ベンチが「こうえん」看板の右の柱にくっついていたので、池と砂場の間の下へ移した",
+  "summary": "1章の公園で、ベンチが看板の右の柱の前にくっついていた\nベンチを池と砂場の間の下へ移し、おじいさんの横にした\nベンチが看板から離れていることをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/385/mobile-02-mode-select.jpg",
+   "shots/385/mobile-15-custom-full-run.jpg",
+   "shots/385/mobile-27-chapter-2-play.jpg",
+   "shots/385/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "826ff9c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40071835434"
  }
 ]
