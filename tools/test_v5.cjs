@@ -1457,8 +1457,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
  result.push('R137: 戦闘の主人公の足が、RYOSEI と HP の欄の枠にかからない PASS');
  // R221: the hero had no shadow in battle while the enemy had one, so the hero floated over the RYOSEI/HP card. A shadow sits under the wheels, above the card (top 488).
- {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y-2,30,5,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
-  assert(y-2+5<=484,'the hero shadow ends above the HP card: '+(y+3));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
+ {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
+  assert(y+6<=486,'the hero shadow ends above the HP card (top 488): '+(y+6));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
  // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
