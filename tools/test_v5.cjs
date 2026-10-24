@@ -261,6 +261,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(let y=0;y<town.h;y++)for(let x=0;x<town.w;x++)if('~:'.includes(town.tiles[y][x]))for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]])assert.notEqual(town.tiles[y+dy]?.[x+dx],'=','water/sand touches road at '+x+','+y);
  for(const k of ['buildings','props'])for(const frame of k==='buildings'?[6,8]:[2,5,7,8,11,12,15])assert(town.objects.some(o=>o.kind===k&&o.frame===frame),k+' '+frame+' used');
  for(const e of town.enemies)assert(!['=','~'].includes(tileAt(e.x,e.y)),'enemy '+e.id+' off road');
+ // R213: the signal picture's pole and base plate span about 15-39% of its width from the left, so the base must not touch a road tile (mobile-16: the east-side poles stood on the road).
+ for(const o of town.objects.filter(o=>/^signal\d+$/.test(o.id)))for(const k of [.15,.27,.39]){const x=o.x+(k-.5)*o.w/TILE;assert.notEqual(tileAt(x,o.y-.1),'=',o.id+' pole base on the road at x '+x.toFixed(2));}
  result.push('Town layout: no prop/person/building on road or water, park pond+sand off the road, apartment/junkyard/hedge/streetlight/pole/bike/signal/cat used PASS');
  // F03: interior art everywhere, and never the console-shelf frame 8.
  for(const [id,m] of Object.entries(nav.g.GAME_DATA.maps))for(const o of m.objects){assert(!(o.kind==='interior'&&o.frame===8),id+' uses frame 8');assert.notEqual(o.kind,'furniture',id+' still uses placeholder furniture '+o.id);}

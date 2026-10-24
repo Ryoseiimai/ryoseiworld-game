@@ -32,7 +32,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[9,30.5],[11,30.5]]),
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2],[11.3,32.4,1]]),
- ...props('signal',12,110,[[12.5,8.9],[17.5,11.9],[17.5,16.9],[12.5,19.9],[17.5,25.9],[12.5,29.9]]),
+ // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sit 0.6 tile east.
+ ...props('signal',12,110,[[12.5,8.9],[18.1,11.9],[18.1,16.9],[12.5,19.9],[18.1,25.9],[12.5,29.9]]),
  // R203: the delivery man by the electric shop also stood right over light1's top across the road, so he moved two tiles east on his sidewalk (people list below).
  // R203: the pole across the road from the police box stood right under the police officer, who read as standing on its top (mobile-24), so it moved west along that far sidewalk (down-left of the police box).
  ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,23.2],[17.5,32.4],[4.5,19.6],[27.5,11.6]]),
