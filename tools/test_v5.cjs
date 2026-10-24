@@ -1908,6 +1908,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=m.objects.find(o=>o.id==='minamo_wall2'),t=m.objects.filter(o=>o.id.startsWith('minamo_tree')).sort((a,b)=>Math.hypot(a.x-sign.x,a.y-sign.y)-Math.hypot(b.x-sign.x,b.y-sign.y))[0];
   assert((t.x-w.x)*48-(t.w*.85+w.w)/2>=8,'the moved tree keeps off the worry wall');}
  result.push('R214: ミナモの十字路で、看板が桜の木にささって見えない PASS');
+ // R215: in the ミナモ park the bench's right end stood against the left post of the こうえん sign. The bench moved west under the sandbox and the dog stepped down beside it.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),s=f('minamo_parksign'),b=f('minamo_bench'),d=f('minamo_dog');
+  const gap=(s.x-b.x)*48-(s.w*.75+b.w)/2;assert(gap>=24,'the bench stays clear of the park sign posts, gap '+gap.toFixed(1)+'px');
+  assert(Math.abs(d.x-b.x)*48>=(d.w+b.w)/2||(d.y-b.y)*48>=d.h,'the dog does not stand inside the bench');
+  for(const o of [b,d])assert(m.tiles[Math.floor(o.y)][Math.floor(o.x)]==='.',o.id+' stands on the park grass');
+  const sandBottom=Math.max(...m.tiles.map((r,y)=>r.includes(':')?y+1:0));assert((b.y-sandBottom)*48>=55,'the bench back stays below the sandbox edge');}
+ result.push('R215: ミナモ公園のベンチが、看板の柱にくっつかない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
