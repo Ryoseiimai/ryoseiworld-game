@@ -190,7 +190,7 @@
         win: 'ジブンが おなじ いろに なった。' }
     },
     zero: {
-      name: 'ゼロ', sheet: 'zero', bg: 'bg_tower', hp: 0, x: 412, drawH: 280, bodyR: 104, bodyDY: 0,
+      name: 'ゼロ', sheet: 'zero', bg: 'bg_tower', hp: 0, x: 376, drawH: 260, bodyR: 97, bodyDY: 0,
       moveA: 110, moveF: 0.35, color: '#b9a7ff', immune: true,
       lines: { intro: ['ゼロ', '……ザーッ'],
         hint: ['ソラ', 'こうげきが きかない。みんなの「こえ」を あつめよう'],
@@ -755,7 +755,7 @@
     zero: function (w, dt) {
       var m = w.m, b = w.b, f = dens(w) * (m.ready ? 0.6 : 1);
       var r = ramp(w);
-      if (attackDue(w, 'ringT', dt)) { m.ringT = lerp(4.0, 3.0, r) / f; m.rot += 0.5; ring(w, b.x - 30, b.y, Math.max(5, Math.round(10 * f)), 150, m.rot, 'orb'); b.attackT = 0.5; }
+      if (attackDue(w, 'ringT', dt)) { m.ringT = lerp(4.0, 3.0, r) / f; m.rot += 0.5; ring(w, spawnX(w, -30, 9), b.y, Math.max(5, Math.round(10 * f)), 150, m.rot, 'orb'); b.attackT = 0.5; }
       if (attackDue(w, 'noiseT', dt)) {
         m.noiseT = lerp(2.5, 1.7, r) / f;
         var zx = spawnX(w, -60, 14), v = aimV(w, zx, b.y, lerp(165, 220, r), (w.rng() - 0.5) * lerp(0.5, 0.2, r));
