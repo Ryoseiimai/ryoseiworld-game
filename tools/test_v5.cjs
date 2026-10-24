@@ -1817,9 +1817,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R198: in the town (mobile-16) a pole or street light stood right under a signal on the same sidewalk, so the two read as one tall post.
  {const r=await runtime();r.tick();let pairs=0;
   for(const id of ['town','minamo']){const tall=r.g.GAME_DATA.maps[id].objects.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole|bus)\d*$/.test(o.id));
-   for(const a of tall)for(const b of tall){if(a===b||a.y>=b.y||Math.abs(a.x-b.x)>.5)continue;pairs++;const gap=(b.y*48-b.h)-a.y*48;assert(gap>=16,id+': '+b.id+' starts '+gap.toFixed(0)+'px under '+a.id+' (16px or more)');}}
+   for(const a of tall)for(const b of tall){if(a===b||a.y>=b.y||Math.abs(a.x-b.x)>.5)continue;pairs++;const gap=(b.y*48-b.h)-a.y*48;assert(gap>=40,id+': '+b.id+' starts '+gap.toFixed(0)+'px under '+a.id+' (40px or more, R218)');}}
   assert(pairs>=4,'the town and Minamo still have posts on the same sidewalk ('+pairs+')');}
  result.push('R198: 信号と電柱・街灯が、同じ歩道で1本の柱につながって見えない PASS');
+ result.push('R218: 西の歩道の電柱・バスてい・信号が、半マスの すきまで1本につながって見えない PASS');
  // R216: in the town (mobile-16) the lamp of the signal at (18.1, 25.9) was drawn over the vending machine's feet, so the machine's picture stays clear of every signal's picture.
  {const r=await runtime();r.tick();let checked=0;
   for(const id of ['town','minamo']){const props=r.g.GAME_DATA.maps[id].objects.filter(o=>o.kind==='props'&&!o.floor),box=o=>[o.x*48-o.w/2,o.y*48-o.h,o.x*48+o.w/2,o.y*48];
