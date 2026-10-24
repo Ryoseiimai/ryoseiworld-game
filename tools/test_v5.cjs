@@ -1487,7 +1487,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(arrow&&words,'the ↓ plate and its words are drawn');assert.equal(words[2],arrow[2],'the words sit under the plate');assert(words[3]-24>=arrow[3]+5,'the words start under the plate: '+words[3]);
   assert(words[3]+9<=r.g.GAME_DATA.maps.tower1.h*48,'the words stay inside the floor: '+words[3]);
   assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'the words are outlined like うえへ');
-  r.g.debugWarp('room');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
+  // R226: the own room's exit is the stairs picture, so the plain-↓ check uses the shop (an exit without stairs).
+  r.g.debugWarp('store');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓')&&!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='そとへ'),'a room exit stays a plain ↓');}
  result.push('R138: とう1Fの出口の ↓ の下に「そとへ」の札が出て、ほかの部屋は ↓ のまま PASS');
  // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
@@ -1970,6 +1971,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(row[Math.floor(t.x)]==='.','the tree stands on the park grass');
   assert((t.x-sandRight)*48>=t.w*.2,'the grass tuft under the tree stays off the sandbox rim');}
  result.push('R225: 町の公園の桜の木が、砂場のふちに立たない PASS');
+ // R226: in the own room the ↓ plate sat in the middle of the stairs picture and hid the stairwell. No plate is drawn on an exit that has stairs.
+ {const r=await runtime();r.g.debugWarp('room');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
+  const m=r.g.GAME_DATA.maps.room,p=m.portals[0],st=m.objects.find(o=>o.id==='stairs');assert(st&&Math.abs(st.x-p.x)<=1,'the stairs stand at the room exit');
+  assert(!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓'),'no ↓ plate is drawn on the stairs');
+  r.g.debugWarp('store');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
+  assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓'),'the same frame check sees the ↓ plate in the shop');}
+ result.push('R226: 自分の部屋の階段に「↓」の札が重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
