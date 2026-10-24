@@ -1930,6 +1930,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of [b,d])assert(m.tiles[Math.floor(o.y)][Math.floor(o.x)]==='.',o.id+' stands on the park grass');
   const sandBottom=Math.max(...m.tiles.map((r,y)=>r.includes(':')?y+1:0));assert((b.y-sandBottom)*48>=55,'the bench back stays below the sandbox edge');}
  result.push('R215: ミナモ公園のベンチが、看板の柱にくっつかない PASS');
+ // R219: after ナオスライム was called, its three water-blue blocks stayed under the slime for the whole hold and looked like block legs. Like the paint drops, they now show only for the first 0.9 s.
+ {const m=html.match(/if\(b\.cast\.id==='nao'([^{]*)\{[^}]*'#8de2ff'/);assert(m,'the Naoslime effect is found');
+  const lim=/&&t<(\d+)/.exec(m[1]);assert(lim&&Number(lim[1])<=900,'the Naoslime blocks stop by the heal at 0.9 s');}
+ result.push('R219: ナオスライムを呼んだ後、水色の四角が足のように残らない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
