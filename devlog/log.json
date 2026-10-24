@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T16:56:03.039Z",
-  "branch": "claude/autodev-20261017-0142-R69",
-  "task": "R69 ネオンの町で、かずの ひとの数字が街灯と重ならないようにする",
-  "summary": "ネオンの町で「86い」「3204」の人を街灯から1.8マス離し、数字が街灯と重ならないようにした\nかずの ひとが街灯のすぐそばに立っていないかを調べるテストを足した。前と後のスクショは docs/shots/R69\n先に R68 で、おとなモードの戦闘の説明をボタンの名前「呼び出す」とそろえた",
-  "result": "pass",
-  "shots": [
-   "shots/149/mobile-02-mode-select.jpg",
-   "shots/149/mobile-15-custom-full-run.jpg",
-   "shots/149/mobile-27-chapter-2-play.jpg",
-   "shots/149/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c570fc2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38935086982"
- },
- {
   "at": "2026-10-16T17:42:58.208Z",
   "branch": "claude/autodev-20261017-0221-R70",
   "task": "R70 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "72343f7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40093628035"
+ },
+ {
+  "at": "2026-10-24T13:13:48.886Z",
+  "branch": "claude/autodev-20261024-2121-R214",
+  "task": "R214 ミナモの十字路で、看板の左の柱が桜の木にささって見えたので、木を少し西へ動かした",
+  "summary": "ミナモの十字路で、看板の左の柱が桜の木の花の中にささって見えていた\n桜の木を 0.8 マス西へ動かし、看板とも心配の壁ともすき間をあけた\n看板が木にかからないことを確かめるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/395/mobile-02-mode-select.jpg",
+   "shots/395/mobile-15-custom-full-run.jpg",
+   "shots/395/mobile-27-chapter-2-play.jpg",
+   "shots/395/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0214ead",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40096718554"
  }
 ]
