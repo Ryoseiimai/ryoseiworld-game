@@ -32,7 +32,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  // The biggest wall stands in the park sand. With Search Owl it speaks, and the kickboard lifts into the shooter (SPEC_V6.md 4).
  object('minamo_boss','worry',0,4.6,22.4,170,128,{label:'カテイノジジョウ',action:'boss',enemy:'kateino',requires:'owl',dialogue:'kateinoTalk',lockedDialogue:'worryWall',goneWhenCleared:true}),
  // People: a tired father at the park, a mother who keeps her son in, the dog, the grandpa is in the library.
- object('minamo_dad','npc2',6,11,18.9,48,65,{dialogue:'minamoDad',clearedDialogue:'dadAfter'}),
+ object('minamo_dad','npc2',6,11,17.6,48,65,{dialogue:'minamoDad',clearedDialogue:'dadAfter'}),
  object('minamo_mom','npc2',8,9.6,33.8,48,65,{dialogue:'minamoMom',clearedDialogue:'momAfter'}),
  object('minamo_dog','npc',7,4.4,25.4,56,60,{dialogue:'minamoDog'})],
  enemies:[{id:'ms1',type:'spam',x:20,y:22.6,axis:'y'},{id:'mc1',type:'cable',x:7,y:12.2,axis:'x'},{id:'mn1',type:'maskcat',x:24.4,y:31.4,axis:'x'},{id:'ms2',type:'spam',x:20.4,y:33.4,axis:'x'}],portals:[]};

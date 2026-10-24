@@ -1871,6 +1871,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(o&&o.enemy==='bugking','the TV pile is still the bug king spot');assert(o.y*48-o.h>=2*48+10,'the TV pile top ('+(o.y*48-o.h)+') stays below the wall lip ('+(2*48+10)+')');
   const sv=m.objects.find(x=>x.id==='server');assert(o.y<sv.y,'the pile still stands behind the server');}
  result.push('R204: でんきやの テレビの やま が、奥の壁にかからず床の上に立つ PASS');
+ // R205: in ミナモ (mobile-20) the tired dad stood at y 18.9, in the middle of the road rows 18-19, so he read as standing in traffic.
+ {const r=await runtime();r.tick();let n=0;
+  for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(!m.tiles)continue;for(const o of m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind))){n++;const t=m.tiles[Math.floor(o.y)]&&m.tiles[Math.floor(o.y)][Math.floor(o.x)];assert(t!=='='&&t!=='~',id+': '+o.id+' does not stand on a road or water tile ('+t+')');}}
+  assert(n>=20,'the check still sees the people ('+n+')');
+  const d=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_dad');assert(d&&d.dialogue==='minamoDad','the tired dad is still in ミナモ');}
+ result.push('R205: 町の人が、車道や川の上に立たない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
