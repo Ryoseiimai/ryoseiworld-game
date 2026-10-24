@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T05:41:49.925Z",
-  "branch": "claude/autodev-20261016-1421-R56",
-  "task": "R56 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の始まりで、連射の待ち時間の文字がボスの台詞と重なる所を直した\n待ち時間の文字を台詞とお知らせの下に縁取りつきで描き、すき間が無い時は出さないようにした\n前と後のスクショは docs/shots/R56/ に置いた。手元のテストは通った",
-  "result": "pass",
-  "shots": [
-   "shots/132/mobile-02-mode-select.jpg",
-   "shots/132/mobile-15-custom-full-run.jpg",
-   "shots/132/mobile-27-chapter-2-play.jpg",
-   "shots/132/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "614e406",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38856663227"
- },
- {
   "at": "2026-10-16T06:42:48.206Z",
   "branch": "claude/autodev-20261016-1523-R57",
   "task": "R57 町と戦闘の曲を録音のファイルで鳴らす（SPEC_V9_MUSIC の1と3）",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "82fed7e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40056464322"
+ },
+ {
+  "at": "2026-10-24T04:00:15.533Z",
+  "branch": "claude/autodev-20261024-1221-R204",
+  "task": "R204 でんきやで、テレビの やまが奥の壁にかかって上の札の下に隠れていたので、床の上へ下げた",
+  "summary": "でんきやで、テレビの やまの上が奥の壁にかかっていた\n出口の近くでは、上の札と帯の下に半分隠れていた\nやまを1マスほど下げて少し小さくし、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/379/mobile-02-mode-select.jpg",
+   "shots/379/mobile-15-custom-full-run.jpg",
+   "shots/379/mobile-27-chapter-2-play.jpg",
+   "shots/379/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "99582d2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40059967107"
  }
 ]
