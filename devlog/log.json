@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T14:52:52.706Z",
-  "branch": "claude/autodev-20261016-2322-R66",
-  "task": "R66 遊んで一番気になる所を1つ直す",
-  "summary": "きずなの一覧が長い時、もどるボタンが一覧の下に隠れて見えなかったのを直した\n一覧の本文だけがスクロールし、続きがある時は下に点線を出す。ボタンはいつも見える\nスモークに、もどるが画面に見えるかの確認を足した。前と後のスクショは docs/shots/R66",
-  "result": "pass",
-  "shots": [
-   "shots/146/mobile-02-mode-select.jpg",
-   "shots/146/mobile-15-custom-full-run.jpg",
-   "shots/146/mobile-27-chapter-2-play.jpg",
-   "shots/146/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "744193f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38918608523"
- },
- {
   "at": "2026-10-16T15:47:01.939Z",
   "branch": "claude/autodev-20261017-0021-R67",
   "task": "R67 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d5c2294",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40083394521"
+ },
+ {
+  "at": "2026-10-24T10:47:39.334Z",
+  "branch": "claude/autodev-20261024-1921-R212",
+  "task": "R212 ボス戦で、BUG KING の攻撃のコマの足が画面の右はしで切れていたので、ボスを左へ動かして小さくした",
+  "summary": "ボス戦で、BUG KING の攻撃のコマの右の足が画面の右はしで約37px切れていた\nボスの位置を 418 から 388 へ、高さを 214 から 200 にし、当たりの円も合わせて小さくした\n右はしが切れないことを確かめるテストを1行足した。撃破時間はきずな0で127秒",
+  "result": "pass",
+  "shots": [
+   "shots/391/mobile-02-mode-select.jpg",
+   "shots/391/mobile-15-custom-full-run.jpg",
+   "shots/391/mobile-27-chapter-2-play.jpg",
+   "shots/391/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8c349bf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40086840064"
  }
 ]
