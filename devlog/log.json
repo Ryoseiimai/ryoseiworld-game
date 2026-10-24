@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T22:57:46.915Z",
-  "branch": "claude/autodev-20261017-0745-R79",
-  "task": "R79 タイトル画面で、月が「A LITTLE LIGHT」の英字に重ならないようにする",
-  "summary": "タイトル画面の月が「A LITTLE LIGHT」の英字に重なっていた\n月を左上へ移し、英字と「♪ タップで音楽」から離した。前と後のスクショは docs/shots/R79\n確認を足した。下の操作の箱が出口の矢印や敵を隠す件も残る",
-  "result": "pass",
-  "shots": [
-   "shots/160/mobile-02-mode-select.jpg",
-   "shots/160/mobile-15-custom-full-run.jpg",
-   "shots/160/mobile-27-chapter-2-play.jpg",
-   "shots/160/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bba036c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38978256035"
- },
- {
   "at": "2026-10-16T23:39:48.533Z",
   "branch": "claude/autodev-20261017-0821-R80",
   "task": "R80 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "b1e65e1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40126540094"
+ },
+ {
+  "at": "2026-10-24T20:03:04.570Z",
+  "branch": "claude/autodev-20261025-0421-R221",
+  "task": "R221 戦闘で敵には影があるのに主人公には無く、宙に浮いて見えたので、主人公の足元に影を描いた",
+  "summary": "戦闘で敵の下には影があり、主人公の下には無かったので宙に浮いて見えた\n主人公の足元に車輪より広い影を描き、HP の欄の上で終わるようにした\n影があり HP の欄にかからないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/406/mobile-02-mode-select.jpg",
+   "shots/406/mobile-15-custom-full-run.jpg",
+   "shots/406/mobile-27-chapter-2-play.jpg",
+   "shots/406/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "dcaec4f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40127506225"
  }
 ]
