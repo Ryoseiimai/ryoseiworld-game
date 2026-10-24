@@ -1820,6 +1820,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const a of tall)for(const b of tall){if(a===b||a.y>=b.y||Math.abs(a.x-b.x)>.5)continue;pairs++;const gap=(b.y*48-b.h)-a.y*48;assert(gap>=16,id+': '+b.id+' starts '+gap.toFixed(0)+'px under '+a.id+' (16px or more)');}}
   assert(pairs>=4,'the town and Minamo still have posts on the same sidewalk ('+pairs+')');}
  result.push('R198: 信号と電柱・街灯が、同じ歩道で1本の柱につながって見えない PASS');
+ // R216: in the town (mobile-16) the lamp of the signal at (18.1, 25.9) was drawn over the vending machine's feet, so the machine's picture stays clear of every signal's picture.
+ {const r=await runtime();r.tick();let checked=0;
+  for(const id of ['town','minamo']){const props=r.g.GAME_DATA.maps[id].objects.filter(o=>o.kind==='props'&&!o.floor),box=o=>[o.x*48-o.w/2,o.y*48-o.h,o.x*48+o.w/2,o.y*48];
+   for(const s of props.filter(o=>/^(minamo_)?signal\d*$/.test(o.id)))for(const o of props){if(!/^(minamo_)?machine\d*$/.test(o.id))continue;const a=box(s),b=box(o);checked++;
+    assert(!(a[0]<b[2]&&b[0]<a[2]&&a[1]<b[3]&&b[1]<a[3]),id+': '+o.id+' overlaps '+s.id+' '+JSON.stringify([a,b]));}}
+  assert(checked>0,'the town still has a signal and a vending machine');}
+ result.push('R216: 町の信号の絵が、自販機の絵に重ならない PASS');
  // R199: in the tower (mobile-31) the ひかりの ゆか clouds stood on the wall line, half over the wall strip (rows 0-1).
  // The cloud and its platform fill about the lower 3/4 of the 90 px picture, so that part must start on the floor, and each pad still sits on its warp cell.
  {const r=await runtime();r.tick();let pads=0;

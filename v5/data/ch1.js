@@ -20,7 +20,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('library','buildings',5,23,16,210,188,{label:'としょかん',dialogue:'library'}),
  object('apartment','buildings',6,20.5,33.6,190,190),
  object('shrine','buildings',7,26.5,33.6,150,135,{label:'じんじゃ',dialogue:'shrineSign'}),
- prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,19,24,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90,{label:'バスてい',event:'busStop'}),prop('bike',8,3.4,24.7,80),prop('car',9,23.7,35.3,120),
+ // R216: the vending machine's feet (y 24) sat behind the lamp of the signal just south of it (mobile-16), so it stands 0.7 tile further north and 0.2 tile west (the walk test along the store's west wall starts clear of it).
+ prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,18.8,23.3,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90,{label:'バスてい',event:'busStop'}),prop('bike',8,3.4,24.7,80),prop('car',9,23.7,35.3,120),
  prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.9,34.5,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.2,31.2,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
  // R206: the park sign (240px, feet at y 30.4) hung its board over the road rows 26-28 (mobile-25), so it is as small as its 24px words allow and stands a little deeper in the park, east of the pond; only its left post blocks, so the way into the park stays open.
  // R208: grandpa, the kid in the sandbox and the musician stood within three tiles, and their three grey spirits bunched over the sandbox like the town noises (mobile-25),
