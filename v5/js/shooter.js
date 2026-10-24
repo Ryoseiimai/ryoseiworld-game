@@ -35,6 +35,8 @@
   // SPEC_V7_MANABU.md 9: the wait time on screen reads in kanji in adult mode (cooldownText stays the kids form other code builds on).
   function cooldownLabel() { return RYW.mode === 'adult' ? cooldownText().replace(' びょう', '秒') : cooldownText(); }
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
+  // Top of ミナモ's stone bank in bg_minamo (drawn H + 40 tall from y = -20); below it is the river.
+  var MINAMO_BANK_Y = 440;
   var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
   // 当たり判定は見た目(P_R)より小さく: 本体の7割だけが実際にぶつかる。デバッグの「あたりはんてい みえる」もこの値を描く
@@ -1886,9 +1888,11 @@
         });
       }
     } else if (theme === 'minamo') {
+      // R223: the lamp stands on the bank top behind the river (MINAMO_BANK_Y); it ran down through the water to the rail.
       var sp2 = 380, off2 = (t * 200) % sp2;
       for (x = -off2 - sp2; x < W + sp2; x += sp2) {
-        ctx.fillStyle = 'rgba(28,20,24,0.85)'; ctx.fillRect(x - 5, PLAY_T + 150, 10, PLAY_B - PLAY_T - 150);
+        ctx.fillStyle = 'rgba(28,20,24,0.85)'; ctx.fillRect(x - 5, PLAY_T + 150, 10, MINAMO_BANK_Y - PLAY_T - 150);
+        ctx.fillRect(x - 9, MINAMO_BANK_Y - 6, 18, 6);
         ctx.fillRect(x - 5, PLAY_T + 150, 34, 8);
         glow(ctx, x + 30, PLAY_T + 166, 46, 'rgba(255,214,140,0.75)', 0.8);
         ctx.fillStyle = '#ffe2a6'; ctx.fillRect(x + 22, PLAY_T + 158, 16, 10);

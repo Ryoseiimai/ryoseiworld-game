@@ -1466,6 +1466,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const rail=sh.indexOf('drawThemeRail(ctx, S, w);'),hero=sh.indexOf('drawPlayer(ctx, S, w);');assert(rail>0&&hero>0&&rail<hero,'the rail is drawn before the hero');
   assert(!/theme === 'minamo'\)[^}]*fillRect/.test(front),'the front layer draws no ミナモ rail over the hero');}
  result.push('R222: ミナモのボス戦で、川の柵が主人公の足とキックボードの上に描かれない PASS');
+ // R223: in ミナモ's boss fight the street lamp's pole ran from the lamp down through the river to the rail. It now stops on the bank top.
+ {const sh=scripts.find(s=>s.file==='v5/js/shooter.js').code;const bank=Number((sh.match(/var MINAMO_BANK_Y = (\d+);/)||[])[1]);
+  assert(bank>=420&&bank<=460,'the bank top sits where the stone bank of bg_minamo starts: '+bank);
+  const back=sh.slice(sh.indexOf("} else if (theme === 'minamo') {",sh.indexOf('function drawThemeBack(')),sh.indexOf("} else if (theme === 'neon') {",sh.indexOf('function drawThemeBack(')));
+  assert(back.includes('ctx.fillRect(x - 5, PLAY_T + 150, 10, MINAMO_BANK_Y - PLAY_T - 150);'),'the lamp pole ends on the bank top');
+  assert(!/PLAY_B - PLAY_T - 150/.test(back),'the lamp pole no longer reaches the bottom of the play area');}
+ result.push('R223: ミナモのボス戦で、街灯の柱が川の中まで立たない PASS');
  // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
   const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);
