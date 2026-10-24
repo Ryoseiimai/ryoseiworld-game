@@ -1791,6 +1791,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.notEqual(f.wall,'#344f4d');assert.notEqual(f.front,'#344f4d');}
   r.g.debugWarp('town',2,2);r.tick(32);assert.equal(r.g.roomFill,null,'outside there is no room wall');}
  result.push('R194: 小さな部屋のまわりが灰色のままにならず、かべが画面のはしまで続く PASS');
+ // R220: the clock on the back wall of the room and the library floated, since that wall had the colour of the walls round the room.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  for(const [map,id] of [['room','clock'],['minamo_library','ml_clock']]){const m=r.g.GAME_DATA.maps[map];r.g.debugWarp(map,...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);
+   const f=r.g.roomFill;assert(f&&f.paper,map+' has a wallpaper on its back wall');assert.notEqual(f.paper,f.wall,map+' wallpaper differs from the walls round the room');
+   const c=m.objects.find(o=>o.id===id);assert(c,map+' has its clock');assert(c.y*48<=96&&c.y*48-c.h>=0,map+' clock hangs inside the back wall (0..96): '+[c.y*48-c.h,c.y*48]);}}
+ result.push('R220: 部屋と としょかん の時計が、まわりと色のちがう壁紙の上にかかる PASS');
  // R195: three of the four ネオン noises (nz1, nz2, nz4) started on road tiles, where enemyStep never lets a noise go, so they stood still all game.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps))for(const e of m.enemies||[]){const t=m.tiles&&m.tiles[Math.floor(e.y)]&&m.tiles[Math.floor(e.y)][Math.floor(e.x)];assert(t!=='='&&t!=='~',id+' '+e.id+' does not live on a road or water tile ('+t+')');}
