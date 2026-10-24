@@ -32,7 +32,10 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('pond','spot',0,3.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
  ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[9,30.5],[11,30.5]]),
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
- ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2],[11.3,32.4,1]]),
+ ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2]]),
+ // R225: the cherry tree by the park sandbox (sand x 8-10) stood on the sandbox's right rim, so it read as growing in the sand (mobile-24).
+ // It sits on the one grass column between the sand and the sidewalk, a bit smaller so its grass tuft stays off the rim.
+ prop('tree7',1,11.55,32.4,118),
  // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sit 0.6 tile east.
  // R218: on the west sidewalk (x 12) each post stood about half a tile under the one above (a pole on the bus stop sign, a signal on a pole's top), so they read as one tall post.
  // The two signals moved up their sidewalk row and the pole north of the bus stop moved up, so every post on one sidewalk starts at least 40px under the one above.

@@ -1964,6 +1964,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const m=html.match(/if\(b\.cast\.id==='nao'([^{]*)\{[^}]*'#8de2ff'/);assert(m,'the Naoslime effect is found');
   const lim=/&&t<(\d+)/.exec(m[1]);assert(lim&&Number(lim[1])<=900,'the Naoslime blocks stop by the heal at 0.9 s');}
  result.push('R219: ナオスライムを呼んだ後、水色の四角が足のように残らない PASS');
+ // R225: the cherry tree by the town park sandbox stood on the sandbox's right rim and read as growing in the sand. It moved onto the grass column between the sand and the sidewalk.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,t=m.objects.find(o=>o.id==='tree7');assert(t,'the park cherry tree is found');
+  const row=m.tiles[Math.floor(t.y)],sandRight=row.lastIndexOf(':')+1;assert(sandRight>0,'the sandbox is on the tree row');
+  assert(row[Math.floor(t.x)]==='.','the tree stands on the park grass');
+  assert((t.x-sandRight)*48>=t.w*.2,'the grass tuft under the tree stays off the sandbox rim');}
+ result.push('R225: 町の公園の桜の木が、砂場のふちに立たない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
