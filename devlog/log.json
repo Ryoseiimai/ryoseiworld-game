@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T19:49:22.868Z",
-  "branch": "claude/autodev-20261017-0421-R74",
-  "task": "R74 遊んで一番気になる所を1つ直す",
-  "summary": "メニューの「きずな」一覧で、点線の上の行が上下半分で切れていた\n一覧の箱の高さを行の高さの整数倍にそろえた。前と後のスクショは docs/shots/R74\n確認を足した。スマホで字が小さく見える件は画面の作りの話なので今回は変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/154/mobile-02-mode-select.jpg",
-   "shots/154/mobile-15-custom-full-run.jpg",
-   "shots/154/mobile-27-chapter-2-play.jpg",
-   "shots/154/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e0b98da",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38957130605"
- },
- {
   "at": "2026-10-16T20:38:58.388Z",
   "branch": "claude/autodev-20261017-0521-R75",
   "task": "R75 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "3a141ba",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40108253598"
+ },
+ {
+  "at": "2026-10-24T16:56:08.999Z",
+  "branch": "claude/autodev-20261025-0121-R218",
+  "task": "R218 町の西の歩道で、電柱がバスていの看板の上に立って1本の柱に見えたので、電柱と信号を少し北へ動かした",
+  "summary": "町の西の歩道で、電柱がバスていの看板の上に立ち、1本の柱に見えていた\n電柱を北へ0.6マス、信号2本を歩道の中で北へ0.6マス動かした。ミナモのバスていと街灯も離した\n同じ歩道の柱どうしの すきまを確かめるテストを、16pxから40pxに強めた",
+  "result": "pass",
+  "shots": [
+   "shots/400/mobile-02-mode-select.jpg",
+   "shots/400/mobile-15-custom-full-run.jpg",
+   "shots/400/mobile-27-chapter-2-play.jpg",
+   "shots/400/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f5d3365",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40113132072"
  }
 ]
