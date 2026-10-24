@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T21:50:18.927Z",
-  "branch": "claude/autodev-20261017-0621-R77",
-  "task": "R77 遊んで一番気になる所を1つ直す",
-  "summary": "町の右下の「はなす」ボタンが、下にいる人や自動販売機を隠していた\n近くに話せる相手がいない時は、ボタンの地を透かした。文字はそのまま読める。前と後のスクショは docs/shots/R77\n確認を足した。上の表示がマップ上側を隠す件、ボス戦のソラの薄いセリフも気になる所として残る",
-  "result": "pass",
-  "shots": [
-   "shots/158/mobile-02-mode-select.jpg",
-   "shots/158/mobile-15-custom-full-run.jpg",
-   "shots/158/mobile-27-chapter-2-play.jpg",
-   "shots/158/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3fa755e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38971455687"
- },
- {
   "at": "2026-10-16T22:45:06.217Z",
   "branch": "claude/autodev-20261017-0721-R78",
   "task": "R78 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "2997e95",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40121777903"
+ },
+ {
+  "at": "2026-10-24T19:34:09.825Z",
+  "branch": "claude/autodev-20261025-0421-R221",
+  "task": "R221 遊んで一番気になる所を1つ直す",
+  "summary": "部屋と としょかんで、奥の壁が周りと同じ色で、時計が宙に浮いて見えた\n奥の壁に明るい壁紙と上の縁を描き、時計が壁にかかって見えるようにした\n時計が壁紙の上にあることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/404/mobile-02-mode-select.jpg",
+   "shots/404/mobile-15-custom-full-run.jpg",
+   "shots/404/mobile-27-chapter-2-play.jpg",
+   "shots/404/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "04daf0c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40125351918"
  }
 ]
