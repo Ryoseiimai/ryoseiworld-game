@@ -1842,6 +1842,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    floors++;}
   assert.equal(floors,3,'floors 1-3 are checked');}
  result.push('R200: 塔のセーブたんまつの名札が、うえへ・したへ の札に重ならない PASS');
+ // R202: the pole picture had loose dark dots to its right (cut wires) that showed as broken pixels on the street (mobile-16). Loading clears the small patches but keeps the pole whole.
+ {const src=html.match(/const DESPECK=[^\n]*\nfunction despeckPixels[^\n]*\n/);assert(src,'DESPECK and despeckPixels are in index.html');
+  const {DESPECK,despeckPixels}=new Function(src[0]+'return {DESPECK,despeckPixels};')();
+  const r=await runtime();const poles=r.g.GAME_DATA.maps.town.objects.filter(o=>/^pole/.test(o.id));assert(poles.length>=3&&poles.every(o=>o.kind==='props'&&o.frame===7),'the town poles use props frame 7');
+  assert.equal(DESPECK['props:1_3'],12,'the pole frame (row 1, col 3) is cleaned');assert.deepEqual(Object.keys(DESPECK),['props:1_3'],'no other picture is cleaned');
+  assert(html.includes('recolor(name,key,entry);despeck(name,key,entry);'),'the loader cleans each frame after it loads');
+  const file=path.join(root,'assets','props','props_r1_c3.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);
+  // the fake canvas hands the loader the cached pixels, so after loading they hold no loose dots; a fresh decode still has them.
+  r.tick(16);assert.equal(despeckPixels(Buffer.from(pngPixels(file).data),w,h,12),0,'the loaded pole has no loose dots');decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
+  const opaque=()=>{let n=0;for(let i=3;i<d.length;i+=4)n+=d[i]>16;return n;},before=opaque(),cleared=despeckPixels(d,w,h,12);
+  assert(cleared>=15&&cleared<=40,'the loose dots are cleared: '+cleared);assert(before-opaque()===cleared,'only the cleared dots turn clear');
+  let right=0;for(let y=0;y<h;y++)for(let x=140;x<w;x++)right+=d[(y*w+x)*4+3]>16;
+  let pole=0;for(let y=0;y<h;y++)for(let x=60;x<100;x++)pole+=d[(y*w+x)*4+3]>16;
+  assert(pole>4000,'the pole body stays: '+pole);assert(right<before*.08,'only the cross arm is left right of the pole: '+right);
+  const again=despeckPixels(d,w,h,12);assert.equal(again,0,'nothing loose is left');}
+ result.push('R202: 町の電柱の絵の右にあった黒い点を消し、絵がこわれて見えないようにした PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
