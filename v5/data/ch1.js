@@ -54,10 +54,11 @@ maps.room={name:'じぶんの へや',w:11,h:14,spawn:[5,9],objects:[
 maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
  object('clerk','npc',3,5.7,3.9,56,75,{event:'clerk',raise:26}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
  object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'})],enemies:[],portals:[{x:5,y:11,to:'town',at:[22,25.3]}]};
+// R204: the TV pile (boss) stood with its top 70px up in the plain back wall and hid under the HUD by the exit (mobile-19), so it moved down onto the floor and got a little smaller.
 maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや・ジャンク',w:11,h:17,spawn:[5,14],objects:[
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
  object('server','interior',10,7,8,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
- object('boss','interior',9,5,4.5,190,190,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
+ object('boss','interior',9,5,5.8,170,170,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:15,to:'town',at:[22,9.3]}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
