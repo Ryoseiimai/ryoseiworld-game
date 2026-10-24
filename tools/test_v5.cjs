@@ -1858,6 +1858,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const after=patches();assert.equal(after.length,1,'only the pole is left');assert.equal(after[0].length,big,'the pole keeps every pixel');
   const again=despeckPixels(d,w,h,12);assert.equal(again,0,'nothing loose is left');}
  result.push('R202: 町の電柱の絵の右にあった黒い点を消し、絵がこわれて見えないようにした PASS');
+ // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
+ {const r=await runtime();r.tick();let checked=0;
+  for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_|neon_)?(light|signal|pole)\d*$/.test(o.id));
+   for(const p of people)for(const q of posts){if(q.y<=p.y||Math.abs(q.x-p.x)>.8)continue;checked++;const gap=(q.y*48-q.h)-p.y*48;assert(gap>=48,id+': '+q.id+' starts '+gap.toFixed(0)+'px under '+p.id+"'s feet (48px or more)");}}
+  assert(r.g.GAME_DATA.maps.town.objects.some(o=>o.id==='police'),'the police officer is still in the town');}
+ result.push('R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

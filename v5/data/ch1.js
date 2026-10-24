@@ -29,7 +29,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2],[11.3,32.4,1]]),
  ...props('signal',12,110,[[12.5,8.9],[17.5,11.9],[17.5,16.9],[12.5,19.9],[17.5,25.9],[12.5,29.9]]),
- ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,23.2],[17.5,32.4],[9.5,19.6],[27.5,11.6]]),
+ // R203: the pole across the road from the police box stood right under the police officer, who read as standing on its top (mobile-24), so it sits left of the police box.
+ ...props('pole',7,130,[[12.5,4],[12.5,13.6],[12.5,23.2],[17.5,32.4],[4.5,19.6],[27.5,11.6]]),
  // R198: a pole or street light right under a signal on the same sidewalk read as one tall post (mobile-16), so they keep a gap; the short walk between the two signals by the electric shop has no light.
  ...props('light',5,120,[[17.5,4.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
  ...[['mother',4.5,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',7.4,33.2],['worker',19.4,34.6],['student',20,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',18,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',10.6,34.6]].map(([id,x,y,extra])=>person(id,x,y,extra))],
