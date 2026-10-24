@@ -1877,6 +1877,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(n>=20,'the check still sees the people ('+n+')');
   const d=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_dad');assert(d&&d.dialogue==='minamoDad','the tired dad is still in ミナモ');}
  result.push('R205: 町の人が、車道や川の上に立たない PASS');
+ // R206: the town park sign (mobile-25) hung its board and words over the road rows 26-28; the board is now as small as its 24px words allow and the words stand on the sidewalk side of the road.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);const m=r.g.GAME_DATA.maps.town,o=m.objects.find(x=>x.id==='parksign');
+  r.g.debugWarp('town',o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+  assert(txt&&img,'park sign art and words are drawn');const shift=img[3]+img[5]-o.y*48,roadEnd=29*48+shift;
+  assert(m.tiles[28][Math.floor(o.x)]==='='&&m.tiles[29][Math.floor(o.x)]==='+','rows 28/29 are still road/sidewalk at the sign');
+  assert(txt[3]>=roadEnd,'the words こうえん stand on the sidewalk side of the road (words bottom '+(txt[3]-shift)+', road ends '+(29*48)+')');
+  assert(o.w<240,'the board is smaller than before');}
+ result.push('R206: 町の「こうえん」の看板の字が、車道の上にかからない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
