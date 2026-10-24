@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-16T04:40:32.162Z",
-  "branch": "claude/autodev-20261016-1321-R55",
-  "task": "R55 遊んで一番気になる所を1つ直す",
-  "summary": "きずなメニューが一番下までスクロールして開き、見出しが見えない所を直した\nメニューを新しく開く時は一番上から見せ、同じメニューの開き直しでは位置を残すようにした\n上下キーで、ボタンが1つだけの長いメニューを読み進められるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/130/mobile-02-mode-select.jpg",
-   "shots/130/mobile-15-custom-full-run.jpg",
-   "shots/130/mobile-27-chapter-2-play.jpg",
-   "shots/130/mobile-40-battle-bugking.jpg"
-  ],
-  "sha": "b2e93a1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38851393259"
- },
- {
   "at": "2026-10-16T05:31:45.513Z",
   "branch": "claude/autodev-20261016-1421-R56",
   "task": "R56 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "3af98d7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40051295639"
+ },
+ {
+  "at": "2026-10-24T02:04:44.636Z",
+  "branch": "claude/autodev-20261024-1021-R202",
+  "task": "R202 町の電柱の絵の右に黒い点が散って、絵がこわれて見えたので、読み込む時に点を消した",
+  "summary": "町の電柱の絵の右に、切れた電線の黒い点が約20個残っていた\n絵を読み込む時に、ななめも含めてつながらない12画素以下の点だけを消した\n点が消え、電柱と腕は残ることをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/377/mobile-02-mode-select.jpg",
+   "shots/377/mobile-15-custom-full-run.jpg",
+   "shots/377/mobile-27-chapter-2-play.jpg",
+   "shots/377/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3d360be",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40051951385"
  }
 ]
