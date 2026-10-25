@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T02:26:36.375Z",
-  "branch": "claude/autodev-20261017-1121-R84",
-  "task": "R84 遊んで一番気になる所を1つ直す",
-  "summary": "ヒカクマオウ戦で、背景の看板の明るい棒が上の台詞の後ろに透けて読みにくかった\n看板を入場の文字と移動の案内の間まで下げ、台詞・お知らせ・ことばカードと重ならないようにした\n確認を足した。前と後のスクショは docs/shots/R83",
-  "result": "pass",
-  "shots": [
-   "shots/166/mobile-02-mode-select.jpg",
-   "shots/166/mobile-15-custom-full-run.jpg",
-   "shots/166/mobile-27-chapter-2-play.jpg",
-   "shots/166/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "92e7fd4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38994590941"
- },
- {
   "at": "2026-10-17T02:41:00.552Z",
   "branch": "claude/autodev-20261017-1121-R84",
   "task": "R84 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "5c6f9c0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40140036068"
+ },
+ {
+  "at": "2026-10-25T00:05:08.200Z",
+  "branch": "claude/autodev-20261025-0821-R226",
+  "task": "R226 自分の部屋の階段の絵の真ん中に「↓」の札が重なり、階段の口が見えなかったので、階段のある出口では札を描かないようにした",
+  "summary": "自分の部屋で、階段の絵の真ん中に「↓」の札が重なり、階段の口が隠れていた\n階段のある出口では札を描かず、階段の絵だけで出口が分かるようにした\n部屋に札が出ず、店の出口には札が残ることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/413/mobile-02-mode-select.jpg",
+   "shots/413/mobile-15-custom-full-run.jpg",
+   "shots/413/mobile-27-chapter-2-play.jpg",
+   "shots/413/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8688c83",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40144658785"
  }
 ]
