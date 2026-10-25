@@ -1462,7 +1462,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
   assert(y+6<=486,'the hero shadow ends above the HP card (top 488): '+(y+6));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
- // R233: the battle hero looked about half the size of the vending machine. It is drawn taller now, still inside the left edge and above the HP card.
+ // R233: Sora's light by the enemy (glow radius twice 22) ran under the RYOSEI/HP card (top 488), so the card's frame cut it off.
+ {const m=html.match(/const SORA_BATTLE_X=(\d+),SORA_BATTLE_Y=(\d+);/)||[],x=Number(m[1]),y=Number(m[2]);assert(y&&html.includes('drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'Sora in battle is drawn at SORA_BATTLE_Y');
+  assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));
+  assert(x-44>=410&&x+44<=540,'the glow of Sora stays right of a big boss (to x 407) and on screen: '+(x-44)+'..'+(x+44));}
+ result.push('R233: 戦闘のソラの光が、RYOSEI と HP の欄で切れない PASS');
+ // R234: the battle hero looked about half the size of the vending machine. It is drawn taller now, still inside the left edge and above the HP card.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const type of Object.entries(r.g.GAME_DATA.enemies).filter(([,e])=>!e.boss).map(([k])=>k)){r.g.debugStartBattle(type,'r233');r.tick(300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle',type+' battle');
    r.canvasCalls.length=0;r.tick(16);const imgs=r.canvasCalls.filter(c=>c[0]==='drawImage');const hero=imgs.filter(c=>/\/ryosei\//.test(String(c[1]))).at(-1),enemy=imgs[0];
@@ -1471,7 +1476,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(hero[3]+hero[5]<=482,type+': the hero still ends above the HP card (top 488): '+Math.round(hero[3]+hero[5]));
    assert(hero[2]>=24,type+': the hero stays inside the left edge: '+Math.round(hero[2]));
    r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}}
- result.push('R233: 戦闘の主人公が前より大きく、左はしと HP の欄の中に収まる PASS');
+ result.push('R234: 戦闘の主人公が前より大きく、左はしと HP の欄の中に収まる PASS');
  // R222: in ミナモ's boss fight the riverside rail was drawn after the hero, so its posts covered the hero's feet and board. The rail now goes behind the hero.
  {const sh=scripts.find(s=>s.file==='v5/js/shooter.js').code;const front=sh.slice(sh.indexOf('function drawThemeFront('),sh.indexOf('function drawThemeFront(')+2000);
   assert(/function drawThemeRail\(ctx, S, w\) \{\s*if \(S\.theme !== 'minamo'\) return;/.test(sh),'the ミナモ rail has its own layer');
