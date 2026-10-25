@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T13:45:06.610Z",
-  "branch": "claude/autodev-20261017-2221-R101",
-  "task": "R101 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘でことばの札が出ている間、敵を札の下へゆっくり寄せ、頭が札に隠れないようにした\nボスは札の下に収まるよう少し小さくし、ちらつきの字やHPの枠にもかからないようにした\nじはんきとBUG KINGの前と後のスクショとテストを足した。ボスの足元に一瞬出るburstの札との重なりは残した",
-  "result": "pass",
-  "shots": [
-   "shots/192/mobile-02-mode-select.jpg",
-   "shots/192/mobile-15-custom-full-run.jpg",
-   "shots/192/mobile-27-chapter-2-play.jpg",
-   "shots/192/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "da42128",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39037461573"
- },
- {
   "at": "2026-10-17T14:01:18.259Z",
   "branch": "claude/autodev-20261017-2245-R102",
   "task": "R102 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "2f0ba7b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40226925773"
+ },
+ {
+  "at": "2026-10-25T21:05:29.245Z",
+  "branch": "claude/autodev-20261026-0521-R248",
+  "task": "R248 2章の始めのミナモなどで、外の地図が下のボタンの帯の手前で終わり、道がぷつりと切れて何もない帯が見えたので、地図の端の地面を画面の端まで続けて描いた",
+  "summary": "外の地図で、地図の下の端より外にも端の行の地面を描くようにした\n2章の始めのミナモで、道が下のボタンの帯まで続くようになった\n地図の上と下の外側に地面があることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/442/mobile-02-mode-select.jpg",
+   "shots/442/mobile-15-custom-full-run.jpg",
+   "shots/442/mobile-27-chapter-2-play.jpg",
+   "shots/442/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b73975d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40232903217"
  }
 ]
