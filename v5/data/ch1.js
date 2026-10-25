@@ -48,7 +48,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('light',5,120,[[17.5,4.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
  // R230: mother stood under the home's gate, so Nao (her grey spirit) floated on the gate wall and read as a town noise (mobile-25).
  // She stands a little west, past the gate, and the bike parks further west so Nao has clear air above her head.
- ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',5.5,34.6],['worker',19.4,34.6],['student',20,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',11.6,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
+ // R231: the student's grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16), so she stands half a tile east, still clear of the store's corner.
+ ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',5.5,34.6],['worker',19.4,34.6],['student',20.5,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',11.6,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.

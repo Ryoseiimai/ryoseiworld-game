@@ -1850,8 +1850,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const poles=m.objects.filter(o=>/^(signal|pole|light)\d+$/.test(o.id));assert(poles.length>=15,'the town has its signals, poles and lights');
   for(const o of m.objects.filter(o=>/^(npc|npc2)$/.test(o.kind)&&o.id!=='dog'&&o.id!=='cat')){const near=Math.min(...poles.map(q=>Math.hypot(o.x-q.x,o.y-q.y)));
    assert(near>=1.8,o.id+' stands 1.8 tiles or more from a signal, pole or street light ('+near.toFixed(2)+')');}
-  const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');}
+  const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');
+  // R231: her grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16); its box now stays east of that signal's picture.
+  if(!r.g.summons.length)r.g.state.summons=['nao'];r.g.debugWarp('town',17,24.6);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='student'),sig=m.objects.find(o=>/^signal\d+$/.test(o.id)&&Math.abs(o.x-18.1)<.01&&Math.abs(o.y-25.9)<.01);
+  assert(sp&&sig,'the student\'s spirit and the signal by the store are drawn: '+JSON.stringify(r.g.spirits));assert(sp.x-22>=sig.x*48+sig.w/2,`the student's spirit (from ${sp.x-22}) is clear of the signal (to ${sig.x*48+sig.w/2})`);}
  result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
+ result.push('R231: コンビニの前の おねえさんの守護霊が、信号の灯器に重ならない PASS');
  // R197: in the store (mobile-18) the clerk is drawn 26px up behind the counter, but the spirit was placed from the feet and sank into the clerk's hair.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
   const m=r.g.GAME_DATA.maps.store,c=m.objects.find(o=>o.id==='clerk');assert(c&&c.raise>0,'the clerk is drawn raised behind the counter');
