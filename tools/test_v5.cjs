@@ -1853,7 +1853,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');
   // R231: her grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16); its box now stays east of that signal's picture.
   if(!r.g.summons.length)r.g.state.summons=['nao'];r.g.debugWarp('town',17,24.6);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='student'),sig=m.objects.find(o=>/^signal\d+$/.test(o.id)&&Math.abs(o.x-18.1)<.01&&Math.abs(o.y-25.9)<.01);
-  assert(sp&&sig,'the student\'s spirit and the signal by the store are drawn: '+JSON.stringify(r.g.spirits));assert(sp.x-22>=sig.x*48+sig.w/2,`the student's spirit (from ${sp.x-22}) is clear of the signal (to ${sig.x*48+sig.w/2})`);}
+  assert(sp&&sig,'the student\'s spirit and the signal by the store are drawn: '+JSON.stringify(r.g.spirits));assert.equal(sp.side,-1,"the spirit stays on her left, away from the store");assert(sp.x-22>=sig.x*48+sig.w/2,`the student's spirit (from ${sp.x-22}) is clear of the signal (to ${sig.x*48+sig.w/2})`);}
  result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
  result.push('R231: コンビニの前の おねえさんの守護霊が、信号の灯器に重ならない PASS');
  // R197: in the store (mobile-18) the clerk is drawn 26px up behind the counter, but the spirit was placed from the feet and sank into the clerk's hair.
