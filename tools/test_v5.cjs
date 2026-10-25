@@ -1856,6 +1856,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(sp&&sig,'the student\'s spirit and the signal by the store are drawn: '+JSON.stringify(r.g.spirits));assert.equal(sp.side,-1,"the spirit stays on her left, away from the store");assert(sp.x-22>=sig.x*48+sig.w/2,`the student's spirit (from ${sp.x-22}) is clear of the signal (to ${sig.x*48+sig.w/2})`);}
  result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
  result.push('R231: コンビニの前の おねえさんの守護霊が、信号の灯器に重ならない PASS');
+ // R232: in Minamo (mobile-27) the bus stop's foot sat on the curb between the road and the sidewalk, so the sign read as standing in the road.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo,b=m.objects.find(o=>o.id==='minamo_bus');
+  assert(b&&m.tiles[Math.floor(b.y)][Math.floor(b.x)]==='+','the bus stop stands on the sidewalk');assert(m.tiles[Math.floor(b.y-.4)][Math.floor(b.x)]!=='=','the bus stop\'s foot is 0.4 tiles or more from the road ('+b.y+')');}
+ result.push('R232: ミナモの バスていが、車道に立って見えない PASS');
  // R197: in the store (mobile-18) the clerk is drawn 26px up behind the counter, but the spirit was placed from the feet and sank into the clerk's hair.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
   const m=r.g.GAME_DATA.maps.store,c=m.objects.find(o=>o.id==='clerk');assert(c&&c.raise>0,'the clerk is drawn raised behind the counter');
