@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T06:27:01.675Z",
-  "branch": "claude/autodev-20261017-1521-R90",
-  "task": "R90 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンの数字の札「じゅんい 86」「いいね 3204」に、後から描く街灯が重なっていた\n札を全部の絵の後に描き、画面の端から16px離すようにした。確認を足した\n前と後は docs/shots/R89。ことばカードが塔の出口を隠す件は R71 の決まり待ちで外した",
-  "result": "pass",
-  "shots": [
-   "shots/176/mobile-02-mode-select.jpg",
-   "shots/176/mobile-15-custom-full-run.jpg",
-   "shots/176/mobile-27-chapter-2-play.jpg",
-   "shots/176/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a294932",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39009599887"
- },
- {
   "at": "2026-10-17T06:40:50.086Z",
   "branch": "claude/autodev-20261017-1521-R90",
   "task": "R90 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,15 @@
   ],
   "sha": "b9345d7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40170399188"
+ },
+ {
+  "at": "2026-10-25T07:01:21.588Z",
+  "branch": "claude/autodev-20261025-1541-R233",
+  "task": "R233 戦闘で主人公が自販機の半分ほどの大きさしかなく小さく見えたので、足元はそのままで1.3倍に大きくした",
+  "summary": "戦闘の主人公が敵に比べて小さく見えたので、1.3倍に大きくした\n足元の高さは前と同じで、HP の欄と左はしにはかからない\n主人公の大きさと位置を確かめるテストを足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "04950fb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40171151571"
  }
 ]
