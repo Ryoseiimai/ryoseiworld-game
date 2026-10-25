@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T04:45:51.288Z",
-  "branch": "claude/autodev-20261017-1321-R87",
-  "task": "R87 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の始まりに「キックボードが うかんだ！」の帯が、入ってくるボスを隠していた\n帯を1.85秒で消し、ボスは1.7秒から右の端に入るようにした。登場の長さは2.5秒のまま\n確認を足した。前と後は docs/shots/R87。ボスの声はボスより先に聞こえる形で、今のまま",
-  "result": "pass",
-  "shots": [
-   "shots/171/mobile-02-mode-select.jpg",
-   "shots/171/mobile-15-custom-full-run.jpg",
-   "shots/171/mobile-27-chapter-2-play.jpg",
-   "shots/171/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d0cf901",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39003430403"
- },
- {
   "at": "2026-10-17T05:02:04.595Z",
   "branch": "claude/autodev-20261017-1347-R88",
   "task": "R88 4章を終えた後の目的の文に、次にすることを書く",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "7c9bc8c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40155553601"
+ },
+ {
+  "at": "2026-10-25T04:15:20.844Z",
+  "branch": "claude/autodev-20261025-1221-R230",
+  "task": "R230 町の家の前で、おかあさんの灰色の守護霊が家の門の塀に重なり町のノイズに見えたので、おかあさんと自転車を西へ動かした",
+  "summary": "町の家の前で、おかあさんの守護霊が家の門の塀に重なっていた\nおかあさんを少し西へ、自転車をさらに西へ動かし、守護霊を草地に出した\n守護霊が家と自転車に重ならないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/418/mobile-02-mode-select.jpg",
+   "shots/418/mobile-15-custom-full-run.jpg",
+   "shots/418/mobile-27-chapter-2-play.jpg",
+   "shots/418/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "dfdaf8e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40160700742"
  }
 ]
