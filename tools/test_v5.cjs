@@ -1899,8 +1899,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('store',...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);
   const sp=r.g.spirits.find(s=>s.id==='clerk');assert(sp,'the clerk has a spirit on screen');const foot=c.y*48,head=foot-c.raise-c.h;
   if(sp.side===0)assert(sp.y<=head+6,'the spirit floats over the drawn head, not in the hair '+JSON.stringify([sp,head]));
-  else assert(sp.y<=foot-c.raise-62+6,'the side spirit sits beside the drawn body '+JSON.stringify([sp,foot]));}
+  // R244: indoors the spirit is kept down on the floor (under the skirting line), so a side spirit sits beside the clerk's body; it still keeps clear of the hair by sitting to the side.
+  else assert(sp.y<=Math.max(foot-c.raise-62,2*48+60)+6&&Math.abs(sp.x-c.x*48)>=30,'the side spirit sits beside the drawn body '+JSON.stringify([sp,foot]));
+  // R244: the clerk stands just under the back wall, and the spirit by the head floated on the wallpaper (desktop-18). Its picture now starts under the skirting line.
+  assert(sp.y-44>=2*48+10,'the clerk\'s spirit is not on the back wall '+JSON.stringify(sp));}
  result.push('R197: コンビニの店員さんの守護霊が、頭にめりこまない PASS');
+ result.push('R244: コンビニの店員さんの守護霊が、奥の壁に貼りつかない PASS');
  // R198: in the town (mobile-16) a pole or street light stood right under a signal on the same sidewalk, so the two read as one tall post.
  {const r=await runtime();r.tick();let pairs=0;
   for(const id of ['town','minamo']){const tall=r.g.GAME_DATA.maps[id].objects.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole|bus)\d*$/.test(o.id));
