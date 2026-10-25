@@ -36,7 +36,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  // R225: the cherry tree by the park sandbox (sand x 8-10) stood on the sandbox's right rim, so it read as growing in the sand (mobile-24).
  // It sits on the one grass column between the sand and the sidewalk, a bit smaller so its grass tuft stays off the rim.
  prop('tree7',1,11.55,32.4,118),
- // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sit 0.6 tile east.
+ // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sat 0.6 tile east (R236: now mirrored, see below).
  // R218: on the west sidewalk (x 12) each post stood about half a tile under the one above (a pole on the bus stop sign, a signal on a pole's top), so they read as one tall post.
  // The two signals moved up their sidewalk row and the pole north of the bus stop moved up, so every post on one sidewalk starts at least 40px under the one above.
  // R236: the east-side signals reached their arm and lamps away from the road, over the grass (mobile-16), so they are drawn mirrored like the west ones seen from across the road.
