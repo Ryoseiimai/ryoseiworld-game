@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T09:56:48.956Z",
-  "branch": "claude/autodev-20261017-1849-R97",
-  "task": "R97 ボス戦の台詞を読み切れる長さだけ出す",
-  "summary": "R96 を通した後、R97（ボス戦の台詞を読める長さだけ出す）に手を付けたが、時間内に終わらなかった\n台詞を長く出すと、後ろで待つソラのヒント（R86）が短くなり、R86 のテストが落ちた\nコードの変更は戻し、R97 はまだの件のまま次の回に回した",
-  "result": "pass",
-  "shots": [
-   "shots/184/mobile-02-mode-select.jpg",
-   "shots/184/mobile-15-custom-full-run.jpg",
-   "shots/184/mobile-27-chapter-2-play.jpg",
-   "shots/184/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "edd45e9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39022699574"
- },
- {
   "at": "2026-10-17T10:43:36.852Z",
   "branch": "claude/autodev-20261017-1921-R97",
   "task": "R97 ボス戦の台詞を読み切れる長さだけ出す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4fe43ae",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40195645369"
+ },
+ {
+  "at": "2026-10-25T14:05:59.909Z",
+  "branch": "claude/autodev-20261025-2222-R241",
+  "task": "R241 ボス戦で BUG KING とカテイノジジョウが足元に何もなく宙に浮いて見えたので、足元に影を描いた",
+  "summary": "ボス戦の BUG KING とカテイノジジョウの足元に、柔らかい影を描いた\n影はボスがつぶれたり伸びたりしても、足の位置について動く\n2体に影があり、ボスの絵より先に描くことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/433/mobile-02-mode-select.jpg",
+   "shots/433/mobile-15-custom-full-run.jpg",
+   "shots/433/mobile-27-chapter-2-play.jpg",
+   "shots/433/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "394b58d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40199912138"
  }
 ]
