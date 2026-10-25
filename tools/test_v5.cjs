@@ -1656,10 +1656,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===o.sign),'the sign still tells the number');}
  result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
  // R240: the number sign floated 18px over the head, right under the street lamp's foot, so it read as the lamp's sign; its plate now ends just over the head.
- {const r=await runtime();r.tick();r.g.debugStartChapter(3);const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_r0_c0')).at(-1);
-  assert(txt&&img,'the number person and its sign are drawn');const headTop=img[3]+62*img[5]/452,gap=headTop-(txt[3]+7);
-  assert(gap>=0&&gap<=8,'the sign plate ends just over the head (gap '+gap.toFixed(1)+'px)');}
+ {const r=await runtime();r.tick();r.g.debugStartChapter(3);const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]),files=['r0_c0','r0_c1','r1_c0','r1_c1'];
+  for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).at(-1);
+   assert(txt&&img,o.id+' and its sign are drawn');const headTop=img[3]+crop[o.frame]*img[5]/452,gap=headTop-(txt[3]+7);
+   assert(gap>=0&&gap<=8,o.id+': the sign plate ends just over the head (gap '+gap.toFixed(1)+'px)');
+   for(const l of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='props'&&/light/.test(x.id)&&Math.abs(x.x-o.x)*48<12+[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2+8&&x.y<o.y))assert(txt[3]-25-(l.y*48+img[3]+img[5]-o.y*48)>=16,o.id+': the sign stays clear of the foot of '+l.id);}}
  result.push('R240: ネオンのかずの人の札を頭のすぐ上に下げ、街灯の札に見えないようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
  // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
