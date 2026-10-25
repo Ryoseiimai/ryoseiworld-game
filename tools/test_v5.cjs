@@ -1905,7 +1905,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(sp.y-44>=2*48+10,'the clerk\'s spirit is not on the back wall '+JSON.stringify(sp));
   // R245: the side spirit came down onto the right end of the counter in front of the clerk (mobile-18); it now floats past the counter's drawn edge.
   const reg=m.objects.find(o=>o.id==='register'),half=reg.w/2;
-  if(sp.side)assert(Math.abs(sp.x-reg.x*48)>=half+22-1,'the clerk\'s spirit is not on the counter '+JSON.stringify([sp,reg.x*48,half]));}
+  // It stays near the clerk (not on the far shelf) on the spawn spot and with the hero standing right of the clerk, where the right side is taken.
+  const near=(at)=>{const q=r.g.spirits.find(s=>s.id==='clerk');assert(q&&q.side!==0,'the clerk\'s spirit floats beside the clerk '+at+' '+JSON.stringify(q));
+   assert(Math.abs(q.x-reg.x*48)>=half+22-1,'the clerk\'s spirit is not on the counter '+at+' '+JSON.stringify([q,reg.x*48,half]));assert(Math.abs(q.x-c.x*48)<=72,'the clerk\'s spirit stays near the clerk '+at+' '+JSON.stringify(q));};
+  near('at spawn');r.g.debugWarp('store',7,3.6);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);near('with the hero at (7,3.6)');}
  result.push('R197: コンビニの店員さんの守護霊が、頭にめりこまない PASS');
  result.push('R244: コンビニの店員さんの守護霊が、奥の壁に貼りつかない PASS');
  result.push('R245: コンビニの店員さんの守護霊が、レジ台の上に乗らない PASS');
