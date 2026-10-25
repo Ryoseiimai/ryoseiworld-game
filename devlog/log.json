@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T08:32:03.148Z",
-  "branch": "claude/autodev-20261017-1721-R94",
-  "task": "R94 ボス戦の前のことばの札も、ソラの名前をことばから離して右端に出す",
-  "summary": "ボス戦の前のことばの札で、ソラの名前を右端の札に分けて出した\n町と戦闘の札（R93）と同じ形と色にそろえた\n札の形を調べるテストを足し、前と後のスクショを docs/shots/R94 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/181/mobile-02-mode-select.jpg",
-   "shots/181/mobile-15-custom-full-run.jpg",
-   "shots/181/mobile-27-chapter-2-play.jpg",
-   "shots/181/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "10d26b2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39017381452"
- },
- {
   "at": "2026-10-17T08:51:02.552Z",
   "branch": "claude/autodev-20261017-1732-R95",
   "task": "R95 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "27e87f1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40181985913"
+ },
+ {
+  "at": "2026-10-25T11:08:46.841Z",
+  "branch": "claude/autodev-20261025-1921-R238",
+  "task": "R238 公園の おじいさんの灰色の守護霊が池の上に浮き、水の中のノイズに見えたので、守護霊が水の上を避けるようにした",
+  "summary": "守護霊が左右を選ぶとき、池などの水のマスを避けるようにした\n公園のおじいさんを少し東へ動かし、守護霊が池のふちにかからないようにした\nおじいさんの守護霊が池の上に浮かないかを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/430/mobile-02-mode-select.jpg",
+   "shots/430/mobile-15-custom-full-run.jpg",
+   "shots/430/mobile-27-chapter-2-play.jpg",
+   "shots/430/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b1cb81c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40187155918"
  }
 ]
