@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T08:51:02.552Z",
-  "branch": "claude/autodev-20261017-1732-R95",
-  "task": "R95 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の「とくぎ」ボタンが下の「ビート」ボタンに4px重なっていたのを直した\nとくぎのゲージが文字の下の端にかかっていたので、細くして離した\nテストと smoke に、2つのボタンが離れていることを調べる確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/182/mobile-02-mode-select.jpg",
-   "shots/182/mobile-15-custom-full-run.jpg",
-   "shots/182/mobile-27-chapter-2-play.jpg",
-   "shots/182/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bb58a4b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39018559126"
- },
- {
   "at": "2026-10-17T09:48:42.260Z",
   "branch": "claude/autodev-20261017-1821-R96",
   "task": "R96 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b1cb81c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40187155918"
+ },
+ {
+  "at": "2026-10-25T11:57:47.925Z",
+  "branch": "claude/autodev-20261025-2021-R239",
+  "task": "R239 ネオンの駅前の看板が町の公園と同じ木の板で町から浮いていたので、届いていた光る看板の絵に替えた",
+  "summary": "ネオンの駅前の看板を、町の木の板から光る看板の絵に替えた\n届いていて使っていなかった駅の小物の絵を、ゲームが読みこむようにした\n看板が光る看板の絵になっているかを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/431/mobile-02-mode-select.jpg",
+   "shots/431/mobile-15-custom-full-run.jpg",
+   "shots/431/mobile-27-chapter-2-play.jpg",
+   "shots/431/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "cba487e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40190387511"
  }
 ]
