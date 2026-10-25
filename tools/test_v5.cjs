@@ -496,6 +496,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(at('mother').stage,'gray');assert.equal(at('mother').kind,'summons','mother shows Nao');assert.equal(at('grandma').kind,'spirits');assert.equal(at('grandma').frame,14);
   r.g.debugBond('mother',1);r.tick(32);assert.equal(at('mother').stage,'gray');r.g.debugBond('mother',2);r.tick(32);assert.equal(at('mother').stage,'color');r.g.debugBond('mother',5);r.tick(32);assert.equal(at('mother').stage,'glow');
   const n0=r.g.spirits.length,ys=[];for(let i=0;i<8;i++){r.tick(250);ys.push(at('grandma').y);}assert.equal(r.g.spirits.length,n0);assert(Math.max(...ys)-Math.min(...ys)>=6,'spirits bob up and down '+ys);assert(!r.g.spirits.some(s=>s.id==='dog'||s.id==='cat'),'pets have no spirit');
+  // R230: mother's grey Nao floated on the home's gate wall and read as a town noise; her spirit's centre now stays west of the home picture and clear of the bike.
+  {const T=48,obj=id=>D.maps.town.objects.find(o=>o.id===id),home=obj('home'),bike=obj('bike'),m=at('mother'),homeL=home.x*T-home.w/2,bikeR=bike.x*T+bike.w/2;assert(m.x<homeL&&m.x-22>=bikeR,`mother's spirit x ${m.x} is between the bike (to ${bikeR}) and the home (from ${homeL})`);}
   r.g.debugWarp('room',5,9);r.tick(32);assert.equal(r.g.spirits.length,0,'nobody in the room');
   const scene=r.g.smokeScenes.find(s=>s.name==='spirits');scene.run();r.tick(32);assert.deepEqual(['glow','color','gray'],['mother','sister','grandma'].map(id=>at(id).stage),'the smoke scene shows all three');}
  result.push('Spirits: none before Sora wakes; by people in town, grey at 0-1 hearts, colour at 2+, glow at 5; smoke scene shows the three PASS');
@@ -1636,10 +1638,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===o.sign),'the sign still tells the number');}
  result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
+ // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother'),at=()=>r.g.spirits.find(s=>s.id==='mother');
+  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='delivery'),at=()=>r.g.spirits.find(s=>s.id==='delivery');
   r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);assert.equal(at().side,1,'away from the hero the spirit floats right');
-  r.g.debugWarp('town',o.x+0.7,o.y);r.tick(32);assert(Math.abs(r.g.position.x/48-(o.x+0.7))<0.2,'hero stands right of the mother '+r.g.position.x);assert.equal(at().side,-1,'with the hero on the right the spirit moves left');
+  r.g.debugWarp('town',o.x+0.7,o.y);r.tick(32);assert(Math.abs(r.g.position.x/48-(o.x+0.7))<0.2,'hero stands right of the delivery man '+r.g.position.x);assert.equal(at().side,-1,'with the hero on the right the spirit moves left');
   {const sp=at(),h=r.g.position;assert(sp.x+22<=h.x-25||sp.x-22>=h.x+25||sp.y<=h.y-70,'the spirit box stays off the hero '+JSON.stringify([sp,h]));}
   r.g.debugWarp('town',o.x-0.7,o.y);r.tick(32);assert.equal(at().side,1,'with the hero on the left the spirit stays right');}
  result.push('R163: 主人公が人の右に立つと、守護霊を人の左に出し、主人公の頭にかぶせないようにした PASS');
@@ -1789,18 +1792,23 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(tree&&tree.x>mom.x&&Math.abs(tree.y-mom.y)<1,'a tree stands just right of the woman');
   for(const at of [[10.9,31.4],[8,31.4]]){r.g.debugWarp('minamo',at[0],at[1]);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='minamo_mom');assert(sp,'the woman has a spirit on screen');
    assert.equal(sp.side,-1,'the spirit floats left, away from the tree, with the hero at '+at);assert(sp.x+22<=tree.x*48-tree.w*.3,'the spirit box stays off the tree crown '+JSON.stringify([sp,tree.x*48]));}
-  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='mother');r.g.debugStartChapter(1);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
-  assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with nothing beside her the spirit still floats right');}
+  // R230: mother now stands by the home's wall, so the open-air check uses the delivery man.
+  const o=r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='delivery');r.g.debugStartChapter(1);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
+  assert.equal(r.g.spirits.find(s=>s.id==='delivery').side,1,'with nothing beside him the spirit still floats right');}
  result.push('R190: ミナモの木のそばの人の守護霊を、木の上ではなく反対の側に出す PASS');
  // R192: at the 1st chapter start (mobile-24) the hero stands right of the sister and the bicycle stands left of her, so her spirit sat on the bicycle.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];const m=r.g.GAME_DATA.maps.town,bike=m.objects.find(o=>o.id==='bike');
   r.g.debugWarp('town',...m.spawn);r.tick(32);
   const sp=r.g.spirits.find(s=>s.id==='mother');assert(sp,'the mother has a spirit on screen');
-  assert.equal(sp.side,0,'with the hero on her right and the bicycle on her left, her spirit floats over her head '+JSON.stringify(sp));
+  // R230: the bicycle parks further west now, so the spirit may float left of her as long as it stays off the hero and the bicycle.
+  assert(sp.side!==1,'with the hero on her right, her spirit does not float right onto the hero '+JSON.stringify(sp));
   assert(sp.x-22>=bike.x*48+bike.w*.35,'the spirit box stays off the bicycle '+JSON.stringify([sp,bike.x*48]));
   const o=m.objects.find(x=>x.id==='mother');r.g.debugWarp('town',o.x,o.y+2.5);r.tick(32);
-  assert.equal(r.g.spirits.find(s=>s.id==='mother').side,1,'with the hero away from her the spirit still floats right');}
+  // R230: mother stands at the home's left corner now, so her right is the home's wall; away from the hero her spirit floats left of her, off the wall and the bicycle.
+  {const away=r.g.spirits.find(s=>s.id==='mother'),home=m.objects.find(x=>x.id==='home');assert(away.side!==1,'with the hero away from her the spirit does not float right onto the home wall '+JSON.stringify(away));
+   assert(away.x<home.x*48-home.w/2&&away.x-22>=bike.x*48+bike.w*.35,'the spirit stays off the home and the bicycle '+JSON.stringify(away));
+   for(const [dx,dy] of [[0.7,0],[0,-0.6]]){r.g.debugWarp('town',o.x+dx,o.y+dy);r.tick(32);const near=r.g.spirits.find(s=>s.id==='mother');assert(near.x-22>=bike.x*48+bike.w/2,'with the hero by her the spirit stays off the whole bicycle picture '+JSON.stringify([dx,dy,near]));}}}
  result.push('R192: 1しょうの始めで、守護霊が自転車の上に乗らない PASS');
  // R193: at the ネオン start (mobile-29) the vacuum stood on the road edge right beside ミオ; noises now keep 1.6 tiles from townspeople on every map.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
