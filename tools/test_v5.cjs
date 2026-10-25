@@ -1906,6 +1906,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const after=patches();assert.equal(after.length,1,'only the pole is left');assert.equal(after[0].length,big,'the pole keeps every pixel');
   const again=despeckPixels(d,w,h,12);assert.equal(again,0,'nothing loose is left');}
  result.push('R202: 町の電柱の絵の右にあった黒い点を消し、絵がこわれて見えないようにした PASS');
+ // R227: the station picture had a thin purple sliver far under its steps, drawn as a stray line below ネオン's えき. Loading clears the rows under the art; the lamps in the tower window stay.
+ {assert(html.includes("const CLEAR_BELOW={'neon:1_1':.9};"),'only the station frame has its bottom rows cleared');assert(html.includes('despeck(name,key,entry);clearBelow(name,key,entry);'),'the loader clears them after loading');
+  const r=await runtime();const st=r.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_station');assert(st&&st.kind==='neon'&&st.frame===4,'the station uses neon frame 4 (row 1, col 1)');
+  const file=path.join(root,'assets','neon','neon_r1_c1.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
+  const rows=(a,z)=>{let n=0;for(let y=a;y<z;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>16)n++;return n;},from=Math.floor(h*.9);
+  assert(rows(from,h)>=40,'the sliver sits in the cleared rows: '+rows(from,h));assert.equal(rows(Math.floor(h*.83),from),0,'the station art ends well above them, so nothing of it is cut');
+  assert(rows(85,87)>0,'the lower window lamp (rows 85-86) is part of the picture and is not touched');}
+ result.push('R227: ネオンの えきの下に出ていた紫の線を消した PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
   for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole)\d*$/.test(o.id));nPeople+=people.length;nPosts+=posts.length;
