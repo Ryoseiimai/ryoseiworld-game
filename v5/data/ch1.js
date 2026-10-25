@@ -39,7 +39,10 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sit 0.6 tile east.
  // R218: on the west sidewalk (x 12) each post stood about half a tile under the one above (a pole on the bus stop sign, a signal on a pole's top), so they read as one tall post.
  // The two signals moved up their sidewalk row and the pole north of the bus stop moved up, so every post on one sidewalk starts at least 40px under the one above.
- ...props('signal',12,110,[[12.5,8.9],[18.1,11.9],[18.1,16.9],[12.5,19.3],[18.1,25.9],[12.5,29.3]]),
+ // R236: the east-side signals reached their arm and lamps away from the road, over the grass (mobile-16), so they are drawn mirrored like the west ones seen from across the road.
+ // Their pole stays where it stood (x 17.57), so x moves 0.53 tile west; the lamps keep green on the left.
+ ...props('signal',12,110,[[12.5,8.9],[12.5,19.3],[12.5,29.3]]),
+ ...[[17.05,11.9],[17.05,16.9],[17.05,25.9]].map(([x,y],i)=>prop('signal'+(3+i),12,x,y,110,{flip:true})),
  // R203: the delivery man by the electric shop also stood right over light1's top across the road, so he moved two tiles east on his sidewalk (people list below).
  // R203: the pole across the road from the police box stood right under the police officer, who read as standing on its top (mobile-24), so it moved west along that far sidewalk (down-left of the police box).
  // R228: the pole on the sidewalk south of the junkyard stood right behind the tree below it, so its top stuck out of the leaves; it moved three tiles west, clear of the tree.

@@ -262,7 +262,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const k of ['buildings','props'])for(const frame of k==='buildings'?[6,8]:[2,5,7,8,11,12,15])assert(town.objects.some(o=>o.kind===k&&o.frame===frame),k+' '+frame+' used');
  for(const e of town.enemies)assert(!['=','~'].includes(tileAt(e.x,e.y)),'enemy '+e.id+' off road');
  // R213: the signal picture's pole and base plate span about 15-39% of its width from the left, so the base must not touch a road tile (mobile-16: the east-side poles stood on the road).
- for(const o of town.objects.filter(o=>/^signal\d+$/.test(o.id)))for(const k of [.15,.27,.39]){const x=o.x+(k-.5)*o.w/TILE;assert.notEqual(tileAt(x,o.y-.1),'=',o.id+' pole base on the road at x '+x.toFixed(2));}
+ for(const o of town.objects.filter(o=>/^signal\d+$/.test(o.id)))for(const k0 of [.15,.27,.39]){const k=o.flip?1-k0:k0,x=o.x+(k-.5)*o.w/TILE;assert.notEqual(tileAt(x,o.y-.1),'=',o.id+' pole base on the road at x '+x.toFixed(2));}
+ // R236: every signal reaches its arm toward the road: west of the road drawn as is, east of it mirrored (flip), so the lamps hang over the road edge.
+ {const roadMid=15;for(const o of town.objects.filter(o=>/^signal\d+$/.test(o.id))){const east=o.x>roadMid;assert.equal(!!o.flip,east,o.id+' flip only on the east sidewalk');const lampEdge=o.x+((east?1-.86:.86)-.5)*o.w/TILE;assert(east?lampEdge<17.2:lampEdge>12.8,o.id+' lamps reach toward the road (edge x '+lampEdge.toFixed(2)+')');}
+  assert(/MIRROR_KEEP=\{'props:12':/.test(html),'the mirrored signal keeps its lamps in order');}
  result.push('Town layout: no prop/person/building on road or water, park pond+sand off the road, apartment/junkyard/hedge/streetlight/pole/bike/signal/cat used PASS');
  // F03: interior art everywhere, and never the console-shelf frame 8.
  for(const [id,m] of Object.entries(nav.g.GAME_DATA.maps))for(const o of m.objects){assert(!(o.kind==='interior'&&o.frame===8),id+' uses frame 8');assert.notEqual(o.kind,'furniture',id+' still uses placeholder furniture '+o.id);}
@@ -1866,8 +1869,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of m.objects.filter(o=>/^(npc|npc2)$/.test(o.kind)&&o.id!=='dog'&&o.id!=='cat')){const near=Math.min(...poles.map(q=>Math.hypot(o.x-q.x,o.y-q.y)));
    assert(near>=1.8,o.id+' stands 1.8 tiles or more from a signal, pole or street light ('+near.toFixed(2)+')');}
   const st=m.objects.find(o=>o.id==='student');assert(m.tiles[Math.floor(st.y)][Math.floor(st.x)]!=='=','the student does not stand on the road');
-  // R231: her grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16); its box now stays east of that signal's picture.
-  if(!r.g.summons.length)r.g.state.summons=['nao'];r.g.debugWarp('town',17,24.6);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='student'),sig=m.objects.find(o=>/^signal\d+$/.test(o.id)&&Math.abs(o.x-18.1)<.01&&Math.abs(o.y-25.9)<.01);
+  // R231: her grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16); its box now stays east of that signal's picture. R236: that signal is now mirrored at x 17.05 (same pole), its lamps over the road.
+  if(!r.g.summons.length)r.g.state.summons=['nao'];r.g.debugWarp('town',17,24.6);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='student'),sig=m.objects.find(o=>/^signal\d+$/.test(o.id)&&Math.abs(o.x-17.05)<.01&&Math.abs(o.y-25.9)<.01);
   assert(sp&&sig,'the student\'s spirit and the signal by the store are drawn: '+JSON.stringify(r.g.spirits));assert.equal(sp.side,-1,"the spirit stays on her left, away from the store");assert(sp.x-22>=sig.x*48+sig.w/2,`the student's spirit (from ${sp.x-22}) is clear of the signal (to ${sig.x*48+sig.w/2})`);}
  result.push('R196: 町の人が、信号や電柱にくっついて立たない PASS');
  result.push('R231: コンビニの前の おねえさんの守護霊が、信号の灯器に重ならない PASS');
