@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T07:39:39.442Z",
-  "branch": "claude/autodev-20261017-1621-R92",
-  "task": "R92 遊んで一番気になる所を1つ直す",
-  "summary": "R92: コマンド戦闘で勝った後、敵がゆれを止めて少し沈み、うすくなるようにした\n動くコマを持つボスは、勝った時のコマのまま残す（確認役の指摘で直した）\n前と後は docs/shots/R92。手元のテストとブラウザの確認は通った",
-  "result": "pass",
-  "shots": [
-   "shots/179/mobile-02-mode-select.jpg",
-   "shots/179/mobile-15-custom-full-run.jpg",
-   "shots/179/mobile-27-chapter-2-play.jpg",
-   "shots/179/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8cd7448",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39014125566"
- },
- {
   "at": "2026-10-17T07:59:11.138Z",
   "branch": "claude/autodev-20261017-1641-R93",
   "task": "R93 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "da547ca",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40174579801"
+ },
+ {
+  "at": "2026-10-25T09:02:57.378Z",
+  "branch": "claude/autodev-20261025-1721-R236",
+  "task": "R236 町の東の歩道の信号機が腕と灯を芝生の側へ出していたので、左右反転して灯を道路の上に出した",
+  "summary": "町の東の歩道の信号機3本を左右反転し、灯が道路の上に出るようにした\n柱の位置は同じにし、灯の並びは左から緑・黄・赤のまま残した\n東の信号機が反転していて灯が道路側にあるかを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/427/mobile-02-mode-select.jpg",
+   "shots/427/mobile-15-custom-full-run.jpg",
+   "shots/427/mobile-27-chapter-2-play.jpg",
+   "shots/427/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a8bc73b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40178549344"
  }
 ]
