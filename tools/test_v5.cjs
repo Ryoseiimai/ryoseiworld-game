@@ -2040,6 +2040,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.minamo,trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id)),people=m.objects.filter(o=>o.kind==='npc'||o.kind==='npc2');assert(people.length&&trees.length,'minamo: people and trees are found');
   for(const t of trees)for(const p of people){const near=Math.abs(t.x-p.x)*48<t.w*.85/2+p.w/2&&p.y<=t.y&&(t.y-p.y)*48<t.h*.8;assert(!near,`minamo: ${p.id} stands behind the leaves of ${t.id}`);}}
  result.push('R237: ミナモの人が、木の葉の後ろに隠れない PASS');
+ // R238: in the town park grandpa's grey spirit floated over the pond (mobile-25) and read as a noise in the water; a spirit now keeps off water tiles.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  const m=r.g.GAME_DATA.maps.town,gp=m.objects.find(o=>o.id==='grandpa');r.g.debugWarp('town',gp.x,gp.y-3);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='grandpa');assert(sp,'grandpa\'s spirit is drawn: '+JSON.stringify(r.g.spirits));
+  let wet=0;for(let y=sp.y-50;y<=sp.y+6;y+=2)for(let x=sp.x-22;x<=sp.x+22;x+=2)if(m.tiles[Math.floor(y/48)]?.[Math.floor(x/48)]==='~')wet++;assert.equal(wet,0,`grandpa's spirit at ${sp.x},${sp.y} (side ${sp.side}) floats over the pond`);}
+ result.push('R238: 公園の おじいさんの守護霊が、池の上に浮かない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
