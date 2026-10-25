@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T03:33:59.492Z",
-  "branch": "claude/autodev-20261017-1221-R85",
-  "task": "R85 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンの町で、人の頭上の「86い」「3204」が何の数か分からなかった\n頭上の数字を「じゅんい 86」「いいね 3204」「フォロワー 12,840」の形にした\n長くなった看板が街灯に重ならないよう1人を少し左へ動かし、確認を足した。前と後は docs/shots/R84",
-  "result": "pass",
-  "shots": [
-   "shots/168/mobile-02-mode-select.jpg",
-   "shots/168/mobile-15-custom-full-run.jpg",
-   "shots/168/mobile-27-chapter-2-play.jpg",
-   "shots/168/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8c10933",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38998907033"
- },
- {
   "at": "2026-10-17T03:39:31.266Z",
   "branch": "claude/autodev-20261017-1221-R85",
   "task": "R85 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d02d7f6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40146403153"
+ },
+ {
+  "at": "2026-10-25T00:57:39.047Z",
+  "branch": "claude/autodev-20261025-0921-R227",
+  "task": "R227 ネオンの駅の絵の下に、絵から離れた紫の線が浮いて見えたので、読み込む時に線を消した",
+  "summary": "ネオンの駅の下に、絵から離れた紫の細い線が浮いて見えていた\n駅の絵を読み込む時に、絵の下の余白の行を消すようにした\n線が消え、塔の窓のランプは残ることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/415/mobile-02-mode-select.jpg",
+   "shots/415/mobile-15-custom-full-run.jpg",
+   "shots/415/mobile-27-chapter-2-play.jpg",
+   "shots/415/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4715c13",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40148102842"
  }
 ]
