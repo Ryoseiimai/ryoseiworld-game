@@ -1737,12 +1737,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let k=0;k<200;k++){const y=mk({y:1400},{y:0},[[230,270]])(null);assert(y===-999||y+22<230||y-22>270,'not across こうえん '+y);}}
  assert(/if\(name\)\{fieldSignRects\.push\(/.test(html)&&/if\(name&&!ASSET_COLS\[kind\]\)\{fieldSignRects\.push\(/.test(html),'R175: the names on stand-in pictures count as sign rows too');
  result.push('R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS');
- // R177: when a person sits under the talk button, the button steps up (96, 192 or 288px) to a spot with nobody under it and off the hero; the plate still turns see-through (R107).
+ // R177: when a person sits under the talk button, the button steps up (96px, R247: one step only) to a spot with nobody under it and off the hero; the plate still turns see-through (R107).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#talk-btn\{transition:[^}]*translate /.test(html),'the button slides when it steps up');
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;let lifted=0,behind=0,bad=[];
   for(const map of ['neon','town'])for(let x=2;x<=26;x++)for(let y=4;y<=36;y++){r.g.debugWarp(map,x,y);r.tick(16);const tf=btn.style.translate||'',b=btn.classes.has('behind');behind+=b;
-   if(tf){lifted++;const n=Number((tf.match(/^0 (-?\d+)px$/)||[])[1]);if(![-96,-192,-288].includes(n))bad.push([map,x,y,tf,b]);}}
+   if(tf){lifted++;const n=Number((tf.match(/^0 (-?\d+)px$/)||[])[1]);if(n!==-96)bad.push([map,x,y,tf,b]);}}
   assert(behind>0&&lifted>0,'somewhere the button steps up off a person: '+lifted+' / '+behind);assert.deepEqual(bad,[],'it steps up only by one of the fixed steps (translate, so button:active can still press it down)');
   {let jumps=0,frames=0;for(const map of ['neon','town'])for(let x=2;x<=26;x+=3)for(let y=4;y<=36;y+=3){r.g.debugWarp(map,x,y);for(let i=0;i<80;i++)r.tick(16);const a=btn.style.translate||'';for(let i=0;i<20;i++){r.tick(16);frames++;if((btn.style.translate||'')!==a)jumps++;}}assert(jumps*50<frames,'standing still, the button stays where it went (only a walking person can move it): '+jumps+' / '+frames);}
   r.g.debugWarp('room',5,5);r.tick(16);assert.equal(btn.style.translate||'','','in the room the button stays in its place');}
@@ -1763,6 +1763,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lamp=r.g.GAME_DATA.maps[r.g.map].objects.find(o=>o.kind==='props'&&TALL.test(o.id)&&o.x*48+o.w*.3>x0&&o.x*48-o.w*.3<x1&&o.y*48>y0&&o.y*48-o.h*.8<y1);
   assert(!lamp,'at the start of chapter 3 the talk button does not sit on '+(lamp&&lamp.id)+' (lift '+n+')');}
  result.push('R188: 3章の始めで、ずれた「はなす」ボタンが街灯に乗らない PASS');
+ // R247: at the start of chapters 1 and 3 (mobile-25/28) the button went up 192px onto the park sign and the road; it now steps up at most one step and stays near the bottom-right corner.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const seen=[];
+  for(const ch of [1,3]){r.g.debugStartChapter(ch);for(let i=0;i<40&&(r.g.dialogue||r.g.modal);i++){if(r.g.dialogue)r.dialogue();else r.tick(400);}for(let i=0;i<60;i++)r.tick(16);seen.push(btn.style.translate||'');}
+  for(const map of ['neon','town','minamo'])for(let x=2;x<=26;x+=2)for(let y=4;y<=36;y+=2){r.g.debugWarp(map,x,y);for(let i=0;i<20;i++)r.tick(16);seen.push(btn.style.translate||'');}
+  const high=seen.filter(t=>t&&t!=='0 -96px');assert.deepEqual(high,[],'the talk button never goes higher than one 96px step');}
+ result.push('R247: 「はなす」ボタンが、上へずれても1段（96px）までで、画面の真ん中に浮かない PASS');
  // R191: in ヒダマリちょう (mobile-16) every lamp-free step had a person, so the button still went onto a lamp; a step on a tall prop is now never taken, and the button stays down, see-through.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0;const onProp=[];
