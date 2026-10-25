@@ -25,7 +25,8 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  object('neon_mio','npc2',0,13.4,21.6,48,65,{label:'ミオ',event:'mioRain'}),
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
- prop('neon_sign',11,11.4,14.2,80,{dialogue:'neonSign'}),
+ // R239: the welcome board was the town's wooden park board, out of place on ネオン's purple paving (mobile-23); it is now the glowing city signboard.
+ object('neon_sign','station_sign',3,11.4,14.2,82,96,{dialogue:'neonSign'}),
  prop('neon_bench',4,21.8,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
  ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),

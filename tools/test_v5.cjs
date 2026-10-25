@@ -2045,6 +2045,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const m=r.g.GAME_DATA.maps.town,gp=m.objects.find(o=>o.id==='grandpa');r.g.debugWarp('town',gp.x,gp.y-3);r.tick(32);const sp=r.g.spirits.find(s=>s.id==='grandpa');assert(sp,'grandpa\'s spirit is drawn: '+JSON.stringify(r.g.spirits));
   let wet=0;for(let y=sp.y-50;y<=sp.y+6;y+=2)for(let x=sp.x-22;x<=sp.x+22;x+=2)if(m.tiles[Math.floor(y/48)]?.[Math.floor(x/48)]==='~')wet++;assert.equal(wet,0,`grandpa's spirit at ${sp.x},${sp.y} (side ${sp.side}) floats over the pond`);}
  result.push('R238: 公園の おじいさんの守護霊が、池の上に浮かない PASS');
+ // R239: ネオン's welcome board was the town's wooden park board (mobile-23); it is the glowing city signboard from the station_sign art now.
+ {const g=(await runtime()).g;const sign=g.GAME_DATA.maps.neon?.objects.find(o=>o.id==='neon_sign');assert(sign,'neon: the welcome board is found');assert.equal(sign.kind,'station_sign','neon: the welcome board uses the station_sign art');assert.equal(sign.frame,3,'neon: the welcome board is the glowing signboard (frame 3)');
+  const list=JSON.parse(fs.readFileSync(path.join(root,'assets','station_sign','station_sign_frames.json'),'utf8'));const f=list.find(x=>x.row===1&&x.col===1);assert(f&&fs.existsSync(path.join(root,'assets','station_sign',f.file)),'station_sign frame 3 picture exists');
+  assert(/station_sign:4\b/.test(html)&&/station_sign:2\b/.test(html),'index.html loads the station_sign pictures');}
+ result.push('R239: ネオンの かんばんが、町の木の板ではなく光る看板 PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
