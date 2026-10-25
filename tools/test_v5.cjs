@@ -1473,6 +1473,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(back.includes('ctx.fillRect(x - 5, PLAY_T + 150, 10, MINAMO_BANK_Y - PLAY_T - 150);'),'the lamp pole ends on the bank top');
   assert(!/PLAY_B - PLAY_T - 150/.test(back),'the lamp pole no longer reaches the bottom of the play area');}
  result.push('R223: ミナモのボス戦で、街灯の柱が川の中まで立たない PASS');
+ // R229: in BUG KING's boss fight the town poles ran from the wires down over the guardrail and the stone wall to the road. They now stop at the guardrail top.
+ {const sh=scripts.find(s=>s.file==='v5/js/shooter.js').code;const rail=Number((sh.match(/var TOWN_RAIL_Y = (\d+);/)||[])[1]);
+  assert(rail>=630&&rail<=670,'the rail top sits where the guardrail of bg_town is: '+rail);
+  const back=sh.slice(sh.indexOf("if (theme === 'town') {",sh.indexOf('function drawThemeBack(')),sh.indexOf("} else if (theme === 'minamo') {",sh.indexOf('function drawThemeBack(')));
+  assert(back.includes('ctx.fillRect(x - 6, top, 12, TOWN_RAIL_Y - top);'),'the town pole ends at the guardrail top');
+  assert(!/PLAY_B - top/.test(back),'the town pole no longer reaches the bottom of the play area');}
+ result.push('R229: BUG KING 戦で、町の電柱がガードレールと石垣の前まで立たない PASS');
  // R224: the bicycle and car frames end far above the bottom of their cells, so they floated over their shadows. sprite() draws them lower by the extra empty rows.
  {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42}};'),'the bicycle and the car have a foot pad');
   assert(html.includes('y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;'),'sprite() lowers a padded frame onto its foot');

@@ -37,6 +37,7 @@
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
   // Top of ミナモ's stone bank in bg_minamo (drawn H + 40 tall from y = -20); below it is the river.
   var MINAMO_BANK_Y = 440;
+  var TOWN_RAIL_Y = 652; // R229: top of the guardrail in bg_town (the picture's own poles end behind it)
   var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
   // 当たり判定は見た目(P_R)より小さく: 本体の7割だけが実際にぶつかる。デバッグの「あたりはんてい みえる」もこの値を描く
@@ -1875,10 +1876,11 @@
       ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x + len, yy); ctx.stroke();
     }
     if (theme === 'town') {
+      // R229: the pole stands behind the guardrail (TOWN_RAIL_Y); it ran down over the rail and the stone wall to the road.
       var sp1 = 300, off = (t * 210) % sp1, top = PLAY_T + 64;
       for (x = -off - sp1; x < W + sp1; x += sp1) {
         ctx.fillStyle = 'rgba(12,14,26,0.88)';
-        ctx.fillRect(x - 6, top, 12, PLAY_B - top);
+        ctx.fillRect(x - 6, top, 12, TOWN_RAIL_Y - top);
         ctx.fillRect(x - 40, top + 16, 80, 7);
         ctx.fillRect(x - 28, top + 40, 56, 5);
         ctx.strokeStyle = 'rgba(12,14,26,0.8)'; ctx.lineWidth = 2;
