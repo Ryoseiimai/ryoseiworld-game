@@ -1454,7 +1454,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugStartBattle('vending','r137');r.tick(300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle','vending battle');
   let low=0;for(let i=0;i<60;i++){r.canvasCalls.length=0;r.tick(16);const c=r.canvasCalls.filter(c=>c[0]==='drawImage'&&/\/ryosei\//.test(String(c[1]))).at(-1);assert(c,'the hero is drawn in battle');low=Math.max(low,c[3]+c[5]);}
   assert(low<=482,'the hero ends above the HP card (top 488): '+Math.round(low));
-  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y&&html.includes("sprite('ryosei',Math.floor(gameTime/180)%4,96+(g.status?Math.sin(gameTime/35)*4:0),HERO_BATTLE_Y+(g.status?Math.cos(gameTime/47)*2:0),86,108)"),'the battle hero stands on HERO_BATTLE_Y');
+  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y&&html.includes("sprite('ryosei',Math.floor(gameTime/180)%4,96+(g.status?Math.sin(gameTime/35)*4:0),HERO_BATTLE_Y+(g.status?Math.cos(gameTime/47)*2:0),112,140)"),'the battle hero stands on HERO_BATTLE_Y');
    assert(y+2<=484,'while ちらつき shakes the hero by 2px, it still ends above the HP card: '+(y+2));}
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
  result.push('R137: 戦闘の主人公の足が、RYOSEI と HP の欄の枠にかからない PASS');
@@ -1462,6 +1462,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
   assert(y+6<=486,'the hero shadow ends above the HP card (top 488): '+(y+6));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
+ // R233: the battle hero looked about half the size of the vending machine. It is drawn taller now, still inside the left edge and above the HP card.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  for(const type of Object.entries(r.g.GAME_DATA.enemies).filter(([,e])=>!e.boss).map(([k])=>k)){r.g.debugStartBattle(type,'r233');r.tick(300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle',type+' battle');
+   r.canvasCalls.length=0;r.tick(16);const imgs=r.canvasCalls.filter(c=>c[0]==='drawImage');const hero=imgs.filter(c=>/\/ryosei\//.test(String(c[1]))).at(-1),enemy=imgs[0];
+   assert(hero&&enemy&&enemy!==hero,type+': the hero and the enemy are drawn');
+   assert(hero[5]>=130,type+': the hero is drawn at least 130px tall: '+Math.round(hero[5]));
+   assert(hero[3]+hero[5]<=482,type+': the hero still ends above the HP card (top 488): '+Math.round(hero[3]+hero[5]));
+   assert(hero[2]>=24,type+': the hero stays inside the left edge: '+Math.round(hero[2]));
+   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}}
+ result.push('R233: 戦闘の主人公が前より大きく、左はしと HP の欄の中に収まる PASS');
  // R222: in ミナモ's boss fight the riverside rail was drawn after the hero, so its posts covered the hero's feet and board. The rail now goes behind the hero.
  {const sh=scripts.find(s=>s.file==='v5/js/shooter.js').code;const front=sh.slice(sh.indexOf('function drawThemeFront('),sh.indexOf('function drawThemeFront(')+2000);
   assert(/function drawThemeRail\(ctx, S, w\) \{\s*if \(S\.theme !== 'minamo'\) return;/.test(sh),'the ミナモ rail has its own layer');
