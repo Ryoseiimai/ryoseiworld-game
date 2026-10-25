@@ -1772,13 +1772,25 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R247: 「はなす」ボタンが、上へずれても1段（96px）までで、画面の真ん中に浮かない PASS');
  // R248: outdoors the map ends above the bottom bar, so the ミナモ road stopped in a flat band behind the はなす button (mobile-26). ground() now repeats the edge rows past the map.
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(src,'ground() is in index.html');const rects=[];
-  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime','return '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const tallSrc=(html.match(/function roadWide\(T,x,y\)\{.*/)||[''])[0];assert(tallSrc,'roadWide() is in index.html');
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime(),m=rt.g.GAME_DATA.maps.minamo,road='#5e7275',col=14*48,bottom=m.h*48;ground(m);
   for(let y=bottom;y<bottom+130;y+=48)assert(rects.some(r=>r[0]===col&&r[1]===y&&r[4]===road),'the road at x 14 goes on below the map bottom (y '+y+')');
   assert(rects.some(r=>r[0]===col+22&&r[1]>=bottom&&r[4]==='#d8d6af'),'its centre dashes go on too');
   assert(rects.some(r=>r[1]<0&&r[1]>-48&&r[4]==='#6d9c7e')&&rects.some(r=>r[1]<-144&&r[4]==='#6d9c7e'),'the grass tufts of the first row go on above it, up to under the top HUD');
   rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');}
  result.push('R248: 外の地図で、道や地面が下のボタンの帯の手前で途切れない PASS');
+ // R249: the inner column of the 4-wide town road got an east-west dash every third row too, crossing the north-south dash into a "+" (mobile-16).
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],tallSrc=(html.match(/function roadWide\(T,x,y\)\{.*/)||[''])[0];const rects=[];
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const rt=await runtime();
+  for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];if(!m||!m.outside)continue;rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');
+   const plus=dash.filter(v=>v[2]===4&&dash.some(h=>h[3]===4&&h[0]===v[0]-22+6&&h[1]===v[1]-6+22));assert.deepEqual(plus.slice(0,3),[],name+': no "+" where the two dashes cross in one tile');
+   assert(dash.some(r=>r[3]===4),name+': east-west roads keep their centre dashes');
+   const T=(x,y)=>m.tiles[y]?.[x];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){if(T(x,y)!=='='||y%3||x%2||T(x-1,y)!=='='||T(x+1,y)!=='=')continue;let w=1;for(let d=1;T(x-d,y)==='=';d++)w++;for(let d=1;T(x+d,y)==='=';d++)w++;
+    const has=dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===y*48+22),vert=dash.some(r=>r[2]===4&&r[0]===x*48+22&&r[1]===y*48+6);
+    if(w<=4)assert(!has,name+': no east-west dash inside the narrow north-south road ('+x+','+y+')');else if(!vert)assert(has,name+': the east-west road keeps its dash at ('+x+','+y+')');}}}
+ result.push('R249: 町の太い道の真ん中に「＋」の印が出ない PASS');
  // R191: in ヒダマリちょう (mobile-16) every lamp-free step had a person, so the button still went onto a lamp; a step on a tall prop is now never taken, and the button stays down, see-through.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0;const onProp=[];
