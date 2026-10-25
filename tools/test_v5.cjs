@@ -2036,6 +2036,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const t of trees)for(const p of posts)if(Math.abs(t.y-p.y)<1.5)assert(Math.abs(t.x-p.x)*48-t.w*.85/2-14>=10,`${id}: the leaves of ${t.id} touch ${p.id}`);}
   const m=g.GAME_DATA.maps.minamo,mom=m.objects.find(o=>o.id==='minamo_mom'),house=m.objects.find(o=>o.id==='minamo_friend');assert(mom.x*48-34-22>=house.x*48+house.w/2,'the woman by the moved tree keeps her spirit off the friend\'s house');}
  result.push('R235: ミナモの木の葉が、となりの街灯にふれない PASS');
+ // R237: in ミナモ the woman west of the tree stood just behind its foot, so the leaves hid her right side. A person beside a tree now stands clear of the leaves or in front of the trunk.
+ {const g=(await runtime()).g;const m=g.GAME_DATA.maps.minamo,trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id)),people=m.objects.filter(o=>o.kind==='npc'||o.kind==='npc2');assert(people.length&&trees.length,'minamo: people and trees are found');
+  for(const t of trees)for(const p of people){const near=Math.abs(t.x-p.x)*48<t.w*.85/2+p.w/2&&p.y<=t.y&&(t.y-p.y)*48<t.h*.8;assert(!near,`minamo: ${p.id} stands behind the leaves of ${t.id}`);}}
+ result.push('R237: ミナモの人が、木の葉の後ろに隠れない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
