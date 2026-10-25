@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T14:52:31.896Z",
-  "branch": "claude/autodev-20261017-2344-R104",
-  "task": "R104 ゼロ戦の上の帯で、こえの丸が「つながり」の字にかからないようにする",
-  "summary": "ゼロ戦の上の帯で、こえの丸の列が「つながり」の字の手前で止まるようにした\nこえが7つ以上の時は、丸の間を少しつめて小さくする。6つの時の見た目は前と同じ\nこえが8つの時に丸が字にかからないことを、テストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/196/mobile-02-mode-select.jpg",
-   "shots/196/mobile-15-custom-full-run.jpg",
-   "shots/196/mobile-27-chapter-2-play.jpg",
-   "shots/196/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "fedddc0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39042226497"
- },
- {
   "at": "2026-10-17T15:48:06.120Z",
   "branch": "claude/autodev-20261018-0022-R105",
   "task": "R105 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "5882a87",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40241940026"
+ },
+ {
+  "at": "2026-10-25T23:13:02.766Z",
+  "branch": "claude/autodev-20261026-0721-R250",
+  "task": "R250 戦闘で呼び出したナオスライムの名前の札が、上の言葉のカードに2pxの間でくっついて見えたので、札を12px下げた",
+  "summary": "戦闘で呼び出した時の名前の札を、上の言葉のカードから12px離した\nナオスライムの名札がカードにくっついて見えなくなり、絵は前の大きさのまま収まった\n札の位置の確かめを tools/test_v5.cjs に足した",
+  "result": "pass",
+  "shots": [
+   "shots/446/mobile-02-mode-select.jpg",
+   "shots/446/mobile-15-custom-full-run.jpg",
+   "shots/446/mobile-27-chapter-2-play.jpg",
+   "shots/446/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3dff2d3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40242559923"
  }
 ]
