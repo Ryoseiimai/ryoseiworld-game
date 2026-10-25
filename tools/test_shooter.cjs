@@ -651,6 +651,12 @@ async function browserAdapterChecks() {
   for(let i=0;i<400;i++){tick(1000/60);await ready();tellSamples.push(win.__shooter.bossTell);if(win.__shooter.bullets>bulletsBefore)break;}
   check('FUN-VID3: タメ(発射前の予告)は発射が近づくほど強くなる',tellSamples[0]<0.5&&Math.max(...tellSamples)>0.7,tellSamples);
   win.__shooter.debugWin();await advance(7);check('onWinにcheatedが入る',won&&won.cheated===true&&handle.state==='closed');
+  // R242: the entrance lines said the board floated while the hero still stood on the ground; they now wait for the rise.
+  {handle=R.Shooter.start({boss:'kateino',platform});await ready();drawn.length=0;await advance(.3);
+   const early=drawn.some(d=>d.text==='キックボードが うかんだ！');
+   drawn.length=0;await advance(.5);const late=drawn.some(d=>d.text==='キックボードが うかんだ！');
+   check('R242: 登場の2行は主人公が浮く('+R.Shooter._sim.INTRO.riseT+'秒)前には出ず、浮いた後に出る',!early&&late&&R.Shooter._sim.INTRO.riseT===0.45,{early,late});
+   handle.stop();}
   // R75: the entrance lines sit on a dark plate, so they stay readable over the bright neon city.
   drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
   {const l1=drawn.filter(d=>d.text==='フクの ちからで').at(-1),l2=drawn.filter(d=>d.text==='キックボードが うかんだ！').at(-1);
