@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T03:39:31.266Z",
-  "branch": "claude/autodev-20261017-1221-R85",
-  "task": "R85 遊んで一番気になる所を1つ直す",
-  "summary": "スマホで、ネオンの町の「じゅんい 86」「いいね 3204」の札が画面の端で切れていた\n人が画面の端に立つと、札を画面の内側へ寄せて全部見えるようにした（人の上からは外れない）\n確認を足した。前と後は docs/shots/R85。ボス戦のヒントが遊び始めに消えかける件は次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/169/mobile-02-mode-select.jpg",
-   "shots/169/mobile-15-custom-full-run.jpg",
-   "shots/169/mobile-27-chapter-2-play.jpg",
-   "shots/169/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3abf52c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/38999119577"
- },
- {
   "at": "2026-10-17T03:52:15.667Z",
   "branch": "claude/autodev-20261017-1246-R86",
   "task": "R86 ボス戦の始まりに出るソラのヒントを、読み終わるまで出しておく",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "4715c13",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40148102842"
+ },
+ {
+  "at": "2026-10-25T01:58:18.757Z",
+  "branch": "claude/autodev-20261025-1021-R228",
+  "task": "R228 町の東の歩道で、電柱が木の後ろに立ち葉の上から突き出ていたので、電柱を3マス西へ動かした",
+  "summary": "町の東の歩道で、電柱が木の後ろに立ち、葉の上から先が突き出ていた\n電柱を3マス西へ動かし、木と重ならないようにした\n町・ミナモ・ネオンで、柱が木の葉の後ろに立たないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/416/mobile-02-mode-select.jpg",
+   "shots/416/mobile-15-custom-full-run.jpg",
+   "shots/416/mobile-27-chapter-2-play.jpg",
+   "shots/416/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "879035e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40152064254"
  }
 ]
