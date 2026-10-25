@@ -1791,6 +1791,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     const has=dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===y*48+22),vert=dash.some(r=>r[2]===4&&r[0]===x*48+22&&r[1]===y*48+6);
     if(w<=4)assert(!has,name+': no east-west dash inside the narrow north-south road ('+x+','+y+')');else if(!vert)assert(has,name+': the east-west road keeps its dash at ('+x+','+y+')');}}}
  result.push('R249: 町の太い道の真ん中に「＋」の印が出ない PASS');
+ // R250: the summon's name plate (top at nameY-32) leaves a 12px gap under the word card instead of 2px; with no card it stays at 185.
+ {const m=html.match(/function summonNameY\(\)\{[^\n]*/);assert(m,'summonNameY exists');assert(/const SUMMON_PLATE_GAP=12;/.test(html),'the gap is named');
+  const mk=(hidden,top,hgt,cur)=>new Function('$','wordCurrent','SUMMON_PLATE_GAP',m[0]+'\nreturn summonNameY();')(()=>({hidden,style:{top:top+'px'},offsetHeight:hgt}),cur,12);
+  assert.equal(mk(true,100,96,{}),185,'no card: same place');assert.equal(mk(false,100,96,null),185,'no word: same place');
+  for(const [top,hgt] of [[100,96],[108,110],[60,80]]){const y=mk(false,top,hgt,{});assert(y-32>=top+hgt+12,'plate starts 12px under the card '+[top,hgt,y]);assert(y-32<=top+hgt+13,'and not far below '+y);}}
+ result.push('R250: 召喚の名前の札が、ことばのカードの12px下にある PASS');
  // R191: in ヒダマリちょう (mobile-16) every lamp-free step had a person, so the button still went onto a lamp; a step on a tall prop is now never taken, and the button stays down, see-through.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0;const onProp=[];

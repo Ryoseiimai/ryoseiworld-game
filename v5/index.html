@@ -400,7 +400,9 @@ const HERO_SHADOW='#0e1c2caa';
 // R167: the name plate sits under the word card, so a tall summon (ナオスライム's antenna) could poke into it. With a card up, the art is shrunk just enough to start under the plate (its top row comes from scanAlpha); without one it keeps its full size.
 function summonFitH(index,nameY){const f=frameFor('summons',index);if(nameY<=185||!f||f.top==null)return 300;const s0=Math.min(285/f.w,300/f.h),visible=f.h*(1-f.top)*s0,room=SUMMON_Y-4-(nameY+12+6);return visible<=room?300:f.h*s0*Math.max(.6,room/visible);}
 function summonEaseH(c,target){const last=c.fitAt??gameTime;c.fitAt=gameTime;c.fitH=c.fitH==null?target:c.fitH+(target-c.fitH)*(1-Math.exp(-Math.max(0,gameTime-last)/120));return c.fitH;}
-function summonNameY(){const el=$('word-card');if(!wordCurrent||el.hidden)return 185;return Math.max(185,Math.round((parseFloat(el.style.top)||0)+(el.offsetHeight||96)+34));}
+// R250: the plate's top (nameY-32) sat 2px under the word card, so ナオスライム's name looked stuck to the card. It now leaves a 12px gap.
+const SUMMON_PLATE_GAP=12;
+function summonNameY(){const el=$('word-card');if(!wordCurrent||el.hidden)return 185;return Math.max(185,Math.round((parseFloat(el.style.top)||0)+(el.offsetHeight||96)+32+SUMMON_PLATE_GAP));}
 function battleCardTop(){const t=$('battle-top');return t&&t.offsetHeight?t.offsetTop+t.offsetHeight+8:116;}
 // R99: on the field the card leaves the top spot for the bottom of the map band when a sign (stairs, exits, the quest tag) sits under it,
 // and only if the bottom is clear of signs, the hero and the town noises; it stays where it is while that spot is still clear, so it does not jump as the hero walks.
