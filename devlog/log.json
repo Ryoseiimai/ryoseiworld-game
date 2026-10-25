@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T06:55:04.980Z",
-  "branch": "claude/autodev-20261017-1542-R91",
-  "task": "R91 遊んで一番気になる所を1つ直す",
-  "summary": "R90: ボス戦の始めのカードの間も、ビートのボタンを押せるようにした（自動確認を通った）\nR91: セーブがある時、タイトルで「つづきから」を明るいボタンにし「はじめから」をふつうにした\n前と後は docs/shots/R91。はじめからの枠は撮影時のマウスの位置によるもので、遊ぶ時は出ない",
-  "result": "pass",
-  "shots": [
-   "shots/178/mobile-02-mode-select.jpg",
-   "shots/178/mobile-15-custom-full-run.jpg",
-   "shots/178/mobile-27-chapter-2-play.jpg",
-   "shots/178/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "df15add",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39011338294"
- },
- {
   "at": "2026-10-17T07:39:39.442Z",
   "branch": "claude/autodev-20261017-1621-R92",
   "task": "R92 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b436e6e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40171438354"
+ },
+ {
+  "at": "2026-10-25T08:04:15.355Z",
+  "branch": "claude/autodev-20261025-1621-R235",
+  "task": "R235 ミナモのバスていの南で、木の葉が街灯の頭にふれていたので、木とおばさんを少し西へ動かした",
+  "summary": "ミナモの木の葉が街灯の頭にふれていたので、木を0.4マス西へ動かした\n木の左のおばさんも0.3マス西へ動かし、守護霊は家にかからない\n木の葉と街灯のすき間を確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/426/mobile-02-mode-select.jpg",
+   "shots/426/mobile-15-custom-full-run.jpg",
+   "shots/426/mobile-27-chapter-2-play.jpg",
+   "shots/426/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "da547ca",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40174579801"
  }
 ]
