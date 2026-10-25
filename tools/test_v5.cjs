@@ -2065,6 +2065,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const list=JSON.parse(fs.readFileSync(path.join(root,'assets','station_sign','station_sign_frames.json'),'utf8'));const f=list.find(x=>x.row===1&&x.col===1);assert(f&&fs.existsSync(path.join(root,'assets','station_sign',f.file)),'station_sign frame 3 picture exists');
   assert(/station_sign:4\b/.test(html)&&/station_sign:2\b/.test(html),'index.html loads the station_sign pictures');}
  result.push('R239: ネオンの かんばんが、町の木の板ではなく光る看板 PASS');
+ // R243: the park sign stands on two posts far apart, and the small round shadow lay on the grass between and below them (ミナモ, desktop-26). Its shadow now joins both post feet.
+ {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}\};/);assert(m,'the park sign has its own shadow');const [rx,rise,ry,tilt]=m.slice(1).map(Number);
+  assert(/const fsh=o\.w>=160&&FOOT_SHADOW\[o\.kind\]\?\.\[o\.frame\]/.test(html),'only the big park boards use it');
+  const file=path.join(root,'assets','props','props_r2_c3.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);assert.equal(width,236);
+  const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>40)b=y;low.push(b);}
+  const feet=[[0,118],[118,236]].map(([a,b])=>{let at=a;for(let x=a;x<b;x++)if(low[x]>low[at])at=x;return [at,low[at]];});
+  // Each post foot (lowest opaque pixel) must fall inside the tilted ellipse, so the shadow touches both feet.
+  const cy=248-rise;for(const [x,y] of feet){const dx=x-118,dy=y-cy,u=dx*Math.cos(tilt)+dy*Math.sin(tilt),v=-dx*Math.sin(tilt)+dy*Math.cos(tilt);assert((u/rx)**2+(v/ry)**2<=1,`the shadow covers the post foot at ${x},${y}`);}
+  const maps=(await runtime()).g.GAME_DATA.maps,small=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='props'&&o.frame===11&&o.w<160);assert(small.length,'small boards share the picture and keep the round shadow');
+  for(const id of ['parksign','minamo_parksign']){const o=Object.values(maps).flatMap(mp=>mp.objects).find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.w>=160,id+' is a big board on props 11');}}
+ result.push('R243: 「こうえん」の看板の影が、2本の柱の足元をつなぐ PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
