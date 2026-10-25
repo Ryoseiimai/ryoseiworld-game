@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T14:01:18.259Z",
-  "branch": "claude/autodev-20261017-2245-R102",
-  "task": "R102 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の上の帯で、右の字（こうげき・ダメージ はんぶん）が帯の下の線にかからないようにした\nHPの枠を6px上げ、こうげきの棒を細くし、BPMの帯とチャレンジのステージの字も合わせた\nネオンの町の歩き方の札がうすくなる件は、R80で決めた形なので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/193/mobile-02-mode-select.jpg",
-   "shots/193/mobile-15-custom-full-run.jpg",
-   "shots/193/mobile-27-chapter-2-play.jpg",
-   "shots/193/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "40ac5ce",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39038575278"
- },
- {
   "at": "2026-10-17T14:43:48.501Z",
   "branch": "claude/autodev-20261017-2321-R103",
   "task": "R103 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b73975d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40232903217"
+ },
+ {
+  "at": "2026-10-25T22:00:50.626Z",
+  "branch": "claude/autodev-20261026-0621-R249",
+  "task": "R249 町の4マス幅の道で、縦と横の中央線が重なって道の真ん中に「＋」の印が出ていたので、横の線は太い横の道だけに引き、縦の線のあるマスには引かないようにした",
+  "summary": "町の4マス幅の縦の道で、横の中央線を引かないようにした\n縦と横の線が同じマスで重なる所では、横の線を引かないようにした\n町とミナモで「＋」の印が消え、ネオンの横の線は前のまま残った",
+  "result": "pass",
+  "shots": [
+   "shots/443/mobile-02-mode-select.jpg",
+   "shots/443/mobile-15-custom-full-run.jpg",
+   "shots/443/mobile-27-chapter-2-play.jpg",
+   "shots/443/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "07670d1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40237254363"
  }
 ]
