@@ -24,7 +24,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
  prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,11.4,24.8,60),prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
- ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,22.6,1],[27.6,20.6],[1.2,33.4,1],[11,34.4]]),
+ ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,22.6,1],[27.6,20.6],[1.2,33.4,1],[10.6,34.4]]),
  ...props('minamo_light',5,120,[[12.5,12.6],[17.5,22.6],[12.5,34.2],[17.5,6.2],[6,6.2],[25,6.2]]),
  ...props('minamo_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // Worry walls on the riverside path, at the park and on the east street. They go away after the boss (R22).
@@ -33,7 +33,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  object('minamo_boss','worry',0,4.6,22.4,170,128,{label:'カテイノジジョウ',action:'boss',enemy:'kateino',requires:'owl',dialogue:'kateinoTalk',lockedDialogue:'worryWall',goneWhenCleared:true}),
  // People: a tired father at the park, a mother who keeps her son in, the dog, the grandpa is in the library.
  object('minamo_dad','npc2',6,11,17.6,48,65,{dialogue:'minamoDad',clearedDialogue:'dadAfter'}),
- object('minamo_mom','npc2',8,9.6,33.8,48,65,{dialogue:'minamoMom',clearedDialogue:'momAfter'}),
+ object('minamo_mom','npc2',8,9.3,33.8,48,65,{dialogue:'minamoMom',clearedDialogue:'momAfter'}),
  object('minamo_dog','npc',7,4.2,26.5,56,60,{dialogue:'minamoDog'})],
  enemies:[{id:'ms1',type:'spam',x:20,y:22.6,axis:'y'},{id:'mc1',type:'cable',x:7,y:12.2,axis:'x'},{id:'mn1',type:'maskcat',x:24.4,y:31.4,axis:'x'},{id:'ms2',type:'spam',x:20.4,y:33.4,axis:'x'}],portals:[]};
 // Terrain: . grass, = road, + sidewalk, : sand, ~ water. The river runs across the top with the riverside path under it.

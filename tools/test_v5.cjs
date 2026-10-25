@@ -2028,6 +2028,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
  result.push('R228: 町の電柱が、木の葉の後ろから突き出ない PASS');
+ // R235: in ミナモ the tree south of the bus stop stood 1.5 tiles from a street light, so its leaves touched the lamp head. A tree beside a post now leaves a gap.
+ {const g=(await runtime()).g;for(const id of ['minamo']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));
+  for(const t of trees)for(const p of posts)if(Math.abs(t.y-p.y)<1.5)assert(Math.abs(t.x-p.x)*48-t.w*.85/2-14>=10,`${id}: the leaves of ${t.id} touch ${p.id}`);}
+  const m=g.GAME_DATA.maps.minamo,mom=m.objects.find(o=>o.id==='minamo_mom'),house=m.objects.find(o=>o.id==='minamo_friend');assert(mom.x*48-34-22>=house.x*48+house.w/2,'the woman by the moved tree keeps her spirit off the friend\'s house');}
+ result.push('R235: ミナモの木の葉が、となりの街灯にふれない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
