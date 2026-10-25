@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T11:01:12.051Z",
-  "branch": "claude/autodev-20261017-1944-R98",
-  "task": "R98 遊んで一番気になる所を1つ直す",
-  "summary": "R97 を通した後、全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\n呼び出したしもべの名前の後ろに暗い台を敷き、水色の絵の上でも読めるようにした\n残りの2つ（ことばの札が階段の札を隠す・こうえんの看板）は R99 と R100 に書いた",
-  "result": "fail",
-  "shots": [
-   "shots/186/mobile-02-mode-select.jpg",
-   "shots/186/mobile-15-custom-full-run.jpg",
-   "shots/186/mobile-27-chapter-2-play.jpg",
-   "shots/186/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "99e51b9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39026760156"
- },
- {
   "at": "2026-10-17T11:33:33.107Z",
   "branch": "claude/autodev-20261017-1944-R98",
   "task": "R98 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "95091e9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40203326607"
+ },
+ {
+  "at": "2026-10-25T16:07:06.871Z",
+  "branch": "claude/autodev-20261026-0022-R243",
+  "task": "R243 ミナモと町の「こうえん」の看板の影が柱の足元から離れて草の上に浮いていたので、2本の柱の足元をつなぐ影にした",
+  "summary": "「こうえん」の看板の影を、2本の柱の足元をつなぐ横長の影にした\n前は小さい丸い影が柱の間の下の草の上にあり、看板から離れていた\n影が両方の柱の足元にかかることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/436/mobile-02-mode-select.jpg",
+   "shots/436/mobile-15-custom-full-run.jpg",
+   "shots/436/mobile-27-chapter-2-play.jpg",
+   "shots/436/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ff4f335",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40209475845"
  }
 ]
