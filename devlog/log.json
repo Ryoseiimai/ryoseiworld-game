@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T05:02:04.595Z",
-  "branch": "claude/autodev-20261017-1347-R88",
-  "task": "R88 4章を終えた後の目的の文に、次にすることを書く",
-  "summary": "4章を終えた後、どのマップでも目的の文が「とうの なかが しずかに なった。」のままだった\nエンディングの後は「メニューの チャレンジで あそぼう」と出すようにした。屋上の場面では元の文のまま\n前に保存したエンディング後のデータでも、新しい文が出る。確認を足した。前と後は docs/shots/R88",
-  "result": "pass",
-  "shots": [
-   "shots/172/mobile-02-mode-select.jpg",
-   "shots/172/mobile-15-custom-full-run.jpg",
-   "shots/172/mobile-27-chapter-2-play.jpg",
-   "shots/172/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "9491c6f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39004465730"
- },
- {
   "at": "2026-10-17T05:30:38.865Z",
   "branch": "claude/autodev-20261017-1421-R89",
   "task": "R89 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "dfdaf8e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40160700742"
+ },
+ {
+  "at": "2026-10-25T04:45:33.059Z",
+  "branch": "claude/autodev-20261025-1321-R231",
+  "task": "R231 町のコンビニの前で、スマホの おねえさんの灰色の守護霊が信号の灯器に重なっていたので、おねえさんを東へ半マス動かした",
+  "summary": "コンビニの前で、おねえさんの守護霊が信号の灯器に重なっていた\nおねえさんを東へ半マス動かし、守護霊を信号と店の間の草地に出した\n守護霊が信号の絵に重ならないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/419/mobile-02-mode-select.jpg",
+   "shots/419/mobile-15-custom-full-run.jpg",
+   "shots/419/mobile-27-chapter-2-play.jpg",
+   "shots/419/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2f478da",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40162474954"
  }
 ]
