@@ -1870,6 +1870,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const f=r.g.roomFill;assert(f&&f.paper,map+' has a wallpaper on its back wall');assert.notEqual(f.paper,f.wall,map+' wallpaper differs from the walls round the room');
    const c=m.objects.find(o=>o.id===id);assert(c,map+' has its clock');assert(c.y*48<=96&&c.y*48-c.h>=0,map+' clock hangs inside the back wall (0..96): '+[c.y*48-c.h,c.y*48]);}}
  result.push('R220: 部屋と としょかん の時計が、まわりと色のちがう壁紙の上にかかる PASS');
+ // R246: the tower floors had the pale green walls of a house round their blue grid floor. A room with the grid floor now has navy walls; the house rooms keep theirs.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const fill=map=>{const m=r.g.GAME_DATA.maps[map];r.g.debugWarp(map,...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);return r.g.roomFill;};
+  const dark=c=>{const n=parseInt(c.slice(1,7),16);return ((n>>16)+(n>>8&255)+(n&255))/3;};
+  const house=fill('minamo_library');assert.deepEqual([house.wall,house.front,house.paper],['#59706c','#2d403e','#7f968e'],'the library keeps its house walls');const own=fill('room');assert.deepEqual([own.wall,own.front],['#59706c','#2d403e'],'the own room keeps its house walls');
+  for(const map of ['tower1','tower2','tower3','tower_roof']){const f=fill(map);assert(f,map+' draws its walls');assert.notEqual(f.wall,house.wall,map+' walls differ from a house room');
+   assert(dark(f.wall)<dark(house.wall),map+' walls are darker than the house walls: '+f.wall);const n=parseInt(f.wall.slice(1,7),16);assert((n&255)>=(n>>16)+24&&(n&255)>(n>>8&255),map+' walls lean blue like the grid floor: '+f.wall);assert.notEqual(f.paper,f.wall,map+' back wall keeps its own panel');}}
+ result.push('R246: 塔の部屋の壁が、青い床に合う紺色になり、家の部屋は今のまま PASS');
  // R195: three of the four ネオン noises (nz1, nz2, nz4) started on road tiles, where enemyStep never lets a noise go, so they stood still all game.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps))for(const e of m.enemies||[]){const t=m.tiles&&m.tiles[Math.floor(e.y)]&&m.tiles[Math.floor(e.y)][Math.floor(e.x)];assert(t!=='='&&t!=='~',id+' '+e.id+' does not live on a road or water tile ('+t+')');}
