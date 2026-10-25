@@ -1663,6 +1663,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(gap>=0&&gap<=8,o.id+': the sign plate ends just over the head (gap '+gap.toFixed(1)+'px)');
    for(const l of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='props'&&/light/.test(x.id)&&Math.abs(x.x-o.x)*48<12+[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2+8&&x.y<o.y))assert(txt[3]-25-(l.y*48+img[3]+img[5]-o.y*48)>=16,o.id+': the sign stays clear of the foot of '+l.id);}}
  result.push('R240: ネオンのかずの人の札を頭のすぐ上に下げ、街灯の札に見えないようにした PASS');
+ // R241: BUG KING and カテイノジジョウ stand on legs but hung in the air; a soft shadow now lies under their feet, drawn before the boss picture.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');
+  for(const id of ['bugking','kateino']){const m=sh.match(new RegExp('\\n    '+id+': \\{\\n[^\\n]*drawH: (\\d+)[^\\n]*feet: ([0-9.]+)'));assert(m,id+' has a feet shadow width');const half=Number(m[1])*Number(m[2]);assert(half>=60&&half<=100,id+' shadow half width '+half);}
+  const body=(sh.match(/function drawBoss\(ctx, S, w\) \{[^]*?\n  \}\n/)||[''])[0],a=body.indexOf('drawFeetShadow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy'),b=body.indexOf('drawSprite(ctx, S, d.sheet');
+  assert(a>0&&b>a,'the shadow sits at the bottom of the picture and is drawn under the boss');
+  for(const id of ['hikaku','zero'])assert(!new RegExp('\\n    '+id+': \\{\\n[^\\n]*feet:').test(sh),id+' floats and has no feet shadow');}
+ result.push('R241: BUG KING と カテイノジジョウ の足元に影を描き、宙に浮いて見えないようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
  // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();

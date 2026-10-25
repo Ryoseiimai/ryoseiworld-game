@@ -158,14 +158,14 @@
   var NUMBER_WORDS = ['10まん', 'いいね 999', '1い', 'フォロワー', 'しゃちょう'];
   var BOSSES = {
     bugking: {
-      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7,
+      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7, feet: 0.42,
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
         half: 'BUG KING は こわれかけている', win: 'BUG KING は おとなしく なった' }
     },
     kateino: {
-      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6,
+      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6, feet: 0.42,
       moveA: 120, moveF: 0.45, color: '#ffc27a',
       lines: { intro: ['カテイノジジョウ', 'しょうらい\nどうするの？'],
         bursts: { 75: '…ほんとは\nしんぱいなだけ', 50: 'あの子 なにか\nつくってるの?', 25: 'ちょっと みせて', 0: '…すごいじゃない' },
@@ -2033,7 +2033,10 @@
     if (w.bossId === 'zero' && w.state === 'win' && w.stateT > 2.8) {
       h = 170; glow(ctx, b.x, b.y, 150, 'rgba(255,240,200,0.9)', 0.6 + Math.sin(w.t * 4) * 0.15);
     }
+    // R241: BUG KING and カテイノジジョウ stand on legs but had nothing under them and looked hung in the air,
+    // so a soft dark shadow lies under their feet (the bottom of the picture). feet is its half width per drawH.
     var bsq = squashScale(b);
+    if (d.feet) drawFeetShadow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * bsq.sx);
     ctx.save(); ctx.translate(bx, b.y); ctx.scale(bsq.sx, bsq.sy); ctx.translate(-bx, -b.y);
     drawSprite(ctx, S, d.sheet, f[0], f[1], bx, b.y, h, false, d.name);
     var wimg = b.whiteT > 0 && whiteOf(frameImg(S, d.sheet, f[0], f[1]));
@@ -2052,6 +2055,14 @@
       glow(ctx, cx, cy, pr * 1.8, 'rgba(255,236,120,0.9)', 0.75);
       ctx.strokeStyle = 'rgba(255,250,200,0.95)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(cx, cy, pr, 0, Math.PI * 2); ctx.stroke();
     }
+  }
+
+  function drawFeetShadow(ctx, x, y, rx) {
+    var ry = rx * 0.2, g = ctx.createRadialGradient(x, y, 0, x, y, rx);
+    g.addColorStop(0, 'rgba(0,0,0,0.8)'); g.addColorStop(0.6, 'rgba(0,0,0,0.55)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.save(); ctx.translate(x, y); ctx.scale(1, ry / rx); ctx.translate(-x, -y);
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rx, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
   }
 
   // White copy of a sprite frame (cached), drawn for a moment when a shot lands.
