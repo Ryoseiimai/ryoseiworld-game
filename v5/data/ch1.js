@@ -42,7 +42,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  ...props('signal',12,110,[[12.5,8.9],[18.1,11.9],[18.1,16.9],[12.5,19.3],[18.1,25.9],[12.5,29.3]]),
  // R203: the delivery man by the electric shop also stood right over light1's top across the road, so he moved two tiles east on his sidewalk (people list below).
  // R203: the pole across the road from the police box stood right under the police officer, who read as standing on its top (mobile-24), so it moved west along that far sidewalk (down-left of the police box).
- ...props('pole',7,130,[[12.5,4],[12.5,13],[12.5,23.2],[17.5,32.4],[4.5,19.6],[27.5,11.6]]),
+ // R228: the pole on the sidewalk south of the junkyard stood right behind the tree below it, so its top stuck out of the leaves; it moved three tiles west, clear of the tree.
+ ...props('pole',7,130,[[12.5,4],[12.5,13],[12.5,23.2],[17.5,32.4],[4.5,19.6],[24.5,11.6]]),
  // R198: a pole or street light right under a signal on the same sidewalk read as one tall post (mobile-16), so they keep a gap; the short walk between the two signals by the electric shop has no light.
  ...props('light',5,120,[[17.5,4.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
  ...[['mother',4.5,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',5.5,34.6],['worker',19.4,34.6],['student',20,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',11.6,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
