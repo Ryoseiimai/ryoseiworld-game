@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T16:01:45.307Z",
-  "branch": "claude/autodev-20261018-0050-R106",
-  "task": "R106 きずなの一覧で、名前とハートを1行にまとめる",
-  "summary": "きずなの一覧で、名前とハートを1行にまとめた。もどるの上で切れる人が減った\n名前が長い人は、前のとおり名前とハートを2行に分ける\nテストと前と後のスクショ（docs/shots/R106）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/198/mobile-02-mode-select.jpg",
-   "shots/198/mobile-15-custom-full-run.jpg",
-   "shots/198/mobile-27-chapter-2-play.jpg",
-   "shots/198/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4744b47",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39047223101"
- },
- {
   "at": "2026-10-17T16:47:17.749Z",
   "branch": "claude/autodev-20261018-0121-R107",
   "task": "R107 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "52a94ac",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40247308231"
+ },
+ {
+  "at": "2026-10-26T00:58:10.511Z",
+  "branch": "claude/autodev-20261026-0921-R252",
+  "task": "R252 町の公園でベンチがおじいさんに重なり、看板の左の柱が池のふちに近かったので、池を3マス幅にし、おじいさんをベンチの左へ動かした",
+  "summary": "町の公園の池を4マス幅から3マス幅にし、看板の左の柱と池の間を約1マスあけた\nおじいさんをベンチの左へ動かし、看板とベンチを少し下げて板と車道の間を13pxあけた\nベンチの確かめを、看板・ベンチ・おじいさんの絵の大きさから測る形に書き直した",
+  "result": "pass",
+  "shots": [
+   "shots/449/mobile-02-mode-select.jpg",
+   "shots/449/mobile-15-custom-full-run.jpg",
+   "shots/449/mobile-27-chapter-2-play.jpg",
+   "shots/449/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "051bc86",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40250962881"
  }
 ]
