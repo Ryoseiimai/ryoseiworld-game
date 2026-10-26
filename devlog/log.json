@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T19:54:26.854Z",
-  "branch": "claude/autodev-20261018-0443-R111",
-  "task": "R111 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の始めの「ゆびを すべらせて うごく」の板に、ボスの絵が重なっていた\n案内が出ている間は、ボスが板より上で動くようにした（ジブンは除く）\nテストと前と後のスクショ（docs/shots/R111）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/206/mobile-02-mode-select.jpg",
-   "shots/206/mobile-15-custom-full-run.jpg",
-   "shots/206/mobile-27-chapter-2-play.jpg",
-   "shots/206/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f13766c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39064066895"
- },
- {
   "at": "2026-10-17T20:37:08.572Z",
   "branch": "claude/autodev-20261018-0521-R112",
   "task": "R112 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "2733fcd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40275656834"
+ },
+ {
+  "at": "2026-10-26T07:25:37.166Z",
+  "branch": "claude/autodev-20261026-1522-R258",
+  "task": "R258 1しょうの始めの町で、砂場の子とミュージシャンの守護霊が「はなす」ボタンの下に隠れていたので、子を砂場の北東へ、ミュージシャンを公園の東の歩道へ動かした",
+  "summary": "1しょうの始めの町で、砂場の子が「はなす」ボタンの下に隠れていたので、砂場の北東へ動かした\nミュージシャンの守護霊もボタンの下にいたので、ミュージシャンを公園の東の歩道へ動かした\n町に着いた時、ボタンの下に人がいないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/456/mobile-02-mode-select.jpg",
+   "shots/456/mobile-15-custom-full-run.jpg",
+   "shots/456/mobile-27-chapter-2-play.jpg",
+   "shots/456/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b003681",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40284703155"
  }
 ]
