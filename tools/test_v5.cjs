@@ -2220,6 +2220,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(sp.x+22<=postL[0],'grandpa\'s spirit at '+sp.x+','+sp.y+' (side '+sp.side+') stays left of the sign post '+JSON.stringify(postL));
   let wet=0;for(let y=sp.y-50;y<=sp.y+6;y+=2)for(let x=sp.x-22;x<=sp.x+22;x+=2)if(m.tiles[Math.floor(y/48)]?.[Math.floor(x/48)]==='~')wet++;assert.equal(wet,0,'and off the pond');}
  result.push('R263: 1しょうの始めに、公園のおじいさんの守護霊が看板の柱にかからない PASS');
+ // R264: in 2しょう (mobile-27) the カテイノジジョウ name tag of the quest goal stood off the left of the screen and one letter peeked in at the edge.
+ // A tag is drawn only while its thing is on screen, and a name tag near the edge slides inside the screen.
+ {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
+  const run=(cam,boss,asGoal)=>{const labels=[],rects=[],rows=[];new Function('g','camera','TILE','W','hudTop','fieldSignRects','gameTime','questDest','questStep','dimensions','frameFor','rect','label',src('drawTags')+'\nreturn drawTags;')({map:'minamo'},cam,48,540,190,rows,0,()=>asGoal?{map:'minamo',obj:boss}:null,()=>0,()=>({w:170,h:120}),()=>null,(x,y,w,h)=>rects.push([x,w]),(t,x)=>labels.push([t,x]))({objects:[boss]},asGoal?null:boss);return{labels,rects,rows};};
+  const cam={x:400,y:0},boss={x:4.6,y:10,kind:'worry',label:'カテイノジジョウ'};
+  let r=run(cam,boss,true);assert.equal(r.labels.length,0,'the goal tag of a thing off the left edge is not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and it keeps no row for the noise band');
+  r=run(cam,{...boss,x:(cam.x+560)/48},false);assert.equal(r.labels.length,0,'nor off the right edge');
+  for(const x of [cam.x+10,cam.x+530,cam.x+270]){r=run(cam,{...boss,x:x/48},true);assert.deepEqual(r.labels.map(l=>l[0]),['カテイノジジョウ','▼'],'the tag of a thing on screen is drawn');const [rx,rw]=r.rects[0];assert(rx>=cam.x&&rx+rw<=cam.x+540,'the tag at '+x+' stays inside the screen: '+JSON.stringify(r.rects[0]));}}
+ result.push('R264: 画面の外にいる相手の名前の札が、画面の端からのぞかない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
