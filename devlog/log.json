@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T01:27:26.907Z",
-  "branch": "claude/autodev-20261018-1021-R121",
-  "task": "R121 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の節目の台詞5つが、言葉の途中で折り返される所があった\nバグキングとカテイノジジョウとヒカクマオウの節目の台詞を、言葉の切れ目で改行した\n1章のデータ側の台詞も直し、章のデータと戦闘の両方を調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/219/mobile-02-mode-select.jpg",
-   "shots/219/mobile-15-custom-full-run.jpg",
-   "shots/219/mobile-27-chapter-2-play.jpg",
-   "shots/219/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8588923",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39086209397"
- },
- {
   "at": "2026-10-18T01:38:59.294Z",
   "branch": "claude/autodev-20261018-1021-R121",
   "task": "R121 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,15 @@
   ],
   "sha": "464b89b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40354176664"
+ },
+ {
+  "at": "2026-10-26T16:15:47.967Z",
+  "branch": "claude/autodev-20261027-0042-R265",
+  "task": "R265 2しょうのミナモで、画面の左端の公園の看板の字が「ん」だけ見えていたので、看板の字は全部画面に入る時だけ描くようにした",
+  "summary": "ミナモで、画面の左端の公園の看板の字が「ん」だけ見えていた\n看板の字は、全部が画面に入る時だけ描くようにした（板の絵はそのまま）\n字が端で切れないことをテストに足し、前と後のスクショを手元で撮った（mobile-20）",
+  "result": "conflict",
+  "shots": [],
+  "sha": "c7b7093",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40357229820"
  }
 ]
