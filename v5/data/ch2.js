@@ -9,8 +9,8 @@ const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{i
 // Train stops (SPEC_V5_CH234.md: ミナモちょう → ネオンシティ by train from the station). The first ride is the end of chapter 2.
 const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:'ネオンシティ',map:'neon',at:[15,13.6],if:'neonVisited'}];
 const maps={};
-// Worry walls have no picture yet (autodev/ART_REQUESTS.json worry_wall); the engine draws a grey block with eyes until it comes.
-const wall=(id,x,y)=>object(id,'worry',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
+// Worry walls use the worry_wall art (frame 0: the wall standing); until it loads the engine draws a grey block with eyes and its name.
+const wall=(id,x,y)=>object(id,'worry_wall',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
 maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,spawn:[10.9,31.4],objects:[
  object('minamo_house1','buildings',0,6,15.4,194,194),
  object('minamo_house2','buildings',0,22,15.4,194,194),

@@ -2249,6 +2249,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const cx of [380,432+52-540,170]){r=run({x:cx,y:0},park);assert.deepEqual(r.labels.map(l=>l[0]),['こうえん'],'the words of a board fully on screen at camera '+cx+' are drawn');}
   r=run(cam,{x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'});assert.equal(r.labels.length,1,'a number person\'s sign still slides in at the edge (R85)');}
  result.push('R267: 看板の字が画面の端で切れて1文字だけ見えることがない PASS');
+ // R266: the worry walls in ミナモ are drawn with the worry_wall art, not the grey stand-in box; カテイノジジョウ keeps its stand-in for now.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.worry_wall,4,'loaded worry_wall');const D=r.g.GAME_DATA,m=D.maps.minamo;assert(r.g.debugStartChapter(2));
+  const walls=m.objects.filter(o=>o.dialogue==='worryWall');assert(walls.length>=3);for(const w of walls)assert.equal(w.kind,'worry_wall','wall '+w.id+' uses the art');
+  assert.equal(m.objects.find(o=>o.id==='minamo_boss').kind,'worry','the boss keeps its stand-in');
+  const w=walls[0];r.g.debugWarp('minamo',w.x,w.y+1.4);r.tick(16);r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/worry_wall/worry_wall_r0_c0.png')),'the wall picture is drawn');
+  r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>w.y*48-4,'the drawn wall still blocks the way');}
+ // While the wall art is missing, the stand-in box still shows its name (RULES: a square and a name until the art comes).
+ {const r=await runtime({missingFiles:['worry_wall_r0_c0.png']});r.tick();assert(r.g.debugStartChapter(2));const w=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.dialogue==='worryWall');r.g.debugWarp('minamo',w.x,w.y+3);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='fillText'&&String(c[1]).includes('しんぱいの かべ')),'the stand-in wall keeps its name');}
+ result.push('R266: ミナモの「しんぱいの かべ」が、届いた絵で描かれる PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
