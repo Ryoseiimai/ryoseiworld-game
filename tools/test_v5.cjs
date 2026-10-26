@@ -2229,6 +2229,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r=run(cam,{...boss,x:(cam.x+560)/48},false);assert.equal(r.labels.length,0,'nor off the right edge');
   for(const x of [cam.x+10,cam.x+530,cam.x+270]){r=run(cam,{...boss,x:x/48},true);assert.deepEqual(r.labels.map(l=>l[0]),['カテイノジジョウ','▼'],'the tag of a thing on screen is drawn');const [rx,rw]=r.rects[0];assert(rx>=cam.x&&rx+rw<=cam.x+540,'the tag at '+x+' stays inside the screen: '+JSON.stringify(r.rects[0]));}}
  result.push('R264: 画面の外にいる相手の名前の札が、画面の端からのぞかない PASS');
+ // R265: カテイノジジョウ has no art yet, so its name is drawn with its stand-in box (fallback), and that name still peeked in at the left edge in 2しょう.
+ // Like the tags (R264), on the field it is drawn only while the thing is on screen, and near the edge it slides inside; in battle it stays where it was.
+ {const i=html.indexOf('function fallback('),j=html.indexOf('\n// R143',i);assert(i>0&&j>i,'fallback exists');
+  const ctx=new Proxy({},{get:(t,k)=>k in t?t[k]:()=>{},set:(t,k,v)=>(t[k]=v,true)});
+  const run=(screen,cam,x)=>{const labels=[],rows=[];new Function('ctx','g','camera','W','fieldSignRects','ASSET_COLS','isPerson','BIG','rect','ellipse','label',html.slice(i,j)+'\nreturn fallback;')(ctx,{screen},cam,540,rows,{},()=>false,()=>false,()=>{},()=>{},(t,lx)=>labels.push([t,x+lx]))('worry',0,x,500,170,128,'カテイノジジョウ');return{labels,rows};};
+  const cam={x:253,y:0},half=8*12;
+  let r=run('field',cam,cam.x-32);assert.equal(r.labels.length,0,'the name of a stand-in off the left edge is not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and it keeps no row for the noise band');
+  r=run('field',cam,cam.x+560);assert.equal(r.labels.length,0,'nor off the right edge');
+  for(const x of [cam.x+5,cam.x+535,cam.x+270]){r=run('field',cam,x);assert.equal(r.labels.length,1,'the name of a stand-in on screen is drawn');const lx=r.labels[0][1];assert(lx-half>=cam.x&&lx+half<=cam.x+540,'the name at '+x+' stays inside the screen: '+lx);}
+  r=run('battle',cam,-500);assert.deepEqual(r.labels,[['カテイノジジョウ',-500]],'in battle the name stays on its thing');}
+ result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
