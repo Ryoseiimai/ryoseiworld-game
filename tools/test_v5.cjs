@@ -2183,6 +2183,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const crow=maps.tower2.enemies.find(e=>e.type==='crow2');assert(crow&&under(maps.tower2,crow)==='g'&&!maps.tower2.outside,'the とう2F crow stands on the dark grid, so it gets the halo');
   for(const e of maps.town.enemies)assert(maps.town.outside,'town noise '+e.id+' keeps its plain look');}
  result.push('R257: 暗い床の上のノイズに、うすい光の輪がある PASS');
+ // R258: at the start of 1しょう (mobile-25) the sandbox kid and the musician's spirit stood under the talk button.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
+  assert(!btn.classes.has('behind'),'nobody and no spirit stands behind the talk button at the town spawn');
+  for(const id of ['kid','musician']){const o=town.objects.find(x=>x.id===id);assert(!'~='.includes(town.tiles[Math.floor(o.y)][Math.floor(o.x)]),id+' stands off the pond and the road');}}
+ result.push('R258: 1しょうの始めに、「はなす」ボタンの下に人がいない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
