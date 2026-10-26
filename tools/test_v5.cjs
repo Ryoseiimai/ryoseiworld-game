@@ -2209,6 +2209,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(rx>0&&hm,'the summon ring and the battle hero are found');const heroRight=Number(hm[1])+Number(hm[2])+Number(hm[3])/2;const shake=Number((html.match(/if\(t<600\)ctx\.translate\(Math\.sin\(gameTime\/25\)\*(\d+)/)||[])[1]);assert(shake>0,'the summon shake is found');assert(270-rx-2.5-shake>heroRight+2,'the summon ring ('+(270-rx-2.5-shake)+') stays right of the hero ('+heroRight+')');
   assert(html.includes('if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'the small Sora hides while a summon is called');}
  result.push('R262: 呼び出しの輪が主人公の足にかからず、ソラが2つ出ない PASS');
+ // R263: at the start of 1しょう (mobile-25) grandpa's grey spirit floated on the park sign's left post; it now floats clear of the post and of the pond.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  const m=r.g.GAME_DATA.maps.town,s=m.objects.find(o=>o.id==='parksign');r.g.debugWarp('town',...m.spawn);r.tick(32);const sp=r.g.spirits.find(x=>x.id==='grandpa');assert(sp,'grandpa\'s spirit is drawn at the chapter start: '+JSON.stringify(r.g.spirits));
+  const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,s.h/h);
+  const xs=[];for(let x=0;x<w/2;x++){for(let y=Math.round(h*.77);y<Math.round(h*.81);y++)if(data[(y*w+x)*4+3]>128){xs.push(x);break;}}
+  assert(xs.length,'the left sign post is found in the picture');const postL=[s.x*48+(Math.min(...xs)-w/2)*k,s.x*48+(Math.max(...xs)-w/2)*k];
+  // the spirit's picture is 44px wide, centred on x, with its feet at y
+  assert(sp.x+22<=postL[0],'grandpa\'s spirit at '+sp.x+','+sp.y+' (side '+sp.side+') stays left of the sign post '+JSON.stringify(postL));
+  let wet=0;for(let y=sp.y-50;y<=sp.y+6;y+=2)for(let x=sp.x-22;x<=sp.x+22;x+=2)if(m.tiles[Math.floor(y/48)]?.[Math.floor(x/48)]==='~')wet++;assert.equal(wet,0,'and off the pond');}
+ result.push('R263: 1しょうの始めに、公園のおじいさんの守護霊が看板の柱にかからない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
