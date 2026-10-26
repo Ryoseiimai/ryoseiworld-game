@@ -22,7 +22,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('shrine','buildings',7,26.5,33.6,150,135,{label:'じんじゃ',dialogue:'shrineSign'}),
  // R216: the vending machine's feet (y 24) sat behind the lamp of the signal just south of it (mobile-16), so it stands 0.7 tile further north and 0.2 tile west (the walk test along the store's west wall starts clear of it).
  prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,18.8,23.3,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90,{label:'バスてい',event:'busStop'}),prop('bike',8,1.6,24.7,80),prop('car',9,23.7,35.3,120),
- prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.45,34.5,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.45,32.9,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
+ prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.45,34.7,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.45,33.2,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
+ // R252: the bench stood over grandpa and the left post stood at the pond's rim (mobile-25), so the pond is three tiles wide, grandpa stands west of the bench on the grass, and the sign stands 0.3 tile lower so its board keeps a gap over the sidewalk.
  // R251: the board still reached about 80px up over the road rows 26-28 (mobile-25), so the sign stands 1.7 tiles deeper in the park, the pond moved one tile west so the left post stands on grass, and the bench sits centred between the posts.
  // R206: the park sign (240px, feet at y 30.4) hung its board over the road rows 26-28 (mobile-25), so it is as small as its 24px words allow and stands a little deeper in the park, east of the pond; only its left post blocks, so the way into the park stays open.
  // R208: grandpa, the kid in the sandbox and the musician stood within three tiles, and their three grey spirits bunched over the sandbox like the town noises (mobile-25),
@@ -54,13 +55,13 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  // R230: mother stood under the home's gate, so Nao (her grey spirit) floated on the gate wall and read as a town noise (mobile-25).
  // She stands a little west, past the gate, and the bike parks further west so Nao has clear air above her head.
  // R231: the student's grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16), so she stands half a tile east, still clear of the store's corner.
- ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',5.8,34.6],['worker',19.4,34.6],['student',20.5,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',11.6,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
+ ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',4.7,34.6],['worker',19.4,34.6],['student',20.5,25.4],['police',9,16.3,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.3,33.4,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',11.6,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.
 maps.town.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  if(y<2)return '.';
- if(x>=1&&x<=4&&y>=31&&y<=33)return '~';
+ if(x>=1&&x<=3&&y>=31&&y<=33)return '~';
  if(x>=8&&x<=10&&y>=31&&y<=34)return ':';
  if((x>=13&&x<=16)||(y>=26&&y<=28)||(y>=17&&y<=18)||(y>=9&&y<=10))return '=';
  if(x===12||x===17||y===25||y===29||y===16||y===19||y===8||y===11)return '+';

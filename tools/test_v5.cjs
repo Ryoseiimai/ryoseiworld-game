@@ -2052,12 +2052,29 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(o.w<240,'the board is smaller than before');}
  result.push('R206: 町の「こうえん」の看板の字が、車道の上にかからない PASS');
  // R207: after R206 the park sign's right post stood right behind the bench (mobile-25); the bench now sits well below the sign's feet.
- {const r=await runtime();const m=r.g.GAME_DATA.maps.town,s=m.objects.find(x=>x.id==='parksign'),b=m.objects.find(x=>x.id==='bench');
-  // R251: the sign moved 1.7 tiles south to clear the road, so the bench now sits between its two posts (about 66px either side), in front of the board.
-  assert(s&&b,'park sign and bench are in town');const post=66/48,half=b.w/2/48;assert(b.x-half>s.x-post+.1&&b.x+half<s.x+post-.1,'the bench stands between the sign posts, clear of both (bench '+(b.x-half).toFixed(2)+'..'+(b.x+half).toFixed(2)+', posts '+(s.x-post).toFixed(2)+' and '+(s.x+post).toFixed(2)+')');
-  assert(b.y-s.y>=1.5,'the bench stands in front of the sign posts (bench '+b.y+', sign '+s.y+')');
-  // R251: the board's top (about 185px over the feet) stays below the road rows 26-28.
-  assert(s.y*48-185>=29*48,'the park sign board stays off the road (top '+(s.y*48-185)+')');
+ // R252: the sign, bench and grandpa are measured from the pictures as drawn (centred on x, feet at y), so each gap is in drawn pixels.
+ {const r=await runtime();const m=r.g.GAME_DATA.maps.town,f=id=>m.objects.find(x=>x.id===id),s=f('parksign'),b=f('bench'),gp=f('grandpa');
+  assert(s&&b&&gp,'park sign, bench and grandpa are in town');
+  const drawn=(o,dir)=>{const file=path.join(root,'assets',dir,dir+'_r'+Math.floor(o.frame/4)+'_c'+o.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(o.w/w,o.h/h);
+   const on=(x,y)=>data[(y*w+x)*4+3]>128,cols=(y0,y1)=>{const c=[];for(let x=0;x<w;x++){let n=0;for(let y=y0;y<y1;y++)n+=on(x,y);c.push(n>0);}return c;};
+   let top=0;while(top<h&&!cols(top,top+1).some(Boolean))top++;
+   return {k,w,h,top:o.y*48-(h-top)*k,cols,px:x=>o.x*48+(x-w/2)*k};};
+  const S=drawn(s,'props'),B=drawn(b,'props'),G=drawn(gp,'npc');
+  // the posts are the opaque columns under the board and above the grass tufts at their feet (77-81% down the picture), split at the gap in the middle
+  const low=S.cols(Math.round(S.h*.77),Math.round(S.h*.81)),xs=low.map((v,x)=>v?x:-1).filter(x=>x>=0),mid=S.w/2,lp=xs.filter(x=>x<mid),rp=xs.filter(x=>x>mid);
+  assert(lp.length&&rp.length,'the two sign posts are found in the picture');
+  const postL=[S.px(Math.min(...lp)),S.px(Math.max(...lp))],postR=[S.px(Math.min(...rp)),S.px(Math.max(...rp))];
+  const bc=B.cols(0,B.h).map((v,x)=>v?x:-1).filter(x=>x>=0),bench=[B.px(Math.min(...bc)),B.px(Math.max(...bc))];
+  const gc=G.cols(Math.round(G.h*.5),Math.round(G.h*.75)).map((v,x)=>v?x:-1).filter(x=>x>=0),body=[G.px(Math.min(...gc)),G.px(Math.max(...gc))];
+  const info=JSON.stringify({postL,postR,bench,body,board:S.top});
+  assert(bench[0]-postL[1]>=8&&postR[0]-bench[1]>=8,'the bench stands between the sign posts with 8px on each side '+info);
+  assert(b.y-s.y>=1.5&&B.top-s.y*48>=8,'the bench back stays below the sign feet '+info);
+  // the board keeps a gap over the road rows 26-28
+  assert(S.top-29*48>=12,'the park sign board stays 12px off the road '+info);
+  // the left post stands on grass, almost a tile from the pond's rim
+  const pondRight=Math.max(...m.tiles.slice(31,34).map(row=>row.lastIndexOf('~')+1))*48;assert(postL[0]-pondRight>=24&&postL[1]-pondRight>=40,'the left sign post keeps clear of the pond '+info+' pond '+pondRight);
+  // grandpa stands beside the bench, not in it
+  assert(Math.abs(gp.y-b.y)>=1.2||bench[0]-body[1]>=16||body[0]-bench[1]>=16,'grandpa stands clear of the bench '+info);
   assert(b.y<m.h-1,'the bench stays inside the park');}
  result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
  // R208: in the 1st chapter park (mobile-25) the kid in the sandbox, grandpa and the musician stood so close that their three grey spirits bunched into one cloud over the sandbox and read as the town noises.
