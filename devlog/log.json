@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T19:42:41.155Z",
-  "branch": "claude/autodev-20261018-0421-R110",
-  "task": "R110 遊んで一番気になる所を1つ直す",
-  "summary": "ヒカクマオウ戦の始めで「うかんだ！」の板に主人公と看板がかかっていた\n板を40px上げ、主人公の絵とネオンの看板の上に収めた\nテストと前と後のスクショ（docs/shots/R110）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/205/mobile-02-mode-select.jpg",
-   "shots/205/mobile-15-custom-full-run.jpg",
-   "shots/205/mobile-27-chapter-2-play.jpg",
-   "shots/205/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "564e82e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39063228638"
- },
- {
   "at": "2026-10-17T19:54:26.854Z",
   "branch": "claude/autodev-20261018-0443-R111",
   "task": "R111 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "f9e104a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40272354057"
+ },
+ {
+  "at": "2026-10-26T05:54:06.634Z",
+  "branch": "claude/autodev-20261026-1421-R257",
+  "task": "R257 4章のとう2Fで黒っぽいカラスのノイズが紺の床に沈んで見えなかったので、塔の床の上の敵の後ろにうすい光の輪を描いた",
+  "summary": "とう2Fのカラスのノイズが紺の床に沈んでいたので、敵の後ろにうすい光の輪を描いた\n輪は塔の中の青い格子の床だけに出し、町やネオンの敵はそのままにした\n輪が塔の敵だけに出ることをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/454/mobile-02-mode-select.jpg",
+   "shots/454/mobile-15-custom-full-run.jpg",
+   "shots/454/mobile-27-chapter-2-play.jpg",
+   "shots/454/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2733fcd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40275656834"
  }
 ]
