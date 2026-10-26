@@ -2170,6 +2170,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!btn.classes.has('behind'),'nobody stands behind the talk button on arrival in ネオン');
   const o=m.objects.find(x=>x.id==='neon_num2');assert.equal(m.tiles[Math.floor(o.y)][Math.floor(o.x)],'+','neon_num2 stands on the sidewalk by the south road, not on the road');}
  result.push('R255: ネオンに着いた時、「はなす」ボタンの下に「いいね」の人がいない PASS');
+ // R256: the town guide board and the ミナモ welcome board were blank wood (mobile-16/20); each now carries a word, and the 24px word stays inside the board between its posts (about 65% of the picture's width).
+ {const r=await runtime(),maps=r.g.GAME_DATA.maps;
+  for(const [map,id,word] of [['town','sign','ちず'],['minamo','minamo_sign','ミナモ']]){const o=maps[map].objects.find(x=>x.id===id);
+   assert(o&&o.kind==='props'&&o.frame===11&&o.dialogue,id+' is a talking board on props 11');assert.equal(o.sign,word,id+' shows its word');
+   assert([...o.sign].length*24+5<=o.w*.6,id+' word fits between the posts ('+o.w+'px board)');}}
+ result.push('R256: 町とミナモの木の看板に字がある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
