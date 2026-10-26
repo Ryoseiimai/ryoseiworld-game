@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T18:44:19.449Z",
-  "branch": "claude/autodev-20261018-0321-R109",
-  "task": "R109 遊んで一番気になる所を1つ直す",
-  "summary": "ミナモで「こうえん」の看板の字が、左下の「ドラッグで あるく」の箱に隠れていた\n看板の字が箱やはなすボタンの後ろに来ても、箱が薄くなるようにした\nテストと前と後のスクショ（docs/shots/R109）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/202/mobile-02-mode-select.jpg",
-   "shots/202/mobile-15-custom-full-run.jpg",
-   "shots/202/mobile-27-chapter-2-play.jpg",
-   "shots/202/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "96e600d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39059051739"
- },
- {
   "at": "2026-10-17T18:50:05.467Z",
   "branch": "claude/autodev-20261018-0321-R109",
   "task": "R109 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "2cdeca2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40260788459"
+ },
+ {
+  "at": "2026-10-26T04:11:51.558Z",
+  "branch": "claude/autodev-20261026-1221-R255",
+  "task": "R255 3章でネオンに着いた最初の画面で、「いいね 3204」の人が「はなす」ボタンの下に隠れていたので、その人を南の大通りの歩道へ動かした",
+  "summary": "ネオンに着いた画面で「はなす」ボタンの下にいた「いいね」の人を南の歩道へ動かした\nネオンに着いた時ボタンの下に人がいないことをテストに足した\n前と後のスクショを撮り、全部のテストが通ることを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/452/mobile-02-mode-select.jpg",
+   "shots/452/mobile-15-custom-full-run.jpg",
+   "shots/452/mobile-27-chapter-2-play.jpg",
+   "shots/452/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ef6df9e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40266782909"
  }
 ]
