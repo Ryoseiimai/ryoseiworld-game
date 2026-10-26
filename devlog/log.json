@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T01:03:06.574Z",
-  "branch": "claude/autodev-20261018-0948-R120",
-  "task": "R120 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の節目の台詞5つが、言葉の途中で折り返される所があった\nバグキングとカテイノジジョウとヒカクマオウの節目の台詞を、言葉の切れ目で改行した\n1章のデータ側の台詞も直し、章のデータと戦闘の両方を調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/217/mobile-02-mode-select.jpg",
-   "shots/217/mobile-15-custom-full-run.jpg",
-   "shots/217/mobile-27-chapter-2-play.jpg",
-   "shots/217/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3c0f504",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39084699454"
- },
- {
   "at": "2026-10-18T01:27:26.907Z",
   "branch": "claude/autodev-20261018-1021-R121",
   "task": "R121 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4a6812f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40352616233"
+ },
+ {
+  "at": "2026-10-26T16:10:17.933Z",
+  "branch": "claude/autodev-20261027-0026-R265",
+  "task": "R265 R264 の取りこぼし。2しょうのミナモで、絵がまだ無いカテイノジジョウの仮の絵の名前が画面の左端から1文字だけのぞいていたので、画面の外なら描かず、端の近くでは画面の中へ寄せた",
+  "summary": "2しょうのミナモで、左端に名前の1文字だけがのぞいていた。前回の直しの取りこぼしだった\n絵がまだ無い相手の仮の絵の名前も、画面の外なら描かず、端の近くでは画面の中へ寄せた\nテストを足し、直す前と後のスクショを手元で撮った（スマホ幅、2しょうの始め）",
+  "result": "pass",
+  "shots": [
+   "shots/468/mobile-02-mode-select.jpg",
+   "shots/468/mobile-15-custom-full-run.jpg",
+   "shots/468/mobile-27-chapter-2-play.jpg",
+   "shots/468/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "464b89b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40354176664"
  }
 ]
