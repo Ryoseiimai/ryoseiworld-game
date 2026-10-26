@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T17:43:45.233Z",
-  "branch": "claude/autodev-20261018-0221-R108",
-  "task": "R108 遊んで一番気になる所を1つ直す",
-  "summary": "塔2Fで、ことばの札が階段の札を避けて下へ行き、床の下2段を隠していた\n札を目標の帯の上に出し、その間は目標の字を隠すようにした。ほかの地図も同じ順で選ぶ\nテストと前と後のスクショ（docs/shots/R108）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/201/mobile-02-mode-select.jpg",
-   "shots/201/mobile-15-custom-full-run.jpg",
-   "shots/201/mobile-27-chapter-2-play.jpg",
-   "shots/201/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d8a888d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39054659423"
- },
- {
   "at": "2026-10-17T18:44:19.449Z",
   "branch": "claude/autodev-20261018-0321-R109",
   "task": "R109 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ea56d0f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40255506729"
+ },
+ {
+  "at": "2026-10-26T02:55:19.959Z",
+  "branch": "claude/autodev-20261026-1121-R254",
+  "task": "R254 ミナモの南北の道の街灯3本が歩道の横の草の上に立っていたので、歩道の車道寄りへ動かした",
+  "summary": "ミナモの南北の道の街灯3本を、草の上から歩道の車道寄りへ動かした\nミナモの街灯がどれも歩道に立ち、車道にかからないことをテストに足した\n前と後のスクショを撮り、全部のテストと全章の確認が通ることを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/451/mobile-02-mode-select.jpg",
+   "shots/451/mobile-15-custom-full-run.jpg",
+   "shots/451/mobile-27-chapter-2-play.jpg",
+   "shots/451/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2cdeca2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40260788459"
  }
 ]
