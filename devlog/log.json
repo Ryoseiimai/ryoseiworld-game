@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T15:48:06.120Z",
-  "branch": "claude/autodev-20261018-0022-R105",
-  "task": "R105 遊んで一番気になる所を1つ直す",
-  "summary": "続きのタイトルで、案内の2行がボタンを桜の絵の上へ押し上げていたのを直した\n案内が出る時はボタンの列を道の上に止め、案内が3行になっても画面に収まるようにした\nテストと前と後のスクショ（docs/shots/R105）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/197/mobile-02-mode-select.jpg",
-   "shots/197/mobile-15-custom-full-run.jpg",
-   "shots/197/mobile-27-chapter-2-play.jpg",
-   "shots/197/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bb9d205",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39046223460"
- },
- {
   "at": "2026-10-17T16:01:45.307Z",
   "branch": "claude/autodev-20261018-0050-R106",
   "task": "R106 きずなの一覧で、名前とハートを1行にまとめる",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3dff2d3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40242559923"
+ },
+ {
+  "at": "2026-10-26T00:11:49.159Z",
+  "branch": "claude/autodev-20261026-0821-R251",
+  "task": "R251 町の公園の「こうえん」の看板の板が車道の上にかかっていたので、看板を公園の奥へ下げ、池を1マス西へ動かした",
+  "summary": "町の公園の「こうえん」の看板を1.7マス南へ下げ、板が車道にかからないようにした\n左の柱が池に立たないよう、池を1マス西へ動かし、ベンチを2本の柱の間に置いた\nベンチの確かめ（看板から2.5マス下）は成り立たないので、柱の間で柱に重ならない形に書き直した",
+  "result": "pass",
+  "shots": [
+   "shots/447/mobile-02-mode-select.jpg",
+   "shots/447/mobile-15-custom-full-run.jpg",
+   "shots/447/mobile-27-chapter-2-play.jpg",
+   "shots/447/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "52a94ac",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40247308231"
  }
 ]
