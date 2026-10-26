@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T01:46:06.575Z",
-  "branch": "claude/autodev-20261018-1021-R121",
-  "task": "R121 遊んで一番気になる所を1つ直す",
-  "summary": "おとなモードの武器の画面で、説明と残りの数がひらがなのままだった\n武器の説明を「まっすぐ右へ撃つ」のような漢字かな交じりにし、こどもモードはひらがなのまま\nおとなとこどもを行き来しても説明が正しく戻るテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/222/mobile-02-mode-select.jpg",
-   "shots/222/mobile-15-custom-full-run.jpg",
-   "shots/222/mobile-27-chapter-2-play.jpg",
-   "shots/222/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bdc613f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39087372000"
- },
- {
   "at": "2026-10-18T01:55:26.317Z",
   "branch": "claude/autodev-20261018-1047-R122",
   "task": "R122 おとなモードのきずなの画面と、ボス戦の連射の待ち時間を漢字かな交じりにする",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "0001924",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40374490497"
+ },
+ {
+  "at": "2026-10-26T18:37:27.453Z",
+  "branch": "claude/autodev-20261027-0321-R268",
+  "task": "R268 ミナモの公園のカテイノジジョウを、仮の四角ではなく届いている絵（v5/assets/kateino）で描く",
+  "summary": "ミナモの「しんぱいの かべ」3つを、届いた絵（クッションの壁）で描くようにした\n絵が読めない間は、今までどおり灰色の四角と名前で描く。テストを2つ足した\n前と後のスクショを手元で撮った（スマホ幅、ミナモの道）",
+  "result": "pass",
+  "shots": [
+   "shots/472/mobile-02-mode-select.jpg",
+   "shots/472/mobile-15-custom-full-run.jpg",
+   "shots/472/mobile-27-chapter-2-play.jpg",
+   "shots/472/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "52911d5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40377666618"
  }
 ]
