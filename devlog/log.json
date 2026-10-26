@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T20:37:08.572Z",
-  "branch": "claude/autodev-20261018-0521-R112",
-  "task": "R112 遊んで一番気になる所を1つ直す",
-  "summary": "人が右下に立つと、薄くなった「はなす」の字が人の絵に溶けて読めなかった\n地が薄い間は、字を明るい色にして四方に濃いふちを付けた\nテストと前と後のスクショ（docs/shots/R112）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/207/mobile-02-mode-select.jpg",
-   "shots/207/mobile-15-custom-full-run.jpg",
-   "shots/207/mobile-27-chapter-2-play.jpg",
-   "shots/207/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bf6f52f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39067083673"
- },
- {
   "at": "2026-10-17T20:47:21.901Z",
   "branch": "claude/autodev-20261018-0540-R113",
   "task": "R113 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b003681",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40284703155"
+ },
+ {
+  "at": "2026-10-26T09:08:50.092Z",
+  "branch": "claude/autodev-20261026-1721-R259",
+  "task": "R259 1しょうの始めの町で、砂場の子の守護霊が後ろの生け垣の上に浮いていたので、砂場の後ろの生け垣を1本抜いた",
+  "summary": "1しょうの始めの町で、砂場の子の灰色の守護霊が後ろの生け垣の上に浮いていた\n砂場の後ろの生け垣を1本抜き、守護霊が草の上に出るようにした\n子の守護霊が生け垣に重ならないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/457/mobile-02-mode-select.jpg",
+   "shots/457/mobile-15-custom-full-run.jpg",
+   "shots/457/mobile-27-chapter-2-play.jpg",
+   "shots/457/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "db34a01",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40295515838"
  }
 ]
