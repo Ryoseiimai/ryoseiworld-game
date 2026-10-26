@@ -2185,6 +2185,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(board-roadBottom>=12,'the ミナモ board stays 12px below the road, board '+board.toFixed(1)+' road '+roadBottom);
   assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'.','the ミナモ sign stands on grass');}
  result.push('R271: ミナモの看板の板が、車道にかからない PASS');
+ // R272: the pole north of the town's ちず sign stood on the board's roof (mobile-16), so pole and sign read as one tall post; every post over the board's width keeps 40px over its top.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,s=m.objects.find(o=>o.id==='sign');
+  const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,(s.h||1e9)/h);
+  let top=0;while(top<h&&![...Array(w).keys()].some(x=>data[(top*w+x)*4+3]>128))top++;
+  const board=s.y*48-(h-top)*k;let posts=0;
+  for(const p of m.objects.filter(o=>o.kind==='props'&&/^(light|signal|pole|bus)\d*$/.test(o.id)&&o.y<s.y&&Math.abs(o.x-s.x)*48<s.w/2)){posts++;
+   assert(board-p.y*48>=40,p.id+' stands '+(board-p.y*48).toFixed(1)+'px over the ちず board (40px or more)');}
+  assert(posts>=1,'a post still stands on the sidewalk north of the ちず sign');
+  assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'+','the ちず sign stands on the sidewalk');}
+ result.push('R272: 町の電柱が「ちず」の看板の上に立って見えない PASS');
  // R257: in とう2F the dark crow sank into the dark blue grid (mobile-07). Noises on the tower's dark grid ('g', indoors) stand on a pale halo; the town's green and grey ground stays as it was.
  {assert(/if\(o\.kind==='enemies'&&darkGround\(m,o\)\)enemyHalo\(o\);const see=seeThrough\(o\)/.test(html),'field noises on a dark floor get the halo, drawn under their picture');
   assert(/const DARK_TILES='g';\nfunction darkGround\(m,o\)\{if\(m\.outside\)return false;/.test(html),'only the indoor tower grid counts as dark (ネオン stays as it was)');
