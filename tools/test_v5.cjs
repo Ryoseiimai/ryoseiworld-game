@@ -2201,7 +2201,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();const maps=r.g.GAME_DATA.maps;let n=0;
   for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(p.sign||m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
    const gap=m.h*48-(p.y*48+15);assert(gap>=0&&gap<=24,id+': the ↓ plate sits by the front wall (gap '+gap+'px)');
-   assert(p.y*48-(m.h-1)*48<22,id+': the exit is still reached from the bottom of the floor');}}
+   const dy=p.y*48-(m.h-1)*48;assert(dy<22&&Math.sqrt(22*22-dy*dy)>=19,id+': the exit is still reached from the bottom of the floor, also a little to the side of the plate');}}
   assert(n>=7,'the shops, houses and halls are checked ('+n+')');}
  result.push('R261: 部屋の出口の「↓」の札が、手前の壁のそばにある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');

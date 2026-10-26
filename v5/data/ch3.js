@@ -58,12 +58,12 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:13,
  object('nc_pc1','interior',1,2.2,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),object('nc_pc2','interior',1,8.6,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),
  object('nc_sofa','interior',12,2.2,8,110,110),object('nc_counter','interior',6,5.4,6.6,120,110,{label:'うけつけ',event:'netCafe',collider:{left:.1,right:.9,top:.55,bottom:1}}),object('nc_plant','interior',13,9.4,8.4,75,80),
  object('nc_clerk','npc2',8,5.4,5.2,48,65)],
- enemies:[],portals:[{x:5,y:12.3,to:'neon',at:[5.6,13.8]}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[5.6,13.8]}]};
 // The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
 maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
  object('ncap_plant','interior',13,9.4,8.8,75,80)],
- enemies:[],portals:[{x:5,y:12.3,to:'neon',at:[24,25.8]}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[24,25.8]}]};
 // FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
 const bossQuest={text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
@@ -74,7 +74,7 @@ maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム'
  object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
  object('nst_plant','interior',13,9,7,75,80),
  object('neon_boss','hikaku_throne',0,8.4,5.6,150,170,{label:'ヒカクマオウ',action:'boss',enemy:'hikaku',dialogue:'hikakuTalk',clearedDialogue:'hikakuGone',goneWhenCleared:true})],
- enemies:[],portals:[{x:5,y:12.3,to:'neon',at:[15,35]}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[15,35]}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // R26: the boss fight (v5/js/shooter.js hikaku: number blocks weaken the shot, サーチフクロウ doubles the crown, じぶんの ペース backs one step off).
  // R27: after the stadium clear scene, a short ride on the light elevator opens chapter 4 (the cloud gate stays open after, for a later visit).
