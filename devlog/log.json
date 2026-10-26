@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T22:44:53.013Z",
-  "branch": "claude/autodev-20261018-0721-R115",
-  "task": "R115 遊んで一番気になる所を1つ直す",
-  "summary": "チャレンジの結果画面に、今回のステージとコンボを最高の記録の前に出した\nチートを使った回は「（チートつき）」と書き、アプリ版は同じ種類の最高を並べた\n表記は同じ画面の「さいこう」に合わせてひらがなのまま。漢字への切りかえは画面全体で別に直す",
-  "result": "pass",
-  "shots": [
-   "shots/212/mobile-02-mode-select.jpg",
-   "shots/212/mobile-15-custom-full-run.jpg",
-   "shots/212/mobile-27-chapter-2-play.jpg",
-   "shots/212/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c06aa43",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39075938043"
- },
- {
   "at": "2026-10-17T22:59:12.663Z",
   "branch": "claude/autodev-20261018-0745-R116",
   "task": "R116 近くに相手がいない時の「はなす」ボタンの字をはっきり読めるようにする",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "d391d05",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40308598561"
+ },
+ {
+  "at": "2026-10-26T11:14:12.333Z",
+  "branch": "claude/autodev-20261026-1921-R261",
+  "task": "R261 店や家の出口の「↓」の札が手前の壁から1.5〜2マス上の床の真ん中に浮いていたので、7つの部屋で札を壁のそばへ下げた",
+  "summary": "店や家の出口の「↓」の札が、床の真ん中に浮いていた\n7つの部屋で、出口と札を手前の壁のそばへ下げた（壁から0.8マス）\n出口が壁のそばにあり、歩いて届くかを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/461/mobile-02-mode-select.jpg",
+   "shots/461/mobile-15-custom-full-run.jpg",
+   "shots/461/mobile-27-chapter-2-play.jpg",
+   "shots/461/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "41a11cf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40310379409"
  }
 ]
