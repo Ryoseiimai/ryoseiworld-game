@@ -2176,6 +2176,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(o&&o.kind==='props'&&o.frame===11&&o.dialogue,id+' is a talking board on props 11');assert.equal(o.sign,word,id+' shows its word');
    assert([...o.sign].length*24+5<=o.w*.6,id+' word fits between the posts ('+o.w+'px board)');}}
  result.push('R256: 町とミナモの木の看板に字がある PASS');
+ // R271: the ミナモ welcome board (R256 made it 136px) hung over the east-west road rows 18-19 (mobile-20); its feet moved south so the board's top stays below the road with the sidewalk showing.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,s=m.objects.find(o=>o.id==='minamo_sign');
+  const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,(s.h||1e9)/h);
+  let top=0;while(top<h&&![...Array(w).keys()].some(x=>data[(top*w+x)*4+3]>128))top++;
+  const board=s.y*48-(h-top)*k,cols=[Math.floor(s.x-s.w/96),Math.floor(s.x+s.w/96)];
+  const roadBottom=Math.max(...m.tiles.map((row,y)=>[...row.slice(cols[0],cols[1]+1)].includes('=')&&y<s.y?y+1:0))*48;
+  assert(board-roadBottom>=12,'the ミナモ board stays 12px below the road, board '+board.toFixed(1)+' road '+roadBottom);
+  assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'.','the ミナモ sign stands on grass');}
+ result.push('R271: ミナモの看板の板が、車道にかからない PASS');
  // R257: in とう2F the dark crow sank into the dark blue grid (mobile-07). Noises on the tower's dark grid ('g', indoors) stand on a pale halo; the town's green and grey ground stays as it was.
  {assert(/if\(o\.kind==='enemies'&&darkGround\(m,o\)\)enemyHalo\(o\);const see=seeThrough\(o\)/.test(html),'field noises on a dark floor get the halo, drawn under their picture');
   assert(/const DARK_TILES='g';\nfunction darkGround\(m,o\)\{if\(m\.outside\)return false;/.test(html),'only the indoor tower grid counts as dark (ネオン stays as it was)');

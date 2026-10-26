@@ -20,7 +20,8 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',event:'busStop'}),
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
  object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',event:'trainStop'}),
- prop('minamo_sign',11,12.42,21.4,136,{dialogue:'minamoSign',sign:'ミナモ'}),
+ // R271: at feet y 21.4 the 136px board (R256) hung over the east-west road (rows 18-19); its feet moved south so the sidewalk shows above the board.
+ prop('minamo_sign',11,12.42,22.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
  prop('minamo_parksign',11,9,26.6,240,{sign:'こうえん'}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
  prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,11.4,24.8,60),prop('minamo_post',6,17.2,30.6,70),
