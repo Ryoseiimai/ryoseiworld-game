@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T03:44:01.052Z",
-  "branch": "claude/autodev-20261018-1221-R125",
-  "task": "R125 遊んで一番気になる所を1つ直す",
-  "summary": "遊んで見て、おとなモードのチャレンジの結果の窓がひらがなのままなのを直した\n記録更新・今回と最高のステージ・次の目標・もう一度を漢字かな交じりにした\nこどもモードは今のままで、両方のモードをテストで確かめ、前と後のスクショを残した",
-  "result": "pass",
-  "shots": [
-   "shots/228/mobile-02-mode-select.jpg",
-   "shots/228/mobile-15-custom-full-run.jpg",
-   "shots/228/mobile-27-chapter-2-play.jpg",
-   "shots/228/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "73baf1c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39094332843"
- },
- {
   "at": "2026-10-18T03:57:30.633Z",
   "branch": "claude/autodev-20261018-1245-R126",
   "task": "R126 おとなモードで戦いに勝った時の「けいけんち／えん」の行を漢字かな交じりにする",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a3ab841",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40415974675"
+ },
+ {
+  "at": "2026-10-26T23:35:33.841Z",
+  "branch": "claude/autodev-20261027-0821-R272",
+  "task": "R272 町の電柱が「ちず」の看板の屋根の上に立ち、1本の高い柱に見えるのを直す",
+  "summary": "ミナモの十字路で、看板の板が車道にかかっていたので、1.5マス南へ下げた\n板と車道の間に歩道が見えることを、前と後のスクショで確かめた\n板が車道から12px以上離れることを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/480/mobile-02-mode-select.jpg",
+   "shots/480/mobile-15-custom-full-run.jpg",
+   "shots/480/mobile-27-chapter-2-play.jpg",
+   "shots/480/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "46eafce",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40419861054"
  }
 ]
