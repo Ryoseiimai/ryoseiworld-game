@@ -35,9 +35,10 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
  // R129: num1/num2 stand 3 tiles below the lamps at y 18.6, so the sign plate starts under the lamp foot even when it slides inward from the screen edge.
  // num3 stands at x 9.4 so its longer フォロワー sign ends clear of the lamp head at x 12.4.
+ // R255: num2 stood under the talk button on arrival (mobile-28/29), with no free step up between the lamp and its sign, so it stands on the sidewalk by the south road (19,25.2), out of the arrival view and its sign 10px clear of neon_bench.
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
  object('neon_num1','numberperson',0,10.6,21.6,48,100,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
- object('neon_num2','numberperson',1,19.4,21.6,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
+ object('neon_num2','numberperson',1,19,25.2,48,100,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,100,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,100,{label:'かずの ひと',dialogue:'numberPerson4',sign:'じゅんい 99'})],
  // R193: the vacuum walks the right sidewalk (x 16.4): at x 14.5 it stood on the road, which noises never move on, right beside ミオ at x 13.4.
