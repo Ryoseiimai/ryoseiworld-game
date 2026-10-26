@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T23:37:53.919Z",
-  "branch": "claude/autodev-20261018-0821-R117",
-  "task": "R117 遊んで一番気になる所を1つ直す",
-  "summary": "1〜3章のノイズの目標が、どれも「まちの ノイズを しずめよう」で同じだった\n2章を「ミナモの」、3章を「ネオンの」にして、どの町か分かるようにした\n390幅の画面で1行に収まることをスクショで確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/214/mobile-02-mode-select.jpg",
-   "shots/214/mobile-15-custom-full-run.jpg",
-   "shots/214/mobile-27-chapter-2-play.jpg",
-   "shots/214/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "429ff0b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39079417586"
- },
- {
   "at": "2026-10-17T23:54:04.513Z",
   "branch": "claude/autodev-20261018-0838-R118",
   "task": "R118 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ea26809",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40317764888"
+ },
+ {
+  "at": "2026-10-26T13:33:04.857Z",
+  "branch": "claude/autodev-20261026-2135-R263",
+  "task": "R263 1しょうの始めの町で、公園のおじいさんの守護霊が看板の左の柱にかかっていたので、おじいさんを少し西へ動かし、守護霊を頭の上に浮かせた",
+  "summary": "公園のおじいさんの守護霊が、看板の左の柱に重なっていた\nおじいさんを4分の1マス西へ動かし、守護霊を頭の上に浮かせた\n守護霊が柱にも池にもかからないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/463/mobile-02-mode-select.jpg",
+   "shots/463/mobile-15-custom-full-run.jpg",
+   "shots/463/mobile-27-chapter-2-play.jpg",
+   "shots/463/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "1ce5262",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40329830585"
  }
 ]
