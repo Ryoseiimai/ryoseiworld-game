@@ -2085,6 +2085,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(fs.existsSync(path.join(root,'assets','station_sign','station_sign_r0_c0.png')),'the train sign picture is there');
   assert(!'=~'.includes(m.tiles[Math.floor(st.y)][Math.floor(st.x)]),'the sign stands off the road and water');}
  result.push('R253: ミナモの駅が、バスていと同じ札ではなく電車の札になった PASS');
+ // R254: three ミナモ lamps by the north-south road stood on the grass beside the sidewalk (mobile-20); every lamp now stands on a sidewalk, off the road.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo,lights=m.objects.filter(o=>o.id.startsWith('minamo_light'));
+  assert(lights.length>=6,'ミナモ keeps its lamps '+lights.length);
+  for(const l of lights){assert.equal(m.tiles[Math.floor(l.y)][Math.floor(l.x)],'+',l.id+' stands on a sidewalk ('+l.x+','+l.y+')');
+   for(const dx of [-.25,.25])assert(!'=~'.includes(m.tiles[Math.floor(l.y)][Math.floor(l.x+dx)]),l.id+' pole stays off the road and water');}}
+ result.push('R254: ミナモの街灯が、草の上ではなく歩道に立つ PASS');
  // R208: in the 1st chapter park (mobile-25) the kid in the sandbox, grandpa and the musician stood so close that their three grey spirits bunched into one cloud over the sandbox and read as the town noises.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
