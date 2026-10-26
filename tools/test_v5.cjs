@@ -1342,7 +1342,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
  {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);
   const card=Number((html.match(/\.hp-card\{[^}]*top:(\d+)px/)||[])[1]);assert(card>0,'the HP card has a top');
-  assert(html.includes('ctx.ellipse(270,SUMMON_RING_Y,155*Math.min(1,t/400),SUMMON_RING_RY,'),'the ring uses the named position');assert(/rect\(225\+i\*30[^,]*,SUMMON_RING_Y-11\+Math\.sin\(i\)\*10\*k,22,22/.test(html),'the squares use the named position');
+  assert(html.includes('ctx.ellipse(270,SUMMON_RING_Y,108*Math.min(1,t/400),SUMMON_RING_RY,'),'the ring uses the named position');assert(/rect\(225\+i\*30[^,]*,SUMMON_RING_Y-11\+Math\.sin\(i\)\*10\*k,22,22/.test(html),'the squares use the named position');
   assert(y+4<card,'the summon stands above the card');assert(ringY+ringRy+3<card,'the ring (with its 5px line) ends above the card');assert(ringY-11+10+22<card,'the squares end above the card');assert(/rect\(222\+i\*24[^;]*,SUMMON_RING_Y-8\+Math\.sin\(i\+gameTime\/150\)\*8\*k,16,16/.test(html),'paint squares use the named position');assert(ringY-8+8+16<card,'paint squares end above the card');assert(!/rect\([^;]*,5[0-9]{2}\+Math\.sin\(i/.test(html.match(/if\(b\.cast\)\{[^\n]*/)[0]),'no summon squares are left at a fixed y over the card');
   assert(ringY-ringRy<y&&ringY+ringRy>y-30,'the ring sits under the summon’s feet');}
  result.push('R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS');
@@ -2204,6 +2204,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const dy=p.y*48-(m.h-1)*48;assert(dy<22&&Math.sqrt(22*22-dy*dy)>=19,id+': the exit is still reached from the bottom of the floor, also a little to the side of the plate');}}
   assert(n>=7,'the shops, houses and halls are checked ('+n+')');}
  result.push('R261: 部屋の出口の「↓」の札が、手前の壁のそばにある PASS');
+  // R262: the summon's ring stays right of the battle hero (with its shake and the ring's 5px line), and only one Sora is on screen during a summon.
+ {const rx=Number((html.match(/ctx\.ellipse\(270,SUMMON_RING_Y,(\d+)\*Math\.min\(1,t\/400\)/)||[])[1]);const hm=html.match(/sprite\('ryosei',Math\.floor\(gameTime\/180\)%4,(\d+)\+\(g\.status\?Math\.sin\(gameTime\/35\)\*(\d+):0\),HERO_BATTLE_Y[^;]*?,(\d+),(\d+)\)/);
+  assert(rx>0&&hm,'the summon ring and the battle hero are found');const heroRight=Number(hm[1])+Number(hm[2])+Number(hm[3])/2;assert(270-rx-2.5>heroRight+2,'the summon ring ('+(270-rx-2.5)+') stays right of the hero ('+heroRight+')');
+  assert(html.includes('if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'the small Sora hides while a summon is called');}
+ result.push('R262: 呼び出しの輪が主人公の足にかからず、ソラが2つ出ない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
