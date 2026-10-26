@@ -2193,7 +2193,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const p of m.objects.filter(o=>o.kind==='props'&&/^(light|signal|pole|bus)\d*$/.test(o.id)&&o.y<s.y&&Math.abs(o.x-s.x)*48<s.w/2)){posts++;
    assert(board-p.y*48>=40,p.id+' stands '+(board-p.y*48).toFixed(1)+'px over the ちず board (40px or more)');}
   assert(posts>=1,'a post still stands on the sidewalk north of the ちず sign');
-  assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'+','the ちず sign stands on the sidewalk');}
+  assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'+','the ちず sign stands on the sidewalk');
+  const r=await runtime();r.tick();r.g.debugWarp('town',6,25.5);r.tick(16);for(let x=9;x<=12.6;x+=.1)assert(!r.g.debugBlocked(x*48,25.5*48),'the start row (y 25.5) stays open past the ちず sign at x '+x.toFixed(1));}
  result.push('R272: 町の電柱が「ちず」の看板の上に立って見えない PASS');
  // R257: in とう2F the dark crow sank into the dark blue grid (mobile-07). Noises on the tower's dark grid ('g', indoors) stand on a pale halo; the town's green and grey ground stays as it was.
  {assert(/if\(o\.kind==='enemies'&&darkGround\(m,o\)\)enemyHalo\(o\);const see=seeThrough\(o\)/.test(html),'field noises on a dark floor get the halo, drawn under their picture');
