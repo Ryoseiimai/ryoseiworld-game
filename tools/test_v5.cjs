@@ -2077,6 +2077,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.abs(gp.y-b.y)>=1.2||bench[0]-body[1]>=16||body[0]-bench[1]>=16,'grandpa stands clear of the bench '+info);
   assert(b.y<m.h-1,'the bench stays inside the park');}
  result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
+ // R253: ミナモ's station stood as the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo,st=m.objects.find(o=>o.id==='minamo_station'),bus=m.objects.find(o=>o.id==='minamo_bus');
+  assert(st&&bus,'ミナモ has a station and a bus stop');assert.equal(st.event,'trainStop');
+  assert(st.kind==='station_sign'&&st.frame===0,'the station uses the train sign picture '+st.kind+' '+st.frame);
+  assert(!(st.kind===bus.kind&&st.frame===bus.frame),'the station does not share the bus stop picture');
+  assert(fs.existsSync(path.join(root,'assets','station_sign','station_sign_r0_c0.png')),'the train sign picture is there');
+  assert(!'=~'.includes(m.tiles[Math.floor(st.y)][Math.floor(st.x)]),'the sign stands off the road and water');}
+ result.push('R253: ミナモの駅が、バスていと同じ札ではなく電車の札になった PASS');
  // R208: in the 1st chapter park (mobile-25) the kid in the sandbox, grandpa and the musician stood so close that their three grey spirits bunched into one cloud over the sandbox and read as the town noises.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
