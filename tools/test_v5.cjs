@@ -2197,6 +2197,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const s=r.g.spirits.find(x=>x.id==='kid');assert(s,'the kid spirit is drawn at the town spawn');
   for(const o of town.objects.filter(o=>/^hedge/.test(o.id))){const hx=o.x*48,hf=o.y*48;assert(!(Math.abs(s.x-hx)<22+o.w/2&&s.y>hf-o.h&&s.y-44<hf),'kid spirit is clear of '+o.id);}}
  result.push('R259: 砂場の子の守護霊が、生け垣の上に浮かない PASS');
+ // R261: the ↓ plate of the indoor exits stood 1.5 to 2 tiles above the front wall, a mat in the middle of the floor. It sits by the wall now, still within the walkable floor.
+ {const r=await runtime();const maps=r.g.GAME_DATA.maps;let n=0;
+  for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(p.sign||m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
+   const gap=m.h*48-(p.y*48+15);assert(gap>=0&&gap<=24,id+': the ↓ plate sits by the front wall (gap '+gap+'px)');
+   assert(p.y*48-(m.h-1)*48<22,id+': the exit is still reached from the bottom of the floor');}}
+  assert(n>=7,'the shops, houses and halls are checked ('+n+')');}
+ result.push('R261: 部屋の出口の「↓」の札が、手前の壁のそばにある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
