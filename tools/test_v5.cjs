@@ -132,7 +132,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  assert(talk(t,'town',4.5,26.3).includes('ぎゅうにゅう'));t.dialogue();
  // F14: the shop is shut and the police only ask before three noises are quiet.
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'town');assert(t.g.dialogue&&t.g.dialogue.lines[1][1].includes('こうばんに あずけた'));t.dialogue();
- assert(talk(t,'town',9,17.2).includes('しずめたら'));t.dialogue();assert(!t.g.state.flags.key);
+ assert(talk(t,'town',9.5,20.5).includes('しずめたら'));t.dialogue();assert(!t.g.state.flags.key);
  t.setCounting(true);
  // Real contact encounter with a wandering noise.
  const crow=t.g.enemyPos('c1');t.g.debugWarp('town',crow.x/TILE,crow.y/TILE+1.4);t.tick(1300);t.key('ArrowUp');t.tick(400);t.key('ArrowUp',true);assert.equal(t.g.screen,'battle');zakoBattles++;
@@ -140,7 +140,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Walking portal, locked shop, police request, contact encounter and real victory PASS');
  for(const type of ['popup','vending']){t.g.debugStartBattle(type,'balance-'+type);zakoBattles++;fight(t);t.dialogue();}
  assert.equal(t.g.state.flags.zakoWins,3);assert.equal(t.g.questStep,'key');
- const give=talk(t,'town',9,17.2);assert(give.includes('カギを もらった'));t.dialogue();assert(t.g.state.flags.key);assert.equal(t.g.questStep,'battery');
+ const give=talk(t,'town',9.5,20.5);assert(give.includes('カギを もらった'));t.dialogue();assert(t.g.state.flags.key);assert.equal(t.g.questStep,'battery');
  // Store: walk in, the register opens the shop, buy the battery and a charge.
  t.g.debugWarp('town',22,24.7);t.tick(1300);walkUp(t,180);assert.equal(t.g.map,'store');
  assert(talk(t,'store',5,5.6).includes('パスワード'));t.dialogue();assert.equal(t.g.modal,'shop');t.tick(300);
@@ -390,9 +390,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(items.rice,rice+1);assert(r.g.summons.includes('code'));assert(flags.quizDone);assert(flags.ifOk&&!flags.ifBad,'if branches');assert(done,'event calls done at the end');
   for(const b of r.els.get('modal-buttons').children)assert(b.textContent.length<=16,'choice text fits');
   // The police event branches on the key flag and the number of quiet noises, as the old code did.
-  delete flags.key;flags.zakoWins=2;assert(talk(r,'town',9,17.2).includes('しずめたら'));while(r.g.dialogue)r.dialogue();assert(!flags.key);
-  flags.zakoWins=3;assert(talk(r,'town',9,17.2).includes('カギを もらった'));while(r.g.dialogue)r.dialogue();assert(flags.key);await settle();assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.key,'key is saved');
-  assert(talk(r,'town',9,17.2).includes('まいごの ノイズ'));while(r.g.dialogue)r.dialogue();}
+  delete flags.key;flags.zakoWins=2;assert(talk(r,'town',9.5,20.5).includes('しずめたら'));while(r.g.dialogue)r.dialogue();assert(!flags.key);
+  flags.zakoWins=3;assert(talk(r,'town',9.5,20.5).includes('カギを もらった'));while(r.g.dialogue)r.dialogue();assert(flags.key);await settle();assert(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).flags.key,'key is saved');
+  assert(talk(r,'town',9.5,20.5).includes('まいごの ノイズ'));while(r.g.dialogue)r.dialogue();}
  result.push('Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks again, escape keeps a choice open, police talk is an event PASS');
  // R6: event steps for battle, warp, transport, inn, music, shake, flash, wait, chapterClear, ending, and door / warp / trigger cells on the map.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
@@ -2028,7 +2028,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole)\d*$/.test(o.id));nPeople+=people.length;nPosts+=posts.length;
    for(const p of people)for(const q of posts){if(q.y<=p.y||Math.abs(q.x-p.x)>1)continue;const gap=(q.y*48-q.h)-p.y*48;assert(gap>=48,id+': '+q.id+' starts '+gap.toFixed(0)+'px under '+p.id+"'s feet (48px or more)");}}
   assert(nPeople>=20&&nPosts>=20,'the check still sees the people and the posts ('+nPeople+' / '+nPosts+')');
-  const po=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='police');assert(po&&po.x===9&&po.y===16.3,'the police officer still stands by the police box');}
+  const po=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='police');assert(po&&po.x===9.5&&po.y===19.6,'the police officer stands on the sidewalk across from the police box (R270)');}
  result.push('R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS');
  // R204: the TV pile in でんきや stuck 70px up into the plain back wall (rows 0-1 and the 10px lip), so by the exit it hid under the HUD (mobile-19).
  // It now stands on the floor; the boss talk tests above stand at y 6.7, under its new foot.
@@ -2266,6 +2266,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // While the art is missing, the stand-in box still shows its name.
  {const r=await runtime({missingFiles:['kateino_r0_c0.png']});r.tick();assert(r.g.debugStartChapter(2));const b=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_boss');r.g.debugWarp('minamo',b.x,b.y+3);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='fillText'&&String(c[1]).includes('カテイノジジョウ')),'the stand-in boss keeps its name');}
  result.push('R268: ミナモの公園のカテイノジジョウが、届いた絵で描かれる PASS');
+ // R270: at the start of 1しょう (mobile-24) the police officer by the police box stood under the メニュー button, and his grey spirit too.
+ // He stands on the sidewalk across the road from the police box, so his body clears the button and his spirit clears the button and the quest line (game px: button to y 84, quest line to y 172 and x 424).
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.tick(16);r.tick(16);
+  const m=r.g.GAME_DATA.maps.town,po=m.objects.find(o=>o.id==='police'),kb=m.objects.find(o=>o.id==='koban'),cam=r.g.camera;
+  assert(Math.abs(po.x-kb.x)<=3&&po.y-kb.y<=4,'he still stands near the police box: '+[po.x,po.y]);
+  const top=po.y*48-po.h-cam.y;assert(top>172+8,'his head is under the quest line: '+top.toFixed(0));assert(po.y*48-cam.y<960-24,'and his feet are on screen');
+  const sp=r.g.spirits.find(s=>s.id==='police');assert(sp,'his spirit is drawn: '+JSON.stringify(r.g.spirits.map(s=>s.id)));
+  const sx0=sp.x-34-cam.x,sy0=sp.y-54-6-cam.y;assert(sy0>84,'the spirit is under the メニュー button: '+sy0);assert(sx0>424||sy0>172,'the spirit clears the quest line: '+[sx0,sy0]);
+  assert(talk(r,'town',po.x,po.y+0.9).includes('カギ'),'talking to him opens his words');}
+ result.push('R270: 1しょうの始めで、おまわりさんがメニューのボタンの下に隠れない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
