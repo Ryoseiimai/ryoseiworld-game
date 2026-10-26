@@ -2190,6 +2190,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!btn.classes.has('behind'),'nobody and no spirit stands behind the talk button at the town spawn');
   for(const id of ['kid','musician']){const o=town.objects.find(x=>x.id===id);assert(!'~='.includes(town.tiles[Math.floor(o.y)][Math.floor(o.x)]),id+' stands off the pond and the road');}}
  result.push('R258: 1しょうの始めに、「はなす」ボタンの下に人がいない PASS');
+ // R259: the sandbox kid's grey spirit floated over the hedge behind the sandbox (mobile-25); the hedge row has a gap there now.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();if(!r.g.summons.length)r.g.state.summons=['nao'];
+  const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
+  const s=r.g.spirits.find(x=>x.id==='kid');assert(s,'the kid spirit is drawn at the town spawn');
+  for(const o of town.objects.filter(o=>/^hedge/.test(o.id))){const hx=o.x*48,hf=o.y*48;assert(!(Math.abs(s.x-hx)<22+o.w/2&&s.y>hf-o.h&&s.y-44<hf),'kid spirit is clear of '+o.id);}}
+ result.push('R259: 砂場の子の守護霊が、生け垣の上に浮かない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

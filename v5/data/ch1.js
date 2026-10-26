@@ -33,7 +33,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  // Mio (npc2 frame 0) waits by the school; her lost dolphin hairclip is in the park sandbox (STORY_V4.md chapter 1).
  object('mio','npc2',0,10.4,8.2,48,65,{event:'mio'}),object('hairclip','spot',0,8.3,31.4,60,40,{hidden:true,label:'すなば',event:'hairclip',collider:false}),
  object('pond','spot',0,2.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
- ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[9,30.5],[11,30.5]]),
+ // R259: at the start of 1しょう (mobile-25) the sandbox kid's grey spirit floated on the hedge behind the sandbox, so the hedge row leaves a gap there (a way into the park) and the spirit floats over the grass.
+ ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[11,30.5]]),
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2]]),
  // R225: the cherry tree by the park sandbox (sand x 8-10) stood on the sandbox's right rim, so it read as growing in the sand (mobile-24).
