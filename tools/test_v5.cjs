@@ -2252,12 +2252,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R266: the worry walls in ミナモ are drawn with the worry_wall art, not the grey stand-in box; カテイノジジョウ keeps its stand-in for now.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.worry_wall,4,'loaded worry_wall');const D=r.g.GAME_DATA,m=D.maps.minamo;assert(r.g.debugStartChapter(2));
   const walls=m.objects.filter(o=>o.dialogue==='worryWall');assert(walls.length>=3);for(const w of walls)assert.equal(w.kind,'worry_wall','wall '+w.id+' uses the art');
-  assert.equal(m.objects.find(o=>o.id==='minamo_boss').kind,'worry','the boss keeps its stand-in');
   const w=walls[0];r.g.debugWarp('minamo',w.x,w.y+1.4);r.tick(16);r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/worry_wall/worry_wall_r0_c0.png')),'the wall picture is drawn');
   r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>w.y*48-4,'the drawn wall still blocks the way');}
  // While the wall art is missing, the stand-in box still shows its name (RULES: a square and a name until the art comes).
  {const r=await runtime({missingFiles:['worry_wall_r0_c0.png']});r.tick();assert(r.g.debugStartChapter(2));const w=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.dialogue==='worryWall');r.g.debugWarp('minamo',w.x,w.y+3);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='fillText'&&String(c[1]).includes('しんぱいの かべ')),'the stand-in wall keeps its name');}
  result.push('R266: ミナモの「しんぱいの かべ」が、届いた絵で描かれる PASS');
+ // R268: the カテイノジジョウ in the ミナモ park is drawn with the kateino art, not the grey stand-in box; its name tag and footprint stay as they were.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.kateino,9,'loaded kateino');const m=r.g.GAME_DATA.maps.minamo;assert(r.g.debugStartChapter(2));
+  const b=m.objects.find(o=>o.id==='minamo_boss');assert.equal(b.kind,'kateino','the boss uses the art');assert.equal(b.label,'カテイノジジョウ','and keeps its name');
+  r.g.debugWarp('minamo',b.x,b.y+2);r.tick(16);r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/kateino/kateino_r0_c0.png')),'the boss picture is drawn');
+  {const k=Math.min(b.w/349,b.h/281),w=349*k*(b.collider.right-b.collider.left),h=281*k*(b.collider.bottom-b.collider.top);assert(Math.abs(w-170*.7)<=1&&Math.abs(h-128*.22)<=1,'the footprint keeps the old 119x28 size: '+w+'x'+h);}
+  r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>b.y*48-4,'the drawn boss still blocks the way');}
+ // While the art is missing, the stand-in box still shows its name.
+ {const r=await runtime({missingFiles:['kateino_r0_c0.png']});r.tick();assert(r.g.debugStartChapter(2));const b=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_boss');r.g.debugWarp('minamo',b.x,b.y+3);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='fillText'&&String(c[1]).includes('カテイノジジョウ')),'the stand-in boss keeps its name');}
+ result.push('R268: ミナモの公園のカテイノジジョウが、届いた絵で描かれる PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
