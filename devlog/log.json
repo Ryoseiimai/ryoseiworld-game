@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T23:54:04.513Z",
-  "branch": "claude/autodev-20261018-0838-R118",
-  "task": "R118 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘に勝った時の行が「12けいけんち」と数が言葉の前に付いていた\n戦闘の行と1章の勝った後の台詞を「けいけんち 12」の形にそろえた\n390幅で1行に収まることをスクショで確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/215/mobile-02-mode-select.jpg",
-   "shots/215/mobile-15-custom-full-run.jpg",
-   "shots/215/mobile-27-chapter-2-play.jpg",
-   "shots/215/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8e80cdd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39080421506"
- },
- {
   "at": "2026-10-18T00:46:59.555Z",
   "branch": "claude/autodev-20261018-0921-R119",
   "task": "R119 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "1ce5262",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40329830585"
+ },
+ {
+  "at": "2026-10-26T14:59:49.745Z",
+  "branch": "claude/autodev-20261026-2325-R264",
+  "task": "R264 2しょうのミナモで、画面の左外にいるカテイノジジョウの名前の札が左端から1文字だけのぞいていたので、画面の外の相手の札は描かず、端の近くの札は画面の中へ寄せた",
+  "summary": "2しょうのミナモで、画面の外の名前の札が左端から1文字だけのぞいていた\n画面の外の相手の札は描かず、端の近くの札は画面の中へ寄せた\n札が画面からはみ出さないことをテストに足し、前と後のスクショを手元で撮った（mobile-27）",
+  "result": "pass",
+  "shots": [
+   "shots/465/mobile-02-mode-select.jpg",
+   "shots/465/mobile-15-custom-full-run.jpg",
+   "shots/465/mobile-27-chapter-2-play.jpg",
+   "shots/465/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "39d23ce",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40343056820"
  }
 ]
