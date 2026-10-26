@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T03:57:30.633Z",
-  "branch": "claude/autodev-20261018-1245-R126",
-  "task": "R126 おとなモードで戦いに勝った時の「けいけんち／えん」の行を漢字かな交じりにする",
-  "summary": "チャレンジの結果の窓に続き、勝った時の戦いの記録をおとなモードで「経験値／円」にした\nこどもモードは「けいけんち／えん」のままで、両方のモードをテストで確かめた\n戦いの画面の「でんち 100％」と召喚の結果の文が、まだおとなモードでもひらがなのまま",
-  "result": "pass",
-  "shots": [
-   "shots/229/mobile-02-mode-select.jpg",
-   "shots/229/mobile-15-custom-full-run.jpg",
-   "shots/229/mobile-27-chapter-2-play.jpg",
-   "shots/229/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ee979ff",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39095141402"
- },
- {
   "at": "2026-10-18T04:40:28.243Z",
   "branch": "claude/autodev-20261018-1321-R127",
   "task": "R127 おとなモードの戦いの画面の電池の表記と、召喚の結果の文を漢字かな交じりにする",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "46eafce",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40419861054"
+ },
+ {
+  "at": "2026-10-26T23:48:03.045Z",
+  "branch": "claude/autodev-20261027-0821-R272",
+  "task": "R272 町の電柱が「ちず」の看板の屋根の上に立ち、1本の高い柱に見えたので、看板を歩道の南の端へ下げた",
+  "summary": "町の「ちず」看板を歩道の南の端へ下げ、電柱の根元と板の間を約47pxあけた\n看板の当たりを柱の足元だけにし、家の前の歩道を東へ歩いて通れるようにした\n電柱と板の間と、歩道を通れることを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/481/mobile-02-mode-select.jpg",
+   "shots/481/mobile-15-custom-full-run.jpg",
+   "shots/481/mobile-27-chapter-2-play.jpg",
+   "shots/481/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "048bd2f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40420189058"
  }
 ]
