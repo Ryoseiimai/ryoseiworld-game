@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-17T18:50:05.467Z",
-  "branch": "claude/autodev-20261018-0321-R109",
-  "task": "R109 遊んで一番気になる所を1つ直す",
-  "summary": "ミナモで「こうえん」の看板の字が、左下の「ドラッグで あるく」の箱に隠れていた\n看板の字が箱やはなすボタンの後ろに来ても、箱が薄くなるようにした\nテストと前と後のスクショ（docs/shots/R109）で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/203/mobile-02-mode-select.jpg",
-   "shots/203/mobile-15-custom-full-run.jpg",
-   "shots/203/mobile-27-chapter-2-play.jpg",
-   "shots/203/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a364e37",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39059178834"
- },
- {
   "at": "2026-10-17T19:42:41.155Z",
   "branch": "claude/autodev-20261018-0421-R110",
   "task": "R110 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ef6df9e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40266782909"
+ },
+ {
+  "at": "2026-10-26T05:13:23.248Z",
+  "branch": "claude/autodev-20261026-1321-R256",
+  "task": "R256 町とミナモの木の看板の板に字が無く、何の看板か分からなかったので、板を少し大きくして「ちず」「ミナモ」と書いた",
+  "summary": "町とミナモの木の看板に「ちず」「ミナモ」と書き、字が入るよう板を大きくした\nミナモの看板は桜の木に当たらないよう少し東へ動かした\n看板に字があり、柱の間に収まることをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/453/mobile-02-mode-select.jpg",
+   "shots/453/mobile-15-custom-full-run.jpg",
+   "shots/453/mobile-27-chapter-2-play.jpg",
+   "shots/453/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f9e104a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40272354057"
  }
 ]
