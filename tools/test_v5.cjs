@@ -2053,7 +2053,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R206: 町の「こうえん」の看板の字が、車道の上にかからない PASS');
  // R207: after R206 the park sign's right post stood right behind the bench (mobile-25); the bench now sits well below the sign's feet.
  {const r=await runtime();const m=r.g.GAME_DATA.maps.town,s=m.objects.find(x=>x.id==='parksign'),b=m.objects.find(x=>x.id==='bench');
-  assert(s&&b,'park sign and bench are in town');assert(b.y-s.y>=2.5,'the bench stands clear of the sign posts (bench '+b.y+', sign '+s.y+')');
+  // R251: the sign moved 1.7 tiles south to clear the road, so the bench now sits between its two posts (about 66px either side), in front of the board.
+  assert(s&&b,'park sign and bench are in town');const post=66/48,half=b.w/2/48;assert(b.x-half>s.x-post+.1&&b.x+half<s.x+post-.1,'the bench stands between the sign posts, clear of both (bench '+(b.x-half).toFixed(2)+'..'+(b.x+half).toFixed(2)+', posts '+(s.x-post).toFixed(2)+' and '+(s.x+post).toFixed(2)+')');
+  assert(b.y-s.y>=1.5,'the bench stands in front of the sign posts (bench '+b.y+', sign '+s.y+')');
+  // R251: the board's top (about 185px over the feet) stays below the road rows 26-28.
+  assert(s.y*48-185>=29*48,'the park sign board stays off the road (top '+(s.y*48-185)+')');
   assert(b.y<m.h-1,'the bench stays inside the park');}
  result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
  // R208: in the 1st chapter park (mobile-25) the kid in the sandbox, grandpa and the musician stood so close that their three grey spirits bunched into one cloud over the sandbox and read as the town noises.

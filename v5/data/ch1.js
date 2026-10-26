@@ -22,7 +22,8 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  object('shrine','buildings',7,26.5,33.6,150,135,{label:'じんじゃ',dialogue:'shrineSign'}),
  // R216: the vending machine's feet (y 24) sat behind the lamp of the signal just south of it (mobile-16), so it stands 0.7 tile further north and 0.2 tile west (the walk test along the store's west wall starts clear of it).
  prop('sign',11,12,25,80,{dialogue:'signs'}),prop('machine',3,18.8,23.3,80,{dialogue:'vending'}),prop('post',6,10.4,24.8,70),prop('bus',13,12,16,90,{label:'バスてい',event:'busStop'}),prop('bike',8,1.6,24.7,80),prop('car',9,23.7,35.3,120),
- prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.9,34.5,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.2,31.2,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
+ prop('flowers',10,1.8,21.4,100),prop('flowers2',10,1.4,34.8,100),prop('bench',4,6.45,34.5,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.45,32.9,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
+ // R251: the board still reached about 80px up over the road rows 26-28 (mobile-25), so the sign stands 1.7 tiles deeper in the park, the pond moved one tile west so the left post stands on grass, and the bench sits centred between the posts.
  // R206: the park sign (240px, feet at y 30.4) hung its board over the road rows 26-28 (mobile-25), so it is as small as its 24px words allow and stands a little deeper in the park, east of the pond; only its left post blocks, so the way into the park stays open.
  // R208: grandpa, the kid in the sandbox and the musician stood within three tiles, and their three grey spirits bunched over the sandbox like the town noises (mobile-25),
  // so grandpa stands west of the bench and the musician plays in the corner under the cherry tree.
@@ -30,7 +31,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
  // R207: after R206 the sign's right post stood right behind the bench (mobile-25), so the bench sits lower, between the pond and the sandbox, next to grandpa.
  // Mio (npc2 frame 0) waits by the school; her lost dolphin hairclip is in the park sandbox (STORY_V4.md chapter 1).
  object('mio','npc2',0,10.4,8.2,48,65,{event:'mio'}),object('hairclip','spot',0,8.3,31.4,60,40,{hidden:true,label:'すなば',event:'hairclip',collider:false}),
- object('pond','spot',0,3.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
+ object('pond','spot',0,2.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
  ...props('hedge',2,100,[[1.2,30.5],[3.2,30.5],[9,30.5],[11,30.5]]),
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1],[0.9,35.2]]),
@@ -59,7 +60,7 @@ maps.town={name:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],ob
 // Later towns can supply their own tile rows without changing movement/rendering.
 maps.town.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  if(y<2)return '.';
- if(x>=2&&x<=5&&y>=31&&y<=33)return '~';
+ if(x>=1&&x<=4&&y>=31&&y<=33)return '~';
  if(x>=8&&x<=10&&y>=31&&y<=34)return ':';
  if((x>=13&&x<=16)||(y>=26&&y<=28)||(y>=17&&y<=18)||(y>=9&&y<=10))return '=';
  if(x===12||x===17||y===25||y===29||y===16||y===19||y===8||y===11)return '+';
