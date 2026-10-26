@@ -2240,6 +2240,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const x of [cam.x+5,cam.x+535,cam.x+270]){r=run('field',cam,x);assert.equal(r.labels.length,1,'the name of a stand-in on screen is drawn');const lx=r.labels[0][1];assert(lx-half>=cam.x&&lx+half<=cam.x+540,'the name at '+x+' stays inside the screen: '+lx);}
   r=run('battle',cam,-500);assert.deepEqual(r.labels,[['カテイノジジョウ',-500]],'in battle the name stays on its thing');}
  result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
+ // R267: in ミナモ (mobile-20) the park board stood at the left edge and only 「ん」 of こうえん showed; a board's words are drawn only while all of them are on screen.
+ {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
+  const run=(cam,o)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000')(o);return{labels,rows};};
+  const cam={x:455,y:0},park={x:9,y:26.6,kind:'props',frame:11,sign:'こうえん'};
+  let r=run(cam,park);assert.equal(r.labels.length,0,'the words of a board cut by the left edge are not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keep no row');
+  r=run({x:432-540+10,y:0},park);assert.equal(r.labels.length,0,'nor by the right edge');
+  for(const cx of [380,432+52-540,170]){r=run({x:cx,y:0},park);assert.deepEqual(r.labels.map(l=>l[0]),['こうえん'],'the words of a board fully on screen at camera '+cx+' are drawn');}
+  r=run(cam,{x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'});assert.equal(r.labels.length,1,'a number person\'s sign still slides in at the edge (R85)');}
+ result.push('R267: 看板の字が画面の端で切れて1文字だけ見えることがない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
