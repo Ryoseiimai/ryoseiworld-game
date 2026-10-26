@@ -2176,6 +2176,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(o&&o.kind==='props'&&o.frame===11&&o.dialogue,id+' is a talking board on props 11');assert.equal(o.sign,word,id+' shows its word');
    assert([...o.sign].length*24+5<=o.w*.6,id+' word fits between the posts ('+o.w+'px board)');}}
  result.push('R256: 町とミナモの木の看板に字がある PASS');
+ // R257: in とう2F the dark crow sank into the dark blue grid (mobile-07). Noises on the tower's dark grid ('g', indoors) stand on a pale halo; the town's green and grey ground stays as it was.
+ {assert(/if\(o\.kind==='enemies'&&darkGround\(m,o\)\)enemyHalo\(o\);const see=seeThrough\(o\)/.test(html),'field noises on a dark floor get the halo, drawn under their picture');
+  assert(/const DARK_TILES='g';\nfunction darkGround\(m,o\)\{if\(m\.outside\)return false;/.test(html),'only the indoor tower grid counts as dark (ネオン stays as it was)');
+  const maps=(await runtime()).g.GAME_DATA.maps,under=(m,e)=>m.tiles?.[Math.floor(e.y)]?.[Math.floor(e.x)];
+  const crow=maps.tower2.enemies.find(e=>e.type==='crow2');assert(crow&&under(maps.tower2,crow)==='g'&&!maps.tower2.outside,'the とう2F crow stands on the dark grid, so it gets the halo');
+  for(const e of maps.town.enemies)assert(maps.town.outside,'town noise '+e.id+' keeps its plain look');}
+ result.push('R257: 暗い床の上のノイズに、うすい光の輪がある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
