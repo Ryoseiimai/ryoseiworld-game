@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T14:56:10.773Z",
-  "branch": "claude/autodev-20261018-2321-R140",
-  "task": "R140 遊んで一番気になる所を1つ直す",
-  "summary": "きずなの一覧で、最後の項目が1行目だけ見えて残りが隠れていた\n長い一覧は空いた行で切り、▼ つづきで次の項目の頭へ進むようにした\nとう2Fで札が雲の階段に少しかかる所は、前に決めた形と食いちがうので残した",
-  "result": "pass",
-  "shots": [
-   "shots/249/mobile-02-mode-select.jpg",
-   "shots/249/mobile-15-custom-full-run.jpg",
-   "shots/249/mobile-27-chapter-2-play.jpg",
-   "shots/249/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "0f2eb2d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39137785048"
- },
- {
   "at": "2026-10-18T15:41:52.169Z",
   "branch": "claude/autodev-20261019-0021-R141",
   "task": "R141 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "ec4598a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40498318546"
+ },
+ {
+  "at": "2026-10-27T12:18:34.265Z",
+  "branch": "claude/autodev-20261027-2023-R284",
+  "task": "R284 ネオンの「かずの ひと」4人がほかの人より頭ひとつ大きかったので、ミオと同じ背にした",
+  "summary": "確認役が全章のスクショを見て、ネオンの「かずの ひと」が大きすぎると挙げた\n4人の高さを100から76にし、体がミオと同じ66pxくらいになった。前と後のスクショで確かめた\n「呼び出す」の目当てがフィールドに出る件は確認用の画面だけで起きるので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/501/mobile-02-mode-select.jpg",
+   "shots/501/mobile-15-custom-full-run.jpg",
+   "shots/501/mobile-27-chapter-2-play.jpg",
+   "shots/501/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f438cc0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40500213688"
  }
 ]
