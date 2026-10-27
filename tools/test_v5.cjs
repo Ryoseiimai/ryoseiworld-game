@@ -2155,13 +2155,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R239: ネオンの かんばんが、町の木の板ではなく光る看板 PASS');
  // R243: the park sign stands on two posts far apart, and the small round shadow lay on the grass between and below them (ミナモ, desktop-26). Its shadow now joins both post feet.
  {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}\};/);assert(m,'the park sign has its own shadow');const [rx,rise,ry,tilt]=m.slice(1).map(Number);
-  assert(/const fsh=o\.w>=160&&FOOT_SHADOW\[o\.kind\]\?\.\[o\.frame\]/.test(html),'only the big park boards use it');
+  assert(/const fsh=o\.w>=100&&FOOT_SHADOW\[o\.kind\]\?\.\[o\.frame\]/.test(html),'only the boards w 100 and up use it (R273 widened it from the park boards)');
   const file=path.join(root,'assets','props','props_r2_c3.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);assert.equal(width,236);
   const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>40)b=y;low.push(b);}
   const feet=[[0,118],[118,236]].map(([a,b])=>{let at=a;for(let x=a;x<b;x++)if(low[x]>low[at])at=x;return [at,low[at]];});
   // Each post foot (lowest opaque pixel) must fall inside the tilted ellipse, so the shadow touches both feet.
   const cy=248-rise;for(const [x,y] of feet){const dx=x-118,dy=y-cy,u=dx*Math.cos(tilt)+dy*Math.sin(tilt),v=-dx*Math.sin(tilt)+dy*Math.cos(tilt);assert((u/rx)**2+(v/ry)**2<=1,`the shadow covers the post foot at ${x},${y}`);}
-  const maps=(await runtime()).g.GAME_DATA.maps,small=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='props'&&o.frame===11&&o.w<160);assert(small.length,'small boards share the picture and keep the round shadow');
+  const maps=(await runtime()).g.GAME_DATA.maps,small=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='props'&&o.frame===11&&o.w<100);assert(small.length,'small boards share the picture and keep the round shadow');
   for(const id of ['parksign','minamo_parksign']){const o=Object.values(maps).flatMap(mp=>mp.objects).find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.w>=160,id+' is a big board on props 11');}}
  result.push('R243: 「こうえん」の看板の影が、2本の柱の足元をつなぐ PASS');
  // R255: at the start of 3章 (and on every train arrival, at the neon spawn) the 「いいね 3204」 person stood right under the talk button (mobile-28/29), and no step up was free of the lamp and the sign.
@@ -2196,6 +2196,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'+','the ちず sign stands on the sidewalk');
   const r=await runtime();r.tick();r.g.debugWarp('town',6,25.5);r.tick(16);for(let x=9;x<=12.6;x+=.1)assert(!r.g.debugBlocked(x*48,25.5*48),'the start row (y 25.5) stays open past the ちず sign at x '+x.toFixed(1));}
  result.push('R272: 町の電柱が「ちず」の看板の上に立って見えない PASS');
+ // R273: the ちず and ミナモ boards share the park sign picture (props 11) but are w 104 and 136, so they kept the small round shadow between and below their two feet; now they use the two-feet shadow too.
+ {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}\};/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
+  const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects);
+  for(const [id,text] of [['sign','ちず'],['minamo_sign','ミナモ']]){const o=all.find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.sign===text,id+' is the '+text+' board on props 11');assert(o.w>=min,id+' (w '+o.w+') gets the two-feet shadow');}
+  const [rx,rise,ry]=m.slice(1,4).map(Number);for(const id of ['sign','minamo_sign']){const k=all.find(x=>x.id===id).w/236;assert(ry*k>=3&&rx*k>=30,'the '+id+' shadow stays visible: '+(rx*k).toFixed(1)+' x '+(ry*k).toFixed(1));}}
+ result.push('R273: 「ちず」と「ミナモ」の看板の影が、2本の柱の足元をつなぐ PASS');
  // R257: in とう2F the dark crow sank into the dark blue grid (mobile-07). Noises on the tower's dark grid ('g', indoors) stand on a pale halo; the town's green and grey ground stays as it was.
  {assert(/if\(o\.kind==='enemies'&&darkGround\(m,o\)\)enemyHalo\(o\);const see=seeThrough\(o\)/.test(html),'field noises on a dark floor get the halo, drawn under their picture');
   assert(/const DARK_TILES='g';\nfunction darkGround\(m,o\)\{if\(m\.outside\)return false;/.test(html),'only the indoor tower grid counts as dark (ネオン stays as it was)');
