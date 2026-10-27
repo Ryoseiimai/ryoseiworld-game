@@ -1,20 +1,14 @@
 {
   "version": 1,
   "current": {
-    "id": "R273",
-    "branch": "claude/autodev-20261027-0921-R273",
+    "id": "R274",
+    "branch": "claude/autodev-20261027-1022-R274",
     "attempts": 1,
     "conflicts": 0,
     "retriggers": 0,
-    "started_at": "2026-10-27T09:21:31+09:00"
+    "started_at": "2026-10-27T10:22:03+09:00"
   },
   "history": [
-    {
-      "id": "R223",
-      "branch": "claude/autodev-20261025-0621-R223",
-      "result": "pass",
-      "at": "2026-10-25T06:50:43+09:00"
-    },
     {
       "id": "R224",
       "branch": "claude/autodev-20261025-0650-R224",
@@ -308,6 +302,12 @@
       "branch": "claude/autodev-20261027-0821-R272",
       "result": "pass",
       "at": "2026-10-27T09:21:31+09:00"
+    },
+    {
+      "id": "R273",
+      "branch": "claude/autodev-20261027-0921-R273",
+      "result": "pass",
+      "at": "2026-10-27T10:22:03+09:00"
     }
   ],
   "blocked": []
