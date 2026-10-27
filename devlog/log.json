@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T10:52:56.710Z",
-  "branch": "claude/autodev-20261018-1942-R135",
-  "task": "R135 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が全章のスクショを見て、5つの気になる所を挙げた\nカテイノ戦などで、とくぎのボタンが戦う場所の下の線に詰まっていたのを、8px離して少し高くした\nテストを足し、前と後のスクショを置いた。直した後の見直しは時間の都合で自分だけでした",
-  "result": "pass",
-  "shots": [
-   "shots/240/mobile-02-mode-select.jpg",
-   "shots/240/mobile-15-custom-full-run.jpg",
-   "shots/240/mobile-27-chapter-2-play.jpg",
-   "shots/240/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5be5785",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39120625231"
- },
- {
   "at": "2026-10-18T11:36:31.116Z",
   "branch": "claude/autodev-20261018-2021-R136",
   "task": "R136 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "32c3f02",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40449688187"
+ },
+ {
+  "at": "2026-10-27T05:48:42.088Z",
+  "branch": "claude/autodev-20261027-1421-R278",
+  "task": "R278 カテイノジジョウ戦の始めで、浮く前の主人公が川の柵の上に立っていたので、石垣の足もとに立たせた",
+  "summary": "カテイノジジョウ戦の始めで、浮く前の主人公が川の柵の上に立っていた\nミナモの背景の時だけ、石垣の足もと（水との境）から浮くようにした。おともも同じ高さから出る\n前と後は v5/verification/R278_kateino-start_*.png。浮く幅が町より短くなる点はそのままにした",
+  "result": "pass",
+  "shots": [
+   "shots/492/mobile-02-mode-select.jpg",
+   "shots/492/mobile-15-custom-full-run.jpg",
+   "shots/492/mobile-27-chapter-2-play.jpg",
+   "shots/492/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "23ee900",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40456439480"
  }
 ]
