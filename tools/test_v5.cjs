@@ -1174,6 +1174,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.neon,crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);
   for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id),body=o.h*(1-crop[o.frame]/452);assert(body>=59&&body<=76,id+' body '+body);}}
  result.push('R284: ネオンの「かずの ひと」を、ほかの人と同じ背の高さにした PASS');
+ // R285: on the title with a save, the two hint boxes (margin -40px) stuck out past はじめから / つづきから on both sides; the buttons now span the same width as the boxes.
+ {const box=html.match(/\.title-actions\{position:absolute;left:(\d+)px;right:(\d+)px;/);assert(box,'the title button column is found');
+  assert(html.includes('.title-actions .caption{margin:0}'),'the title captions have no negative margin');
+  const cap=html.match(/\.caption\{[^}]*margin:0 -(\d+)px/);assert(cap&&Number(box[1])===70-Number(cap[1])&&Number(box[2])===Number(box[1]),'the buttons are as wide as the old hint boxes ('+box[1]+')');}
+ result.push('R285: タイトルのボタンと下の説明の箱が、同じ幅にそろった PASS');
  // R70: while a word card is up in battle (under the enemy name, SPEC_V7 4.1), a summon's name and its effect text are drawn below the card's real bottom, not behind it.
  for(const [id,h] of [['nao',96],['code',124],['whale',124]]){const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const D=r.g.GAME_DATA;
