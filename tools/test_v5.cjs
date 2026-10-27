@@ -2361,6 +2361,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
   const top=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1])+Number(m[2]);assert(top>0&&top<=480,'the partner name sits above the HP card');}
  result.push('R276: 戦闘の光の玉の下にAIの相棒の名前が出る PASS');
+ // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
+ {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
+ result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
