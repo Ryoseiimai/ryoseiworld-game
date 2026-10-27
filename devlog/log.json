@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T11:36:31.116Z",
-  "branch": "claude/autodev-20261018-2021-R136",
-  "task": "R136 遊んで一番気になる所を1つ直す",
-  "summary": "とうの階段の札「うえへ／したへ」が雲の床と上の壁にかかっていたのを、雲の下の床に出した\n札が上から下りたので、ふつうのことばの札は上のままで目標の字を隠さない。高い札は前のとおり上へ逃げる\nテストを足し、とう2Fの前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/242/mobile-02-mode-select.jpg",
-   "shots/242/mobile-15-custom-full-run.jpg",
-   "shots/242/mobile-27-chapter-2-play.jpg",
-   "shots/242/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5afddf1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39123555520"
- },
- {
   "at": "2026-10-18T11:41:53.917Z",
   "branch": "claude/autodev-20261018-2021-R136",
   "task": "R136 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "23ee900",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40456439480"
+ },
+ {
+  "at": "2026-10-27T07:12:18.317Z",
+  "branch": "claude/autodev-20261027-1521-R279",
+  "task": "R279 町で、画面の右端に立つ人の守護霊が端で半分切れていたので、画面に収まる左側に出した",
+  "summary": "町の画面の右端の人の守護霊が、端で半分切れていた\n守護霊は、画面からはみ出す側をやめて、反対の側に出るようにした\n前と後は v5/verification/R279_town-edge_*.png。体が端から30px内の人は対象外",
+  "result": "pass",
+  "shots": [
+   "shots/494/mobile-02-mode-select.jpg",
+   "shots/494/mobile-15-custom-full-run.jpg",
+   "shots/494/mobile-27-chapter-2-play.jpg",
+   "shots/494/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "318f9c9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40464447138"
  }
 ]
