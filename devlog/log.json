@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T22:03:17.458Z",
-  "branch": "claude/autodev-20261019-0643-R149",
-  "task": "R149 遊んで一番気になる所を1つ直す",
-  "summary": "チャレンジの結果で、チート付きの記録が無い時は「通常」の見出しを出さないようにした（R148）\nネオンのかずの人の頭の上に、札と合わない小さな数字が浮いていた。頭より上の行を描かないようにした\n前と後のスクショで、数字が消えて頭が欠けないことを見た。1人目は髪の上の約1pxも消える",
-  "result": "pass",
-  "shots": [
-   "shots/263/mobile-02-mode-select.jpg",
-   "shots/263/mobile-15-custom-full-run.jpg",
-   "shots/263/mobile-27-chapter-2-play.jpg",
-   "shots/263/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "51b4f8b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39170146240"
- },
- {
   "at": "2026-10-19T01:15:28.748Z",
   "branch": "claude/autodev-20261019-0941-R150",
   "task": "R150 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "985e638",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40591884115"
+ },
+ {
+  "at": "2026-10-27T23:13:16.778Z",
+  "branch": "claude/autodev-20261028-0721-R294",
+  "task": "R294 ネオンでミオに話しかける時、ミオの名札と「じゅんい 86」の札が横に並んで触れていたので、ミオを少し上に立たせた",
+  "summary": "前の回が残したミオの名札と「じゅんい 86」の札が触れる件に決めた\nミオを少し上に立たせ、名札を札より上に出した。前と後のスクショを見比べた\n名札と札の高さがずれていることを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/515/mobile-02-mode-select.jpg",
+   "shots/515/mobile-15-custom-full-run.jpg",
+   "shots/515/mobile-27-chapter-2-play.jpg",
+   "shots/515/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2c2c8b1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40599092986"
  }
 ]
