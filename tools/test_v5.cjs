@@ -54,7 +54,8 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   let rafs=[], now=0, rafId=0;
   const document={hidden:false,activeElement:null,getElementById:id=>{assert(els.has(id),id);return els.get(id)},querySelectorAll:sel=>sel==='.screen'?[...els.values()].filter(e=>e.id.startsWith('screen-')):buttons,createElement:tag=>{const e=new El();e.tagName=tag.toUpperCase();return e;},addEventListener(n,f){(listeners[n]??=[]).push(f)}};
   const storage={getItem(k){if(brokenStorage)throw Error('storage unavailable');return saved.get(k)||null},setItem(k,v){if(brokenStorage)throw Error('storage unavailable');saved.set(k,v)}};
-  class Image {set src(s){this._src=s;this.complete=true;if(missingFiles.some(f=>s.endsWith('/'+f))){queueMicrotask(()=>this.onerror?.());return;}let bytes;try{bytes=fs.readFileSync(root+'/'+s)}catch{}this.naturalWidth=bytes?bytes.readUInt32BE(16):200;this.naturalHeight=bytes?bytes.readUInt32BE(20):200;queueMicrotask(()=>this.onload?.())}get src(){return this._src}}
+  const imageSrcs=[];
+  class Image {set src(s){this._src=s;imageSrcs.push(s);this.complete=true;if(missingFiles.some(f=>s.endsWith('/'+f))){queueMicrotask(()=>this.onerror?.());return;}let bytes;try{bytes=fs.readFileSync(root+'/'+s)}catch{}this.naturalWidth=bytes?bytes.readUInt32BE(16):200;this.naturalHeight=bytes?bytes.readUInt32BE(20):200;queueMicrotask(()=>this.onload?.())}get src(){return this._src}}
   const sandbox={Math:Object.create(Math),innerWidth:390,innerHeight:844,document,Image,URLSearchParams,location:{search:'?seed='+seed+search},localStorage:storage,performance:{now:()=>now},requestAnimationFrame:f=>{const id=++rafId;rafs.push({id,f});return id},cancelAnimationFrame:id=>{rafs=rafs.filter(r=>r.id!==id)},console,queueMicrotask,fetch:async url=>{
     // SPEC_V9_MUSIC: the ledger defaults to the shipped data/music.json; a test passes its own ledger (null = missing) and fake decoded lengths.
     if(url==='data/music.json'){requests.push(url);if(musicLedger===undefined)return {ok:true,json:async()=>JSON.parse(fs.readFileSync(root+'/'+url,'utf8'))};return musicLedger?{ok:true,json:async()=>musicLedger}:{ok:false};}
@@ -104,7 +105,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
+  return {imageSrcs,RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }
@@ -803,6 +804,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R30: エンディング（3つの町のカード）とエピローグ（なにを かいても「わかった。つくろう」→ タイトルへ）。
  {const r=await runtime();r.tick();r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'},{heading:'B',bg:'bg_minamo',copy:'y'}]}}]);
   assert.equal(r.g.screen,'ending');assert.equal(r.els.get('ending-heading').textContent,'A');assert.equal(r.els.get('ending-title').textContent,'つぎへ');
+  // R281: both pictures start loading with the first card, so tapping つぎへ early does not cancel the next one's load.
+  assert(['bg_town','bg_minamo'].every(b=>r.imageSrcs.includes('assets/'+b+'.png')),'finale preloads every town picture: '+r.imageSrcs.filter(x=>/bg_/.test(x)).join(','));
   r.click('ending-title');assert.equal(r.els.get('ending-heading').textContent,'B');
   r.click('ending-title');assert.equal(r.g.screen,'epilogue','町が0でも1でも最後は かならず エピローグへ');
   assert.equal(r.els.get('epilogue-input').hidden,false);assert.equal(r.els.get('epilogue-send').hidden,false);
