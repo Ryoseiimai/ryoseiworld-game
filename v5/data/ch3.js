@@ -22,7 +22,9 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  // R24: the hacker returns here (STORY_V4.md: friend, また会う). Her spirit is now the whale (ch1.js); at bond 3 it joins for real.
  person('hacker',25,18.6,{event:'hackerNeon'}),
  // R25: ミオの雨の日 (STORY_V4.md 恋愛きずな3). She waits under the sidewalk roof near the crossroad; sharing the umbrella raises her heart to 3 and コトバイルカ joins.
- object('neon_mio','npc2',0,13.4,21.6,48,65,{label:'ミオ',event:'mioRain'}),
+ // R294: at y 21.6 her name tag sat level with num1's じゅんい 86 sign (num1 at 11.3,21.6) and the two touched end to end when she was the talk target;
+ // at y 20.8 the tag hangs 38px higher than the sign. num1 stays put: lower, its feet fell off the bottom of the arrival view.
+ object('neon_mio','npc2',0,13.4,20.8,48,65,{label:'ミオ',event:'mioRain'}),
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  // R239: the welcome board was the town's wooden park board, out of place on ネオン's purple paving (mobile-23); it is now the glowing city signboard.

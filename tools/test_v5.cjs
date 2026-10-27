@@ -2375,6 +2375,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.tick(16);r.canvasCalls.length=0;r.tick(16);
   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);assert(txt,'R293: num1 sign is drawn in the arrival view');assert(Math.abs(txt[2]-o.x*48)<1,'R293: num1 sign sits over its person (sign x '+txt[2]+', person x '+o.x*48+')');}
  result.push('R293: ネオンの着いた所で「じゅんい 86」の札が人の上にある PASS');
+ // R294: talking to ミオ, her name tag and num1's 「じゅんい 86」 sign no longer touch end to end; they sit at different heights.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
+  r.g.debugWarp('neon',mio.x,mio.y+1.5);r.g.debugFace(3);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),tag=r.canvasCalls.filter(c=>c[0]==='tag'&&Math.abs(c[1]+c[3]/2-(mio.x*48-r.g.camera.x))<4).at(-1);
+  assert(txt&&tag,'R294: num1 sign and ミオ name tag are both drawn');assert(tag[2]+tag[4]<=txt[3]-12,'R294: ミオ tag ends above the じゅんい 86 sign (tag bottom '+(tag[2]+tag[4])+', sign text y '+txt[3]+')');}
+ result.push('R294: ミオの名札と「じゅんい 86」の札が重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
