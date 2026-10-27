@@ -2082,6 +2082,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(top>=140,'the TV pile box top is '+top.toFixed(0)+'px down the screen by the exit (140 or more)');
   const sv=m.objects.find(x=>x.id==='server');assert(sv.y-o.y>=1.5,'the server still stands in front with room to walk between ('+(sv.y-o.y).toFixed(1)+' tiles)');}
  result.push('R286: でんきやの入口で、テレビの やま の上が上の帯に隠れない PASS');
+ // R288: the art's visible top (about 40/170 of the box is empty) sits about 10px lower than at R286 (182) so it clears the goal bar.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,vis=o.y*48-o.h+o.h*40/170-camY;
+  assert(vis>=188,'the TV pile visible top is '+vis.toFixed(0)+'px down the screen by the exit (188 or more)');assert(o.h>=150,'the TV pile stays boss sized ('+o.h+')');}
+ result.push('R288: でんきやの入口で、テレビの やま の線が目当ての帯に重ならない PASS');
  // R205: in ミナモ (mobile-20) the tired dad stood at y 18.9, in the middle of the road rows 18-19, so he read as standing in traffic.
  {const r=await runtime();r.tick();let n=0;
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(!m.tiles)continue;for(const o of m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind))){n++;const t=m.tiles[Math.floor(o.y)]&&m.tiles[Math.floor(o.y)][Math.floor(o.x)];assert(t!=='='&&t!=='~',id+': '+o.id+' does not stand on a road or water tile ('+t+')');}}
