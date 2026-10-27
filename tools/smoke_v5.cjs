@@ -183,7 +183,9 @@ async function runViewport(browser, url, vp, errors, shots) {
           const sp = m && (m.spawn || m.start || m.entry);
           const w = m && (m.w || m.width || (m.tiles && m.tiles[0] && m.tiles[0].length) || 10);
           const h = m && (m.h || m.height || (m.tiles && m.tiles.length) || 10);
-          out.push({ id, x: sp && Number.isFinite(sp.x) ? sp.x : w / 2, y: sp && Number.isFinite(sp.y) ? sp.y : h / 2 });
+          // R280: v5 maps keep spawn as [x, y]; reading only sp.x dropped the hero in the map centre (on the friend in minamo_friend).
+          const sx = Array.isArray(sp) ? Number(sp[0]) : sp && sp.x, sy = Array.isArray(sp) ? Number(sp[1]) : sp && sp.y;
+          out.push({ id, x: Number.isFinite(sx) ? sx : w / 2, y: Number.isFinite(sy) ? sy : h / 2 });
         }
         return out;
       });
