@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T15:47:53.609Z",
-  "branch": "claude/autodev-20261019-0021-R141",
-  "task": "R141 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンで「かずの ひと」が「はなす」ボタンの後ろに隠れていた\n後ろに来たらボタンの地が薄くなるようにし、テストを足した\n上の表示やボス戦の文字の混み合いは、確認役が挙げたが次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/251/mobile-02-mode-select.jpg",
-   "shots/251/mobile-15-custom-full-run.jpg",
-   "shots/251/mobile-27-chapter-2-play.jpg",
-   "shots/251/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "0dee751",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39141548026"
- },
- {
   "at": "2026-10-18T16:49:32.326Z",
   "branch": "claude/autodev-20261019-0121-R142",
   "task": "R142 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "89dd9f0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40507250140"
+ },
+ {
+  "at": "2026-10-27T14:28:57.771Z",
+  "branch": "claude/autodev-20261027-2238-R286",
+  "task": "R286 でんきや・ジャンクの入口で、テレビの やま の上が上の帯に隠れていたので、山を少し下に置いた",
+  "summary": "確認役が全章のスクショを見て5つ挙げ、でんきやのテレビの やま の件を直した\n山を0.4マス下げ、入口から見ても上の帯にかからないことを前と後のスクショで確かめた\nテストに、入口で山の上が帯の下に入らない確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/504/mobile-02-mode-select.jpg",
+   "shots/504/mobile-15-custom-full-run.jpg",
+   "shots/504/mobile-27-chapter-2-play.jpg",
+   "shots/504/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "eeba3bc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40518358536"
  }
 ]
