@@ -1538,13 +1538,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
   const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);
   const arrow=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),words=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1);
-  assert(arrow&&words,'the ↓ plate and its words are drawn');assert.equal(words[2],arrow[2],'the words sit under the plate');assert(words[3]-24>=arrow[3]+5,'the words start under the plate: '+words[3]);
+  assert(arrow&&words,'the ↓ plate and its words are drawn');
+  // R287: the ↓ and そとへ were two plates, one under the other. They now share one plate, the words right of the arrow on the same row.
+  assert(Math.abs(words[3]-arrow[3])<=2,'the words sit on the arrow row: '+words[3]+' / '+arrow[3]);assert(words[2]-36>=arrow[2]+14,'the words start right of the arrow: '+words[2]+' / '+arrow[2]);
+  assert.equal(arrow[2],p.x*48,'the ↓ stays over the exit, where the hero steps out');
+  const plateW=[...p.sign].length*24+58;assert(arrow[2]-14>=p.x*48-26&&words[2]+36<=p.x*48-26+plateW&&p.x*48-26+plateW<=r.g.GAME_DATA.maps.tower1.w*48,'the arrow and the words fit on the one plate, inside the floor');
+  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'no second dark plate with outlined words under the ↓');
   assert(words[3]+9<=r.g.GAME_DATA.maps.tower1.h*48,'the words stay inside the floor: '+words[3]);
-  assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'the words are outlined like うえへ');
   // R226: the own room's exit is the stairs picture, so the plain-↓ check uses the shop (an exit without stairs).
   r.g.debugWarp('store');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓')&&!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='そとへ'),'a room exit stays a plain ↓');}
- result.push('R138: とう1Fの出口の ↓ の下に「そとへ」の札が出て、ほかの部屋は ↓ のまま PASS');
+ result.push('R138: とう1Fの出口の ↓ と「そとへ」が1枚の札に並び、ほかの部屋は ↓ のまま PASS');
  // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   r.g.debugStartBattle('vending','r139');r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);
