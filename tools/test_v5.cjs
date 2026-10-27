@@ -1297,6 +1297,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   delete sign.sign;try{r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(!help.classes.has('behind'),'nothing else sits behind the box there');}finally{sign.sign='こうえん';}
   r.g.debugWarp('town',6,12);r.tick(16);assert(!help.classes.has('behind'),'far from the board the box stays solid');}
  result.push('R275: 町の始めで、公園の看板の柱が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
+ // R276: the see-through talk button keeps a dark plate behind its letters, so a signal pole behind it does not run through 「はなす」.
+ {const rule=(html.match(/#talk-btn\.behind\{([^}]*)\}/)||[])[1]||'';assert(/background-image:radial-gradient\([^)]*#173e3c[0-9a-f]{2} \d+%/.test(rule),'the see-through talk button has a dark plate in the middle');assert(/#f1cd7c1a/.test(rule),'its edges stay see-through');}
+ result.push('R276: 透けた「はなす」の字の後ろに暗い板があり、後ろの柱が字を横切らない PASS');
  // R141: the number people in ネオン (いいね 3204 etc.) behind the talk button make it see-through too, not only their sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;
