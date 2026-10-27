@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T09:53:36.810Z",
-  "branch": "claude/autodev-20261018-1820-R133",
-  "task": "R133 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が挙げた中から、こうえんの看板が主人公が上にいるだけで透ける所を直した\n絵の上の何もない所を外して判定し、主人公が板の後ろにいる時だけ透けるようにした\nテストを足し、ヒダマリちょうの前と後のスクショを置いた。手元の smoke で絵の読み込みが1回途中で止まった",
-  "result": "pass",
-  "shots": [
-   "shots/238/mobile-02-mode-select.jpg",
-   "shots/238/mobile-15-custom-full-run.jpg",
-   "shots/238/mobile-27-chapter-2-play.jpg",
-   "shots/238/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7b79d9a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39116736687"
- },
- {
   "at": "2026-10-18T10:37:40.830Z",
   "branch": "claude/autodev-20261018-1921-R134",
   "task": "R134 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,15 @@
   ],
   "sha": "cdca330",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40446984531"
+ },
+ {
+  "at": "2026-10-27T04:16:39.445Z",
+  "branch": "claude/autodev-20261027-1241-R276",
+  "task": "R276 戦闘画面の右の光の玉が何か分からなかったので、玉の下にAIの相棒の名前を出した",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n戦闘画面の右の光の玉が、消し忘れの汚れに見えていた\n玉の下に相棒の名前（既定はソラ）を24pxで出した。前と後は v5/verification/R276_battle-sora_*.png",
+  "result": "conflict",
+  "shots": [],
+  "sha": "4482094",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40448761854"
  }
 ]
