@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T19:48:15.915Z",
-  "branch": "claude/autodev-20261019-0420-R146",
-  "task": "R146 遊んで一番気になる所を1つ直す",
-  "summary": "モードを えらぶ窓で「こども＝」が行の終わりで切れていた\nおとなと こどもの説明を1行ずつに分け、3行で収まるようにした\n行が窓に収まることを確かめるテストを足し、前と後のスクショで見た",
-  "result": "pass",
-  "shots": [
-   "shots/259/mobile-02-mode-select.jpg",
-   "shots/259/mobile-15-custom-full-run.jpg",
-   "shots/259/mobile-27-chapter-2-play.jpg",
-   "shots/259/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "21fcf47",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39159640717"
- },
- {
   "at": "2026-10-18T20:40:43.531Z",
   "branch": "claude/autodev-20261019-0521-R147",
   "task": "R147 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "caef9dd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40571230314"
+ },
+ {
+  "at": "2026-10-27T21:08:43.432Z",
+  "branch": "claude/autodev-20261028-0522-R292",
+  "task": "R292 タイトルで、キックボードの主人公が木の幹の上を走って見えたので、木を奥にし、ボタンの上に見える歩道を走らせた",
+  "summary": "全章のスクショから、タイトルで主人公が木の上を走る件に決めた\n木の列を少し奥にし、ボタンに隠れない歩道を敷いて、主人公をその上で走らせた\nテストに、木と歩道と主人公の足の高さの確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/512/mobile-02-mode-select.jpg",
+   "shots/512/mobile-15-custom-full-run.jpg",
+   "shots/512/mobile-27-chapter-2-play.jpg",
+   "shots/512/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "aed9ab6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40582599096"
  }
 ]
