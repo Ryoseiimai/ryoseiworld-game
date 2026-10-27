@@ -2072,6 +2072,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(o&&o.enemy==='bugking','the TV pile is still the bug king spot');assert(o.y*48-o.h>=2*48+10,'the TV pile top ('+(o.y*48-o.h)+') stays below the wall lip ('+(2*48+10)+')');
   const sv=m.objects.find(x=>x.id==='server');assert(o.y<sv.y,'the pile still stands behind the server');}
  result.push('R204: でんきやの テレビの やま が、奥の壁にかからず床の上に立つ PASS');
+ // R286: by the exit (camera at the room bottom, y = h*48-960+130) the pile's art top sat 8px under the goal bar below the HUD (mobile-19).
+ // Its picture has ~40px of empty top, so the box top must be at least 140px down the screen for the visible top to clear the bar (~180).
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,top=o.y*48-o.h-camY;
+  assert(top>=140,'the TV pile box top is '+top.toFixed(0)+'px down the screen by the exit (140 or more)');
+  const sv=m.objects.find(x=>x.id==='server');assert(sv.y-o.y>=1.5,'the server still stands in front with room to walk between ('+(sv.y-o.y).toFixed(1)+' tiles)');}
+ result.push('R286: でんきやの入口で、テレビの やま の上が上の帯に隠れない PASS');
  // R205: in ミナモ (mobile-20) the tired dad stood at y 18.9, in the middle of the road rows 18-19, so he read as standing in traffic.
  {const r=await runtime();r.tick();let n=0;
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(!m.tiles)continue;for(const o of m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind))){n++;const t=m.tiles[Math.floor(o.y)]&&m.tiles[Math.floor(o.y)][Math.floor(o.x)];assert(t!=='='&&t!=='~',id+': '+o.id+' does not stand on a road or water tile ('+t+')');}}
