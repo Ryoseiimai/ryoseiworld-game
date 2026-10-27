@@ -163,7 +163,7 @@
   var NUMBER_WORDS = ['10まん', 'いいね 999', '1い', 'フォロワー', 'しゃちょう'];
   var BOSSES = {
     bugking: {
-      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7, feet: 0.42,
+      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7, feet: 0.42, feetGlow: true,
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
@@ -2044,7 +2044,10 @@
     // R241: BUG KING and カテイノジジョウ stand on legs but had nothing under them and looked hung in the air,
     // so a soft dark shadow lies under their feet (the bottom of the picture). feet is its half width per drawH.
     var bsq = squashScale(b);
+    // R283: on the night street the black shadow sank into the dark wall and BUG KING still looked hung in the air (mobile-34),
+    // so a faint light and a thin line in its colour lie over the shadow under the feet, like the hero's hover glow.
     if (d.feet) drawFeetShadow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * bsq.sx);
+    if (d.feetGlow) drawFeetGlow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * 1.5 * bsq.sx, d.color, 0.6 + Math.sin(w.t * 3) * 0.1);
     ctx.save(); ctx.translate(bx, b.y); ctx.scale(bsq.sx, bsq.sy); ctx.translate(-bx, -b.y);
     drawSprite(ctx, S, d.sheet, f[0], f[1], bx, b.y, h, false, d.name);
     var wimg = b.whiteT > 0 && whiteOf(frameImg(S, d.sheet, f[0], f[1]));
@@ -2065,6 +2068,12 @@
     }
   }
 
+  function drawFeetGlow(ctx, x, y, rx, color, alpha) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(1, 0.3); ctx.translate(-x, -y);
+    glow(ctx, x, y, rx, color, alpha);
+    ctx.restore();
+    ctx.globalAlpha = alpha * 0.7; ctx.fillStyle = color; ctx.beginPath(); ctx.ellipse(x, y + 2, rx * 0.62, 4, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+  }
   function drawFeetShadow(ctx, x, y, rx) {
     var ry = rx * 0.2, g = ctx.createRadialGradient(x, y, 0, x, y, rx);
     g.addColorStop(0, 'rgba(0,0,0,0.8)'); g.addColorStop(0.6, 'rgba(0,0,0,0.55)'); g.addColorStop(1, 'rgba(0,0,0,0)');
