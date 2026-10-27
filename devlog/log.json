@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T04:46:07.244Z",
-  "branch": "claude/autodev-20261018-1321-R127",
-  "task": "R127 おとなモードの戦いの画面の電池の表記と、召喚の結果の文を漢字かな交じりにする",
-  "summary": "おとなモードの戦いの画面の電池を「電池 100％」の表記にした\n召喚獣を呼んだ時と結果の文、敵の番に出る召喚の文をおとなモードで漢字かな交じりにした\nこどもモードは今のまま。両方のモードと3行に収まることをテストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/231/mobile-02-mode-select.jpg",
-   "shots/231/mobile-15-custom-full-run.jpg",
-   "shots/231/mobile-27-chapter-2-play.jpg",
-   "shots/231/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "fbcb600",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39097694903"
- },
- {
   "at": "2026-10-18T05:42:52.667Z",
   "branch": "claude/autodev-20261018-1421-R128",
   "task": "R128 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "bd6c12b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40421108124"
+ },
+ {
+  "at": "2026-10-27T00:46:12.631Z",
+  "branch": "claude/autodev-20261027-0921-R273",
+  "task": "R273 「ちず」と「ミナモ」の看板の影が、柱の足元から離れて浮いて見えるのを直す",
+  "summary": "「ちず」と「ミナモ」の看板にも、こうえんの看板と同じ2本の柱の足元をつなぐ影を付けた\n小さい川の看板だけは丸い影のまま残した\n2枚の影が付くことを調べるテストと、前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/483/mobile-02-mode-select.jpg",
+   "shots/483/mobile-15-custom-full-run.jpg",
+   "shots/483/mobile-27-chapter-2-play.jpg",
+   "shots/483/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bf252bb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40427229389"
  }
 ]
