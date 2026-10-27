@@ -2378,9 +2378,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R294: talking to ミオ, her name tag and num1's 「じゅんい 86」 sign no longer touch end to end; they sit at different heights.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   r.g.debugWarp('neon',mio.x,mio.y+1.1);r.g.debugFace(3);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-  // both plates are 34 tall, so the baselines must be 34 or more apart for the plates not to meet.
+  // both plates are about 34 tall; baselines 38 or more apart leave a visible gap (4px or more) between them.
   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===mio.label).at(-1);
-  assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-34,'R294: ミオ tag sits above the じゅんい 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
+  assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-38,'R294: ミオ tag sits above the じゅんい 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
  result.push('R294: ミオの名札と「じゅんい 86」の札が重ならない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
