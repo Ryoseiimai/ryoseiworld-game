@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T12:49:46.337Z",
-  "branch": "claude/autodev-20261018-2121-R137",
-  "task": "R137 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘の主人公の足が HP の欄の枠に4pxかかっていたので、12px上げた\nテストを足し、じはんき戦の前と後のスクショを置いた\n「はなす」の字が人の顔に乗る件は、R77とR112で字を濃くすると決めたので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/245/mobile-02-mode-select.jpg",
-   "shots/245/mobile-15-custom-full-run.jpg",
-   "shots/245/mobile-27-chapter-2-play.jpg",
-   "shots/245/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "13a87bf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39128524557"
- },
- {
   "at": "2026-10-18T12:55:55.615Z",
   "branch": "claude/autodev-20261018-2121-R137",
   "task": "R137 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "a6dc311",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40474432658"
+ },
+ {
+  "at": "2026-10-27T09:50:44.161Z",
+  "branch": "claude/autodev-20261027-1821-R282",
+  "task": "R282 遊んで一番気になる所を1つ直す",
+  "summary": "確認役が挙げた5件は、前の回で直さないと決めた所か画面の送りで起きる所だった\n確認の道具が、最後の町のカードでミナモの絵の読みこみが取り消されたと失敗を出した\n3枚の絵を最初のカードで読みはじめ、早く押してもミナモのカードにミナモの絵が出る",
+  "result": "pass",
+  "shots": [
+   "shots/497/mobile-02-mode-select.jpg",
+   "shots/497/mobile-15-custom-full-run.jpg",
+   "shots/497/mobile-27-chapter-2-play.jpg",
+   "shots/497/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d8b148e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40481602541"
  }
 ]
