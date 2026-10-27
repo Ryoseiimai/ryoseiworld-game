@@ -1275,6 +1275,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
   assert(y+ry<=top-8,'the moon ends above the English line');assert(x+rx<540/2-60,'the moon stays on the left, away from the music hint');assert(x-rx>=8&&y-ry>=8,'the moon stays on screen');}
  result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
+ // R292: the title hero rode over the trees' trunks on a strip the title buttons (top 640px) hide; it now rides a visible sidewalk in front of the tree row.
+ {const c=html.match(/const TITLE_TREE_FOOT=(\d+),TITLE_WALK_TOP=(\d+),TITLE_RIDE_FOOT=(\d+);/);assert(c,'the title ground has named heights');const [tree,walk,ride]=c.slice(1).map(Number);
+  const body=(html.match(/function drawTitle\(\)\{[^\n]*/)||[''])[0];assert(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/.test(body)&&/hero_ride',[^;]*TITLE_RIDE_FOOT/.test(body)&&/rect\(0,TITLE_WALK_TOP,/.test(body),'drawTitle uses the named heights');
+  const step=Number(body.match(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/)[1]);const btn=Number((html.match(/\.title-actions\.with-hint\{top:(\d+)px/)||[])[1]);
+  assert(tree+step<=walk,'the trees stand behind the sidewalk');assert(ride>walk+16&&ride<=btn-4,'the hero rides on the visible sidewalk above the buttons');}
+ result.push('R292: タイトルの主人公が木の上でなく、ボタンの上に見える歩道を走る PASS');
  // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.walk-help\.behind\{opacity:\.55;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
