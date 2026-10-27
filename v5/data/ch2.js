@@ -22,7 +22,8 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',event:'trainStop'}),
  // R271: at feet y 21.4 the 136px board (R256) hung over the east-west road (rows 18-19); its feet moved south so the sidewalk shows above the board.
  prop('minamo_sign',11,12.42,22.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
- prop('minamo_parksign',11,9,26.6,240,{sign:'こうえん'}),
+ // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).
+ prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん'}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
  prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,11.4,24.8,60),prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
