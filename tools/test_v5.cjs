@@ -1174,10 +1174,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.neon,crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);
   for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id),body=o.h*(1-crop[o.frame]/452);assert(body>=59&&body<=76,id+' body '+body);}}
  result.push('R284: ネオンの「かずの ひと」を、ほかの人と同じ背の高さにした PASS');
- // R285: on the title with a save, the two hint boxes (margin -40px) stuck out past はじめから / つづきから on both sides; the buttons now span the same width as the boxes.
+ // R285: on the title with a save, the two hint boxes (margin -40px) stuck out past はじめから / つづきから on both sides; the boxes and the buttons now share one column, as wide as the old boxes.
  {const box=html.match(/\.title-actions\{position:absolute;left:(\d+)px;right:(\d+)px;/);assert(box,'the title button column is found');
-  assert(html.includes('.title-actions .caption{margin:0}'),'the title captions have no negative margin');
-  const cap=html.match(/\.caption\{[^}]*margin:0 -(\d+)px/);assert(cap&&Number(box[1])===70-Number(cap[1])&&Number(box[2])===Number(box[1]),'the buttons are as wide as the old hint boxes ('+box[1]+')');}
+  const cap=(html.match(/\.caption\{([^}]*)\}/)||[])[1]||'';assert(cap&&!/margin/.test(cap)&&!/\.caption\{[^}]*margin/.test(html),'the captions have no margin of their own, so they line up with the buttons');
+  assert(Number(box[1])===Number(box[2])&&Number(box[1])<=30&&Number(box[1])>=16,'the buttons are as wide as the old hint boxes and stay inside the screen ('+box[1]+')');}
  result.push('R285: タイトルのボタンと下の説明の箱が、同じ幅にそろった PASS');
  // R70: while a word card is up in battle (under the enemy name, SPEC_V7 4.1), a summon's name and its effect text are drawn below the card's real bottom, not behind it.
  for(const [id,h] of [['nao',96],['code',124],['whale',124]]){const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
@@ -1267,7 +1267,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R78: the chapter name and the continue hint under the title buttons sit on a dark band, because the pale green ground (#6c927e) left them at about 2.3:1.
  {const cap=(html.match(/\.caption\{([^}]*)\}/)||[])[1]||'';const bg=cap.match(/background:rgba\((\d+),(\d+),(\d+),([\d.]+)\)/);
   assert(bg,'the title captions have a background band');const [r,g,b,a]=bg.slice(1).map(Number);assert(a>=0.7&&r+g+b<120,'the band is dark and mostly solid');
-  assert(/font-size:24px/.test(cap),'caption letters stay 24px');const m=cap.match(/margin:0 -(\d+)px/);const left=70-(m?Number(m[1]):0);assert(left>=16,'the band stays inside the 540 screen');
+  assert(/font-size:24px/.test(cap),'caption letters stay 24px');const m=cap.match(/margin:0 -(\d+)px/);const col=Number((html.match(/\.title-actions\{position:absolute;left:(\d+)px;/)||[])[1]);const left=col-(m?Number(m[1]):0);assert(col>0&&left>=16,'the band stays inside the 540 screen');
   assert(/id="title-caption" class="caption"/.test(html)&&/id="title-hint" class="caption"/.test(html),'both lines use the band');}
  result.push('R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS');
  // R79: the title moon sat on 「A LITTLE LIGHT」 (top 110px) on the right; it now hangs in the top left, clear of that line and of 「♪ タップで音楽」 (top right).
