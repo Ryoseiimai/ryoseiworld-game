@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T11:41:53.917Z",
-  "branch": "claude/autodev-20261018-2021-R136",
-  "task": "R136 遊んで一番気になる所を1つ直す",
-  "summary": "とうの階段の札「うえへ／したへ」を、雲の床と上の壁から下ろし、雲の下の床に出した\n札を絵の後に描き、雲へ歩く主人公が札の字を隠さないようにした\nテストを足し、とう2Fの前と後のスクショを置いた。セーブ端末の名札とは2pxしか離れていない",
-  "result": "pass",
-  "shots": [
-   "shots/243/mobile-02-mode-select.jpg",
-   "shots/243/mobile-15-custom-full-run.jpg",
-   "shots/243/mobile-27-chapter-2-play.jpg",
-   "shots/243/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4183a7e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39123802665"
- },
- {
   "at": "2026-10-18T12:34:43.009Z",
   "branch": "claude/autodev-20261018-2121-R137",
   "task": "R137 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "318f9c9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40464447138"
+ },
+ {
+  "at": "2026-10-27T07:47:03.742Z",
+  "branch": "claude/autodev-20261027-1622-R280",
+  "task": "R280 確認の画面で主人公が部屋の真ん中に置かれ友だちと重なっていたので、部屋の入口に置くようにした",
+  "summary": "確認役の5件のうち4件は、確認の置き方か演出の途中で起きる所だった\n確認の画面が部屋の入口の位置を読めず、主人公を真ん中に置いていた\n入口の位置を読むようにし、友だちと重なる絵が出なくなった",
+  "result": "pass",
+  "shots": [
+   "shots/495/mobile-02-mode-select.jpg",
+   "shots/495/mobile-15-custom-full-run.jpg",
+   "shots/495/mobile-27-chapter-2-play.jpg",
+   "shots/495/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4b95d85",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40468116666"
  }
 ]
