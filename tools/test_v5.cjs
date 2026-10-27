@@ -1706,6 +1706,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   let hid=false;for(const dx of [6.5,-6.5,7,-7]){r.g.debugWarp('town',o.x+dx,o.y);r.tick(32);const c=r.g.camera;if(o.x*48+25<c.x||o.x*48-25>c.x+540){assert(!at(),'no spirit with its person off screen '+JSON.stringify([c,at()]));hid=true;break;}}
   assert(hid,'found a spot with the mother off screen');}
  result.push('R164: 灰色の守護霊にうすい光の輪を付けて見やすくし、人が画面の外にいる時は出さないようにした PASS');
+ // R282: the grey spirit went near white on its pale halo; the grey copy is darkened (multiply) and gets a dark edge so its shape shows.
+ {assert(/const GRAY_SPIRIT_SHADE='#[0-9a-f]{6}',GRAY_SPIRIT_EDGE='#[0-9a-f]{6}'/.test(html),'shade and edge colours are named');
+  const fn=html.slice(html.indexOf('function greyFrame('),html.indexOf('function spiritOf('));
+  assert(/globalCompositeOperation='saturation'[^]*globalCompositeOperation='multiply';x\.fillStyle=GRAY_SPIRIT_SHADE/.test(fn),'the grey is darkened after the saturation blend');
+  assert(/fillStyle=GRAY_SPIRIT_EDGE[^]*cx\.drawImage\(e,dx,dy\)[^]*cx\.drawImage\(b,0,0\)/.test(fn),'the dark edge is drawn under the grey spirit');
+  const lum=h=>{const n=parseInt(h.slice(1),16);return .299*(n>>16)+.587*(n>>8&255)+.114*(n&255);};
+  const shade=html.match(/GRAY_SPIRIT_SHADE='(#[0-9a-f]{6})'/)[1],edge=html.match(/GRAY_SPIRIT_EDGE='(#[0-9a-f]{6})'/)[1];
+  assert(lum(shade)<200&&lum(edge)<110,'white parts end up mid grey, the edge dark, against the pale halo #f4fbff');}
+ result.push('R282: 灰色の守護霊を少し濃くし、ふちを付けて、光の輪の上で形が見えるようにした PASS');
  // R165: a guardian spirit (with its halo, anywhere in its bob) under the talk button turns the plate see-through too; the letters stay solid as R77 and R116 decided.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(!/#talk-btn\.idle\.behind\{[^}]*opacity/.test(html)&&!/#talk-btn\.behind\{[^}]*opacity/.test(html),'the letters never fade (R77)');
