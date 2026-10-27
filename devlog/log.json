@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T13:43:07.486Z",
-  "branch": "claude/autodev-20261018-2221-R138",
-  "task": "R138 遊んで一番気になる所を1つ直す",
-  "summary": "とう1Fの出口の ↓ の下に「そとへ」の札を足した\nテストを足し、前と後のスクショを置いた\nことば札が階段を隠す件は、R71で人の番なので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/247/mobile-02-mode-select.jpg",
-   "shots/247/mobile-15-custom-full-run.jpg",
-   "shots/247/mobile-27-chapter-2-play.jpg",
-   "shots/247/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "88dd66f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39132354716"
- },
- {
   "at": "2026-10-18T13:57:16.317Z",
   "branch": "claude/autodev-20261018-2244-R139",
   "task": "R139 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "f62b61a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40483247050"
+ },
+ {
+  "at": "2026-10-27T10:58:26.593Z",
+  "branch": "claude/autodev-20261027-1921-R283",
+  "task": "R283 BUG KING 戦で、足もとの黒い影が夜の町の暗い塀に沈み、ボスが宙に浮いて見えたので、足もとにボスの色の薄い光と細い線を足した",
+  "summary": "確認役が全章のスクショを見て、BUG KING が宙に浮いて見えると挙げた\nBUG KING の足もとに、ボスの色の薄い光と細い線を足した。前と後のスクショで足もとが見えた\n空の会話の枠・ヒカクマオウ戦の薄い字は出入りの途中を写したもの、24px 未満の字は縮めたスクショの見え方なので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/499/mobile-02-mode-select.jpg",
+   "shots/499/mobile-15-custom-full-run.jpg",
+   "shots/499/mobile-27-chapter-2-play.jpg",
+   "shots/499/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "015d0e2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40491039240"
  }
 ]
