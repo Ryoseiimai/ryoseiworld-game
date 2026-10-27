@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T16:49:32.326Z",
-  "branch": "claude/autodev-20261019-0121-R142",
-  "task": "R142 遊んで一番気になる所を1つ直す",
-  "summary": "おとなモードのおさらいで、長い答えの文が窓の右からはみ出していた\nはみ出す時だけ文節で折り返すようにし、選択肢のボタンも同じにした\nテストと、窓のはみ出しを見るブラウザの確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/253/mobile-02-mode-select.jpg",
-   "shots/253/mobile-15-custom-full-run.jpg",
-   "shots/253/mobile-27-chapter-2-play.jpg",
-   "shots/253/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7682c95",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39146341101"
- },
- {
   "at": "2026-10-18T17:46:51.056Z",
   "branch": "claude/autodev-20261019-0221-R143",
   "task": "R143 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "eeba3bc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40518358536"
+ },
+ {
+  "at": "2026-10-27T15:28:03.611Z",
+  "branch": "claude/autodev-20261027-2353-R287",
+  "task": "R287 とう1Fの出口で ↓ の札と「そとへ」の札が上下2枚に見えたので、1枚の札に「↓ そとへ」と並べた",
+  "summary": "とう1Fの出口の ↓ と「そとへ」を、上下2枚から1枚の札に並べた\n↓ は出口の真上に残し、前と後のスクショで床の中に収まることを確かめた\nテストを、2つが同じ札の同じ行に並び ↓ が出口の上にある確認に変えた",
+  "result": "pass",
+  "shots": [
+   "shots/505/mobile-02-mode-select.jpg",
+   "shots/505/mobile-15-custom-full-run.jpg",
+   "shots/505/mobile-27-chapter-2-play.jpg",
+   "shots/505/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "7961602",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40529279850"
  }
 ]
