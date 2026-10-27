@@ -657,6 +657,13 @@ async function browserAdapterChecks() {
    drawn.length=0;await advance(.5);const late=drawn.some(d=>d.text==='キックボードが うかんだ！');
    check('R242: 登場の2行は主人公が浮く('+R.Shooter._sim.INTRO.riseT+'秒)前には出ず、浮いた後に出る',!early&&late&&R.Shooter._sim.INTRO.riseT===0.45,{early,late});
    handle.stop();}
+  // R290: on a phone the lines were up while the hero still stood on the road (it rose from 0.5 s over 1.1 s). Now the first frame
+  // with the lines has the hero at least a quarter of the way up, and the rise is done before the lines go away.
+  {handle=R.Shooter.start({boss:'bugking',platform});await ready();const y0=win.__shooter.player.y;let firstY=null,steps=0;
+   while(firstY===null&&steps++<120){drawn.length=0;tick(1000/60);await ready();if(drawn.some(d=>d.text==='キックボードが うかんだ！'))firstY=win.__shooter.player.y;}
+   const I=R.Shooter._sim.INTRO;await advance(I.riseT+I.riseDur+.05-I.linesT);const topY=win.__shooter.player.y,endY=Math.round((116+826)/2+40);
+   check('R290: 「うかんだ！」が出た時、主人公はもう4分の1以上浮いていて、字が消える前に浮き終わる',firstY!==null&&y0-firstY>=(y0-endY)/4&&Math.abs(topY-endY)<=1&&I.riseT+I.riseDur<I.textEnd,{y0,firstY,topY,endY});
+   handle.stop();}
   // R75: the entrance lines sit on a dark plate, so they stay readable over the bright neon city.
   drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
   {const l1=drawn.filter(d=>d.text==='フクの ちからで').at(-1),l2=drawn.filter(d=>d.text==='キックボードが うかんだ！').at(-1);

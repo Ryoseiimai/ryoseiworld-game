@@ -67,6 +67,9 @@
   // R87: the entrance lines sit in the middle of the field, where the boss rides in. They are gone by INTRO_TEXT_END s,
   // and the boss starts in from the right edge at INTRO_BOSS_IN s, so it does not slide in behind them (its voice comes first).
   var INTRO_TEXT_END = 1.85, INTRO_BOSS_IN = 1.7, INTRO_END = 2.5, INTRO_RISE_T = 0.45;
+  // R290: the hero rises from INTRO_RISE_T over INTRO_RISE_DUR s (it used to start at 0.5 s and take 1.1 s, so on a phone the
+  // lines said "it floated" while the hero still stood on the road). The lines come in at INTRO_LINES_T, once it is visibly up.
+  var INTRO_RISE_DUR = 0.7, INTRO_LINES_T = INTRO_RISE_T + 0.25;
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -471,7 +474,7 @@
   }
 
   function stepIntro(w) {
-    var p = w.p, s = w.stateT, k = clamp((s - 0.5) / 1.1, 0, 1), e = k * k * (3 - 2 * k);
+    var p = w.p, s = w.stateT, k = clamp((s - INTRO_RISE_T) / INTRO_RISE_DUR, 0, 1), e = k * k * (3 - 2 * k);
     p.y = p.y0 + (PLAY_MID + 40 - p.y0) * e;
     p.risen = s > INTRO_RISE_T;
     var kb = clamp((s - INTRO_BOSS_IN) / (INTRO_END - INTRO_BOSS_IN), 0, 1), eb = 1 - Math.pow(1 - kb, 3);
@@ -1117,7 +1120,7 @@
   };
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
-  SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
+  SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
   SIM.hintAlpha = hintAlpha; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
@@ -2498,9 +2501,9 @@
 
   function drawTexts(ctx, S, w) {
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    // R242: the lines wait for the rise (stepIntro, 0.45 s), so they never say "it floated" while the hero still stands.
-    if (w.state === 'intro' && w.stateT > INTRO_RISE_T && w.stateT < INTRO_TEXT_END) {
-      var ia = clamp(Math.min((w.stateT - INTRO_RISE_T) * 4, (INTRO_TEXT_END - w.stateT) * 3), 0, 1);
+    // R242/R290: the lines wait until the hero is visibly off the ground (INTRO_LINES_T), so they never say "it floated" while it stands.
+    if (w.state === 'intro' && w.stateT > INTRO_LINES_T && w.stateT < INTRO_TEXT_END) {
+      var ia = clamp(Math.min((w.stateT - INTRO_LINES_T) * 4, (INTRO_TEXT_END - w.stateT) * 3), 0, 1);
       ctx.globalAlpha = ia; ctx.font = '800 30px ' + FONT;
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
       var iw = Math.max(ctx.measureText('フクの ちからで').width, ctx.measureText('キックボードが うかんだ！').width) + 48;
