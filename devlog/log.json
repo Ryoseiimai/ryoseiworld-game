@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T15:41:52.169Z",
-  "branch": "claude/autodev-20261019-0021-R141",
-  "task": "R141 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンで「かずの ひと」が「はなす」ボタンの後ろに隠れていた\n後ろに来たらボタンの地が薄くなるようにし、テストを足した\n上の表示やボス戦の文字の混み合いは、確認役が挙げたが次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/250/mobile-02-mode-select.jpg",
-   "shots/250/mobile-15-custom-full-run.jpg",
-   "shots/250/mobile-27-chapter-2-play.jpg",
-   "shots/250/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "6ed77a6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39141202019"
- },
- {
   "at": "2026-10-18T15:47:53.609Z",
   "branch": "claude/autodev-20261019-0021-R141",
   "task": "R141 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "f438cc0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40500213688"
+ },
+ {
+  "at": "2026-10-27T13:13:43.260Z",
+  "branch": "claude/autodev-20261027-2134-R285",
+  "task": "R285 タイトルで、つづきの説明の箱がボタンより左右に広くはみ出して見えたので、ボタンを箱と同じ幅にした",
+  "summary": "確認役が全章のスクショを見て5つ挙げ、タイトルの幅のずれを直した\nボタンと説明の箱を、どちらも左右30pxの同じ幅にそろえ、前と後のスクショで確かめた\nこうえんの看板の大きさは、字を24px以上に保つためなので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/502/mobile-02-mode-select.jpg",
+   "shots/502/mobile-15-custom-full-run.jpg",
+   "shots/502/mobile-27-chapter-2-play.jpg",
+   "shots/502/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "89dd9f0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40507250140"
  }
 ]
