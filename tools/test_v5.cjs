@@ -1282,11 +1282,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sweep=()=>{let h=0,b=0;for(let x=2;x<=24;x++)for(let y=14;y<=36;y++){r.g.debugWarp('minamo',x,y);r.tick(16);h+=help.classes.has('behind');b+=btn.classes.has('behind');}return [h,b];};
   const sign=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.sign==='こうえん');assert(sign,'ミナモ has the こうえん sign');
   const at=(x,y)=>{r.g.debugWarp('minamo',x,y);r.tick(16);return help.classes.has('behind');};
-  const withSign=sweep(),onWith=at(13,16);delete sign.sign;let without,onWithout;try{without=sweep();onWithout=at(13,16);}finally{sign.sign='こうえん';}
+  // R275: the ミナモ board (props 11) now counts with its board and posts too, so the spot is looked up instead of fixed at (13,16).
+  const spots=[];for(let x=2;x<=24;x++)for(let y=14;y<=36;y++)if(at(x,y))spots.push([x,y]);
+  const withSign=sweep();delete sign.sign;let without,onlySign;try{without=sweep();onlySign=spots.filter(([x,y])=>!at(x,y));}finally{sign.sign='こうえん';}
   assert(withSign[0]>without[0],'the sign words behind the walk help box turn it see-through: '+withSign+' / '+without);
-  assert(onWith&&!onWithout,'at (13,16) only the こうえん words sit behind the walk help box: '+onWith+' / '+onWithout);
+  assert(onlySign.length>0,'somewhere only the こうえん sign sits behind the walk help box: '+onlySign.length);
   assert(!at(13,30),'far from the sign the box stays solid');}
  result.push('R109: 看板の字が「ドラッグで あるく」の箱やボタンの後ろに来ても、箱が薄くなる PASS');
+ // R275: at the start of town the park board's posts sit behind the walk help box (bottom left), so the box turns see-through, not only for its words.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const help=r.els.get('walk-help');help.offsetWidth=226;help.offsetHeight=46;
+  const sign=r.g.GAME_DATA.maps.town.objects.find(o=>o.sign==='こうえん');assert(sign&&sign.kind==='props'&&sign.frame===11,'town has the big こうえん board');
+  r.g.debugWarp('town',6,23.6);r.tick(16);assert(help.classes.has('behind'),'at the start of town the board behind the walk help box turns it see-through');
+  delete sign.sign;try{r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(!help.classes.has('behind'),'nothing else sits behind the box there');}finally{sign.sign='こうえん';}
+  r.g.debugWarp('town',6,12);r.tick(16);assert(!help.classes.has('behind'),'far from the board the box stays solid');}
+ result.push('R275: 町の始めで、公園の看板の柱が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
  // R141: the number people in ネオン (いいね 3204 etc.) behind the talk button make it see-through too, not only their sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;
