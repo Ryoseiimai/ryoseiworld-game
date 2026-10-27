@@ -845,8 +845,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of m.objects.filter(x=>x.kind==='numberperson'))for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')))assert(Math.abs(o.x-l.x)>=1.5||Math.abs(o.y-l.y)>=2.5,o.id+' stands clear of '+l.id+' ('+o.x+','+o.y+' vs '+l.x+','+l.y+')');
   // R64: the number floats above the person's head, not on the face.
   {const o=m.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
-   assert(txt&&img,'number and person sprite are drawn');assert(txt[3]<=img[3],'number '+o.sign+' sits above the head (text y '+txt[3]+', sprite top '+img[3]+')');
+   // R293: match the person's own picture (a street prop under the same x matched before) and compare with its visible head, under the 62 cut rows (of 452).
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+   assert(txt&&img,'number and person sprite are drawn');const head=img[3]+img[5]*62/452;assert(txt[3]<=head,'number '+o.sign+' sits above the head (text y '+txt[3]+', head top '+head+')');
    r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.canvasCalls.length=0;r.tick(16);
    const t2=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),tag=r.canvasCalls.filter(c=>c[0]==='tag'&&Math.abs(c[1]+c[3]/2-t2?.[2])<4).at(-1);
    assert(t2&&tag,'name tag is shown when the person is the talk target');
@@ -2370,6 +2371,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
  {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
+ // R293: in the ネオン arrival view, num1's 「じゅんい 86」 sign stays over its person instead of sliding in from the left edge.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.tick(16);r.canvasCalls.length=0;r.tick(16);
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);assert(txt,'R293: num1 sign is drawn in the arrival view');assert(Math.abs(txt[2]-o.x*48)<1,'R293: num1 sign sits over its person (sign x '+txt[2]+', person x '+o.x*48+')');}
+ result.push('R293: ネオンの着いた所で「じゅんい 86」の札が人の上にある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

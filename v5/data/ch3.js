@@ -39,7 +39,9 @@ maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,sp
  // R284: drawn 100 tall, the body under the cut-off number (62 of 452 rows) stood 86px, a head taller than ミオ (65) and the hero (70);
  // 76 tall keeps the body at about 66px, between the two.
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
- object('neon_num1','numberperson',0,10.6,21.6,48,76,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
+ // R293: at x 10.6 num1 stood 53px from the left edge of the arrival view, so its sign slid 30px right and hung beside it, not over it;
+ // at x 11.3 the sign keeps 16px from the edge without sliding and sits over the head.
+ object('neon_num1','numberperson',0,11.3,21.6,48,76,{label:'かずの ひと',dialogue:'numberPerson1',sign:'じゅんい 86'}),
  object('neon_num2','numberperson',1,19,25.2,48,76,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,76,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,76,{label:'かずの ひと',dialogue:'numberPerson4',sign:'じゅんい 99'})],
