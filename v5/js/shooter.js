@@ -37,6 +37,11 @@
   var W = 540, H = 960, PLAY_T = 116, PLAY_B = 826, PLAY_MID = (PLAY_T + PLAY_B) / 2;
   // Top of ミナモ's stone bank in bg_minamo (drawn H + 40 tall from y = -20); below it is the river.
   var MINAMO_BANK_Y = 440;
+  // R278: foot of that bank, where the stones meet the water. Before the rise the hero stood on the river's rail
+  // at PLAY_B - 70 (the town's road), so in ミナモ he stands here instead.
+  var MINAMO_WATER_Y = 650, P_FEET = 55;
+  // bg is chosen like loadAll does (an unknown name falls back to the boss's own picture).
+  function introStartY(bg, own) { return (BG_THEME[bg] ? bg : own) === 'bg_minamo' ? MINAMO_WATER_Y - P_FEET : PLAY_B - 70; }
   var TOWN_RAIL_Y = 652; // R229: top of the guardrail in bg_town (the picture's own poles end behind it)
   var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
@@ -251,7 +256,7 @@
       t: 0, playT: 0, state: 'intro', stateT: 0, god: !!cfg.god,
       weapons: weapons, hasOwl: opts.some(function (o) { return o.owl; }),
       options: opts.map(function (d, i) { return { def: d, x: 110 - i * 20, y: PLAY_B - 60, cd: 0.2 + i * 0.15, blockCd: 0, flash: 0 }; }),
-      p: { x: 150, y: PLAY_B - 70, hearts: maxHearts, maxHearts: maxHearts, inv: 0, hurtT: 0, fireCd: 0.25, letterCd: 0.5, letterSide: 1,
+      p: { x: 150, y: PLAY_B - 70, y0: PLAY_B - 70, hearts: maxHearts, maxHearts: maxHearts, inv: 0, hurtT: 0, fireCd: 0.25, letterCd: 0.5, letterSide: 1,
         charge: 0, charging: false, tigerReadyAt: 0, risen: false, barrier: weapons.barrier ? { up: true, at: 0 } : null,
         sqT: 0, sqDur: 0, sqSign: 0, moving: false },
       b: { x: W + 170, y: PLAY_MID, hp: def.hp, maxHp: def.hp, ghostHp: def.hp, flash: 0, attackT: 0, hurtT: 0, shown: {}, phase2: false,
@@ -272,6 +277,9 @@
       m.connected = []; m.toldImmune = false;
     }
     if (w.mode === 'challenge') setStage(w, cfg.startStage || 1);
+    // R278: the start height follows the fight's first background (after setStage, which may change w.def); the companions start just below him.
+    w.p.y = w.p.y0 = introStartY(cfg.background, w.def.bg);
+    w.options.forEach(function (o) { o.y = w.p.y0 + 10; });
     return w;
   }
 
@@ -464,7 +472,7 @@
 
   function stepIntro(w) {
     var p = w.p, s = w.stateT, k = clamp((s - 0.5) / 1.1, 0, 1), e = k * k * (3 - 2 * k);
-    p.y = (PLAY_B - 70) + (PLAY_MID + 40 - (PLAY_B - 70)) * e;
+    p.y = p.y0 + (PLAY_MID + 40 - p.y0) * e;
     p.risen = s > INTRO_RISE_T;
     var kb = clamp((s - INTRO_BOSS_IN) / (INTRO_END - INTRO_BOSS_IN), 0, 1), eb = 1 - Math.pow(1 - kb, 3);
     w.b.x = W + 170 + (w.def.x - (W + 170)) * eb;

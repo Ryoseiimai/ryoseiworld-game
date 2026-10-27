@@ -1002,6 +1002,20 @@ async function browserAdapterChecks() {
   check('R179: 途中の案内の時間は変えない', w.stateT === 2, w.stateT);
 })();
 
+// R278: in ミナモ the hero stood on the river's rail before the rise. He now starts at the foot of the stone bank
+// (above the water, below the bank top) and still rises to the same height as in the other fights.
+(() => {
+  const DT = 1 / 60, IDLE = {};
+  const k = sim.createWorld({ seed: 7, boss: 'kateino' }), b = sim.createWorld({ seed: 7, boss: 'bugking' });
+  const feet = k.p.y + 55;
+  check('R278: ミナモでは主人公が川の柵ではなく石垣の足もとに立って始まる', feet >= 630 && feet <= 670 && b.p.y === 826 - 70, { feet, town: b.p.y });
+  let g = 0; while (k.state === 'intro' && g++ < 2000) sim.step(k, DT, IDLE);
+  g = 0; while (b.state === 'intro' && g++ < 2000) sim.step(b, DT, IDLE);
+  check('R278: 浮いた後の高さは町と同じ', Math.abs(k.p.y - b.p.y) < 1, [k.p.y, b.p.y]);
+  const n = sim.createWorld({ seed: 7, boss: 'bugking', background: 'bg_minamo' }), u = sim.createWorld({ seed: 7, boss: 'kateino', background: 'bg_nothing' });
+  check('R278: 背景をミナモにした時も石垣の足もとから', n.p.y + 55 === feet && u.p.y + 55 === feet && n.options.every(o => o.y === n.p.y + 10), [n.p.y, u.p.y]);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
