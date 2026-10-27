@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T20:40:43.531Z",
-  "branch": "claude/autodev-20261019-0521-R147",
-  "task": "R147 遊んで一番気になる所を1つ直す",
-  "summary": "タイトルの「♪ タップで音楽」が7割の濃さで、夜空に沈んで読みにくかった\n字を透けない金色にし、濃いふちを付けた。前と後のスクショで見た\n確認役が挙げた町の「はなす」の重なりは、ボタンが薄くなる途中の写真だった",
-  "result": "pass",
-  "shots": [
-   "shots/260/mobile-02-mode-select.jpg",
-   "shots/260/mobile-15-custom-full-run.jpg",
-   "shots/260/mobile-27-chapter-2-play.jpg",
-   "shots/260/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2a57663",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39163929192"
- },
- {
   "at": "2026-10-18T21:41:56.135Z",
   "branch": "claude/autodev-20261019-0621-R148",
   "task": "R148 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "aed9ab6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40582599096"
+ },
+ {
+  "at": "2026-10-27T22:12:03.370Z",
+  "branch": "claude/autodev-20261028-0621-R293",
+  "task": "R293 ネオンに着いた時、「じゅんい 86」の札が人の横にずれて見えたので、人を少し右に立たせ、札を頭の真上にした",
+  "summary": "全章のスクショから、ネオンの「じゅんい 86」の札が人の横にずれる件に決めた\nかずの ひと（1人目）を少し右に立たせ、着いた画面で札が頭の真上に来るようにした\n頭の上の札の確認が街の小物の絵を人と取り違えていたので、人の絵で比べるように直した",
+  "result": "pass",
+  "shots": [
+   "shots/513/mobile-02-mode-select.jpg",
+   "shots/513/mobile-15-custom-full-run.jpg",
+   "shots/513/mobile-27-chapter-2-play.jpg",
+   "shots/513/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "db30ddf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40591332203"
  }
 ]
