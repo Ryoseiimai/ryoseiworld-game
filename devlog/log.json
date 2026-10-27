@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T01:15:28.748Z",
-  "branch": "claude/autodev-20261019-0941-R150",
-  "task": "R150 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘のことばカードが、上の敵の名前の窓より左右に4pxずつ広かった\nカードの左右を戦闘は上下の窓に、フィールドは上の表示にそろえ、テストを足した\n確認役が挙げた目標の行と「はなす」の文字は、前の決まりで濃いままにしたので触らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/265/mobile-02-mode-select.jpg",
-   "shots/265/mobile-15-custom-full-run.jpg",
-   "shots/265/mobile-27-chapter-2-play.jpg",
-   "shots/265/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3e4f71e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39184059931"
- },
- {
   "at": "2026-10-19T03:56:38.451Z",
   "branch": "claude/autodev-20261019-1241-R151",
   "task": "R151 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "2c2c8b1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40599092986"
+ },
+ {
+  "at": "2026-10-27T23:23:42.547Z",
+  "branch": "claude/autodev-20261028-0721-R294",
+  "task": "R294 ネオンでミオに話しかける時、ミオの名札と「じゅんい 86」の札が横に並んで触れていたので、ミオを少し上に立たせた",
+  "summary": "前の回が残したミオの名札と「じゅんい 86」の札が触れる件に決めた\nミオを少し上に立たせ、名札を札より上に出した。前と後のスクショを見比べた\n名札と札の高さがずれていることを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/516/mobile-02-mode-select.jpg",
+   "shots/516/mobile-15-custom-full-run.jpg",
+   "shots/516/mobile-27-chapter-2-play.jpg",
+   "shots/516/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "aedcbaa",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40600654331"
  }
 ]
