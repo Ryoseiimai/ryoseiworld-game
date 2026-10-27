@@ -1170,9 +1170,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // The compact HUD draws the line at 28px in a 480px box: 16 full-width chars and 2 spaces stay on one line.
   for(const label of ['呼び出す','よびだす']){const line=r.g.GAME_DATA.chapters[1].quests.tutorial.text.replace('{yobidasu}',label),w=[...line].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,line+' '+w);}}
  result.push('R160: 最初の目当ての行で、呼び出すボタンの名前を「」でくくった PASS');
- // R284: the number people in ネオン were a head taller than ミオ; with the cut-off number rows, their body is now within 4px of a npc2 person.
- {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(o=>o.id==='neon_mio');
-  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id),body=o.h*(1-62/452);assert(Math.abs(body-mio.h)<=4,id+' body '+body+' vs '+mio.h);}}
+ // R284: the number people in ネオン were a head taller than ミオ and the hero; with each frame's cut-off rows (SPRITE_CROP_TOP), the body now stands between ミオ (65) and the hero (70) give or take 6px.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.neon,crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);
+  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id),body=o.h*(1-crop[o.frame]/452);assert(body>=59&&body<=76,id+' body '+body);}}
  result.push('R284: ネオンの「かずの ひと」を、ほかの人と同じ背の高さにした PASS');
  // R70: while a word card is up in battle (under the enemy name, SPEC_V7 4.1), a summon's name and its effect text are drawn below the card's real bottom, not behind it.
  for(const [id,h] of [['nao',96],['code',124],['whale',124]]){const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
