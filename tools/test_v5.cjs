@@ -2215,11 +2215,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const id of ['parksign','minamo_parksign']){const o=Object.values(maps).flatMap(mp=>mp.objects).find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.w>=160,id+' is a big board on props 11');}}
  result.push('R243: 「こうえん」の看板の影が、2本の柱の足元をつなぐ PASS');
  // R289: the ミナモ park board was 240px, much taller than the houses and trees around it; it now matches the town board (224px), the smallest that keeps the 24px words between the posts.
- {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),s=f('minamo_parksign'),t=m.objects.filter(o=>o.id.startsWith('minamo_tree'));
-  const town=(await runtime()).g.GAME_DATA.maps.town.objects.find(o=>o.id==='parksign');
+ {const maps=(await runtime()).g.GAME_DATA.maps,s=maps.minamo.objects.find(o=>o.id==='minamo_parksign'),town=maps.town.objects.find(o=>o.id==='parksign');
   assert(s.w<240&&s.w===town.w,'the ミナモ park board is the same size as the town one, w '+s.w);assert(s.w*111/236>=[...s.sign].length*24+6,'the 24px words still fit between the posts');
-  assert(t.length&&s.x===9&&s.y===26.6,'the park board keeps its feet');}
- result.push('R289: ミナモの「こうえん」の看板が、まわりの家や木より大きすぎない PASS');
+  assert(s.x===9&&s.y===26.6,'the park board keeps its feet');}
+ result.push('R289: ミナモの「こうえん」の看板が、町の看板と同じ大きさで字が収まる PASS');
  // R255: at the start of 3章 (and on every train arrival, at the neon spawn) the 「いいね 3204」 person stood right under the talk button (mobile-28/29), and no step up was free of the lamp and the sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const m=r.g.GAME_DATA.maps.neon;r.g.debugWarp('neon',m.spawn[0],m.spawn[1]);r.tick(16);r.tick(16);
