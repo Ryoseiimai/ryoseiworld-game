@@ -2315,6 +2315,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sx0=sp.x-34-cam.x,sy0=sp.y-54-6-cam.y;assert(sy0>84,'the spirit is under the メニュー button: '+sy0);assert(sx0>424||sy0>172,'the spirit clears the quest line: '+[sx0,sy0]);
   assert(talk(r,'town',po.x,po.y+0.9).includes('カギ'),'talking to him opens his words');}
  result.push('R270: 1しょうの始めで、おまわりさんがメニューのボタンの下に隠れない PASS');
+ {assert(html.includes("if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22),soraTag(g.aiName||'ソラ');"),'the battle orb shows the AI partner name');
+  const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
+  const top=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1])+Number(m[2]);assert(top>0&&top<=480,'the partner name sits above the HP card');}
+ result.push('R276: 戦闘の光の玉の下にAIの相棒の名前が出る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
