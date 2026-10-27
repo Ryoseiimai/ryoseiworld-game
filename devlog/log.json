@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T06:46:33.019Z",
-  "branch": "claude/autodev-20261018-1521-R129",
-  "task": "R129 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、ネオンの数字の札が街灯に重なる所を直した\n数字の人2人を街灯の足元より下へ動かし、ベンチを横へずらした。前と後のスクショを置いた\n札の板が街灯の絵に重ならないテストを足した。ミオの名札との小さな重なりは見込みだけなので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/234/mobile-02-mode-select.jpg",
-   "shots/234/mobile-15-custom-full-run.jpg",
-   "shots/234/mobile-27-chapter-2-play.jpg",
-   "shots/234/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "266b7cf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39104929756"
- },
- {
   "at": "2026-10-18T07:48:30.742Z",
   "branch": "claude/autodev-20261018-1621-R130",
   "task": "R130 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "33934ce",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40432851656"
+ },
+ {
+  "at": "2026-10-27T03:02:26.078Z",
+  "branch": "claude/autodev-20261027-1121-R275",
+  "task": "R275 町の始めで、左下の「ドラッグで あるく」の箱が公園の看板の柱にかかっても濃いままだったので、柱が後ろにあれば箱を薄くした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の始めで「ドラッグで あるく」の箱が公園の看板の柱にかかっていた\n看板の字だけでなく板と柱が後ろにあっても、箱を薄くするようにした",
+  "result": "pass",
+  "shots": [
+   "shots/486/mobile-02-mode-select.jpg",
+   "shots/486/mobile-15-custom-full-run.jpg",
+   "shots/486/mobile-27-chapter-2-play.jpg",
+   "shots/486/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "385af9e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40440903931"
  }
 ]
