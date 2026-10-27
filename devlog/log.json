@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T07:48:30.742Z",
-  "branch": "claude/autodev-20261018-1621-R130",
-  "task": "R130 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が全章のスクショを見て、きずなの一覧が途中で切れて続きが分かりにくい所を一番に挙げた\nスクロールする窓の点線の下に「▼ 続き」の札を出し、押すと1ページ分下へ送るようにした\n札がボタンに重ならないかを smoke に足した。前と後のスクショを置いた。ボス戦の台詞の消えかけは一時的なので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/235/mobile-02-mode-select.jpg",
-   "shots/235/mobile-15-custom-full-run.jpg",
-   "shots/235/mobile-27-chapter-2-play.jpg",
-   "shots/235/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2702818",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39108725879"
- },
- {
   "at": "2026-10-18T08:44:19.625Z",
   "branch": "claude/autodev-20261018-1721-R131",
   "task": "R131 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "385af9e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40440903931"
+ },
+ {
+  "at": "2026-10-27T03:33:44.569Z",
+  "branch": "claude/autodev-20261027-1221-R276",
+  "task": "R276 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の始めで「ドラッグで あるく」の箱が公園の看板の柱にかかっていた\n看板の字だけでなく板と柱が後ろにあっても、箱を薄くするようにした",
+  "result": "pass",
+  "shots": [
+   "shots/487/mobile-02-mode-select.jpg",
+   "shots/487/mobile-15-custom-full-run.jpg",
+   "shots/487/mobile-27-chapter-2-play.jpg",
+   "shots/487/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0189921",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40443776350"
  }
 ]
