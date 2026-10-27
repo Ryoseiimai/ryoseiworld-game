@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-18T08:44:19.625Z",
-  "branch": "claude/autodev-20261018-1721-R131",
-  "task": "R131 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が全章のスクショを見て、慣れた人にも歩き方の札が出て出口の矢印に重なる所を一番に挙げた\n歩き方を覚えたことを保存に残し、覚えた人とレベル3以上の人には札を出さないようにした\nテストを足し、でんきやの前と後のスクショを置いた。ボス戦の小さいボタンなど残りは次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/236/mobile-02-mode-select.jpg",
-   "shots/236/mobile-15-custom-full-run.jpg",
-   "shots/236/mobile-27-chapter-2-play.jpg",
-   "shots/236/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "47ddf19",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39112238058"
- },
- {
   "at": "2026-10-18T08:56:28.250Z",
   "branch": "claude/autodev-20261018-1745-R132",
   "task": "R132 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "0189921",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40443776350"
+ },
+ {
+  "at": "2026-10-27T03:53:11.274Z",
+  "branch": "claude/autodev-20261027-1241-R276",
+  "task": "R276 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の始めで「ドラッグで あるく」の箱が公園の看板の柱にかかっていた\n看板の字だけでなく板と柱が後ろにあっても、箱を薄くするようにした",
+  "result": "pass",
+  "shots": [
+   "shots/488/mobile-02-mode-select.jpg",
+   "shots/488/mobile-15-custom-full-run.jpg",
+   "shots/488/mobile-27-chapter-2-play.jpg",
+   "shots/488/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bf89cdc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40445614810"
  }
 ]
