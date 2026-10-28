@@ -1620,6 +1620,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.startsWith(name+' は'),log);assert(!log.includes(name+'は'),log);
   r.g.debugStartBattle('vending','r310b');r.tick(300);const v=r.g.GAME_DATA.enemies.vending.name,vm=r.els.get('battle-log').textContent;assert(!vm.includes(v+' が'),'a kana name keeps no gap: '+vm);}
  result.push('R310: 英字の名前（BUG KING）と「は」「が」の間を空けた PASS');
+ // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
+ // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
+  assert(/measureText\(speaker\)\.width \+ 14/.test(f),'R311: the name still takes its width + 14px');
+  assert(/rr\(ctx, tx - 5, y \+ pad - 1, sw - 4, 30, 7\); ctx\.fill\(\)/.test(f),'R311: a filled tag behind the name ends 9px before the line text');
+  assert(/fillStyle = '#1b2440'; ctx\.fillText\(speaker/.test(f),'R311: the name is dark text on the gold tag');}
+ result.push('R311: ボス戦の台詞で、話し手の名前を金色の札に入れ、台詞の始めの言葉に見えないようにした PASS');
  // R140: the きずな list was cut after the first row of an entry (［友］ゲームの こ showed, its 守護霊 and 次は rows were under the dashed line).
  // A scrolling list of blocks parted by blank lines now ends on a blank line, and ▼ つづき scrolls by that many whole rows (the browser check is in smoke_v5.cjs).
  {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];

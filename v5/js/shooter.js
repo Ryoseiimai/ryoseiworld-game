@@ -2448,7 +2448,8 @@
     w.tickers.forEach(function (tk) { outlinedText(ctx, tk.text, tk.x, PLAY_B - 70, '#ffe9a8'); });
   }
 
-  // A compact line panel: the speaker's name in gold in front of the first line.
+  // A compact line panel: the speaker's name in front of the first line, on its own gold tag
+  // (R311: as plain gold text it read as the first word of the line, e.g. 「カテイノジジョウ しょうらい」).
   function drawPanelText(ctx, speaker, text, y, alpha) {
     var lh = 31, pad = 10, x0 = 16, tx = x0 + 16;
     ctx.font = '700 24px ' + FONT;
@@ -2458,7 +2459,10 @@
     ctx.fillStyle = 'rgba(12,22,44,0.84)'; rr(ctx, x0, y, W - 2 * x0, hh, 12); ctx.fill();
     ctx.strokeStyle = 'rgba(225,216,173,0.75)'; ctx.lineWidth = 2; ctx.stroke();
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
-    if (speaker) { ctx.fillStyle = '#f1cd7c'; ctx.fillText(speaker, tx, y + pad + 2); }
+    if (speaker) {
+      ctx.fillStyle = '#f1cd7c'; rr(ctx, tx - 5, y + pad - 1, sw - 4, 30, 7); ctx.fill();
+      ctx.fillStyle = '#1b2440'; ctx.fillText(speaker, tx, y + pad + 2);
+    }
     ctx.fillStyle = '#fff5d6';
     lines.forEach(function (ln, i) { ctx.fillText(ln, i ? tx : tx + sw, y + pad + 2 + i * lh); });
     ctx.globalAlpha = 1;
