@@ -1460,7 +1460,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ended&&ended.text.includes('チャレンジ')&&[...ended.text].length<=18,'chapter 4 has an ended line to the challenge');
   r.g.state.bosses.push('zero');r.tick(16);assert.equal(r.g.questStep,'cleared');assert(r.els.get('quest').textContent.includes('しずかに'),'rooftop scene: '+r.els.get('quest').textContent);
   const ev=r.g.GAME_DATA.events.zeroJoin;assert(ev.some(e=>e.flag===ended.flag)&&ev.findIndex(e=>e.flag===ended.flag)<ev.findIndex(e=>e.save),'the join event sets the flag before it saves');
-  r.g.debugEvent([{flag:ended.flag}]);r.tick(16);assert.equal(r.g.questStep,'ended');assert.equal(r.els.get('quest').textContent,ended.text);
+  r.g.debugEvent([{flag:ended.flag}]);r.tick(16);assert.equal(r.g.questStep,'ended');assert.equal(r.els.get('quest').textContent,ended.adult,'R312: adult mode shows the kanji line');
   r.g.debugEvent([{save:'quiet'}]);r.tick(16);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));delete sv.flags[ended.flag];assert(sv.bosses.includes('zero'));
   const back=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(sv)]])});back.tick();back.click('continue-btn');while(back.g.dialogue)back.dialogue();back.tick(16);
   assert.equal(back.g.questStep,'ended','a save from after the ending (made before R88) shows the challenge line');}
@@ -2469,6 +2469,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
   assert(/^Lv \d+ HP \d+$/.test(main),'R306: HUD shows 「Lv n HP n」 with spaces ('+main+')');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
  result.push('R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS');
+ // R312: after the tower the town hint pointed to the menu's challenge in hiragana in adult mode too; adult mode reads it in kanji now.
+ {const r=await runtime();r.tick();const D=r.g.GAME_DATA,s=r.g.state;s.chapter=4;s.bosses=[...s.bosses,D.chapters[4].boss];s.flags.towerEnded=true;assert.equal(r.g.questStep,'ended');
+  s.mode='adult';assert.equal(r.g.quest,'メニューのチャレンジで遊ぼう','R312: adult hint ('+r.g.quest+')');
+  s.mode='kids';assert.equal(r.g.quest,'メニューの チャレンジで あそぼう','R312: kids hint ('+r.g.quest+')');
+  const ad=D.chapters[4].quests.ended.adult;assert(ad.includes('チャレンジ')&&[...ad].length<=18,'R312: the adult line names the challenge and stays short');}
+ result.push('R312: 塔の後の町の案内が、おとなモードでは漢字まじりになる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
