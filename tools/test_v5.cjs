@@ -1446,7 +1446,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.els.get('word-who').textContent,'ソラ','the speaker is in its own tag');assert.equal(r.els.get('word-copy').textContent,r.RYW.card('temperature'),'line 2 is the line alone');
   assert(/<span class="word-head"><span id="word-title" class="word-title"><\/span><span id="word-who" class="word-who"><\/span><\/span>/.test(html),'title and name share line 1');
   const head=(html.match(/\.word-card \.word-head\{([^}]*)\}/)||[])[1]||'';assert(/display:flex/.test(head)&&/space-between/.test(head),'the name is pushed to the right end');
-  const who=(html.match(/\.word-card \.word-who\{([^}]*)\}/)||[])[1]||'';assert(who&&!/font-size/.test(who),'the name keeps the 24px card letters');}
+  const who=(html.match(/\.word-card \.word-who\{([^}]*)\}/)||[])[1]||'';assert(who&&!/font-size/.test(who),'the name keeps the 24px card letters');
+  // R300: a framed name looked like a button to tap; it is plain text now.
+  assert(!/border/.test(who),'the name on the word card has no frame');}
  result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
  // R99: on とう2F the card no longer covers the stairs signs (うえへ / したへ) at the top of the floor: it moves to the bottom of the map band, clear of the hero.
  // In battle a quiz answer (おさらい) puts the card under the enemy name instead of over it.
