@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-20T04:05:32.369Z",
-  "branch": "claude/autodev-20261020-1241-R161",
-  "task": "R161 遊んで一番気になる所を1つ直す",
-  "summary": "ヒカクマオウ戦の背景の看板が、主人公の高さで明るい棒を動かしていた\nこうげきの棒や拾う物に見えるので、看板を薄くし、中の棒を止めた\n看板の位置（R83）は変えず、テストと前後のスクショ（docs/shots/R161）を足した",
-  "result": "pass",
-  "shots": [
-   "shots/290/mobile-02-mode-select.jpg",
-   "shots/290/mobile-15-custom-full-run.jpg",
-   "shots/290/mobile-27-chapter-2-play.jpg",
-   "shots/290/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bf3a7b4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39367178890"
- },
- {
   "at": "2026-10-20T06:59:19.733Z",
   "branch": "claude/autodev-20261020-1541-R162",
   "task": "R162 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "d20c0ed",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40739112729"
+ },
+ {
+  "at": "2026-10-28T19:01:28.201Z",
+  "branch": "claude/autodev-20261029-0322-R310",
+  "task": "R310 戦闘の文が「BUG KINGは」と英字の名前に「は」「が」が付いて読みにくかったので、ボス戦と同じ「BUG KING は」と間を空けた",
+  "summary": "戦闘の文の「BUG KINGは」「BUG KINGが」を「BUG KING は」と間を空けた\nかなの名前は今までどおり間を空けず、そのことをテストで確かめた\n確認役が挙げた上の帯の透け・HPの0・部屋の出口の札は、前の件で決めた形なので変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/538/mobile-02-mode-select.jpg",
+   "shots/538/mobile-15-custom-full-run.jpg",
+   "shots/538/mobile-27-chapter-2-play.jpg",
+   "shots/538/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "6453b7d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40748541918"
  }
 ]
