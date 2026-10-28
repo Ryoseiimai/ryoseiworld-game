@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T13:13:38.825Z",
-  "branch": "claude/autodev-20261019-2142-R156",
-  "task": "R156 遊んで一番気になる所を1つ直す",
-  "summary": "スマホでも「Z / Enter」「矢印 / WASD でも」が出ていた\nタッチだけの端末では、キーボードの説明を出さないようにした\n前と後のスクショで比べ、スモークに確かめを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/277/mobile-02-mode-select.jpg",
-   "shots/277/mobile-15-custom-full-run.jpg",
-   "shots/277/mobile-27-chapter-2-play.jpg",
-   "shots/277/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5a287ca",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39257492135"
- },
- {
   "at": "2026-10-19T16:38:49.689Z",
   "branch": "claude/autodev-20261020-0042-R157",
   "task": "R157 遊んで一番気になる所を1つ直す（前半: 全章のスクショを確認役に見せて調べた）",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "ebc571f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40659213349"
+ },
+ {
+  "at": "2026-10-28T09:59:16.475Z",
+  "branch": "claude/autodev-20261028-1822-R302",
+  "task": "R302 塔の「うえへ」「したへ」の札に向きの印が無く、出口の「↓ そとへ」と揃っていなかったので、↑ と ↓ を付けた",
+  "summary": "塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ と ↓ を付けた\n札を矢印の分だけ広げ、ボタンが透ける判定の幅も合わせた\n矢印が札の中で字の左に出る確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/528/mobile-02-mode-select.jpg",
+   "shots/528/mobile-15-custom-full-run.jpg",
+   "shots/528/mobile-27-chapter-2-play.jpg",
+   "shots/528/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "151a7fe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40667441667"
  }
 ]
