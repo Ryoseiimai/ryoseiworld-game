@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T04:20:24.920Z",
-  "branch": "claude/autodev-20261019-1305-R152",
-  "task": "R152 遊んで一番気になる所を1つ直す",
-  "summary": "おさらいを始めても、HPのことばカードが問題の上に光って残っていた\nおさらいを始める時に、ことばカードを片づけるようにした\nテストと前と後のスクショを足した。テストは直す前の形で落ちるのを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/268/mobile-02-mode-select.jpg",
-   "shots/268/mobile-15-custom-full-run.jpg",
-   "shots/268/mobile-27-chapter-2-play.jpg",
-   "shots/268/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b6771f8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39198472543"
- },
- {
   "at": "2026-10-19T07:02:08.926Z",
   "branch": "claude/autodev-20261019-1542-R153",
   "task": "R153 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "949d031",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40618387349"
+ },
+ {
+  "at": "2026-10-28T03:09:12.689Z",
+  "branch": "claude/autodev-20261028-1121-R297",
+  "task": "R297 タイトルのボタンの左右から道路の帯と白い線がはみ出していたので、道路を消し、歩道を画面の下まで広げた",
+  "summary": "タイトルで「はじめから」の左右から道路の帯と白い線がはみ出していたので、道路を消した\n確認役が、はじめての人の画面で歩道とボタンの間に草のすき間が出ると挙げたので、歩道を画面の下まで広げた\nはみ出しとすき間が無いことと、主人公が歩道の上を走ることを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/520/mobile-02-mode-select.jpg",
+   "shots/520/mobile-15-custom-full-run.jpg",
+   "shots/520/mobile-27-chapter-2-play.jpg",
+   "shots/520/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8d71853",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40623858632"
  }
 ]
