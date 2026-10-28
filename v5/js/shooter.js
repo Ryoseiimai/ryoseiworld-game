@@ -41,7 +41,13 @@
   // at PLAY_B - 70 (the town's road), so in ミナモ he stands here instead.
   var MINAMO_WATER_Y = 650, P_FEET = 55;
   // bg is chosen like loadAll does (an unknown name falls back to the boss's own picture).
-  function introStartY(bg, own) { return (BG_THEME[bg] ? bg : own) === 'bg_minamo' ? MINAMO_WATER_Y - P_FEET : PLAY_B - 70; }
+  // R301: elsewhere he stood at PLAY_B - 70 with his feet 21px under the top of the road drawn in front (drawThemeFront),
+  // so on the first frames his shoes and board were hidden by it. Now his feet stand on that top edge.
+  var ROAD_TOP_Y = PLAY_B - 36, TOWER_ROAD_TOP_Y = ROAD_TOP_Y - 20;
+  function introStartY(bg, own) {
+    var theme = BG_THEME[BG_THEME[bg] ? bg : own];
+    return theme === 'minamo' ? MINAMO_WATER_Y - P_FEET : theme === 'tower' ? TOWER_ROAD_TOP_Y - P_FEET : ROAD_TOP_Y - P_FEET;
+  }
   var TOWN_RAIL_Y = 652; // R229: top of the guardrail in bg_town (the picture's own poles end behind it)
   var NEON_SIGN_Y = PLAY_T + 390; // R83: top of the neon signs, between the entrance plate and the move hint, under any lines and notices
   var P_MIN_X = 44, P_MAX_X = 330, P_SPEED = 340, P_R = 11, P_DRAW_H = 120;
@@ -1950,7 +1956,7 @@
   }
 
   function drawThemeFront(ctx, S, w) {
-    var t = w.t, theme = S.theme, x, base = PLAY_B - 36;
+    var t = w.t, theme = S.theme, x, base = ROAD_TOP_Y;
     if (theme === 'town') {
       ctx.fillStyle = 'rgba(20,22,34,0.92)'; ctx.fillRect(-20, base, W + 40, 60);
       ctx.fillStyle = '#4b5470'; ctx.fillRect(-20, base, W + 40, 4);

@@ -1020,12 +1020,25 @@ async function browserAdapterChecks() {
   const DT = 1 / 60, IDLE = {};
   const k = sim.createWorld({ seed: 7, boss: 'kateino' }), b = sim.createWorld({ seed: 7, boss: 'bugking' });
   const feet = k.p.y + 55;
-  check('R278: ミナモでは主人公が川の柵ではなく石垣の足もとに立って始まる', feet >= 630 && feet <= 670 && b.p.y === 826 - 70, { feet, town: b.p.y });
+  check('R278: ミナモでは主人公が川の柵ではなく石垣の足もとに立って始まる', feet >= 630 && feet <= 670 && b.p.y + 55 === 826 - 36, { feet, town: b.p.y });
   let g = 0; while (k.state === 'intro' && g++ < 2000) sim.step(k, DT, IDLE);
   g = 0; while (b.state === 'intro' && g++ < 2000) sim.step(b, DT, IDLE);
   check('R278: 浮いた後の高さは町と同じ', Math.abs(k.p.y - b.p.y) < 1, [k.p.y, b.p.y]);
   const n = sim.createWorld({ seed: 7, boss: 'bugking', background: 'bg_minamo' }), u = sim.createWorld({ seed: 7, boss: 'kateino', background: 'bg_nothing' });
   check('R278: 背景をミナモにした時も石垣の足もとから', n.p.y + 55 === feet && u.p.y + 55 === feet && n.options.every(o => o.y === n.p.y + 10), [n.p.y, u.p.y]);
+})();
+
+// R301: on the road the hero stood with his feet 21px under the top of the road drawn in front of him, so at the start
+// of BUG KING, ヒカクマオウ and the tower fights his shoes and board were hidden. His feet now stand on that top edge.
+(() => {
+  const ROAD = { bg_town: 826 - 36, bg_neon: 826 - 36, bg_tower: 826 - 56 };
+  for (const [id, def] of Object.entries(sim.BOSSES)) {
+    if (!ROAD[def.bg]) continue;
+    const w = sim.createWorld({ seed: 7, boss: id }), feet = w.p.y + 55;
+    check('R301: ' + id + ' の始めに主人公の足が道の上の線に乗る', feet === ROAD[def.bg] && w.options.every(o => o.y === w.p.y + 10), { feet, road: ROAD[def.bg] });
+  }
+  const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../v5/js/shooter.js'), 'utf8');
+  check('R301: 道は ROAD_TOP_Y から描く', /function drawThemeFront\(ctx, S, w\) \{\s*var t = w\.t, theme = S\.theme, x, base = ROAD_TOP_Y;/.test(src));
 })();
 
 browserAdapterChecks().then(()=>{
