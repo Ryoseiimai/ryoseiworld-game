@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-20T01:15:28.754Z",
-  "branch": "claude/autodev-20261020-0942-R160",
-  "task": "R160 遊んで一番気になる所を1つ直す",
-  "summary": "最初の目当ての行「呼び出すで ナオスライムを よぼう」を直した\nボタンの名前を「」でくくり「「呼び出す」で ナオスライムを よぶ」にした\n小さい画面でも1行に収まる長さにし、テストと前後のスクショ（docs/shots/R160）を足した",
-  "result": "pass",
-  "shots": [
-   "shots/288/mobile-02-mode-select.jpg",
-   "shots/288/mobile-15-custom-full-run.jpg",
-   "shots/288/mobile-27-chapter-2-play.jpg",
-   "shots/288/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "0309af8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39351862042"
- },
- {
   "at": "2026-10-20T04:05:32.369Z",
   "branch": "claude/autodev-20261020-1241-R161",
   "task": "R161 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "389243b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40737388725"
+ },
+ {
+  "at": "2026-10-28T18:02:55.889Z",
+  "branch": "claude/autodev-20261029-0222-R309",
+  "task": "R309 タイトルの「つづきから」の下の案内がボタンと同じ幅の帯になり3つめのボタンに見えたので、短い2行にして帯を字の幅にした",
+  "summary": "タイトルの「つづきから」の下の案内を短い2行に分け、帯を字の幅にした\n案内の行の長さと言葉の切れ目を確かめるテストを直し、前と後のスクショを v5/verification に置いた\n案内の頭の「つづきから」は消した。すぐ上の「つづきは 4しょう」の帯と明るいボタンで分かるため",
+  "result": "pass",
+  "shots": [
+   "shots/537/mobile-02-mode-select.jpg",
+   "shots/537/mobile-15-custom-full-run.jpg",
+   "shots/537/mobile-27-chapter-2-play.jpg",
+   "shots/537/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d20c0ed",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40739112729"
  }
 ]
