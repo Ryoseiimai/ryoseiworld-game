@@ -6,15 +6,9 @@
     "attempts": 1,
     "conflicts": 0,
     "retriggers": 0,
-    "started_at": "2026-10-28T12:41:51+09:00"
+    "started_at": "2026-10-28T13:06:51+09:00"
   },
   "history": [
-    {
-      "id": "R248",
-      "branch": "claude/autodev-20261026-0521-R248",
-      "result": "pass",
-      "at": "2026-10-26T06:21:44+09:00"
-    },
     {
       "id": "R249",
       "branch": "claude/autodev-20261026-0621-R249",
@@ -307,7 +301,13 @@
       "id": "R297",
       "branch": "claude/autodev-20261028-1121-R297",
       "result": "pass",
-      "at": "2026-10-28T12:41:51+09:00"
+      "at": "2026-10-28T12:21:12+09:00"
+    },
+    {
+      "id": "R298",
+      "branch": "claude/autodev-20261028-1221-R298",
+      "result": "pass",
+      "at": "2026-10-28T13:06:51+09:00"
     }
   ],
   "blocked": []

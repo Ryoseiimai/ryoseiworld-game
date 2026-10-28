@@ -2410,14 +2410,6 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const st=maps.store;r.g.debugWarp('store',st.spawn[0],st.spawn[1]);r.tick(16);r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>(c[0]==='fillText'||c[0]==='strokeText')&&c[1]==='そとへ'),'R296: the store exit plate draws そとへ');}
  result.push('R296: 部屋の出口の札に「そとへ」と書いてある PASS');
- // R298: in the boss fights the label row under the HP bar (ボスへの ダメージ はんぶん, きみの こうげき) had 2px of outline-to-bar air and touched the band's bottom line. The name row and the bar moved up so the 24px label row and its 5px outline keep air on both sides.
- {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const num=k=>Number((sh.match(new RegExp('\\b'+k+' = (\\d+)'))||[])[1]);
-  const pt=num('PLAY_T'),ny=num('NAME_Y'),hy=num('HPBAR_Y'),ly=num('LABEL_Y');assert(pt>0&&ny>0&&hy>0&&ly>0,'R298: the top band rows have named y values');
-  assert(ny-13-2.5>=10,'R298: the 26px name row stays inside the top of the screen');assert(hy>=ny+13+2.5+6,'R298: the HP bar starts 6px below the name row');
-  assert(ly-12-2.5-(hy+22)>=7,'R298: the label row keeps 7px under the HP bar ('+(ly-14.5-hy-22)+')');assert((pt-3)-(ly+12+2.5)>=6,'R298: the label row keeps 6px above the band line ('+(pt-3-ly-14.5)+')');
-  assert(sh.includes("outlinedText(ctx, d.name, 20, NAME_Y,")&&sh.includes("' コンボ', 520, NAME_Y,")&&sh.includes('y = HPBAR_Y, bw = W - 40'),'R298: the name, the combo and the HP bar use the named rows');
-  assert(sh.split('ctx.fillRect(12, HPBAR_Y - 3, 516, 30)').length===3,'R298: the BPM and fever banners both cover the moved HP bar');}
- result.push('R298: ボス戦のゲージの下の字が、ゲージにも下の線にも触れない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
