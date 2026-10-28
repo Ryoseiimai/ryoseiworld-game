@@ -29,7 +29,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){if(this.fillStyle==='#0b1f3ce0')canvasCalls.push(['summonplate',...a]);if(this.fillStyle==='#1f2a44e6'){canvasCalls.push(['plate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\/|\/enemies\/|\/bugking\/|\/ryosei\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient:()=>({addColorStop(){}}),createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){if(this.fillStyle==='#0b1f3ce0')canvasCalls.push(['summonplate',...a]);if(this.fillStyle==='#1f2a44e6'){canvasCalls.push(['plate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#e7d29f'){canvasCalls.push(['exitplate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(/^[↑↓]$|^(うえへ|したへ|そとへ)$/.test(a[0]))canvasCalls.push(['signcolor',a[0],this.fillStyle]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\/|\/enemies\/|\/bugking\/|\/ryosei\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -1228,24 +1228,35 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {assert(/#modal-copy\{[^}]*text-wrap:pretty/.test(html),'R174: modal copy avoids a short last line');}
  result.push('R174: おさらいで間違えた時、「〜の答えは」を「〜の意味は」にし、最後の行が「こと。」だけにならないようにした PASS');
  result.push('R159: おとなモードの ことばノートの おさらいを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
- // R73: in the tower, the floor pad's 「うえへ」 sits on a dark plate instead of straight on the white cloud; the park board keeps its plain sign.
+ // R73: in the tower, the floor pad's 「うえへ」 sits on a plate (R304: the exit plate's yellow) instead of straight on the white cloud; the park board keeps its plain sign.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
   const plated=sign=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1);assert(txt,sign+' is drawn');
-   assert(r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=txt[2]-36&&c[1]+c[3]>=txt[2]+36&&c[2]<=txt[3]-24&&c[2]+c[4]>=txt[3]+6),sign+' has a dark plate behind all of its letters');};
+   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=txt[2]-36&&c[1]+c[3]>=txt[2]+36&&c[2]<=txt[3]-24&&c[2]+c[4]>=txt[3]+6),sign+' has a plate behind all of its letters');};
   plated('うえへ');r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);plated('したへ');
   r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1);
   assert(park,'the park board sign is drawn');assert(!r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=park[2]&&c[1]+c[3]>=park[2]&&c[2]<=park[3]&&c[2]+c[4]>=park[3]),'the park board has no plate');}
- result.push('R73: ノイズのとうの「うえへ」は暗い下じきの上に出る PASS');
+ result.push('R73: ノイズのとうの「うえへ」は下じきの上に出る PASS');
  // R302: the pad signs start with an arrow (↑ うえへ / ↓ したへ) like the 「↓ そとへ」 exit; the arrow sits left of the words, inside the same plate.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
   const arrowed=(sign,arrow)=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1),ar=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===arrow).at(-1);assert(txt&&ar,sign+' has its '+arrow);
    assert(ar[2]<txt[2]-36&&ar[2]>txt[2]-72&&ar[3]===txt[3],arrow+' sits just left of '+sign);
-   assert(r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=ar[2]-12&&c[1]+c[3]>=txt[2]+36),arrow+' and '+sign+' share one plate');};
+   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=ar[2]-12&&c[1]+c[3]>=txt[2]+36),arrow+' and '+sign+' share one plate');};
   r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('うえへ','↑');
   r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('したへ','↓');arrowed('うえへ','↑');}
  result.push('R302: 塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ ↓ を付けた PASS');
+ // R304: on とう1F the pad's ↑ うえへ and the ↓ そとへ exit are the same kind of plate: the exit's yellow, with dark words (no dark green plate left on the floor).
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
+  const words=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]==='うえへ'||c[1]==='そとへ'));assert(words.some(c=>c[1]==='うえへ')&&words.some(c=>c[1]==='そとへ'),'both plates are drawn');
+  const plateOf=c=>r.canvasCalls.find(p=>p[0]==='exitplate'&&p[1]<=c[2]-30&&p[1]+p[3]>=c[2]+30&&p[2]<=c[3]-20&&p[2]+p[4]>=c[3]);
+  for(const c of words)assert(plateOf(c),c[1]+' sits on the yellow exit plate');
+  const dark=()=>{for(const c of r.canvasCalls.filter(c=>c[0]==='signcolor'))assert.equal(c[2],/[↑↓]/.test(c[1])?'#4b655f':'#3b4f4a',c[1]+' is drawn dark on the yellow plate');};dark();
+  r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);const w2=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]==='うえへ'||c[1]==='したへ'));assert(w2.length>=2,'both tower2 pads are drawn');
+  for(const c of w2)assert(plateOf(c),c[1]+' on とう2F sits on the yellow exit plate');dark();
+  assert(!r.canvasCalls.some(c=>c[0]==='tag'&&words.some(w=>c[1]<=w[2]&&c[1]+c[3]>=w[2]&&c[2]<=w[3]&&c[2]+c[4]>=w[3])),'no dark green plate under the pad or exit words');}
+ result.push('R304: 塔の「↑ うえへ」の札を、出口の「↓ そとへ」と同じ黄色の札にした PASS');
  // R76: the walk help at the bottom fades out after about 2.5 s of walking, so it stops hiding exits and people; a short step keeps it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('town',5,32);r.tick(16);const help=r.els.get('walk-help');assert(help&&!help.classes.has('learned'),'the walk help shows at first');
