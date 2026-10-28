@@ -1293,6 +1293,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R299: the band ran the full width of the buttons and read as a third button under つづきから; it now hugs its words, centred.
   assert(/justify-self:center/.test(cap),'the caption band is only as wide as its words, so it does not look like a button');}
  result.push('R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS');
+ // R309: the continue hint wrapped across the whole button width and read as a third button; its lines now break on purpose and stay short, so the band hugs them.
+ {assert(/id="title-hint" class="caption" style="[^"]*white-space:pre-line/.test(html),'the hint keeps its own line breaks');
+  const body=(html.match(/function titleHint\(\)\{[^\n]*?\n?[^\n]*?あそべるよ'[^}]*\}/)||[''])[0];const texts=[...body.matchAll(/'([^']*あそべるよ)'/g)].map(m=>m[1].replace(/\\n/g,'\n'));
+  assert(texts.length>=3,'one hint text for each mix of challenge and notebook');
+  for(const t of texts)for(const line of t.split('\n'))assert([...line].length<=14,'each hint line is short ('+line+'), well inside the 480px buttons');}
+ result.push('R309: タイトルの「つづきから」の案内が短い行に分かれ、ボタンと同じ幅にならない PASS');
  // R79: the title moon sat on 「A LITTLE LIGHT」 (top 110px) on the right; it now hangs in the top left, clear of that line and of 「♪ タップで音楽」 (top right).
  {const m=html.match(/function drawTitle\(\)\{[^]*?ellipse\((\d+),(\d+),(\d+),(\d+),'#f6dda2'\)/);assert(m,'the title draws a moon');const [x,y,rx,ry]=m.slice(1).map(Number);
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
@@ -1404,7 +1410,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R114: 「ドラッグで あるく」の箱が薄い間も、字は濃いふちで読める PASS');
  // R81: the title captions break only at spaces, so 「ことばノートの」 is not cut into 「ことばノー」「トの」.
  {const css=(html.match(/\.caption\{[^}]*\}/)||[''])[0];assert(/word-break:keep-all/.test(css)&&/line-break:strict/.test(css),'captions keep words whole: '+css);
-  const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];assert(/'ことばノートの おさらい'/.test(fn)&&/'つづきから　'/.test(fn)&&/'や　'/.test(fn),'the hint has a space between its words, where it can wrap');}
+  const fn=(html.match(/function titleHint\(\)\{[^]*?\n/)||[''])[0];const lines=[...fn.matchAll(/'([^']*あそべるよ)'/g)].flatMap(m=>m[1].split('\\n'));assert(lines.length>=3&&lines.every(l=>/^\S+(　\S+)*$/.test(l)),'the hint lines have a space between their words, where they can wrap: '+lines.join(' / '));
+  assert(lines.some(l=>l.includes('ことばノートの')),'「ことばノートの」 stays whole on one line');}
  result.push('R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS');
  // R113: the genre line on the title keeps a margin from the screen edges and wraps after ゲームづくりと, so RPG is not left alone on a line.
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
