@@ -2287,9 +2287,11 @@
     ctx.globalAlpha = 1;
   }
 
-  // R101 follow-up (R102): the right-hand label row sits between the HP bar (58..80) and the band's bottom line (PLAY_T - 3),
-  // with its 24px letters and outline clear of both; the attack bars end 2px above the line too.
-  var LABEL_Y = 97;
+  // R101 follow-up (R102): the right-hand label row sits between the HP bar and the band's bottom line (PLAY_T - 3),
+  // with its 24px letters and outline clear of both; the attack bars end above the line too.
+  // R298: the name row and the HP bar moved up 10px and the label row 5px, so the label's letters and 5px outline keep
+  // 7px of air under the bar (ends at HPBAR_Y + 22) and 6px above the line; the BPM and fever banners cover the bar.
+  var NAME_Y = 26, HPBAR_Y = 48, LABEL_Y = 92;
   function drawTopBand(ctx, S, w) {
     var d = w.def, b = w.b;
     var g = ctx.createLinearGradient(0, 0, 0, PLAY_T);
@@ -2297,7 +2299,7 @@
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, PLAY_T);
     ctx.fillStyle = d.color; ctx.globalAlpha = 0.7; ctx.fillRect(0, PLAY_T - 3, W, 3); ctx.globalAlpha = 1;
     ctx.textBaseline = 'middle'; ctx.textAlign = 'left'; ctx.font = '800 26px ' + FONT;
-    outlinedText(ctx, d.name, 20, 36, '#fff3c4');
+    outlinedText(ctx, d.name, 20, NAME_Y, '#fff3c4');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'right';
     // R169: say whose damage / attack the label is about, so the player can read it as a hint.
     if (w.mode !== 'challenge' && w.bossId === 'kateino') {
@@ -2316,7 +2318,7 @@
       outlinedText(ctx, 'つながり ' + w.m.got + '/' + w.m.voices.length, W - 20, LABEL_Y, '#ffd0f4');
     }
     if (d.hp) {
-      var x = 20, y = 58, bw = W - 40, bh = 22;
+      var x = 20, y = HPBAR_Y, bw = W - 40, bh = 22;
       ctx.fillStyle = 'rgba(0,0,0,0.55)'; rr(ctx, x, y, bw, bh, 8); ctx.fill();
       ctx.fillStyle = 'rgba(255,236,170,0.8)'; rr(ctx, x + 3, y + 3, Math.max(0, (bw - 6) * b.ghostHp / b.maxHp), bh - 6, 6); ctx.fill();
       var hg = ctx.createLinearGradient(x, 0, x + bw, 0); hg.addColorStop(0, '#ff6b8a'); hg.addColorStop(1, d.color);
@@ -2399,12 +2401,12 @@
       ctx.fillStyle = big ? '#ffe28a' : '#9fd8e6'; ctx.beginPath(); ctx.arc(nx, y, big ? 10 : 6, 0, Math.PI * 2); ctx.fill();
     }
     ctx.font = '700 24px ' + FONT; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
-    outlinedText(ctx, r.combo + ' コンボ', 520, 36, '#ffe28a');
+    outlinedText(ctx, r.combo + ' コンボ', 520, NAME_Y, '#ffe28a');
     ctx.textAlign = 'left';
     if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, LABEL_Y, '#9fd8e6');
     if (r.time < r.tempoUntil) {
-      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 55, 516, 30); ctx.textAlign = 'center';
-      outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, 70, '#ffe28a');
+      ctx.fillStyle = '#10233a'; ctx.fillRect(12, HPBAR_Y - 3, 516, 30); ctx.textAlign = 'center';
+      outlinedText(ctx, 'BPM ' + r.bpm + '！', W / 2, HPBAR_Y + 12, '#ffe28a');
     }
     if (r.judgement && r.time < r.judgement.until) {
       ctx.textAlign = 'center'; var label = { perfect: 'パーフェクト', good: 'グッド', miss: 'ミス' }[r.judgement.kind];
@@ -2416,8 +2418,8 @@
       ctx.beginPath(); ctx.arc(w.p.x, w.p.y - 4, 65, 0, Math.PI * 2); ctx.stroke();
       // Say it big at the top (like the BPM banner) instead of crowding the player's feet,
       // so the biggest reward in the rhythm fight is easy to read, not just a ring underfoot.
-      ctx.fillStyle = '#10233a'; ctx.fillRect(12, 62, 516, 29); ctx.textAlign = 'center';
-      outlinedText(ctx, 'フィーバー！', W / 2, 77, feverColor);
+      ctx.fillStyle = '#10233a'; ctx.fillRect(12, HPBAR_Y - 3, 516, 30); ctx.textAlign = 'center';
+      outlinedText(ctx, 'フィーバー！', W / 2, HPBAR_Y + 12, feverColor);
     }
     if (w.playtest && w.playtest.phase === 'reaction') {
       ctx.fillStyle = '#10233a'; ctx.fillRect(100, PLAY_B - 90, 340, 60); ctx.textAlign = 'center';

@@ -670,12 +670,13 @@ async function browserAdapterChecks() {
    const plate=l1&&l2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=l1.y-15&&d.bottom>=l2.y+15&&d.left<=l2.x-180&&d.right>=l2.x+180);
    check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
-  {const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=80&&d.y+12+2.5<=113;};
+  // R298: the bar moved up to 48..70; the letters and outline now keep 7px under it and 6px above the line.
+  {const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=77&&d.y+12+2.5<=107;};
    check('R102: きみの こうげき の字が上の帯の線にかからない',fits('きみの こうげき'),drawn.filter(d=>d.text==='きみの こうげき').at(-1));
    {const lab=drawn.filter(d=>d.text==='きみの こうげき').at(-1);check('R169: きみの こうげき の字は棒(x=440から)の手前で止まる',!!lab&&lab.x+2.5<=440-4,lab);}
    const src=fs.readFileSync(shooterPath,'utf8');
-   check('R102: こうげき の棒は線の上で止まり、HPの枠にもかからない',/var LABEL_Y = 97;/.test(src)&&/var x = 20, y = 58, bw = W - 40, bh = 22;/.test(src)&&/bh = 8 \+ i \* 5/.test(src)&&/LABEL_Y \+ 11 - bh/.test(src));
-   check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 55, 516, 30\)/.test(src));
+   check('R102: こうげき の棒は線の上で止まり、HPの枠にもかからない',/var NAME_Y = 26, HPBAR_Y = 48, LABEL_Y = 92;/.test(src)&&/var x = 20, y = HPBAR_Y, bw = W - 40, bh = 22;/.test(src)&&/bh = 8 \+ i \* 5/.test(src)&&/LABEL_Y \+ 11 - bh/.test(src));
+   check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, HPBAR_Y - 3, 516, 30\)/.test(src));
    handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
    check('R102: ボスへの ダメージ はんぶん の字が上の帯の線にかからない',fits('ボスへの ダメージ はんぶん'),drawn.filter(d=>d.text==='ボスへの ダメージ はんぶん').at(-1));
    // R169: the label said only ダメージ はんぶん / こうげき; it now names whose damage and attack it means, and stays clear of the boss name and the HP bar.
@@ -702,7 +703,7 @@ async function browserAdapterChecks() {
     drawn.length=0;handle=R.Shooter.start({mode:'challenge',startStage:n,platform,onEnd:r=>ended=r});await ready();tick(1000/60);await ready();
     const bpm=Math.min(220,100+6*(n-1)),stageLabel=drawn.find(d=>d.text==='ステージ '+n),bpmLabel=drawn.find(d=>d.text==='BPM '+bpm+'！');
     check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
-    check('stage '+n+' の「ステージ」はBPM帯(y55-85)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12>=85&&stageLabel.y+12+2.5<=113,stageLabel);
+    check('stage '+n+' の「ステージ」はBPM帯(y45-75)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12-2.5>=77&&stageLabel.y+12+2.5<=107,stageLabel);
     await advance(3);
     check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);
