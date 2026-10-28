@@ -1237,6 +1237,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1);
   assert(park,'the park board sign is drawn');assert(!r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=park[2]&&c[1]+c[3]>=park[2]&&c[2]<=park[3]&&c[2]+c[4]>=park[3]),'the park board has no plate');}
  result.push('R73: ノイズのとうの「うえへ」は暗い下じきの上に出る PASS');
+ // R302: the pad signs start with an arrow (↑ うえへ / ↓ したへ) like the 「↓ そとへ」 exit; the arrow sits left of the words, inside the same plate.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
+  const arrowed=(sign,arrow)=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1),ar=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===arrow).at(-1);assert(txt&&ar,sign+' has its '+arrow);
+   assert(ar[2]<txt[2]-36&&ar[2]>txt[2]-72&&ar[3]===txt[3],arrow+' sits just left of '+sign);
+   assert(r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=ar[2]-12&&c[1]+c[3]>=txt[2]+36),arrow+' and '+sign+' share one plate');};
+  r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('うえへ','↑');
+  r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('したへ','↓');arrowed('うえへ','↑');}
+ result.push('R302: 塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ ↓ を付けた PASS');
  // R76: the walk help at the bottom fades out after about 2.5 s of walking, so it stops hiding exits and people; a short step keeps it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('town',5,32);r.tick(16);const help=r.els.get('walk-help');assert(help&&!help.classes.has('learned'),'the walk help shows at first');
