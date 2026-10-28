@@ -1282,6 +1282,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const step=Number(body.match(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/)[1]);const btn=Number((html.match(/\.title-actions\.with-hint\{top:(\d+)px/)||[])[1]);
   assert(tree+step<=walk,'the trees stand behind the sidewalk');assert(ride>walk+16&&ride<=btn-4,'the hero rides on the visible sidewalk above the buttons');}
  result.push('R292: タイトルの主人公が木の上でなく、ボタンの上に見える歩道を走る PASS');
+ // R297: the road band and its white dashes behind the title buttons poked out at the left and right of 「はじめから」. The title buttons start at y=640 with the hint and lower without it, so the sidewalk runs to the bottom of the screen and no strip starts or ends behind or beside them.
+ {const btn=Number((html.match(/\.title-actions\.with-hint\{top:(\d+)px/)||[])[1]);const end=Number((html.match(/const TITLE_WALK_END=(\d+);/)||[])[1]);const walk=Number((html.match(/TITLE_WALK_TOP=(\d+)/)||[])[1]);const ride=Number((html.match(/TITLE_RIDE_FOOT=(\d+)/)||[])[1]);
+  const body=(html.match(/function drawTitle\(\)\{[^\n]*\}/)||[''])[0];
+  assert(btn>0&&end===960,'the sidewalk runs to the bottom of the screen, so its lower edge never shows beside the buttons');assert(walk>0&&walk<btn&&ride>walk&&ride<end,'the hero rides on the sidewalk');
+  assert(/rect\(0,TITLE_WALK_TOP,W,TITLE_WALK_END-TITLE_WALK_TOP,/.test(body),'the sidewalk is drawn from TITLE_WALK_TOP to TITLE_WALK_END');const rects=[...body.matchAll(/rect\(([^,]+),([^,]+),([^,]+),([^,]+),/g)];assert(rects.length>=3,'drawTitle rects are read: '+rects.length);
+  for(const m of rects){if(m[2]==='TITLE_WALK_TOP')continue;const y=Number(m[2]),h=Number(m[4]);assert(Number.isFinite(y)||/%/.test(m[2]),'every other title rect has a plain top: '+m[0]);if(!Number.isFinite(y))continue;assert(!(y>=btn&&y<960)&&!(Number.isFinite(h)&&y+h>=btn&&y+h<960),'no strip starts or ends behind the title buttons: '+m[0]);}}
+ result.push('R297: タイトルのボタンの左右から道路の線がはみ出さない PASS');
  // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.walk-help\.behind\{opacity:\.55;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
