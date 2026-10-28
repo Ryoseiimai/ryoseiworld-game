@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T09:55:52.034Z",
-  "branch": "claude/autodev-20261019-1841-R155",
-  "task": "R155 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の最初の台詞が、ヒントが後ろに並ぶと1コマで半分の濃さに落ちていた\n切り詰める時は、残りの時間で濃い所から消えていくようにした\nテストを足した。1コマの変化なので、前と後はスクショの代わりに濃さの記録で比べた",
-  "result": "pass",
-  "shots": [
-   "shots/272/mobile-02-mode-select.jpg",
-   "shots/272/mobile-15-custom-full-run.jpg",
-   "shots/272/mobile-27-chapter-2-play.jpg",
-   "shots/272/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c87eaf7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39233002041"
- },
- {
   "at": "2026-10-19T10:05:28.376Z",
   "branch": "claude/autodev-20261019-1841-R155",
   "task": "R155 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   "shots": [],
   "sha": "730ecd0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40630442382"
+ },
+ {
+  "at": "2026-10-28T04:19:13.705Z",
+  "branch": "claude/autodev-20261028-1241-R298",
+  "task": "R298 ボス戦の上の帯で、右の字がHPの枠と帯の線に挟まれて窮屈だったので、名前とHPの枠を上げて字の上下を空けた",
+  "summary": "12時21分の回が同じR298（ボス戦のゲージの下の字）を先に直し、main に入っていた\nこの回も同じ件を作ったが、main の直し方を残し、この回の変更は取り下げた\nこの枝の中身は main と同じで、記録だけを足した",
+  "result": "pass",
+  "shots": [
+   "shots/523/mobile-02-mode-select.jpg",
+   "shots/523/mobile-15-custom-full-run.jpg",
+   "shots/523/mobile-27-chapter-2-play.jpg",
+   "shots/523/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ec76ebf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40630491336"
  }
 ]
