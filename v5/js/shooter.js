@@ -2409,7 +2409,8 @@
       ctx.fillStyle = big ? '#ffe28a' : '#9fd8e6'; ctx.beginPath(); ctx.arc(nx, y, big ? 10 : 6, 0, Math.PI * 2); ctx.fill();
     }
     ctx.font = '700 24px ' + FONT; ctx.textBaseline = 'middle'; ctx.textAlign = 'right';
-    outlinedText(ctx, r.combo + ' コンボ', 520, 29, '#ffe28a');
+    // R308: the count follows the word, like 最高コンボ 48 on the record and ステージ 1 on the left.
+    outlinedText(ctx, 'コンボ ' + r.combo, 520, 29, '#ffe28a');
     ctx.textAlign = 'left';
     if (w.mode === 'challenge') outlinedText(ctx, 'ステージ ' + w.stage, 20, LABEL_Y, '#9fd8e6');
     if (r.time < r.tempoUntil) {

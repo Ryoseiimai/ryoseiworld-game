@@ -679,7 +679,7 @@ async function browserAdapterChecks() {
    check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 45, 516, 30\)/.test(src));
    // R298: the BPM / フィーバー banners hold their 24px word (60±14.5) inside 45..75, stay clear of the label row, and the boss name (29+13+2.5) stays above them.
    check('R298: BPM とフィーバーの帯は字を中に収め、右の字の段にかからない',(src.match(/fillRect\(12, 45, 516, 30\)/g)||[]).length===2&&/'BPM ' \+ r\.bpm \+ '！', W \/ 2, 60,/.test(src)&&/'フィーバー！', W \/ 2, 60,/.test(src)&&45+30<=92-12-2.5&&45<=60-14.5&&60+14.5<=75);
-   check('R298: ボスの名前とコンボは帯とHPの枠の上で止まる',/d\.name, 20, 29,/.test(src)&&/' コンボ', 520, 29,/.test(src)&&29+13+2.5<=45&&29+13+2.5<=50-1-3);
+   check('R298: ボスの名前とコンボは帯とHPの枠の上で止まる',/d\.name, 20, 29,/.test(src)&&/'コンボ ' \+ r\.combo, 520, 29,/.test(src)&&29+13+2.5<=45&&29+13+2.5<=50-1-3);
    handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
    check('R102: ボスへの ダメージ はんぶん の字が上の帯の線にかからない',fits('ボスへの ダメージ はんぶん'),drawn.filter(d=>d.text==='ボスへの ダメージ はんぶん').at(-1));
    // R169: the label said only ダメージ はんぶん / こうげき; it now names whose damage and attack it means, and stays clear of the boss name and the HP bar.

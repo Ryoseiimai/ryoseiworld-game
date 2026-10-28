@@ -2447,6 +2447,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
   assert(/^Lv \d+ HP \d+$/.test(main),'R306: HUD shows 「Lv n HP n」 with spaces ('+main+')');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
  result.push('R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS');
+ // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const m=src.match(/var WORD_CARD_GAP = (\d+);\s*function wordCardH\(S\) \{[^\n]*\}/);assert(m,'R307: wordCardH uses the named gap');
   const gap=Number(m[1]);assert(gap>=12,'R307: the gap under the word card is 12px or more ('+gap+')');
