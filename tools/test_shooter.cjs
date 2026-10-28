@@ -1041,6 +1041,17 @@ async function browserAdapterChecks() {
   check('R301: 道は ROAD_TOP_Y から描く', /function drawThemeFront\(ctx, S, w\) \{\s*var t = w\.t, theme = S\.theme, x, base = ROAD_TOP_Y;/.test(src));
 })();
 
+// R314: the boss fight's move hint stayed in hiragana in adult mode; adult mode reads it in kanji now, kids mode is unchanged.
+(() => {
+  const old = globalThis.RYW.mode;
+  globalThis.RYW.setMode('adult'); const a = sim.moveHintLines();
+  check('R314: おとなモードの移動の案内は漢字まじり', a[0] === '指を滑らせて動く' && a[1] === '矢印・WASDでも動く', a);
+  check('R314: おとなの案内は案内の板（420px）に収まる', a.every(l => [...l].reduce((n, c) => n + (/[ -~]/.test(c) ? 15 : 24), 0) <= 400), a);
+  globalThis.RYW.setMode('kids'); const k = sim.moveHintLines();
+  check('R314: こどもモードの移動の案内は今までどおり', k[0] === 'ゆびを すべらせて うごく' && k[1] === 'やじるし・WASD でも うごく', k);
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

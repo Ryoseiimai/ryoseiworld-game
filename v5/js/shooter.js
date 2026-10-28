@@ -1127,7 +1127,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2499,14 +2499,18 @@
       ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       // R156: on a touch-only device (index.html sets .touch-only) the keyboard line is left out.
-      if (touchOnly()) outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 119, '#fff5d6');
+      var mh = moveHintLines();
+      if (touchOnly()) outlinedText(ctx, mh[0], W / 2, PLAY_B - 119, '#fff5d6');
       else {
-        outlinedText(ctx, 'ゆびを すべらせて うごく', W / 2, PLAY_B - 136, '#fff5d6');
-        outlinedText(ctx, 'やじるし・WASD でも うごく', W / 2, PLAY_B - 102, '#c9e8f2');
+        outlinedText(ctx, mh[0], W / 2, PLAY_B - 136, '#fff5d6');
+        outlinedText(ctx, mh[1], W / 2, PLAY_B - 102, '#c9e8f2');
       }
       ctx.globalAlpha = 1;
     }
   }
+
+  // R314: SPEC_V7_MANABU.md 9: the move hint reads in kanji in adult mode, like the battle and menu lines.
+  function moveHintLines() { return RYW.mode === 'adult' ? ['指を滑らせて動く', '矢印・WASDでも動く'] : ['ゆびを すべらせて うごく', 'やじるし・WASD でも うごく']; }
 
   function touchOnly() { return !!(root.document && root.document.documentElement && root.document.documentElement.classList.contains('touch-only')); }
 
