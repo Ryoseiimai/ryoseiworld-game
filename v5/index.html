@@ -488,7 +488,7 @@ function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return fa
    const newRecord=best.stage>prevStage||best.bestCombo>prevCombo,firstRecord=!prevStage&&!prevCombo,cheatTag=key==='bestCheat'?menuLabel(' チート付き',' チートつき'):'';
    if(newRecord)sfx.levelup();
    const title=firstRecord?(menuLabel('初めての記録','はじめての きろく')+cheatTag):newRecord?(menuLabel('記録更新！','きろく こうしん！')+cheatTag):(key==='bestCheat'?menuLabel('チャレンジ・チート付き','チャレンジ・チートつき'):menuLabel('チャレンジの記録','チャレンジの きろく')),
-    goal=newRecord&&!firstRecord?'':menuLabel('\n\n次はステージ '+(best.stage+1)+'を目指そう','\n\nつぎは ステージ '+(best.stage+1)+' を めざそう'),
+    goal=newRecord&&!firstRecord?'':menuLabel('\n\n次はステージ '+(best.stage+1)+' を目指そう','\n\nつぎは ステージ '+(best.stage+1)+' を めざそう'),
     body=runText(record)+(cheatTag?menuLabel('\n（チート付き）','\n（チートつき）'):'')+'\n\n'+(isPlayables()?recordText(best):challengeRecords())+goal;
    openModal(title,body,[{text:menuLabel('もう一度','もう いちど'),action:()=>openChallenge()},{text:'もどる',action:closeModal}],'challenge-result');}});
  }catch(e){console.warn('challenge',e);shooter=null;screen('field');toast(menuLabel('今は始められない。','いまは はじめられない。'));return false;}return true;}
