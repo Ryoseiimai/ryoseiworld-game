@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T12:55:21.571Z",
-  "branch": "claude/autodev-20261019-2142-R156",
-  "task": "R156 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の始めの約2.5秒、ビートのボタンが灰色に薄くなり壊れて見えた\n押せない間は暗い板で字を読めるまま出し、金色に光らないようにした\n前と後のスクショ（ヒカクマオウ戦の始め）で比べ、テストを2つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/275/mobile-02-mode-select.jpg",
-   "shots/275/mobile-15-custom-full-run.jpg",
-   "shots/275/mobile-27-chapter-2-play.jpg",
-   "shots/275/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "65a8ac3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39255060815"
- },
- {
   "at": "2026-10-19T13:03:07.806Z",
   "branch": "claude/autodev-20261019-2142-R156",
   "task": "R156 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "f4b2467",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40639626960"
+ },
+ {
+  "at": "2026-10-28T06:54:49.126Z",
+  "branch": "claude/autodev-20261028-1522-R300",
+  "task": "R300 ことばの札の右上の「ソラ」に枠があり、押せるボタンに見えたので、枠を消して名前だけにした",
+  "summary": "ことばの札の右上の「ソラ」が枠つきで、押せるボタンに見えた\n町の札とボス戦の札の両方で、名前の枠を消して字だけにした\n名前に枠が無いことを見る確認を2つのテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/526/mobile-02-mode-select.jpg",
+   "shots/526/mobile-15-custom-full-run.jpg",
+   "shots/526/mobile-27-chapter-2-play.jpg",
+   "shots/526/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5904f14",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40645747393"
  }
 ]
