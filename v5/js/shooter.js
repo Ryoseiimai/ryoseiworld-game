@@ -1545,7 +1545,9 @@
     head.appendChild(title); head.appendChild(who);
     S.wordEl.appendChild(head); S.wordEl.appendChild(copy);
   }
-  function wordCardH(S) { return S.wordEl && !S.wordEl.hidden && S.wordCards.length && S.wordEl.offsetHeight ? S.wordEl.offsetHeight + 8 : 0; }
+  // R307: the speech panel keeps a 12px gap under the word card (was 8, about 6px on a phone, so the two read as one box).
+  var WORD_CARD_GAP = 12;
+  function wordCardH(S) { return S.wordEl && !S.wordEl.hidden && S.wordCards.length && S.wordEl.offsetHeight ? S.wordEl.offsetHeight + WORD_CARD_GAP : 0; }
   function nextWord(S) { S.wordCards.shift(); S.wordTime = 0; showWord(S); }
   // R90: the first card says "press with the beat", so the beat button stays pressable while cards are up;
   // a press then reads on to the next card (like Space/Enter) and does not count as a beat.

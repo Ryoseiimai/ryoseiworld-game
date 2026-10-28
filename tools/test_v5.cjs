@@ -2447,6 +2447,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
   assert(/^Lv \d+ HP \d+$/.test(main),'R306: HUD shows 「Lv n HP n」 with spaces ('+main+')');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
  result.push('R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS');
+ // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const m=src.match(/var WORD_CARD_GAP = (\d+);\s*function wordCardH\(S\) \{[^\n]*\}/);assert(m,'R307: wordCardH uses the named gap');
+  const gap=Number(m[1]);assert(gap>=12,'R307: the gap under the word card is 12px or more ('+gap+')');
+  const f=new Function('WORD_CARD_GAP',m[0].replace(/^var WORD_CARD_GAP = \d+;/,'')+'\nreturn wordCardH;')(gap);
+  assert.equal(f({wordEl:{hidden:false,offsetHeight:90},wordCards:[1]}),90+gap,'R307: card height plus the gap');assert.equal(f({wordEl:{hidden:true,offsetHeight:90},wordCards:[1]}),0,'R307: no card, no offset');
+}
+ result.push('R307: ボス戦で、ことばのカードとセリフの帯の間が12pxある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
