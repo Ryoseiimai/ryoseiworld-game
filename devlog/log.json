@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T13:03:07.806Z",
-  "branch": "claude/autodev-20261019-2142-R156",
-  "task": "R156 遊んで一番気になる所を1つ直す",
-  "summary": "スマホでも「Z / Enter」「矢印 / WASD でも」が出ていた\nタッチだけの端末では、キーボードの説明を出さないようにした\n前と後のスクショで比べ、スモークに確かめを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/276/mobile-02-mode-select.jpg",
-   "shots/276/mobile-15-custom-full-run.jpg",
-   "shots/276/mobile-27-chapter-2-play.jpg",
-   "shots/276/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c981de5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39256139909"
- },
- {
   "at": "2026-10-19T13:13:38.825Z",
   "branch": "claude/autodev-20261019-2142-R156",
   "task": "R156 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "5904f14",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40645747393"
+ },
+ {
+  "at": "2026-10-28T08:58:42.539Z",
+  "branch": "claude/autodev-20261028-1721-R301",
+  "task": "R301 ボス戦の始めで、主人公の足とキックボードが道の帯に隠れていたので、足を道の上の線に乗せた",
+  "summary": "ボス戦の始めに主人公のひざから下が道の帯に隠れていた\n町・ネオン・とうの道で、足が道の上の線に乗る高さから始めた\n足の高さを全部のボスで見る確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/527/mobile-02-mode-select.jpg",
+   "shots/527/mobile-15-custom-full-run.jpg",
+   "shots/527/mobile-27-chapter-2-play.jpg",
+   "shots/527/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ebc571f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40659213349"
  }
 ]
