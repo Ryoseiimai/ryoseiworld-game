@@ -1,0 +1,24 @@
+{
+  "branch": "claude/autodev-20261028-1241-R298",
+  "sha": "730ecd08380480e09a88c0497b0fa028b141ba13",
+  "result": "conflict",
+  "checks": {
+    "fence": "pass",
+    "merge": "conflict",
+    "test_v5": "skipped",
+    "smoke": "skipped"
+  },
+  "errors": [
+    "merge: main と衝突した。main を取り込んでから直して push し直す",
+    "merge: 衝突 autodev/ROADMAP.md",
+    "merge: 衝突 autodev/STATE.json",
+    "merge: 衝突 autodev/last_run.md",
+    "merge: 衝突 tools/test_shooter.cjs",
+    "merge: 衝突 v5/js/shooter.js"
+  ],
+  "shots": [],
+  "at": "2026-10-28T04:07:26.308Z",
+  "merged_sha": null,
+  "tested_base": "f58924573b2933c20b7a6cafd6fadb3afc59f48b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40630442382"
+}
