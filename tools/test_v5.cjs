@@ -2442,6 +2442,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const st=maps.store;r.g.debugWarp('store',st.spawn[0],st.spawn[1]);r.tick(16);r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>(c[0]==='fillText'||c[0]==='strokeText')&&c[1]==='そとへ'),'R296: the store exit plate draws そとへ');}
  result.push('R296: 部屋の出口の札に「そとへ」と書いてある PASS');
+ // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
+  const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
+  assert(/^Lv \d+ HP \d+$/.test(main),'R306: HUD shows 「Lv n HP n」 with spaces ('+main+')');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
+ result.push('R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
