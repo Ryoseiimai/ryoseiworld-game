@@ -1554,8 +1554,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(words[3]+9<=r.g.GAME_DATA.maps.tower1.h*48,'the words stay inside the floor: '+words[3]);
   // R226: the own room's exit is the stairs picture, so the plain-↓ check uses the shop (an exit without stairs).
   r.g.debugWarp('store');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
-  assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓')&&!r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='そとへ'),'a room exit stays a plain ↓');}
- result.push('R138: とう1Fの出口の ↓ と「そとへ」が1枚の札に並び、ほかの部屋は ↓ のまま PASS');
+  // R296: a bare ↓ in the shops and houses did not read as the way out, so they now carry the same one 「↓ そとへ」 plate as the tower.
+  const sa=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),sw=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1);
+  assert(sa&&sw&&Math.abs(sw[3]-sa[3])<=2,'a room exit shows ↓ and そとへ on one row');
+  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'the room exit has no second outlined そとへ plate');}
+ result.push('R138: とう1Fと部屋の出口の ↓ と「そとへ」が1枚の札に並ぶ PASS');
  // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   r.g.debugStartBattle('vending','r139');r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);
@@ -2287,8 +2290,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R259: 砂場の子の守護霊が、生け垣の上に浮かない PASS');
  // R261: the ↓ plate of the indoor exits stood 1.5 to 2 tiles above the front wall, a mat in the middle of the floor. It sits by the wall now, still within the walkable floor.
  {const r=await runtime();const maps=r.g.GAME_DATA.maps;let n=0;
-  for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(p.sign||m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
-   const gap=m.h*48-(p.y*48+15);assert(gap>=0&&gap<=24,id+': the ↓ plate sits by the front wall (gap '+gap+'px)');
+  for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(id==='tower1'||m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
+   // R296: the exits now carry a そとへ plate, which is 34 tall instead of 30 (the tower's own plate, R287, is checked under R138).
+   const gap=m.h*48-(p.y*48+(p.sign?17:15));assert(gap>=0&&gap<=24,id+': the ↓ plate sits by the front wall (gap '+gap+'px)');
    const dy=p.y*48-(m.h-1)*48;assert(dy<22&&Math.sqrt(22*22-dy*dy)>=19,id+': the exit is still reached from the bottom of the floor, also a little to the side of the plate');}}
   assert(n>=7,'the shops, houses and halls are checked ('+n+')');}
  result.push('R261: 部屋の出口の「↓」の札が、手前の壁のそばにある PASS');
@@ -2391,6 +2395,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ky<=y0-12,'R295: the kid keeps 12px above the talk button (feet '+ky+', button top '+y0+')');
   assert(Math.hypot(kid.x-clip.x,kid.y-clip.y)>=1.6,'R295: the kid stays 1.6 tiles from the hairclip');}
  result.push('R295: 砂場の子の足が「はなす」ボタンの上の縁に触れない PASS');
+ // R296: the indoor exits showed a bare ↓ plate (mobile-18/19/21/22) while the tower's said 「↓ そとへ」; every exit without stairs now says そとへ, and the plate fits in its room.
+ {const r=await runtime();const maps=r.g.GAME_DATA.maps;let n=0;
+  for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
+   assert(p.sign==='そとへ',id+': the exit plate says そとへ');const l=p.x*48-26,w=[...p.sign].length*24+58;assert(l>=0&&l+w<=m.w*48,id+': the そとへ plate fits in the room ('+l+'..'+(l+w)+')');}}
+  assert(n>=8,'R296: the shops, houses, halls and the tower exit are checked ('+n+')');
+  r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const st=maps.store;r.g.debugWarp('store',st.spawn[0],st.spawn[1]);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+  assert(r.canvasCalls.some(c=>(c[0]==='fillText'||c[0]==='strokeText')&&c[1]==='そとへ'),'R296: the store exit plate draws そとへ');}
+ result.push('R296: 部屋の出口の札に「そとへ」と書いてある PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});

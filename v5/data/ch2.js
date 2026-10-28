@@ -58,13 +58,13 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  object('ml_search','interior',1,5.7,4.4,120,120,{label:'けんさくの きかい',event:'owlQuiz'}),
  object('ml_plant','interior',13,1.6,8.4,75,80),object('ml_clock','interior',14,5.7,1.9,70,70,{collider:false}),
  object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa'})],
- enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6]}]};
+ enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6],sign:'そとへ'}]};
 // The friend's house: the boy who may not go out.
 maps.minamo_friend={name:'ともだちの いえ',w:11,h:13,spawn:[5,10],objects:[
  object('mf_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
- enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[6,35.4]}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[6,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
