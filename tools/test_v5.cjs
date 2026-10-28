@@ -1612,6 +1612,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.startsWith(name+'は\nおとなしく なった！\n'),log);for(const row of log.split('\n'))assert([...row].length<=18,'row fits: '+row);
   r.tick(2100);while(r.g.dialogue)r.dialogue();}
  assert(/return wide>room\?name\+'は\\nおとなしく なった！':text;/.test(html),'a short name keeps the line on one row');
+ // R310: 「BUG KINGは おとなしく なった！」「BUG KINGが あらわれた！」 had no gap after the Latin name, while the boss fight writes 「BUG KING は」. A Latin name now gets a space before は / が; a kana name does not.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const name=r.g.GAME_DATA.enemies.bugking.name;assert(/[A-Za-z]$/.test(name),'the case this check is for: '+name);
+  r.g.debugStartBattle('bugking','r310');r.tick(300);const met=r.els.get('battle-log').textContent;assert(met.includes(name+' が あらわれた！'),met);
+  while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);const log=r.g.battle?.log||r.els.get('battle-log').textContent;
+  assert(log.startsWith(name+' は'),log);assert(!log.includes(name+'は'),log);
+  r.g.debugStartBattle('vending','r310b');r.tick(300);const v=r.g.GAME_DATA.enemies.vending.name,vm=r.els.get('battle-log').textContent;assert(!vm.includes(v+' が'),'a kana name keeps no gap: '+vm);}
+ result.push('R310: 英字の名前（BUG KING）と「は」「が」の間を空けた PASS');
  // R140: the きずな list was cut after the first row of an entry (［友］ゲームの こ showed, its 守護霊 and 次は rows were under the dashed line).
  // A scrolling list of blocks parted by blank lines now ends on a blank line, and ▼ つづき scrolls by that many whole rows (the browser check is in smoke_v5.cjs).
  {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
