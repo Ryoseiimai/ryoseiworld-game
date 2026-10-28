@@ -1269,7 +1269,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const cap=(html.match(/\.caption\{([^}]*)\}/)||[])[1]||'';const bg=cap.match(/background:rgba\((\d+),(\d+),(\d+),([\d.]+)\)/);
   assert(bg,'the title captions have a background band');const [r,g,b,a]=bg.slice(1).map(Number);assert(a>=0.7&&r+g+b<120,'the band is dark and mostly solid');
   assert(/font-size:24px/.test(cap),'caption letters stay 24px');const m=cap.match(/margin:0 -(\d+)px/);const col=Number((html.match(/\.title-actions\{position:absolute;left:(\d+)px;/)||[])[1]);const left=col-(m?Number(m[1]):0);assert(col>0&&left>=16,'the band stays inside the 540 screen');
-  assert(/id="title-caption" class="caption"/.test(html)&&/id="title-hint" class="caption"/.test(html),'both lines use the band');}
+  assert(/id="title-caption" class="caption"/.test(html)&&/id="title-hint" class="caption"/.test(html),'both lines use the band');
+  // R299: the band ran the full width of the buttons and read as a third button under つづきから; it now hugs its words, centred.
+  assert(/justify-self:center/.test(cap),'the caption band is only as wide as its words, so it does not look like a button');}
  result.push('R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS');
  // R79: the title moon sat on 「A LITTLE LIGHT」 (top 110px) on the right; it now hangs in the top left, clear of that line and of 「♪ タップで音楽」 (top right).
  {const m=html.match(/function drawTitle\(\)\{[^]*?ellipse\((\d+),(\d+),(\d+),(\d+),'#f6dda2'\)/);assert(m,'the title draws a moon');const [x,y,rx,ry]=m.slice(1).map(Number);
