@@ -296,7 +296,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(h-2*pad-6>=3*font*lh,mode+': the log holds 3 rows');assert(btnH>=58&&bottom>=8,mode+': buttons stay big and on screen');
    assert(px(decls('.commands button'),'height')===btnH&&px(decls('.commands button'),'padding')<=6,mode+': the buttons have a fixed height, so a tall font cannot push them up');}}
  const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),tl=await runtime();tl.tick();tl.start();const tutorialLogs=[tl.g.battle.log];tl.cmd('attack');tutorialLogs.push(tl.g.battle.log);tl.cmd('run');tutorialLogs.push(tl.g.battle.log);
- assert(tutorialLogs[0].includes('ナオスライムを よぼう')&&tutorialLogs[1].includes('まず')&&tutorialLogs[2].includes('にげられない'),tutorialLogs.join('|'));
+ assert(tutorialLogs[0].includes(tl.g.mode==='adult'?'ナオスライムを呼ぼう':'ナオスライムを よぼう')&&tutorialLogs[1].includes('まず')&&tutorialLogs[2].includes('にげられない'),tutorialLogs.join('|'));
  for(const text of tutorialLogs){const rows=text.split('\n');assert(rows.length<=3,text);for(const row of rows)assert(wide(row)<=16,'tutorial log row too wide: '+row);}
  // fix2: a focused はじめから keeps its light face; text contrast ≥4.5:1.
  const rgb=h=>h.match(/\w\w/g).map(x=>parseInt(x,16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4),lum=h=>{const [r,g2,b]=rgb(h);return .2126*r+.7152*g2+.0722*b;},contrast=(a,b)=>(Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))+.05);
@@ -1159,7 +1159,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R68: the tutorial hint, the goal line and Sora's line name the summon button the way the button reads in each mode.
  {for(const [mode,label,other] of [['adult','呼び出す','よびだす'],['kids','よびだす','呼び出す']]){const r=await runtime();r.tick();r.click('start-btn');r.button(mode==='adult'?'おとなモード':'こどもモード');r.dialogue();r.els.get('name-input').value='テスト';r.click('naming-confirm');
    const welcome=r.g.dialogue.lines.map(l=>l[1]).join('');assert(welcome.includes('「'+label+'」'),mode+' welcome: '+welcome);assert(!welcome.includes(other)&&!welcome.includes('{'),mode+' welcome has no other label: '+welcome);
-   r.tick(16);const goal=r.els.get('quest').textContent;assert(goal.startsWith('「'+label+'」で ')&&!goal.includes('{'),mode+' goal: '+goal);
+   r.tick(16);const goal=r.els.get('quest').textContent;assert(goal.startsWith('「'+label+'」で'+(mode==='adult'?'ナ':' '))&&!goal.includes('{'),mode+' goal: '+goal);
    r.dialogue();assert.equal(r.g.screen,'battle');r.tick(300);const btn=r.els.get('commands').children.find(e=>e.dataset.cmd==='summon').textContent;assert.equal(btn,label,mode+' button');
    const hint=r.els.get('battle-log').textContent;assert(hint.includes('「'+label+'」')&&!hint.includes(other),mode+' battle hint: '+hint);
    r.cmd('attack');const nudge=r.els.get('battle-log').textContent;assert(nudge.includes('「'+label+'」')&&!nudge.includes(other),mode+' nudge: '+nudge);
@@ -2475,6 +2475,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   s.mode='kids';assert.equal(r.g.quest,'メニューの チャレンジで あそぼう','R312: kids hint ('+r.g.quest+')');
   const ad=D.chapters[4].quests.ended.adult;assert(ad.includes('チャレンジ')&&[...ad].length<=18,'R312: the adult line names the challenge and stays short');}
  result.push('R312: 塔の後の町の案内が、おとなモードでは漢字まじりになる PASS');
+ // R313: the tutorial goal and the tutorial battle line quoted the kanji command 「呼び出す」 and then went on in hiragana in adult mode; adult mode reads them in kanji now.
+ {const r=await runtime();r.tick();const D=r.g.GAME_DATA;for(const [id,ch] of Object.entries(D.chapters)){const q=ch.quests.tutorial;assert.equal(q.text,'「{yobidasu}」で ナオスライムを よぶ',id+' kids: '+q.text);assert.equal(q.adult,'「{yobidasu}」でナオスライムを呼ぶ',id+' adult: '+q.adult);}
+  r.g.state.mode='adult';assert.equal(r.g.questStep,'tutorial');assert.equal(r.g.quest,'「呼び出す」でナオスライムを呼ぶ','R313: adult hint ('+r.g.quest+')');
+  r.g.state.mode='kids';assert(r.g.quest.endsWith('」で ナオスライムを よぶ'),'R313: kids hint ('+r.g.quest+')');
+  const w=[...'「呼び出す」でナオスライムを呼ぶ'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R313: the adult hint fits the compact HUD ('+w+')');
+  for(const mode of ['adult','kids']){const t=await runtime();t.tick();t.start(mode);const log=t.g.battle.log;assert(log.includes(mode==='adult'?'「呼び出す」で\nナオスライムを呼ぼう。':'「よびだす」で\nナオスライムを よぼう。'),'R313: '+mode+' tutorial battle line ('+log+')');}}
+ result.push('R313: チュートリアルの案内と戦闘の文が、おとなモードでは漢字まじりになる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
