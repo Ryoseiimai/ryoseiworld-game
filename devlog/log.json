@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T03:56:38.451Z",
-  "branch": "claude/autodev-20261019-1241-R151",
-  "task": "R151 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘のことばカードが、上の敵の名前の窓より左右に4pxずつ広かった\nカードの左右を戦闘は上下の窓に、フィールドは上の表示にそろえ、テストを足した\n確認役が挙げた目標の行と「はなす」の文字は、前の決まりで濃いままにしたので触らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/266/mobile-02-mode-select.jpg",
-   "shots/266/mobile-15-custom-full-run.jpg",
-   "shots/266/mobile-27-chapter-2-play.jpg",
-   "shots/266/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "156358e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39196582655"
- },
- {
   "at": "2026-10-19T04:04:41.344Z",
   "branch": "claude/autodev-20261019-1241-R151",
   "task": "R151 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "aedcbaa",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40600654331"
+ },
+ {
+  "at": "2026-10-28T00:49:37.226Z",
+  "branch": "claude/autodev-20261028-0921-R295",
+  "task": "R295 町の始めで、砂場の子の足が「はなす」ボタンの上の縁に触れていたので、子を少し上に立たせた",
+  "summary": "確認役が全章のスクショから、砂場の子の足が「はなす」ボタンに触れる件を挙げた\n子を3分の1マス上に立たせ、前と後のスクショでボタンとの間を確かめた\n子の足とボタンの間が12px以上あるかを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/518/mobile-02-mode-select.jpg",
+   "shots/518/mobile-15-custom-full-run.jpg",
+   "shots/518/mobile-27-chapter-2-play.jpg",
+   "shots/518/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "aa7126e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40610134309"
  }
 ]
