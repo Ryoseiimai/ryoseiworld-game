@@ -2382,6 +2382,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===mio.label).at(-1);
   assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-38,'R294: ミオ tag sits above the じゅんい 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
  result.push('R294: ミオの名札と「じゅんい 86」の札が重ならない PASS');
+ // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
+  const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);const c=r.g.camera,kid=town.objects.find(o=>o.id==='kid'),clip=town.objects.find(o=>o.id==='hairclip');
+  const x1=c.x+540-22,y0=c.y+960-24-80,x0=x1-142,kx=kid.x*48,ky=kid.y*48;
+  assert(kx+24>x0&&kx-24<x1,'R295: the kid stands in the talk button column at the spawn (the case this check is for)');
+  assert(ky<=y0-12,'R295: the kid keeps 12px above the talk button (feet '+ky+', button top '+y0+')');
+  assert(Math.hypot(kid.x-clip.x,kid.y-clip.y)>=1.6,'R295: the kid stays 1.6 tiles from the hairclip');}
+ result.push('R295: 砂場の子の足が「はなす」ボタンの上の縁に触れない PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
