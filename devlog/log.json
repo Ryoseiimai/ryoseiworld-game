@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-19T21:47:41.128Z",
-  "branch": "claude/autodev-20261020-0641-R159",
-  "task": "R159 遊んで一番気になる所を1つ直す",
-  "summary": "ことばカードが出ている間、ボスの始めの台詞を帯が消えてから出すようにした\nソラのヒントは遅れた分だけ終わりを延ばし、長さを変えないようにした\n文字の箱が3つ同時に出ないことを確かめるテストと、前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/282/mobile-02-mode-select.jpg",
-   "shots/282/mobile-15-custom-full-run.jpg",
-   "shots/282/mobile-27-chapter-2-play.jpg",
-   "shots/282/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "9ac9c4f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39329522572"
- },
- {
   "at": "2026-10-19T22:03:00.783Z",
   "branch": "claude/autodev-20261020-0641-R159",
   "task": "R159 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "7a1f8a0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40693576356"
+ },
+ {
+  "at": "2026-10-28T14:59:48.405Z",
+  "branch": "claude/autodev-20261028-2330-R306",
+  "task": "R306 町の上の帯が「Lv13 HP204 100%」と詰まり、戦闘やメニューの「Lv 13」「100％」と違ったので、間と％をそろえた",
+  "summary": "町の上の帯の「Lv13 HP204」を「Lv 13 HP 204」と間を空けた\n電池の「100%」を、戦闘やメニューと同じ「100％」にした\n帯の書き方を確かめるテストを足し、スマホ幅で収まるのを見た",
+  "result": "pass",
+  "shots": [
+   "shots/533/mobile-02-mode-select.jpg",
+   "shots/533/mobile-15-custom-full-run.jpg",
+   "shots/533/mobile-27-chapter-2-play.jpg",
+   "shots/533/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b926920",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40709445058"
  }
 ]
