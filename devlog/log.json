@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-20T10:13:11.400Z",
-  "branch": "claude/autodev-20261020-1842-R163",
-  "task": "R163 遊んで一番気になる所を1つ直す",
-  "summary": "主人公が人の右に立つと、灰色の守護霊が主人公の頭にかぶさっていた\n守護霊を、主人公とまわりの人に重ならない側（左か右）に出すようにした\nテストと前後のスクショ（docs/shots/R163）を足した。町の灰色のもやの見た目と、ボタンの下にかくれる人は次の候補",
-  "result": "pass",
-  "shots": [
-   "shots/295/mobile-02-mode-select.jpg",
-   "shots/295/mobile-15-custom-full-run.jpg",
-   "shots/295/mobile-27-chapter-2-play.jpg",
-   "shots/295/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a4ee883",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39405738991"
- },
- {
   "at": "2026-10-20T13:10:52.778Z",
   "branch": "claude/autodev-20261020-2142-R164",
   "task": "R164 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "d5ce60f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40768241232"
+ },
+ {
+  "at": "2026-10-28T22:03:26.673Z",
+  "branch": "claude/autodev-20261029-0621-R313",
+  "task": "R313 チュートリアルの案内「「呼び出す」で ナオスライムを よぶ」がおとなモードで漢字とひらがなの混ぜ書きだったので、おとなでは「「呼び出す」でナオスライムを呼ぶ」にした",
+  "summary": "チュートリアルの案内と戦闘の文を、おとなモードでは漢字まじりにした\nこどもモードは今までどおりで、テストで両方のモードを確かめた\n確認役が挙げた、ボス戦とタイトルの遊び方の案内のひらがなは次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/544/mobile-02-mode-select.jpg",
+   "shots/544/mobile-15-custom-full-run.jpg",
+   "shots/544/mobile-27-chapter-2-play.jpg",
+   "shots/544/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e869587",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40775288815"
  }
 ]
