@@ -74,12 +74,12 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。',descAdult:'弱みを見せる。\n2ターン ダメージ1.5倍。'}},
  // The grandpa is the owl's person (STORY_V4.md, family). Hearts: waking the owl, the returned book, one onigiri.
  bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
- quests:{cleared:{text:'まちに こえが もどった。'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
+ quests:{cleared:{text:'まちに こえが もどった。',adult:'町に声が戻った。'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   zako:{text:'ミナモの ノイズを しずめよう {n}/{goal}',adult:'ミナモのノイズを静めよう {n}/{goal}',dest:'enemy'},
-  key:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
-  battery:{text:'としょかんの おじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
-  recruit:{text:'けんさくの きかいを しらべよう',dest:{map:'minamo_library',id:'ml_search'}},
-  boss:{text:'こうえんの おおきな かべへ',dest:{map:'minamo',id:'minamo_boss'}}},
+  key:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
+  battery:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
+  recruit:{text:'けんさくの きかいを しらべよう',adult:'検索の機械を調べよう',dest:{map:'minamo_library',id:'ml_search'}},
+  boss:{text:'こうえんの おおきな かべへ',adult:'公園の大きな壁へ',dest:{map:'minamo',id:'minamo_boss'}}},
  events:{
   // After the boss: the walls are gone and parents and children play in the park (SPEC_V5_CH234.md).
   // Then RYOSEI rides the train from the station, and the chapter card saves at the head of chapter 3.

@@ -50,11 +50,11 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // R88: cleared shows during the rooftop scene; after the ending (towerEnded) the field points to what is left to play (チャレンジ opens from chapter 2 on).
- quests:{cleared:{text:'とうの なかが しずかに なった。'},ended:{text:'メニューの チャレンジで あそぼう',adult:'メニューのチャレンジで遊ぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
+ quests:{cleared:{text:'とうの なかが しずかに なった。',adult:'塔の中が静かになった。'},ended:{text:'メニューの チャレンジで あそぼう',adult:'メニューのチャレンジで遊ぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
-  boss:{text:'とうの いちばん うえを めざそう'},
+  boss:{text:'とうの いちばん うえを めざそう',adult:'塔の一番上を目指そう'},
   zako:{text:'とうの ノイズを しずめよう {n}/{goal}',adult:'塔のノイズを静めよう {n}/{goal}',dest:'enemy'},
-  key:{text:'うえの かいへ すすもう'},battery:{text:'うえの かいへ すすもう'},recruit:{text:'うえの かいへ すすもう'}},
+  key:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'},battery:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'},recruit:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'}},
  events:{
   // R27: 入口の少し奥で、コトバイルカが まだ 仲間でなければ 仲間になる（SPEC_V5_CH234.md「入口で コトバイルカ が仲間になる」）。
   towerEntrance:[{if:{summon:'kotoba'},then:[{say:'towerEntranceIdle'}],
