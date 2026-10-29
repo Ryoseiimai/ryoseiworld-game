@@ -2496,6 +2496,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.flags.tutorial=true;r.g.state.mode='adult';assert.equal(r.g.questStep,'zako');assert(r.g.quest.startsWith('町のノイズを静めよう 0/3'),'R316: adult goal ('+r.g.quest+')');
   r.g.state.mode='kids';assert(r.g.quest.startsWith('まちの ノイズを しずめよう 0/3'),'R316: kids goal ('+r.g.quest+')');}
  result.push('R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「町のノイズを静めよう」になる PASS');
+ // R317: chapter 1's later goals (交番・コンビニ・でんきや・テレビの王様・バス停) stayed in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
+ {const r=await runtime();r.tick();const q=r.g.GAME_DATA.chapters[1].quests,want={key:['こうばんで カギを もらおう','交番でカギをもらおう'],battery:['コンビニで バッテリーを かおう','コンビニでバッテリーを買おう'],recruit:['でんきやの おくを しらべよう','電気屋の奥を調べよう'],boss:['テレビの おうさまに あいに いこう','テレビの王様に会いに行こう'],cleared:['バスていから ミナモちょうへ いこう','バス停からミナモちょうへ行こう']};
+  for(const [k,[kid,adult]] of Object.entries(want)){assert.equal(q[k].text,kid,'R317 kids '+k);assert.equal(q[k].adult,adult,'R317 adult '+k);const w=[...adult+' ↑'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R317: '+k+' adult goal fits the HUD ('+w+')');}
+  const f=r.g.state.flags;f.tutorial=true;f.zakoWins=3;r.g.state.mode='adult';assert.equal(r.g.questStep,'key');assert(r.g.quest.startsWith('交番でカギをもらおう'),'R317: adult key goal ('+r.g.quest+')');
+  r.g.state.mode='kids';assert(r.g.quest.startsWith('こうばんで カギを もらおう'),'R317: kids key goal ('+r.g.quest+')');}
+ result.push('R317: 1章の交番・コンビニ・でんきや・王様・バス停の案内が、おとなモードでは漢字まじりになる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
