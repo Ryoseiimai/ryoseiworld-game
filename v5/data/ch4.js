@@ -53,7 +53,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
  quests:{cleared:{text:'とうの なかが しずかに なった。'},ended:{text:'メニューの チャレンジで あそぼう',adult:'メニューのチャレンジで遊ぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   boss:{text:'とうの いちばん うえを めざそう'},
-  zako:{text:'とうの ノイズを しずめよう {n}/{goal}',dest:'enemy'},
+  zako:{text:'とうの ノイズを しずめよう {n}/{goal}',adult:'塔のノイズを静めよう {n}/{goal}',dest:'enemy'},
   key:{text:'うえの かいへ すすもう'},battery:{text:'うえの かいへ すすもう'},recruit:{text:'うえの かいへ すすもう'}},
  events:{
   // R27: 入口の少し奥で、コトバイルカが まだ 仲間でなければ 仲間になる（SPEC_V5_CH234.md「入口で コトバイルカ が仲間になる」）。

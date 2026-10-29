@@ -2489,6 +2489,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=[...'「呼び出す」でナオスライムを呼ぶ'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R313: the adult hint fits the compact HUD ('+w+')');
   for(const mode of ['adult','kids']){const t=await runtime();t.tick();t.start(mode);const log=t.g.battle.log;assert(log.includes(mode==='adult'?'「呼び出す」で\nナオスライムを呼ぼう。':'「よびだす」で\nナオスライムを よぼう。'),'R313: '+mode+' tutorial battle line ('+log+')');}}
  result.push('R313: チュートリアルの案内と戦闘の文が、おとなモードでは漢字まじりになる PASS');
+ // R316: the town goal 「まちの ノイズを しずめよう」 stayed in hiragana in adult mode; each chapter's zako goal reads in kanji there now, and kids mode keeps it.
+ {const r=await runtime();r.tick();const D=r.g.GAME_DATA,want={1:['まちの','町の'],2:['ミナモの','ミナモの'],3:['ネオンの','ネオンの'],4:['とうの','塔の']};
+  for(const [id,ch] of Object.entries(D.chapters)){const q=ch.quests.zako,[k,a]=want[id];assert.equal(q.text,k+' ノイズを しずめよう {n}/{goal}',id+' kids: '+q.text);assert.equal(q.adult,a+'ノイズを静めよう {n}/{goal}',id+' adult: '+q.adult);
+   const w=[...a+'ノイズを静めよう 3/3 ↑'].reduce((s,c)=>s+(c===' '?8:/[0-9\/]/.test(c)?16:28),0);assert(w<=480,'R316: '+id+' adult goal fits the HUD ('+w+')');}
+  r.g.state.flags.tutorial=true;r.g.state.mode='adult';assert.equal(r.g.questStep,'zako');assert(r.g.quest.startsWith('町のノイズを静めよう 0/3'),'R316: adult goal ('+r.g.quest+')');
+  r.g.state.mode='kids';assert(r.g.quest.startsWith('まちの ノイズを しずめよう 0/3'),'R316: kids goal ('+r.g.quest+')');}
+ result.push('R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「町のノイズを静めよう」になる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
