@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-20T19:05:42.768Z",
-  "branch": "claude/autodev-20261021-0341-R166",
-  "task": "R166 遊んで一番気になる所を1つ直す",
-  "summary": "会話の窓の下に「ドラッグで あるく」が透けて、台詞と重なっていた\n話している間は「ドラッグで あるく」を消し、会話が終わると戻すようにした\nテストと前後のスクショ（docs/shots/R166）を足した。メニューの窓は重ならないので変えていない",
-  "result": "pass",
-  "shots": [
-   "shots/302/mobile-02-mode-select.jpg",
-   "shots/302/mobile-15-custom-full-run.jpg",
-   "shots/302/mobile-27-chapter-2-play.jpg",
-   "shots/302/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "528bc11",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39479591534"
- },
- {
   "at": "2026-10-20T21:55:41.403Z",
   "branch": "claude/autodev-20261021-0641-R167",
   "task": "R167 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "59308f2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40794084766"
+ },
+ {
+  "at": "2026-10-29T00:45:55.454Z",
+  "branch": "claude/autodev-20261029-0921-R316",
+  "task": "R316 町の上の案内「まちの ノイズを しずめよう」がおとなモードでもひらがなだったので、おとなでは「町のノイズを静めよう」にした（ミナモ・ネオン・塔も）",
+  "summary": "町の上の案内を、おとなモードでは「町のノイズを静めよう」にした\nミナモ・ネオン・塔の同じ案内も漢字まじりにし、こどもモードは今までどおり\n前と後のスクショを v5/verification に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/549/mobile-02-mode-select.jpg",
+   "shots/549/mobile-15-custom-full-run.jpg",
+   "shots/549/mobile-27-chapter-2-play.jpg",
+   "shots/549/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f47b6c9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40794385465"
  }
 ]
