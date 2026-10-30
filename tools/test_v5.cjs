@@ -2510,11 +2510,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const ch of Object.values(C))for(const [k,q] of Object.entries(ch.quests))assert(q.adult,'R318: every goal has an adult text ('+k+')');}
  result.push('R318: 2章から4章の図書館・検索・公園・スタジアム・塔の案内が、おとなモードでは漢字まじりになる PASS');
  // R319: the menu title and its talk/save and pause buttons stayed in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
- {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.tick(2000);
+ {const r=await runtime();r.tick();r.start('adult');r.tick(3000);r.g.debugWin();r.tick(2000);r.dialogue();r.tick(300);const ai=r.g.state.aiName;
   const labels=()=>[...r.els.get('modal-buttons').children].map(b=>b.textContent);
-  r.click('menu-btn');assert.equal(r.els.get('modal-title').textContent,r.g.aiName+'と一休み','R319: adult menu title');assert(labels().includes(r.g.aiName+'に話す・セーブ')&&labels().includes('一休み'),'R319: adult menu buttons '+labels().join('/'));
+  r.click('menu-btn');assert.equal(r.els.get('modal-title').textContent,ai+'と一休み','R319: adult menu title');assert(labels().includes(ai+'に話す・セーブ')&&labels().includes('一休み'),'R319: adult menu buttons '+labels().join('/'));
   r.button('一休み');assert(r.g.paused,'R319: 一休み pauses');r.click('resume-btn');
-  r.g.state.mode='kids';r.click('menu-btn');assert.equal(r.els.get('modal-title').textContent,r.g.aiName+'と ひとやすみ','R319: kids menu title');assert(labels().includes(r.g.aiName+'に はなす・セーブ')&&labels().includes('ひとやすみ'),'R319: kids menu buttons '+labels().join('/'));}
+  r.g.state.mode='kids';r.click('menu-btn');assert.equal(r.els.get('modal-title').textContent,ai+'と ひとやすみ','R319: kids menu title');assert(labels().includes(ai+'に はなす・セーブ')&&labels().includes('ひとやすみ'),'R319: kids menu buttons '+labels().join('/'));}
  result.push('R319: メニューの題と「話す・セーブ」「一休み」が、おとなモードでは漢字まじりになる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
