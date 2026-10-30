@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-10-21T03:56:59.338Z",
-  "branch": "claude/autodev-20261021-1241-R169",
-  "task": "R169 遊んで一番気になる所を1つ直す",
-  "summary": "町のノイズの帯が、主人公と話す相手と名前の札を横切っていた\n帯の位置を、主人公と相手と札を避けた行から選ぶようにした（空きが無い時は出さない）\nテストと前後のスクショ（docs/shots/R168）を足した。ヒカクマオウ戦のヒントが枠に付く件は、拡大すると余白があったので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/308/mobile-02-mode-select.jpg",
-   "shots/308/mobile-15-custom-full-run.jpg",
-   "shots/308/mobile-27-chapter-2-play.jpg",
-   "shots/308/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "85a2533",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39540886467"
- },
- {
-  "at": "2026-10-21T04:03:12.597Z",
-  "branch": "claude/autodev-20261021-1241-R169",
-  "task": "R169 遊んで一番気になる所を1つ直す",
-  "summary": "ボス戦の上の帯が「ダメージ はんぶん」「こうげき」だけで、誰の数字か分からなかった\n字を「ボスへの ダメージ」「きみの こうげき」に変え、はみ出さないテストを足した\n前後のスクショは docs/shots/R169。大人モードで漢字にするかは仕様に無いので変えていない",
-  "result": "pass",
-  "shots": [
-   "shots/309/mobile-02-mode-select.jpg",
-   "shots/309/mobile-15-custom-full-run.jpg",
-   "shots/309/mobile-27-chapter-2-play.jpg",
-   "shots/309/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "6befd8b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39541132846"
- },
- {
   "at": "2026-10-21T04:14:22.949Z",
   "branch": "claude/autodev-20261021-1303-R170",
   "task": "R170 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2938,35 @@
   ],
   "sha": "1886261",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41014037891"
+ },
+ {
+  "at": "2026-10-30T07:00:01.900Z",
+  "branch": "claude/autodev-20261030-1543-R319",
+  "task": "R319 メニューの題と「ソラに はなす・セーブ」「ひとやすみ」がおとなモードでもひらがなだったので、おとなでは「ソラと一休み」「ソラに話す・セーブ」「一休み」にした",
+  "summary": "メニューの題と「話す・セーブ」「一休み」を、おとなモードでは漢字まじりにした\nこどもモードは今までどおり。前と後のスクショを v5/verification に入れた\n鍵のブランチは取れなかった（push は claude/autodev- の枝だけの決まりのため）",
+  "result": "fail",
+  "shots": [
+   "shots/559/mobile-02-mode-select.jpg",
+   "shots/559/mobile-15-custom-full-run.jpg",
+   "shots/559/mobile-27-chapter-2-play.jpg",
+   "shots/559/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f62b8ac",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41016173457"
+ },
+ {
+  "at": "2026-10-30T07:08:38.230Z",
+  "branch": "claude/autodev-20261030-1543-R319",
+  "task": "R319 メニューの題と「ソラに はなす・セーブ」「ひとやすみ」がおとなモードでもひらがなだったので、おとなでは「ソラと一休み」「ソラに話す・セーブ」「一休み」にした",
+  "summary": "メニューの題と「話す・セーブ」「一休み」を、おとなモードでは漢字まじりにした\nこどもモードは今までどおり。前と後のスクショを v5/verification に入れた\n鍵のブランチは取れなかった（push は claude/autodev- の枝だけの決まりのため）",
+  "result": "pass",
+  "shots": [
+   "shots/560/mobile-02-mode-select.jpg",
+   "shots/560/mobile-15-custom-full-run.jpg",
+   "shots/560/mobile-27-chapter-2-play.jpg",
+   "shots/560/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f3c3cf4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41017101856"
  }
 ]
