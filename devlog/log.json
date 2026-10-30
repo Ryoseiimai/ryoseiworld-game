@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-22T21:48:48.943Z",
-  "branch": "claude/autodev-20261023-0641-R178",
-  "task": "R178 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が、右下の「はなす」ボタンが「いいね」の人などを隠すと挙げた\n下に人がいる時は、ボタンが96〜288px上の空いた所へずれるようにした\n押した時の沈みが残るよう translate で動かし、すぐ戻らない間を入れた",
-  "result": "pass",
-  "shots": [
-   "shots/328/mobile-02-mode-select.jpg",
-   "shots/328/mobile-15-custom-full-run.jpg",
-   "shots/328/mobile-27-chapter-2-play.jpg",
-   "shots/328/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "327e2c1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39859367563"
- },
- {
   "at": "2026-10-22T22:04:30.021Z",
   "branch": "claude/autodev-20261023-0641-R178",
   "task": "R178 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "2c85a2c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41058255565"
+ },
+ {
+  "at": "2026-10-30T14:03:44.704Z",
+  "branch": "claude/autodev-20261030-2249-R327",
+  "task": "R327 ボス戦の上の帯の「ボスへの ダメージ はんぶん」「きみの こうげき」がおとなモードでもひらがなだったので、おとなでは「ボスへのダメージ 半分」「あなたの攻撃」にした",
+  "summary": "ボス戦の上の帯の字を、おとなモードでは「ボスへのダメージ 半分」などにした\n「きみの こうげき」はおとなでは「あなたの攻撃」にした。こどもは今まで通り\ntest_shooter に確認を足した。前と後のスクショで字の収まりを見た",
+  "result": "pass",
+  "shots": [
+   "shots/572/mobile-02-mode-select.jpg",
+   "shots/572/mobile-15-custom-full-run.jpg",
+   "shots/572/mobile-27-chapter-2-play.jpg",
+   "shots/572/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b72e538",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41067241737"
  }
 ]
