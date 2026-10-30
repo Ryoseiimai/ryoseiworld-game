@@ -2300,12 +2300,13 @@
   // R298: the label had 2px of air under the HP bar (then 58..80) and 1px over the line; the name moved to y29, the bar to 50..70
   // and the label to 92, so each gap is 6px or more. The BPM and フィーバー banners (45..75) cover only the bar, never the label.
   var LABEL_Y = 92;
-  // R327: SPEC_V7_MANABU.md 9: the band's hint label reads in kanji in adult mode, like the move hint and menus.
-  function bandLabel(k) {
+  // R327: SPEC_V7_MANABU.md 9: the band's hint label reads in kanji in adult mode, like the move hint and menus
+  // (攻撃力 as on the status screen, and the countdown says 秒 like cooldownLabel).
+  function bandLabel(k, sec) {
     var adult = RYW.mode === 'adult';
-    if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 ' : 'ボスへの ダメージ 2ばい ';
+    if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
     if (k === 'half') return adult ? 'ボスへのダメージ 半分' : 'ボスへの ダメージ はんぶん';
-    return adult ? 'あなたの攻撃' : 'きみの こうげき';
+    return adult ? '攻撃力' : 'きみの こうげき';
   }
   function drawTopBand(ctx, S, w) {
     var d = w.def, b = w.b;
@@ -2319,7 +2320,7 @@
     // R169: say whose damage / attack the label is about, so the player can read it as a hint.
     if (w.mode !== 'challenge' && w.bossId === 'kateino') {
       var left = w.m.crackUntil - w.playT;
-      if (left > 0) outlinedText(ctx, bandLabel('crack') + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
+      if (left > 0) outlinedText(ctx, bandLabel('crack', Math.ceil(left)), W - 20, LABEL_Y, '#ffd76b');
       else outlinedText(ctx, bandLabel('half'), W - 20, LABEL_Y, '#c9d6e8');
     } else if (w.mode !== 'challenge' && w.bossId === 'hikaku') {
       // Attack power as a meter: 4 bars at full power, one goes out per number hit (never below 1).
