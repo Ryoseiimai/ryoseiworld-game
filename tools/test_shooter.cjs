@@ -671,10 +671,11 @@ async function browserAdapterChecks() {
    check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
   // R298: the row moved up (name 29, bar 50..70, label at 92) so the label keeps 6px from both the bar and the line.
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
-  // R327: the label follows RYW.mode (adult here), so the checks read the drawn words from bandLabel.
-  {const POW=R.Shooter._sim.bandLabel('power'),HALF=R.Shooter._sim.bandLabel('half');const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=70+6&&d.y+12+2.5<=113-6;};
-   check('R102: きみの こうげき の字が上の帯の線にかからない',fits(POW),drawn.filter(d=>d.text===POW).at(-1));
-   {const lab=drawn.filter(d=>d.text===POW).at(-1);check('R169: きみの こうげき の字は棒(x=440から)の手前で止まる',!!lab&&lab.x+2.5<=440-4,lab);}
+  // R327: the label follows RYW.mode (adult here), so the layout checks run in both modes and read the drawn words from bandLabel.
+  for(const mode of ['adult','kids']){handle.stop();R.setMode(mode);drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
+  const POW=R.Shooter._sim.bandLabel('power'),HALF=R.Shooter._sim.bandLabel('half');const fits=t=>{const d=drawn.filter(d=>d.text===t).at(-1);return !!d&&d.y-12-2.5>=70+6&&d.y+12+2.5<=113-6;};
+   check('R102: '+POW+' の字が上の帯の線にかからない',fits(POW),drawn.filter(d=>d.text===POW).at(-1));
+   {const lab=drawn.filter(d=>d.text===POW).at(-1);check('R169: '+POW+' の字は棒(x=440から)の手前で止まる',!!lab&&lab.x+2.5<=440-4,lab);}
    const src=fs.readFileSync(shooterPath,'utf8');
    check('R102: こうげき の棒は線の上で止まり、HPの枠にもかからない',/var LABEL_Y = 92;/.test(src)&&/var x = 20, y = 50, bw = W - 40, bh = 20;/.test(src)&&/bh = 8 \+ i \* 5/.test(src)&&/LABEL_Y \+ 11 - bh/.test(src));
    check('R102: チャレンジのステージの字も同じ段、BPM の帯は上がったHPの枠を隠す',/'ステージ ' \+ w\.stage, 20, LABEL_Y,/.test(src)&&/fillRect\(12, 45, 516, 30\)/.test(src));
@@ -682,10 +683,11 @@ async function browserAdapterChecks() {
    check('R298: BPM とフィーバーの帯は字を中に収め、右の字の段にかからない',(src.match(/fillRect\(12, 45, 516, 30\)/g)||[]).length===2&&/'BPM ' \+ r\.bpm \+ '！', W \/ 2, 60,/.test(src)&&/'フィーバー！', W \/ 2, 60,/.test(src)&&45+30<=92-12-2.5&&45<=60-14.5&&60+14.5<=75);
    check('R298: ボスの名前とコンボは帯とHPの枠の上で止まる',/d\.name, 20, 29,/.test(src)&&/'コンボ ' \+ r\.combo, 520, 29,/.test(src)&&29+13+2.5<=45&&29+13+2.5<=50-1-3);
    handle.stop();drawn.length=0;handle=R.Shooter.start({boss:'kateino',platform});await ready();await advance(1.2);
-   check('R102: ボスへの ダメージ はんぶん の字が上の帯の線にかからない',fits(HALF),drawn.filter(d=>d.text===HALF).at(-1));
+   check('R102: '+HALF+' の字が上の帯の線にかからない',fits(HALF),drawn.filter(d=>d.text===HALF).at(-1));
    // R169: the label said only ダメージ はんぶん / こうげき; it now names whose damage and attack it means, and stays clear of the boss name and the HP bar.
    {const lab=drawn.filter(d=>d.text===HALF).at(-1),labLeft=lab&&lab.x-[...lab.text].reduce((a,ch)=>a+(ch.charCodeAt(0)<128?.58:1),0)*24;
-    check('R169: ボスへの ダメージ の字は画面の中に収まる',!!lab&&labLeft>=20&&lab.x<=540-20,{labLeft,x:lab&&lab.x});}}
+    check('R169: '+HALF+' の字は画面の中に収まる',!!lab&&labLeft>=20&&lab.x<=540-20,{labLeft,x:lab&&lab.x});}}
+  R.setMode('adult');
   // R104: with 7 or 8 voices the circles ran into the つながり label on the right of the top band.
   for(const n of [6,8]){handle.stop();drawn.length=0;const voices=Array.from({length:n},(_,i)=>({name:'v'+i,text:'こえ'+i}));
    handle=R.Shooter.start({boss:'zero',platform,lines:{voices}});await ready();await advance(1.2);
@@ -709,7 +711,7 @@ async function browserAdapterChecks() {
     check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
     check('stage '+n+' の「ステージ」はBPM帯(y45-75)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12-2.5>=75&&stageLabel.y+12+2.5<=113,stageLabel);
     await advance(3);
-    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|あなたの攻撃|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
+    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|攻撃力|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);
     if(n===20){win.__shooter.debugCombo(12);win.__shooter.debugSetHearts(0);await advance(1.2);check('onEndは到達stage/コンボ/score/cheatedを返す',ended&&ended.stage===20&&ended.bestCombo===12&&typeof ended.score==='number'&&ended.cheated===false);}
     handle.stop();
@@ -1056,11 +1058,11 @@ async function browserAdapterChecks() {
 // R327: the boss band's hint label (ダメージ 2ばい / はんぶん / こうげき) stayed in hiragana in adult mode; adult mode reads it in kanji now.
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
-  globalThis.RYW.setMode('adult'); const a = ['crack', 'half', 'power'].map(sim.bandLabel);
-  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 ' && a[1] === 'ボスへのダメージ 半分' && a[2] === 'あなたの攻撃', a);
-  check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0] + '10') <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
-  globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(sim.bandLabel);
-  check('R327: こどもモードの上の帯の字は今までどおり', k[0] === 'ボスへの ダメージ 2ばい ' && k[1] === 'ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
+  globalThis.RYW.setMode('adult'); const a = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
+  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === 'ボスへのダメージ 半分' && a[2] === '攻撃力', a);
+  check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0]) <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
+  globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
+  check('R327: こどもモードの上の帯の字は今までどおり', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
   globalThis.RYW.setMode(old || 'kids');
 })();
 
