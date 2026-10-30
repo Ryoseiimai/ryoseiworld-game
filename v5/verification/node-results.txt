@@ -55,6 +55,7 @@ R133: こうえん の看板は、主人公が板の上の何もない所にい�
 R134: 戦闘の「RYOSEI／HP」の欄・話の窓・ボタンが重ならない PASS
 R105: タイトルの案内が出ても、ボタンが町の絵に乗らず道の上に残る PASS
 R106: きずなの一覧で、名前とハートを1行にまとめた（R36 の確かめで見る） PASS
+R325: ネオンのかずの人の前では、ボタンが「調べる」ではなく「話す」になる PASS
 ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps; R96 signs on a dark plate PASS
 R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS
 R25: ミオの雨の日（かさに いれる で きずな3・コトバイルカが 仲間に なる）とほんやく（てきが 1かい やすむ）PASS

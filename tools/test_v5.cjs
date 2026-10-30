@@ -841,7 +841,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));const D=r.g.GAME_DATA,m=D.maps.neon,st=r.g.state;
   for(const id of ['popup','infload','vacuum','hallucination'])assert(m.enemies.some(e=>e.type===id),'neon has a '+id+' zako');
-  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='numberperson'&&o.sign,id+' is a numbered person');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
+  for(const id of ['neon_num1','neon_num2','neon_num3','neon_num4']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='numberperson'&&o.sign,id+' is a numbered person');r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.tick(16);assert.equal(r.els.get('talk-btn').textContent,r.g.state.mode==='adult'?'話す':'はなす',id+': a numbered person gets 「話す」, not 「調べる」 (R325)');assert(talk(r,'neon',o.x,o.y+1.1).length>0,id+' talks');while(r.g.dialogue)r.dialogue();}
   // R69: a number never sits on a street light (the lamp heads are drawn where the number floats).
   for(const o of m.objects.filter(x=>x.kind==='numberperson'))for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')))assert(Math.abs(o.x-l.x)>=1.5||Math.abs(o.y-l.y)>=2.5,o.id+' stands clear of '+l.id+' ('+o.x+','+o.y+' vs '+l.x+','+l.y+')');
   // R64: the number floats above the person's head, not on the face.
@@ -896,6 +896,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const before2=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);const doubleDmg=before2-r.g.battle.enemy.hp;
   assert(doubleDmg>=halfDmg*3,'けんさく のあとはダメージ2倍（半分→2倍で4倍前後）: '+halfDmg+' -> '+doubleDmg);
   assert(Number.parseFloat(r.els.get('enemy-meter').style.width)<100,'the real HP bar shows once revealed');}
+ result.push('R325: ネオンのかずの人の前では、ボタンが「調べる」ではなく「話す」になる PASS');
  result.push('ネオンシティ R38: numbered people, popup / infinite-loading / rampaging-vacuum zako; R46 ハルシネーション fake HP bar, half damage before サーチフクロウ and double after; R89 signs drawn over lamps; R96 signs on a dark plate PASS');
  // R24: 壁画のペイントキメラ（いっしょに かく／スプライトせいせい＝みがわり）とハッカーのお姉さん（また会う／きずな3でサーバークジラ＝バックアップ）。
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
