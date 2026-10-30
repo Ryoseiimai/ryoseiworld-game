@@ -16,7 +16,7 @@
  *              steps:[[話し手,文]x3], ready, use:[話し手,文], voices:[{name,text,spirit}]}
  *   platform   v5 の platform（onPause/onResume/isAudioEnabled/onAudioChange を使う）。無いときは visibilitychange で止める
  *   onWin(result)   勝ったあと、画面を閉じてから呼ぶ。result = {boss, seconds, hearts, maxHearts, hurts, cheated, bestCombo, score}
- *   onLose(choice)  負けて選んだあと、画面を閉じてから呼ぶ。choice = 'retry'（すぐ やりなおす）か 'town'（まちに もどる）
+ *   onLose(choice)  負けて選んだあと、画面を閉じてから呼ぶ。choice = 'retry'（すぐ やりなおす・おとなは すぐやり直す）か 'town'（まちに もどる・おとなは 町に戻る）
  *                   onLose が無いときだけ、'retry' で自分から始め直す
  * 戻り値: { stop(), state }
  * 検証用: window.__shooter（state・bossHp・hearts など）と debugWin()・debugSetHearts(n)・debugSetBossHp(n)・debugCollect()・debugGod()。
@@ -1142,7 +1142,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -1472,9 +1472,9 @@
     rootEl.innerHTML = '<div class="rs-backdrop" aria-hidden="true"></div><div class="rs-stage"><canvas width="540" height="960" aria-hidden="true"></canvas>' +
       '<button type="button" class="rs-skill" aria-label="' + skillLabel('top') + '"><span class="rs-top">' + skillLabel('top') + '</span><span class="rs-main"></span><i></i></button>' +
       '<button type="button" class="rs-beat" aria-label="ビート Z">ビート</button>' +
-      '<div class="rs-pause" hidden>ひとやすみ</div>' +
+      '<div class="rs-pause" hidden>' + panelLabel('pause') + '</div>' +
       '<div class="rs-panel" hidden><span class="rs-who">ソラ</span><span class="rs-big">もういちど！</span>' +
-      '<button type="button" class="rs-primary" data-choice="retry">すぐ やりなおす</button><button type="button" data-choice="town">まちに もどる</button></div></div>';
+      '<button type="button" class="rs-primary" data-choice="retry">' + panelLabel('retry') + '</button><button type="button" data-choice="town">' + panelLabel('town') + '</button></div></div>';
     document.body.appendChild(rootEl);
     S.root = rootEl;
     S.stage = rootEl.querySelector('.rs-stage');
@@ -2583,6 +2583,14 @@
     if (k === 'charging') return adult ? 'ため中' : 'ためちゅう';
     if (k === 'broke') return adult ? '切れた！' : 'きれた！';
     return adult ? '特技' : 'とくぎ';
+  }
+  // R331: the pause screen and the two choices after a loss are menu words, so adult mode reads them in kanji (一休み as the town menu).
+  // ソラ's もういちど！ above them is a line of the story and stays as it is.
+  function panelLabel(k) {
+    var adult = RYW.mode === 'adult';
+    if (k === 'retry') return adult ? 'すぐやり直す' : 'すぐ やりなおす';
+    if (k === 'town') return adult ? '町に戻る' : 'まちに もどる';
+    return adult ? '一休み' : 'ひとやすみ';
   }
   function updateButton(S) {
     var w = S.world, mode = skillMode(w), p = w.p, label = 'ー', cls = 'rs-off', gauge = 0;

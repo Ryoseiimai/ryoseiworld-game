@@ -1109,6 +1109,16 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R331: the pause screen (ひとやすみ) and the choices after a loss (すぐ やりなおす / まちに もどる) stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode, keys = ['pause', 'retry', 'town'];
+  globalThis.RYW.setMode('adult');
+  check('R331: おとなモードの一時停止と負けた後のボタンは漢字まじり', keys.map(k => sim.panelLabel(k)).join('|') === '一休み|すぐやり直す|町に戻る', keys.map(k => sim.panelLabel(k)));
+  globalThis.RYW.setMode('kids');
+  check('R331: こどもモードは今までどおり', keys.map(k => sim.panelLabel(k)).join('|') === 'ひとやすみ|すぐ やりなおす|まちに もどる', keys.map(k => sim.panelLabel(k)));
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
