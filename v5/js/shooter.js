@@ -406,6 +406,17 @@
   var READ_T0 = 1.0, READ_CPS = 8;
   function readDur(text, dur) { return Math.max(dur, READ_T0 + String(text).replace(/\s/g, '').length / READ_CPS); }
   function ramp(w) { return clamp((w.playT - HINT_T) / RAMP_T, 0, 1); }
+  // R328: SPEC_V7_MANABU.md 9: the notices about damage and attack power are hints like the band label (R327),
+  // so adult mode reads them in kanji (攻撃力 as on the status screen, 秒 like cooldownLabel), and so do the pickup names under them.
+  function noticeText(k) {
+    var adult = RYW.mode === 'adult';
+    if (k === 'crack') return adult ? 'ひびが入った！\n' + SHOW_TIME + '秒 ボスへのダメージ 2倍' : 'ひびが はいった！\n' + SHOW_TIME + 'びょう ダメージ 2ばい';
+    if (k === 'immune') return adult ? '攻撃が効かない…' : 'こうげきが きかない…';
+    if (k === 'paceItem') return adult ? '自分のペース' : 'じぶんの ペース';
+    if (k === 'makeItem') return adult ? '作る' : 'つくる';
+    if (k === 'down') return adult ? '数字に当たって 攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
+    return adult ? '自分のペースで作った。\n攻撃力が1段 戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
+  }
   function toast(w, text, dur) { if (text) w.toast = { text: String(text), t: w.t, dur: dur || 2.4 }; }
   function ticker(w, text) {
     var x = W + 20;
@@ -561,7 +572,7 @@
     m.showed = true;
     w.b.hurtT = 0.6; w.shake = Math.max(w.shake, 10); w.flash = Math.max(w.flash, 0.45); w.hitstop = Math.max(w.hitstop, 0.15);
     burst(w, w.lines.show[0], w.lines.show[1], 2.2, true);
-    toast(w, 'ひびが はいった！\n10びょう ダメージ 2ばい', 3);
+    toast(w, noticeText('crack'), 3);
     sparks(w, w.b.x - 40, w.b.y, 26, '#ffd27a', 260);
     emit(w, 'show');
   }
@@ -850,7 +861,7 @@
       if (d.through) { s.ghost = true; continue; }
       if (d.immune) {
         s.dead = true; sparks(w, s.x, s.y, 3, '#b9a7ff', 120);
-        if (!w.m.toldImmune) { w.m.toldImmune = true; toast(w, 'こうげきが きかない…', 2); }
+        if (!w.m.toldImmune) { w.m.toldImmune = true; toast(w, noticeText('immune'), 2); }
         continue;
       }
       if (s.kind === 'tiger') s.hitBoss = true; else s.dead = true;
@@ -928,7 +939,7 @@
     setCombo(w, 0);
     p.inv = 0.4;
     m.down = Math.min(3, m.down + 1);
-    toast(w, 'すうじに あたって こうげきりょく が さがった', 2.2);
+    toast(w, noticeText('down'), 2.2);
     sparks(w, p.x, p.y, 10, '#ffcf4a', 180); w.shake = Math.max(w.shake, 5);
     emit(w, 'down');
     return true;
@@ -997,7 +1008,7 @@
     emit(w, 'pickup');
     if (pk.kind === 'pace') {
       m.down = Math.max(0, m.down - 1);
-      toast(w, 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！', 2.6);
+      toast(w, noticeText('pace'), 2.6);
       m.paceAt = w.playT + (m.down > 0 ? 8 : 16);
     } else if (pk.kind === 'make') {
       m.made++;
@@ -1127,7 +1138,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2012,7 +2023,7 @@
       if (pk.kind === 'pace') drawSprite(ctx, S, 'spirits', 1, 3, pk.x, pk.y, 40);
       else if (pk.kind === 'make') drawSprite(ctx, S, 'items', 0, 2, pk.x, pk.y, 34);
       else { var sd = spiritDef((pk.data && pk.data.spirit) || 'spirit:0'); if (sd) drawSprite(ctx, S, sd.sheet, sd.frame[0], sd.frame[1], pk.x, pk.y, 40); }
-      var label = pk.kind === 'pace' ? 'じぶんの ペース' : pk.kind === 'make' ? 'つくる' : ((pk.data && pk.data.name) || 'こえ');
+      var label = pk.kind === 'pace' ? noticeText('paceItem') : pk.kind === 'make' ? noticeText('makeItem') : ((pk.data && pk.data.name) || 'こえ');
       ctx.font = '700 24px ' + FONT;
       outlinedText(ctx, label, pk.x, pk.y + 50);
     });

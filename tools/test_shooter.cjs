@@ -711,7 +711,7 @@ async function browserAdapterChecks() {
     check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
     check('stage '+n+' の「ステージ」はBPM帯(y45-75)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12-2.5>=75&&stageLabel.y+12+2.5<=113,stageLabel);
     await advance(3);
-    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|攻撃力|つながり|たまは とどかない|こうげきが きかない/.test(d.text)));
+    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|攻撃力|つながり|たまは とどかない|こうげきが きかない|攻撃が効かない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);
     if(n===20){win.__shooter.debugCombo(12);win.__shooter.debugSetHearts(0);await advance(1.2);check('onEndは到達stage/コンボ/score/cheatedを返す',ended&&ended.stage===20&&ended.bestCombo===12&&typeof ended.score==='number'&&ended.cheated===false);}
     handle.stop();
@@ -1063,6 +1063,20 @@ async function browserAdapterChecks() {
   check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0]) <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
   globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
   check('R327: こどもモードの上の帯の字は今までどおり', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
+// R328: the notices about damage and attack power (ひびが はいった / こうげきりょく が さがった / もどった) stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
+  globalThis.RYW.setMode('adult'); const a = ['crack', 'down', 'pace'].map(k => sim.noticeText(k));
+  check('R328: おとなモードのお知らせは漢字まじり', a[0] === 'ひびが入った！\n10秒 ボスへのダメージ 2倍' && a[1] === '数字に当たって 攻撃力が下がった' && a[2] === '自分のペースで作った。\n攻撃力が1段 戻った！', a);
+  check('R328: おとなのお知らせは1行ずつ箱の中（440px）に収まる', a.every(t => t.split('\n').every(l => wide(l) <= 440)), a.map(t => t.split('\n').map(wide)));
+  const b = ['immune', 'paceItem', 'makeItem'].map(k => sim.noticeText(k));
+  check('R328: おとなモードの「攻撃が効かない」と拾う物の名前も漢字まじり', b.join('|') === '攻撃が効かない…|自分のペース|作る', b);
+  globalThis.RYW.setMode('kids'); const k = ['crack', 'down', 'pace'].map(k => sim.noticeText(k));
+  check('R328: こどもモードの「こうげきが きかない」と拾う物の名前は今までどおり', ['immune', 'paceItem', 'makeItem'].map(k => sim.noticeText(k)).join('|') === 'こうげきが きかない…|じぶんの ペース|つくる');
+  check('R328: こどもモードのお知らせは今までどおり', k[0] === 'ひびが はいった！\n10びょう ダメージ 2ばい' && k[1] === 'すうじに あたって こうげきりょく が さがった' && k[2] === 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！', k);
   globalThis.RYW.setMode(old || 'kids');
 })();
 
