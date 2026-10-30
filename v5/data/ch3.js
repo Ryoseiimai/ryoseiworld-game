@@ -72,7 +72,7 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[24,25.8],sign:'そとへ'}]};
 // FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
-const bossQuest={text:'スタジアムの ヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
+const bossQuest={text:'スタジアムの ヒカクマオウへ',adult:'スタジアムのヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
 // R50: a small reception room, using the existing interior and attendant art.
 // R26: ヒカクマオウ stands at the back of the stadium floor (art-20261010-hikaku_throne).
 maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
@@ -88,7 +88,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // __v5.debugStartChapter(3): chapters 1 and 2 are done and the train runs.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // The quest steps for recruit/key/zako come with the people and noises (R24・R25・R38). Until then the stadium boss is reachable directly (no requires on the object).
- quests:{cleared:{text:'まちが すこし おだやかに なった。'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
+ quests:{cleared:{text:'まちが すこし おだやかに なった。',adult:'町が少し穏やかになった。'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   zako:{text:'ネオンの ノイズを しずめよう {n}/{goal}',adult:'ネオンのノイズを静めよう {n}/{goal}',dest:'enemy'},
   key:bossQuest,battery:bossQuest,recruit:bossQuest,boss:bossQuest},
  // R24: ペイントキメラ (sprite: a mirror image catches the enemy's next hit) and サーバークジラ (backup: saves the current HP, one rescue within 3 turns).
