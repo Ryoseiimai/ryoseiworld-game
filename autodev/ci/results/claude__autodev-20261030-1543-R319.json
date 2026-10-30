@@ -1,0 +1,37 @@
+{
+  "branch": "claude/autodev-20261030-1543-R319",
+  "sha": "f62b8ac9978c9fd17332e45912db59b9044008d5",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: R319: adult menu title",
+    "+ actual - expected",
+    "+ 'モードを えらぶ'",
+    "- 'undefinedと一休み'",
+    "    at /tmp/tmp.yx9Dd0oky9/tree-claude__autodev-20261030-1543-R319/tools/test_v5.cjs:2515:30 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: 'モードを えらぶ',",
+    "  expected: 'undefinedと一休み',",
+    "  operator: 'strictEqual',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/559/mobile-02-mode-select.jpg",
+    "devlog/shots/559/mobile-15-custom-full-run.jpg",
+    "devlog/shots/559/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/559/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-10-30T07:00:01.900Z",
+  "merged_sha": null,
+  "tested_base": "b7871e37514e17da3d070e4a9de0962e16650134",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41016173457"
+}
