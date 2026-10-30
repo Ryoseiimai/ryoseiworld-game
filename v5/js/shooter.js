@@ -1842,7 +1842,7 @@
     if (!S.loaded) {
       ctx.fillStyle = '#0a1220'; ctx.fillRect(0, 0, W, H);
       ctx.font = '700 26px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, 'ボスせんを じゅんびちゅう…', W / 2, H / 2);
+      outlinedText(ctx, panelLabel('loading'), W / 2, H / 2);
       updateButton(S);
       return;
     }
@@ -2590,6 +2590,7 @@
     var adult = RYW.mode === 'adult';
     if (k === 'retry') return adult ? 'すぐやり直す' : 'すぐ やりなおす';
     if (k === 'town') return adult ? '町に戻る' : 'まちに もどる';
+    if (k === 'loading') return adult ? 'ボス戦を準備中…' : 'ボスせんを じゅんびちゅう…'; // R332: the screen while the pictures load
     return adult ? '一休み' : 'ひとやすみ';
   }
   function updateButton(S) {

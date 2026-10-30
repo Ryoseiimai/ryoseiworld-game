@@ -1119,6 +1119,16 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R332: the loading screen before a boss fight (ボスせんを じゅんびちゅう…) stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode;
+  globalThis.RYW.setMode('adult');
+  check('R332: おとなモードのボス戦の準備中は漢字まじり', sim.panelLabel('loading') === 'ボス戦を準備中…', sim.panelLabel('loading'));
+  globalThis.RYW.setMode('kids');
+  check('R332: こどもモードは今までどおり', sim.panelLabel('loading') === 'ボスせんを じゅんびちゅう…', sim.panelLabel('loading'));
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
