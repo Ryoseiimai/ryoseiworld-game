@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-22T19:33:22.620Z",
-  "branch": "claude/autodev-20261023-0341-R177",
-  "task": "R177 「はなす」ボタンの下に人がいる時、ボタンを上の空いた所へずらして人が見えるようにした",
-  "summary": "確認役が、右下の「はなす」ボタンが「いいね」の人などを隠すと挙げた\n下に人がいる時は、ボタンが96〜288px上の空いた所へずれるようにした\n押した時の沈みが残るよう translate で動かし、すぐ戻らない間を入れた",
-  "result": "pass",
-  "shots": [
-   "shots/327/mobile-02-mode-select.jpg",
-   "shots/327/mobile-15-custom-full-run.jpg",
-   "shots/327/mobile-27-chapter-2-play.jpg",
-   "shots/327/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ec358f0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39840093020"
- },
- {
   "at": "2026-10-22T21:48:48.943Z",
   "branch": "claude/autodev-20261023-0641-R178",
   "task": "R178 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "982ab4c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41051382578"
+ },
+ {
+  "at": "2026-10-30T13:00:24.834Z",
+  "branch": "claude/autodev-20261030-2126-R326",
+  "task": "R326 おとなモードのセーブがあっても、タイトルの「はじめから」「つづきから」と案内がひらがなだったので、おとなでは「始めから」「続きから」「続きは 第4章」などにした",
+  "summary": "おとなのセーブでタイトルの文字を漢字まじりにした\n消す前の確かめる窓も「始める」「前の記録は消えます」にした\n確認役が挙げた次の候補: ボス戦の上の欄・塔の札・きずなの字",
+  "result": "pass",
+  "shots": [
+   "shots/571/mobile-02-mode-select.jpg",
+   "shots/571/mobile-15-custom-full-run.jpg",
+   "shots/571/mobile-27-chapter-2-play.jpg",
+   "shots/571/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2c85a2c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41058255565"
  }
 ]
