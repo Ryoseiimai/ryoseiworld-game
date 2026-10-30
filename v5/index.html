@@ -390,6 +390,8 @@ function applyMode(){window.RYW?.setMode?.(g.mode);refreshCommandLabels();refres
 const menuLabel=(adultText,kidsText)=>g.mode==='adult'?adultText:kidsText;
 // R321: every menu's back button read 「もどる」 under kanji in adult mode; it reads 「戻る」 there now, and kids keep 「もどる」.
 const backLabel=()=>menuLabel('戻る','もどる');
+// R322: the cheats and challenge windows' start button read 「はじめる」 in adult mode too; it reads 「始める」 there now.
+const startLabel=()=>menuLabel('始める','はじめる');
 function clearWordCards(){wordQueue=[];wordCurrent=null;wordUntil=0;$('word-card').hidden=true;}
 function learnQuiet(id){if(!Object.hasOwn(window.RYW?.words||{},id)){if(window.RYW?.words)console.warn('RYW.learn: unknown id',id);return false;}if(g.words.includes(id))return false;g.words.push(id);return true;}
 function learn(id){if(!learnQuiet(id))return false;if(bossWordBatch){if(bossWordBatch.length<2)bossWordBatch.push(id);return true;}if(g.screen==='shooter'||dialogue||g.screen==='ending')return true;if(!wordCurrent){wordQueue.push(id);showWordCard();}else if(wordQueue.length<3)wordQueue.push(id);return true;}
@@ -471,7 +473,7 @@ function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||pro
  const buttons=[];
  if(owned)for(const [id,label] of Object.entries(CHEAT_LABELS))buttons.push({text:label+'\n'+(g.cheats[id]?'オン':'オフ'),action:()=>{g.cheats[id]=!g.cheats[id];if(g.cheats[id]&&['godmode','timescale'].includes(id))window.RYW.learn(id);saveGame(false);openCheats(next);}});
  else if(test){buttons.push({text:'［デバッグモードを ひらく］',action:()=>{Shop.buy('debugmode').then(ok=>{if(ok)openCheats(next);});}},{text:'もっているか たしかめる',action:()=>{Shop.restore().then(()=>openCheats(next));}});}
- if(next)buttons.push({text:'はじめる',action:()=>{closeModal();next();}});
+ if(next)buttons.push({text:startLabel(),action:()=>{closeModal();next();}});
  buttons.push({text:backLabel(),action:closeModal});
  const adult=g.mode==='adult';
  openModal('デバッグモード',owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ'),buttons,'cheats');return true;}
@@ -485,7 +487,7 @@ function runText(r){return menuLabel('今回ステージ ','こんかい ステ�
 // R148: the 通常 heading shows only next to a cheat record; alone it named nothing to compare with.
 function challengeRecords(){const c=g.challenge.bestCheat;return c.stage||c.bestCombo?menuLabel('通常\n','ふつう\n')+recordText(g.challenge.best)+menuLabel('\n\nチート付き\n','\n\nチートつき\n')+recordText(c):recordText(g.challenge.best);}
 function openChallenge(stage=1){if(!challengeUnlocked()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
- const begin=()=>startChallenge(stage);if(isPlayables())openModal('チャレンジ',recordText(g.challenge.best),[{text:'はじめる',action:begin},{text:backLabel(),action:closeModal}],'challenge');else openCheats(begin);return true;}
+ const begin=()=>startChallenge(stage);if(isPlayables())openModal('チャレンジ',recordText(g.challenge.best),[{text:startLabel(),action:begin},{text:backLabel(),action:closeModal}],'challenge');else openCheats(begin);return true;}
 function startChallenge(stage){const S=window.RYW.Shooter;if(!S?.start)return false;const cheats=activeCheats(),used=Object.values(cheats).some(Boolean);clearWordCards();screen('shooter');let ended=false;
  try{shooter=S.start({mode:'challenge',startStage:Math.max(1,Math.floor(num(stage,1))),weapons:g.weapons.filter(w=>w!=='fuku'),options:Object.assign(bossOptions(),{proto:g.proto,cheats}),hearts:3,platform,aiName:g.aiName,
   onEnd(result){if(ended)return;ended=true;shooter=null;screen('field');keys.clear();stick=null;immuneUntil=gameTime+2500;g.holdUntil=gameTime+300;inputGuardUntil=performance.now()+250;

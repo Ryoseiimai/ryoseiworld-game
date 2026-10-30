@@ -103,8 +103,8 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function visibility(hidden){document.hidden=hidden;for(const f of listeners.visibilitychange||[])f();}
   function start(mode='kids'){click('start-btn');assert.equal(g.modal,'mode-select');button(mode==='adult'?'おとなモード':'こどもモード');assert.equal(g.screen,'prologue');dialogue();assert.equal(g.screen,'naming');els.get('name-input').value='テストソラ';click('naming-confirm');dialogue();assert.equal(g.screen,'battle');tick(300);}
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
-  // R320: adult menus say 「戻る」 where kids menus say 「もどる」; button('もどる') finds either back button.
-  function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text)||text==='もどる'&&b.textContent==='戻る');assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
+  // R320: adult menus say 「戻る」 where kids menus say 「もどる」; button('もどる') finds either back button. R322: button('はじめる') finds 「始める」 too.
+  function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text)||text==='もどる'&&b.textContent==='戻る'||text==='はじめる'&&b.textContent==='始める');assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
   return {imageSrcs,RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
@@ -2525,6 +2525,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.mode='kids';for(const sub of ['ステータス','きずな','ことばノート']){r.click('menu-btn');r.button(sub);assert(labels().includes('もどる')&&!labels().includes('戻る'),'R321: kids '+sub+' back '+labels().join('/'));r.key('Escape');}
   const src=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(!/text:'もどる'|textContent='もどる'/.test(src),'R321: no menu back button is fixed to hiragana');}
  result.push('R321: メニューの「もどる」が、おとなモードでは「戻る」になる PASS');
+ // R322: the cheats and challenge start button read 「はじめる」 in adult mode; it reads 「始める」 there now, and kids keep 「はじめる」.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;
+  const labels=()=>[...r.els.get('modal-buttons').children].map(b=>b.textContent);
+  r.g.debugStartChallenge(1);assert(labels().includes('始める')&&!labels().includes('はじめる'),'R322: adult start '+labels().join('/'));r.key('Escape');
+  r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugStartChallenge(1);assert(labels().includes('はじめる')&&!labels().includes('始める'),'R322: kids start '+labels().join('/'));r.key('Escape');
+  const src=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(!/text:'はじめる',action:(begin|\(\)=>\{closeModal\(\);next)/.test(src),'R322: no start button is fixed to hiragana');}
+ result.push('R322: デバッグモードとチャレンジの「はじめる」が、おとなモードでは「始める」になる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
