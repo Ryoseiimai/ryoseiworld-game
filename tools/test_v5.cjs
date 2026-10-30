@@ -103,7 +103,8 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   function visibility(hidden){document.hidden=hidden;for(const f of listeners.visibilitychange||[])f();}
   function start(mode='kids'){click('start-btn');assert.equal(g.modal,'mode-select');button(mode==='adult'?'おとなモード':'こどもモード');assert.equal(g.screen,'prologue');dialogue();assert.equal(g.screen,'naming');els.get('name-input').value='テストソラ';click('naming-confirm');dialogue();assert.equal(g.screen,'battle');tick(300);}
   function resize(w,h){sandbox.window.innerWidth=w;sandbox.window.innerHeight=h;sandbox.innerWidth=w;sandbox.innerHeight=h;windowListeners.resize()}
-  function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text));assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
+  // R320: adult menus say 「戻る」 where kids menus say 「もどる」; button('もどる') finds either back button.
+  function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text)||text==='もどる'&&b.textContent==='戻る');assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
   return {imageSrcs,RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
@@ -964,7 +965,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   await r.g.save(false);const saved=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(saved.saveVersion,2);assert.deepEqual(saved.proto,received);
   const re=await runtime({saved:r.saved});re.tick();re.click('continue-btn');assert.deepEqual(plain(re.g.debugProto()),received);
   for(const proto of [undefined,null,[]]){const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...saved,proto})]])});old.tick();assert(!old.els.get('continue-btn').disabled);old.click('continue-btn');assert.equal(old.g.screen,'field');assert.deepEqual(plain(old.g.debugProto()),defaults);}
-  r.g.state.items.firstgame=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button('はじめて つくった ゲーム');assert.deepEqual(r.els.get('modal-buttons').children.map(b=>b.textContent),['あそぶ','しらべる','もどる']);r.button('しらべる');assert(r.els.get('modal-title').textContent.includes('v4'));assert.equal(r.els.get('modal-copy').textContent,r.g.GAME_DATA.items.firstgame.desc);r.button('もどる');r.button('あそぶ');
+  r.g.state.items.firstgame=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button('はじめて つくった ゲーム');assert.deepEqual(r.els.get('modal-buttons').children.map(b=>b.textContent),['遊ぶ','調べる','戻る']);r.button('調べる');assert(r.els.get('modal-title').textContent.includes('v4'));assert.equal(r.els.get('modal-copy').textContent,r.g.GAME_DATA.items.firstgame.desc);r.button('戻る');r.button('遊ぶ');
   const play=r.protoRuns.at(-1);assert.equal(play.mode,'play');assert.deepEqual(plain(play.state),received);r.click('menu-btn');assert.equal(r.g.modal,'');play.onDone(play.state);assert.equal(r.g.modal,'items');assert.equal(r.g.state.items.firstgame,1);
   r.tick(300);r.key('Escape');r.g.debugOpenProto('play');assert.equal(r.protoRuns.at(-1).mode,'play');r.protoRuns.at(-1).onDone(received);
   r.g.debugEvent([{proto:'play'},{flag:'playDone'}]);assert(!r.g.state.flags.playDone);r.protoRuns.at(-1).onDone(received);assert(r.g.state.flags.playDone);
@@ -2516,6 +2517,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.button('一休み');assert(r.g.paused,'R319: 一休み pauses');r.click('resume-btn');
   r.g.state.mode='kids';r.click('menu-btn');assert.equal(r.els.get('modal-title').textContent,ai+'と ひとやすみ','R319: kids menu title');assert(labels().includes(ai+'に はなす・セーブ')&&labels().includes('ひとやすみ'),'R319: kids menu buttons '+labels().join('/'));}
  result.push('R319: メニューの題と「話す・セーブ」「一休み」が、おとなモードでは漢字まじりになる PASS');
+ // R320: every menu's back button read 「もどる」 under kanji in adult mode; it reads 「戻る」 there now, and kids mode keeps 「もどる」.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(3000);r.g.debugWin();r.tick(2000);r.dialogue();r.tick(300);
+  const labels=()=>[...r.els.get('modal-buttons').children].map(b=>b.textContent);
+  for(const sub of ['ステータス','きずな','ことばノート','召喚獣','武器','アイテム']){r.click('menu-btn');r.button(sub);assert(labels().includes('戻る')&&!labels().includes('もどる'),'R320: adult '+sub+' back '+labels().join('/'));r.key('Escape');}
+  r.click('menu-btn');assert(labels().includes('戻る'),'R320: adult menu back');r.key('Escape');
+  r.g.state.mode='kids';for(const sub of ['ステータス','きずな','ことばノート']){r.click('menu-btn');r.button(sub);assert(labels().includes('もどる')&&!labels().includes('戻る'),'R320: kids '+sub+' back '+labels().join('/'));r.key('Escape');}
+  const src=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(!/text:'もどる'|textContent='もどる'/.test(src),'R320: no menu back button is fixed to hiragana');}
+ result.push('R320: メニューの「もどる」が、おとなモードでは「戻る」になる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.

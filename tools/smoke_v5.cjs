@@ -224,7 +224,7 @@ async function runViewport(browser, url, vp, errors, shots) {
           const opened = await page.evaluate(() => { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'きずな'); if (!b) return false; b.click(); return true; });
           await sleep(300);
           if (opened) {
-            const m = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'), cp = document.getElementById('modal-copy'), back = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる');
+            const m = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'), cp = document.getElementById('modal-copy'), back = [...document.querySelectorAll('#modal-buttons button')].find(x => (x.textContent === 'もどる' || x.textContent === '戻る'));
               const p = pn.getBoundingClientRect(), r = back ? back.getBoundingClientRect() : null;
               // R66: a long list scrolls inside #modal-copy, and もどる stays inside the panel and the screen without scrolling.
               return { top: pn.scrollTop + cp.scrollTop, over: pn.scrollHeight > pn.clientHeight + 4 || cp.scrollHeight > cp.clientHeight + 4,
@@ -247,8 +247,8 @@ async function runViewport(browser, url, vp, errors, shots) {
             if (m.cut) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the last visible line is cut ${m.cut}px into the line`) });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
-            await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる'); b && b.click(); } });
-            await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'もどる'); b && b.click(); } });
+            await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => (x.textContent === 'もどる' || x.textContent === '戻る')); b && b.click(); } });
+            await page.evaluate(() => { const mo = document.getElementById('modal'); if (mo && !mo.hidden) { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => (x.textContent === 'もどる' || x.textContent === '戻る')); b && b.click(); } });
             await sleep(200);
           } else skip('menu-bonds', 'no きずな button in the menu');
         } else skip('menu-bonds', '#menu-btn not visible');
