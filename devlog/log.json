@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-23T09:07:42.032Z",
-  "branch": "claude/autodev-art-20261023-174331",
-  "task": "絵",
-  "summary": "できた絵: minamo_boy",
-  "result": "conflict",
-  "shots": [],
-  "sha": "3f35edd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39926718715"
- },
- {
   "at": "2026-10-23T09:58:01.916Z",
   "branch": "claude/autodev-20261023-1821-R186",
   "task": "R186 ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませないよう、フィールドの台詞を変えた",
@@ -2968,5 +2958,20 @@
   ],
   "sha": "904c3cf",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41145623250"
+ },
+ {
+  "at": "2026-10-30T23:57:30.750Z",
+  "branch": "claude/autodev-20261031-0821-R339",
+  "task": "R339 町の戦いの後の文「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」がおとなモードでもひらがなだったので、おとなでは「修理された」「経験値…円をもらった」「レベル…になった」にした",
+  "summary": "町の戦いの後の文を、おとなでは「修理された」「経験値…円をもらった」にした\nレベルが上がった時の文も、おとなでは「レベル…になった！ 攻撃力+…」にした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/588/mobile-02-mode-select.jpg",
+   "shots/588/mobile-15-custom-full-run.jpg",
+   "shots/588/mobile-27-chapter-2-play.jpg",
+   "shots/588/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5df0ecb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41146673718"
  }
 ]
