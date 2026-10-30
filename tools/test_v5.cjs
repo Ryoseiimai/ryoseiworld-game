@@ -1281,10 +1281,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const btn=r.els.get('talk-btn');assert(btn,'the talk button exists');const town=r.g.GAME_DATA.maps.town;
   const objs=town.objects.filter(x=>x.dialogue||x.action||x.enter||x.event);let freeSpot=null;
   for(let y=2;y<town.h-2&&!freeSpot;y++)for(let x=2;x<town.w-2&&!freeSpot;x++)if(objs.every(q=>Math.hypot(q.x-x,q.y-y)>4))freeSpot=[x,y];
-  assert(freeSpot,'a spot far from people');r.g.debugWarp('town',freeSpot[0],freeSpot[1]);r.tick(16);assert(btn.classes.has('idle'),'nobody near: the button is see-through');assert.equal(btn.textContent,'はなす');
+  assert(freeSpot,'a spot far from people');r.g.debugWarp('town',freeSpot[0],freeSpot[1]);r.tick(16);assert(btn.classes.has('idle'),'nobody near: the button is see-through');assert.equal(btn.textContent,'話す','adult mode: 「話す」 (R324)');
   const p=town.objects.find(x=>(x.kind==='npc'||x.kind==='npc2')&&x.dialogue);assert(p,'a person in town');r.g.debugWarp('town',p.x,p.y+1);r.g.debugFace(3);r.tick(16);
-  assert.equal(btn.textContent,'はなす','still 「はなす」, so only the near flag changes the hud');assert(!btn.classes.has('idle'),'someone near: the button is solid');
-  r.click('talk-btn');assert(r.g.dialogue,'the button starts the talk');r.tick(16);assert(btn.hidden,'the button hides while talking');}
+  assert.equal(btn.textContent,'話す','still 「話す」, so only the near flag changes the hud');assert(!btn.classes.has('idle'),'someone near: the button is solid');
+  r.click('talk-btn');assert(r.g.dialogue,'the button starts the talk');r.tick(16);assert(btn.hidden,'the button hides while talking');
+  while(r.g.dialogue)r.dialogue();r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugWarp('town',p.x,p.y+1);r.g.debugFace(3);r.tick(16);assert.equal(btn.textContent,'はなす','kids mode: 「はなす」 (R324)');
+  const sign=town.objects.find(x=>x.dialogue&&x.kind!=='npc'&&x.kind!=='npc2'&&x.kind!=='door');assert(sign,'a thing to look at in town');{r.g.debugWarp('town',sign.x,sign.y+1);r.g.debugFace(3);r.tick(16);assert.equal(btn.textContent,'しらべる','kids mode: 「しらべる」 by a thing (R324) '+sign.id);r.g.state.mode='adult';r.RYW.setMode('adult');r.tick(16);assert.equal(btn.textContent,'調べる','adult mode: 「調べる」 by a thing (R324)');}}
+ result.push('R324: はなすボタンは、おとなでは「話す」「調べる」、こどもでは「はなす」「しらべる」 PASS');
  result.push('R77: 近くに誰もいない時、「はなす」ボタンが透けて下の人が見える PASS');
  // R78: the chapter name and the continue hint under the title buttons sit on a dark band, because the pale green ground (#6c927e) left them at about 2.3:1.
  {const cap=(html.match(/\.caption\{([^}]*)\}/)||[])[1]||'';const bg=cap.match(/background:rgba\((\d+),(\d+),(\d+),([\d.]+)\)/);
