@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T05:47:07.891Z",
-  "branch": "claude/autodev-20261023-1421-R182",
-  "task": "R182 コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた",
-  "summary": "コンビニの店員がレジの後ろに隠れ、頭しか見えなかった\n店員を少し奥に立たせ、上半身が見えるようにした（テストを足した）\n店員にはこれまでどおり話しかけられることを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/337/mobile-02-mode-select.jpg",
-   "shots/337/mobile-15-custom-full-run.jpg",
-   "shots/337/mobile-27-chapter-2-play.jpg",
-   "shots/337/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a169bef",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39907050455"
- },
- {
   "at": "2026-10-23T06:00:36.634Z",
   "branch": "claude/autodev-20261023-1421-R182",
   "task": "R182 コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "bf1cebb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41091697754"
+ },
+ {
+  "at": "2026-10-30T17:36:54.502Z",
+  "branch": "claude/autodev-20261031-0221-R333",
+  "task": "R333 ボス戦でバリアが弾を防いだ時の「if (バリア) → ふせぐ」がおとなモードでもひらがなだったので、おとなでは「if (バリア) → 防ぐ」にした",
+  "summary": "バリアが弾を防いだ時の字を、おとなでは「if (バリア) → 防ぐ」にした\n「しんぱいの かべ」「フクの ちからで」などは台詞として、ひらがなのまま残した\nブラウザの通し確認は自動確認に任せ、前と後のスクショを撮った",
+  "result": "pass",
+  "shots": [
+   "shots/580/mobile-02-mode-select.jpg",
+   "shots/580/mobile-15-custom-full-run.jpg",
+   "shots/580/mobile-27-chapter-2-play.jpg",
+   "shots/580/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2bb7868",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41098811930"
  }
 ]
