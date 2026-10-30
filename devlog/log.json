@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-21T01:17:03.017Z",
-  "branch": "claude/autodev-20261021-0942-R168",
-  "task": "R168 遊んで一番気になる所を1つ直す",
-  "summary": "町のノイズの帯が、主人公と話す相手と名前の札を横切っていた\n帯の位置を、主人公と相手と札を避けた行から選ぶようにした（空きが無い時は出さない）\nテストと前後のスクショ（docs/shots/R168）を足した。ヒカクマオウ戦のヒントが枠に付く件は、拡大すると余白があったので直していない",
-  "result": "pass",
-  "shots": [
-   "shots/306/mobile-02-mode-select.jpg",
-   "shots/306/mobile-15-custom-full-run.jpg",
-   "shots/306/mobile-27-chapter-2-play.jpg",
-   "shots/306/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2a58ff7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39525881746"
- },
- {
   "at": "2026-10-21T03:56:59.338Z",
   "branch": "claude/autodev-20261021-1241-R169",
   "task": "R169 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "315644f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40800877756"
+ },
+ {
+  "at": "2026-10-30T06:38:07.313Z",
+  "branch": "claude/autodev-20261029-1121-R318",
+  "task": "R318 2章から4章の案内「としょかんの おじいちゃんへ」などがおとなモードでもひらがなだったので、おとなでは「図書館のおじいちゃんへ」など漢字まじりにした（検索の機械・公園の壁・スタジアム・塔も）",
+  "summary": "2章から4章の案内9つを、おとなモードでは漢字まじりにした（図書館・検索の機械・公園の壁・塔など）\nこどもモードは今までどおり。前と後のスクショを v5/verification に入れた\n確認役の指摘は無し。ブラウザの全章の確認は自動確認に任せた",
+  "result": "pass",
+  "shots": [
+   "shots/558/mobile-02-mode-select.jpg",
+   "shots/558/mobile-15-custom-full-run.jpg",
+   "shots/558/mobile-27-chapter-2-play.jpg",
+   "shots/558/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "1886261",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41014037891"
  }
 ]
