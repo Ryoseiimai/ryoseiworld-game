@@ -1127,7 +1127,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2300,6 +2300,13 @@
   // R298: the label had 2px of air under the HP bar (then 58..80) and 1px over the line; the name moved to y29, the bar to 50..70
   // and the label to 92, so each gap is 6px or more. The BPM and フィーバー banners (45..75) cover only the bar, never the label.
   var LABEL_Y = 92;
+  // R327: SPEC_V7_MANABU.md 9: the band's hint label reads in kanji in adult mode, like the move hint and menus.
+  function bandLabel(k) {
+    var adult = RYW.mode === 'adult';
+    if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 ' : 'ボスへの ダメージ 2ばい ';
+    if (k === 'half') return adult ? 'ボスへのダメージ 半分' : 'ボスへの ダメージ はんぶん';
+    return adult ? 'あなたの攻撃' : 'きみの こうげき';
+  }
   function drawTopBand(ctx, S, w) {
     var d = w.def, b = w.b;
     var g = ctx.createLinearGradient(0, 0, 0, PLAY_T);
@@ -2312,11 +2319,11 @@
     // R169: say whose damage / attack the label is about, so the player can read it as a hint.
     if (w.mode !== 'challenge' && w.bossId === 'kateino') {
       var left = w.m.crackUntil - w.playT;
-      if (left > 0) outlinedText(ctx, 'ボスへの ダメージ 2ばい ' + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
-      else outlinedText(ctx, 'ボスへの ダメージ はんぶん', W - 20, LABEL_Y, '#c9d6e8');
+      if (left > 0) outlinedText(ctx, bandLabel('crack') + Math.ceil(left), W - 20, LABEL_Y, '#ffd76b');
+      else outlinedText(ctx, bandLabel('half'), W - 20, LABEL_Y, '#c9d6e8');
     } else if (w.mode !== 'challenge' && w.bossId === 'hikaku') {
       // Attack power as a meter: 4 bars at full power, one goes out per number hit (never below 1).
-      outlinedText(ctx, 'きみの こうげき', W - 110, LABEL_Y, '#ffe9a8');
+      outlinedText(ctx, bandLabel('power'), W - 110, LABEL_Y, '#ffe9a8');
       for (var i = 0; i < 4; i++) {
         var on = i < 4 - w.m.down, bh = 8 + i * 5, px = W - 100 + i * 21;
         ctx.fillStyle = on ? '#ffd24a' : 'rgba(255,255,255,0.16)'; ctx.fillRect(px, LABEL_Y + 11 - bh, 15, bh);
