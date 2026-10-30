@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T06:00:36.634Z",
-  "branch": "claude/autodev-20261023-1421-R182",
-  "task": "R182 コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた",
-  "summary": "コンビニの店員がレジの後ろに隠れ、頭しか見えなかった\n店員の絵だけを26ピクセル上にかき、上半身が見えるようにした\n立つ場所は変えず、レジの前から店員に話しかけられることをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/338/mobile-02-mode-select.jpg",
-   "shots/338/mobile-15-custom-full-run.jpg",
-   "shots/338/mobile-27-chapter-2-play.jpg",
-   "shots/338/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3d8c593",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39908360673"
- },
- {
   "at": "2026-10-23T06:52:48.238Z",
   "branch": "claude/autodev-20261023-1522-R183",
   "task": "R183 ボス戦で急に出てくる「フク」を、最初の会話でRYOSEIの虎の守護霊として紹介した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "2bb7868",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41098811930"
+ },
+ {
+  "at": "2026-10-30T18:09:54.880Z",
+  "branch": "claude/autodev-20261031-0237-R334",
+  "task": "R334 ソラとゲームを作る場面のボタンと案内「▶ じっこう」「さくひんだな へ おくる」「てんじょう」などがおとなモードでもひらがなだったので、おとなでは「▶ 実行」「作品棚へ送る」「天井」などにした",
+  "summary": "ゲームを作る場面のボタンと案内を、おとなでは「▶ 実行」「作品棚へ送る」などにした\n「はじめて つくった ゲーム」は道具の名前なので、ひらがなのまま残した\nwords.js を読まない試験ページでは、今までどおりこどもの字が出る",
+  "result": "pass",
+  "shots": [
+   "shots/581/mobile-02-mode-select.jpg",
+   "shots/581/mobile-15-custom-full-run.jpg",
+   "shots/581/mobile-27-chapter-2-play.jpg",
+   "shots/581/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8e71f5c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41102485914"
  }
 ]
