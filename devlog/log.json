@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-21T07:06:26.325Z",
-  "branch": "claude/autodev-20261021-1557-R172",
-  "task": "R172 ボス戦の始めにボスの台詞が「キックボードが うかんだ」の帯の下で出て、ひとりで読める時間が0.85秒しかない件を調べた（コードは変えていない）",
-  "summary": "R171: おさらいで間違えた時、選んだ答えも出すようにした。自動確認に通った\nR172: ボス戦の始めにボスの台詞がひとりで読める時間が0.85秒しかない件を調べた\n直すと前に決めた時間のテスト（R86・R158）を変えることになるので、コードは変えず人の番の行（R173）にした",
-  "result": "pass",
-  "shots": [
-   "shots/313/mobile-02-mode-select.jpg",
-   "shots/313/mobile-15-custom-full-run.jpg",
-   "shots/313/mobile-27-chapter-2-play.jpg",
-   "shots/313/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b9eb5eb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39559114820"
- },
- {
   "at": "2026-10-21T10:11:19.109Z",
   "branch": "claude/autodev-20261021-1842-R174",
   "task": "R174 おさらいで間違えた時の「〜の答えは」を「〜の意味は」にし、最後の行が「こと。」だけにならないようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "953680e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41027830402"
+ },
+ {
+  "at": "2026-10-30T09:44:31.210Z",
+  "branch": "claude/autodev-20261030-1821-R321",
+  "task": "R321 メニューの戻るボタンを、おとなモードでは「戻る」にする（後半。はじめてのゲームの「遊ぶ」「調べる」も。v5/index.html に backLabel() を足し、メニューの text:'もどる' をそれに替える。test_v5 に、おとなは「戻る」、こどもは「もどる」の確認を足す）",
+  "summary": "おとなモードのメニューの戻るボタンを「戻る」にし、こどもは「もどる」のままにした\nはじめてのゲームの「遊ぶ」「調べる」も、おとなでは漢字にした。テストとスモークは手元で通った\n「はじめる」「やめる」と、はじめてのゲームの中の「もどる」はひらがなのまま残っている",
+  "result": "pass",
+  "shots": [
+   "shots/565/mobile-02-mode-select.jpg",
+   "shots/565/mobile-15-custom-full-run.jpg",
+   "shots/565/mobile-27-chapter-2-play.jpg",
+   "shots/565/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "081d5e0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41034315288"
  }
 ]
