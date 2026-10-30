@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T04:47:06.391Z",
-  "branch": "claude/autodev-20261023-1321-R181",
-  "task": "R181 ヒカクマオウ戦の背景の看板が、中身の消えたすうじの箱に見えたので、青から紫の横長の板にした",
-  "summary": "ヒカクマオウ戦の背景の看板が主人公の高さで、すうじの箱に見えた\n看板を角の立った横長の板にし、色を青から紫だけにした（テストを足した）\nコンビニの店員がレジに隠れる件と、ソラの「じぶんの ペース」の台詞は次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/336/mobile-02-mode-select.jpg",
-   "shots/336/mobile-15-custom-full-run.jpg",
-   "shots/336/mobile-27-chapter-2-play.jpg",
-   "shots/336/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "34c44a7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39901499034"
- },
- {
   "at": "2026-10-23T05:47:07.891Z",
   "branch": "claude/autodev-20261023-1421-R182",
   "task": "R182 コンビニの店員がレジの後ろで頭しか見えなかったので、上半身が見える位置に立たせた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "cdff39c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41086020718"
+ },
+ {
+  "at": "2026-10-30T16:50:45.755Z",
+  "branch": "claude/autodev-20261031-0134-R332",
+  "task": "R332 ボス戦の読み込み中の「ボスせんを じゅんびちゅう…」がおとなモードでもひらがなだったので、おとなでは「ボス戦を準備中…」にした",
+  "summary": "ボス戦の読み込み中の字を、おとなでは「ボス戦を準備中…」にした\nゼロ戦の帯の「つながり」は「繋」が常用漢字でないので、ひらがなのまま残した\n鍵のブランチへの push は許可されず、鍵を取らずに進めた",
+  "result": "pass",
+  "shots": [
+   "shots/579/mobile-02-mode-select.jpg",
+   "shots/579/mobile-15-custom-full-run.jpg",
+   "shots/579/mobile-27-chapter-2-play.jpg",
+   "shots/579/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bf1cebb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41091697754"
  }
 ]
