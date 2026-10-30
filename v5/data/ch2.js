@@ -86,7 +86,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   // A reload before that plays this scene again (clearDone neonVisited in the engine; it also helps saves from before R37).
   minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{warp:'minamo',at:[17.8,13.6]},{wait:300},{say:'trainRide'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。'}],
   // The station: after chapter 2 the train goes back and forth (chapter 3 points its own station here too).
-  trainStop:[{if:'neonVisited',then:[{transport:'でんしゃ',copy:'どこへ いく？',stops:trainStops}],else:[{say:'trainWait'}]}],
+  trainStop:[{if:'neonVisited',then:[{transport:'でんしゃ',transportAdult:'電車',copy:'どこへ いく？',copyAdult:'どこへ行く？',stops:trainStops}],else:[{say:'trainWait'}]}],
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.
   // After the owl wakes he asks for an overdue book; the friend who may not go out still has it.
   minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'minamoBookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'minamoBookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'minamoBookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],

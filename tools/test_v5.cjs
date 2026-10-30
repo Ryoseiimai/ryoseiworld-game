@@ -1711,6 +1711,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',8,27);r.tick(300);r.g.state.battery=1;r.tick(300);assert.equal(r.els.get('toast').textContent,adult?'コンビニで充電できるよ':'コンビニで じゅうでん できるよ');
   r.g.state.battery=100;r.tick(300);r.g.interact();assert.equal(r.els.get('toast').textContent,adult?'向こうを向いて、もう一度。':'むこうを むいて、もう いちど。');}
  result.push('R336: おとなモードの町のお知らせ（保存した・保存できない・充電できる・向こうを向いて）を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R337: the bus and train stop menus read in kanji in adult mode (電車・どこへ行く？); kids keep でんしゃ・どこへ いく？. Place names stay.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  for(const [ev,title] of [['busStop','バス'],['trainStop',adult?'電車':'でんしゃ']]){r.g.debugSetFlag('minamoVisited');r.g.debugSetFlag('neonVisited');r.g.debugWarp('town',8,27);r.tick(300);r.g.debugEvent(ev);r.tick(300);
+   assert.equal(r.g.modal,'event',ev+' opens');assert.equal(r.els.get('modal-title').textContent,title);assert.equal(r.els.get('modal-copy').textContent,adult?'どこへ行く？':'どこへ いく？');
+   const names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert(names.includes('ミナモちょう'),'place names stay: '+names);r.button('やめる');r.tick(300);assert.equal(r.g.modal,'');}}
+ result.push('R337: おとなモードのバスと電車の行き先の画面を「電車」「どこへ行く？」で出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};

@@ -623,7 +623,8 @@ const EVENT_STEPS={
  battle:(s,next)=>{if(!startBattle(s.battle,s.id||'event-'+s.battle,false,{win:s.win,lose:s.lose,next}))next();},
  warp:(s,next)=>{if(!GAME_DATA.maps[s.warp]){console.warn('runEvent: unknown map',s.warp);next();return;}enterMap(s.warp,...(s.at||GAME_DATA.maps[s.warp].spawn));next();},
  // {transport:'バス',stops:[{text,map,at,if}]}: a stop with "if" shows only once that check passes.
- transport:(s,next)=>{const stops=s.stops.filter(t=>t.if==null||eventCheck(t.if));openModal(s.transport,s.copy||'どこへ いく？',[...stops.map(t=>({text:t.text,disabled:t.map===g.map,action:()=>{enterMap(t.map,...t.at);next();}})),{text:'やめる',action:()=>{closeModal();next();}}],'event');},
+ // R337: adult mode reads transportAdult / copyAdult (SPEC_V7_MANABU.md 9); place names stay as they are.
+ transport:(s,next)=>{const stops=s.stops.filter(t=>t.if==null||eventCheck(t.if));openModal(menuLabel(s.transportAdult??s.transport,s.transport),menuLabel(s.copyAdult??s.copy??'どこへ行く？',s.copy||'どこへ いく？'),[...stops.map(t=>({text:t.text,disabled:t.map===g.map,action:()=>{enterMap(t.map,...t.at);next();}})),{text:'やめる',action:()=>{closeModal();next();}}],'event');},
  // Bonds (SPEC_V6.md 2): {bond:'mother',n:1} raises that person's hearts (0-5); {gift:'rice',to:'mother'} hands over a liked item, once per kind.
  bond:(s,next)=>raiseBond(s.bond,s.n??1,next),
  gift:(s,next)=>giveGift(s.gift,s.to,next),
