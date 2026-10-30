@@ -12,6 +12,18 @@
   var VALUES = [3, 6, 9], MODES = ['lesson', 'play', 'playtest', 'sprite', 'text', 'deploy'];
   var current = null, platforms = new WeakMap();
 
+  // R334: the buttons and hints of the game-making screens use kanji in adult mode (SPEC_V7_MANABU.md 9).
+  var LABELS = { tapJump: ['押すとジャンプ', 'おすと ジャンプ'], lower: ['ジャンプを低く', 'ジャンプを ひくく'],
+    higher: ['ジャンプを高く', 'ジャンプを たかく'], run: ['▶ 実行', '▶ じっこう'], back: ['戻る', 'もどる'],
+    english: ['英語にする', 'えいごに する'], send: ['作品棚へ送る', 'さくひんだな へ おくる'], next: ['次へ', 'つぎへ'],
+    which: ['どっちの絵にする？', 'どっちの えに する？'], picked: ['この絵になった！', 'この えに なった！'],
+    canEnglish: ['タイトルを英語にできるよ', 'タイトルを えいごに できるよ'], askSend: ['町の作品棚へ送ろう', 'まちの さくひんだな へ おくろう'],
+    sending: ['送っている……', 'おくって いる……'], avoided: ['避けた ', 'よけた '], left: ['残り ', 'あと '], sec: ['秒', 'びょう'],
+    ceiling: ['天井', 'てんじょう'], hit: ['当たった！', 'あたった！'], running: ['実行中', 'じっこう ちゅう'],
+    hint: ['数を変えると跳び方が変わる', 'かずを かえると とびかたが かわる'], space: ['スペースでもジャンプ', 'スペースでも ジャンプ'],
+    pause: ['一休み', 'ひとやすみ'] };
+  function label(k) { return LABELS[k][RYW.mode === 'adult' ? 0 : 1]; }
+
   function normalize(s) {
     s = s || {};
     return { v: Number.isInteger(s.v) && s.v > 0 ? s.v : 1,
@@ -132,7 +144,7 @@
     else if (['sprite', 'text', 'deploy'].indexOf(s.mode) >= 0) s.finish();
     return s.handle;
   }
-  RYW.Proto = { open: open, _sim: { normalize: normalize, createWorld: createWorld,
+  RYW.Proto = { open: open, _sim: { label: label, normalize: normalize, createWorld: createWorld,
     step: step, jump: jump, runCycle: runCycle, createSession: createSession } };
   if (typeof module === 'object' && module.exports) module.exports = RYW.Proto;
   if (!hasDOM) return;
@@ -220,28 +232,28 @@
     if (!stub && s.mode !== 'playtest') {
       var field = button('jump', '', 0, 0, W, 480, doJump);
       field.style.cssText += 'background:transparent;border:0;border-radius:0;';
-      field.setAttribute('aria-label', 'おすと ジャンプ');
+      field.setAttribute('aria-label', label('tapJump'));
     }
     if (s.mode === 'lesson') {
       button('less', '◀', 240, 553, 60, 64, function () { s.setJump(VALUES[Math.max(0, VALUES.indexOf(s.state.jump) - 1)]); });
-      buttons.less.setAttribute('aria-label', 'ジャンプを ひくく');
+      buttons.less.setAttribute('aria-label', label('lower'));
       button('more', '▶', 380, 553, 60, 64, function () { s.setJump(VALUES[Math.min(2, VALUES.indexOf(s.state.jump) + 1)]); });
-      buttons.more.setAttribute('aria-label', 'ジャンプを たかく');
-      button('run', '▶ じっこう', 30, 686, 225, 72, s.run);
+      buttons.more.setAttribute('aria-label', label('higher'));
+      button('run', label('run'), 30, 686, 225, 72, s.run);
       button('undo', '↩ アンドゥ', 285, 686, 225, 72, s.undo);
       button('done', 'できた', 110, 812, 320, 80, s.finish);
-    } else if (s.mode === 'play') button('done', 'もどる', 110, 812, 320, 80, s.finish);
+    } else if (s.mode === 'play') button('done', label('back'), 110, 812, 320, 80, s.finish);
     else if (s.mode === 'sprite') {
       button('pickA', 'これにする', 50, 560, 200, 80, function () { pickSprite(1); });
       button('pickB', 'これにする', 290, 560, 200, 80, function () { pickSprite(2); });
       button('up-done', 'できた', 110, 760, 320, 80, s.finish);
     } else if (s.mode === 'text') {
       button('pickJa', 'このままで', 50, 560, 200, 80, function () { pickTitle('ja'); });
-      button('pickEn', 'えいごに する', 290, 560, 200, 80, function () { pickTitle('en'); });
+      button('pickEn', label('english'), 290, 560, 200, 80, function () { pickTitle('en'); });
       button('up-done', 'できた', 110, 760, 320, 80, s.finish);
     } else if (s.mode === 'deploy') {
-      button('send', 'さくひんだな へ おくる', 110, 640, 320, 80, sendDeploy);
-      button('next', 'つぎへ', 110, 700, 320, 80, nextFeedback);
+      button('send', label('send'), 110, 640, 320, 80, sendDeploy);
+      button('next', label('next'), 110, 700, 320, 80, nextFeedback);
       button('up-done', 'できた', 110, 760, 320, 80, s.finish);
     }
 
@@ -267,21 +279,21 @@
       if (s.mode === 'sprite') {
         show('pickA', up.phase === 'ask'); show('pickB', up.phase === 'ask'); show('up-done', up.phase === 'done');
         if (up.phase === 'ask') {
-          text('どっちの えに する？', 270, 380, '#b9cadc');
+          text(label('which'), 270, 380, '#b9cadc');
           drawSpritePreview(150, 1); drawSpritePreview(390, 2);
-        } else { text('この えに なった！', 270, 380, '#b9cadc'); drawSpritePreview(270, s.state.sprite);
+        } else { text(label('picked'), 270, 380, '#b9cadc'); drawSpritePreview(270, s.state.sprite);
           text('はじめて つくった ゲーム v' + s.state.v + ' に なった！', 270, 650, '#ffe29a', 26); }
       } else if (s.mode === 'text') {
         show('pickJa', up.phase === 'ask'); show('pickEn', up.phase === 'ask'); show('up-done', up.phase === 'done');
-        text('タイトルを えいごに できるよ', 270, 380, '#b9cadc');
+        text(label('canEnglish'), 270, 380, '#b9cadc');
         if (up.phase === 'done') {
           text(s.state.title === 'en' ? 'My First Game' : 'はじめての ゲーム', 270, 440, '#ffe29a', 30);
           text('はじめて つくった ゲーム v' + s.state.v + ' に なった！', 270, 650, '#ffe29a', 26);
         }
       } else if (s.mode === 'deploy') {
         show('send', up.phase === 'ask'); show('next', up.phase === 'feedback'); show('up-done', up.phase === 'done');
-        if (up.phase === 'ask') text('まちの さくひんだな へ おくろう', 270, 440, '#b9cadc');
-        else if (up.phase === 'sending') text('おくって いる……', 270, 440, '#b9cadc');
+        if (up.phase === 'ask') text(label('askSend'), 270, 440, '#b9cadc');
+        else if (up.phase === 'sending') text(label('sending'), 270, 440, '#b9cadc');
         else if (up.phase === 'feedback') {
           var f = FEEDBACK[up.feedbackIdx];
           text(f.who, 270, 410, '#b9e8df', 24); text(f.text, 270, 450, '#ffe29a', 28);
@@ -294,10 +306,10 @@
       ctx.setTransform(rs, 0, 0, rs, 0, 0); ctx.fillStyle = '#101e30'; ctx.fillRect(0, 0, W, H);
       text(s.state.title === 'en' ? 'My First Game' : 'はじめての ゲーム', 270, 44, '#ffe29a', 30);
       if (stub) { drawUp(); return; }
-      text('よけた ' + w.avoided, 30, 99, '#b9e8df', 24, 'left');
-      text('あと ' + Math.max(0, Math.ceil(CYCLE - w.t)) + 'びょう', 510, 99, '#b9e8df', 24, 'right');
+      text(label('avoided') + w.avoided, 30, 99, '#b9e8df', 24, 'left');
+      text(label('left') + Math.max(0, Math.ceil(CYCLE - w.t)) + label('sec'), 510, 99, '#b9e8df', 24, 'right');
       ctx.fillStyle = '#4b7381'; ctx.fillRect(24, CEILING - 3, 492, 3);
-      text('てんじょう', 24, CEILING + 24, '#b9cadc', 24, 'left');
+      text(label('ceiling'), 24, CEILING + 24, '#b9cadc', 24, 'left');
       ctx.fillStyle = '#3b6570'; ctx.fillRect(0, FLOOR, W, 6);
       // The camera follows a runner facing right; the floor scrolls left.
       ctx.fillStyle = '#203e50';
@@ -314,7 +326,7 @@
           ctx.fillRect(b.x + j % 4 * 8, FLOOR - 34 + Math.floor(j / 4) * 8, 8, 8);
         }
       });
-      if (w.hitLeft > 0) text('あたった！', 270, 145, '#ff9eb8', 28);
+      if (w.hitLeft > 0) text(label('hit'), 270, 145, '#ff9eb8', 28);
       else if (s.praise > 0 && s.mode === 'lesson') {
         // Bound a custom name without shrinking the required 24px text.
         ctx.font = '700 24px ' + FONT;
@@ -332,17 +344,17 @@
         ctx.beginPath(); ctx.arc(430, handY - 42, 10, 0, Math.PI * 2); ctx.fill();
         ctx.beginPath(); ctx.arc(430, handY, 26, 0, Math.PI * 2); ctx.fill();
       }
-      text(s.mode === 'playtest' ? 'プレイテスト' : s.running ? 'じっこう ちゅう' : 'おすと ジャンプ', 270, 450);
+      text(s.mode === 'playtest' ? 'プレイテスト' : s.running ? label('running') : label('tapJump'), 270, 450);
       if (s.mode === 'lesson') {
         ctx.fillStyle = '#0a1424'; ctx.fillRect(20, 514, 500, 134);
         ctx.font = '700 30px monospace'; ctx.textAlign = 'left'; ctx.fillStyle = '#c6e6ff'; ctx.fillText('let jump =', 50, 585);
         ctx.textAlign = 'center'; ctx.fillStyle = '#ffe29a'; ctx.fillText(String(s.state.jump), 340, 585);
         buttons.less.parentNode.setAttribute('aria-label', 'let jump = ' + s.state.jump);
-        text('かずを かえると とびかたが かわる', 270, 665, '#b9cadc');
+        text(label('hint'), 270, 665, '#b9cadc');
         buttons.less.disabled = s.state.jump === 3; buttons.more.disabled = s.state.jump === 9;
         buttons.done.className = s.elapsed >= 60 ? 'rp-glow' : '';
-      } else if (s.mode === 'play' && !touchOnly()) text('スペースでも ジャンプ', 270, 610, '#b9cadc'); // R156: no keyboard line on a touch-only device
-      if (s.paused) { ctx.fillStyle = 'rgba(10,18,32,.9)'; ctx.fillRect(0, 260, W, 110); text('ひとやすみ', 270, 315); }
+      } else if (s.mode === 'play' && !touchOnly()) text(label('space'), 270, 610, '#b9cadc'); // R156: no keyboard line on a touch-only device
+      if (s.paused) { ctx.fillStyle = 'rgba(10,18,32,.9)'; ctx.fillRect(0, 260, W, 110); text(label('pause'), 270, 315); }
     }
     function touchOnly() { return !!(document.documentElement && document.documentElement.classList.contains('touch-only')); }
     var inputVisible = false;

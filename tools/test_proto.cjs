@@ -260,5 +260,16 @@ test('デプロイ: おくる→3つの かんそう→バージョンが あが
   p.click('できた');
   assert.equal(result.v, 4); assert.equal(result.deployed, true);
 });
+test('R334: ゲームを作る画面のボタンは、おとなモードでは漢字まじり', () => {
+  const R = globalThis.RYW || (globalThis.window && globalThis.window.RYW), old = R.mode;
+  const keys = ['run', 'back', 'english', 'send', 'next', 'tapJump', 'lower', 'higher'];
+  R.mode = 'adult';
+  assert.equal(keys.map(sim.label).join('|'), '▶ 実行|戻る|英語にする|作品棚へ送る|次へ|押すとジャンプ|ジャンプを低く|ジャンプを高く');
+  R.mode = 'kids';
+  assert.equal(keys.map(sim.label).join('|'), '▶ じっこう|もどる|えいごに する|さくひんだな へ おくる|つぎへ|おすと ジャンプ|ジャンプを ひくく|ジャンプを たかく');
+  R.mode = 'adult';
+  assert.equal(['hint', 'askSend', 'sending', 'ceiling', 'running', 'pause'].map(sim.label).join('|'), '数を変えると跳び方が変わる|町の作品棚へ送ろう|送っている……|天井|実行中|一休み');
+  R.mode = old;
+});
 console.log('\n' + passed + ' passed, ' + failed + ' failed');
 if (failed) process.exitCode = 1;
