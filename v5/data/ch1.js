@@ -226,6 +226,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  snacks:[['おかしの たな','ポテチの ふくろが\nぜんぶ「よみこみちゅう」。']],
  magazine:[['ざっし','ひょうしの ひとが\nまばたき している。']],
  zakoWin:[['','{name}は\nしゅうりされた。'],['','けいけんち {exp}と\n{money}えんを もらった。']],
+ zakoWinAdult:[['','{name}は\n修理された。'],['','経験値 {exp}と\n{money}円をもらった。']],
  zakoLeft:[['ソラ','ノイズが ひとつ しずまった。\nあと {n}つ。']],
  zakoDone:[['ソラ','まちが しずかに なってきた。\nこうばんに いこう。']],
  makeGameAsk:[['ソラ','でかける まえに\nひとつ つくって みない？'],['RYOSEI','なにを？'],['ソラ','ちいさな ゲーム。\nいえの パソコンで。']],
@@ -233,7 +234,8 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  makeGameDone:[['','はじめて つくった\nゲームが できた！'],['ソラ','だれかに みせたく\nなったら みせよう。'],['ソラ','バスで となりの\nミナモちょうへ いこう。'],['ソラ','バスていは\nこうばんの よこだよ。']],
  busWait:[['バスてい','つぎの バスは\nノイズが はれてから。'],['ソラ','いまは まちを\nなおすのが さき。']],
  busRide:[['','バスに のった。'],['ソラ','つぎは ミナモちょう。\nかわぞいの まちだって。'],['RYOSEI','まどの そと、\nだれも あるいてない。']],
- levelUp:[['','レベル {lv} に なった！\nHP+{hp} こうげき+{atk}']]
+ levelUp:[['','レベル {lv} に なった！\nHP+{hp} こうげき+{atk}']],
+ levelUpAdult:[['','レベル {lv} になった！\nHP+{hp} 攻撃力+{atk}']]
  },
  enemies:{vending:{name:'バグったじはんき',frame:0,hp:38,attack:7,exp:12,money:30,level:1,color:['#334d66','#b99879'],hints:["おつりを とばす","おちゃを こぼす"],actions:['おつりを とばした！','ぬるい おちゃを こぼした！']},crow:{name:'グリッチカラス',frame:1,hp:30,attack:6,exp:10,money:24,level:1,color:['#384b63','#839885'],hints:["いちコマ とぶ","つつく"],actions:['いちコマ とんだ！','つつく ばしょを まちがえた！']},popup:{name:'ポップアップおばけ',status:'ひょうじバグ',frame:3,hp:45,attack:9,exp:16,money:38,level:2,color:['#594065','#bd867a'],hints:["「はい」の まど","まどを ふやす"],actions:['「はい」を おすすめした！','まどを ひとつ ふやした！']},bugking:{name:'BUG KING',boss:true,art:'bugking',animCols:3,specialEvery:3,specialDamage:5,hp:280,attack:12,exp:60,money:200,level:4,color:['#493857','#c49362'],hints:["エラーを はく","チャンネルを かえる","おうかんが ひかる"],actions:['エラーを はきだした！','チャンネルを まわした！','ノイズの おうかんが ひかった！'],bursts:[[.75,'// あとで直す'],[.5,'TODO: エラー処理'],[.25,'とりあえず動いた'],[0,'いつか だれかの\nやくに たつはず']]}},
  maps

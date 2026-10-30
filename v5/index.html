@@ -298,7 +298,8 @@ const textVars=()=>({yobidasu:word('yobidasu','よびだす')});
 // R310: a Latin name met a particle with no gap (「BUG KINGは」「BUG KINGが」) while the boss fight writes 「BUG KING は」, so a name ending in a Latin letter gets a space before the kana after it.
 function latinGap(s,next){return /[A-Za-z]$/.test(s)&&/[\u3040-\u30ff\u4e00-\u9fff]/.test(next||'')?s+' ':s;}
 function fillText(text,vars={}){const base=textVars();return text.replace(/\{(\w+)\}/g,(m,k,i,all)=>latinGap(String(vars[k]??base[k]??''),all[i+m.length]));}
-function lines(key,vars={}){return GAME_DATA.dialogue[key].map(([speaker,text,opt])=>[speaker,fillText(text,vars),opt]);}
+// R339: a system line (zakoWin, levelUp) may have a <key>Adult twin in kanji; adult mode reads that one (SPEC_V7_MANABU.md 9). Kids keep the hiragana one.
+function lines(key,vars={}){const D=GAME_DATA.dialogue;return(g.mode==='adult'&&D[key+'Adult']||D[key]).map(([speaker,text,opt])=>[speaker,fillText(text,vars),opt]);}
 function say(list,done){clearWordCards();keys.clear();stick=null;dialogue={lines:list,index:0,done};$('dialogue').hidden=false;renderLine();}
 function sayKey(key,done){say(lines(key),done);}
 function renderLine(){const [speaker,text,opt]=dialogue.lines[dialogue.index];$('speaker').textContent=speaker==='ソラ'?g.aiName:speaker;startTypewriter($('dialogue-text'),text);if(opt&&opt.show)g.recruitFx={id:opt.show,start:gameTime};}

@@ -1723,6 +1723,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    r.g.debugWarp(map,o.x,o.y+1.6);r.tick(300);r.key('ArrowUp');r.tick(150);r.key('ArrowUp',true);r.tick(300);r.canvasCalls.length=0;r.tick(16);const t=r.canvasCalls.filter(c=>c[0]==='fillText').map(c=>c[1]);
    assert(t.includes(want),map+'/'+id+' plate reads '+want+': '+t.filter(x=>/バス|えき|駅/.test(x)));assert(!t.includes(adult?(o.event==='busStop'?'バスてい':'えき'):(o.event==='busStop'?'バス停':'駅')),map+'/'+id+' no other mode plate');}}
  result.push('R338: おとなモードで町のバス停と駅の札を「バス停」「駅」で出し、こどもモードは「バスてい」「えき」のまま PASS');
+ // R339: after a town fight the field lines 「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」 read in kanji in adult mode; kids keep the hiragana ones.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  const st=r.g.state;st.exp=st.level*r.g.GAME_DATA.rules.expStep-1;r.g.debugStartBattle('popup','r339');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.g.debugWin();r.tick(2100);
+  assert(r.g.dialogue,mode+' field lines after the win');const seen=[];while(r.g.dialogue){seen.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}const all=seen.join('\n');
+  if(adult){assert(all.includes('修理された。')&&/経験値 \d+と\n\d+円をもらった。/.test(all)&&/レベル \d+ になった！\nHP\+\d+ 攻撃力\+\d+/.test(all),all);assert(!/しゅうりされた|けいけんち|えんを もらった|に なった！|こうげき/.test(all),'adult lines in kanji: '+all);}
+  else{assert(all.includes('しゅうりされた。')&&/けいけんち \d+と\n\d+えんを もらった。/.test(all)&&/レベル \d+ に なった！\nHP\+\d+ こうげき\+\d+/.test(all),all);assert(!/修理|経験値|円を|攻撃力/.test(all),'kids lines in hiragana: '+all);}}
+ result.push('R339: おとなモードで町の戦いの後の「修理された」「経験値と円をもらった」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
