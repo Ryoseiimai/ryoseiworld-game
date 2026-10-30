@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T00:59:29.620Z",
-  "branch": "claude/autodev-20261023-0941-R179",
-  "task": "R179 ボス戦の始めにことばカードが出ている間、「ゆびを すべらせて うごく」の案内がほぼ透明のまま止まっていたのを、濃く出るようにした",
-  "summary": "ボス戦の始めの移動の案内が、ことばカードの間ずっと6%の濃さで止まっていた\nカードで時計が止まる間も、案内を板ごと濃いまま出すようにした（テストを足した）\nスマホの前と後のスクショで、案内が読めるようになったのを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/332/mobile-02-mode-select.jpg",
-   "shots/332/mobile-15-custom-full-run.jpg",
-   "shots/332/mobile-27-chapter-2-play.jpg",
-   "shots/332/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a7e2871",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39880647335"
- },
- {
   "at": "2026-10-23T01:06:37.868Z",
   "branch": "claude/autodev-20261023-0941-R179",
   "task": "R179 ボス戦の始めにことばカードが出ている間、「ゆびを すべらせて うごく」の案内がほぼ透明のまま止まっていたのを、濃く出るようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "eacc7a2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41075088821"
+ },
+ {
+  "at": "2026-10-30T15:16:53.632Z",
+  "branch": "claude/autodev-20261031-0002-R329",
+  "task": "R329 ジブン戦とゼロ戦のお知らせ「いろが もどる」「しゅごれいが つながった」と帯の「いろ」がおとなモードでもひらがなだったので、おとなでは「ジブンに色が戻る」「守護霊がつながった」「色」にした",
+  "summary": "ジブン戦とゼロ戦のお知らせを、おとなでは「ジブンに色が戻る」「守護霊がつながった」にした\nジブン戦の上の帯の「いろ」も、おとなでは「色」にした\n確認役の指摘で、ボスの名前の「ジブン」はカタカナのまま残した",
+  "result": "pass",
+  "shots": [
+   "shots/575/mobile-02-mode-select.jpg",
+   "shots/575/mobile-15-custom-full-run.jpg",
+   "shots/575/mobile-27-chapter-2-play.jpg",
+   "shots/575/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f45f279",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41077305821"
  }
 ]
