@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-22T22:04:30.021Z",
-  "branch": "claude/autodev-20261023-0641-R178",
-  "task": "R178 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が、右下の「はなす」ボタンが「いいね」の人などを隠すと挙げた\n下に人がいる時は、ボタンが96〜288px上の空いた所へずれるようにした\n押した時の沈みが残るよう translate で動かし、すぐ戻らない間を入れた",
-  "result": "pass",
-  "shots": [
-   "shots/329/mobile-02-mode-select.jpg",
-   "shots/329/mobile-15-custom-full-run.jpg",
-   "shots/329/mobile-27-chapter-2-play.jpg",
-   "shots/329/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f619ee0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39861353927"
- },
- {
   "at": "2026-10-22T22:28:32.880Z",
   "branch": "claude/autodev-20261023-0641-R178",
   "task": "R178 上にずらした「はなす」ボタンが、街灯・信号・電柱・じはんきの上になるべく乗らないようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "b72e538",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41067241737"
+ },
+ {
+  "at": "2026-10-30T14:16:41.616Z",
+  "branch": "claude/autodev-20261030-2249-R327",
+  "task": "R327 ボス戦の上の帯の「ボスへの ダメージ はんぶん」「きみの こうげき」がおとなモードでもひらがなだったので、おとなでは「ボスへのダメージ 半分」「攻撃力」にした",
+  "summary": "ボス戦の上の帯の字を、おとなでは「ボスへのダメージ 半分」「2倍 残り10秒」にした\nヒカクマオウ戦の「きみの こうげき」は、おとなではステータスと同じ「攻撃力」にした\n字の収まりの確認を、おとなとこどもの両方の字で測るようにした",
+  "result": "pass",
+  "shots": [
+   "shots/573/mobile-02-mode-select.jpg",
+   "shots/573/mobile-15-custom-full-run.jpg",
+   "shots/573/mobile-27-chapter-2-play.jpg",
+   "shots/573/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2602daa",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41067466194"
  }
 ]
