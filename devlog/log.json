@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T06:52:48.238Z",
-  "branch": "claude/autodev-20261023-1522-R183",
-  "task": "R183 ボス戦で急に出てくる「フク」を、最初の会話でRYOSEIの虎の守護霊として紹介した",
-  "summary": "ボス戦の「フクの ちからで」が、だれのことか分からなかった\n最初の会話で、ソラとフクが虎の守護霊フク（帽子の福から）を紹介するようにした\n紹介の順と台詞をテストに足し、前と後のスクショを docs/shots/R183 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/339/mobile-02-mode-select.jpg",
-   "shots/339/mobile-15-custom-full-run.jpg",
-   "shots/339/mobile-27-chapter-2-play.jpg",
-   "shots/339/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "6999de5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39913432835"
- },
- {
   "at": "2026-10-23T08:07:13.509Z",
   "branch": "claude/autodev-20261023-1622-R184",
   "task": "R184 ネオンの道しるべの矢印が見えない敵を指していたので、画面に見えている敵を先に指すようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "8e71f5c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41102485914"
+ },
+ {
+  "at": "2026-10-30T18:55:18.014Z",
+  "branch": "claude/autodev-20261031-0321-R335",
+  "task": "R335 普通の戦いの結果の文「キーボードで カタカタ！」「を つかった。」「にげられない」などがおとなモードでもひらがなだったので、おとなでは「キーボードでカタカタ！」「を使った。」「逃げられない」などにした",
+  "summary": "普通の戦いの実行・for ループ・生成・アイテム・逃げるの結果の文を、おとなでは漢字まじりにした\n最初の戦いの「今は逃げられない」と「転がるHPも治せるよ」、「が現れた！」も同じにした\n倒した時の「おとなしく なった」は決まりの言い方なので、そのまま残した",
+  "result": "pass",
+  "shots": [
+   "shots/582/mobile-02-mode-select.jpg",
+   "shots/582/mobile-15-custom-full-run.jpg",
+   "shots/582/mobile-27-chapter-2-play.jpg",
+   "shots/582/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d07b0b8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41109260651"
  }
 ]
