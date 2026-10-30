@@ -24,6 +24,7 @@ Quest arrow: ↑ south of the shop, ← east of it, ↓ toward the room exit PAS
 Town noises move PASS
 Balance: Lv2/HP72/battery100/1 drink beats BUG KING in 6-9 turns; Lv1 with nothing loses (seeds 1,2,3) PASS
 Title: Z on はじめから without a save; はじめから with a save asks first and やめる keeps it; naming input focused and Z confirms PASS
+R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS
 Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS
 Closing tap is ignored for 250 ms by battle and shop buttons PASS
 Level-up win: victory sound once, level-up sound once, gained HP/attack shown PASS
