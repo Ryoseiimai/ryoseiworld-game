@@ -1704,6 +1704,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.cmd('run');r.tick(600);assert.equal(r.g.screen,'field');assert.equal(r.els.get('toast').textContent,adult?'すたこら。ちょっと距離を置いた。':'すたこら。ちょっと きょりを おいた。');
   if(adult)for(const x of logs)assert(!/つかった|もどった|せいせい！|にげられない|なおせる|の ダメージ|で カタカタ/.test(x),'adult line in kanji: '+x);}
  result.push('R335: おとなモードの戦いで、実行・for ループ・生成・アイテム・逃げるの結果の文と、最初の戦いの案内を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R336: the save, look-the-other-way and charge toasts on the field read in kanji in adult mode; kids keep the hiragana ones.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  await r.g.save(true);assert.equal(r.els.get('toast').textContent,adult?'テストソラがこの端末に保存した。':'テストソラが この たんまつに ほぞんした。');
+  const b=await runtime({brokenStorage:true});b.tick();b.start(mode);await settle();await b.g.save(true);assert.equal(b.els.get('toast').textContent,adult?'今は保存できない。':'いまは ほぞんできない。');
+  r.g.debugWarp('town',8,27);r.tick(300);r.g.state.battery=1;r.tick(300);assert.equal(r.els.get('toast').textContent,adult?'コンビニで充電できるよ':'コンビニで じゅうでん できるよ');
+  r.g.state.battery=100;r.tick(300);r.g.interact();assert.equal(r.els.get('toast').textContent,adult?'向こうを向いて、もう一度。':'むこうを むいて、もう いちど。');}
+ result.push('R336: おとなモードの町のお知らせ（保存した・保存できない・充電できる・向こうを向いて）を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
