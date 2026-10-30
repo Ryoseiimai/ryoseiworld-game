@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-22T10:10:12.706Z",
-  "branch": "claude/autodev-20261022-1841-R175",
-  "task": "R175 町のノイズの帯が、看板の字（こうえん など）と仮の絵の名前を横切らないようにした",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nミナモで、ノイズの帯が「こうえん」の看板の字を横切っていた（150回中42回）\n帯が看板の字と名前の札を避けるようにし、150回中0回になった",
-  "result": "pass",
-  "shots": [
-   "shots/322/mobile-02-mode-select.jpg",
-   "shots/322/mobile-15-custom-full-run.jpg",
-   "shots/322/mobile-27-chapter-2-play.jpg",
-   "shots/322/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "978b32f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39759857809"
- },
- {
   "at": "2026-10-22T16:03:42.335Z",
   "branch": "claude/autodev-20261023-0042-R176",
   "task": "R176 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "bc3cca7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41037113878"
+ },
+ {
+  "at": "2026-10-30T10:43:04.522Z",
+  "branch": "claude/autodev-20261030-1921-R323",
+  "task": "R323 デバッグモードの「ひらく」「もっているか たしかめる」がおとなモードでもひらがなだったので、おとなでは「開く」「持っているか確かめる」にした",
+  "summary": "おとなモードのデバッグモードの「ひらく」「もっているか たしかめる」を漢字にした\nスモークのチャレンジの場面が「始める」を見つけられなかったので直した\n町の「はなす」ボタンと地図の「こうえん」はおとなでもひらがなのまま残っている",
+  "result": "pass",
+  "shots": [
+   "shots/568/mobile-02-mode-select.jpg",
+   "shots/568/mobile-15-custom-full-run.jpg",
+   "shots/568/mobile-27-chapter-2-play.jpg",
+   "shots/568/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "7d2dee2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41041301446"
  }
 ]
