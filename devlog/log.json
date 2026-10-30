@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-22T22:28:32.880Z",
-  "branch": "claude/autodev-20261023-0641-R178",
-  "task": "R178 上にずらした「はなす」ボタンが、街灯・信号・電柱・じはんきの上になるべく乗らないようにした",
-  "summary": "確認役がスマホのスクショで、ずれた「はなす」ボタンを街灯が貫く所を挙げた\nずれ先の3段から、背の高い置物が一番少ない段を選ぶようにした\n置物に重なる回数は114回中19回から8回に減った（テストを足した）",
-  "result": "pass",
-  "shots": [
-   "shots/330/mobile-02-mode-select.jpg",
-   "shots/330/mobile-15-custom-full-run.jpg",
-   "shots/330/mobile-27-chapter-2-play.jpg",
-   "shots/330/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "15003a3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39864351146"
- },
- {
   "at": "2026-10-23T00:59:29.620Z",
   "branch": "claude/autodev-20261023-0941-R179",
   "task": "R179 ボス戦の始めにことばカードが出ている間、「ゆびを すべらせて うごく」の案内がほぼ透明のまま止まっていたのを、濃く出るようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "2602daa",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41067466194"
+ },
+ {
+  "at": "2026-10-30T15:02:03.187Z",
+  "branch": "claude/autodev-20261030-2344-R328",
+  "task": "R328 ヒカクマオウ戦などのお知らせ「こうげきりょく が さがった」「ひびが はいった」がおとなモードでもひらがなだったので、おとなでは「攻撃力が下がった」「ひびが入った」などにした",
+  "summary": "ボス戦のお知らせを、おとなでは「数字に当たって 攻撃力が下がった」などの漢字にした\n確認役の指摘で「攻撃が効かない…」と拾う物の名前「自分のペース」「作る」も漢字にした\n「ジブンに いろが もどる」「しゅごれいが つながった」は物語に近いので今回は変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/574/mobile-02-mode-select.jpg",
+   "shots/574/mobile-15-custom-full-run.jpg",
+   "shots/574/mobile-27-chapter-2-play.jpg",
+   "shots/574/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "eacc7a2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41075088821"
  }
 ]
