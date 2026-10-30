@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T08:35:45.500Z",
-  "branch": "claude/autodev-20261023-1721-R185",
-  "task": "R185 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンの始めで、矢印が画面の外の敵（左）を指し、真下の敵を指していなかった\n道しるべは、画面に見えている敵を先に選び、いなければ一番近い敵を選ぶようにした\nテストを足し、前と後のスクショを docs/shots/R184 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/343/mobile-02-mode-select.jpg",
-   "shots/343/mobile-15-custom-full-run.jpg",
-   "shots/343/mobile-27-chapter-2-play.jpg",
-   "shots/343/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "057bca1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39924938901"
- },
- {
   "at": "2026-10-23T08:53:46.248Z",
   "branch": "claude/autodev-20261023-1721-R185",
   "task": "R185 ミナモの友だちの子が、ほかのゲームの主人公に似た赤い帽子と黄色の服だったので、色を変えて新しい絵を頼んだ",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "3bc8c13",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41131825603"
+ },
+ {
+  "at": "2026-10-30T22:55:53.547Z",
+  "branch": "claude/autodev-20261031-0721-R338",
+  "task": "R338 町の札「バスてい」「えき」がおとなモードでもひらがなだったので、おとなでは「バス停」「駅」にした（ヒダマリ・ミナモ・ネオン）",
+  "summary": "町のバス停と駅の札を、おとなでは「バス停」「駅」にした\nこどもモードは「バスてい」「えき」のまま。絵が無い時の名前も同じにした\n両方のモードをテストで確かめ、前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/586/mobile-02-mode-select.jpg",
+   "shots/586/mobile-15-custom-full-run.jpg",
+   "shots/586/mobile-27-chapter-2-play.jpg",
+   "shots/586/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8a7e7e2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41140279535"
  }
 ]
