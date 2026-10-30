@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T08:07:13.509Z",
-  "branch": "claude/autodev-20261023-1622-R184",
-  "task": "R184 ネオンの道しるべの矢印が見えない敵を指していたので、画面に見えている敵を先に指すようにした",
-  "summary": "ネオンの始めで、矢印が画面の外の敵（左）を指し、真下の敵を指していなかった\n道しるべは、画面に見えている敵を先に選び、いなければ一番近い敵を選ぶようにした\nテストを足し、前と後のスクショを docs/shots/R184 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/341/mobile-02-mode-select.jpg",
-   "shots/341/mobile-15-custom-full-run.jpg",
-   "shots/341/mobile-27-chapter-2-play.jpg",
-   "shots/341/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "dc7eee4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39921526736"
- },
- {
   "at": "2026-10-23T08:29:19.505Z",
   "branch": "claude/autodev-20261023-1721-R185",
   "task": "R185 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "d07b0b8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41109260651"
+ },
+ {
+  "at": "2026-10-30T20:43:01.788Z",
+  "branch": "claude/autodev-20261031-0521-R336",
+  "task": "R336 町のお知らせ「この たんまつに ほぞんした」「むこうを むいて、もう いちど」「コンビニで じゅうでん できるよ」がおとなモードでもひらがなだったので、おとなでは「この端末に保存した」「向こうを向いて、もう一度」「コンビニで充電できるよ」などにした",
+  "summary": "町の保存のお知らせを、おとなでは「この端末に保存した」などの漢字まじりにした\n「向こうを向いて、もう一度」と「コンビニで充電できるよ」も同じにした\nこどもモードはひらがなのまま残し、両方をテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/583/mobile-02-mode-select.jpg",
+   "shots/583/mobile-15-custom-full-run.jpg",
+   "shots/583/mobile-27-chapter-2-play.jpg",
+   "shots/583/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "51cdd59",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41123695541"
  }
 ]
