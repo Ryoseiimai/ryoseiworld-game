@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T08:53:46.248Z",
-  "branch": "claude/autodev-20261023-1721-R185",
-  "task": "R185 ミナモの友だちの子が、ほかのゲームの主人公に似た赤い帽子と黄色の服だったので、色を変えて新しい絵を頼んだ",
-  "summary": "ミナモの友だちの子が、ほかのゲームの主人公に似た赤い帽子と黄色の服だった\n新しい絵が届くまで、帽子と靴を緑、服を青緑にして描くようにした（顔と白い所は元の色）\n新しい少年の絵を絵係に頼んだ。前と後のスクショを docs/shots/R185 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/344/mobile-02-mode-select.jpg",
-   "shots/344/mobile-15-custom-full-run.jpg",
-   "shots/344/mobile-27-chapter-2-play.jpg",
-   "shots/344/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "69f3d4d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39925358547"
- },
- {
   "at": "2026-10-23T09:07:42.032Z",
   "branch": "claude/autodev-art-20261023-174331",
   "task": "絵",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "8a7e7e2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41140279535"
+ },
+ {
+  "at": "2026-10-30T23:46:21.868Z",
+  "branch": "claude/autodev-20261031-0821-R339",
+  "task": "R339 町の戦いの後の文「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」がおとなモードでもひらがなだったので、おとなでは「修理された」「経験値…円をもらった」「レベル…になった」にした",
+  "summary": "町の戦いの後の文を、おとなでは「修理された」「経験値…円をもらった」にした\nレベルが上がった時の文も、おとなでは「レベル…になった！ 攻撃力+…」にした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/587/mobile-02-mode-select.jpg",
+   "shots/587/mobile-15-custom-full-run.jpg",
+   "shots/587/mobile-27-chapter-2-play.jpg",
+   "shots/587/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "904c3cf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41145623250"
  }
 ]
