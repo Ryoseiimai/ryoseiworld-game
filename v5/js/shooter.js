@@ -408,12 +408,15 @@
   function ramp(w) { return clamp((w.playT - HINT_T) / RAMP_T, 0, 1); }
   // R328: SPEC_V7_MANABU.md 9: the notices about damage and attack power are hints like the band label (R327),
   // so adult mode reads them in kanji (攻撃力 as on the status screen, 秒 like cooldownLabel), and so do the pickup names under them.
-  function noticeText(k) {
+  function noticeText(k, n) {
     var adult = RYW.mode === 'adult';
     if (k === 'crack') return adult ? 'ひびが入った！\n' + SHOW_TIME + '秒 ボスへのダメージ 2倍' : 'ひびが はいった！\n' + SHOW_TIME + 'びょう ダメージ 2ばい';
     if (k === 'immune') return adult ? '攻撃が効かない…' : 'こうげきが きかない…';
     if (k === 'paceItem') return adult ? '自分のペース' : 'じぶんの ペース';
     if (k === 'makeItem') return adult ? '作る' : 'つくる';
+    // R329: the progress notices of the ジブン and ゼロ fights, with the count as (n/m).
+    if (k === 'made') return (adult ? 'ジブンに色が戻る (' : 'ジブンに いろが もどる (') + n + ')';
+    if (k === 'voice') return (adult ? '守護霊がつながった (' : 'しゅごれいが つながった (') + n + ')';
     if (k === 'down') return adult ? '数字に当たって 攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
     return adult ? '自分のペースで作った。\n攻撃力が1段 戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
   }
@@ -1016,7 +1019,7 @@
       // The last step line is the same as the win line, which is shown large after the win, so it is not shown twice.
       if (m.made >= w.def.makes) { if (st && st[1] !== L.win) burst(w, st[0], st[1], 2.6, true); win(w); return; }
       if (st) burst(w, st[0], st[1], 2.4, true);
-      toast(w, 'ジブンに いろが もどる (' + m.made + '/' + w.def.makes + ')', 2.2);
+      toast(w, noticeText('made', m.made + '/' + w.def.makes), 2.2);
       m.makeAt = w.playT + 44;
     } else if (pk.kind === 'voice') {
       var v = pk.data || m.voices[m.got] || { name: '', text: '' };
@@ -1024,7 +1027,7 @@
       m.connected.push(v);
       ticker(w, (v.name ? v.name + '「' : '「') + v.text + '」');
       if (m.got >= m.voices.length) { m.ready = true; toast(w, L.ready, 3); emit(w, 'ready'); }
-      else { toast(w, 'しゅごれいが つながった (' + m.got + '/' + m.voices.length + ')', 2); m.voiceAt = w.playT + 19; }
+      else { toast(w, noticeText('voice', m.got + '/' + m.voices.length), 2); m.voiceAt = w.playT + 19; }
     }
   }
 
@@ -2317,6 +2320,7 @@
     var adult = RYW.mode === 'adult';
     if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
     if (k === 'half') return adult ? 'ボスへのダメージ 半分' : 'ボスへの ダメージ はんぶん';
+    if (k === 'color') return adult ? '色' : 'いろ'; // R329: the ジブン band, like ジブンに色が戻る
     return adult ? '攻撃力' : 'きみの こうげき';
   }
   function drawTopBand(ctx, S, w) {
@@ -2354,7 +2358,7 @@
       ctx.fillStyle = 'rgba(0,0,0,0.5)'; [0.25, 0.5, 0.75].forEach(function (q) { ctx.fillRect(x + 3 + (bw - 6) * q - 1, y + 3, 2, bh - 6); });
       ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 2; rr(ctx, x, y, bw, bh, 8); ctx.stroke();
     } else if (w.bossId === 'jibun') {
-      ctx.textAlign = 'left'; outlinedText(ctx, 'いろ', 20, 76, '#e5e9f2');
+      ctx.textAlign = 'left'; outlinedText(ctx, bandLabel('color'), 20, 76, '#e5e9f2');
       for (var k = 0; k < w.def.makes; k++) {
         var sx = 80 + k * 148;
         ctx.fillStyle = 'rgba(0,0,0,0.55)'; rr(ctx, sx, 64, 138, 24, 8); ctx.fill();

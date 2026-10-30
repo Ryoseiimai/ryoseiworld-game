@@ -1080,6 +1080,18 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R329: the ジブン and ゼロ progress notices (いろが もどる / しゅごれいが つながった) stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode;
+  globalThis.RYW.setMode('adult'); const a = [sim.noticeText('made', '1/3'), sim.noticeText('voice', '2/5')];
+  check('R329: おとなモードの進み具合のお知らせは漢字まじり（ジブンはボスの名前なのでカタカナ）', a[0] === 'ジブンに色が戻る (1/3)' && a[1] === '守護霊がつながった (2/5)', a);
+  check('R329: おとなモードのジブン戦の帯は「色」', sim.bandLabel('color') === '色');
+  globalThis.RYW.setMode('kids'); const k = [sim.noticeText('made', '1/3'), sim.noticeText('voice', '2/5')];
+  check('R329: こどもモードの進み具合のお知らせは今までどおり', k[0] === 'ジブンに いろが もどる (1/3)' && k[1] === 'しゅごれいが つながった (2/5)', k);
+  check('R329: こどもモードのジブン戦の帯は「いろ」のまま', sim.bandLabel('color') === 'いろ');
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
