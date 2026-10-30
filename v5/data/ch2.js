@@ -17,9 +17,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモ',w:30,h:36,outside:true,
  object('minamo_library','buildings',5,22,26.2,210,188,{label:'としょかん',enter:'minamo_library',arrival:[5,11]}),
  object('minamo_friend','buildings',0,6,34,194,194,{label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
  object('minamo_apartment','buildings',6,23,34,190,190),
- prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',event:'busStop'}),
+ prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
- object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',event:'trainStop'}),
+ object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',labelAdult:'駅',event:'trainStop'}),
  // R271: at feet y 21.4 the 136px board (R256) hung over the east-west road (rows 18-19); its feet moved south so the sidewalk shows above the board.
  prop('minamo_sign',11,12.42,22.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
  // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).

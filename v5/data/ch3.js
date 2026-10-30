@@ -8,7 +8,7 @@ const city=(id,frame,x,y,w,h,extra)=>object(id,'neon',frame,x,y,w,h,extra);
 const maps={};
 maps.neon={name:'ネオンシティ',short:'ネオン',w:30,h:36,outside:true,spawn:[15,13.6],objects:[
  // The train from ミナモちょう stops here (ch2.js trainStop).
- city('neon_station',4,15,12,250,240,{label:'えき',event:'trainStop'}),
+ city('neon_station',4,15,12,250,240,{label:'えき',labelAdult:'駅',event:'trainStop'}),
  city('neon_cafe',3,5.6,12.6,220,220,{label:'ネットカフェ',enter:'neon_cafe',arrival:[5,10]}),
  city('neon_ranking',0,24.6,12.6,190,250,{label:'ランキングタワー',dialogue:'rankingTower'}),
  city('neon_selfie',7,6.4,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),

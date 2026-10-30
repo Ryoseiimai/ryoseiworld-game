@@ -1717,6 +1717,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(r.g.modal,'event',ev+' opens');assert.equal(r.els.get('modal-title').textContent,title);assert.equal(r.els.get('modal-copy').textContent,adult?'どこへ行く？':'どこへ いく？');
    const names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert(names.includes('ミナモちょう'),'place names stay: '+names);r.button('やめる');r.tick(300);assert.equal(r.g.modal,'');}}
  result.push('R337: おとなモードのバスと電車の行き先の画面を「電車」「どこへ行く？」で出し、こどもモードは ひらがなのまま PASS');
+ // R338: the field plates on the bus stops and stations read バス停・駅 in adult mode; kids keep バスてい・えき.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  for(const [map,id] of [['town','bus'],['minamo','minamo_bus'],['minamo','minamo_station'],['neon','neon_station']]){const o=r.g.GAME_DATA.maps[map].objects.find(x=>x.id===id),want=o.event==='busStop'?(adult?'バス停':'バスてい'):(adult?'駅':'えき');
+   r.g.debugWarp(map,o.x,o.y+1.6);r.tick(300);r.key('ArrowUp');r.tick(150);r.key('ArrowUp',true);r.tick(300);r.canvasCalls.length=0;r.tick(16);const t=r.canvasCalls.filter(c=>c[0]==='fillText').map(c=>c[1]);
+   assert(t.includes(want),map+'/'+id+' plate reads '+want+': '+t.filter(x=>/バス|えき|駅/.test(x)));assert(!t.includes(adult?(o.event==='busStop'?'バスてい':'えき'):(o.event==='busStop'?'バス停':'駅')),map+'/'+id+' no other mode plate');}}
+ result.push('R338: おとなモードで町のバス停と駅の札を「バス停」「駅」で出し、こどもモードは「バスてい」「えき」のまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
