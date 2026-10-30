@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T04:03:16.597Z",
-  "branch": "claude/autodev-20261023-1221-R180",
-  "task": "R180 町のおまわりさんなど、人が「メニュー」ボタンの後ろにいる時、ボタンを透けさせて人が見えるようにした",
-  "summary": "町のおまわりさんが右上の「メニュー」ボタンの後ろに隠れていた\n人・入口・看板・守り神が後ろにいる時、ボタンを透けさせた（テストを足した）\nネオンの駅が目標の帯に隠れる件は、R67 で帯を透けない地にしたので残した",
-  "result": "pass",
-  "shots": [
-   "shots/335/mobile-02-mode-select.jpg",
-   "shots/335/mobile-15-custom-full-run.jpg",
-   "shots/335/mobile-27-chapter-2-play.jpg",
-   "shots/335/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f90f201",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39897585705"
- },
- {
   "at": "2026-10-23T04:47:06.391Z",
   "branch": "claude/autodev-20261023-1321-R181",
   "task": "R181 ヒカクマオウ戦の背景の看板が、中身の消えたすうじの箱に見えたので、青から紫の横長の板にした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "03cdfd1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41084290517"
+ },
+ {
+  "at": "2026-10-30T16:13:55.965Z",
+  "branch": "claude/autodev-20261031-0059-R331",
+  "task": "R331 ボス戦の一時停止の「ひとやすみ」と負けた後の「すぐ やりなおす」「まちに もどる」がおとなモードでもひらがなだったので、おとなでは「一休み」「すぐやり直す」「町に戻る」にした",
+  "summary": "ボス戦の一時停止の字を、おとなでは「一休み」にした\n負けた後のボタンを、おとなでは「すぐやり直す」「町に戻る」にした\nソラの「もういちど！」は物語の台詞なので、そのまま残した",
+  "result": "pass",
+  "shots": [
+   "shots/577/mobile-02-mode-select.jpg",
+   "shots/577/mobile-15-custom-full-run.jpg",
+   "shots/577/mobile-27-chapter-2-play.jpg",
+   "shots/577/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "cdff39c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41086020718"
  }
 ]
