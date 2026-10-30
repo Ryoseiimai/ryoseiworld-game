@@ -1,0 +1,26 @@
+{
+  "branch": "claude/autodev-20261030-1621-R320",
+  "sha": "939528099bcf0a2cb52ba84fa24e4da249659e92",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "fail"
+  },
+  "errors": [
+    "smoke: [layout] mobile [mobile] きずな menu: もどる is hidden below the list",
+    "smoke: [layout] desktop [desktop] きずな menu: もどる is hidden below the list",
+    "smoke: [layout] square [square] きずな menu: もどる is hidden below the list"
+  ],
+  "shots": [
+    "devlog/shots/562/mobile-02-mode-select.jpg",
+    "devlog/shots/562/mobile-15-custom-full-run.jpg",
+    "devlog/shots/562/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/562/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-10-30T08:09:12.057Z",
+  "merged_sha": null,
+  "tested_base": "021e4c2f1b9c12c43fcf31ff713f95ef89ed5635",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41023206223"
+}
