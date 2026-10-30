@@ -2532,6 +2532,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugStartChallenge(1);assert(labels().includes('はじめる')&&!labels().includes('始める'),'R322: kids start '+labels().join('/'));r.key('Escape');
   const src=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(!/text:'はじめる',action:(begin|\(\)=>\{closeModal\(\);next)/.test(src),'R322: no start button is fixed to hiragana');}
  result.push('R322: デバッグモードとチャレンジの「はじめる」が、おとなモードでは「始める」になる PASS');
+ // R323: the test shop's buy and restore buttons read in hiragana in adult mode; they read 「［デバッグモードを開く］」「持っているか確かめる」 there now, and kids keep the hiragana.
+ {const r=await runtime({search:'&shop=test'});r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');
+  const labels=()=>[...r.els.get('modal-buttons').children].map(b=>b.textContent);
+  r.g.debugOpenCheats();assert(labels().includes('［デバッグモードを開く］')&&labels().includes('持っているか確かめる')&&!labels().some(t=>/ひらく|たしかめる/.test(t)),'R323: adult shop '+labels().join('/'));r.key('Escape');
+  r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugOpenCheats();assert(labels().includes('［デバッグモードを ひらく］')&&labels().includes('もっているか たしかめる'),'R323: kids shop '+labels().join('/'));r.key('Escape');}
+ result.push('R323: デバッグモードの「ひらく」「たしかめる」が、おとなモードでは漢字になる PASS');
  // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
