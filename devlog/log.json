@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T08:29:19.505Z",
-  "branch": "claude/autodev-20261023-1721-R185",
-  "task": "R185 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンの始めで、矢印が画面の外の敵（左）を指し、真下の敵を指していなかった\n道しるべは、画面に見えている敵を先に選び、いなければ一番近い敵を選ぶようにした\nテストを足し、前と後のスクショを docs/shots/R184 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/342/mobile-02-mode-select.jpg",
-   "shots/342/mobile-15-custom-full-run.jpg",
-   "shots/342/mobile-27-chapter-2-play.jpg",
-   "shots/342/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2556452",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39924089831"
- },
- {
   "at": "2026-10-23T08:35:45.500Z",
   "branch": "claude/autodev-20261023-1721-R185",
   "task": "R185 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "51cdd59",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41123695541"
+ },
+ {
+  "at": "2026-10-30T21:45:21.574Z",
+  "branch": "claude/autodev-20261031-0621-R337",
+  "task": "R337 バスと電車の行き先の画面「でんしゃ」「どこへ いく？」がおとなモードでもひらがなだったので、おとなでは「電車」「どこへ行く？」にした",
+  "summary": "バスと電車の行き先の画面を、おとなでは「電車」「どこへ行く？」にした\nこどもモードはひらがなのまま。地名と「やめる」は変えていない\n両方のモードをテストで確かめ、前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/585/mobile-02-mode-select.jpg",
+   "shots/585/mobile-15-custom-full-run.jpg",
+   "shots/585/mobile-27-chapter-2-play.jpg",
+   "shots/585/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3bc8c13",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41131825603"
  }
 ]
