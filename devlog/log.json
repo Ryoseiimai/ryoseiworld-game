@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-21T06:57:12.399Z",
-  "branch": "claude/autodev-20261021-1542-R171",
-  "task": "R171 遊んで一番気になる所を1つ直す",
-  "summary": "おさらいで間違えた時、正しい答えしか出ず、何と取り違えたか分からなかった\n間違えた時は「選んだ答え」を先に出し、1行あけて正しい答えを出すようにした\n前後のスクショは docs/shots/R171。前の回の R170 は自動確認に通った",
-  "result": "pass",
-  "shots": [
-   "shots/312/mobile-02-mode-select.jpg",
-   "shots/312/mobile-15-custom-full-run.jpg",
-   "shots/312/mobile-27-chapter-2-play.jpg",
-   "shots/312/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e7da4fc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39558061824"
- },
- {
   "at": "2026-10-21T07:06:26.325Z",
   "branch": "claude/autodev-20261021-1557-R172",
   "task": "R172 ボス戦の始めにボスの台詞が「キックボードが うかんだ」の帯の下で出て、ひとりで読める時間が0.85秒しかない件を調べた（コードは変えていない）",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "9395280",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41023206223"
+ },
+ {
+  "at": "2026-10-30T08:50:54.109Z",
+  "branch": "claude/autodev-20261030-1621-R320",
+  "task": "R320 スモークのきずなの確認と test_v5 のボタン探しが「もどる」と「戻る」の両方を読めるようにした（前半。自動確認は main のスモークを使うので、ゲームより先に合流させる）",
+  "summary": "R320 は自動確認で落ちた。自動確認は main のスモークを使い、そこは「もどる」しか探さないため\n今回は、スモークと test_v5 が「戻る」も読めるようにする変更だけを残し、ゲームの文字は元に戻した\nゲームを「戻る」にする作業は R321 に分けた。test_v5 の button('もどる') がこどもでも「戻る」を通す点は R321 で確かめる",
+  "result": "pass",
+  "shots": [
+   "shots/563/mobile-02-mode-select.jpg",
+   "shots/563/mobile-15-custom-full-run.jpg",
+   "shots/563/mobile-27-chapter-2-play.jpg",
+   "shots/563/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "953680e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41027830402"
  }
 ]
