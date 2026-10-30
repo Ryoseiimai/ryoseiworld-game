@@ -417,6 +417,7 @@
     // R329: the progress notices of the ジブン and ゼロ fights, with the count as (n/m).
     if (k === 'made') return (adult ? 'ジブンに色が戻る (' : 'ジブンに いろが もどる (') + n + ')';
     if (k === 'voice') return (adult ? '守護霊がつながった (' : 'しゅごれいが つながった (') + n + ')';
+    if (k === 'ready') return adult ? '特技が「みんなの声」に変わった！' : 'とくぎが「みんなの こえ」に かわった！'; // R330: the ゼロ fight, like the button label
     if (k === 'down') return adult ? '数字に当たって 攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
     return adult ? '自分のペースで作った。\n攻撃力が1段 戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
   }
@@ -1026,7 +1027,7 @@
       m.got++;
       m.connected.push(v);
       ticker(w, (v.name ? v.name + '「' : '「') + v.text + '」');
-      if (m.got >= m.voices.length) { m.ready = true; toast(w, L.ready, 3); emit(w, 'ready'); }
+      if (m.got >= m.voices.length) { m.ready = true; toast(w, L.ready === BOSSES.zero.lines.ready ? noticeText('ready') : L.ready, 3); emit(w, 'ready'); }
       else { toast(w, noticeText('voice', m.got + '/' + m.voices.length), 2); m.voiceAt = w.playT + 19; }
     }
   }
@@ -1141,7 +1142,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -1469,7 +1470,7 @@
     rootEl.setAttribute('role', 'application');
     rootEl.setAttribute('aria-label', 'ボスせん ' + S.world.def.name);
     rootEl.innerHTML = '<div class="rs-backdrop" aria-hidden="true"></div><div class="rs-stage"><canvas width="540" height="960" aria-hidden="true"></canvas>' +
-      '<button type="button" class="rs-skill" aria-label="とくぎ"><span class="rs-top">とくぎ</span><span class="rs-main"></span><i></i></button>' +
+      '<button type="button" class="rs-skill" aria-label="' + skillLabel('top') + '"><span class="rs-top">' + skillLabel('top') + '</span><span class="rs-main"></span><i></i></button>' +
       '<button type="button" class="rs-beat" aria-label="ビート Z">ビート</button>' +
       '<div class="rs-pause" hidden>ひとやすみ</div>' +
       '<div class="rs-panel" hidden><span class="rs-who">ソラ</span><span class="rs-big">もういちど！</span>' +
@@ -2571,24 +2572,36 @@
     }
   }
 
+  // R330: SPEC_V7_MANABU.md 9: the skill button is a command, so adult mode reads its labels in kanji (みんなの声 as in descAdult of the ゼロ summon).
+  // ためる stays in hiragana in both modes: 溜 is not a common-use kanji.
+  function skillLabel(k, n) {
+    var adult = RYW.mode === 'adult';
+    if (k === 'voices') return adult ? 'みんなの声' : 'みんなの こえ';
+    if (k === 'voice') return (adult ? '声 ' : 'こえ ') + n;
+    if (k === 'rest') return adult ? 'フク 休み' : 'フク やすみ';
+        if (k === 'release') return adult ? '放す！' : 'はなす！';
+    if (k === 'charging') return adult ? 'ため中' : 'ためちゅう';
+    if (k === 'broke') return adult ? '切れた！' : 'きれた！';
+    return adult ? '特技' : 'とくぎ';
+  }
   function updateButton(S) {
     var w = S.world, mode = skillMode(w), p = w.p, label = 'ー', cls = 'rs-off', gauge = 0;
     // No skill in this fight (no ためうち, not カテイノ/ゼロ): the button is not shown at all.
     var none = !w.weapons.charge && (w.mode === 'challenge' || (w.bossId !== 'kateino' && w.bossId !== 'zero'));
     if (w.state === 'play' || w.state === 'intro') {
-      if (mode === 'voices') { label = 'みんなの こえ'; cls = 'rs-ready'; gauge = 1; }
+      if (mode === 'voices') { label = skillLabel('voices'); cls = 'rs-ready'; gauge = 1; }
       else if (w.mode !== 'challenge' && w.bossId === 'kateino' && (mode === 'show' || !w.weapons.charge)) {
         label = word('playtest', 'みせる');
         if (mode === 'show') { cls = 'rs-ready'; gauge = 1; }
         else { cls = 'rs-off'; gauge = clamp(1 - (w.m.showReadyAt - w.playT) / (SHOW_TIME + SHOW_COOLDOWN), 0, 1); }
       } else if (w.weapons.charge) {
         var rest = p.tigerReadyAt - w.t;
-        if (rest > 0) { label = 'フク やすみ'; cls = 'rs-off'; gauge = clamp(1 - rest / TIGER_REST, 0, 1); }
+        if (rest > 0) { label = skillLabel('rest'); cls = 'rs-off'; gauge = clamp(1 - rest / TIGER_REST, 0, 1); }
         else { label = 'ためる'; cls = ''; gauge = clamp(p.charge / CHARGE_FULL, 0, 1); }
       }
-      else if (w.bossId === 'zero') { label = 'こえ ' + w.m.got + '/' + w.m.voices.length; cls = 'rs-off'; gauge = w.m.got / w.m.voices.length; }
-      if (p.charging) { label = p.charge >= CHARGE_FULL ? 'はなす！' : 'ためちゅう'; gauge = clamp(p.charge / CHARGE_FULL, 0, 1); }
-      else if (p.brokeAt != null && w.t - p.brokeAt < 0.6) { label = 'きれた！'; cls = 'rs-off'; gauge = 0; }
+      else if (w.bossId === 'zero') { label = skillLabel('voice', w.m.got + '/' + w.m.voices.length); cls = 'rs-off'; gauge = w.m.got / w.m.voices.length; }
+      if (p.charging) { label = skillLabel(p.charge >= CHARGE_FULL ? 'release' : 'charging'); gauge = clamp(p.charge / CHARGE_FULL, 0, 1); }
+      else if (p.brokeAt != null && w.t - p.brokeAt < 0.6) { label = skillLabel('broke'); cls = 'rs-off'; gauge = 0; }
     }
     if (S.keySkill || S.ptrSkill) cls += ' rs-hold';
     var key = label + '|' + cls + '|' + Math.round(gauge * 40) + '|' + none;
@@ -2598,7 +2611,7 @@
     S.btnMain.textContent = label;
     S.btn.className = 'rs-skill ' + cls;
     S.btnGauge.style.width = Math.round(gauge * 100) + '%';
-    S.btn.setAttribute('aria-label', 'とくぎ ' + label);
+    S.btn.setAttribute('aria-label', skillLabel('top') + ' ' + label);
   }
 
   // ============ 検証用 ============

@@ -1092,6 +1092,23 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R330: the skill button labels (みんなの こえ / ためる / フク やすみ ...) and the ゼロ ready notice stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24, keys = ['voices', 'rest', 'release', 'charging', 'broke', 'top'];
+  globalThis.RYW.setMode('adult'); const a = keys.map(k => sim.skillLabel(k)).concat(sim.skillLabel('voice', '2/5'));
+  check('R330: おとなモードのとくぎボタンの字は漢字まじり', a.join('|') === 'みんなの声|フク 休み|放す！|ため中|切れた！|特技|声 2/5', a);
+  check('R330: おとなのボタンの字はボタンの中（枠と余白を除いた168px）に収まる', a.every(t => wide(t) <= 168) && wide(sim.skillLabel('voice', '12/12')) <= 168, a.map(wide));
+  check('R330: おとなモードの「みんなの声」に変わったお知らせも漢字まじりで箱（440px）に収まる', sim.noticeText('ready') === '特技が「みんなの声」に変わった！' && wide(sim.noticeText('ready')) <= 440);
+  const z = world({ boss: 'zero' }); for (let i = 0; i < z.m.voices.length; i++) sim.debugCollect(z);
+  check('R330: おとなモードでゼロ戦の声を全部集めると、出るお知らせも漢字まじり', z.m.ready && z.toast && z.toast.text === '特技が「みんなの声」に変わった！', z.toast);
+  const z2 = world({ boss: 'zero', lines: { ready: 'ちがう ことば' } }); for (let i = 0; i < z2.m.voices.length; i++) sim.debugCollect(z2);
+  check('R330: 呼び出し側が lines.ready を変えた時は、その文のまま', z2.toast && z2.toast.text === 'ちがう ことば', z2.toast);
+  globalThis.RYW.setMode('kids'); const k = keys.map(k => sim.skillLabel(k)).concat(sim.skillLabel('voice', '2/5'));
+  check('R330: こどもモードのとくぎボタンの字は今までどおり', k.join('|') === 'みんなの こえ|フク やすみ|はなす！|ためちゅう|きれた！|とくぎ|こえ 2/5', k);
+  check('R330: こどもモードのお知らせは今までどおり', sim.noticeText('ready') === 'とくぎが「みんなの こえ」に かわった！');
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
