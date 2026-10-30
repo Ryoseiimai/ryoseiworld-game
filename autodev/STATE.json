@@ -5,7 +5,7 @@
     "branch": "claude/autodev-20261029-1121-R318",
     "attempts": 1,
     "conflicts": 0,
-    "retriggers": 0,
+    "retriggers": 1,
     "started_at": "2026-10-29T11:21:53+09:00"
   },
   "history": [
