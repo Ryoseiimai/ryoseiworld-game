@@ -2233,7 +2233,7 @@
       [0, -0.42, 0.42].forEach(function (a) { ctx.save(); ctx.translate(v.x, v.y); ctx.rotate(a); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(66, 0); ctx.lineTo(54, -8); ctx.moveTo(66, 0); ctx.lineTo(54, 8); ctx.stroke(); ctx.restore(); });
       ctx.restore();
     }
-    if (w.t < w.ifUntil) { ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; outlinedText(ctx, 'if (バリア) → ふせぐ', W / 2, PLAY_B - 28, '#8de2ff'); }
+    if (w.t < w.ifUntil) { ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; outlinedText(ctx, panelLabel('ifBarrier'), W / 2, PLAY_B - 28, '#8de2ff'); }
   }
 
   function drawEnemyBullets(ctx, w) {
@@ -2590,6 +2590,7 @@
     var adult = RYW.mode === 'adult';
     if (k === 'retry') return adult ? 'すぐやり直す' : 'すぐ やりなおす';
     if (k === 'town') return adult ? '町に戻る' : 'まちに もどる';
+    if (k === 'ifBarrier') return adult ? 'if (バリア) → 防ぐ' : 'if (バリア) → ふせぐ'; // R333: shown when the barrier blocks a hit
     if (k === 'loading') return adult ? 'ボス戦を準備中…' : 'ボスせんを じゅんびちゅう…'; // R332: the screen while the pictures load
     return adult ? '一休み' : 'ひとやすみ';
   }

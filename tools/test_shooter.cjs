@@ -1129,6 +1129,16 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R333: the "if (バリア) → ふせぐ" line when the barrier blocks a hit stayed in hiragana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode;
+  globalThis.RYW.setMode('adult');
+  check('R333: おとなモードのバリアの if は漢字まじり', sim.panelLabel('ifBarrier') === 'if (バリア) → 防ぐ', sim.panelLabel('ifBarrier'));
+  globalThis.RYW.setMode('kids');
+  check('R333: こどもモードは今までどおり', sim.panelLabel('ifBarrier') === 'if (バリア) → ふせぐ', sim.panelLabel('ifBarrier'));
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
