@@ -1691,6 +1691,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const id of ids){const[first,msg]=cast(id,'r127'+id);assert(first.includes(S[id].name+'を呼んだ！'),id+': '+first);assert(msg&&!kidsWords.test(msg),id+' adult summon line: '+msg);assert(msg.split('\n').reduce((n,row)=>n+Math.ceil(wide(row)/15),0)<=3,id+' fits 3 rows: '+msg);r.tick(3000);r.g.state.battle=null;}
   st.mode='kids';r.RYW.setMode('kids');r.tick(300);const[kFirst,kMsg]=cast(ids[0],'r127kids');assert(kFirst.includes('を よんだ！'),kFirst);assert(kidsWords.test(kMsg),'kids summon line: '+kMsg);assert(/^でんち \d+％$/.test(r.els.get('battle-battery').textContent),r.els.get('battle-battery').textContent);}
  result.push('R127: おとなモードの戦いの画面の電池と召喚の結果の文を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
+ // R335: the attack, for loop, generate, item and run result lines, the tutorial hint and the encounter line read in kanji in adult mode; kids keep the hiragana ones.
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),logs=[];const keep=()=>{const l=r.g.battle.log;logs.push(l);assert(l.split('\n').length<=3,mode+' 3 rows: '+l);for(const row of l.split('\n'))assert(wide(row)<=16,mode+' row fits: '+row);return l;};
+  r.cmd('run');let l=keep();assert(l.includes(adult?'今は逃げられない！':'いまは にげられない！'),l);r.cmd('attack');l=keep();assert(l.includes(adult?'転がるHPも治せるよ。':'ころがる HPも なおせるよ。'),l);
+  r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const fresh=tag=>{r.g.debugStartBattle('popup',tag);r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.g.battle.enemy.hp=r.g.battle.enemy.displayHp=r.g.battle.enemy.maxHp=999;r.g.state.items.rice=2;};
+  fresh('r335a');assert(r.els.get('battle-log').textContent.includes(adult?'が現れた！':'が あらわれた！'),r.els.get('battle-log').textContent);
+  r.cmd('attack');l=keep();assert(l.includes(adult?'キーボードでカタカタ！':'キーボードで カタカタ！')&&l.includes(adult?'のダメージ。':'の ダメージ。'),l);r.tick(3000);
+  r.cmd('create');r.button(adult?'繰り返し攻撃':'くりかえし');l=keep();assert(l.startsWith('for ループ！')&&l.includes(adult?'のダメージ。':'の ダメージ。'),l);r.tick(400);l=keep();assert(l.includes('2　')&&l.includes(adult?'のダメージ。':'の ダメージ。'),l);r.tick(3000);
+  r.cmd('create');r.button(adult?'何か作って':'なにか');l=keep();assert(adult?/が生成した！\n(しゃべる靴下|猫のクッション|小さなロボ)。\nHPが8戻った。/.test(l):/が せいせい！\n(しゃべる くつした|ねこの クッション|ちいさな ロボ)。\nHPが8 もどった。/.test(l),l);r.tick(3000);
+  r.cmd('item');r.button('おにぎり');l=keep();assert(l.includes(adult?'おにぎりを使った。':'おにぎりを つかった。'),l);r.tick(3000);
+  r.cmd('run');r.tick(600);assert.equal(r.g.screen,'field');assert.equal(r.els.get('toast').textContent,adult?'すたこら。ちょっと距離を置いた。':'すたこら。ちょっと きょりを おいた。');
+  if(adult)for(const x of logs)assert(!/つかった|もどった|せいせい！|にげられない|なおせる|の ダメージ|で カタカタ/.test(x),'adult line in kanji: '+x);}
+ result.push('R335: おとなモードの戦いで、実行・for ループ・生成・アイテム・逃げるの結果の文と、最初の戦いの案内を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
