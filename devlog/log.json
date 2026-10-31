@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T12:06:23.168Z",
-  "branch": "claude/autodev-art-20261023-204535",
-  "task": "絵",
-  "summary": "作れなかった絵: minamo_boy（自動確認に通らなかった: test_v5: 失敗（最後の15行））",
-  "result": "fail",
-  "shots": [
-   "shots/351-2/mobile-02-mode-select.jpg",
-   "shots/351-2/mobile-15-custom-full-run.jpg",
-   "shots/351-2/mobile-27-chapter-2-play.jpg",
-   "shots/351-2/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f3beede",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39948674499"
- },
- {
   "at": "2026-10-23T12:33:37.530Z",
   "branch": "claude/autodev-art-20261023-212542",
   "task": "絵",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "0bb71df",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41161635787"
+ },
+ {
+  "at": "2026-10-31T04:03:49.151Z",
+  "branch": "claude/autodev-20261031-1221-R343",
+  "task": "R343 床の札「そとへ」「うえへ」「したへ」と町の看板「ちず」「こうえん」を、おとなモードでは「外へ」「上へ」「下へ」「地図」「公園」にする（前半: テストを先にそろえる）",
+  "summary": "おとなモードでは、床の札と町の看板を「外へ」「上へ」「下へ」「地図」「公園」と描くようにした\n札の文字を見る古いテストを、おとなは漢字、こどもはかなで期待する形に直した\nこどもモードで、店の出口の「↓ そとへ」が1枚の板に収まる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/595/mobile-02-mode-select.jpg",
+   "shots/595/mobile-15-custom-full-run.jpg",
+   "shots/595/mobile-27-chapter-2-play.jpg",
+   "shots/595/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b135408",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41166121033"
  }
 ]
