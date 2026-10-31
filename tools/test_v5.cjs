@@ -1771,7 +1771,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'}]}}]);r.click('ending-title');assert.equal(r.g.screen,'epilogue',mode+' R362 epilogue');
   const inp=r.els.get('epilogue-input');assert.equal(r.els.get('epilogue-eyebrow').textContent,adult?'THE END の後':'THE END のあと',mode+' R362 eyebrow');
   assert.equal(inp.placeholder,adult?'何でも書いてね':'なんでも かいてね',mode+' R362 placeholder');assert.equal(inp.getAttribute('aria-label'),adult?'次に作るもの':'つぎに つくるもの',mode+' R362 aria-label');
-  assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?',mode+' R362 story line unchanged');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる');
+  assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?',mode+' R362 story line unchanged');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R362 send button');
   if(adult)assert(!/[ぁ-ん] [ぁ-ん]/.test(inp.placeholder+r.els.get('epilogue-eyebrow').textContent),'R362 adult hint has no kids spaces');}}
  result.push('R362: おとなモードのエピローグの見出しを「THE END の後」、入力欄の案内を「何でも書いてね」にし、こどもモードは かなのまま PASS');
  // R361: the review quiz window titles were 「おさらい　1/3」 and 「おさらい　終わり」 with the kids' full-width gap in adult mode too.
