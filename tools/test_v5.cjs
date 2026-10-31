@@ -1646,7 +1646,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const log=r.g.battle?.log||r.els.get('battle-log').textContent,name=r.g.GAME_DATA.enemies.vending.name;
   assert(log.startsWith(name+'は\nおとなしく なった！\n'),log);for(const row of log.split('\n'))assert([...row].length<=18,'row fits: '+row);
   r.tick(2100);while(r.g.dialogue)r.dialogue();}
- assert(/return wide>room\?name\+'は\\nおとなしく なった！':text;/.test(html),'a short name keeps the line on one row');
+ assert(/return wide>room\?name\+'は\\n'\+calmText\(\)\.slice\(g\.mode==='adult'\?1:2\):text;/.test(html),'a short name keeps the line on one row'); // R349: the win words come from calmText (kids: は おとなしく なった！)
  // R310: 「BUG KINGは おとなしく なった！」「BUG KINGが あらわれた！」 had no gap after the Latin name, while the boss fight writes 「BUG KING は」. A Latin name now gets a space before は / が; a kana name does not.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   const name=r.g.GAME_DATA.enemies.bugking.name;assert(/[A-Za-z]$/.test(name),'the case this check is for: '+name);
@@ -1666,6 +1666,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    r.tick(2100);while(r.g.dialogue)r.dialogue();
    if(adult){for(const k of ['popup','spam','cable','infload','vacuum','virusball','infload2'])if(E(r)[k])assert(E(r)[k].adultName&&E(r)[k].adultName!==E(r)[k].name,'R348 adultName '+k);}}}
  result.push('R348: おとなモードの戦闘で、敵の名前を「バグった自販機」「暴走掃除機」など漢字まじりにした PASS');
+ // R349: the foe's move line (まっすぐ とつげきした！), the owl's next-move hint and the win line stayed kana in adult mode. Adult now reads adultActions / adultHints and 「はおとなしくなった！」; kids keep the kana.
+ {const kana=/とつげき|すいこんだ|おくってきた|はねた|ふやした|まちがえた|とばした|もどった|ふるえた/;
+  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+   const adult=mode==='adult',E=r.g.GAME_DATA.enemies,st=r.g.state;
+   for(const k of Object.keys(E)){const d=E[k];if(d.boss)continue;assert(d.adultActions&&d.adultActions.length===d.actions.length,'R349 adultActions '+k);assert(d.adultHints&&d.adultHints.length===d.hints.length,'R349 adultHints '+k);
+    if(adult)for(const a of [...d.adultActions,...d.adultHints])assert(!kana.test(a)&&!/[ぁ-ん] [ぁ-ん]/.test(a),'R349 adult text has no kana spacing '+k+': '+a);}
+   for(const k of ['vacuum','spam']){r.g.debugStartBattle(k,'r349'+mode+k);r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);Object.assign(r.g.battle.enemy,{hp:999,maxHp:999,displayHp:999});st.hero.hp=st.hero.maxHp=999;
+    r.cmd('attack');r.tick(3000);const l=r.g.battle.log,want=(adult?E[k].adultActions:E[k].actions)[0];assert(l.includes(want),mode+' '+k+' move line: '+l);r.g.state.battle=null;}
+   st.summons=[...new Set([...(st.summons||[]),'owl'])];st.battery=100;r.g.debugStartBattle('spam','r349owl'+mode);r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);Object.assign(r.g.battle.enemy,{hp:999,maxHp:999,displayHp:999});
+   r.cmd('summon');r.button('サーチフクロウ');r.tick(1000);const ol=r.g.battle.log,hs=adult?E.spam.adultHints:E.spam.hints;assert(hs.some(h=>ol.includes(h)),mode+' owl hint: '+ol);r.tick(3000);r.g.state.battle=null;
+   r.g.debugStartBattle('crow','r349win'+mode);r.tick(1500);while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);const wl=r.g.battle?.log||r.els.get('battle-log').textContent;
+   assert(wl.startsWith(E.crow.name+(adult?'はおとなしくなった！':'は おとなしく なった！')),mode+' win line: '+wl);r.tick(2100);while(r.g.dialogue)r.dialogue();}}
+ result.push('R349: おとなモードの戦闘で、敵の行動の文・フクロウの次の動き・勝った時の文を漢字まじりにし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];

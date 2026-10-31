@@ -167,11 +167,11 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   // The boss is a shooter fight (v5/js/shooter.js hikaku: number blocks that weaken the shot, rings from half HP, じぶんの ペース pickups).
   hikaku:{name:'ヒカクマオウ',boss:true,intro:['ヒカクマオウ','おなじ としで\nもう しゃちょう'],art:'hikaku',animCols:3,specialEvery:3,specialDamage:0,hp:400,attack:15,exp:110,money:260,level:8,color:['#4a3f1a','#ffd94a'],hints:['「フォロワー 10まん」','「おなじ としで もう しゃちょう」','すうじを なげる'],actions:['「フォロワー 10まん」と いった！','「おなじ としで もう しゃちょう」と いった！','すうじを なげて きた！']},
   // R38: the two new street zako (frames 5, 6; popup already comes from ch1.js).
-  infload:{name:'むげんローディング',adultName:'無限ローディング',frame:5,hp:62,attack:11,exp:24,money:40,level:6,color:['#2a3a52','#9fc4e0'],hints:["くるくる まわる","おわらない バー"],actions:['ぐるぐる まわった！','バーが すすんで、また もどった！']},
-  vacuum:{name:'ぼうそうそうじき',adultName:'暴走掃除機',frame:6,hp:70,attack:13,exp:26,money:44,level:6,color:['#4a3a2a','#d8a85a'],hints:["とつげき","コードを すう"],actions:['まっすぐ とつげきした！','コードを ズルズル すいこんだ！']},
+  infload:{name:'むげんローディング',adultName:'無限ローディング',frame:5,hp:62,attack:11,exp:24,money:40,level:6,color:['#2a3a52','#9fc4e0'],hints:["くるくる まわる","おわらない バー"],actions:['ぐるぐる まわった！','バーが すすんで、また もどった！'],adultHints:['くるくる回る','終わらないバー'],adultActions:['ぐるぐる回った！','バーが進んで、また戻った！']},
+  vacuum:{name:'ぼうそうそうじき',adultName:'暴走掃除機',frame:6,hp:70,attack:13,exp:26,money:44,level:6,color:['#4a3a2a','#d8a85a'],hints:["とつげき","コードを すう"],actions:['まっすぐ とつげきした！','コードを ズルズル すいこんだ！'],adultHints:['突撃','コードを吸う'],adultActions:['まっすぐ突撃した！','コードをズルズル吸い込んだ！']},
   // R46 (SPEC_V7_MANABU.md 7): じぶんまんまんの一言を言うが、全部まちがい。HPの棒はうそ（いつも まんたん、fakeHp）。
   // じっこう・つくるのダメージは半分。サーチフクロウで「でどころが ない！」→ ほんとうのHPが見え、ダメージ2倍（index.html damageEnemy/cast owl）。
-  hallucination:{name:'ハルシネーション',frame:7,fakeHp:true,hp:80,attack:10,exp:30,money:46,level:7,color:['#3a2a52','#d9a6ff'],hints:["じしんまんまん","ぜんぶ まちがい"],actions:['「よわてんは みず だよ」と じしんまんまんに いった！','「かいとうは 42です」と いった！','「でどころは たしかです」と いった！']}},
+  hallucination:{name:'ハルシネーション',frame:7,fakeHp:true,hp:80,attack:10,exp:30,money:46,level:7,color:['#3a2a52','#d9a6ff'],hints:["じしんまんまん","ぜんぶ まちがい"],actions:['「よわてんは みず だよ」と じしんまんまんに いった！','「かいとうは 42です」と いった！','「でどころは たしかです」と いった！'],adultHints:['自信満々','全部間違い'],adultActions:['「弱点は水だよ」と自信満々に言った！','「解答は42です」と言った！','「出どころは確かです」と言った！']}},
  maps
 });
 })();
