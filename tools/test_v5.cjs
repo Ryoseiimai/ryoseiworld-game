@@ -891,6 +891,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R129: from the street (hero x 13..17), the dark plate of each number never overlaps a street lamp picture (it slid onto the lamp head on a phone).
   for(const id of ['neon_num1','neon_num2'])for(const hx of [13,15,17]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
    const calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),pl=calls.findLast((c,i)=>i<at&&c[0]==='plate');
+   // R346: when half its width cannot bring the sign whole on screen (num1 from x 17), it is not drawn at all, so there is no plate to touch a lamp.
+   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...NUM(r,o)].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,ox=o.x*48;
+   if(ox<camX+2||ox>camX+538){assert(at<0,id+' sign cut by the screen edge is not drawn from x '+hx);continue;}
    assert(at>=0&&pl,id+' sign and plate are drawn from x '+hx);
    for(const l of calls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/'))){const lx=l.length>9?l[6]:l[2],ly=l.length>9?l[7]:l[3],lw=l.length>9?l[8]:l[4],lh=l.length>9?l[9]:l[5];
     const lamp=m.objects.filter(x=>x.id.startsWith('neon_light')).some(x=>Math.abs(x.x*48-(lx+lw/2))<4);if(!lamp)continue;
@@ -2484,12 +2487,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
  // R267: in ミナモ (mobile-20) the park board stood at the left edge and only 「ん」 of こうえん showed; a board's words are drawn only while all of them are on screen.
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
-  const run=(cam,o,signOf=o=>o.sign)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE','signOf',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000',signOf)(o);return{labels,rows};};
+  const run=(cam,o,signOf=o=>o.sign)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','SIGN_EDGE','SIGN_PLATE','signOf',src('signHalf')+'\n'+src('signX')+'\n'+src('signCut')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,16,'#000',signOf)(o);return{labels,rows};};
   const cam={x:455,y:0},park={x:9,y:26.6,kind:'props',frame:11,sign:'こうえん'};
   let r=run(cam,park);assert.equal(r.labels.length,0,'the words of a board cut by the left edge are not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keep no row');
   r=run({x:432-540+10,y:0},park);assert.equal(r.labels.length,0,'nor by the right edge');
   for(const cx of [380,432+52-540,170]){r=run({x:cx,y:0},park);assert.deepEqual(r.labels.map(l=>l[0]),['こうえん'],'the words of a board fully on screen at camera '+cx+' are drawn');}
-  r=run(cam,{x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'});assert.equal(r.labels.length,1,'a number person\'s sign still slides in at the edge (R85)');
+  // R85/R346: a number person's sign still slides in at the edge while half its width is enough to bring it whole on screen; past that it is not drawn, so it never shows cut.
+  const likes={x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'},lh=[...'いいね 3204'].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;
+  for(const cx of [400,439]){r=run({x:cx,y:0},likes);assert.equal(r.labels.length,1,'a number person\'s sign slides in at the edge (R85), camera '+cx);assert(r.labels[0][1]-lh>=cx&&r.labels[0][1]+lh<=cx+540,'and is drawn whole (R346): '+r.labels[0][1]);}
+  r=run(cam,likes);assert.equal(r.labels.length,0,'a sign that cannot come whole on screen is not drawn (R346): '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keeps no row');
   // R344: in おとな mode the board reads 公園 (two letters), and the edge test measures those two letters, not the four kana.
   const adult=o=>A(o.sign);r=run(cam,park,adult);assert.equal(r.labels.length,0,'公園 cut by the left edge is not drawn either');
   for(const cx of [380,170]){r=run({x:cx,y:0},park,adult);assert.deepEqual(r.labels.map(l=>l[0]),['公園'],'公園 fully on screen at camera '+cx+' is drawn');}
@@ -2591,6 +2597,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===want).at(-1),half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,pl=r.canvasCalls.filter(c=>c[0]==='plate').find(c=>c[1]<=txt[2]-half&&c[1]+c[3]>=txt[2]+half);
    assert(pl,'R345: the dark plate covers '+want+' in '+mode+' mode');}}
  result.push('R345: ネオンのかずの人の札が、おとなでは「順位 86」、こどもでは「じゅんい 86」になる PASS');
+ // R346: on a phone the right-hand number people showed 「いいね 320」 and 「順」 cut by the screen edge; walking along their rows in both modes,
+ // every number sign drawn sits whole on screen with its plate, a sign is skipped only while its person stands at the very edge, and each sign is drawn from somewhere on the street.
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();if(mode==='kids'){r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
+  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;
+  for(const id of ['neon_num2','neon_num4']){const o=m.objects.find(x=>x.id===id),want=mode==='adult'?o.sign.replace(/^じゅんい /,'順位 '):o.sign,half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;let seen=0,hidden=0;
+   for(let hx=8;hx<=28;hx+=0.5){r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===want);
+    const ox=o.x*48;if(ox+24<camX||ox-24>camX+540)continue;
+    if(at<0){hidden++;assert(ox<camX+2||ox>camX+538,'R346: '+mode+' '+want+' is only skipped while '+id+' stands at the screen edge (person x '+ox+', screen '+camX+'..'+(camX+540)+')');continue;}
+    seen++;const t=calls[at];assert(t[2]-half>=camX&&t[2]+half<=camX+540,'R346: '+mode+' '+want+' sits whole on screen from x '+hx+' (text '+(t[2]-half)+'..'+(t[2]+half)+', screen '+camX+'..'+(camX+540)+')');
+    assert(Math.abs(t[2]-ox)<=half,'R346: '+want+' still sits over '+id);const pl=calls.findLast((c,i)=>i<at&&c[0]==='plate');assert(pl&&pl[1]<=t[2]-half&&pl[1]+pl[3]>=t[2]+half&&pl[1]>=camX&&pl[1]+pl[3]<=camX+540,'R346: the plate of '+want+' covers it and stays on screen from x '+hx);}
+   assert(seen>0,'R346: '+mode+' '+want+' is drawn from the street');assert(hidden>0,'R346: '+mode+' walking past '+id+' reaches the edge where its sign is skipped');}}
+ result.push('R346: ネオンの右端のかずの人の札が、画面の端で切れて見えない PASS');
  // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
