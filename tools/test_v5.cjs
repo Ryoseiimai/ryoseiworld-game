@@ -332,7 +332,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const mode of ['adult','kids']){const data=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));data.mode=mode;const r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(data)]])});r.tick();const adult=mode==='adult';
   assert.equal(r.els.get('start-btn').textContent,adult?'始めから':'はじめから','R326 start button '+mode);assert.equal(r.els.get('continue-btn').textContent,adult?'続きから':'つづきから','R326 continue button '+mode);
   assert.equal(r.els.get('title-caption').textContent,adult?'続きは 第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(r.els.get('title-hint').textContent.includes(adult?'遊べるよ':'あそべるよ'),'R326 hint '+mode);
-  r.click('start-btn');assert.equal(r.g.modal,'confirm');assert(r.els.get('modal-buttons').children.some(b=>b.textContent===(adult?'始める':'はじめる')),'R326 wipe window button '+mode);}
+  r.click('start-btn');assert.equal(r.g.modal,'confirm');assert(r.els.get('modal-buttons').children.some(b=>b.textContent===(adult?'始める':'はじめる')),'R326 wipe window button '+mode);
+  // R347: the genre line under the title follows the save's mode too, and a chapter 4 save names ノイズの塔 in kanji.
+  assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながら ゲーム作りと<br>AIを学ぶ RPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
+  const d4={...data,chapter:4},r4=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d4)]])});r4.tick();
+  assert.equal(r4.els.get('title-caption').textContent,adult?'続きは 第4章　ノイズの塔':'つづきは 4しょう　ノイズのとう','R347 chapter 4 caption '+mode);}
+ result.push('R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS');
  result.push('R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS');
  // F07/F16/F17: hand-edited or stale saves never freeze the loop.
  const base=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));
@@ -1442,7 +1447,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS');
  // R113: the genre line on the title keeps a margin from the screen edges and wraps after ゲームづくりと, so RPG is not left alone on a line.
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
-  assert(/<p class="genre-tag">あそびながら ゲームづくりと<br>AIを まなぶ RPG<\/p>/.test(html),'the genre line wraps after ゲームづくりと');}
+  assert(/<p class="genre-tag"[^>]*>あそびながら ゲームづくりと<br>AIを まなぶ RPG<\/p>/.test(html),'the genre line wraps after ゲームづくりと');}
  result.push('R113: タイトルの「あそびながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
  // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
  {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);

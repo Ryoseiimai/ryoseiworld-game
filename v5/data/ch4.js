@@ -44,7 +44,7 @@ maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょ�
  tower('twr_gate2',15,7.4,2.6,90,110,{label:'かすかな ひかり',action:'boss',enemy:'zero',requiresBoss:'jibun',dialogue:'zeroTalk',lockedDialogue:'zeroLocked',clearedDialogue:'zeroGone',goneWhenCleared:true}),
  tower('twr_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  enemies:[],portals:[],cells:[{x:2.2,y:3.5,warp:'tower3',at:[5,10]}]};
-RYW.registerChapter({id:4,title:'ノイズのとう',town:'tower1',zakoGoal:3,
+RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔',town:'tower1',zakoGoal:3,
  // R29: ジブンに勝っても まだ 章は終わらない（jibun.winEvent が jibunWin を走らせるだけ）。章の ほんとうの ボスは ゼロ。
  boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',
  recruit:'kotoba',
