@@ -1763,6 +1763,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(line,ai+want,mode+' R356 '+copy());if(adult)assert(!/ /.test(line),'R356 adult line has no kids spaces '+line);r.key('Escape');}
   r.setRandom(Math.random);}}
  result.push('R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS');
+ // R361: the review quiz window titles were 「おさらい　1/3」 and 「おさらい　終わり」 with the kids' full-width gap in adult mode too.
+ // Adult mode now reads 「おさらい 1 / 3」 (like the owl's 「問題 1 / 3」) and 「おさらい終わり」; kids keep the old titles.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  ['jikkou','item','cost','prompt'].forEach(id=>r.RYW.learnQuiet(id));r.tick(1000);const title=()=>r.els.get('modal-title').textContent;
+  r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');
+  for(let i=0;i<3;i++){assert.equal(r.g.modal,'quiz',mode+' R361 quiz shown');assert.equal(title(),adult?`おさらい ${i+1} / 3`:`おさらい　${i+1}/3`,mode+' R361 quiz title');
+   r.els.get('modal-buttons').children[0].onclick();r.els.get('modal-buttons').children[0].onclick();}
+  assert.equal(r.g.modal,'quiz-result',mode+' R361 result shown');assert.equal(title(),adult?'おさらい終わり':'おさらい　おわり',mode+' R361 result title');
+  if(adult)assert(!/　/.test(title()),'R361 adult title has no kids gap '+title());r.key('Escape');r.setRandom(Math.random);}}
+ result.push('R361: おとなモードのおさらいの見出しを「おさらい 1 / 3」「おさらい終わり」にし、こどもモードは そのまま PASS');
  // R357: a key item's note opened from the item menu (はじめて つくった ゲーム → 調べる, かえしわすれた ほん) stayed in kids' spaced kana in adult mode,
  // under the menu's 「ポケットは小さな倉庫。」. Adult mode now reads descAdult (「四角がジャンプすると…」「返却日は先月。」); kids keep desc. Item names stay.
  {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
