@@ -1,0 +1,30 @@
+{
+  "branch": "claude/autodev-20261101-0621-R362",
+  "sha": "dada7767b5f6e479c37ba23c0d766fe342e12278",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_shooter: 失敗（最後の15行）",
+    "FAIL 新しい武器名8種（おとなモード）",
+    "ゆっくりめの人のボット（きずな0）: bugking 144秒(当たり0回) / kateino 155秒(当たり0回) / hikaku 130秒(当たり0回) / jibun 128秒(当たり0回) / zero 126秒(当たり0回)",
+    "きずな0（武器なし・おとも0）のボット: bugking 127秒(当たり0回) / kateino 135秒(当たり0回) / hikaku 128秒(当たり0回) / jibun 130秒(当たり0回) / zero 126秒(当たり0回)",
+    "武器ぜんぶ＋おとも3のボット: bugking 33秒(当たり0回) / kateino 35秒(当たり0回) / hikaku 18秒(当たり0回) / jibun 130秒(当たり0回) / zero 126秒(当たり0回)",
+    "ビートを押すボット: bugking 29秒 / kateino 41秒 / hikaku 27秒",
+    "test_shooter: 431 ok, 1 failed"
+  ],
+  "shots": [
+    "devlog/shots/621/mobile-02-mode-select.jpg",
+    "devlog/shots/621/mobile-15-custom-full-run.jpg",
+    "devlog/shots/621/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/621/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-10-31T21:58:15.225Z",
+  "merged_sha": null,
+  "tested_base": "1e8feb1c8ffc94e9883cad0b9f89e070a1010eaa",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245050347"
+}
