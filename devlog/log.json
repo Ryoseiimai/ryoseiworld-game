@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T19:12:41.622Z",
-  "branch": "claude/autodev-20261024-0321-R195",
-  "task": "R195 3章のネオンで、道の上に置かれて一歩も動かなかった敵3体を、歩道へ移して歩くようにした",
-  "summary": "ネオンの敵4体のうち3体が道の上に置かれ、一歩も動いていなかった\n3体を道の横の歩道へ移し、左右に歩くようにした\n敵が道の上に置かれず、1マス以上歩く確認をテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/364/mobile-02-mode-select.jpg",
-   "shots/364/mobile-15-custom-full-run.jpg",
-   "shots/364/mobile-27-chapter-2-play.jpg",
-   "shots/364/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ca4d9dc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40006984771"
- },
- {
   "at": "2026-10-23T20:15:18.409Z",
   "branch": "claude/autodev-20261024-0421-R196",
   "task": "R196 町のコンビニの前で、スマホの おねえさんが信号の柱にくっついて立っていたので、柱から離して立たせた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "220c911",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41202298319"
+ },
+ {
+  "at": "2026-10-31T13:50:17.149Z",
+  "branch": "claude/autodev-20261031-2221-R352",
+  "task": "R352 きずなが深まった時のお知らせ「きずなが ふかまった！」「守護霊が ちからを かしてくれた！」「おこづかいを 100えん もらった。」と連射の「びょう」がおとなモードでもひらがなだったので、おとなでは「きずなが深まった！」「力を貸してくれた！」「お小遣いを100円もらった。」「秒」にした（「きずな」は名前を変えない言葉なのでそのまま）",
+  "summary": "おとなモードのきずなのお知らせを「きずなが深まった！」などの漢字まじりにした\n連射の武器をもらった時の待ち時間を、おとなでは「秒」にした。こどもはかなのまま\nテストと前後のスクショ（docs/shots/R352）を足した。鍵ブランチへの push は許可されず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/606/mobile-02-mode-select.jpg",
+   "shots/606/mobile-15-custom-full-run.jpg",
+   "shots/606/mobile-27-chapter-2-play.jpg",
+   "shots/606/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "624d167",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41206373883"
  }
 ]
