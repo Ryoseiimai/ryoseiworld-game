@@ -1765,6 +1765,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(line,ai+want,mode+' R356 '+copy());if(adult)assert(!/ /.test(line),'R356 adult line has no kids spaces '+line);r.key('Escape');}
   r.setRandom(Math.random);}}
  result.push('R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS');
+ // R363: the pause card read 「ひとやすみ」「つづける」 in adult mode too, right after the menu's 「一休み」 button. Adult mode now reads 「一休み」「続ける」; kids keep kana.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(3000);r.g.debugWin();r.tick(2000);r.dialogue();r.tick(300);
+  r.click('menu-btn');r.button(adult?'一休み':'ひとやすみ');assert(r.g.paused,mode+' R363 paused');
+  assert.equal(r.els.get('pause-label').textContent,adult?'一休み':'ひとやすみ',mode+' R363 pause label');assert.equal(r.els.get('resume-btn').textContent,adult?'続ける':'つづける',mode+' R363 resume button');
+  r.click('resume-btn');assert(!r.g.paused,mode+' R363 resumed');}}
+ result.push('R363: おとなモードの一休みの画面を「一休み」「続ける」にし、こどもモードは「ひとやすみ」「つづける」のまま PASS');
  // R362: the epilogue card's eyebrow 「THE END のあと」 and the input hint 「なんでも かいてね」 stayed in kids' kana in adult mode, next to the 送る button.
  // Adult mode now reads 「THE END の後」「何でも書いてね」 (aria-label 「次に作るもの」); kids keep the kana. Sora's question is story text and stays the same in both modes.
  {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.state.mode=mode;
