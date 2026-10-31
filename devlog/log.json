@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T09:58:01.916Z",
-  "branch": "claude/autodev-20261023-1821-R186",
-  "task": "R186 ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませないよう、フィールドの台詞を変えた",
-  "summary": "ボス戦の前に「フクの ちからで」「うかんだ」を2回続けて読ませていた\nフィールドの台詞を「フクが キックボードに とびこんだ」に変え、浮くのはボス戦の帯だけにした\n前と後のスクショを docs/shots/R186 に置き、同じ言葉が戻らない確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/346/mobile-02-mode-select.jpg",
-   "shots/346/mobile-15-custom-full-run.jpg",
-   "shots/346/mobile-27-chapter-2-play.jpg",
-   "shots/346/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "cc6b09e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39934921363"
- },
- {
   "at": "2026-10-23T10:40:00.734Z",
   "branch": "claude/autodev-20261023-1921-R187",
   "task": "R187 ネオンの町で、ずれた「はなす」ボタンが街灯の上に乗るのを見つけた（前半）",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "5df0ecb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41146673718"
+ },
+ {
+  "at": "2026-10-31T00:57:36.568Z",
+  "branch": "claude/autodev-20261031-0921-R340",
+  "task": "R340 バス停と駅の看板の案内「つぎの バスは ノイズが はれてから」「でんしゃは とまって います」がおとなモードでもひらがなだったので、おとなでは「バス停」「次のバスは…晴れてから」「駅の看板」「電車は止まっています」にした（ソラの台詞は物語なのでそのまま）",
+  "summary": "バス停と駅の看板が出す案内を、おとなでは「次のバスは…晴れてから」「電車は止まっています」にした\n看板は案内の札（R338 の札と同じ）として扱い、続くソラの台詞は物語なのでひらがなのままにした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/589/mobile-02-mode-select.jpg",
+   "shots/589/mobile-15-custom-full-run.jpg",
+   "shots/589/mobile-27-chapter-2-play.jpg",
+   "shots/589/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4aeb0c3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41152207737"
  }
 ]
