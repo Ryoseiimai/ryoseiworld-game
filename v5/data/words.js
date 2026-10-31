@@ -202,5 +202,8 @@ RYW.words={
 };
 RYW.word=function(id){if(Object.hasOwn(RYW.words,id))return RYW.words[id][RYW.mode].word;console.warn('RYW.word: unknown id',id);return id;};
 RYW.card=function(id){const e=RYW.words[id];if(!e)return'';return RYW.mode==='adult'?e.adult.one:e.kids.sora;};
-RYW.detail=function(id,aiName){const e=RYW.words[id];if(!e)return[];if(RYW.mode==='adult')return[['一言',e.adult.one],['意味',e.adult.mean],['実務では',e.adult.work],['コード',e.adult.code],['出会った場所',e.where]];return[[(aiName||'ソラ')+'の ひとこと',e.kids.sora],['ほんものでは',e.kids.real],['コード',e.kids.code],['であった ところ',e.where]];};
+// R359: 出会った場所 in a word's page is part of the learning side (SPEC_V7_MANABU.md 9). Adult mode reads these kanji forms; kids keep e.where. Names (enemies, chapters) stay.
+RYW.WHERE_ADULT={'ボスせんの リズム':'ボス戦のリズム','メニューの ステータス':'メニューのステータス','ポップアップおばけの こうげき':'ポップアップおばけの攻撃','ボスせんの ライフ':'ボス戦のライフ','ボスせんの ホーミング レター':'ボス戦のホーミングレター','ボスせんの ベクトル チップ':'ボス戦のベクトルチップ','ボスせんの フク・ショット':'ボス戦のフク・ショット','ボスせんの チャージショット':'ボス戦のチャージショット','ボスせんの クールダウン チップ':'ボス戦のクールダウンチップ','ボスせんの あたりはんてい チップ':'ボス戦の当たり判定チップ','ボスせんの if バリア':'ボス戦のifバリア','プロトタイプが 育った時':'プロトタイプが育った時','デプロイの あと':'デプロイの後','カテイノジジョウの ボスせん':'カテイノジジョウのボス戦','アイテムの いちらん':'アイテムの一覧','よびだすの いちらん':'呼び出すの一覧','もどす ボタン':'アンドゥボタン','はじめての ボスせん':'初めてのボス戦','はじめての たたかい':'初めての戦い','つくるの プロンプト':'作るのプロンプト','つくるの なにか つくって':'作るの「何か作って」','つくるの くりかえし こうげき':'作るの「繰り返し攻撃」','たたかいの よびだす':'戦いの呼び出す','たたかいの じっこう':'戦いの実行','ジャンプの たかさ':'ジャンプの高さ','1章の おわり':'1章の終わり','3章 サーバークジラ':'3章のサーバークジラ'};
+RYW.whereOf=function(e){return RYW.mode==='adult'&&RYW.WHERE_ADULT[e.where]||e.where;};
+RYW.detail=function(id,aiName){const e=RYW.words[id];if(!e)return[];if(RYW.mode==='adult')return[['一言',e.adult.one],['意味',e.adult.mean],['実務では',e.adult.work],['コード',e.adult.code],['出会った場所',RYW.whereOf(e)]];return[[(aiName||'ソラ')+'の ひとこと',e.kids.sora],['ほんものでは',e.kids.real],['コード',e.kids.code],['であった ところ',e.where]];};
 })(typeof window!=='undefined'?window:globalThis);
