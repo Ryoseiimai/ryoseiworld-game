@@ -651,12 +651,12 @@ const EVENT_STEPS={
  finale:(s,next)=>endingTowns(s.finale?.towns||[],()=>startEpilogue(next))
 };
 function bondOf(id){const b=Object.hasOwn(GAME_DATA.bonds,id)?GAME_DATA.bonds[id]:null;if(!b)console.warn('runEvent: unknown bond',id);return b;}
-function raiseBond(id,n,next){const b=bondOf(id),before=num(g.bonds[id],0),after=Math.max(0,Math.min(5,before+Math.floor(num(n,1))));if(!b||after<=before){next();return;}g.bonds[id]=after;sfx.bond();fx.flashUntil=gameTime+(fx.flashMs=550);fx.flash='#ffd6ef';say([['',`${b.name}との\nきずなが ふかまった！`],...bondRewards(b,before,after)],next);}
+function raiseBond(id,n,next){const b=bondOf(id),before=num(g.bonds[id],0),after=Math.max(0,Math.min(5,before+Math.floor(num(n,1))));if(!b||after<=before){next();return;}g.bonds[id]=after;sfx.bond();fx.flashUntil=gameTime+(fx.flashMs=550);fx.flash='#ffd6ef';say([['',menuLabel(`${b.name}との\nきずなが深まった！`,`${b.name}との\nきずなが ふかまった！`)],...bondRewards(b,before,after)],next);}
 // Rewards for each heart count passed (SPEC_V6.md 2): {weapon:'barrier'} and/or {money:100}. Money is おこづかい from family, おれい from friends.
 function bondRewards(b,before,after){const out=[],r=b.rewards||{};for(let h=before+1;h<=after;h++){const w=r[h]?.weapon,m=Math.floor(num(r[h]?.money,0));
  if(w&&!Object.hasOwn(GAME_DATA.weapons,w))console.warn('bond reward: unknown weapon',w);
- if(w&&Object.hasOwn(GAME_DATA.weapons,w)&&!g.weapons.includes(w)){g.weapons.push(w);out.push(['',`${b.name}の 守護霊が\nちからを かしてくれた！\n〔${GAME_DATA.weapons[w].name}〕`]);if(w==='rapid'&&window.RYW.Shooter)out.push(['',window.RYW.Shooter.cooldownText()]);}
- if(m>0){g.money+=m;out.push(['',`${b.kind==='family'?'おこづかい':'おれい'}を\n${m}えん もらった。`]);}}return out;}
+ if(w&&Object.hasOwn(GAME_DATA.weapons,w)&&!g.weapons.includes(w)){g.weapons.push(w);out.push(['',menuLabel(`${b.name}の守護霊が\n力を貸してくれた！\n〔${GAME_DATA.weapons[w].name}〕`,`${b.name}の 守護霊が\nちからを かしてくれた！\n〔${GAME_DATA.weapons[w].name}〕`)]);if(w==='rapid'&&window.RYW.Shooter)out.push(['',window.RYW.Shooter.cooldownLabel()]);}
+ if(m>0){g.money+=m;out.push(['',menuLabel(`${b.kind==='family'?'お小遣い':'お礼'}を\n${m}円もらった。`,`${b.kind==='family'?'おこづかい':'おれい'}を\n${m}えん もらった。`)]);}}return out;}
 function giveGift(item,to,next){const b=bondOf(to),it=GAME_DATA.items[item];if(!b||!it){if(!it)console.warn('runEvent: unknown item',item);next();return;}const given=g.gifts[to]||[];
  if(given.includes(item)){say([['',`${it.name}は\nもう あげた。`]],next);return;}
  if(!(b.likes||[]).includes(item)){say([['',`${b.name}は\nいまは いらない みたい。`]],next);return;}

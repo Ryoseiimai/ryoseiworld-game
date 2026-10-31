@@ -1700,6 +1700,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(rows[0],adult?'グリッチカラスが窓から来た！':'グリッチカラスが まどから きた！',mode+' R351 first row');
   for(const row of rows)assert(wide(row)<=16,'R351 row fits '+row);}}
  result.push('R351: おとなモードの最初の戦闘のお知らせを「グリッチカラスが窓から来た！」にし、こどもモードは かなのまま PASS');
+ // R352: the bond lines 「おかあさんとの きずなが ふかまった！」「守護霊が ちからを かしてくれた！」「おこづかいを 100えん もらった。」 were kana in adult mode,
+ // while the 武器 menu already said 「きずなが深まると増える。」. Adult now reads 深まった・力を貸してくれた・お小遣い・100円; kids keep the kana. きずな stays a kana word (SPEC_V7 9).
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const all=[];r.g.debugEvent([{bond:'mother',n:3}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const text=all.join('\n');
+  const want=adult?['おかあさんとの\nきずなが深まった！','おかあさんの守護霊が\n力を貸してくれた！\n〔if バリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
+  for(const w of want)assert(text.includes(w),mode+' R352 '+w+' in '+text);
+  if(adult)assert(!/ふかまった|ちからを かして|えん もらった|おこづかい/.test(text),'R352 adult has no kana bond line '+text);else assert(!/深まった|力を貸して|円もらった|お小遣い/.test(text),'R352 kids keep kana '+text);
+  for(const row of text.split('\n'))assert(wide(row)<=12,'R352 row fits '+row);
+  {const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();const id=Object.keys(r.g.GAME_DATA.bonds).find(k=>Object.values(r.g.GAME_DATA.bonds[k].rewards||{}).some(x=>x.weapon==='rapid'));
+   if(id){const all=[];r.g.debugEvent([{bond:id,n:5}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const cd=all.find(l=>/→/.test(l));assert(cd,mode+' R352 rapid cooldown line '+all.join('|'));assert(adult?/秒$/.test(cd)&&!/びょう/.test(cd):/ びょう$/.test(cd),mode+' R352 cooldown '+cd);}}}}
+ result.push('R352: おとなモードのきずなのお知らせを「きずなが深まった！」「守護霊が力を貸してくれた！」「お小遣いを100円もらった。」にし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
