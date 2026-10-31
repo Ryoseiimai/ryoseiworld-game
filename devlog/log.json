@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T02:04:44.636Z",
-  "branch": "claude/autodev-20261024-1021-R202",
-  "task": "R202 町の電柱の絵の右に黒い点が散って、絵がこわれて見えたので、読み込む時に点を消した",
-  "summary": "町の電柱の絵の右に、切れた電線の黒い点が約20個残っていた\n絵を読み込む時に、ななめも含めてつながらない12画素以下の点だけを消した\n点が消え、電柱と腕は残ることをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/377/mobile-02-mode-select.jpg",
-   "shots/377/mobile-15-custom-full-run.jpg",
-   "shots/377/mobile-27-chapter-2-play.jpg",
-   "shots/377/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3d360be",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40051951385"
- },
- {
   "at": "2026-10-24T03:08:15.185Z",
   "branch": "claude/autodev-20261024-1121-R203",
   "task": "R203 町の交番の前で、おまわりさんが道の向こうの電柱のてっぺんに乗って見えたので、電柱を西へ移した。配達の人と街灯も同じだったので、人を東へずらした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "55db8b1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41235482456"
+ },
+ {
+  "at": "2026-10-31T20:57:53.328Z",
+  "branch": "claude/autodev-20261101-0521-R361",
+  "task": "R361 ことばノートのおさらいの見出し「おさらい　1/3」「おさらい　終わり」がおとなモードでも全角の空白入りだったので、おとなでは「おさらい 1 / 3」「おさらい終わり」にした（こどもモードはそのまま）",
+  "summary": "おとなモードのおさらいの見出しを「おさらい 1 / 3」にした\n結果の見出しも「おさらい終わり」にした。こどもはそのまま\nテストと、540x960 の前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/620/mobile-02-mode-select.jpg",
+   "shots/620/mobile-15-custom-full-run.jpg",
+   "shots/620/mobile-27-chapter-2-play.jpg",
+   "shots/620/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8e5f93d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41240318539"
  }
 ]
