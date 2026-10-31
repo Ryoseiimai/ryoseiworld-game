@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T11:52:36.431Z",
-  "branch": "claude/autodev-20261023-2022-R188",
-  "task": "R188 ネオンの町で、ずれた「はなす」ボタンを街灯の上に乗せない（後半）",
-  "summary": "ネオンの町の3章の始めで、「はなす」ボタンが街灯に乗る原因を本物のブラウザで調べた\n原因: 街灯の無い段が、まわりの16pxの余白だけで候補から外れていた\n余白なしで空いていて街灯も無い段を候補に入れ、ボタンが道の上へずれるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/349/mobile-02-mode-select.jpg",
-   "shots/349/mobile-15-custom-full-run.jpg",
-   "shots/349/mobile-27-chapter-2-play.jpg",
-   "shots/349/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "46bfb83",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39948243121"
- },
- {
   "at": "2026-10-23T12:06:21.366Z",
   "branch": "claude/autodev-20261023-2022-R188",
   "task": "R188 ネオンの町で、ずれた「はなす」ボタンを街灯の上に乗せない（後半）",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "9f515eb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41157169860"
+ },
+ {
+  "at": "2026-10-31T02:44:40.557Z",
+  "branch": "claude/autodev-20261031-1122-R342",
+  "task": "R342 画面上の地図名「とう1F」「としょかん」「おくじょう」がおとなモードでもひらがなで、すぐ下の目標は漢字だったので、おとなでは「塔1F」「図書館」「屋上」「自分の部屋」「友達の家」「電気屋・ジャンク」にした（町の名前はそのまま）",
+  "summary": "画面上の地図名を、おとなでは「塔1F」「図書館」「屋上」などの漢字にした\n部屋・友達の家・電気屋も同じ。町の名前とカタカナの名前はそのまま\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/593/mobile-02-mode-select.jpg",
+   "shots/593/mobile-15-custom-full-run.jpg",
+   "shots/593/mobile-27-chapter-2-play.jpg",
+   "shots/593/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "361e3d0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41160748868"
  }
 ]
