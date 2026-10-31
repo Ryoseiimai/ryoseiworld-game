@@ -1778,6 +1778,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.button(r.RYW.words.item[mode].word);assert.equal(r.g.modal,'word-detail');const kids=r.els.get('modal-copy').children;
   assert.equal(kids[0].textContent,adult?'種類':'しゅるい',mode+' R358 kind title');assert.equal(kids[1].textContent,adult?'ゲーム作り':'ゲームづくり',mode+' R358 kind value');r.key('Escape');}}
  result.push('R358: おとなモードのことばノートで、言葉の種類の見出しと「種類」を「ゲーム作り」にし、こどもモードは「ゲームづくり」のまま PASS');
+ // R359: 出会った場所 in a word's page read kids' spaced kana in adult mode (「アイテムの いちらん」) under kanji lines like 「実務では」.
+ // Adult mode now reads RYW.WHERE_ADULT (「アイテムの一覧」「ボス戦の当たり判定チップ」); kids keep e.where. Every learnable word's adult place has no kids' spaces.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const W=r.RYW.words;if(adult)for(const [id,e] of Object.entries(W)){const w=r.RYW.whereOf(e);assert(!/[ぁ-んァ-ヶ一-龠] [ぁ-んァ-ヶ一-龠]/.test(w),'R359 adult place has no kids spaces '+id+' '+w);assert([...w].length<=16,'R359 adult place fits '+w);}
+  r.RYW.learnQuiet('item');r.tick(16);r.g.debugOpenNote();r.button(W.item[mode].word);assert.equal(r.g.modal,'word-detail');const kids=r.els.get('modal-copy').children,last=kids.length;
+  assert.equal(kids[last-2].textContent,adult?'出会った場所':'であった ところ',mode+' R359 place title');assert.equal(kids[last-1].textContent,adult?'アイテムの一覧':'アイテムの いちらん',mode+' R359 place value');r.key('Escape');}}
+ result.push('R359: おとなモードのことばノートで、言葉の「出会った場所」を「アイテムの一覧」「ボス戦の当たり判定チップ」などの漢字まじりにし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
