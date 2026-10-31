@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T16:50:42.633Z",
-  "branch": "claude/autodev-20261024-0121-R193",
-  "task": "R193 3章の始めで、そうじきの敵がミオのすぐ横の道に立っていたので、右の歩道へ移し、敵が町の人に近づかないようにした",
-  "summary": "3章の始めで、そうじきの敵がミオのすぐ横の道の上に止まっていた\nそうじきを右の歩道へ移し、どの町でも敵が人から1.6マス離れるようにした\n敵が人に近づかない確認を足した（直す前は落ち、後は通る）",
-  "result": "pass",
-  "shots": [
-   "shots/360/mobile-02-mode-select.jpg",
-   "shots/360/mobile-15-custom-full-run.jpg",
-   "shots/360/mobile-27-chapter-2-play.jpg",
-   "shots/360/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8568a0d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39989027879"
- },
- {
   "at": "2026-10-23T17:14:15.613Z",
   "branch": "claude/autodev-20261024-0121-R193",
   "task": "R193 3章の始めで、そうじきの敵がミオのすぐ横の道に立っていたので、右の歩道へ移し、敵が町の人に近づかないようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "9e810eb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41189976577"
+ },
+ {
+  "at": "2026-10-31T10:50:44.461Z",
+  "branch": "claude/autodev-20261031-1921-R349",
+  "task": "R349 戦闘の敵の行動の文「まっすぐ とつげきした！」とフクロウの次の動き、勝った時の「は おとなしく なった！」がおとなモードでもひらがなだったので、おとなでは「まっすぐ突撃した！」「コードをズルズル吸い込んだ！」「はおとなしくなった！」などにした",
+  "summary": "おとなモードの戦闘で、敵12体の行動の文とフクロウが出す次の動きを漢字まじりにした\n勝った時の文を、おとなでは「はおとなしくなった！」にした。こどもはかなのまま\nテストを足し、前後のスクショを docs/shots/R349 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/603/mobile-02-mode-select.jpg",
+   "shots/603/mobile-15-custom-full-run.jpg",
+   "shots/603/mobile-27-chapter-2-play.jpg",
+   "shots/603/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "28cf971",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41193541967"
  }
 ]
