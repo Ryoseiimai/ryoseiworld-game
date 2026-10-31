@@ -1770,6 +1770,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.els.get('modal-copy').textContent,adult?'四角がジャンプすると\nピコッと鳴る。\n二人の作品。':I.firstgame.desc,mode+' R357 firstgame note');r.button(back);r.button(back);
   r.button(I.minamoBook.name);assert(r.g.dialogue,mode+' R357 book note shown');assert.equal(r.g.dialogue.lines[0][1],adult?'「はじめての\nプログラミング」\n返却日は先月。':I.minamoBook.desc,mode+' R357 book note');}}
  result.push('R357: おとなモードのアイテムで、大事な物の説明を「四角がジャンプすると…」「返却日は先月。」の漢字まじりにし、こどもモードは かなのまま PASS');
+ // R358: ことばノート's kind heading and the 種類 line in a word's page read 「ゲームづくり」 in kids' kana in adult mode, under 「集めた言葉」 and beside 「種類」.
+ // Adult mode now reads 「ゲーム作り」 (like the title's 「ゲーム作りと AIを学ぶ」); kids keep 「ゲームづくり」. The other kinds (コード・AI・ネット) stay.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.RYW.learnQuiet('item');r.tick(16);r.g.debugOpenNote();const heads=r.els.get('modal-buttons').children.filter(c=>c.className==='word-kind').map(c=>c.textContent);
+  assert.deepEqual(heads,adult?['コード','ゲーム作り','AI','ネット']:['コード','ゲームづくり','AI','ネット'],mode+' R358 note headings');
+  r.button(r.RYW.words.item[mode].word);assert.equal(r.g.modal,'word-detail');const kids=r.els.get('modal-copy').children;
+  assert.equal(kids[0].textContent,adult?'種類':'しゅるい',mode+' R358 kind title');assert.equal(kids[1].textContent,adult?'ゲーム作り':'ゲームづくり',mode+' R358 kind value');r.key('Escape');}}
+ result.push('R358: おとなモードのことばノートで、言葉の種類の見出しと「種類」を「ゲーム作り」にし、こどもモードは「ゲームづくり」のまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
