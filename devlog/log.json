@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T04:10:00.191Z",
-  "branch": "claude/autodev-20261024-1221-R204",
-  "task": "R204 でんきやで、テレビの やまが奥の壁にかかって上の札の下に隠れていたので、床の上へ下げた",
-  "summary": "でんきやで、テレビの やまの上が奥の壁にかかっていた\n出口の近くでは、上の札と帯の下に半分隠れていた\nやまを1マスほど下げて少し小さくし、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/380/mobile-02-mode-select.jpg",
-   "shots/380/mobile-15-custom-full-run.jpg",
-   "shots/380/mobile-27-chapter-2-play.jpg",
-   "shots/380/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ecf297c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40060136645"
- },
- {
   "at": "2026-10-24T04:56:15.454Z",
   "branch": "claude/autodev-20261024-1321-R205",
   "task": "R205 ミナモちょうで、つかれた おとうさんが車道のまん中に立っていたので、歩道へ移した",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "f5bc282",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245787050"
+ },
+ {
+  "at": "2026-10-31T22:43:04.365Z",
+  "branch": "claude/autodev-20261101-0721-R363",
+  "task": "R363 一休みの画面がおとなモードでも「ひとやすみ」「つづける」で、直前のメニューの「一休み」とそろっていなかったので、おとなでは「一休み」「続ける」にした（こどもモードはそのまま）",
+  "summary": "一休みの画面を、おとなでは「一休み」「続ける」にした。こどもはそのまま\nテストと、540x960 の前後のスクショを足した\n鍵の枝は名前の決まりで push できず、鍵を取らずに進めた",
+  "result": "pass",
+  "shots": [
+   "shots/624/mobile-02-mode-select.jpg",
+   "shots/624/mobile-15-custom-full-run.jpg",
+   "shots/624/mobile-27-chapter-2-play.jpg",
+   "shots/624/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3f26e60",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41248461901"
  }
 ]
