@@ -1641,6 +1641,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R138: とう1Fと部屋の出口の ↓ と「そとへ」が1枚の札に並ぶ PASS');
  // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.state.mode='kids';r.RYW.setMode('kids'); // R348: keep this check on the long kana name (kids mode); the adult name is checked under R348
   r.g.debugStartBattle('vending','r139');r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);
   const log=r.g.battle?.log||r.els.get('battle-log').textContent,name=r.g.GAME_DATA.enemies.vending.name;
   assert(log.startsWith(name+'は\nおとなしく なった！\n'),log);for(const row of log.split('\n'))assert([...row].length<=18,'row fits: '+row);
@@ -1654,6 +1655,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.startsWith(name+' は'),log);assert(!log.includes(name+'は'),log);
   r.g.debugStartBattle('vending','r310b');r.tick(300);const v=r.g.GAME_DATA.enemies.vending.name,vm=r.els.get('battle-log').textContent;assert(!vm.includes(v+' が'),'a kana name keeps no gap: '+vm);}
  result.push('R310: 英字の名前（BUG KING）と「は」「が」の間を空けた PASS');
+ // R348: battle messages were kanji in adult mode (現れた・経験値) but the foe's name stayed kana (バグったじはんき). Adult now shows adultName; kids keeps name.
+ {const E=r=>r.g.GAME_DATA.enemies;
+  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+   r.g.state.mode=mode;r.RYW.setMode(mode);const adult=mode==='adult',want=adult?'バグった自販機':'バグったじはんき';
+   r.g.debugStartBattle('vending','r348'+mode);r.tick(300);assert.equal(r.els.get('enemy-name').textContent,want,'R348 name box '+mode);
+   const met=r.els.get('battle-log').textContent;assert(met.startsWith(want+(adult?'が現れた！':'が あらわれた！')),met);
+   while(r.g.dialogue)r.dialogue();r.g.debugWin();r.tick(300);const log=r.g.battle?.log||r.els.get('battle-log').textContent;
+   assert(log.startsWith(want+'は'),log);for(const row of log.split('\n'))assert([...row].reduce((n,c)=>n+(c===' '?.3:c.charCodeAt(0)<127?.55:1),0)<=18,'row fits (same width rule as wonLine): '+row);
+   r.tick(2100);while(r.g.dialogue)r.dialogue();
+   if(adult){for(const k of ['popup','spam','cable','infload','vacuum','virusball','infload2'])if(E(r)[k])assert(E(r)[k].adultName&&E(r)[k].adultName!==E(r)[k].name,'R348 adultName '+k);}}}
+ result.push('R348: おとなモードの戦闘で、敵の名前を「バグった自販機」「暴走掃除機」など漢字まじりにした PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];

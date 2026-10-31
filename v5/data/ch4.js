@@ -89,9 +89,9 @@ RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔
  enemies:{
   // R27: SPEC_V5_CH234.md「ウイルスだま・グリッチカラス・むげんローディング（色を暗くした強い版）」。
   // あたらしい絵は依頼中で、とどくまでは ちかい すがたの コマを くらい いろで ながす（RULES.md 4）。
-  virusball:{name:'ウイルスだま',frame:3,hp:86,attack:14,exp:34,money:52,level:9,color:['#1c1430','#7a5ad9'],hints:["ぷるぷる ふるえる","はねて くる"],actions:['ぷるぷる ふるえた！','おおきく はねて きた！']},
+  virusball:{name:'ウイルスだま',adultName:'ウイルス玉',frame:3,hp:86,attack:14,exp:34,money:52,level:9,color:['#1c1430','#7a5ad9'],hints:["ぷるぷる ふるえる","はねて くる"],actions:['ぷるぷる ふるえた！','おおきく はねて きた！']},
   crow2:{name:'グリッチカラス',frame:1,hp:78,attack:13,exp:32,money:48,level:9,color:['#161f30','#5f7aa8'],hints:["いちコマ とぶ","するどく つつく"],actions:['くらやみで いちコマ とんだ！','するどく つついて きた！']},
-  infload2:{name:'むげんローディング',frame:5,hp:90,attack:15,exp:36,money:54,level:9,color:['#141c2c','#45597a'],hints:["くるくる まわる","おわらない バー"],actions:['くらく ぐるぐる まわった！','バーが すすんで、また もどった！']},
+  infload2:{name:'むげんローディング',adultName:'無限ローディング',frame:5,hp:90,attack:15,exp:36,money:54,level:9,color:['#141c2c','#45597a'],hints:["くるくる まわる","おわらない バー"],actions:['くらく ぐるぐる まわった！','バーが すすんで、また もどった！']},
   // R28: ジブンの シューティング戦（v5/js/shooter.js の jibun: たまは すりぬけ、「つくる」の ひかりを3つ とると いろが もどる）。ふだんの たたかいに ならない時の保険として形だけの数値を置く。
   // R29: winEvent で jibunWin を走らせる。これが無いと bossWon は 章の ほんとうの ボス（ゼロ）としか みなさない。
   jibun:{name:'ジブン',boss:true,shooter:'jibun',winEvent:'jibunWin',intro:['ジブン','やめても だれも こまらないよ。'],art:'ryosei',animCols:4,specialEvery:3,specialDamage:0,hp:1,attack:0,exp:0,money:0,level:9,color:['#1a2430','#c9ced8'],hints:['きのうの じぶんを たすける'],actions:['たまが すりぬけた。']},
