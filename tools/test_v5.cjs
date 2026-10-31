@@ -829,11 +829,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R30/FUN2: エンディング（まちの カード）→ エピローグ（かいた ことばを ソラが 読みかえす）→ タイトル PASS');
  // R100: the park sign's 「こうえん」 sits inside its board (between the posts, under the top beam) and at the board's middle, in both towns.
  // Board of props 11 (frame 236x248): posts end at x 62 and start at x 174, the panel runs y 96..166 and its middle is y 128.
- {const r=await runtime();r.tick();r.start();r.tick(1000);
+ // R344: checked in both modes; おとな draws 公園, two letters, at the same middle.
+ for(const mode of ['kids','adult']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);const word=mode==='adult'?A('こうえん'):'こうえん';
   for(const [map,id] of [['town','parksign'],['minamo','minamo_parksign']]){const o=r.g.GAME_DATA.maps[map].objects.find(x=>x.id===id);assert(o&&o.sign==='こうえん',id+' is a park sign');
    r.g.debugWarp(map,o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
-   assert(txt&&img,id+' sign art and words are drawn');const [,,x,y,w,h]=img,left=x+w*63/236,right=x+w*174/236,top=y+h*96/248,bottom=y+h*166/248,half=[...o.sign].length*24/2+3;
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===word).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+   assert(txt&&img,id+' sign art and words are drawn ('+mode+': '+word+')');const [,,x,y,w,h]=img,left=x+w*63/236,right=x+w*174/236,top=y+h*96/248,bottom=y+h*166/248,half=[...word].length*24/2+3;
    assert(txt[2]-half>=left&&txt[2]+half<=right,id+' words stay between the posts (words '+(txt[2]-half)+'..'+(txt[2]+half)+', board '+left.toFixed(1)+'..'+right.toFixed(1)+')');
    assert(txt[3]-22>=top&&txt[3]+4<=bottom,id+' words stay on the panel (glyphs '+(txt[3]-22)+'..'+(txt[3]+4)+', panel '+top.toFixed(1)+'..'+bottom.toFixed(1)+')');
    assert(Math.abs(txt[2]-(left+right)/2)<=2&&Math.abs(txt[3]-9-(y+h*128/248))<=2,id+' words sit at the middle of the board (text '+txt[2]+','+txt[3]+')');
@@ -1508,20 +1509,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
  // R99: on とう2F the card no longer covers the stairs signs (うえへ / したへ) at the top of the floor: it moves to the bottom of the map band, clear of the hero.
  // In battle a quiz answer (おさらい) puts the card under the enemy name instead of over it.
- {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+ // R344: the card checks run in both modes (おとな draws 上へ / 下へ, a shorter plate); the battle quiz part runs once, in こども mode.
+ for(const mode of ['kids','adult']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();const stairs=mode==='adult'?[A('うえへ'),A('したへ')]:['うえへ','したへ'];
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower2',5,10);r.tick(1300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'tower2');
   const fresh=()=>Object.keys(r.RYW.words).find(id=>!r.g.debugWords().includes(id));
   assert(r.g.debugLearn(fresh()),'a new word');r.canvasCalls.length=0;r.tick(16);r.tick(16);const card=r.els.get('word-card');assert(!card.hidden,'the card shows on the field');
   // R136: the stairs signs now sit on the floor under their clouds, so a normal card keeps the top spot and the goal line stays readable.
-  {const t0=parseFloat(card.style.top),h0=card.offsetHeight||96,cy0=r.g.camera.y,s0=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
+  {const t0=parseFloat(card.style.top),h0=card.offsetHeight||96,cy0=r.g.camera.y,s0=r.canvasCalls.filter(c=>c[0]==='strokeText'&&stairs.includes(c[1]));
    assert(s0.length>=2,'both stairs signs drawn');assert.equal(t0,Math.max(190,r.g.hudTop),'a normal card keeps the top spot (R136)');assert.equal(r.els.get('quest').style.visibility,'','the goal line stays (R136)');
    for(const c of s0){const y=c[3]-cy0;assert(y+10<=t0||y-30>=t0+h0,c[1]+' sign at '+Math.round(y)+' is not under the card '+t0+'..'+(t0+h0));}
    // the sign is drawn after the hero, so the hero walking up to the pad never hides its letters.
-   r.g.debugWarp('tower2',8.4,4.1);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]==='うえへ');
-   assert(at>=0,'the うえへ sign is drawn with the hero under it');assert(r.canvasCalls.slice(at).every(c=>c[0]!=='drawImage'),'no sprite is drawn over the うえへ sign');r.g.debugWarp('tower2',5,10);r.tick(16);}
+   r.g.debugWarp('tower2',8.4,4.1);r.canvasCalls.length=0;r.tick(16);const at=r.canvasCalls.findIndex(c=>c[0]==='strokeText'&&c[1]===stairs[0]);
+   assert(at>=0,'the '+stairs[0]+' sign is drawn with the hero under it');assert(r.canvasCalls.slice(at).every(c=>c[0]!=='drawImage'),'no sprite is drawn over the うえへ sign');r.g.debugWarp('tower2',5,10);r.tick(16);}
   // R108 still holds when the top spot does cover the signs: a tall card (two lines more) goes up over the goal line. R199: the pads moved down 0.9 tile onto the floor, so the tall card is 215 high to still reach their signs.
   card.offsetHeight=215;r.canvasCalls.length=0;r.tick(16);r.tick(16);
-  const top=parseFloat(card.style.top),h=card.offsetHeight,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&['うえへ','したへ'].includes(c[1]));
+  const top=parseFloat(card.style.top),h=card.offsetHeight,cy=r.g.camera.y,signs=r.canvasCalls.filter(c=>c[0]==='strokeText'&&stairs.includes(c[1]));
   assert(signs.length>=2,'both stairs signs drawn');assert(top<Math.max(190,r.g.hudTop),'the card left the top spot over the stairs signs for the goal line above it (R108)');for(const c of signs){const y=c[3]-cy;assert(y+10<=top||y-30>=top+h,c[1]+' sign at '+Math.round(y)+' is not under the card '+top+'..'+(top+h));}
   assert(top+h<=960-130,'the card stays above the bottom buttons');const hy=r.g.state.y-cy;assert(hy<=top||hy-100>=top+h,'the card does not cover the hero');
   r.tick(16);assert.equal(parseFloat(card.style.top),top,'the card stays put between frames');
@@ -1529,6 +1531,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const minY=Math.min(...signs.map(c=>c[3]-cy))-30;assert(top+h<=minY,'the card sits above the stairs signs, not over the floor ('+top+'..'+(top+h)+' vs '+Math.round(minY)+')');
   const quest=r.els.get('quest');assert.equal(quest.style.visibility,'hidden','the goal line hides under the card');
   for(let i=0;i<40&&!card.hidden;i++)r.tick(500);assert(card.hidden,'the card goes away');card.offsetHeight=0;assert.equal(quest.style.visibility,'','the goal line is back');
+  if(mode==='adult')continue;
   r.g.debugStartBattle('crow','r99-quiz');r.tick(300);for(let i=0;i<4;i++)r.g.debugLearn(fresh());r.tick(16);
   const bt=r.els.get('battle-top');bt.offsetTop=28;bt.offsetHeight=82;r.els.get('modal').querySelector=()=>({offsetTop:400});
   r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[0].onclick();assert.equal(r.g.modal,'quiz-feedback');r.setRandom(Math.random);
@@ -2248,9 +2251,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const d=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_dad');assert(d&&d.dialogue==='minamoDad','the tired dad is still in ミナモ');}
  result.push('R205: 町の人が、車道や川の上に立たない PASS');
  // R206: the town park sign (mobile-25) hung its board and words over the road rows 26-28; the board is now as small as its 24px words allow and the words stand on the sidewalk side of the road.
- {const r=await runtime();r.tick();r.start();r.tick(1000);const m=r.g.GAME_DATA.maps.town,o=m.objects.find(x=>x.id==='parksign');
+ for(const mode of ['kids','adult']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);const m=r.g.GAME_DATA.maps.town,o=m.objects.find(x=>x.id==='parksign');
   r.g.debugWarp('town',o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===(mode==='adult'?A('こうえん'):'こうえん')).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r2_c3.png')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
   assert(txt&&img,'park sign art and words are drawn');const shift=img[3]+img[5]-o.y*48,roadEnd=29*48+shift;
   assert(m.tiles[28][Math.floor(o.x)]==='='&&m.tiles[29][Math.floor(o.x)]==='+','rows 28/29 are still road/sidewalk at the sign');
   assert(txt[3]>=roadEnd,'the words こうえん stand on the sidewalk side of the road (words bottom '+(txt[3]-shift)+', road ends '+(29*48)+')');
@@ -2479,12 +2482,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
  // R267: in ミナモ (mobile-20) the park board stood at the left edge and only 「ん」 of こうえん showed; a board's words are drawn only while all of them are on screen.
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
-  const run=(cam,o)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE','signOf',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000',o=>o.sign)(o);return{labels,rows};};
+  const run=(cam,o,signOf=o=>o.sign)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE','signOf',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000',signOf)(o);return{labels,rows};};
   const cam={x:455,y:0},park={x:9,y:26.6,kind:'props',frame:11,sign:'こうえん'};
   let r=run(cam,park);assert.equal(r.labels.length,0,'the words of a board cut by the left edge are not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keep no row');
   r=run({x:432-540+10,y:0},park);assert.equal(r.labels.length,0,'nor by the right edge');
   for(const cx of [380,432+52-540,170]){r=run({x:cx,y:0},park);assert.deepEqual(r.labels.map(l=>l[0]),['こうえん'],'the words of a board fully on screen at camera '+cx+' are drawn');}
-  r=run(cam,{x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'});assert.equal(r.labels.length,1,'a number person\'s sign still slides in at the edge (R85)');}
+  r=run(cam,{x:9.2,y:10,kind:'numberperson',frame:0,sign:'いいね 3204'});assert.equal(r.labels.length,1,'a number person\'s sign still slides in at the edge (R85)');
+  // R344: in おとな mode the board reads 公園 (two letters), and the edge test measures those two letters, not the four kana.
+  const adult=o=>A(o.sign);r=run(cam,park,adult);assert.equal(r.labels.length,0,'公園 cut by the left edge is not drawn either');
+  for(const cx of [380,170]){r=run({x:cx,y:0},park,adult);assert.deepEqual(r.labels.map(l=>l[0]),['公園'],'公園 fully on screen at camera '+cx+' is drawn');}
+  const cut=park.x*48-540/2-(540/2-[...'こうえん'].length*12-4)-5;r=run({x:cut,y:0},park);assert.equal(r.labels.length,0,'こうえん just past the edge limit is not drawn');
+  r=run({x:cut,y:0},park,adult);assert.deepEqual(r.labels.map(l=>l[0]),['公園'],'公園 at the same spot is drawn whole: it is two letters narrower');}
  result.push('R267: 看板の字が画面の端で切れて1文字だけ見えることがない PASS');
  // R266: the worry walls in ミナモ are drawn with the worry_wall art, not the grey stand-in box; カテイノジジョウ keeps its stand-in for now.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.worry_wall,4,'loaded worry_wall');const D=r.g.GAME_DATA,m=D.maps.minamo;assert(r.g.debugStartChapter(2));
@@ -2552,6 +2560,26 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const words=k.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1),arrow=k.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1);assert(words&&arrow,'R343: こども mode draws ↓ そとへ');
    assert(!k.canvasCalls.some(c=>c[1]==='外へ'),'R343: こども mode draws no 外へ');const l=p.x*48-26;assert(arrow[2]+14<=words[2]-36&&words[2]+36<=l+[...'そとへ'].length*24+58,'R343: the ↓ and そとへ fit on one plate in こども mode');}}
  result.push('R296: 部屋の出口の札に「そとへ」と書いてある PASS');
+ // R344: after R343 each mode draws only its own words on the floor and town signs (おとな 外へ・上へ・下へ・地図・公園, こども the kana), and every word, with its arrow, stays on its own plate or board.
+ for(const mode of ['kids','adult']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const maps=r.g.GAME_DATA.maps,kana=Object.keys(SIGN_ADULT),kanji=Object.values(SIGN_ADULT),own=mode==='adult'?kanji:kana,other=mode==='adult'?kana:kanji;
+  const town=maps.town,park=town.objects.find(o=>o.id==='parksign'),guide=town.objects.find(o=>o.id==='sign');
+  for(const [map,x,y,want] of [['store',...maps.store.spawn,['そとへ']],['tower1',5,9,['そとへ','うえへ']],['tower2',5,9,['うえへ','したへ']],['town',park.x,park.y+1.8,['こうえん']],['town',guide.x,guide.y+1.8,['ちず']]]){
+   const at=map+' ('+mode+')';r.g.debugWarp(map,x,y);r.tick(16);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
+   const texts=r.canvasCalls.filter(c=>c[0]==='fillText'||c[0]==='strokeText');
+   for(const w of want)assert(texts.some(c=>c[1]===(mode==='adult'?A(w):w)),at+': '+(mode==='adult'?A(w):w)+' is drawn');
+   assert(!texts.some(c=>other.includes(c[1])),at+': no sign word of the other mode is drawn ('+texts.filter(c=>other.includes(c[1])).map(c=>c[1])+')');
+   const plates=r.canvasCalls.filter(c=>c[0]==='exitplate');
+   for(const c of texts.filter(c=>own.includes(c[1])||c[1]==='↑'||c[1]==='↓')){const half=c[1].length===1?12:signHalfOf(c[1]);
+    if(map==='town'&&c[1]===(mode==='adult'?A(want[0]):want[0])){
+     const img=r.canvasCalls.filter(d=>d[0]==='drawImage'&&String(d[1]).endsWith('props_r2_c3.png')&&Math.abs(d[2]+d[4]/2-c[2])<4).at(-1);assert(img,at+': the board under '+c[1]+' is drawn');
+     const [,,ix,iy,iw,ih]=img;assert(Math.abs(c[2]-(ix+iw/2))<=2&&half*2+5<=iw*.6,at+': '+c[1]+' sits in the middle, between the posts (R256: word and 5px within 60% of the board)');assert(c[3]-22>=iy+ih*96/248&&c[3]+4<=iy+ih*166/248,at+': '+c[1]+' stays on the panel');continue;}
+    if(map==='town')continue;
+    assert(plates.some(p=>p[1]<=c[2]-half&&p[1]+p[3]>=c[2]+half&&p[2]<=c[3]-22&&p[2]+p[4]>=c[3]+4),at+': '+c[1]+' at '+c[2]+','+c[3]+' sits wholly on a plate');}
+   if(map!=='town'){assert(plates.length>=want.length,at+': each sign has its plate');const mw=maps[map].w*48;
+    for(const p of plates)assert(p[1]>=0&&p[1]+p[3]<=mw,at+': the plate '+p[1]+'..'+(p[1]+p[3])+' stays inside the floor');
+    for(let i=0;i<plates.length;i++)for(let j=i+1;j<plates.length;j++){const a=plates[i],b=plates[j];assert(a[1]+a[3]<=b[1]||b[1]+b[3]<=a[1]||a[2]+a[4]<=b[2]||b[2]+b[4]<=a[2],at+': two sign plates do not overlap');}}}}
+ result.push('R344: おとなとこどもの両方で、店・塔1F・塔2F・町の札の字がその札や板に収まる PASS');
  // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
