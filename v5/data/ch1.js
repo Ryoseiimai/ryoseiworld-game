@@ -76,7 +76,7 @@ maps.town.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  if(x===12||x===17||y===25||y===29||y===16||y===19||y===8||y===11)return '+';
  return '.';
 }).join(''));
-maps.room={name:'じぶんの へや',w:11,h:14,spawn:[5,9],objects:[
+maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spawn:[5,9],objects:[
  object('rug','interior',11,5,9.6,160,160,{floor:true,collider:false}),object('stairs','interior',15,5,13.2,110,110,{floor:true,collider:false}),
  object('clock','interior',14,2.6,1.9,70,70,{collider:false}),object('pc','interior',1,5,4.2,130,130,{label:'パソコン',dialogue:'pc',action:'save'}),object('shelf','interior',2,8.5,4.2,110,130),object('plant','interior',13,1.6,4.3,75,80),
  object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear'}),
@@ -89,7 +89,7 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // R288: its cable top still touched the goal bar by 6px (mobile-19), so the pile is 156px instead of 170 with its feet kept.
 // R286: by the exit its top still sat 8px under the goal bar below the HUD (mobile-19), so it stands 0.4 tile lower.
 // R204: the TV pile (boss) stood with its top 70px up in the plain back wall and hid under the HUD by the exit (mobile-19), so it moved down onto the floor and got a little smaller.
-maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや・ジャンク',w:11,h:17,spawn:[5,14],objects:[
+maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや・ジャンク',shortAdult:'電気屋・ジャンク',w:11,h:17,spawn:[5,14],objects:[
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
  object('server','interior',10,7,8,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
  object('boss','interior',9,5,6.2,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),

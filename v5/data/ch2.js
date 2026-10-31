@@ -52,7 +52,7 @@ maps.minamo.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  return '.';
 }).join(''));
 // The library: shelves, the search machine where Search Owl sleeps (R21) and the grandpa.
-maps.minamo_library={name:'みずべの としょかん',short:'としょかん',w:11,h:14,spawn:[5,11],objects:[
+maps.minamo_library={name:'みずべの としょかん',short:'としょかん',shortAdult:'図書館',w:11,h:14,spawn:[5,11],objects:[
  object('ml_rug','interior',11,5,10.2,160,160,{floor:true,collider:false}),
  object('ml_shelf1','interior',2,1.8,4.2,110,130),object('ml_shelf2','interior',2,3.8,4.2,110,130),object('ml_shelf3','interior',2,7.6,4.2,110,130),object('ml_shelf4','interior',2,9.4,4.2,110,130),
  object('ml_search','interior',1,5.7,4.4,120,120,{label:'けんさくの きかい',event:'owlQuiz'}),
@@ -60,7 +60,7 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa'})],
  enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6],sign:'そとへ'}]};
 // The friend's house: the boy who may not go out.
-maps.minamo_friend={name:'ともだちの いえ',w:11,h:13,spawn:[5,10],objects:[
+maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:13,spawn:[5,10],objects:[
  object('mf_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
