@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T10:40:00.734Z",
-  "branch": "claude/autodev-20261023-1921-R187",
-  "task": "R187 ネオンの町で、ずれた「はなす」ボタンが街灯の上に乗るのを見つけた（前半）",
-  "summary": "全章を通し、ネオンの町で「はなす」ボタンが街灯の上に乗る所を見つけた\n手元のテストの画面ではボタンは街灯を避けたので、直すのは次の回にした\nボス戦の始めの札が「ビート」から出る件は、ビートで押す遊びに合わせた形なので残した",
-  "result": "pass",
-  "shots": [
-   "shots/347/mobile-02-mode-select.jpg",
-   "shots/347/mobile-15-custom-full-run.jpg",
-   "shots/347/mobile-27-chapter-2-play.jpg",
-   "shots/347/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8d2f1df",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39939805217"
- },
- {
   "at": "2026-10-23T11:33:15.637Z",
   "branch": "claude/autodev-art-20261023-202531",
   "task": "絵",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4aeb0c3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41152207737"
+ },
+ {
+  "at": "2026-10-31T01:06:15.226Z",
+  "branch": "claude/autodev-20261031-0921-R340",
+  "task": "R340 バス停と駅の看板の案内「つぎの バスは ノイズが はれてから」「でんしゃは とまって います」がおとなモードでもひらがなだったので、おとなでは「バス停」「次のバスは…晴れてから」「駅の看板」「電車は止まっています」にした（ソラの台詞は物語なのでそのまま）",
+  "summary": "バス停と駅の看板が出す案内を、おとなでは「次のバスは…晴れてから」「電車は止まっています」にした\n看板は案内の札（R338 の札と同じ）として扱い、続くソラの台詞は物語なのでひらがなのままにした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/591/mobile-02-mode-select.jpg",
+   "shots/591/mobile-15-custom-full-run.jpg",
+   "shots/591/mobile-27-chapter-2-play.jpg",
+   "shots/591/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "bbc33bb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41152547643"
  }
 ]
