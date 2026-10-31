@@ -1730,6 +1730,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   if(adult){assert(all.includes('修理された。')&&/経験値 \d+と\n\d+円をもらった。/.test(all)&&/レベル \d+ になった！\nHP\+\d+ 攻撃力\+\d+/.test(all),all);assert(!/しゅうりされた|けいけんち|えんを もらった|に なった！|こうげき/.test(all),'adult lines in kanji: '+all);}
   else{assert(all.includes('しゅうりされた。')&&/けいけんち \d+と\n\d+えんを もらった。/.test(all)&&/レベル \d+ に なった！\nHP\+\d+ こうげき\+\d+/.test(all),all);assert(!/修理|経験値|円を|攻撃力/.test(all),'kids lines in hiragana: '+all);}}
  result.push('R339: おとなモードで町の戦いの後の「修理された」「経験値と円をもらった」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS');
+ // R340: the bus stop and the station sign speak in kanji in adult mode (バス停・駅の看板); Sora's line keeps the story kana, and kids keep the hiragana ones.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  for(const ev of ['busStop','trainStop']){r.g.debugWarp('town',8,27);r.tick(300);r.g.debugEvent(ev);r.tick(300);assert(r.g.dialogue,mode+' '+ev+' says the wait lines');const l=r.g.dialogue.lines;
+   const want=ev==='busStop'?(adult?['バス停','次のバスは\nノイズが晴れてから。']:['バスてい','つぎの バスは\nノイズが はれてから。']):(adult?['駅の看板','電車は\n止まっています。']:['えきの かんばん','でんしゃは\nとまって います。']);
+   assert.equal(JSON.stringify(l[0].slice(0,2)),JSON.stringify(want),mode+' '+ev+' first line: '+JSON.stringify(l));assert.equal(r.els.get('speaker').textContent,want[0]);assert.equal(l[1][0],'ソラ');assert(/^(いまは|せんろの)/.test(l[1][1]),'sora line stays kana: '+l[1][1]);
+   r.dialogue();assert(!r.g.dialogue,'wait lines end');r.tick(300);}}
+ result.push('R340: おとなモードでバス停と駅の看板の「次のバスは…」「電車は止まっています」を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};

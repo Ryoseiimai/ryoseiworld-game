@@ -134,6 +134,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   trainOpen:[['ともだち','あ、えきの でんしゃ\nうごいてる！'],['ソラ','となりの まちへ\nいって みよう！']],
   trainRide:[['','でんしゃに のった。'],['ソラ','まどの そとが\nどんどん ひかって くる！']],
   trainWait:[['えきの かんばん','でんしゃは\nとまって います。'],['ソラ','せんろの むこうも\nしずかすぎる。']],
+  trainWaitAdult:[['駅の看板','電車は\n止まっています。'],['ソラ','せんろの むこうも\nしずかすぎる。']],
   minamoZakoDone:[['ソラ','ノイズが へってきた。\nとしょかんに いこう。']]
  },
  // Street noises of the riverside town (enemies sheet: 2 spam mail, 4 leaking cable, 8 masked cat). A little stronger than chapter 1.
