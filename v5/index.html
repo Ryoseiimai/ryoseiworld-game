@@ -658,10 +658,10 @@ function bondRewards(b,before,after){const out=[],r=b.rewards||{};for(let h=befo
  if(w&&Object.hasOwn(GAME_DATA.weapons,w)&&!g.weapons.includes(w)){g.weapons.push(w);out.push(['',menuLabel(`${b.name}の守護霊が\n力を貸してくれた！\n〔${GAME_DATA.weapons[w].name}〕`,`${b.name}の 守護霊が\nちからを かしてくれた！\n〔${GAME_DATA.weapons[w].name}〕`)]);if(w==='rapid'&&window.RYW.Shooter)out.push(['',window.RYW.Shooter.cooldownLabel()]);}
  if(m>0){g.money+=m;out.push(['',menuLabel(`${b.kind==='family'?'お小遣い':'お礼'}を\n${m}円もらった。`,`${b.kind==='family'?'おこづかい':'おれい'}を\n${m}えん もらった。`)]);}}return out;}
 function giveGift(item,to,next){const b=bondOf(to),it=GAME_DATA.items[item];if(!b||!it){if(!it)console.warn('runEvent: unknown item',item);next();return;}const given=g.gifts[to]||[];
- if(given.includes(item)){say([['',`${it.name}は\nもう あげた。`]],next);return;}
- if(!(b.likes||[]).includes(item)){say([['',`${b.name}は\nいまは いらない みたい。`]],next);return;}
- if(num(g.bonds[to],0)>=5){say([['',`${b.name}とは\nもう いちばんの なかよし。`]],next);return;}
- if(!(num(g.items[item],0)>0)){say([['',`${it.name}を\nもっていない。`]],next);return;}
+ if(given.includes(item)){say([['',menuLabel(`${it.name}は\nもうあげた。`,`${it.name}は\nもう あげた。`)]],next);return;}
+ if(!(b.likes||[]).includes(item)){say([['',menuLabel(`${b.name}は\n今はいらないみたい。`,`${b.name}は\nいまは いらない みたい。`)]],next);return;}
+ if(num(g.bonds[to],0)>=5){say([['',menuLabel(`${b.name}とは\nもう一番の仲良し。`,`${b.name}とは\nもう いちばんの なかよし。`)]],next);return;}
+ if(!(num(g.items[item],0)>0)){say([['',menuLabel(`${it.name}を\n持っていない。`,`${it.name}を\nもっていない。`)]],next);return;}
  g.items[item]--;g.gifts[to]=[...given,item];say([['',`${b.name}に\n${it.name}を\nあげた。`]],()=>raiseBond(to,1,next));}
 function runEvent(steps,done){const list=typeof steps==='string'?GAME_DATA.events[steps]:steps;if(!Array.isArray(list)){console.warn('runEvent: unknown event',steps);if(done)done();return false;}let i=0;const next=()=>{if(i>=list.length){if(done)done();return;}const step=list[i++],verb=step&&Object.keys(EVENT_STEPS).find(k=>Object.hasOwn(step,k));if(!verb){console.warn('runEvent: unknown step',step);next();return;}EVENT_STEPS[verb](step,next);};next();return true;}
 function interactionTarget(){const dir=[[0,1],[-1,0],[1,0],[0,-1]][g.dir];return GAME_DATA.maps[g.map].objects.filter(o=>(o.dialogue||o.action||o.enter||o.event)&&!gone(o)).map(o=>{const dx=o.x*TILE-g.x,dy=o.y*TILE-g.y;return{o,d:Math.hypot(dx,dy),dot:dx*dir[0]+dy*dir[1]};}).filter(v=>v.d<(BIG(v.o.kind)?105:88)&&v.dot>=-10).sort((a,b)=>a.d-b.d)[0]?.o;}

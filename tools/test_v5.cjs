@@ -1712,6 +1712,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   {const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();const id=Object.keys(r.g.GAME_DATA.bonds).find(k=>Object.values(r.g.GAME_DATA.bonds[k].rewards||{}).some(x=>x.weapon==='rapid'));
    if(id){const all=[];r.g.debugEvent([{bond:id,n:5}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const cd=all.find(l=>/→/.test(l));assert(cd,mode+' R352 rapid cooldown line '+all.join('|'));assert(adult?/秒$/.test(cd)&&!/びょう/.test(cd):/ びょう$/.test(cd),mode+' R352 cooldown '+cd);}}}}
  result.push('R352: おとなモードのきずなのお知らせを「きずなが深まった！」「守護霊が力を貸してくれた！」「お小遣いを100円もらった。」にし、こどもモードは かなのまま PASS');
+ // R353: the gift refusals 「もう あげた」「いまは いらない みたい」「もう いちばんの なかよし」「もっていない」 stayed kana in adult mode after R352 made the bond lines kanji.
+ // Adult now reads もうあげた・今はいらないみたい・もう一番の仲良し・持っていない; kids keep the kana, and every row still fits 12 full-width characters.
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const st=r.g.state,lines=ev=>{const all=[];r.g.debugEvent(ev);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}return all.join('\n');};
+  st.items.rice=2;st.items.drink=0;lines([{gift:'rice',to:'mother'}]);
+  const got={again:lines([{gift:'rice',to:'mother'}]),dislike:lines([{gift:'drink',to:'mother'}]),none:lines([{gift:'drink',to:'sister'}])};
+  r.g.debugBond('kid',5);st.items.rice=1;got.full=lines([{gift:'rice',to:'kid'}]);
+  const want=adult?{again:'おにぎりは\nもうあげた。',dislike:'おかあさんは\n今はいらないみたい。',none:'エナジードリンクを\n持っていない。',full:'とは\nもう一番の仲良し。'}:{again:'おにぎりは\nもう あげた。',dislike:'おかあさんは\nいまは いらない みたい。',none:'エナジードリンクを\nもっていない。',full:'とは\nもう いちばんの なかよし。'};
+  for(const k of Object.keys(want)){assert(got[k].includes(want[k]),mode+' R353 '+k+' '+got[k]);if(adult)for(const row of got[k].split('\n'))assert(wide(row)<=12,'R353 row fits '+row);}
+  const text=Object.values(got).join('\n');if(adult)assert(!/もう あげた|いらない みたい|いちばんの なかよし|もっていない/.test(text),'R353 adult has no kana gift line '+text);else assert(!/今は|一番の仲良し|持っていない/.test(text),'R353 kids keep kana '+text);}}
+ result.push('R353: おとなモードの贈り物のお知らせを「もうあげた。」「今はいらないみたい。」「もう一番の仲良し。」「持っていない。」にし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
