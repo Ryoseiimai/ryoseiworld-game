@@ -1707,7 +1707,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
  for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const all=[];r.g.debugEvent([{bond:'mother',n:3}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const text=all.join('\n');
-  const want=adult?['おかあさんとの\nきずなが深まった！','おかあさんの守護霊が\n力を貸してくれた！\n〔if バリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
+  const want=adult?['おかあさんとの\nきずなが深まった！','おかあさんの守護霊が\n力を貸してくれた！\n〔ifバリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
   for(const w of want)assert(text.includes(w),mode+' R352 '+w+' in '+text);
   if(adult)assert(!/ふかまった|ちからを かして|えん もらった|おこづかい/.test(text),'R352 adult has no kana bond line '+text);else assert(!/深まった|力を貸して|円もらった|お小遣い/.test(text),'R352 kids keep kana '+text);
   for(const row of text.split('\n'))assert(wide(row)<=12,'R352 row fits '+row);
@@ -1773,6 +1773,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.modal,'quiz-result',mode+' R361 result shown');assert.equal(title(),adult?'おさらい終わり':'おさらい　おわり',mode+' R361 result title');
   if(adult)assert(!/　/.test(title()),'R361 adult title has no kids gap '+title());r.key('Escape');r.setRandom(Math.random);}}
  result.push('R361: おとなモードのおさらいの見出しを「おさらい 1 / 3」「おさらい終わり」にし、こどもモードは そのまま PASS');
+ // R362: weapon names such as 「ホーミング レター」「if バリア」 kept the kids' word spacing in adult mode, under kanji descriptions.
+ // Adult now reads 「ホーミングレター」「ifバリア」「ライフ+1おにぎり」「フクのチャージショット」; kids keep the spaced names.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);
+  const W=r.RYW.Shooter._sim.WEAPONS,name=id=>W.find(w=>w.id===id).name;
+  const want=adult?{letter:'ホーミングレター',barrier:'ifバリア',onigiri:'ライフ+1おにぎり',charge:'フクのチャージショット',fuku:'フク・ショット'}:{letter:'ホーミング レター',barrier:'if バリア',onigiri:'ライフ+1 おにぎり',charge:'フクの チャージショット',fuku:'フク・ショット'};
+  for(const id in want)assert.equal(name(id),want[id],mode+' R362 '+id);
+  if(adult)for(const w of W)assert(!/ /.test(w.name),'R362 adult weapon name has no space '+w.name);}}
+ result.push('R362: おとなモードの武器の名前を「ホーミングレター」「ifバリア」のように空白なしにし、こどもモードは そのまま PASS');
  // R357: a key item's note opened from the item menu (はじめて つくった ゲーム → 調べる, かえしわすれた ほん) stayed in kids' spaced kana in adult mode,
  // under the menu's 「ポケットは小さな倉庫。」. Adult mode now reads descAdult (「四角がジャンプすると…」「返却日は先月。」); kids keep desc. Item names stay.
  {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
