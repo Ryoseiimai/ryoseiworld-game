@@ -1692,6 +1692,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.els.get('ending-eyebrow').textContent,adult?'直った町':'なおった まち');assert.equal(r.els.get('ending-title').textContent,adult?'次へ':'つぎへ');
   r.click('ending-title');assert.equal(r.g.screen,'epilogue');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R350 send button');}}
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
+ // R351: the first battle's log opened with 「グリッチカラスが まどから きた！」 in adult mode while its next row (「呼び出す」で ナオスライムを呼ぼう。) was kanji.
+ // Adult now reads 「グリッチカラスが窓から来た！」; kids keep the kana. Each row still fits the 16-wide tutorial log.
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);
+  assert(r.g.battle&&r.g.battle.tutorial,mode+' R351 tutorial battle');const rows=r.g.battle.log.split('\n');
+  assert.equal(rows[0],adult?'グリッチカラスが窓から来た！':'グリッチカラスが まどから きた！',mode+' R351 first row');
+  for(const row of rows)assert(wide(row)<=16,'R351 row fits '+row);}}
+ result.push('R351: おとなモードの最初の戦闘のお知らせを「グリッチカラスが窓から来た！」にし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
