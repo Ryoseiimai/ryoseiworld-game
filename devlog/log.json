@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T22:25:51.254Z",
-  "branch": "claude/autodev-20261024-0621-R198",
-  "task": "R198 町とミナモで、信号の真下に電柱や街灯が立ち1本の柱に見えたので、間をあけた",
-  "summary": "町の交差点で、信号の真下の電柱と街灯が1本の柱に見えていた\n電柱と街灯を信号から離し、場所のない所の街灯1本はなくした\nミナモのバスていの下の街灯も離し、重ならない確認をテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/368/mobile-02-mode-select.jpg",
-   "shots/368/mobile-15-custom-full-run.jpg",
-   "shots/368/mobile-27-chapter-2-play.jpg",
-   "shots/368/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "28e7da5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40031019966"
- },
- {
   "at": "2026-10-23T23:03:52.887Z",
   "branch": "claude/autodev-20261024-0721-R199",
   "task": "R199 塔の ひかりの ゆか が上の壁に半分めりこんで見えたので、台を床の上まで下げた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "596671b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41217371526"
+ },
+ {
+  "at": "2026-10-31T16:49:12.181Z",
+  "branch": "claude/autodev-20261101-0121-R356",
+  "task": "R356 ことばノートのおさらいの結果で、ソラの一言「ぜんぶ せいかい。いいペースだね」「また つぎ やってみよう」がおとなモードでもひらがなで、上の「3問中 3問正解」とそろっていなかったので、おとなでは「全部正解。いいペースだね」「また次やってみよう」にした",
+  "summary": "おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」にした\n間違えた時は「また次やってみよう」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R356）を足した。全章のスモークは自動確認に任せた",
+  "result": "pass",
+  "shots": [
+   "shots/611/mobile-02-mode-select.jpg",
+   "shots/611/mobile-15-custom-full-run.jpg",
+   "shots/611/mobile-27-chapter-2-play.jpg",
+   "shots/611/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e1aea0c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41220505492"
  }
 ]
