@@ -986,7 +986,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   await r.g.save(false);const saved=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(saved.saveVersion,2);assert.deepEqual(saved.proto,received);
   const re=await runtime({saved:r.saved});re.tick();re.click('continue-btn');assert.deepEqual(plain(re.g.debugProto()),received);
   for(const proto of [undefined,null,[]]){const old=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...saved,proto})]])});old.tick();assert(!old.els.get('continue-btn').disabled);old.click('continue-btn');assert.equal(old.g.screen,'field');assert.deepEqual(plain(old.g.debugProto()),defaults);}
-  r.g.state.items.firstgame=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button('はじめて つくった ゲーム');assert.deepEqual(r.els.get('modal-buttons').children.map(b=>b.textContent),['遊ぶ','調べる','戻る']);r.button('調べる');assert(r.els.get('modal-title').textContent.includes('v4'));assert.equal(r.els.get('modal-copy').textContent,r.g.GAME_DATA.items.firstgame.desc);r.button('戻る');r.button('遊ぶ');
+  r.g.state.items.firstgame=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button('はじめて つくった ゲーム');assert.deepEqual(r.els.get('modal-buttons').children.map(b=>b.textContent),['遊ぶ','調べる','戻る']);r.button('調べる');assert(r.els.get('modal-title').textContent.includes('v4'));assert.equal(r.els.get('modal-copy').textContent,r.g.GAME_DATA.items.firstgame.descAdult);r.button('戻る');r.button('遊ぶ');
   const play=r.protoRuns.at(-1);assert.equal(play.mode,'play');assert.deepEqual(plain(play.state),received);r.click('menu-btn');assert.equal(r.g.modal,'');play.onDone(play.state);assert.equal(r.g.modal,'items');assert.equal(r.g.state.items.firstgame,1);
   r.tick(300);r.key('Escape');r.g.debugOpenProto('play');assert.equal(r.protoRuns.at(-1).mode,'play');r.protoRuns.at(-1).onDone(received);
   r.g.debugEvent([{proto:'play'},{flag:'playDone'}]);assert(!r.g.state.flags.playDone);r.protoRuns.at(-1).onDone(received);assert(r.g.state.flags.playDone);
@@ -1761,6 +1761,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(line,ai+want,mode+' R356 '+copy());if(adult)assert(!/ /.test(line),'R356 adult line has no kids spaces '+line);r.key('Escape');}
   r.setRandom(Math.random);}}
  result.push('R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS');
+ // R357: a key item's note opened from the item menu (はじめて つくった ゲーム → 調べる, かえしわすれた ほん) stayed in kids' spaced kana in adult mode,
+ // under the menu's 「ポケットは小さな倉庫。」. Adult mode now reads descAdult (「四角がジャンプすると…」「返却日は先月。」); kids keep desc. Item names stay.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const I=r.g.GAME_DATA.items,st=r.g.state,back=adult?'戻る':'もどる',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  for(const id of ['firstgame','minamoBook']){assert(I[id].descAdult&&I[id].desc,'R357 '+id+' has both notes');assert(!/[ぁ-ん] [ぁ-んァ-ヶ]/.test(I[id].descAdult),'R357 adult note has no kids spaces '+I[id].descAdult);for(const row of I[id].descAdult.split('\n'))assert(wide(row)<=15,'R357 note row fits '+row);}
+  st.items.firstgame=1;st.items.minamoBook=1;r.tick(300);r.click('menu-btn');r.button('アイテム');r.button(I.firstgame.name);r.button(adult?'調べる':'しらべる');
+  assert.equal(r.els.get('modal-copy').textContent,adult?'四角がジャンプすると\nピコッと鳴る。\n二人の作品。':I.firstgame.desc,mode+' R357 firstgame note');r.button(back);r.button(back);
+  r.button(I.minamoBook.name);assert(r.g.dialogue,mode+' R357 book note shown');assert.equal(r.g.dialogue.lines[0][1],adult?'「はじめての\nプログラミング」\n返却日は先月。':I.minamoBook.desc,mode+' R357 book note');}}
+ result.push('R357: おとなモードのアイテムで、大事な物の説明を「四角がジャンプすると…」「返却日は先月。」の漢字まじりにし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];

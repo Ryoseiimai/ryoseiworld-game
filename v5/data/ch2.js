@@ -102,7 +102,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   minamoBoy:[{if:'minamoBookAsk',then:[{if:{not:'minamoBoyBook'},then:[{say:'boyBook'},{give:'minamoBook'},{flag:'minamoBoyBook'}],else:[{say:'minamoBoy'}]}],else:[{say:'minamoBoy'}]}]
  },
  // The overdue book: a key item, shown under どうぐ while carried.
- items:{minamoBook:{name:'かえしわすれた ほん',key:true,desc:'「はじめての\nプログラミング」\nへんきゃくびは せんげつ。'}},
+ items:{minamoBook:{name:'かえしわすれた ほん',key:true,desc:'「はじめての\nプログラミング」\nへんきゃくびは せんげつ。',descAdult:'「はじめての\nプログラミング」\n返却日は先月。'}},
  dialogue:{
   kateinoTalk:[['しんぱいの かべ','…あぶないから。\n…しょうらい\nどうするの。'],['サーチフクロウ','ほう。この かべ、\nなかに こえが ある。'],['ソラ','とどく ように\nみせに いこう！']],
   kateinoClear:[['','しんぱいの かべが\nすうっと きえた。'],['ソラ','みちが あいた！']],

@@ -96,7 +96,7 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:16.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
-items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。'}},
+items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},
 // Bonds (SPEC_V6.md 2, STORY_V4.md): hearts 0-5 per person, raised by requests (events below), one liked thing, and story moments. rewards are given per heart count.
 // Before BUG KING: mother 2, sister 2, repair 3 (rapid), kid 3 (twin), hacker 2, clerk 2. Mother reaches 3 (barrier) after the town is quiet.
 // The hacker stops at 2 here: her rainbow and the whale come at heart 3 in chapter 3 (STORY_V4.md).
