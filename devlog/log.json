@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-23T23:03:52.887Z",
-  "branch": "claude/autodev-20261024-0721-R199",
-  "task": "R199 塔の ひかりの ゆか が上の壁に半分めりこんで見えたので、台を床の上まで下げた",
-  "summary": "塔の各階で、上下へ移る雲の台が上の壁に半分めりこんでいた\n台と移る場所を約1マス下げ、床の上に乗るようにした\n台が床に乗る確認をテストに足し、カードの確認の高さを合わせた",
-  "result": "conflict",
-  "shots": [],
-  "sha": "3fdf9cc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037372001"
- },
- {
   "at": "2026-10-23T23:16:18.433Z",
   "branch": "claude/autodev-20261024-0721-R199",
   "task": "R199 塔の ひかりの ゆか が上の壁に半分めりこんで見えたので、台を床の上まで下げた",
@@ -2973,5 +2963,20 @@
   ],
   "sha": "e1aea0c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41220505492"
+ },
+ {
+  "at": "2026-10-31T17:54:36.125Z",
+  "branch": "claude/autodev-20261101-0221-R357",
+  "task": "R357 アイテムの大事な物の説明「しかくが ジャンプすると」「へんきゃくびは せんげつ。」がおとなモードでもひらがなで、上の「ポケットは小さな倉庫。」とそろっていなかったので、おとなでは「四角がジャンプすると…二人の作品。」「返却日は先月。」にした（品物の名前と本の題名はそのまま）",
+  "summary": "おとなモードで、はじめて作ったゲームの説明を「四角がジャンプすると…」にした\n返し忘れた本の説明を「返却日は先月。」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R357）を足した。品物の名前は物語に合わせて残した",
+  "result": "pass",
+  "shots": [
+   "shots/612/mobile-02-mode-select.jpg",
+   "shots/612/mobile-15-custom-full-run.jpg",
+   "shots/612/mobile-27-chapter-2-play.jpg",
+   "shots/612/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "c9d248b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41225739043"
  }
 ]
