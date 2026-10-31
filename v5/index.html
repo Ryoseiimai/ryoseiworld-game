@@ -726,7 +726,8 @@ function signY(o){const d=dimensions(o),board=SIGN_BOARD[o.kind+':'+o.frame];ret
 const TOWER_ARROW={'うえへ':'↑','したへ':'↓'};
 // R343: in おとな mode the floor and town signs read in kanji (外へ・上へ・下へ・地図・公園); こども keeps the kana. The data keeps the kana word, and every draw and width reads signOf(o).
 const SIGN_ADULT={'そとへ':'外へ','うえへ':'上へ','したへ':'下へ','ちず':'地図','こうえん':'公園'};
-function signOf(o){return g.mode==='adult'&&SIGN_ADULT[o.sign]||o.sign;}
+// R345: the ネオン number people's 「じゅんい 86」 signs read 「順位 86」 in おとな mode too (いいね・フォロワー are already the usual words).
+function signOf(o){return g.mode!=='adult'||!o.sign?o.sign:SIGN_ADULT[o.sign]||o.sign.replace(/^じゅんい /,'順位 ');}
 // R304: on とう1F the pad's ↑ うえへ was a dark green plate next to the pale yellow ↓ そとへ exit plate, so the two ways out looked like two kinds of thing. A pad sign now uses the exit plate's colours (yellow plate, dark words).
 const EXIT_PLATE='#e7d29f';
 function drawSign(o){const sy=signY(o),text=signOf(o);if(o.kind!=='numberperson'&&o.kind!=='tower'&&Math.abs(o.x*TILE-camera.x-W/2)>W/2-signHalf(text)-4)return;fieldSignRects.push([sy-30-camera.y,sy+10-camera.y]);const arrow=o.kind!=='tower'?'':TOWER_ARROW[o.sign]||'';if(o.kind==='tower'){const tw=[...text].length*24+20+(arrow?30:0);rect(o.x*TILE-tw/2,sy-27,tw,36,EXIT_PLATE);}const sx=signX(o)+(arrow?15:0);if(arrow){ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';ctx.lineWidth=5;ctx.strokeStyle=EXIT_PLATE;ctx.strokeText(arrow,sx-signHalf(text)-18,sy);label(arrow,sx-signHalf(text)-18,sy,'#4b655f',24);}if(o.kind==='numberperson'){const half=signHalf(text),l=Math.max(camera.x+2,sx-half-8),r=Math.min(camera.x+W-2,sx+half+8);rect(l,sy-25,r-l,32,SIGN_PLATE);}ctx.font="24px 'Hiragino Sans',system-ui,sans-serif";ctx.textAlign='center';const pad=o.kind==='tower';ctx.lineWidth=5;ctx.strokeStyle=pad?EXIT_PLATE:'#3b2a1b';ctx.strokeText(text,sx,sy);label(text,sx,sy,pad?'#3b4f4a':'#fbeccb',24);}

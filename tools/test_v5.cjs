@@ -114,6 +114,8 @@ const settle=()=>new Promise(setImmediate);
 const TILE=48;
 // R343: in おとな mode the floor and town signs are drawn in kanji; こども keeps the kana written in the map data.
 const SIGN_ADULT={'そとへ':'外へ','うえへ':'上へ','したへ':'下へ','ちず':'地図','こうえん':'公園'};
+// R345: おとな mode draws the ネオン number signs 「じゅんい 86」 as 「順位 86」; NUM gives the words a runtime draws for a number person.
+const NUM=(r,o)=>r.g.state.mode==='adult'?o.sign.replace(/^じゅんい /,'順位 '):o.sign;
 const A=w=>SIGN_ADULT[w]||w,signText=(mode,w)=>mode!=='こどもモード'&&SIGN_ADULT[w]||w,signHalfOf=w=>[...w].length*12;
 // Plays one ordinary battle to the end: summon when hurt, otherwise "create".
 function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked||t.g.battle.over){t.tick(400);continue;}if(t.g.hp.hp<25&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else {t.cmd('create');t.button('くりかえし');}t.tick(3000);}assert(guard>0,'battle ends');}
@@ -857,10 +859,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R64: the number floats above the person's head, not on the face.
   {const o=m.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
    // R293: match the person's own picture (a street prop under the same x matched before) and compare with its visible head, under the 62 cut rows (of 452).
-   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson')&&Math.abs(c[2]+c[4]/2-txt?.[2])<4).at(-1);
    assert(txt&&img,'number and person sprite are drawn');const head=img[3]+img[5]*62/452;assert(txt[3]<=head,'number '+o.sign+' sits above the head (text y '+txt[3]+', head top '+head+')');
    r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.canvasCalls.length=0;r.tick(16);
-   const t2=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),tag=r.canvasCalls.filter(c=>c[0]==='tag'&&Math.abs(c[1]+c[3]/2-t2?.[2])<4).at(-1);
+   const t2=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),tag=r.canvasCalls.filter(c=>c[0]==='tag'&&Math.abs(c[1]+c[3]/2-t2?.[2])<4).at(-1);
    assert(t2&&tag,'name tag is shown when the person is the talk target');
    const pl2=r.canvasCalls.filter(c=>c[0]==='plate'&&Math.abs(c[1]+c[3]/2-t2[2])<12).at(-1);assert(pl2&&pl2[2]>=tag[2]+tag[4]+2,'name tag does not touch the dark plate (plate top '+pl2?.[2]+', tag bottom '+(tag[2]+tag[4])+')');assert(t2[3]-24>=tag[2]+tag[4],'name tag does not cover the number (text top '+(t2[3]-24)+', tag bottom '+(tag[2]+tag[4])+')');}
   // R84: each number says what it counts (SPEC_V5_CH234.md: followers, likes, rank), and the wider sign still ends before the nearest lamp head.
@@ -869,7 +871,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')&&Math.abs(x.y-o.y)<2.5))assert(Math.abs(o.x-l.x)*48-14>=half,o.id+' sign ('+o.sign+') ends clear of '+l.id);}
   // R85: a sign whose person stands at the screen edge slides inward and is drawn whole (it was cut to 「じゅんい 86」 / 「いいね 320」 on a phone).
   for(const [id,hx] of [['neon_num1',16],['neon_num2',14]]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);
+   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...NUM(r,o)].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1);
    assert(txt,id+' sign is drawn');assert(txt[2]-half>=camX&&txt[2]+half<=camX+540,id+' sign stays on screen (x '+txt[2]+', screen '+camX+'..'+(camX+540)+')');
    assert(Math.abs(txt[2]-o.x*48)<=half,id+' sign still sits over its person');
    // R96: at the screen edge too, the dark plate covers the sign and stays on screen.
@@ -878,7 +880,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R89: the sign is drawn after every sprite (a street lamp drawn later crossed 「86」 / 「3204」), and keeps 16px from the screen edge (unless it already slid half its width, so it stays over the person).
   // From the street between them (hero x 15), both signs slide less than half their width, so the 16px check really runs.
   for(const [id,hx] of [['neon_num1',15],['neon_num2',15]]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===o.sign),txt=calls[at];
+   const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),half=[...NUM(r,o)].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),txt=calls[at];
    const lastProp=calls.findLastIndex(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/'));
    assert(txt&&lastProp>=0,id+' sign and street lamps are drawn');assert(at>lastProp,id+' sign is drawn after the street lamps (sign call '+at+', last lamp call '+lastProp+')');
    // R96: a dark plate is drawn behind the sign (after the lamps, before the text) and covers the whole text, so a lamp head never shows through it.
@@ -888,7 +890,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(Math.abs(txt[2]-o.x*48)<half,id+' sign slid less than half its width here');assert(txt[2]-half>=camX+16&&txt[2]+half<=camX+540-16,id+' sign keeps 16px from the screen edge (x '+txt[2]+', half '+half+', screen '+camX+'..'+(camX+540)+')');}
   // R129: from the street (hero x 13..17), the dark plate of each number never overlaps a street lamp picture (it slid onto the lamp head on a phone).
   for(const id of ['neon_num1','neon_num2'])for(const hx of [13,15,17]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-   const calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===o.sign),pl=calls.findLast((c,i)=>i<at&&c[0]==='plate');
+   const calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),pl=calls.findLast((c,i)=>i<at&&c[0]==='plate');
    assert(at>=0&&pl,id+' sign and plate are drawn from x '+hx);
    for(const l of calls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/'))){const lx=l.length>9?l[6]:l[2],ly=l.length>9?l[7]:l[3],lw=l.length>9?l[8]:l[4],lh=l.length>9?l[9]:l[5];
     const lamp=m.objects.filter(x=>x.id.startsWith('neon_light')).some(x=>Math.abs(x.x*48-(lx+lw/2))<4);if(!lamp)continue;
@@ -1842,12 +1844,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(i)assert.equal(opaque(data,crop[i]),0,f+' crop line '+crop[i]+' sits in the empty gap between digit and head');
    let below=0;for(let y=crop[i];y<crop[i]+12;y++)below+=opaque(data,y);assert(below>0,f+' head starts just under the crop line');});
   const r=await runtime();r.tick();r.g.debugStartChapter(3);const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-  assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===o.sign),'the sign still tells the number');}
+  assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),'the sign still tells the number');}
  result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
  // R240: the number sign floated 18px over the head, right under the street lamp's foot, so it read as the lamp's sign; its plate now ends just over the head.
  {const r=await runtime();r.tick();r.g.debugStartChapter(3);const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]),files=['r0_c0','r0_c1','r1_c0','r1_c1'];
   for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).at(-1);
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).at(-1);
    assert(txt&&img,o.id+' and its sign are drawn');const headTop=img[3]+crop[o.frame]*img[5]/452,gap=headTop-(txt[3]+7);
    assert(gap>=0&&gap<=8,o.id+': the sign plate ends just over the head (gap '+gap.toFixed(1)+'px)');
    for(const l of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='props'&&/light/.test(x.id)&&Math.abs(x.x-o.x)*48<12+[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2+8&&x.y<o.y))assert(txt[3]-25-(l.y*48+img[3]+img[5]-o.y*48)>=16,o.id+': the sign stays clear of the foot of '+l.id);}}
@@ -2530,13 +2532,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
  // R293: in the ネオン arrival view, num1's 「じゅんい 86」 sign stays over its person instead of sliding in from the left edge.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.tick(16);r.canvasCalls.length=0;r.tick(16);
-  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1);assert(txt,'R293: num1 sign is drawn in the arrival view');assert(Math.abs(txt[2]-o.x*48)<1,'R293: num1 sign sits over its person (sign x '+txt[2]+', person x '+o.x*48+')');}
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1);assert(txt,'R293: num1 sign is drawn in the arrival view');assert(Math.abs(txt[2]-o.x*48)<1,'R293: num1 sign sits over its person (sign x '+txt[2]+', person x '+o.x*48+')');}
  result.push('R293: ネオンの着いた所で「じゅんい 86」の札が人の上にある PASS');
  // R294: talking to ミオ, her name tag and num1's 「じゅんい 86」 sign no longer touch end to end; they sit at different heights.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   r.g.debugWarp('neon',mio.x,mio.y+1.1);r.g.debugFace(3);r.tick(16);r.canvasCalls.length=0;r.tick(16);
   // both plates are about 34 tall; baselines 38 or more apart leave a visible gap (4px or more) between them.
-  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===o.sign).at(-1),name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===mio.label).at(-1);
+  const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===mio.label).at(-1);
   assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-38,'R294: ミオ tag sits above the じゅんい 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
  result.push('R294: ミオの名札と「じゅんい 86」の札が重ならない PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
@@ -2580,6 +2582,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     for(const p of plates)assert(p[1]>=0&&p[1]+p[3]<=mw,at+': the plate '+p[1]+'..'+(p[1]+p[3])+' stays inside the floor');
     for(let i=0;i<plates.length;i++)for(let j=i+1;j<plates.length;j++){const a=plates[i],b=plates[j];assert(a[1]+a[3]<=b[1]||b[1]+b[3]<=a[1]||a[2]+a[4]<=b[2]||b[2]+b[4]<=a[2],at+': two sign plates do not overlap');}}}}
  result.push('R344: おとなとこどもの両方で、店・塔1F・塔2F・町の札の字がその札や板に収まる PASS');
+ // R345: おとな mode draws the ネオン number signs 「じゅんい 86」「じゅんい 99」 as 「順位 86」「順位 99」; こども keeps the kana, and いいね・フォロワー stay as they are.
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();if(mode==='kids'){r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
+  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();assert.equal(r.g.state.mode,mode,'R345: runs in '+mode+' mode');
+  for(const [id,adult] of [['neon_num1','順位 86'],['neon_num2','いいね 3204'],['neon_num4','順位 99']]){const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id===id),want=mode==='adult'?adult:o.sign;
+   r.g.debugWarp('neon',o.x,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);const drawn=r.canvasCalls.filter(c=>c[0]==='strokeText'&&/^(順位|じゅんい|いいね|フォロワー) /.test(c[1])).map(c=>c[1]);
+   assert(drawn.includes(want),'R345: '+mode+' draws '+want+' over '+id+' (drawn: '+drawn.join(' / ')+')');assert(!drawn.some(t=>mode==='adult'?/^じゅんい /.test(t):/^順位 /.test(t)),'R345: '+mode+' does not draw the other mode\'s rank word ('+drawn.join(' / ')+')');
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===want).at(-1),half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,pl=r.canvasCalls.filter(c=>c[0]==='plate').find(c=>c[1]<=txt[2]-half&&c[1]+c[3]>=txt[2]+half);
+   assert(pl,'R345: the dark plate covers '+want+' in '+mode+' mode');}}
+ result.push('R345: ネオンのかずの人の札が、おとなでは「順位 86」、こどもでは「じゅんい 86」になる PASS');
  // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
