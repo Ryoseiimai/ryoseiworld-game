@@ -121,6 +121,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  },
  dialogue:{
   neonSign:[['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],['ソラ','みんなの あたまに\nかずが うかんでる…？']],
+  neonSignAdult:[['看板','ようこそ ネオンシティ。\n光と数の町。'],['ソラ','みんなの あたまに\nかずが うかんでる…？']],
   // R27: the cloud gate, locked until the stadium boss is cleared.
   cloudGateLocked:[['','くもの もんは\nとじている。'],['ソラ','さきに まちを\nなんとか しよう。']],
   hikakuTowerGate:[['','まちの はずれの\nくもの もんが ひかった。'],['ソラ','うえに なにかが\nいる みたいだね。']],

@@ -1737,6 +1737,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(JSON.stringify(l[0].slice(0,2)),JSON.stringify(want),mode+' '+ev+' first line: '+JSON.stringify(l));assert.equal(r.els.get('speaker').textContent,want[0]);assert.equal(l[1][0],'ソラ');assert(/^(いまは|せんろの)/.test(l[1][1]),'sora line stays kana: '+l[1][1]);
    r.dialogue();assert(!r.g.dialogue,'wait lines end');r.tick(300);}}
  result.push('R340: おとなモードでバス停と駅の看板の「次のバスは…」「電車は止まっています」を漢字で出し、こどもモードは ひらがなのまま PASS');
+ // R341: the town signs (地図の看板・貼り紙・ミナモとネオンの看板) speak in kanji in adult mode, like the R340 bus stop; Sora's lines and the narration keep the story kana, and kids keep the hiragana ones.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  const signs=[['town',12,27.1,adult?['看板','← 家　　コンビニ →\n↑ 電気屋　↓ 公園']:['かんばん','← おうち　　コンビニ →\n↑ でんきや　↓ こうえん']],
+   ['minamo',12.42,24.1,adult?['看板','ようこそ ミナモちょう。\n川と橋の町。']:['かんばん','ようこそ ミナモちょう。\nかわと はしの まち。'],'しずかすぎる。\nそとに だれも いない。'],
+   ['minamo',20,8.6,adult?['看板','川で遊ぶときは\n大人と一緒に。']:['かんばん','かわで あそぶ ときは\nおとなと いっしょに。'],null,adult?['看板','（大人は\nスマホと一緒）']:['かんばん','（おとなは\nスマホと いっしょ）']],
+   ['neon',11.4,15.4,adult?['看板','ようこそ ネオンシティ。\n光と数の町。']:['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],'みんなの あたまに\nかずが うかんでる…？']];
+  for(const [map,x,y,want,sora,second] of signs){r.g.debugWarp(map,x,y);r.tick(300);walkUp(r,60);r.tick(100);if(!r.g.dialogue)r.g.interact();assert(r.g.dialogue,mode+' '+map+' sign speaks at '+x);const l=r.g.dialogue.lines;
+   assert.equal(JSON.stringify(l[0].slice(0,2)),JSON.stringify(want),mode+' '+map+' sign: '+JSON.stringify(l));assert.equal(r.els.get('speaker').textContent,want[0]);
+   if(sora){assert.equal(l[1][0],'ソラ');assert.equal(l[1][1],sora,'sora line stays kana');}if(second)assert.equal(JSON.stringify(l[1].slice(0,2)),JSON.stringify(second));while(r.g.dialogue)r.dialogue();r.tick(300);}
+  const k=await runtime();k.tick();k.start(mode);await settle();k.tick(3000);while(k.g.dialogue)k.dialogue();k.tick(300);k.g.debugWarp('town',22,8.7);k.tick(1300);walkUp(k);assert.equal(k.g.map,'town');assert(k.g.dialogue,mode+' shutter speaks');
+  assert.equal(JSON.stringify(k.g.dialogue.lines.map(l=>l.slice(0,2))),JSON.stringify(adult?[['','シャッターが しまっている。'],['貼り紙','ジャンクのカギは\n交番に預けた。修理屋']]:[['','シャッターが しまっている。'],['はりがみ','ジャンクの カギは\nこうばんに あずけた。しゅうりや']]),mode+' shutter lines');}
+ result.push('R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
