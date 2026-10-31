@@ -112,6 +112,9 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
 }
 const settle=()=>new Promise(setImmediate);
 const TILE=48;
+// R343: in おとな mode the floor and town signs are drawn in kanji; こども keeps the kana written in the map data.
+const SIGN_ADULT={'そとへ':'外へ','うえへ':'上へ','したへ':'下へ','ちず':'地図','こうえん':'公園'};
+const A=w=>SIGN_ADULT[w]||w,signText=(mode,w)=>mode!=='こどもモード'&&SIGN_ADULT[w]||w,signHalfOf=w=>[...w].length*12;
 // Plays one ordinary battle to the end: summon when hurt, otherwise "create".
 function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked||t.g.battle.over){t.tick(400);continue;}if(t.g.hp.hp<25&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else {t.cmd('create');t.button('くりかえし');}t.tick(3000);}assert(guard>0,'battle ends');}
 function talk(t,map,x,y,dir=3){t.g.debugWarp(map,x,y);t.g.debugFace(dir);t.tick(16);const tonesBefore=t.calls.length;t.click('talk-btn');assert(t.g.dialogue,'talk at '+map+' '+x+','+y);assert(t.calls.length>tonesBefore,'はなす plays a sound '+map+' '+x+','+y);t.tick(16);assert(t.els.get('talk-btn').hidden,'はなす is hidden while the dialogue window is open');return t.g.dialogue.lines.map(l=>l[1]).join('\n');}
@@ -1237,31 +1240,31 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R174: おさらいで間違えた時、「〜の答えは」を「〜の意味は」にし、最後の行が「こと。」だけにならないようにした PASS');
  result.push('R159: おとなモードの ことばノートの おさらいを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R73: in the tower, the floor pad's 「うえへ」 sits on a plate (R304: the exit plate's yellow) instead of straight on the white cloud; the park board keeps its plain sign.
- {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+ for(const mode of ['おとなモード','こどもモード']){const r=await runtime();r.tick();r.click('start-btn');r.button(mode);while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
   const plated=sign=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1);assert(txt,sign+' is drawn');
-   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=txt[2]-36&&c[1]+c[3]>=txt[2]+36&&c[2]<=txt[3]-24&&c[2]+c[4]>=txt[3]+6),sign+' has a plate behind all of its letters');};
-  plated('うえへ');r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);plated('したへ');
-  r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]==='こうえん').at(-1);
+   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=txt[2]-signHalfOf(sign)&&c[1]+c[3]>=txt[2]+signHalfOf(sign)&&c[2]<=txt[3]-24&&c[2]+c[4]>=txt[3]+6),sign+' has a plate behind all of its letters');};
+  plated(signText(mode,'うえへ'));r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);plated(signText(mode,'したへ'));
+  r.g.debugWarp('town',5,32);r.canvasCalls.length=0;r.tick(16);const park=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===signText(mode,'こうえん')).at(-1);
   assert(park,'the park board sign is drawn');assert(!r.canvasCalls.some(c=>c[0]==='tag'&&c[1]<=park[2]&&c[1]+c[3]>=park[2]&&c[2]<=park[3]&&c[2]+c[4]>=park[3]),'the park board has no plate');}
  result.push('R73: ノイズのとうの「うえへ」は下じきの上に出る PASS');
  // R302: the pad signs start with an arrow (↑ うえへ / ↓ したへ) like the 「↓ そとへ」 exit; the arrow sits left of the words, inside the same plate.
- {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+ for(const mode of ['おとなモード','こどもモード']){const r=await runtime();r.tick();r.click('start-btn');r.button(mode);while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
-  const arrowed=(sign,arrow)=>{const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1),ar=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===arrow).at(-1);assert(txt&&ar,sign+' has its '+arrow);
-   assert(ar[2]<txt[2]-36&&ar[2]>txt[2]-72&&ar[3]===txt[3],arrow+' sits just left of '+sign);
-   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=ar[2]-12&&c[1]+c[3]>=txt[2]+36),arrow+' and '+sign+' share one plate');};
+  const arrowed=(kana,arrow)=>{const sign=signText(mode,kana);const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===sign).at(-1),ar=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===arrow).at(-1);assert(txt&&ar,sign+' has its '+arrow);
+   assert(ar[2]<txt[2]-signHalfOf(sign)&&ar[2]>txt[2]-signHalfOf(sign)-36&&ar[3]===txt[3],arrow+' sits just left of '+sign);
+   assert(r.canvasCalls.some(c=>c[0]==='exitplate'&&c[1]<=ar[2]-12&&c[1]+c[3]>=txt[2]+signHalfOf(sign)),arrow+' and '+sign+' share one plate');};
   r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('うえへ','↑');
   r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);arrowed('したへ','↓');arrowed('うえへ','↑');}
  result.push('R302: 塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ ↓ を付けた PASS');
  // R304: on とう1F the pad's ↑ うえへ and the ↓ そとへ exit are the same kind of plate: the exit's yellow, with dark words (no dark green plate left on the floor).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1',5,9);r.canvasCalls.length=0;r.tick(16);
-  const words=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]==='うえへ'||c[1]==='そとへ'));assert(words.some(c=>c[1]==='うえへ')&&words.some(c=>c[1]==='そとへ'),'both plates are drawn');
+  const words=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]===A('うえへ')||c[1]===A('そとへ')));assert(words.some(c=>c[1]===A('うえへ'))&&words.some(c=>c[1]===A('そとへ')),'both plates are drawn');
   const plateOf=c=>r.canvasCalls.find(p=>p[0]==='exitplate'&&p[1]<=c[2]-30&&p[1]+p[3]>=c[2]+30&&p[2]<=c[3]-20&&p[2]+p[4]>=c[3]);
   for(const c of words)assert(plateOf(c),c[1]+' sits on the yellow exit plate');
   const dark=()=>{for(const c of r.canvasCalls.filter(c=>c[0]==='signcolor'))assert.equal(c[2],/[↑↓]/.test(c[1])?'#4b655f':'#3b4f4a',c[1]+' is drawn dark on the yellow plate');};dark();
-  r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);const w2=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]==='うえへ'||c[1]==='したへ'));assert(w2.length>=2,'both tower2 pads are drawn');
+  r.g.debugWarp('tower2',5,9);r.canvasCalls.length=0;r.tick(16);const w2=r.canvasCalls.filter(c=>c[0]==='fillText'&&(c[1]===A('うえへ')||c[1]===A('したへ')));assert(w2.length>=2,'both tower2 pads are drawn');
   for(const c of w2)assert(plateOf(c),c[1]+' on とう2F sits on the yellow exit plate');dark();
   assert(!r.canvasCalls.some(c=>c[0]==='tag'&&words.some(w=>c[1]<=w[2]&&c[1]+c[3]>=w[2]&&c[2]<=w[3]&&c[2]+c[4]>=w[3])),'no dark green plate under the pad or exit words');}
  result.push('R304: 塔の「↑ うえへ」の札を、出口の「↓ そとへ」と同じ黄色の札にした PASS');
@@ -1608,20 +1611,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R138: the tower's way out was only a ↓ plate while the pads read うえへ / したへ. It now reads そとへ under the plate, inside the floor, and other rooms keep the plain ↓.
  {const r=await runtime();r.tick();r.g.debugStartChapter(4);r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWarp('tower1');r.tick(300);while(r.g.dialogue)r.dialogue();
   const p=r.g.GAME_DATA.maps.tower1.portals[0];assert.equal(p.sign,'そとへ');r.canvasCalls.length=0;r.tick(16);
-  const arrow=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),words=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1);
+  const arrow=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),words=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===A('そとへ')).at(-1);
   assert(arrow&&words,'the ↓ plate and its words are drawn');
   // R287: the ↓ and そとへ were two plates, one under the other. They now share one plate, the words right of the arrow on the same row.
-  assert(Math.abs(words[3]-arrow[3])<=2,'the words sit on the arrow row: '+words[3]+' / '+arrow[3]);assert(words[2]-36>=arrow[2]+14,'the words start right of the arrow: '+words[2]+' / '+arrow[2]);
+  assert(Math.abs(words[3]-arrow[3])<=2,'the words sit on the arrow row: '+words[3]+' / '+arrow[3]);assert(words[2]-signHalfOf(A('そとへ'))>=arrow[2]+14,'the words start right of the arrow: '+words[2]+' / '+arrow[2]);
   assert.equal(arrow[2],p.x*48,'the ↓ stays over the exit, where the hero steps out');
-  const plateW=[...p.sign].length*24+58;assert(arrow[2]-14>=p.x*48-26&&words[2]+36<=p.x*48-26+plateW&&p.x*48-26+plateW<=r.g.GAME_DATA.maps.tower1.w*48,'the arrow and the words fit on the one plate, inside the floor');
-  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'no second dark plate with outlined words under the ↓');
+  const plateW=[...A(p.sign)].length*24+58;assert(arrow[2]-14>=p.x*48-26&&words[2]+signHalfOf(A('そとへ'))<=p.x*48-26+plateW&&p.x*48-26+plateW<=r.g.GAME_DATA.maps.tower1.w*48,'the arrow and the words fit on the one plate, inside the floor');
+  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===A('そとへ')),'no second dark plate with outlined words under the ↓');
   assert(words[3]+9<=r.g.GAME_DATA.maps.tower1.h*48,'the words stay inside the floor: '+words[3]);
   // R226: the own room's exit is the stairs picture, so the plain-↓ check uses the shop (an exit without stairs).
   r.g.debugWarp('store');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
   // R296: a bare ↓ in the shops and houses did not read as the way out, so they now carry the same one 「↓ そとへ」 plate as the tower.
-  const sa=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),sw=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1);
+  const sa=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1),sw=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===A('そとへ')).at(-1);
   assert(sa&&sw&&Math.abs(sw[3]-sa[3])<=2,'a room exit shows ↓ and そとへ on one row');
-  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]==='そとへ'),'the room exit has no second outlined そとへ plate');}
+  assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===A('そとへ')),'the room exit has no second outlined そとへ plate');}
  result.push('R138: とう1Fと部屋の出口の ↓ と「そとへ」が1枚の札に並ぶ PASS');
  // R139: 「バグったじはんきは おとなしく なった！」 wrapped before なった！ in the battle log. A long name now breaks after は; a short one stays on one row.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
@@ -2180,7 +2183,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();let floors=0;
   for(const id of ['tower1','tower2','tower3']){const m=r.g.GAME_DATA.maps[id],s=m.objects.find(o=>o.label==='セーブたんまつ');
    for(const [dx,dy,face] of [[0,.8,3],[-1.2,0,2]]){r.g.debugWarp(id,s.x+dx,s.y+dy);r.g.debugFace(face);r.canvasCalls.length=0;r.tick(16);
-    const texts=r.canvasCalls.filter(c=>c[0]==='fillText'||c[0]==='strokeText'),tag=texts.find(c=>c[1]==='セーブたんまつ'),signs=texts.filter(c=>['うえへ','したへ'].includes(c[1]));
+    const texts=r.canvasCalls.filter(c=>c[0]==='fillText'||c[0]==='strokeText'),tag=texts.find(c=>c[1]==='セーブたんまつ'),signs=texts.filter(c=>[A('うえへ'),A('したへ')].includes(c[1]));
     assert(tag,id+': the terminal tag shows when the hero faces it');assert(signs.length>=1,id+': the stairs signs are drawn');
     for(const c of signs){const half=[...c[1]].length*12+10,tagHalf=[...tag[1]].length*12+10,overX=Math.abs(c[2]-tag[2])<half+tagHalf,overY=tag[3]-25<c[3]+10&&tag[3]+9>c[3]-27;
      assert(!(overX&&overY),id+': the terminal tag at '+Math.round(tag[3])+' is not on the '+c[1]+' sign at '+Math.round(c[3]));}}
@@ -2476,7 +2479,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
  // R267: in ミナモ (mobile-20) the park board stood at the left edge and only 「ん」 of こうえん showed; a board's words are drawn only while all of them are on screen.
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
-  const run=(cam,o)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000')(o);return{labels,rows};};
+  const run=(cam,o)=>{const labels=[],rows=[],ctx={strokeText(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','signX','SIGN_PLATE','signOf',src('signHalf')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,o=>o.x*48,'#000',o=>o.sign)(o);return{labels,rows};};
   const cam={x:455,y:0},park={x:9,y:26.6,kind:'props',frame:11,sign:'こうえん'};
   let r=run(cam,park);assert.equal(r.labels.length,0,'the words of a board cut by the left edge are not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keep no row');
   r=run({x:432-540+10,y:0},park);assert.equal(r.labels.length,0,'nor by the right edge');
@@ -2543,7 +2546,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(p.sign==='そとへ',id+': the exit plate says そとへ');const l=p.x*48-26,w=[...p.sign].length*24+58;assert(l>=0&&l+w<=m.w*48,id+': the そとへ plate fits in the room ('+l+'..'+(l+w)+')');}}
   assert(n>=8,'R296: the shops, houses, halls and the tower exit are checked ('+n+')');
   r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const st=maps.store;r.g.debugWarp('store',st.spawn[0],st.spawn[1]);r.tick(16);r.canvasCalls.length=0;r.tick(16);
-  assert(r.canvasCalls.some(c=>(c[0]==='fillText'||c[0]==='strokeText')&&c[1]==='そとへ'),'R296: the store exit plate draws そとへ');}
+  assert(r.canvasCalls.some(c=>(c[0]==='fillText'||c[0]==='strokeText')&&c[1]===A('そとへ')),'R296: the store exit plate draws 外へ in おとな mode');
+  // R343: こども mode keeps the kana そとへ on the same plate, with the ↓ left of the words and the plate inside the room.
+  {const k=await runtime();k.tick();k.start();k.tick(1000);assert(k.g.debugStartChapter(1));while(k.g.dialogue)k.dialogue();const p=maps.store.portals[0];k.g.debugWarp('store',maps.store.spawn[0],maps.store.spawn[1]);k.tick(16);k.canvasCalls.length=0;k.tick(16);
+   const words=k.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='そとへ').at(-1),arrow=k.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]==='↓').at(-1);assert(words&&arrow,'R343: こども mode draws ↓ そとへ');
+   assert(!k.canvasCalls.some(c=>c[1]==='外へ'),'R343: こども mode draws no 外へ');const l=p.x*48-26;assert(arrow[2]+14<=words[2]-36&&words[2]+36<=l+[...'そとへ'].length*24+58,'R343: the ↓ and そとへ fit on one plate in こども mode');}}
  result.push('R296: 部屋の出口の札に「そとへ」と書いてある PASS');
  // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
