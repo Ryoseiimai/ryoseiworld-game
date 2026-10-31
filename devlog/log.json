@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T17:14:15.613Z",
-  "branch": "claude/autodev-20261024-0121-R193",
-  "task": "R193 3章の始めで、そうじきの敵がミオのすぐ横の道に立っていたので、右の歩道へ移し、敵が町の人に近づかないようにした",
-  "summary": "3章の始めで、そうじきの敵がミオのすぐ横の道の上に止まっていた\nそうじきを右の歩道へ移し、どの町でも敵が人から1.6マス離れるようにした\n敵が人に近づかない確認を足した（直す前は落ち、後は通る）",
-  "result": "pass",
-  "shots": [
-   "shots/361/mobile-02-mode-select.jpg",
-   "shots/361/mobile-15-custom-full-run.jpg",
-   "shots/361/mobile-27-chapter-2-play.jpg",
-   "shots/361/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5872690",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39992099261"
- },
- {
   "at": "2026-10-23T18:11:11.262Z",
   "branch": "claude/autodev-20261024-0221-R194",
   "task": "R194 とうの各階と としょかんで、部屋のまわりが灰色のままだったので、かべを画面のはしまで続けた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "28cf971",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41193541967"
+ },
+ {
+  "at": "2026-10-31T11:46:19.703Z",
+  "branch": "claude/autodev-20261031-2021-R350",
+  "task": "R350 章クリアの札「2しょう / つづく」とボタン「つぎの しょうへ」がおとなモードでもひらがなだったので、おとなでは「第2章」「続く」「次の章へ」にした。最後の町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした（札の本文とソラの台詞は物語なのでそのまま）",
+  "summary": "おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にした\n最後の町のカードを「直った町」「次へ」、エピローグのボタンを「送る」にした\nテストを足し、前後のスクショを docs/shots/R350 に置いた。こどもはかなのまま",
+  "result": "pass",
+  "shots": [
+   "shots/604/mobile-02-mode-select.jpg",
+   "shots/604/mobile-15-custom-full-run.jpg",
+   "shots/604/mobile-27-chapter-2-play.jpg",
+   "shots/604/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8af62e5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41197494431"
  }
 ]
