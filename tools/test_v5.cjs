@@ -38,6 +38,8 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     appendChild(el){if(el.parentNode)el.parentNode.children=el.parentNode.children.filter(c=>c!==el);el.parentNode=this;this.children.push(el);return el}
     getBoundingClientRect(){const s=Math.min(sandbox.window.innerWidth/540,sandbox.window.innerHeight/960);return {left:(sandbox.window.innerWidth-540*s)/2,top:(sandbox.window.innerHeight-960*s)/2,width:540*s,height:960*s}}
     setPointerCapture(){}
+    setAttribute(n,v){(this.attrs??={})[n]=String(v)}
+    getAttribute(n){return this.attrs?.[n]??null}
     focus(){document.activeElement=this}
     select(){}
     contains(el){return this.children.includes(el)}
@@ -1763,6 +1765,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(line,ai+want,mode+' R356 '+copy());if(adult)assert(!/ /.test(line),'R356 adult line has no kids spaces '+line);r.key('Escape');}
   r.setRandom(Math.random);}}
  result.push('R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS');
+ // R362: the epilogue card's eyebrow 「THE END のあと」 and the input hint 「なんでも かいてね」 stayed in kids' kana in adult mode, next to the 送る button.
+ // Adult mode now reads 「THE END の後」「何でも書いてね」 (aria-label 「次に作るもの」); kids keep the kana. Sora's question is story text and stays the same in both modes.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.state.mode=mode;
+  r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'}]}}]);r.click('ending-title');assert.equal(r.g.screen,'epilogue',mode+' R362 epilogue');
+  const inp=r.els.get('epilogue-input');assert.equal(r.els.get('epilogue-eyebrow').textContent,adult?'THE END の後':'THE END のあと',mode+' R362 eyebrow');
+  assert.equal(inp.placeholder,adult?'何でも書いてね':'なんでも かいてね',mode+' R362 placeholder');assert.equal(inp.getAttribute('aria-label'),adult?'次に作るもの':'つぎに つくるもの',mode+' R362 aria-label');
+  assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?',mode+' R362 story line unchanged');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R362 send button');
+  if(adult)assert(!/[ぁ-ん] [ぁ-ん]/.test(inp.placeholder+r.els.get('epilogue-eyebrow').textContent),'R362 adult hint has no kids spaces');}}
+ result.push('R362: おとなモードのエピローグの見出しを「THE END の後」、入力欄の案内を「何でも書いてね」にし、こどもモードは かなのまま PASS');
  // R361: the review quiz window titles were 「おさらい　1/3」 and 「おさらい　終わり」 with the kids' full-width gap in adult mode too.
  // Adult mode now reads 「おさらい 1 / 3」 (like the owl's 「問題 1 / 3」) and 「おさらい終わり」; kids keep the old titles.
  {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
