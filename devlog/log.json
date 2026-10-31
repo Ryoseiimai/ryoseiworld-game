@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T14:01:25.394Z",
-  "branch": "claude/autodev-20261023-2224-R190",
-  "task": "R190 ミナモで女の人の守護霊が木の上に乗って見えたので、木のない側に出るようにした",
-  "summary": "ミナモの始めで、女の人の守護霊が木の上に乗って見えた\n守護霊の左右を決める時、木や街灯なども数えるようにした\n木の上に出ない確認を足した（直す前は落ち、後は通る）",
-  "result": "pass",
-  "shots": [
-   "shots/355/mobile-02-mode-select.jpg",
-   "shots/355/mobile-15-custom-full-run.jpg",
-   "shots/355/mobile-27-chapter-2-play.jpg",
-   "shots/355/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d998b08",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39965101052"
- },
- {
   "at": "2026-10-23T14:58:27.285Z",
   "branch": "claude/autodev-20261023-2322-R191",
   "task": "R191 町の交差点で、ずれた「はなす」ボタンがまだ街灯に乗っていたので、街灯の段には上げず下のまま透けるようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "f40e4e0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41177466705"
+ },
+ {
+  "at": "2026-10-31T07:02:26.150Z",
+  "branch": "claude/autodev-20261031-1521-R345",
+  "task": "R345 ネオンのかずの人の札「じゅんい 86」がおとなモードでもひらがなだったので、おとなでは「順位 86」「順位 99」にした",
+  "summary": "ネオンのかずの人の札を、おとなモードでは「順位 86」「順位 99」と描くようにした\n札を見る古いテストを表示の文字でそろえ、両モードの札の字と板を確かめるテストを足した\n前と後のスクショを docs/shots/R345 に置いた（右端の札が切れるのと名札「かずの ひと」は前からのまま）",
+  "result": "pass",
+  "shots": [
+   "shots/598/mobile-02-mode-select.jpg",
+   "shots/598/mobile-15-custom-full-run.jpg",
+   "shots/598/mobile-27-chapter-2-play.jpg",
+   "shots/598/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "fec1413",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41178181297"
  }
 ]
