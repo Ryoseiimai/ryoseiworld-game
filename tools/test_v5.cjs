@@ -1724,6 +1724,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const k of Object.keys(want)){assert(got[k].includes(want[k]),mode+' R353 '+k+' '+got[k]);if(adult)for(const row of got[k].split('\n'))assert(wide(row)<=12,'R353 row fits '+row);}
   const text=Object.values(got).join('\n');if(adult)assert(!/もう あげた|いらない みたい|いちばんの なかよし|もっていない/.test(text),'R353 adult has no kana gift line '+text);else assert(!/今は|一番の仲良し|持っていない/.test(text),'R353 kids keep kana '+text);}}
  result.push('R353: おとなモードの贈り物のお知らせを「もうあげた。」「今はいらないみたい。」「もう一番の仲良し。」「持っていない。」にし、こどもモードは かなのまま PASS');
+ // R354: the gift question 「おにぎりを あげる？」 kept the kids' space in adult mode, right before R353's 「もうあげた。」. A choice step may carry adult:'…',
+ // which adult mode asks instead; ch1 and ch2 gifts use it, kids keep the spaced kana, and a choice without adult reads the same in both modes.
+ {const findAll=(x,out=[])=>{if(!x||typeof x!=='object')return out;if(typeof x.choice==='string'&&/^.+を あげる？$/.test(x.choice)&&!out.includes(x))out.push(x);for(const v of Object.values(x))findAll(v,out);return out;};
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const steps=findAll(r.g.GAME_DATA.events),to=steps.map(x=>x.options[0].then?.[0]?.to);assert(steps.length>=7&&to.includes('mother')&&to.includes('minamo_grandpa'),'R354 ch1 and ch2 gift choices '+to);
+  for(const step of steps){const label=step.choice.replace(/を あげる？$/,'');assert.equal(step.adult,label+'をあげる？','R354 adult text '+label);
+   r.g.debugEvent([step]);r.tick(100);assert.equal(r.g.modal,'event','R354 choice opens');const copy=r.els.get('modal-copy').textContent;assert.equal(copy,adult?label+'をあげる？':label+'を あげる？',mode+' R354 '+copy);r.button('やめておく');r.tick(100);while(r.g.dialogue)r.dialogue();}
+  r.g.debugEvent([{choice:'どうする？',options:[{text:'はい'},{text:'いいえ'}]}]);r.tick(100);assert.equal(r.els.get('modal-copy').textContent,'どうする？',mode+' R354 plain choice');r.button('いいえ');r.tick(100);}
+ }
+ result.push('R354: おとなモードの贈り物の確認を「おにぎりをあげる？」にし、こどもモードは「おにぎりを あげる？」のまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];

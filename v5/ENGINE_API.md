@@ -151,7 +151,7 @@ events:{
 |---|---|---|
 | say | `{say:'owl'}` または `{say:[['人','文']]}` | 会話を出し、読み終わると次へ |
 | proto | `{proto:'lesson'}` または `{proto:'play'}` | 試作ゲームを開き、閉じた時の状態を `proto` に入れて次へ。表示中は移動とメニューを止める。機能が未読込なら次へ |
-| choice | `{choice:'どうする？',who:'人',options:[{text:'はい',then:[…]},{text:'いいえ'}]}` | 2〜3択。選んだ先の `then` をしてから次へ。選択肢は16字まで |
+| choice | `{choice:'どうする？',who:'人',options:[{text:'はい',then:[…]},{text:'いいえ'}]}` | 2〜3択。選んだ先の `then` をしてから次へ。選択肢は16字まで。`adult:'…'` があれば、おとなモードの問いはそちらを出す（贈り物の確認など） |
 | quiz | `{quiz:[{q,options:[3つ],answer:0〜2,right:[会話],wrong:[会話]}],who:'人',wrong:[会話]}` | 3択の問題を順に。まちがえると同じ問題をもう一度。全部正しいと次へ。外の `wrong` は全問共通のまちがいの会話 |
 | join | `{join:'owl'}` | 召喚獣が仲間に（フラグ `owl` も立つ） |
 | give / take | `{give:'rice',n:2}` `{take:'battery'}` | どうぐを増やす・減らす（n は無ければ1） |

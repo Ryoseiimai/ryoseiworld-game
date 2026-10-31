@@ -5,7 +5,7 @@
 (function(){'use strict';
 const {object,prop,props}=RYW.helpers;
 // Same as ch1.js: after the errand, offer one liked thing once.
-const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
+const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',adult:label+'をあげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 // Train stops (SPEC_V5_CH234.md: ミナモちょう → ネオンシティ by train from the station). The first ride is the end of chapter 2.
 const trainStops=[{text:'ミナモちょう',map:'minamo',at:[17.8,13.6]},{text:'ネオンシティ',map:'neon',at:[15,13.6],if:'neonVisited'}];
 const maps={};

@@ -2,7 +2,7 @@
 (function(){'use strict';
 const {object,person,prop,props}=RYW.helpers;
 // A liked thing is offered once per person (SPEC_V6.md 2): only after their request is done and while it is in the bag; the flag gave_<id> stops the question.
-const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
+const gift=(to,item,label,after)=>({if:after,then:[{if:{item,atLeast:1},then:[{if:{not:'gave_'+to},then:[{choice:label+'を あげる？',adult:label+'をあげる？',options:[{text:'あげる',then:[{gift:item,to},{flag:'gave_'+to}]},{text:'やめておく'}]}]}]}]});
 // After BUG KING (SPEC_V5_CH234.md): Sora and RYOSEI make a tiny game on the old PC, and the item opens chapter 2.
 // The bus runs it too, so a reload between the boss and the scene still gets the game before leaving town.
 const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'makeGame'},{proto:'lesson'},{flash:'#fff4c8',ms:400},{wait:400},{give:'firstgame'},{flag:'gameMade'},{say:'makeGameDone'},{save:'quiet'}];
