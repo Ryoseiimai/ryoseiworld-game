@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T12:06:21.366Z",
-  "branch": "claude/autodev-20261023-2022-R188",
-  "task": "R188 ネオンの町で、ずれた「はなす」ボタンを街灯の上に乗せない（後半）",
-  "summary": "ネオンの町の3章の始めで、「はなす」ボタンが街灯に乗る原因を本物のブラウザで調べた\n原因: 街灯の無い段が、まわりの16pxの余白だけで候補から外れていた\n余白なしで空いていて街灯も無い段を候補に入れ、ボタンが道の上へずれるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/351/mobile-02-mode-select.jpg",
-   "shots/351/mobile-15-custom-full-run.jpg",
-   "shots/351/mobile-27-chapter-2-play.jpg",
-   "shots/351/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "50d4132",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39948674499"
- },
- {
   "at": "2026-10-23T12:06:23.168Z",
   "branch": "claude/autodev-art-20261023-204535",
   "task": "絵",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "361e3d0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41160748868"
+ },
+ {
+  "at": "2026-10-31T03:01:35.047Z",
+  "branch": "claude/autodev-20261031-1145-R343",
+  "task": "R343 床の札「そとへ」「うえへ」「したへ」と町の看板「ちず」「こうえん」を、おとなモードでは「外へ」「上へ」「下へ」「地図」「公園」にする（前半: テストを先にそろえる）",
+  "summary": "床の札「そとへ」「うえへ」を、おとなでは「外へ」「上へ」にする形を試した\n札の文字を見る古いテストが10件ほどあり、今回の時間では直し切れないので戻した\n次の回のために、テストを先にそろえる件と仕上げの件に分けて ROADMAP に書いた",
+  "result": "pass",
+  "shots": [
+   "shots/594/mobile-02-mode-select.jpg",
+   "shots/594/mobile-15-custom-full-run.jpg",
+   "shots/594/mobile-27-chapter-2-play.jpg",
+   "shots/594/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "0bb71df",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41161635787"
  }
 ]
