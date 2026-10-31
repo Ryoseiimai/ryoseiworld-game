@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T00:52:34.021Z",
-  "branch": "claude/autodev-20261024-0921-R201",
-  "task": "R201 塔の床のマスの間に木の床の色が見えてマス目のようだったので、すき間を暗くした",
-  "summary": "塔の床のマスの間に、木の床の色のすき間が見えていた\n塔のマスの下を暗い色で塗り、すき間が目立たないようにした\nすき間が暗いことをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/374/mobile-02-mode-select.jpg",
-   "shots/374/mobile-15-custom-full-run.jpg",
-   "shots/374/mobile-27-chapter-2-play.jpg",
-   "shots/374/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8fa066b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40046348145"
- },
- {
   "at": "2026-10-24T01:55:39.569Z",
   "branch": "claude/autodev-20261024-1021-R202",
   "task": "R202 町の電柱の絵の右に黒い点が散って、絵がこわれて見えたので、読み込む時に点を消した",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "cabfa6d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230629620"
+ },
+ {
+  "at": "2026-10-31T19:43:30.419Z",
+  "branch": "claude/autodev-20261101-0421-R360",
+  "task": "R360 タイトルのお知らせ「チャレンジや　ことばノートの　おさらいも　遊べるよ」と、きずなの「次は ♥5で 武器の力」がおとなモードでも分かち書きの空白入りだったので、おとなでは「チャレンジやことばノートのおさらいも遊べるよ」「次は♥5で武器の力」にした（こどもモードはそのまま）",
+  "summary": "おとなモードのタイトルのお知らせから、分かち書きの空白を取った\nきずなの画面の「次は♥5で武器の力」なども空白を詰めた。こどもはそのまま\nテストと前後のスクショを足した。「きずな」の名前は変えない言葉なのでそのまま",
+  "result": "pass",
+  "shots": [
+   "shots/618/mobile-02-mode-select.jpg",
+   "shots/618/mobile-15-custom-full-run.jpg",
+   "shots/618/mobile-27-chapter-2-play.jpg",
+   "shots/618/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4a119e7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41234871798"
  }
 ]
