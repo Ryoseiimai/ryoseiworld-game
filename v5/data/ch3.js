@@ -171,7 +171,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   vacuum:{name:'ぼうそうそうじき',adultName:'暴走掃除機',frame:6,hp:70,attack:13,exp:26,money:44,level:6,color:['#4a3a2a','#d8a85a'],hints:["とつげき","コードを すう"],actions:['まっすぐ とつげきした！','コードを ズルズル すいこんだ！'],adultHints:['突撃','コードを吸う'],adultActions:['まっすぐ突撃した！','コードをズルズル吸い込んだ！']},
   // R46 (SPEC_V7_MANABU.md 7): じぶんまんまんの一言を言うが、全部まちがい。HPの棒はうそ（いつも まんたん、fakeHp）。
   // じっこう・つくるのダメージは半分。サーチフクロウで「でどころが ない！」→ ほんとうのHPが見え、ダメージ2倍（index.html damageEnemy/cast owl）。
-  hallucination:{name:'ハルシネーション',frame:7,fakeHp:true,hp:80,attack:10,exp:30,money:46,level:7,color:['#3a2a52','#d9a6ff'],hints:["じしんまんまん","ぜんぶ まちがい"],actions:['「よわてんは みず だよ」と じしんまんまんに いった！','「かいとうは 42です」と いった！','「でどころは たしかです」と いった！'],adultHints:['自信満々','全部間違い'],adultActions:['「弱点は水だよ」と自信満々に言った！','「解答は42です」と言った！','「出どころは確かです」と言った！']}},
+  hallucination:{name:'ハルシネーション',frame:7,fakeHp:true,hp:80,attack:10,exp:30,money:46,level:7,color:['#3a2a52','#d9a6ff'],hints:["じしんまんまん","ぜんぶ まちがい"],actions:['「よわてんは みず だよ」と じしんまんまんに いった！','「かいとうは 42です」と いった！','「でどころは たしかです」と いった！'],adultHints:['自信満々','全部間違い'],adultActions:['「弱点は水だよ」と断言した！','「答えは42です」と言った！','「出どころは確かです」と言った！']}},
  maps
 });
 })();
