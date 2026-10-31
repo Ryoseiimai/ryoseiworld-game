@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T04:00:15.533Z",
-  "branch": "claude/autodev-20261024-1221-R204",
-  "task": "R204 でんきやで、テレビの やまが奥の壁にかかって上の札の下に隠れていたので、床の上へ下げた",
-  "summary": "でんきやで、テレビの やまの上が奥の壁にかかっていた\n出口の近くでは、上の札と帯の下に半分隠れていた\nやまを1マスほど下げて少し小さくし、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/379/mobile-02-mode-select.jpg",
-   "shots/379/mobile-15-custom-full-run.jpg",
-   "shots/379/mobile-27-chapter-2-play.jpg",
-   "shots/379/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "99582d2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40059967107"
- },
- {
   "at": "2026-10-24T04:10:00.191Z",
   "branch": "claude/autodev-20261024-1221-R204",
   "task": "R204 でんきやで、テレビの やまが奥の壁にかかって上の札の下に隠れていたので、床の上へ下げた",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "dada776",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245050347"
+ },
+ {
+  "at": "2026-10-31T22:11:26.354Z",
+  "branch": "claude/autodev-20261101-0641-R362",
+  "task": "R362 エピローグの見出し「THE END のあと」と入力欄の案内「なんでも かいてね」がおとなモードでもかなで、隣の「送る」とそろっていなかったので、おとなでは「THE END の後」「何でも書いてね」にした（ソラの台詞とこどもモードはそのまま）",
+  "summary": "エピローグの見出しを、おとなでは「THE END の後」にした\n入力欄の案内も、おとなでは「何でも書いてね」にした。ソラの台詞とこどもはそのまま\nテストと、540x960 の前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/623/mobile-02-mode-select.jpg",
+   "shots/623/mobile-15-custom-full-run.jpg",
+   "shots/623/mobile-27-chapter-2-play.jpg",
+   "shots/623/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f5bc282",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245787050"
  }
 ]
