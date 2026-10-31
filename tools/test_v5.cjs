@@ -1734,6 +1734,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{choice:'どうする？',options:[{text:'はい'},{text:'いいえ'}]}]);r.tick(100);assert.equal(r.els.get('modal-copy').textContent,'どうする？',mode+' R354 plain choice');r.button('いいえ');r.tick(100);}
  }
  result.push('R354: おとなモードの贈り物の確認を「おにぎりをあげる？」にし、こどもモードは「おにぎりを あげる？」のまま PASS');
+ // R355: Search Owl's IT quiz is a learning part (SPEC_V7_MANABU.md 9), but adult mode still asked 「もんだい 1 / 3」「つよい パスワードは？」 in kana.
+ // Each question carries adult:{q,options}; adult mode shows those with 「問題 1 / 3」, kids keep the kana, the answer index is the same and a wrong answer still asks again.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const step=r.g.GAME_DATA.events.owlQuiz[0].else[0].then.find(x=>x.quiz);assert.equal(step.quiz.length,3,'R355 three questions');let done=false;r.g.debugEvent([step],()=>{done=true;});r.tick(100);
+  const read=()=>{for(let i=0;i<5;i++){while(r.g.dialogue)r.dialogue();r.tick(400);}};
+  step.quiz.forEach((q,n)=>{assert(q.adult&&q.adult.options.length===3,'R355 adult text for '+q.q);const t=adult?q.adult:q;
+   assert(wide(q.adult.q)<=16,'R355 fits '+q.adult.q);for(const o of q.adult.options)assert(o.length<=16,'R355 option fits '+o);
+   const copy=r.els.get('modal-copy').textContent;assert.equal(copy,(adult?'問題 ':'もんだい ')+(n+1)+' / 3\n'+t.q,mode+' R355 '+copy);
+   assert.equal(r.els.get('modal-buttons').children.map(b=>b.textContent).join('|'),t.options.join('|'),mode+' R355 options');
+   if(n===0){r.button(t.options[0]);read();assert.equal(r.els.get('modal-copy').textContent,copy,mode+' R355 wrong asks again');}
+   r.button(t.options[q.answer]);read();});
+  assert(done,mode+' R355 quiz finishes');
+  if(adult)for(const q of step.quiz)assert(!/[ ]/.test(q.adult.q+q.adult.options.join('')),'R355 adult text has no kids spaces '+q.adult.q);
+  r.g.debugEvent([{quiz:[{q:'1+1は？',options:['1','2','3'],answer:1}],who:'テスト'}]);r.tick(100);assert.equal(r.els.get('modal-copy').textContent,'1+1は？',mode+' R355 one question has no header');r.button('3');
+  assert.equal(r.g.dialogue.lines[0][1],adult?'違うみたい。\nもう一度。':'ちがうみたい。\nもう いちど。',mode+' R355 default wrong line');read();r.button('2');read();}}
+ result.push('R355: おとなモードのサーチフクロウの問題を「問題 1 / 3」「強いパスワードは？」などの漢字まじりにし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];

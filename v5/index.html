@@ -622,7 +622,7 @@ const EVENT_STEPS={
  proto:(s,next)=>openProto(s.proto,next),
  choice:(s,next)=>eventAsk(s.who||'',menuLabel(s.adult??s.choice,s.choice),s.options.map(o=>o.text),i=>runEvent(s.options[i].then||[],next)),
  // A wrong answer says so and asks the same question again; the quiz ends after every question is right.
- quiz:(s,next)=>{const ask=n=>{if(n>=s.quiz.length){next();return;}const q=s.quiz[n];eventAsk(s.who||'',(s.quiz.length>1?`もんだい ${n+1} / ${s.quiz.length}\n`:'')+q.q,q.options,i=>{if(i===q.answer){eventSay(q.right||[],()=>ask(n+1));}else eventSay(q.wrong||s.wrong||[['','ちがうみたい。\nもう いちど。']],()=>ask(n));});};ask(0);},
+ quiz:(s,next)=>{const ask=n=>{if(n>=s.quiz.length){next();return;}const q=s.quiz[n],t=g.mode==='adult'&&q.adult||q;eventAsk(s.who||'',(s.quiz.length>1?menuLabel(`問題 ${n+1} / ${s.quiz.length}`,`もんだい ${n+1} / ${s.quiz.length}`)+'\n':'')+t.q,t.options,i=>{if(i===q.answer){eventSay(q.right||[],()=>ask(n+1));}else eventSay(q.wrong||s.wrong||[['',menuLabel('違うみたい。\nもう一度。','ちがうみたい。\nもう いちど。')]],()=>ask(n));});};ask(0);},
  join:(s,next)=>{if(!g.summons.includes(s.join))g.summons.push(s.join);g.flags[s.join]=true;g.recruitFx={id:s.join,start:gameTime};next();},
  give:(s,next)=>{g.items[s.give]=num(g.items[s.give],0)+(s.n??1);next();},
  take:(s,next)=>{g.items[s.take]=Math.max(0,num(g.items[s.take],0)-(s.n??1));next();},

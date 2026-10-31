@@ -92,10 +92,11 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   minamoGrandpa:[{if:'minamoKey',then:[{if:{summon:'owl'},then:[{if:'minamoBookDone',then:[{say:'grandpaAfter'}],else:[{if:{item:'minamoBook',atLeast:1},then:[{say:'grandpaBook'},{take:'minamoBook'},{flag:'minamoBookDone'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'grandpaBookAsk'},{flag:'minamoBookAsk'}]}]}],else:[{say:'grandpaAfter'}]}],
    else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'grandpaKey'},{flag:'minamoKey'},{save:'quiet'}],else:[{say:'grandpaAsk'}]}]},gift('minamo_grandpa','rice','おにぎり','minamoBookDone')],
   // Search Owl's IT quiz (SPEC_V5_CH234.md): three questions, three choices, a wrong answer asks the same one again. All right: the owl joins.
+  // The quiz is a learning part, so adult mode asks q.adult (same answers, kanji and kana as SPEC_V7_MANABU.md 9); the owl's own lines stay the story's.
   owlQuiz:[{if:{summon:'owl'},then:[{say:'owlIdle'}],else:[{if:'minamoKey',then:[{say:'owlWake'},
-   {quiz:[{q:'つよい パスワードは？',options:['1234','じぶんの なまえ','ながくて ばらばら'],answer:2,right:'owlRight1'},
-    {q:'しらない 人からの リンクは？',options:['すぐ おす','おさないで おとなに','ともだちに おくる'],answer:1,right:'owlRight2'},
-    {q:'AIに ひみつを おしえて いい？',options:['なんでも いい','すんでる ばしょも','ひみつは いわない'],answer:2,right:'owlRight3'}],who:'サーチフクロウ',wrong:'owlWrong'},
+   {quiz:[{q:'つよい パスワードは？',options:['1234','じぶんの なまえ','ながくて ばらばら'],answer:2,right:'owlRight1',adult:{q:'強いパスワードは？',options:['1234','自分の名前','長くてばらばら']}},
+    {q:'しらない 人からの リンクは？',options:['すぐ おす','おさないで おとなに','ともだちに おくる'],answer:1,right:'owlRight2',adult:{q:'知らない人からのリンクは？',options:['すぐ押す','押さずに確かめる','友達に送る']}},
+    {q:'AIに ひみつを おしえて いい？',options:['なんでも いい','すんでる ばしょも','ひみつは いわない'],answer:2,right:'owlRight3',adult:{q:'AIに秘密を教えていい？',options:['何でもいい','住んでいる場所も','秘密は言わない']}}],who:'サーチフクロウ',wrong:'owlWrong'},
    {say:'owlJoin'},{join:'owl'},{bond:'minamo_grandpa'},{save:'quiet'}],else:[{say:'searchMachine'}]}]}],
   // The friend kept a library book because he may not go out. He hands it over once the grandpa asks.
   minamoBoy:[{if:'minamoBookAsk',then:[{if:{not:'minamoBoyBook'},then:[{say:'boyBook'},{give:'minamoBook'},{flag:'minamoBoyBook'}],else:[{say:'minamoBoy'}]}],else:[{say:'minamoBoy'}]}]
