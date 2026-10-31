@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T20:57:35.041Z",
-  "branch": "claude/autodev-20261024-0521-R197",
-  "task": "R197 コンビニで、店員さんの守護霊が頭にめりこんでいたので、絵の高さに合わせて頭の外へ出した",
-  "summary": "コンビニで、店員さんの守護霊が髪の上にめりこんで見えていた\n守護霊の高さを、レジの奥で持ち上げて描いた店員さんの絵に合わせた\n守護霊が店員さんの頭に重ならない確認をテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/366/mobile-02-mode-select.jpg",
-   "shots/366/mobile-15-custom-full-run.jpg",
-   "shots/366/mobile-27-chapter-2-play.jpg",
-   "shots/366/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "41da041",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40022292084"
- },
- {
   "at": "2026-10-23T22:08:44.963Z",
   "branch": "claude/autodev-20261024-0621-R198",
   "task": "R198 町とミナモで、信号の真下に電柱や街灯が立ち1本の柱に見えたので、間をあけた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4658d97",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41210758517"
+ },
+ {
+  "at": "2026-10-31T15:10:58.254Z",
+  "branch": "claude/autodev-20261031-2346-R354",
+  "task": "R354 贈る前の確認「おにぎりを あげる？」がおとなモードでも空白入りで、直後の「もうあげた。」と書き方がちがったので、おとなでは「おにぎりをあげる？」にした（イベントの選択に adult の文を足せるようにした）",
+  "summary": "おとなモードの贈る前の確認を「おにぎりをあげる？」にした。こどもはそのまま\nイベントの選択に、おとな用の文（adult）を書けるようにし、使い方の説明に足した\nテストと前後のスクショ（docs/shots/R354）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/609/mobile-02-mode-select.jpg",
+   "shots/609/mobile-15-custom-full-run.jpg",
+   "shots/609/mobile-27-chapter-2-play.jpg",
+   "shots/609/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "3e0aed0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41212737078"
  }
 ]
