@@ -1,35 +1,22 @@
 {
   "branch": "claude/autodev-20261101-0337-R359",
-  "sha": "3d3c44e8e02dfe593c11cb4bb425716fb4bbb85a",
-  "result": "fail",
+  "sha": "cabfa6d3a146acb43e7af63de52ea41f1db74e96",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
-    "test_v5": "fail",
+    "merge": "merge",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "AssertionError [ERR_ASSERTION]: R359 adult place has no kids spaces deploy 3章 サーバークジラ",
-    "    at /tmp/tmp.7WyWzgFtMZ/tree-claude__autodev-20261101-0337-R359/tools/test_v5.cjs:1784:96 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/614/mobile-02-mode-select.jpg",
-    "devlog/shots/614/mobile-15-custom-full-run.jpg",
-    "devlog/shots/614/mobile-27-chapter-2-play.jpg",
-    "devlog/shots/614/mobile-41-battle-bugking.jpg"
+    "devlog/shots/617/mobile-02-mode-select.jpg",
+    "devlog/shots/617/mobile-15-custom-full-run.jpg",
+    "devlog/shots/617/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/617/mobile-41-battle-bugking.jpg"
   ],
-  "at": "2026-10-31T18:45:12.625Z",
-  "merged_sha": null,
-  "tested_base": "636c51bb27b7484a7345c09a7f0e63a67d014d77",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230429884"
+  "at": "2026-10-31T18:58:16.804Z",
+  "merged_sha": "3b67e2a474d6c1b65a7e9dbf03ae17925926087b",
+  "tested_base": "86f5b7db7104043abbf2350042e514c6dfa8929c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230629620"
 }

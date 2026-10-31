@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T23:58:21.461Z",
-  "branch": "claude/autodev-20261024-0820-R200",
-  "task": "R200 塔1〜3階で、セーブたんまつの名札が「うえへ」の札に重ならないようにする",
-  "summary": "塔1〜3階のセーブたんまつを約1マス下げた\nたんまつの名札が「うえへ」「したへ」の札に重ならなくなった\n名札と札が重ならないこと、敵の通り道をふさがないことをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/373/mobile-02-mode-select.jpg",
-   "shots/373/mobile-15-custom-full-run.jpg",
-   "shots/373/mobile-27-chapter-2-play.jpg",
-   "shots/373/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7fef7d8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40040747472"
- },
- {
   "at": "2026-10-24T00:52:34.021Z",
   "branch": "claude/autodev-20261024-0921-R201",
   "task": "R201 塔の床のマスの間に木の床の色が見えてマス目のようだったので、すき間を暗くした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "3d3c44e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230429884"
+ },
+ {
+  "at": "2026-10-31T18:58:16.804Z",
+  "branch": "claude/autodev-20261101-0337-R359",
+  "task": "R359 言葉のページの「出会った場所」が「アイテムの いちらん」「ボスせんの あたりはんてい チップ」とおとなモードでもかなで、上の「実務では」とそろっていなかったので、おとなでは「アイテムの一覧」「ボス戦の当たり判定チップ」などにした（敵と章の名前はそのまま）",
+  "summary": "おとなモードで、言葉のページの「出会った場所」を漢字まじりにした\n「アイテムの一覧」「アンドゥボタン」など27か所。こどもモードはそのまま\nテストと前後のスクショを足した。チップ名は空白を詰めた形のまま残した",
+  "result": "pass",
+  "shots": [
+   "shots/617/mobile-02-mode-select.jpg",
+   "shots/617/mobile-15-custom-full-run.jpg",
+   "shots/617/mobile-27-chapter-2-play.jpg",
+   "shots/617/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "cabfa6d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230629620"
  }
 ]
