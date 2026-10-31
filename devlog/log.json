@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T20:15:18.409Z",
-  "branch": "claude/autodev-20261024-0421-R196",
-  "task": "R196 町のコンビニの前で、スマホの おねえさんが信号の柱にくっついて立っていたので、柱から離して立たせた",
-  "summary": "町のコンビニの前で、スマホの おねえさんが信号の柱にくっついて立っていた\nおねえさんを柱から右へ1.2マス離し、じはんきと店の間の角に立たせた\n町の人が信号・電柱・街灯から1.8マス以上離れる確認をテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/365/mobile-02-mode-select.jpg",
-   "shots/365/mobile-15-custom-full-run.jpg",
-   "shots/365/mobile-27-chapter-2-play.jpg",
-   "shots/365/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b809b7c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40015281119"
- },
- {
   "at": "2026-10-23T20:57:35.041Z",
   "branch": "claude/autodev-20261024-0521-R197",
   "task": "R197 コンビニで、店員さんの守護霊が頭にめりこんでいたので、絵の高さに合わせて頭の外へ出した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "624d167",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41206373883"
+ },
+ {
+  "at": "2026-10-31T14:44:53.907Z",
+  "branch": "claude/autodev-20261031-2321-R353",
+  "task": "R353 贈り物の時のお知らせ「もう あげた」「いまは いらない みたい」「もう いちばんの なかよし」「もっていない」がおとなモードでもひらがなだったので、おとなでは「もうあげた」「今はいらないみたい」「もう一番の仲良し」「持っていない」にした（人と品物の名前はそのまま）",
+  "summary": "おとなモードの贈り物のお知らせを「今はいらないみたい」などの漢字まじりにした\nこどもモードはかなのまま。テストと前後のスクショ（docs/shots/R353）を足した\n贈る前の「あげる？」の確認は章のデータの文なので、今回は変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/608/mobile-02-mode-select.jpg",
+   "shots/608/mobile-15-custom-full-run.jpg",
+   "shots/608/mobile-27-chapter-2-play.jpg",
+   "shots/608/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "4658d97",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41210758517"
  }
 ]
