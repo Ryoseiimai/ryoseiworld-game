@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T23:16:18.433Z",
-  "branch": "claude/autodev-20261024-0721-R199",
-  "task": "R199 塔の ひかりの ゆか が上の壁に半分めりこんで見えたので、台を床の上まで下げた",
-  "summary": "塔の各階で、上下へ移る雲の台が上の壁に半分めりこんでいた\n台と移る場所を約1マス下げ、床の上に乗るようにした\n台が床に乗る確認をテストに足し、カードの確認の高さを合わせた",
-  "result": "pass",
-  "shots": [
-   "shots/371/mobile-02-mode-select.jpg",
-   "shots/371/mobile-15-custom-full-run.jpg",
-   "shots/371/mobile-27-chapter-2-play.jpg",
-   "shots/371/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b68925a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40037900222"
- },
- {
   "at": "2026-10-23T23:42:32.972Z",
   "branch": "claude/autodev-20261024-0820-R200",
   "task": "R200 塔1〜3階で、セーブたんまつの名札が「うえへ」の札に重ならないようにする",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "c9d248b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41225739043"
+ },
+ {
+  "at": "2026-10-31T18:36:43.322Z",
+  "branch": "claude/autodev-20261101-0321-R358",
+  "task": "R358 ことばノートの種類の見出しと、言葉のページの「種類」が「ゲームづくり」とおとなモードでもかなで、上の「集めた言葉」「種類」とそろっていなかったので、おとなでは「ゲーム作り」にした",
+  "summary": "おとなモードで、ことばノートの種類の見出しを「ゲーム作り」にした\n言葉のページの「種類」も「ゲーム作り」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R358）を足した",
+  "result": "pass",
+  "shots": [
+   "shots/613/mobile-02-mode-select.jpg",
+   "shots/613/mobile-15-custom-full-run.jpg",
+   "shots/613/mobile-27-chapter-2-play.jpg",
+   "shots/613/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "dfd6852",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41229445798"
  }
 ]
