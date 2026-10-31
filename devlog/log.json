@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T18:11:11.262Z",
-  "branch": "claude/autodev-20261024-0221-R194",
-  "task": "R194 とうの各階と としょかんで、部屋のまわりが灰色のままだったので、かべを画面のはしまで続けた",
-  "summary": "とうの各階と としょかんで、部屋のまわりが無地の灰色のまま見えていた\n部屋の上と横はかべの色、床の下は巾木と暗い前のかべで、画面のはしまで塗った\n部屋のまわりを塗る確認をテストに足した（直す前は落ち、後は通る）",
-  "result": "pass",
-  "shots": [
-   "shots/362/mobile-02-mode-select.jpg",
-   "shots/362/mobile-15-custom-full-run.jpg",
-   "shots/362/mobile-27-chapter-2-play.jpg",
-   "shots/362/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "181ffc9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39997830228"
- },
- {
   "at": "2026-10-23T19:12:41.622Z",
   "branch": "claude/autodev-20261024-0321-R195",
   "task": "R195 3章のネオンで、道の上に置かれて一歩も動かなかった敵3体を、歩道へ移して歩くようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "8af62e5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41197494431"
+ },
+ {
+  "at": "2026-10-31T12:51:34.752Z",
+  "branch": "claude/autodev-20261031-2124-R351",
+  "task": "R351 最初の戦闘のお知らせ「グリッチカラスが まどから きた！」がおとなモードでもひらがなで、次の行の「ナオスライムを呼ぼう。」は漢字だったので、おとなでは「グリッチカラスが窓から来た！」にした",
+  "summary": "おとなモードの最初の戦闘のお知らせを「グリッチカラスが窓から来た！」にした\nテストを足し、前後のスクショを docs/shots/R351 に置いた。こどもはかなのまま\n確認役が挙げた「きずな」の見出しと「ヒダマリちょう」の地図名は、次の候補に残した",
+  "result": "pass",
+  "shots": [
+   "shots/605/mobile-02-mode-select.jpg",
+   "shots/605/mobile-15-custom-full-run.jpg",
+   "shots/605/mobile-27-chapter-2-play.jpg",
+   "shots/605/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "220c911",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41202298319"
  }
 ]
