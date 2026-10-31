@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T22:08:44.963Z",
-  "branch": "claude/autodev-20261024-0621-R198",
-  "task": "R198 町とミナモで、信号の真下に電柱や街灯が立ち1本の柱に見えたので、間をあけた",
-  "summary": "町の交差点で、信号の真下の電柱と街灯が1本の柱に見えていた\n電柱と街灯を信号から離し、1本は歩道の横の芝生へ寄せた\nミナモのバスていの下の街灯も離し、重ならない確認をテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/367/mobile-02-mode-select.jpg",
-   "shots/367/mobile-15-custom-full-run.jpg",
-   "shots/367/mobile-27-chapter-2-play.jpg",
-   "shots/367/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "edcc697",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40029570296"
- },
- {
   "at": "2026-10-23T22:25:51.254Z",
   "branch": "claude/autodev-20261024-0621-R198",
   "task": "R198 町とミナモで、信号の真下に電柱や街灯が立ち1本の柱に見えたので、間をあけた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3e0aed0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41212737078"
+ },
+ {
+  "at": "2026-10-31T16:11:23.023Z",
+  "branch": "claude/autodev-20261101-0042-R355",
+  "task": "R355 サーチフクロウの問題「もんだい 1 / 3」「つよい パスワードは？」がおとなモードでもひらがなだったので、おとなでは「問題 1 / 3」「強いパスワードは？」「知らない人からのリンクは？」などにした（フクロウの台詞は物語なのでそのまま）",
+  "summary": "おとなモードのサーチフクロウの問題と選択肢を漢字まじりにした。こどもはそのまま\n問題の見出しを「問題 1 / 3」、まちがえた時の決まりの文を「違うみたい。もう一度。」にした\nテストと前後のスクショ（docs/shots/R355）を足した。ブラウザ全章のスモークは自動確認に任せた",
+  "result": "pass",
+  "shots": [
+   "shots/610/mobile-02-mode-select.jpg",
+   "shots/610/mobile-15-custom-full-run.jpg",
+   "shots/610/mobile-27-chapter-2-play.jpg",
+   "shots/610/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "596671b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41217371526"
  }
 ]
