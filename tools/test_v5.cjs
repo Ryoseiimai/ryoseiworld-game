@@ -332,6 +332,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const mode of ['adult','kids']){const data=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));data.mode=mode;const r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(data)]])});r.tick();const adult=mode==='adult';
   assert.equal(r.els.get('start-btn').textContent,adult?'始めから':'はじめから','R326 start button '+mode);assert.equal(r.els.get('continue-btn').textContent,adult?'続きから':'つづきから','R326 continue button '+mode);
   assert.equal(r.els.get('title-caption').textContent,adult?'続きは 第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(r.els.get('title-hint').textContent.includes(adult?'遊べるよ':'あそべるよ'),'R326 hint '+mode);
+  // R360: the adult hint dropped the kids' word spaces (「おさらいも　遊べるよ」); kids keep them.
+  {const h=r.els.get('title-hint').textContent;assert(adult?!/[ 　]/.test(h)&&/遊べるよ$/.test(h):/　あそべるよ$/.test(h),'R360 hint '+mode+': '+h);}
   r.click('start-btn');assert.equal(r.g.modal,'confirm');assert(r.els.get('modal-buttons').children.some(b=>b.textContent===(adult?'始める':'はじめる')),'R326 wipe window button '+mode);
   // R347: the genre line under the title follows the save's mode too, and a chapter 4 save names ノイズの塔 in kanji.
   assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながら ゲーム作りと<br>AIを学ぶ RPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
@@ -1785,6 +1787,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.RYW.learnQuiet('item');r.tick(16);r.g.debugOpenNote();r.button(W.item[mode].word);assert.equal(r.g.modal,'word-detail');const kids=r.els.get('modal-copy').children,last=kids.length;
   assert.equal(kids[last-2].textContent,adult?'出会った場所':'であった ところ',mode+' R359 place title');assert.equal(kids[last-1].textContent,adult?'アイテムの一覧':'アイテムの いちらん',mode+' R359 place value');r.key('Escape');}}
  result.push('R359: おとなモードのことばノートで、言葉の「出会った場所」を「アイテムの一覧」「ボス戦の当たり判定チップ」などの漢字まじりにし、こどもモードは かなのまま PASS');
+ result.push('R360: おとなモードのタイトルのお知らせと、きずなの「次は♥5で武器の力」から、分かち書きの空白を取った PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
@@ -1935,7 +1938,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
   r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('話しかけて'),c);fits(c);r.button('もどる');r.button('もどる');
   r.g.debugBond('mother',3);r.g.debugBond('sister',1);D.bonds.r122={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r122',5);D.bonds.r122b={name:'テストの とも',kind:'friend',spirit:15,rewards:{3:{money:5}}};r.g.debugBond('r122b',1);
-  r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('次は ♥5で 武器の力')&&c.includes('次は ♥2で お小遣い')&&c.includes('次は ♥3で お礼')&&c.includes('ごほうびは全部もらった'),c);fits(c);r.button('もどる');r.button('もどる');
+  r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('次は♥5で武器の力')&&c.includes('次は♥2でお小遣い')&&c.includes('次は♥3でお礼')&&c.includes('ごほうびは全部もらった'),c);fits(c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('つぎ ♥5で ぶきの ちから')&&c.includes('つぎ ♥3で おれい')&&c.includes('ごほうびは ぜんぶ もらった'),c);fits(c);
   for(const k of ['r122','r122b']){delete D.bonds[k];delete st.bonds[k];}}
  result.push('R122: おとなモードのきずなの画面のヒントを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
