@@ -1750,6 +1750,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{quiz:[{q:'1+1は？',options:['1','2','3'],answer:1}],who:'テスト'}]);r.tick(100);assert.equal(r.els.get('modal-copy').textContent,'1+1は？',mode+' R355 one question has no header');r.button('3');
   assert.equal(r.g.dialogue.lines[0][1],adult?'違うみたい。\nもう一度。':'ちがうみたい。\nもう いちど。',mode+' R355 default wrong line');read();r.button('2');read();}}
  result.push('R355: おとなモードのサーチフクロウの問題を「問題 1 / 3」「強いパスワードは？」などの漢字まじりにし、こどもモードは かなのまま PASS');
+ // R356: the review quiz result (ことばノートの おさらい) showed 「3問中 3問正解」 in kanji but the partner's adult line under it in kids' spaced kana.
+ // Adult mode now reads 「全部正解。いいペースだね」/「また次やってみよう」; kids keep 「ぜんぶ せいかい！ すごいね」/「また こんど やってみよう」.
+ {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  ['jikkou','item','cost','prompt'].forEach(id=>r.RYW.learnQuiet(id));r.tick(1000);const copy=()=>r.els.get('modal-copy').textContent,ai=r.g.state.aiName;
+  for(const wrongAt of [-1,0]){r.setRandom(()=>0);r.g.debugOpenNote();r.button('おさらい');
+   for(let i=0;i<3;i++){r.els.get('modal-buttons').children[i===wrongAt?1:0].onclick();r.els.get('modal-buttons').children[0].onclick();}
+   assert.equal(r.g.modal,'quiz-result',mode+' R356 result shown');const line=copy().split('\n')[1];
+   const want=wrongAt<0?(adult?'「全部正解。いいペースだね」':'「ぜんぶ せいかい！ すごいね」'):(adult?'「また次やってみよう」':'「また こんど やってみよう」');
+   assert.equal(line,ai+want,mode+' R356 '+copy());if(adult)assert(!/ /.test(line),'R356 adult line has no kids spaces '+line);r.key('Escape');}
+  r.setRandom(Math.random);}}
+ result.push('R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS');
  // R311: the boss-fight line panel drew the speaker in plain gold right before the line (「カテイノジジョウ しょうらい」), so the name read as the line's first word.
  // The name now sits on its own filled gold tag with dark text, and the tag stays inside the 14px the wrap already leaves for it (R119/R120 keep their widths).
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=src.match(/function drawPanelText[\s\S]*?\n  \}\n/);assert(m,'R311: drawPanelText found');const f=m[0];
