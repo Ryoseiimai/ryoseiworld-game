@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-23T12:33:37.530Z",
-  "branch": "claude/autodev-art-20261023-212542",
-  "task": "絵",
-  "summary": "作れなかった絵: minamo_boy（自動確認に通らなかった: test_v5: 失敗（最後の15行））",
-  "result": "fail",
-  "shots": [
-   "shots/352/mobile-02-mode-select.jpg",
-   "shots/352/mobile-15-custom-full-run.jpg",
-   "shots/352/mobile-27-chapter-2-play.jpg",
-   "shots/352/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a974ad8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/39953255214"
- },
- {
   "at": "2026-10-23T13:05:52.573Z",
   "branch": "claude/autodev-20261023-2124-R189",
   "task": "R189 ミナモちょうに着いた時、主人公がバスていと街灯の間にはさまって見えたので、立つ所を左へずらした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b135408",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41166121033"
+ },
+ {
+  "at": "2026-10-31T04:50:43.006Z",
+  "branch": "claude/autodev-20261031-1321-R344",
+  "task": "R344 R343 の札の漢字化の後半: 新しいテストと前後のスクショ",
+  "summary": "店・塔1F・塔2F・町の札の字が札や板に収まるかを、両モードで確かめるテストを足した\n公園の札の確認と、塔2F の札と言葉カードの確認を、おとなの漢字でも走らせた\n塔2F と町の公園の前と後のスクショを docs/shots/R344 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/596/mobile-02-mode-select.jpg",
+   "shots/596/mobile-15-custom-full-run.jpg",
+   "shots/596/mobile-27-chapter-2-play.jpg",
+   "shots/596/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "6261227",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41169624400"
  }
 ]
