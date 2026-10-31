@@ -968,7 +968,8 @@ const api={debugOpenCheats:()=>openCheats(),debugMusic:()=>({key:rec.key,loaded:
 requestAnimationFrame(()=>platform.firstFrameReady());
 // Boot waits for the chapter files, so index.html calls RYW.start() after the last data/chN.js.
 let started=false;
-function start(){if(started)return;started=true;applyMode();if(!GAME_DATA.chapters[1])console.error('chapter 1 data is missing (data/ch1.js)');(async()=>{await Promise.all([loadAssets(),platform.load().then(s=>{s=migrateSave(s);if(validSave(s))saved=s;})]);await platform.whenActive();title();$('loading').hidden=true;booted=true;scheduleFrame();loadMusic();})();}
+// R364: the loading line read 「まちの あかりを つけています…」 even for an adult-mode save, right before the title's 「始めから」「続きから」. Once the save is read, adult mode shows 「町の明かりをつけています…」; kids and new players keep kana.
+function start(){if(started)return;started=true;applyMode();if(!GAME_DATA.chapters[1])console.error('chapter 1 data is missing (data/ch1.js)');(async()=>{await Promise.all([loadAssets(),platform.load().then(s=>{s=migrateSave(s);if(validSave(s)){saved=s;if(s.mode==='adult'&&!$('loading').hidden)$('loading').textContent='町の明かりをつけています…';}})]);await platform.whenActive();title();$('loading').hidden=true;booted=true;scheduleFrame();loadMusic();})();}
 window.RYW=Object.assign(window.RYW||{},{Shop,registerChapter,start,learn,learnQuiet,prepareBossWords,helpers:{object,person,prop,props}});
 })();
 </script><script src="data/words.js"></script><script src="js/shooter.js"></script><script src="js/proto.js"></script><script src="data/ch1.js"></script><script src="data/ch2.js"></script><script src="data/ch3.js"></script><script src="data/ch4.js"></script><script>RYW.start();</script></body></html>

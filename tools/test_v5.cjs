@@ -241,6 +241,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // F20: firstFrameReady fires while the loading screen is up and loadData is still pending; gameReady waits for the title.
  const early=await runtime({sdk:true,holdLoad:true});assert.deepEqual(early.calls,['load']);early.tick();assert.deepEqual(early.calls,['load','first']);assert.equal(early.els.get('loading').hidden,false);assert(!early.hasFrame());early.resolveLoad('');await settle();await settle();early.tick();early.tick(100);assert.deepEqual(early.calls,['load','first','ready']);
  result.push('firstFrameReady before loadData/art completes, gameReady once at the title PASS');
+ // R364: the loading line read 「まちの あかりを つけています…」 even for an adult-mode save. Once the save is read, adult mode shows 「町の明かりをつけています…」; kids keep kana.
+ {for(const mode of ['adult','kids']){const src=await runtime({sdk:true});src.tick();src.start(mode);await settle();const sv=src.saves[src.saves.length-1];assert(sv,'R364 save');
+  const r=await runtime({sdk:true,holdLoad:true});r.tick();r.resolveLoad(JSON.stringify({...sv,mode}));await settle();await settle();
+  const line=r.els.get('loading').textContent;if(mode==='adult')assert.equal(line,'町の明かりをつけています…','adult R364 loading line');else assert.equal(line,'','kids R364 leaves the kana line from the HTML untouched');}}
+ result.push('R364: おとなモードの記録があれば、読み込み中の一文を「町の明かりをつけています…」にし、こどもモードは かなのまま PASS');
  const broken=await runtime({brokenStorage:true});broken.tick();broken.start();await settle();assert.equal(await broken.g.save(false),'unavailable');
  result.push('Slow SDK load and disabled localStorage handled without uncaught error PASS');
  // F19: save toasts say where the save went; a second SDK save while one is in flight is queued, not refused.

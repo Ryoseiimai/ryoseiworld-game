@@ -1,3 +1,5 @@
+runEvent: unknown dialogue noSuchLine
+runEvent: unknown bond nobody
 Title → prologue → naming → Naoslime tutorial (no escape, summon hold timing) → bedroom PASS
 Walking portal, locked shop, police request, contact encounter and real victory PASS
 3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS
@@ -11,6 +13,7 @@ All art absent: fallback render PASS; late material arrival swaps in real PNGs w
 Missing interior frame: 1 load + 3 retries then stops; other art untouched PASS
 SDK load/save allowlist, local-only AI name, readiness, host pause and audio off/on PASS
 firstFrameReady before loadData/art completes, gameReady once at the title PASS
+R364: おとなモードの記録があれば、読み込み中の一文を「町の明かりをつけています…」にし、こどもモードは かなのまま PASS
 Slow SDK load and disabled localStorage handled without uncaught error PASS
 Save toast: この たんまつに / ほぞんちゅう…; bed no longer asks to save PASS
 Actual PNG alpha-footprint collision: every NPC, event object and exit reachable on all 4 maps PASS
@@ -144,7 +147,6 @@ R355: おとなモードのサーチフクロウの問題を「問題 1 / 3」�
 R356: おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」「また次やってみよう」にし、こどもモードは かなのまま PASS
 R363: おとなモードの一休みの画面を「一休み」「続ける」にし、こどもモードは「ひとやすみ」「つづける」のまま PASS
 R362: おとなモードのエピローグの見出しを「THE END の後」、入力欄の案内を「何でも書いてね」にし、こどもモードは かなのまま PASS
-R363: おとなモードの一休みの画面を「一休み」「続ける」にし、こどもモードは「ひとやすみ」「つづける」のまま PASS
 R361: おとなモードのおさらいの見出しを「おさらい 1 / 3」「おさらい終わり」にし、こどもモードは そのまま PASS
 R357: おとなモードのアイテムで、大事な物の説明を「四角がジャンプすると…」「返却日は先月。」の漢字まじりにし、こどもモードは かなのまま PASS
 R358: おとなモードのことばノートで、言葉の種類の見出しと「種類」を「ゲーム作り」にし、こどもモードは「ゲームづくり」のまま PASS
