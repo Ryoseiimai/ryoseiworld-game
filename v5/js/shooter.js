@@ -195,6 +195,8 @@
       lines: { intro: ['ヒカクマオウ', 'おなじ としで\nもう しゃちょう'],
         bursts: { 75: 'きのうの じぶんより\nすすんでる', 50: 'くらべる あいては\nきのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' },
         hint: ['ソラ', 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう'],
+        // R386: adult mode names the pickup 「自分のペース」 (noticeText paceItem), so Sora's hint quotes that name; the rest of the line stays kana.
+        hintAdult: ['ソラ', 'すうじに あたると たまが よわくなる。「自分のペース」を とろう'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
         win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },
@@ -260,7 +262,7 @@
     var lines = mergeLines(def.lines, cfg.lines);
     // R369: the win band and the half-HP notice are system lines like the town battle's 「はおとなしくなった！」 (calmText),
     // so adult mode reads the <key>Adult twin in kanji. Kids keep the kana; story lines (Sora, the boss) stay as they are.
-    if (RYW.mode === 'adult') ['win', 'half'].forEach(function (k) { if (def.lines[k + 'Adult'] && !(cfg.lines && cfg.lines[k] != null)) lines[k] = def.lines[k + 'Adult']; });
+    if (RYW.mode === 'adult') ['win', 'half', 'hint'].forEach(function (k) { if (def.lines[k + 'Adult'] && !(cfg.lines && cfg.lines[k] != null)) lines[k] = def.lines[k + 'Adult']; });
     var w = {
       cfg: cfg, settings: settings, cheats: cheats, cheated: ['godmode', 'timescale', 'widejudge', 'showhitbox'].some(function (k) { return !!cheats[k]; }),
       scale: cheats.timescale ? 0.7 : 1, paused: false, mode: cfg.mode || 'story', stage: 0, score: 0,

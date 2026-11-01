@@ -1073,6 +1073,20 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R386: Sora's hint in the ヒカクマオウ fight quoted 「じぶんの ペース」 while adult mode names the pickup 「自分のペース」.
+(() => {
+  const old = globalThis.RYW.mode, q = h => (h[1].match(/「([^」]*)」/) || [])[1];
+  globalThis.RYW.setMode('adult');
+  const a = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
+  check('R386: おとなモードのヒントのかぎかっこの中は拾う物の名前と同じ', a[0] === 'ソラ' && q(a) === sim.noticeText('paceItem') && q(a) === '自分のペース', a);
+  check('R386: 上書きの hint があればそれを使う', sim.createWorld({ seed: 7, boss: 'hikaku', lines: { hint: ['ソラ', 'X'] } }).lines.hint[1] === 'X');
+  check('R386: ほかのボスのヒントは今までどおり', sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint[1] === B.kateino.lines.hint[1]);
+  globalThis.RYW.setMode('kids');
+  const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
+  check('R386: こどもモードのヒントは今までどおり', k[1] === 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう' && q(k) === sim.noticeText('paceItem'), k);
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 // R370: the challenge guide and the stage-clear band stayed in kana in adult mode.
 (() => {
   const old = globalThis.RYW.mode, wide = t => Math.max(...t.split('\n').map(r => [...r].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .55 : 1), 0))) * 30;
