@@ -2913,6 +2913,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(f({wordEl:{hidden:false,offsetHeight:90},wordCards:[1]}),90+gap,'R307: card height plus the gap');assert.equal(f({wordEl:{hidden:true,offsetHeight:90},wordCards:[1]}),0,'R307: no card, no offset');
 }
  result.push('R307: ボス戦で、ことばのカードとセリフの帯の間が12pxある PASS');
+ // R377: in chapter 4 a vending machine beaten back in ヒダマリ raised 「塔のノイズを静めよう 1/3」; only a win on the chapter's own maps counts now.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(4);const flags=r.g.state.flags;flags.tutorial=true;r.g.state.battery=100;flags.zakoWins=0;
+  r.g.debugWarp('town',19,21.6);r.tick(50);assert.equal(r.g.map,'town');r.g.debugStartBattle('vending','r377-town');r.tick(300);r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
+  assert.equal(flags.zakoWins,0,'R377: a win in ヒダマリ does not count in chapter 4');
+  r.g.debugWarp('tower2',5,10);r.tick(50);assert.equal(r.g.map,'tower2');r.g.debugStartBattle('crow2','r377-tower');r.tick(300);r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
+  assert.equal(flags.zakoWins,1,'R377: a win on a tower floor counts in chapter 4');}
+ result.push('R377: 4章でヒダマリの敵に勝っても「塔のノイズを静めよう」の数が増えず、塔の中の勝ちだけが数に入る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
