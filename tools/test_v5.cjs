@@ -2940,6 +2940,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('neon',15,8);r.tick(50);assert(r.g.quest.endsWith('↑'),'R379: below くもの もん it points up: '+r.g.quest);
   r.g.debugStartChapter(3);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('neon',8,9);r.tick(50);assert.equal(r.g.questStep,'zako');assert(/[←→↑↓]$/.test(r.g.quest),'R379: 3章 in ネオン still points at a noise: '+r.g.quest);}
  result.push('R379: 4章でネオンに戻っても「塔の一番上を目指そう」の矢印がくものもんを指す PASS');
+ // R380: after a tap the browser hides the focus ring, so the tutorial's 「呼び出す」 button carries its own gold ring (class nudge) until the summon is used; no other button has it, and normal battles have none.
+ {const r=await runtime();r.tick();r.start();const cmds=r.els.get('commands').children,on=()=>cmds.filter(b=>b.classes.has('nudge')).map(b=>b.dataset.cmd);
+  assert.deepEqual(on(),['summon'],'R380: only 呼び出す is ringed in the tutorial: '+on());
+  r.cmd('attack');assert.deepEqual(on(),['summon'],'R380: the ring stays after a wrong command');
+  r.cmd('summon');r.button('ナオスライム');assert.deepEqual(on(),[],'R380: the ring goes once the summon is used');r.tick(2400);assert.deepEqual(on(),[],'R380: and stays off on the next turn');
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/#commands button\.nudge:not\(:disabled\)\{outline:3px dashed #f5cf78/.test(html),'R380: the nudge ring is gold, dashed (the focus ring is solid) and off while the button is disabled');}
+ result.push('R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
