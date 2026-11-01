@@ -166,9 +166,14 @@ async function runViewport(browser, url, vp, errors, shots) {
     if (afterStart.screen === 'title') errors.push({ kind: 'stuck', viewport: vp.name, message: tag('still on title after pressing start') });
 
     // Hook for the game itself: window.__v5.smokeScenes = [{name, run(){...}}] adds scenes without editing this file.
+    // R381: the scenes below warp onto maps of later chapters; without the tutorial flag the goal line kept saying
+    // 「呼び出す」でナオスライムを呼ぶ there, an order a real player at that point never sees (continue starts the tutorial first).
+    if (await has('debugSetFlag')) await call('debugSetFlag', ['tutorial', true]);
     const custom = await page.evaluate(() => Array.isArray(window.__v5.smokeScenes) ? window.__v5.smokeScenes.map(s => s && s.name).filter(Boolean) : []);
     for (const name of custom) {
       try { await page.evaluate(nm => window.__v5.smokeScenes.find(s => s.name === nm).run(), name); await settle(); await shot('custom-' + name);
+        const tut = await page.evaluate(() => { const q = document.querySelector('#quest'), s = window.__v5; return s.screen === 'field' && q && q.offsetParent && /ナオスライム/.test(q.textContent) ? q.textContent.trim() : ''; });
+        if (tut) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene ${name}: the goal line still asks for the tutorial after it was done: ${tut}`) });
         // R142: a window's text must not run past its right edge (a long line with no spaces did, in the quiz answer).
         const wide = await page.evaluate(() => { const m = document.getElementById('modal'), c = document.getElementById('modal-copy'); const p = m && m.firstElementChild; return m && !m.hidden && c && (c.scrollWidth > c.clientWidth + 1 || p && p.scrollWidth > p.clientWidth + 1) ? c.textContent.slice(0, 40) : ''; });
         if (wide) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`custom scene ${name}: the window text runs past the edge: ${wide}`) }); }
