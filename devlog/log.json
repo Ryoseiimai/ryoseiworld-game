@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T15:52:35.593Z",
-  "branch": "claude/autodev-20261025-0021-R217",
-  "task": "R217 塔2階で、カラスの敵が行き来する間にファンの上に重なっていたので、敵の出発点を東へ動かした",
-  "summary": "塔2階で、カラスの敵が左へ行くたびにファンの上に重なっていた\nカラスの出発点を東へ1.2マス動かした。3階の敵も金庫から、2階のもう1体もセーブたんまつから離した\n塔の敵が行き来の両はしで物に重ならないことを確かめるテストを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/399/mobile-02-mode-select.jpg",
-   "shots/399/mobile-15-custom-full-run.jpg",
-   "shots/399/mobile-27-chapter-2-play.jpg",
-   "shots/399/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3a141ba",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40108253598"
- },
- {
   "at": "2026-10-24T16:56:08.999Z",
   "branch": "claude/autodev-20261025-0121-R218",
   "task": "R218 町の西の歩道で、電柱がバスていの看板の上に立って1本の柱に見えたので、電柱と信号を少し北へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "622987d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41303260938"
+ },
+ {
+  "at": "2026-11-01T12:06:56.595Z",
+  "branch": "claude/autodev-20261101-2021-R376",
+  "task": "R376 きずなの一覧でハートの始まりが名前の長さでずれ、比べにくかったので、名前の後ろを空白で埋めてハートを同じ列にそろえた",
+  "summary": "全章を通してスクショを撮り、確認役に気になる所を5つ挙げてもらった\nきずなの一覧で名前の後ろを空白で埋め、ハートが同じ列から始まるようにした\nハートの列がそろうかを tools/test_v5.cjs で確かめ、17字を超える時は埋めないようにした",
+  "result": "pass",
+  "shots": [
+   "shots/643/mobile-02-mode-select.jpg",
+   "shots/643/mobile-15-custom-full-run.jpg",
+   "shots/643/mobile-27-chapter-2-play.jpg",
+   "shots/643/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "a46576f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41303895308"
  }
 ]
