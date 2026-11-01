@@ -481,12 +481,14 @@ function testShop(){if(Shop.kind!=='test'||!shopPending)return;window.RYW.learn(
  openModal('デバッグモード',adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）',[{text:adult?'デバッグモードを開く':'デバッグモードを ひらく',action:()=>{if(Shop.kind!=='test'||!shopPending)return;g.shop.debugmode=true;const done=shopPending;shopPending=null;saveGame(false);closeModal();done(true);}},{text:adult?'閉じる':'とじる',action:closeModal}],'debug-shop');}
 function activeCheats(){return Shop.has('debugmode')?{...g.cheats}:freshCheats();}
 const CHEAT_LABELS={godmode:'ゴッドモード',timescale:'タイムスケール 0.7',widejudge:'はんてい ワイド',showhitbox:'あたりはんてい みえる'};
+// R365: the debug mode switches 「はんてい ワイド」「あたりはんてい みえる」 stayed kana in adult mode under the kanji 「使う道具を選ぼう」. Adult reads 「判定ワイド」「当たり判定を表示」; kids keep kana.
+const CHEAT_LABELS_ADULT={widejudge:'判定ワイド',showhitbox:'当たり判定を表示'};
 function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||protoActive||g.screen!=='field'||dialogue||shooter)return false;
  const owned=Shop.has('debugmode'),test=Shop.kind==='test';
  if(skipIfUnowned&&!owned&&!test){if(next)next();return true;}
  window.RYW.learn('cheat');window.RYW.learn('debugmode');saveGame(false);
  const buttons=[];
- if(owned)for(const [id,label] of Object.entries(CHEAT_LABELS))buttons.push({text:label+'\n'+(g.cheats[id]?'オン':'オフ'),action:()=>{g.cheats[id]=!g.cheats[id];if(g.cheats[id]&&['godmode','timescale'].includes(id))window.RYW.learn(id);saveGame(false);openCheats(next);}});
+ if(owned)for(const [id,label] of Object.entries(CHEAT_LABELS))buttons.push({text:(g.mode==='adult'&&CHEAT_LABELS_ADULT[id]||label)+'\n'+(g.cheats[id]?'オン':'オフ'),action:()=>{g.cheats[id]=!g.cheats[id];if(g.cheats[id]&&['godmode','timescale'].includes(id))window.RYW.learn(id);saveGame(false);openCheats(next);}});
  else if(test){buttons.push({text:menuLabel('［デバッグモードを開く］','［デバッグモードを ひらく］'),action:()=>{Shop.buy('debugmode').then(ok=>{if(ok)openCheats(next);});}},{text:menuLabel('持っているか確かめる','もっているか たしかめる'),action:()=>{Shop.restore().then(()=>openCheats(next));}});}
  if(next)buttons.push({text:startLabel(),action:()=>{closeModal();next();}});
  buttons.push({text:backLabel(),action:closeModal});
