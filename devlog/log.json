@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T08:49:34.565Z",
-  "branch": "claude/autodev-20261024-1721-R209",
-  "task": "R209 ボス戦で、カテイノジジョウの電卓が画面の右はしで切れていたので、ボスを少し左へ動かした",
-  "summary": "ボス戦で、カテイノジジョウの電卓が画面の右はしで切れていた\nボスの立つ位置を 420 から 400 へ左へ動かした\n攻撃でのびた時も右はしに収まることをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/387/mobile-02-mode-select.jpg",
-   "shots/387/mobile-15-custom-full-run.jpg",
-   "shots/387/mobile-27-chapter-2-play.jpg",
-   "shots/387/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c33a0c0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40079094513"
- },
- {
   "at": "2026-10-24T09:42:35.064Z",
   "branch": "claude/autodev-20261024-1821-R210",
   "task": "R210 塔のボス戦で、ゼロの右うでが画面の右はしで切れていたので、ゼロを少し左へ動かして小さくした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "98face2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41270067438"
+ },
+ {
+  "at": "2026-11-01T04:53:26.626Z",
+  "branch": "claude/autodev-20261101-1321-R369",
+  "task": "R369 ボス戦の勝ちの帯「BUG KING は おとなしく なった」と半分の知らせ「こわれかけている」がおとなモードでもかなで、町の戦いの「はおとなしくなった！」とそろっていなかったので、おとなでは「BUG KING はおとなしくなった」「BUG KING は壊れかけている」などにした（ソラの台詞、ジブンとゼロの地の文、こどもモードはそのまま）",
+  "summary": "ボス戦の勝ちの帯を、おとなモードでは漢字まじりにした\n「BUG KING は壊れかけている」も同じにした。ソラのヒントは物語の台詞なのでそのまま\nテストを足し、540x960の前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/632/mobile-02-mode-select.jpg",
+   "shots/632/mobile-15-custom-full-run.jpg",
+   "shots/632/mobile-27-chapter-2-play.jpg",
+   "shots/632/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "2268085",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41273981669"
  }
 ]
