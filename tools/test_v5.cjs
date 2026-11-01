@@ -2920,6 +2920,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('tower2',5,10);r.tick(50);assert.equal(r.g.map,'tower2');r.g.debugStartBattle('crow2','r377-tower');r.tick(300);r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
   assert.equal(flags.zakoWins,1,'R377: a win on a tower floor counts in chapter 4');}
  result.push('R377: 4章でヒダマリの敵に勝っても「塔のノイズを静めよう」の数が増えず、塔の中の勝ちだけが数に入る PASS');
+ // R378: on tower 2F and 3F the goal line had no arrow at all; it now points through the light pads (up to the noises or the rooftop gate).
+ {const r=await runtime();r.tick();r.g.debugStartChapter(4);const st=r.g.state,flags=st.flags;flags.tutorial=true;st.battery=100;flags.zakoWins=0;st.summons=st.summons.filter(s=>s!=='kotoba');
+  r.g.debugWarp('tower2',5,11.5);r.tick(50);assert.equal(r.g.questStep,'zako');assert(/[←→↑↓]$/.test(r.g.quest),'R378: 2F with noises points at them: '+r.g.quest);
+  for(const e of r.g.GAME_DATA.maps.tower2.enemies)st.defeated[e.id]=1e12;
+  r.g.debugWarp('tower2',5,11.5);r.tick(50);assert(r.g.quest.endsWith('↑'),'R378: 2F cleared points up to the 3F pad: '+r.g.quest);
+  r.g.debugWarp('tower2',3,8);r.tick(50);assert(r.g.quest.endsWith('→'),'R378: the up pad is on the right (x 8.4): '+r.g.quest);
+  for(const e of r.g.GAME_DATA.maps.tower3.enemies)st.defeated[e.id]=1e12;
+  r.g.debugWarp('tower2',3,8);r.tick(50);assert(r.g.quest.endsWith('←')||r.g.quest.endsWith('↑'),'R378: with 2F and 3F quiet, the arrow leads down to 1F: '+r.g.quest);
+  st.summons.push('kotoba');r.g.debugWarp('tower3',5,11.5);r.tick(50);assert.equal(r.g.questStep,'boss');assert(r.g.quest.endsWith('↑'),'R378: 3F boss goal points up to the rooftop pad: '+r.g.quest);
+  r.g.debugWarp('tower_roof',5,10);r.tick(50);assert(r.g.quest.endsWith('↑'),'R378: on the roof it points at the gate: '+r.g.quest);
+  st.bosses.push('jibun');r.g.debugWarp('tower_roof',3.4,5.4);r.tick(50);assert(r.g.quest.endsWith('→'),'R378: after ジブン it points at ゼロの もん (x 7.4): '+r.g.quest);
+  r.g.debugStartChapter(1);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('town',22,12);r.tick(16);assert(r.g.quest.length>0);}
+ result.push('R378: 塔の2階と3階でも、目標の矢印がひかりの床を通って敵や屋上の門を指す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
