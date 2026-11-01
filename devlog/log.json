@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T22:54:14.667Z",
-  "branch": "claude/autodev-20261025-0721-R225",
-  "task": "R225 町の公園の桜の木が砂場のふちに立っていたので、砂場と歩道の間の草地へ動かした",
-  "summary": "町の公園の桜の木が、砂場の右のふちに立って砂場に生えて見えた\n木を砂場と歩道の間の草地へ動かし、少し小さくした\n木が砂場のふちに乗らないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/411/mobile-02-mode-select.jpg",
-   "shots/411/mobile-15-custom-full-run.jpg",
-   "shots/411/mobile-27-chapter-2-play.jpg",
-   "shots/411/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5c6f9c0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40140036068"
- },
- {
   "at": "2026-10-25T00:05:08.200Z",
   "branch": "claude/autodev-20261025-0821-R226",
   "task": "R226 自分の部屋の階段の絵の真ん中に「↓」の札が重なり、階段の口が見えなかったので、階段のある出口では札を描かないようにした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "be2b94e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41343183017"
+ },
+ {
+  "at": "2026-11-01T20:56:25.929Z",
+  "branch": "claude/autodev-20261102-0522-R384",
+  "task": "R384 1章のボスに勝った後「バス停からミナモちょうへ行こう」に矢印が出ず、どこへ行けばよいか分からなかったので、バス停を指すようにした",
+  "summary": "確認役が全章のスマホのスクショを見て、気になる所を5件挙げた\n1章のボスの後「バス停からミナモちょうへ行こう」に矢印が出なかったので、バス停を指すようにした\n4章のヒダマリの矢印と、ヒカクマオウ戦のヒントの書き方を R385・R386 として足した",
+  "result": "pass",
+  "shots": [
+   "shots/654/mobile-02-mode-select.jpg",
+   "shots/654/mobile-15-custom-full-run.jpg",
+   "shots/654/mobile-27-chapter-2-play.jpg",
+   "shots/654/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "7bdb380",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41348485978"
  }
 ]
