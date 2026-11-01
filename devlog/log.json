@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T07:55:23.834Z",
-  "branch": "claude/autodev-20261024-1621-R208",
-  "task": "R208 1章の公園で、3人の灰色の守護霊が砂場の上にかたまりノイズに見えたので、おじいさんとギターの人を離した",
-  "summary": "1章の公園で、3人の守護霊が砂場の上にかたまり、町のノイズに見えた\nおじいさんをベンチの西へ、ギターの人を桜の下の角へ移した\n3つの守護霊の光の輪が重ならないことをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/386/mobile-02-mode-select.jpg",
-   "shots/386/mobile-15-custom-full-run.jpg",
-   "shots/386/mobile-27-chapter-2-play.jpg",
-   "shots/386/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2de6249",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40075420266"
- },
- {
   "at": "2026-10-24T08:49:34.565Z",
   "branch": "claude/autodev-20261024-1721-R209",
   "task": "R209 ボス戦で、カテイノジジョウの電卓が画面の右はしで切れていたので、ボスを少し左へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "87a962e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41266574961"
+ },
+ {
+  "at": "2026-11-01T03:52:49.957Z",
+  "branch": "claude/autodev-20261101-1221-R368",
+  "task": "R368 画面左上の地図名が最初の町だけ「ヒダマリちょう」で、ほかの町の「ミナモ」「ネオン」とそろっていなかったので、「ヒダマリ」にした（バス停とタイトルの町の名前はそのまま）",
+  "summary": "左上の地図名を、最初の町も「ヒダマリ」にした（前は「ヒダマリちょう」）\nミナモ・ネオンと同じ短い名前にそろえた。バス停とタイトルはそのまま\nテストの期待を合わせ、540x960の前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/631/mobile-02-mode-select.jpg",
+   "shots/631/mobile-15-custom-full-run.jpg",
+   "shots/631/mobile-27-chapter-2-play.jpg",
+   "shots/631/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "98face2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41270067438"
  }
 ]
