@@ -362,7 +362,9 @@
     w.stage = Math.max(1, Math.floor(Number(n)) || 1);
     var id = CHALLENGE_BOSSES[(w.stage - 1) % CHALLENGE_BOSSES.length];
     w.bossId = id; w.def = Object.assign({}, BOSSES[id], { hp: 180 + 12 * (w.stage - 1), through: false, immune: false });
-    w.lines = { intro: [w.def.name, 'ビートに あわせて おしてみよう'], bursts: {}, win: 'つぎの ステージ！' };
+    // R370: the challenge guide and the stage-clear band are system lines, so adult mode reads them in kanji (SPEC_V7_MANABU.md 9).
+    var adult = RYW.mode === 'adult';
+    w.lines = { intro: [w.def.name, adult ? 'ビートに合わせて 押してみよう' : 'ビートに あわせて おしてみよう'], bursts: {}, win: adult ? '次のステージ！' : 'つぎの ステージ！' };
     w.b.hp = w.b.maxHp = w.b.ghostHp = w.def.hp; w.b.shown = {}; w.b.phase2 = false; w.b.tell = 0;
     w.beat.bpm = Math.min(220, 100 + 6 * (w.stage - 1)); w.beat.tempoSteps = 0;
     w.beat.tempoUntil = w.beat.time + 1;

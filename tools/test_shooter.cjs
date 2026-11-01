@@ -1071,6 +1071,22 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R370: the challenge guide and the stage-clear band stayed in kana in adult mode.
+(() => {
+  const old = globalThis.RYW.mode, wide = t => Math.max(...t.split('\n').map(r => [...r].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .55 : 1), 0))) * 30;
+  globalThis.RYW.setMode('adult');
+  const a = sim.createWorld({ seed: 7, mode: 'challenge' }).lines;
+  check('R370: おとなのチャレンジの案内は漢字まじり', a.intro[1] === 'ビートに合わせて 押してみよう' && a.win === '次のステージ！', a);
+  // The intro band (24px) is narrow after the name tag, so the line has a space to fold at a word, not in the middle of 押して.
+  check('R370: おとなの案内は語の切れ目で折れ、各部分が名札の横（265px）に収まる', a.intro[1].split(' ').every(r => wide(r) * 24 / 30 <= 265) && wide(a.win) <= 480, a.intro[1]);
+  const a5 = sim.createWorld({ seed: 7, mode: 'challenge', startStage: 5 }).lines;
+  check('R370: どのステージでもおとなの案内', a5.intro[1] === 'ビートに合わせて 押してみよう' && a5.win === '次のステージ！', a5);
+  globalThis.RYW.setMode('kids');
+  const k = sim.createWorld({ seed: 7, mode: 'challenge' }).lines;
+  check('R370: こどもモードのチャレンジの案内は今までどおり', k.intro[1] === 'ビートに あわせて おしてみよう' && k.win === 'つぎの ステージ！', k);
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
 // R327: the boss band's hint label (ダメージ 2ばい / はんぶん / こうげき) stayed in hiragana in adult mode; adult mode reads it in kanji now.
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
