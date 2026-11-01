@@ -2933,6 +2933,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   st.bosses.push('jibun');r.g.debugWarp('tower_roof',3.4,5.4);r.tick(50);assert(r.g.quest.endsWith('→'),'R378: after ジブン it points at ゼロの もん (x 7.4): '+r.g.quest);
   r.g.debugStartChapter(1);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('town',22,12);r.tick(16);assert(r.g.quest.length>0);}
  result.push('R378: 塔の2階と3階でも、目標の矢印がひかりの床を通って敵や屋上の門を指す PASS');
+ // R379: back outside in ネオン during 「塔の一番上を目指そう」 the goal line had no arrow (no door enters the roof itself); it now points at くもの もん (x 15, y 4.6).
+ {const r=await runtime();r.tick();r.g.debugStartChapter(4);const st=r.g.state;st.flags.tutorial=true;st.battery=100;if(!st.summons.includes('kotoba'))st.summons.push('kotoba');
+  r.g.debugWarp('tower1',5,10);r.tick(50);assert.equal(r.g.questStep,'boss');
+  r.g.debugWarp('neon',8,9);r.tick(50);assert.equal(r.g.questStep,'boss');assert(r.g.quest.endsWith('→'),'R379: in ネオン the boss goal points right to くもの もん: '+r.g.quest);
+  r.g.debugWarp('neon',15,8);r.tick(50);assert(r.g.quest.endsWith('↑'),'R379: below くもの もん it points up: '+r.g.quest);
+  r.g.debugStartChapter(3);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('neon',8,9);r.tick(50);assert(!/くもの/.test(r.g.quest));}
+ result.push('R379: 4章でネオンに戻っても「塔の一番上を目指そう」の矢印がくものもんを指す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
