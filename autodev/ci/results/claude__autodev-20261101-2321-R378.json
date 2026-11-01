@@ -1,0 +1,35 @@
+{
+  "branch": "claude/autodev-20261101-2321-R378",
+  "sha": "38270273bad66ec4d0f5a18c54c434813d38d89e",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: R378: the up pad is on the right (x 8.4): 塔のノイズを静めよう 0/3 ↑",
+    "    at /tmp/tmp.1FCavVyQmk/tree-claude__autodev-20261101-2321-R378/tools/test_v5.cjs:2928:42 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/645/mobile-02-mode-select.jpg",
+    "devlog/shots/645/mobile-15-custom-full-run.jpg",
+    "devlog/shots/645/mobile-27-chapter-2-play.jpg",
+    "devlog/shots/645/mobile-41-battle-bugking.jpg"
+  ],
+  "at": "2026-11-01T14:39:45.348Z",
+  "merged_sha": null,
+  "tested_base": "24e83b0f5526b9696affc89109de898c1825608e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41316210832"
+}
