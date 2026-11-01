@@ -1452,6 +1452,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');assert.equal(r.g.modal,'mode-select');const rows=r.els.get('modal-copy').textContent.split('\n'),wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'each mode has its own line: '+JSON.stringify(rows));
   for(const row of rows)assert(wide(row)<=17,'the row fits the 540px window without wrapping: '+row);}
+ // R371: with an adult save, the confirm before reads kanji but the mode screen fell back to 「モードを えらぶ」「あとで 設定からも かえられる。」. Adult save shows 「モードを選ぶ」「後で設定からも変えられる。」; no save and a kids save keep kana.
+ {const fresh=await runtime();fresh.tick();fresh.click('start-btn');assert.equal(fresh.g.modal,'mode-select');assert.equal(fresh.els.get('modal-title').textContent,'モードを えらぶ','R371 no save keeps kana');assert(fresh.els.get('modal-copy').textContent.endsWith('あとで 設定からも かえられる。'),'R371 no save copy');
+  for(const [mode,title,last] of [['adult','モードを選ぶ','後で設定からも変えられる。'],['kids','モードを えらぶ','あとで 設定からも かえられる。']]){const r=await runtime();r.tick();r.start(mode);await settle();await r.g.save(false);assert(r.saved.get('ryoseiworld-rpg-v5'),'R371 saved');
+   const keep=new Map(r.saved);const t2=await runtime({saved:keep});t2.tick();t2.click('start-btn');assert.equal(t2.g.modal,'confirm');t2.button(mode==='adult'?'始める':'はじめる');assert.equal(t2.g.modal,'mode-select');
+   assert.equal(t2.els.get('modal-title').textContent,title,'R371 '+mode+' title');const rows=t2.els.get('modal-copy').textContent.split('\n');assert.equal(rows[rows.length-1],last,'R371 '+mode+' last row');assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'R371 mode lines stay');
+   t2.button('こどもモード');assert.equal(t2.g.screen,'prologue','R371 '+mode+' still starts');}
+  result.push('R371: おとなの記録があるとき、モードを選ぶ画面を「モードを選ぶ」「後で設定からも変えられる。」にし、記録なしとこどもは かなのまま PASS');}
  result.push('R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS');
  // R147: the tap-for-music hint on the title is full gold (it was 70% see-through and sank into the night sky) with a dark outline.
  {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/color:#f1cd7c;/.test(css),'the hint is solid gold, not see-through: '+css);
