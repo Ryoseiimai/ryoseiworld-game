@@ -2930,7 +2930,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('tower2',3,8);r.tick(50);assert(r.g.quest.endsWith('←')||r.g.quest.endsWith('↑'),'R378: with 2F and 3F quiet, the arrow leads down to 1F: '+r.g.quest);
   st.summons.push('kotoba');r.g.debugWarp('tower3',5,11.5);r.tick(50);assert.equal(r.g.questStep,'boss');assert(r.g.quest.endsWith('↑'),'R378: 3F boss goal points up to the rooftop pad: '+r.g.quest);
   r.g.debugWarp('tower_roof',5,10);r.tick(50);assert(r.g.quest.endsWith('↑'),'R378: on the roof it points at the gate: '+r.g.quest);
-  st.bosses.push('jibun');r.g.debugWarp('tower_roof',3,10);r.tick(50);assert(r.g.quest.endsWith('→'),'R378: after ジブン it points at ゼロの もん (x 7.4): '+r.g.quest);
+  st.bosses.push('jibun');r.g.debugWarp('tower_roof',3.4,5.4);r.tick(50);assert(r.g.quest.endsWith('→'),'R378: after ジブン it points at ゼロの もん (x 7.4): '+r.g.quest);
   r.g.debugStartChapter(1);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('town',22,12);r.tick(16);assert(r.g.quest.length>0);}
  result.push('R378: 塔の2階と3階でも、目標の矢印がひかりの床を通って敵や屋上の門を指す PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
