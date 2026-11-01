@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T22:10:46.467Z",
-  "branch": "claude/autodev-20261025-0650-R224",
-  "task": "R224 町の自転車と車が影より上に浮いて見えたので、絵の下の余白の分だけ下げて描いた",
-  "summary": "町の自転車と車の絵が、地面の影より約18px上に浮いて見えた\n絵の下の透明な余白の分だけ下げて描き、当たり判定も同じだけ下げた\n余白の分を下げることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/410/mobile-02-mode-select.jpg",
-   "shots/410/mobile-15-custom-full-run.jpg",
-   "shots/410/mobile-27-chapter-2-play.jpg",
-   "shots/410/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b6940fb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40136706942"
- },
- {
   "at": "2026-10-24T22:54:14.667Z",
   "branch": "claude/autodev-20261025-0721-R225",
   "task": "R225 町の公園の桜の木が砂場のふちに立っていたので、砂場と歩道の間の草地へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "54b6209",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41337791166"
+ },
+ {
+  "at": "2026-11-01T19:52:29.696Z",
+  "branch": "claude/autodev-20261102-0421-R383",
+  "task": "R383 全章を通して確認役に見てもらったが、挙がった5件はボスの名前「BUG KING」、ボス戦の登場の途中、押せる「▼続き」など、どれも設計どおりか前の回で残すと決めた物だったので、変えなかった",
+  "summary": "全章のスマホのスクショを確認役が見て、気になる所を5件挙げた\nBUG KING の英語名は物語の名前、ヒカクマオウ戦の最初は登場の途中だった\n「▼続き」は押すと続きが出る。どれも直す所ではないので変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/653/mobile-02-mode-select.jpg",
+   "shots/653/mobile-15-custom-full-run.jpg",
+   "shots/653/mobile-27-chapter-2-play.jpg",
+   "shots/653/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "be2b94e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41343183017"
  }
 ]
