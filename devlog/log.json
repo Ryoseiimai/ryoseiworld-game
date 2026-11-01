@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T00:57:39.047Z",
-  "branch": "claude/autodev-20261025-0921-R227",
-  "task": "R227 ネオンの駅の絵の下に、絵から離れた紫の線が浮いて見えたので、読み込む時に線を消した",
-  "summary": "ネオンの駅の下に、絵から離れた紫の細い線が浮いて見えていた\n駅の絵を読み込む時に、絵の下の余白の行を消すようにした\n線が消え、塔の窓のランプは残ることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/415/mobile-02-mode-select.jpg",
-   "shots/415/mobile-15-custom-full-run.jpg",
-   "shots/415/mobile-27-chapter-2-play.jpg",
-   "shots/415/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4715c13",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40148102842"
- },
- {
   "at": "2026-10-25T01:58:18.757Z",
   "branch": "claude/autodev-20261025-1021-R228",
   "task": "R228 町の東の歩道で、電柱が木の後ろに立ち葉の上から突き出ていたので、電柱を3マス西へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "1e0f125",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41357711849"
+ },
+ {
+  "at": "2026-11-01T23:48:51.323Z",
+  "branch": "claude/autodev-20261102-0822-R387",
+  "task": "R387 全章をクリアした後もタイトルが「続きは 第4章 ノイズの塔」のままで、まだ終わっていないように読めたので、「全章クリア」と出すようにした",
+  "summary": "全章クリア後のタイトルを「続きは 第4章」から「全章クリア」に変えた\n確認役が一番大きいと挙げた「灰色の守護霊がノイズに見える」は見た目の判断なので R388 で人の番にした\n部屋の階段に出口の札が無い点と、歩く操作の言い方の違いは次の回に回した",
+  "result": "pass",
+  "shots": [
+   "shots/658/mobile-02-mode-select.jpg",
+   "shots/658/mobile-15-custom-full-run.jpg",
+   "shots/658/mobile-27-chapter-2-play.jpg",
+   "shots/658/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "10fab1a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41362843941"
  }
 ]
