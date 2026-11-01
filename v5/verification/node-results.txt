@@ -66,6 +66,8 @@ Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene,
 Words: 65 unique ids (49 kids + 16 adult-only AI/dev terms), adult/kids fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS
 Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS
 R365: おとなモードのデバッグモードの切り替えを「判定ワイド」「当たり判定を表示」にし、こどもモードは かなのまま PASS
+R366: おとなモードの名前の画面を「君を何て呼ぼう？」「この名前にする」にし、こどもモードは かなのまま PASS
+R367: ゲーム画面の読み上げ名を今いる場所に合わせ、電池の印をおとなモードでは「電池」と読む PASS
 R50/R51: chapter gate, stadium entry/exit, challenge starts/results/reload, separate cheat records, story cheats/retry, test parent gate correct/wrong/cancel, vocabulary, browser/iOS/Playables restrictions, old/malformed/cloud saves PASS
 Modes: adult default at title, adult/kids command and menu labels, note one/mean/work/code, settings switch, save/old-save compatibility, kids-only parent gate PASS
 FUN11: ザコ戦のコマンド攻撃で攻撃・被弾の両方が画面を揺らす PASS
