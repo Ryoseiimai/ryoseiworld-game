@@ -2940,6 +2940,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('neon',15,8);r.tick(50);assert(r.g.quest.endsWith('↑'),'R379: below くもの もん it points up: '+r.g.quest);
   r.g.debugStartChapter(3);r.tick(50);r.g.state.flags.tutorial=true;r.g.debugWarp('neon',8,9);r.tick(50);assert.equal(r.g.questStep,'zako');assert(/[←→↑↓]$/.test(r.g.quest),'R379: 3章 in ネオン still points at a noise: '+r.g.quest);}
  result.push('R379: 4章でネオンに戻っても「塔の一番上を目指そう」の矢印がくものもんを指す PASS');
+ // R384: after the 1章 boss, 「バス停からミナモちょうへ行こう」 had no arrow; it now points at the bus stop (town x 12, y 16), also from inside 電気屋. Other chapters' cleared lines stay without one.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(1);const st=r.g.state;st.flags.tutorial=true;if(!st.bosses.includes('bugking'))st.bosses.push('bugking');
+  r.g.debugWarp('town',22,12);r.tick(50);assert.equal(r.g.questStep,'cleared');assert(r.g.quest.endsWith('←'),'R384: east of the stop it points left: '+r.g.quest);
+  r.g.debugWarp('town',12,22);r.tick(50);assert(r.g.quest.endsWith('↑'),'R384: south of the stop it points up: '+r.g.quest);
+  r.g.debugWarp('town',12,16.5);r.tick(50);assert(!/[←→↑↓]$/.test(r.g.quest),'R384: at the stop no arrow: '+r.g.quest);
+  r.g.debugWarp('electric',5,8);r.tick(50);assert.equal(r.g.questStep,'cleared');assert(/[←→↑↓]$/.test(r.g.quest),'R384: inside 電気屋 it points to the way out: '+r.g.quest);
+  r.g.debugStartChapter(2);r.tick(50);const s2=r.g.state;s2.flags.tutorial=true;const ch2=r.g.GAME_DATA.chapters[2];if(!s2.bosses.includes(ch2.boss))s2.bosses.push(ch2.boss);r.tick(16);
+  if(r.g.questStep==='cleared')assert(!/[←→↑↓]$/.test(r.g.quest),'R384: 2章 cleared line keeps no arrow: '+r.g.quest);}
+ result.push('R384: 1章のボスの後「バス停からミナモちょうへ行こう」の矢印がバス停を指す PASS');
  // R380: after a tap the browser hides the focus ring, so the tutorial's 「呼び出す」 button carries its own gold ring (class nudge) until the summon is used; no other button has it, and normal battles have none.
  {const r=await runtime();r.tick();r.start();const cmds=r.els.get('commands').children,on=()=>cmds.filter(b=>b.classes.has('nudge')).map(b=>b.dataset.cmd);
   assert.deepEqual(on(),['summon'],'R380: only 呼び出す is ringed in the tutorial: '+on());
