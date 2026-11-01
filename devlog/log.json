@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T21:47:26.776Z",
-  "branch": "claude/autodev-20261025-0621-R223",
-  "task": "R223 ミナモのボス戦で、街灯の柱が川の中まで立っていたので、柱を岸の上で止めた",
-  "summary": "カテイノジジョウ戦で、街灯の柱が川を突き抜けて柵まで立っていた\n柱を背景の岸の上（塀の下）で止め、根元に小さな台を描いた\n柱が岸の上で止まることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/409/mobile-02-mode-select.jpg",
-   "shots/409/mobile-15-custom-full-run.jpg",
-   "shots/409/mobile-27-chapter-2-play.jpg",
-   "shots/409/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "774d5f6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40135059628"
- },
- {
   "at": "2026-10-24T22:10:46.467Z",
   "branch": "claude/autodev-20261025-0650-R224",
   "task": "R224 町の自転車と車が影より上に浮いて見えたので、絵の下の余白の分だけ下げて描いた",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "88d01cc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41337677731"
+ },
+ {
+  "at": "2026-11-01T19:00:39.347Z",
+  "branch": "claude/autodev-20261102-0321-R382",
+  "task": "R382 確かめ用のスクショで、Lv13の戦闘にも最初の戦闘の「HP 0になると倒れる」のカードが出て、本当の表示と違っていたので、スモークでチュートリアルの言葉を覚えた状態にし、出たら不合格にした",
+  "summary": "全章のスクショを確認役が見たが、文字の重なりや切れは無かった\nLv13の戦闘に最初の戦闘のHPのカードが出て本物と違ったので、スモークを直した\n前と後は docs/shots/R382。勝った後の進み方などは自動で進むので変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/652/mobile-02-mode-select.jpg",
+   "shots/652/mobile-15-custom-full-run.jpg",
+   "shots/652/mobile-27-chapter-2-play.jpg",
+   "shots/652/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "54b6209",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41337791166"
  }
 ]
