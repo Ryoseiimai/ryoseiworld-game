@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T13:41:48.168Z",
-  "branch": "claude/autodev-20261024-2221-R215",
-  "task": "R215 ミナモの公園で、ベンチが「こうえん」看板の左の柱にくっついていたので、ベンチを西へ、犬をその左下へ動かした",
-  "summary": "ミナモの公園で、ベンチの右はしが「こうえん」看板の左の柱にくっついていた\nベンチを1.2マス西の砂場の下へ動かし（砂場のふちにかからない高さ）、犬をその左下へずらした\nベンチが看板の柱から離れていることを確かめるテストを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/396/mobile-02-mode-select.jpg",
-   "shots/396/mobile-15-custom-full-run.jpg",
-   "shots/396/mobile-27-chapter-2-play.jpg",
-   "shots/396/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "50234ce",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40098586990"
- },
- {
   "at": "2026-10-24T14:56:49.902Z",
   "branch": "claude/autodev-20261024-2321-R216",
   "task": "R216 町のコンビニの前で、信号の灯器が自販機の足元に重なっていたので、自販機を北へ少し動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "1179a2d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41294573737"
+ },
+ {
+  "at": "2026-11-01T11:06:21.970Z",
+  "branch": "claude/autodev-20261101-1922-R375",
+  "task": "R375 ボス戦の「プレイテスト」のボタンが「ビート」のボタンの8px上にあり、拍に合わせて押すと押し間違えそうだったので、間を16pxにした",
+  "summary": "全章を通してスクショを撮り、確認役にかな以外の気になる所を挙げてもらった\nボス戦のとくぎのボタンとビートのボタンの間を8pxから16pxにした\n間が16px以上あるかを tools/test_shooter.cjs で確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/641/mobile-02-mode-select.jpg",
+   "shots/641/mobile-15-custom-full-run.jpg",
+   "shots/641/mobile-27-chapter-2-play.jpg",
+   "shots/641/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "85cfd13",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41299663356"
  }
 ]
