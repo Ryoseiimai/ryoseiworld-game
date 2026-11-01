@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T00:29:11.686Z",
-  "branch": "claude/autodev-20261025-0921-R227",
-  "task": "R227 遊んで一番気になる所を1つ直す",
-  "summary": "自分の部屋で、階段の絵の真ん中に「↓」の札が重なり、階段の口が隠れていた\n階段のある出口では札を描かず、階段の絵だけで出口が分かるようにした\n部屋に札が出ず、店の出口には札が残ることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/414/mobile-02-mode-select.jpg",
-   "shots/414/mobile-15-custom-full-run.jpg",
-   "shots/414/mobile-27-chapter-2-play.jpg",
-   "shots/414/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d02d7f6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40146403153"
- },
- {
   "at": "2026-10-25T00:57:39.047Z",
   "branch": "claude/autodev-20261025-0921-R227",
   "task": "R227 ネオンの駅の絵の下に、絵から離れた紫の線が浮いて見えたので、読み込む時に線を消した",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "b6f69e8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41354335317"
+ },
+ {
+  "at": "2026-11-01T22:45:02.093Z",
+  "branch": "claude/autodev-20261102-0722-R386",
+  "task": "R386 ヒカクマオウ戦のソラのヒント「じぶんの ペース」が、おとなモードの拾う物の名前「自分のペース」と違うので、かぎかっこの中をそろえる",
+  "summary": "おとなモードのヒカクマオウ戦で、ソラのヒントを「自分のペース」にそろえた\nこどもモードは「じぶんの ペース」のまま。ほかのボスのヒントも変えていない\n確かめはボス戦の確かめの置き場 tools/test_shooter.cjs に足した（test_v5.cjs はボス戦を代役で動かすため）",
+  "result": "pass",
+  "shots": [
+   "shots/657/mobile-02-mode-select.jpg",
+   "shots/657/mobile-15-custom-full-run.jpg",
+   "shots/657/mobile-27-chapter-2-play.jpg",
+   "shots/657/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "1e0f125",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41357711849"
  }
 ]
