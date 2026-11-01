@@ -1067,6 +1067,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(const t of ['判定ワイド\nオン','当たり判定を表示\nオン','ゴッドモード\nオン','タイムスケール 0.7\nオン'])assert(labels(r).includes(t),'R365 adult label '+t);assert(!labels(r).some(t=>/はんてい/.test(t)),'R365 no kana switch in adult');
    r.button('判定ワイド');assert.equal(r.g.state.cheats.widejudge,false,'R365 adult switch toggles');r.button('判定ワイド');assert.equal(r.g.state.cheats.widejudge,true);
    r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugOpenCheats();assert(labels(r).includes('はんてい ワイド\nオン'),'R365 back to kids');result.push('R365: おとなモードのデバッグモードの切り替えを「判定ワイド」「当たり判定を表示」にし、こどもモードは かなのまま PASS');}
+ // R366: the naming screen read 「きみを なんて よぼう？」「この なまえに する」 in adult mode too. Adult shows 「君を何て呼ぼう？」「この名前にする」; kids keep kana.
+ {for(const [mode,ask,ok] of [['adult','君を何て呼ぼう？','この名前にする'],['kids','きみを なんて よぼう？','この なまえに する']]){const r=await runtime();r.tick();r.click('start-btn');r.button(mode==='adult'?'おとなモード':'こどもモード');r.dialogue();assert.equal(r.g.screen,'naming');
+   assert.equal(r.els.get('naming-ask').textContent,ask,'R366 '+mode+' ask');assert.equal(r.els.get('naming-confirm').textContent,ok,'R366 '+mode+' button');r.els.get('name-input').value='テスト';r.click('naming-confirm');r.dialogue();assert.equal(r.g.screen,'battle','R366 '+mode+' naming still goes on');}
+  result.push('R366: おとなモードの名前の画面を「君を何て呼ぼう？」「この名前にする」にし、こどもモードは かなのまま PASS');}
   const words=[...r.g.debugWords()];r.button('ゴッドモード');r.button('ゴッドモード');assert.deepEqual([...r.g.debugWords()],words,'learning happens once');
   r.key('Escape');r.g.debugStartChallenge(7);r.button('はじめる');const c=r.shooterRuns.at(-1).cfg;assert.equal(c.startStage,7);assert.equal(c.platform,r.g.platform);assert(Object.values(c.options.cheats).every(Boolean));assert.notEqual(c.options.cheats,r.g.state.cheats,'options copied');
   c.onEnd({stage:20,bestCombo:60,score:2000,cheated:true});assert(r.els.get('modal-title').textContent.includes('チートつき'));assert.equal(r.g.state.challenge.best.stage,12);assert.equal(r.g.state.challenge.bestCheat.stage,20);assert(/チートつき\nさいこう ステージ 20/.test(copy(r)),'R103: the cheat record shows after a cheat run');
