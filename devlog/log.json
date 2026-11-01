@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T10:02:13.123Z",
-  "branch": "claude/autodev-20261024-1843-R211",
-  "task": "R211 ネオンのボス戦で、ヒカクマオウのマントが画面の右はしにかかり攻撃で切れていたので、ボスを左へ動かして小さくした",
-  "summary": "ネオンのボス戦で、ヒカクマオウのマントが右はしにかかり、攻撃で切れていた\nボスの位置を 420 から 392 へ、高さを 240 から 224 にし、HP を 370 に上げて長さを2分にそろえた\n星の輪の弾が主人公の上に出ないよう、出る位置を右へ寄せた",
-  "result": "pass",
-  "shots": [
-   "shots/390/mobile-02-mode-select.jpg",
-   "shots/390/mobile-15-custom-full-run.jpg",
-   "shots/390/mobile-27-chapter-2-play.jpg",
-   "shots/390/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d5c2294",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40083394521"
- },
- {
   "at": "2026-10-24T10:47:39.334Z",
   "branch": "claude/autodev-20261024-1921-R212",
   "task": "R212 ボス戦で、BUG KING の攻撃のコマの足が画面の右はしで切れていたので、ボスを左へ動かして小さくした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "634bf8f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41276944923"
+ },
+ {
+  "at": "2026-11-01T06:53:57.652Z",
+  "branch": "claude/autodev-20261101-1521-R371",
+  "task": "R371 おとなの記録で「始めから？」と漢字で聞いた次のモード選択が「モードを えらぶ」「あとで 設定からも かえられる。」とかなに戻っていたので、おとなの記録では「モードを選ぶ」「後で設定からも変えられる。」にした（記録なしとこどもはそのまま）",
+  "summary": "おとなの記録があるとき、モード選択の画面を「モードを選ぶ」「後で設定からも変えられる。」にした\n記録なしとこどもの記録では、今までのかなのまま。テストと前後のスクショを足した\n確認役の指摘のうち「きずな」の見出しは SPEC_V7 の150のとおりかななので、変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/635/mobile-02-mode-select.jpg",
+   "shots/635/mobile-15-custom-full-run.jpg",
+   "shots/635/mobile-27-chapter-2-play.jpg",
+   "shots/635/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "21af9b5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41281800950"
  }
 ]
