@@ -785,6 +785,8 @@ async function browserAdapterChecks() {
     check('R95: とくぎのゲージは文字の下に重ならない',lh>0&&gh>0&&24*lh+2*gh<=44-6,{lh,gh});}
    // R135: the skill button keeps clear of the stage's bottom line (PLAY_B) and the beat button stays on the 960px screen.
    {const pb=+((win.__shooter&&win.__shooter.PLAY_B)||826);check('R135: とくぎのボタンは戦う場所の下の線から8px以上はなれ、ビートは画面の中',n(sk,'top')>=pb+8&&n(bt,'top')+n(bt,'height')<=960-6&&n(bt,'height')>=56,{sk,bt});}
+   // R375: the skill button keeps at least 16px from the beat button, so tapping the beat in rhythm does not hit the skill.
+   check('R375: とくぎのボタンとビートのボタンの間は16px以上',n(bt,'top')-(n(sk,'top')+n(sk,'height'))>=16,{sk,bt});
    // R132: a skill button that cannot be used yet (こえ 2/5, フク やすみ) keeps its words readable: no fading of the whole button, only a dark plate.
    {const off=(css.match(/\.rs-skill\.rs-off\{([^}]*)\}/)||[])[1]||'';check('R132: 押せない時のとくぎのボタンは全体を薄くせず、字が読める',off&&!/opacity/.test(off)&&/color:#e6dfc4/.test(off)&&/background:#0f2030/.test(off),off);}}
   const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;
