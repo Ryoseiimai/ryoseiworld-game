@@ -176,7 +176,8 @@
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
-        half: 'BUG KING は こわれかけている', win: 'BUG KING は おとなしく なった' }
+        half: 'BUG KING は こわれかけている', win: 'BUG KING は おとなしく なった',
+        halfAdult: 'BUG KING は壊れかけている', winAdult: 'BUG KING はおとなしくなった' }
     },
     kateino: {
       name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6, feet: 0.42,
@@ -186,7 +187,7 @@
         hint: ['ソラ', 'かべは かたい。とくぎで ゲームを みせて みよう'], owlHint: ['サーチフクロウ', 'みせる と いい'],
         hint2: ['ソラ', 'みぎしたの「' + word('playtest', 'みせる') + '」を おして みよう'],
         show: ['RYOSEI', 'はじめて つくった ゲーム を みせた！'],
-        win: 'カテイノジジョウは おとなしく なった' }
+        win: 'カテイノジジョウは おとなしく なった', winAdult: 'カテイノジジョウは\nおとなしくなった' }
     },
     hikaku: {
       name: 'ヒカクマオウ', sheet: 'hikaku', bg: 'bg_neon', hp: 370, x: 392, drawH: 224, bodyR: 67, bodyDY: 22,
@@ -195,7 +196,7 @@
         bursts: { 75: 'きのうの じぶんより\nすすんでる', 50: 'くらべる あいては\nきのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' },
         hint: ['ソラ', 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
-        win: 'ヒカクマオウは おとなしく なった' }
+        win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },
     jibun: {
       name: 'ジブン', sheet: 'ryosei', bg: 'bg_tower', hp: 0, x: 430, drawH: 128, bodyR: 44, bodyDY: 0,
@@ -257,6 +258,9 @@
     base = Math.min(9, base);
     var maxHearts = base + (weapons.onigiri ? 1 : 0);
     var lines = mergeLines(def.lines, cfg.lines);
+    // R369: the win band and the half-HP notice are system lines like the town battle's 「はおとなしくなった！」 (calmText),
+    // so adult mode reads the <key>Adult twin in kanji. Kids keep the kana; story lines (Sora, the boss) stay as they are.
+    if (RYW.mode === 'adult') ['win', 'half'].forEach(function (k) { if (def.lines[k + 'Adult'] && !(cfg.lines && cfg.lines[k] != null)) lines[k] = def.lines[k + 'Adult']; });
     var w = {
       cfg: cfg, settings: settings, cheats: cheats, cheated: ['godmode', 'timescale', 'widejudge', 'showhitbox'].some(function (k) { return !!cheats[k]; }),
       scale: cheats.timescale ? 0.7 : 1, paused: false, mode: cfg.mode || 'story', stage: 0, score: 0,
