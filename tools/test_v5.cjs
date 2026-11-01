@@ -2918,7 +2918,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',19,21.6);r.tick(50);assert.equal(r.g.map,'town');r.g.debugStartBattle('vending','r377-town');r.tick(300);r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
   assert.equal(flags.zakoWins,0,'R377: a win in ヒダマリ does not count in chapter 4');
   r.g.debugWarp('tower2',5,10);r.tick(50);assert.equal(r.g.map,'tower2');r.g.debugStartBattle('crow2','r377-tower');r.tick(300);r.g.debugWin();r.tick(2000);while(r.g.dialogue)r.dialogue();
-  assert.equal(flags.zakoWins,1,'R377: a win on a tower floor counts in chapter 4');}
+  assert.equal(flags.zakoWins,1,'R377: a win on a tower floor counts in chapter 4');
+  r.g.state.bosses=[];const v1=r.g.GAME_DATA.maps.town.enemies.find(e=>e.id==='v1');r.g.debugWarp('town',v1.x,v1.y+.9);r.g.debugSetLevel(20);r.tick(2600);r.key('ArrowUp');r.tick(300);r.key('ArrowUp',true);while(r.g.dialogue)r.dialogue();
+  assert(r.g.state.defeated.v1>0,'R377: the weak vending machine was walked into');assert.equal(flags.zakoWins,1,'R377: walking into a weak enemy in ヒダマリ does not count in chapter 4');}
  result.push('R377: 4章でヒダマリの敵に勝っても「塔のノイズを静めよう」の数が増えず、塔の中の勝ちだけが数に入る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
