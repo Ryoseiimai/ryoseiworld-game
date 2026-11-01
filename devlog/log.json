@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-24T10:47:39.334Z",
-  "branch": "claude/autodev-20261024-1921-R212",
-  "task": "R212 ボス戦で、BUG KING の攻撃のコマの足が画面の右はしで切れていたので、ボスを左へ動かして小さくした",
-  "summary": "ボス戦で、BUG KING の攻撃のコマの右の足が画面の右はしで約37px切れていた\nボスの位置を 418 から 388 へ、高さを 214 から 200 にし、当たりの円も合わせて小さくした\n右はしが切れないことを確かめるテストを1行足した。撃破時間はきずな0で127秒",
-  "result": "pass",
-  "shots": [
-   "shots/391/mobile-02-mode-select.jpg",
-   "shots/391/mobile-15-custom-full-run.jpg",
-   "shots/391/mobile-27-chapter-2-play.jpg",
-   "shots/391/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8c349bf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40086840064"
- },
- {
   "at": "2026-10-24T12:00:29.762Z",
   "branch": "claude/autodev-20261024-2021-R213",
   "task": "R213 町の東側の歩道で、信号3本の柱が車道の上に立って見えたので、信号を歩道の内側へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "21af9b5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41281800950"
+ },
+ {
+  "at": "2026-11-01T07:07:01.300Z",
+  "branch": "claude/autodev-20261101-1521-R371",
+  "task": "R371 おとなの記録で「始めから？」と漢字で聞いた次のモード選択が「モードを えらぶ」「あとで 設定からも かえられる。」とかなに戻っていたので、おとなの記録では「モードを選ぶ」「後で設定からも変えられる。」にした（記録なしとこどもはそのまま）",
+  "summary": "おとなの記録があるとき、モード選択の画面を「モードを選ぶ」「後で設定からも変えられる。」にした\n記録なしとこどもの記録では、今までのかなのまま。テストと前後のスクショを足した\n確認役の指摘のうち「きずな」の見出しは SPEC_V7 の150のとおりかななので、変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/636/mobile-02-mode-select.jpg",
+   "shots/636/mobile-15-custom-full-run.jpg",
+   "shots/636/mobile-27-chapter-2-play.jpg",
+   "shots/636/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e86f706",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41282355351"
  }
 ]
