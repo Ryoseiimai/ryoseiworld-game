@@ -1779,6 +1779,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugEvent([{choice:'どうする？',options:[{text:'はい'},{text:'いいえ'}]}]);r.tick(100);assert.equal(r.els.get('modal-copy').textContent,'どうする？',mode+' R354 plain choice');r.button('いいえ');r.tick(100);}
  }
  result.push('R354: おとなモードの贈り物の確認を「おにぎりをあげる？」にし、こどもモードは「おにぎりを あげる？」のまま PASS');
+ // R373: the IT-like event choices (the kid's save and Wi-Fi, the clerk's printer) asked and answered in spaced kana in adult mode too. Their options may carry
+ // adult:'…' like the question; adult mode shows those, kids keep the kana. Story choices (net cafe, mural, Mio's umbrella) stay as they are, like the lines above them.
+ {const findAll=(x,out=[])=>{if(!x||typeof x!=='object')return out;if(typeof x.choice==='string'&&Array.isArray(x.options)&&!/を あげる？$/.test(x.choice)&&!out.includes(x))out.push(x);for(const v of Object.values(x))findAll(v,out);return out;};
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  const steps=findAll(r.g.GAME_DATA.events),asks=steps.map(s=>s.choice);assert(steps.length>=6&&asks.includes('セーブは いつ する？')&&asks.includes('どう なおす？'),'R373 choices found '+asks);const withAdult=steps.filter(s=>s.adult).map(s=>s.choice);assert.equal(withAdult.join('/'),'セーブは いつ する？/パスワードは どこ？/どう なおす？','R373 only the ch1 learning choices have adult text '+withAdult);
+  for(const step of steps){const bare={choice:step.choice,adult:step.adult,options:step.options.map(o=>({text:o.text,adult:o.adult}))};
+   r.g.debugEvent([bare]);r.tick(100);assert.equal(r.g.modal,'event','R373 choice opens '+step.choice);
+   assert.equal(r.els.get('modal-copy').textContent,adult?(step.adult??step.choice):step.choice,mode+' R373 question '+step.choice);
+   const names=r.els.get('modal-buttons').children.map(b=>b.textContent),want=step.options.map(o=>adult?(o.adult??o.text):o.text);assert.equal(JSON.stringify(names.slice(0,want.length)),JSON.stringify(want),mode+' R373 options '+names);
+   if(adult&&step.adult)for(const s of [r.els.get('modal-copy').textContent,...want])assert(!/[ぁ-ん] [ぁ-ん]/.test(s),'R373 adult has no kana gap: '+s);
+   r.button(want[want.length-1]);r.tick(100);while(r.g.dialogue)r.dialogue();assert.equal(r.g.modal,'','R373 choice closes');}
+  r.g.debugEvent([{choice:'どうする？',options:[{text:'はい',adult:'はい。'},{text:'いいえ'}]}]);r.tick(100);const names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert(names.includes(adult?'はい。':'はい')&&names.includes('いいえ'),mode+' R373 plain options '+names);r.button('いいえ');r.tick(100);}
+ }
+ result.push('R373: おとなモードのセーブ・Wi-Fi・プリンターの選択肢を「セーブはいつする？」「全部終わってから」「紙を入れ直す」などにし、こどもモードは かなのまま PASS');
  // R355: Search Owl's IT quiz is a learning part (SPEC_V7_MANABU.md 9), but adult mode still asked 「もんだい 1 / 3」「つよい パスワードは？」 in kana.
  // Each question carries adult:{q,options}; adult mode shows those with 「問題 1 / 3」, kids keep the kana, the answer index is the same and a wrong answer still asks again.
  {for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();

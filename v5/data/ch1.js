@@ -125,14 +125,14 @@ events:{
   {if:'cableDone',then:[{say:'repairAfter'}],else:[{if:'cable',then:[{say:'repairCable'},{flag:'cableDone'},{bond:'repair'}],else:[{say:'repairAsk'},{flag:'cableAsk'}]}]},gift('repair','drink','エナジードリンク','cableDone')],
  policeBox:[{if:'cableAsk',then:[{if:'cable',then:[{say:'policeBoxEmpty'}],else:[{say:'policeBoxCable'},{flag:'cable'}]}],else:[{say:'policeBox'}]}],
  // Wi-Fi first (the password is on the store receipt), then a word about saving often.
- kid:[{if:'kidWifi',then:[{if:'kidSave',then:[{say:'kidAfter'}],else:[{say:'kidSaveAsk'},{choice:'セーブは いつ する？',options:[{text:'こまめに する',then:[{say:'kidSaveOk'},{flag:'kidSave'},{bond:'kid'}]},{text:'ぜんぶ おわってから',then:[{say:'kidSaveNo'}]}]}]}],
-  else:[{say:'kid'},{choice:'パスワードは どこ？',options:[{text:'コンビニの レシート',then:[{say:'kidWifiOk'},{flag:'kidWifi'},{bond:'kid'}]},{text:'1234 で ためす',then:[{say:'kidWifi1234'}]},{text:'ゲームきを ふる',then:[{say:'kidWifiShake'}]}]}]},gift('kid','rice','おにぎり','kidWifi')],
+ kid:[{if:'kidWifi',then:[{if:'kidSave',then:[{say:'kidAfter'}],else:[{say:'kidSaveAsk'},{choice:'セーブは いつ する？',adult:'セーブはいつする？',options:[{text:'こまめに する',adult:'こまめにする',then:[{say:'kidSaveOk'},{flag:'kidSave'},{bond:'kid'}]},{text:'ぜんぶ おわってから',adult:'全部終わってから',then:[{say:'kidSaveNo'}]}]}]}],
+  else:[{say:'kid'},{choice:'パスワードは どこ？',adult:'パスワードはどこ？',options:[{text:'コンビニの レシート',adult:'コンビニのレシート',then:[{say:'kidWifiOk'},{flag:'kidWifi'},{bond:'kid'}]},{text:'1234 で ためす',adult:'1234で試す',then:[{say:'kidWifi1234'}]},{text:'ゲームきを ふる',adult:'ゲーム機を振る',then:[{say:'kidWifiShake'}]}]}]},gift('kid','rice','おにぎり','kidWifi')],
  // The hacker asks RYOSEI to look at the snoring server; she thanks him once it is awake. The town coming back is only a line here.
  hacker:[{if:'hackerServer',then:[{if:'cleared',then:[{if:'hackerClear',then:[{say:'hackerAfter'}],else:[{say:'hackerClear'},{flag:'hackerClear'}]}],else:[{say:'hackerAfter'}]}],
   else:[{if:{summon:'code'},then:[{say:'hackerServer'},{flag:'hackerServer'},{bond:'hacker'}],else:[{say:'hacker'}]}]},gift('hacker','drink','エナジードリンク','hackerServer')],
  // The clerk keeps mother's milk and has a jammed receipt printer.
  clerk:[{if:'milkAsk',then:[{if:{not:'milk'},then:[{say:'clerkMilk'},{flag:'milk'}]}]},
-  {if:'printerDone',then:[{say:'clerkAfter'}],else:[{say:'clerkPrinter'},{choice:'どう なおす？',options:[{text:'かみを いれなおす',then:[{say:'clerkPrinterOk'},{flag:'printerDone'},{bond:'clerk'}]},{text:'つよく たたく',then:[{say:'clerkPrinterHit'}]},{text:'あやまる',then:[{say:'clerkPrinterSorry'}]}]}]},gift('clerk','rice','おにぎり','printerDone')],
+  {if:'printerDone',then:[{say:'clerkAfter'}],else:[{say:'clerkPrinter'},{choice:'どう なおす？',adult:'どう直す？',options:[{text:'かみを いれなおす',adult:'紙を入れ直す',then:[{say:'clerkPrinterOk'},{flag:'printerDone'},{bond:'clerk'}]},{text:'つよく たたく',adult:'強くたたく',then:[{say:'clerkPrinterHit'}]},{text:'あやまる',adult:'謝る',then:[{say:'clerkPrinterSorry'}]}]}]},gift('clerk','rice','おにぎり','printerDone')],
  mio:[{if:'clipDone',then:[{if:'cleared',then:[{if:'mioLetter',then:[{say:'mioAfter'}],else:[{say:'mioLetter'},{flag:'mioLetter'},{bond:'mio'}]}],else:[{say:'mioWait'}]}],
   else:[{if:'clip',then:[{say:'mioClip'},{flag:'clipDone'},{bond:'mio'}],else:[{say:'mio'},{flag:'clipAsk'}]}]}],
  hairclip:[{if:'clip',then:[{say:'sandbox'}],else:[{if:'clipAsk',then:[{say:'clipFound'},{flag:'clip'}],else:[{say:'sandboxShine'}]}]}],
