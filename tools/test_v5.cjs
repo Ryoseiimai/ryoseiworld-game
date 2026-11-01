@@ -560,7 +560,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');assert(copy().includes('はなしかけて'),copy());fits(copy());r.button('もどる');assert.equal(r.g.modal,'menu');r.button('もどる');
   r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();if(r.g.modal==='event'){r.tick(400);r.button('やめておく');}while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
   r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('［家］おかあさん　♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
-  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),c);fits(c);r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと　　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),'R376: hearts line up under おかあさん '+c);fits(c);r.button('もどる');
   D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('［恋］テストの ひと　♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);D.bonds.r106={name:'ながい なまえの ともだち',kind:'friend',spirit:15,rewards:{}};r.g.debugBond('r106',2);r.button('もどる');r.button('きずな');c=copy();assert(c.includes('［友］ながい なまえの ともだち\n♥♥♡♡♡'),'R106: a long name keeps its hearts on the next row '+c);delete D.bonds.r106;delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
   r.button('ぶき');assert.equal(r.g.modal,'weapons');c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ みぎへ うつ'),c);assert(!c.includes('〔if バリア〕'));assert(c.includes('まだ 7つ。'),c);fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('ぶき');c=copy();assert(c.includes('ぜんぶ そろった'),c);for(const w of Object.values(D.weapons)){assert(w.desc,w.name+' desc');assert(c.includes(w.name));}fits(c);r.button('もどる');r.button('もどる');
@@ -1736,6 +1736,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.els.get('ending-eyebrow').textContent,adult?'直った町':'なおった まち');assert.equal(r.els.get('ending-title').textContent,adult?'次へ':'つぎへ');
   r.click('ending-title');assert.equal(r.g.screen,'epilogue');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R350 send button');}}
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
+ // R376: the hearts of the きずな list started where each name ended; one-row names are now padded so the hearts start in one column (ASCII counts half).
+ {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  for(const id of ['mother','sister','repair','kid','clerk'])r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);
+  r.click('menu-btn');r.tick(400);r.button('きずな');const rows=r.els.get('modal-copy').textContent.split('\n').filter(l=>/^［/.test(l)&&/[♥♡]/.test(l));
+  assert(rows.length>=3,mode+' R376 rows '+rows.join('|'));const starts=new Set(rows.map(l=>wide(l.slice(0,l.search(/[♥♡]/)))));
+  assert.equal(starts.size,1,mode+' R376 hearts in one column: '+rows.join('|'));for(const l of rows)assert([...l].length<=17,'R376 row fits '+l);}}
+ result.push('R376: きずなの一覧で、名前の長さがちがってもハートが同じ列から始まる PASS');
  // R351: the first battle's log opened with 「グリッチカラスが まどから きた！」 in adult mode while its next row (「呼び出す」で ナオスライムを呼ぼう。) was kanji.
  // Adult now reads 「グリッチカラスが窓から来た！」; kids keep the kana. Each row still fits the 16-wide tutorial log.
  {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
