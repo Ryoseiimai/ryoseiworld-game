@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T00:05:08.200Z",
-  "branch": "claude/autodev-20261025-0821-R226",
-  "task": "R226 自分の部屋の階段の絵の真ん中に「↓」の札が重なり、階段の口が見えなかったので、階段のある出口では札を描かないようにした",
-  "summary": "自分の部屋で、階段の絵の真ん中に「↓」の札が重なり、階段の口が隠れていた\n階段のある出口では札を描かず、階段の絵だけで出口が分かるようにした\n部屋に札が出ず、店の出口には札が残ることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/413/mobile-02-mode-select.jpg",
-   "shots/413/mobile-15-custom-full-run.jpg",
-   "shots/413/mobile-27-chapter-2-play.jpg",
-   "shots/413/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8688c83",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40144658785"
- },
- {
   "at": "2026-10-25T00:29:11.686Z",
   "branch": "claude/autodev-20261025-0921-R227",
   "task": "R227 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "7bdb380",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41348485978"
+ },
+ {
+  "at": "2026-11-01T22:03:08.506Z",
+  "branch": "claude/autodev-20261102-0642-R385",
+  "task": "R385 4章でヒダマリに戻ると「塔のノイズを静めよう」に矢印が出ないので、目的の地図が別の町にある時は今の町のバス停を指す",
+  "summary": "4章でヒダマリに戻った時、目標の矢印がバス停を指すようにした\nミナモでは駅を指す。行ける扉が無い町では、乗り場をたどって道を探す\n確認役は重い指摘なし。鍵のブランチには push できず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/656/mobile-02-mode-select.jpg",
+   "shots/656/mobile-15-custom-full-run.jpg",
+   "shots/656/mobile-27-chapter-2-play.jpg",
+   "shots/656/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "b6f69e8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41354335317"
  }
 ]
