@@ -169,6 +169,11 @@ async function runViewport(browser, url, vp, errors, shots) {
     // R381: the scenes below warp onto maps of later chapters; without the tutorial flag the goal line kept saying
     // 「呼び出す」でナオスライムを呼ぶ there, an order a real player at that point never sees (continue starts the tutorial first).
     if (await has('debugSetFlag')) await call('debugSetFlag', ['tutorial', true]);
+    // R382: the tutorial battle also teaches HP and グリッチ (word cards). Without them, the Lv13 battles below
+    // showed the first-battle card 「HP 0になると倒れる」, which a real player past the tutorial never sees again.
+    // Done right before each battle only: the custom scenes include the tutorial battle itself, where both cards are real.
+    const knowTutorialWords = () => page.evaluate(() => { const R = window.RYW;
+      if (R && typeof R.learnQuiet === 'function') for (const id of ['hp', 'glitch']) R.learnQuiet(id); });
     const custom = await page.evaluate(() => Array.isArray(window.__v5.smokeScenes) ? window.__v5.smokeScenes.map(s => s && s.name).filter(Boolean) : []);
     for (const name of custom) {
       try { await page.evaluate(nm => window.__v5.smokeScenes.find(s => s.name === nm).run(), name); await settle(); await shot('custom-' + name);
@@ -302,11 +307,15 @@ async function runViewport(browser, url, vp, errors, shots) {
         try {
           await call('debugWarp', ['town', 5, 5]).catch(() => {});
           await settle();
+          await knowTutorialWords();
           await call('debugStartBattle', [b.type, b.kind]);
           await sleep(900);
           const s = await state();
           if (s.screen !== 'battle') { skip('battle-' + b.type, `screen=${s.screen} after debugStartBattle`); continue; }
           await shot('battle-' + b.type);
+          const hpCard = await page.evaluate(() => { const c = document.getElementById('word-card'), t = document.getElementById('word-title');
+            return c && !c.hidden && t && /HP/.test(t.textContent) ? t.textContent.trim() : ''; });
+          if (hpCard) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`battle ${b.type}: the HP word card from the tutorial shows again after the tutorial: ${hpCard}`) });
           if (await has('debugWin')) { await call('debugWin'); await sleep(1500); await shot('battle-' + b.type + '-win'); await settle(); }
         } catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`battle ${b.type}: ${e.message}`) }); }
       }
