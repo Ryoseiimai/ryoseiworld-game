@@ -103,12 +103,13 @@ items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'し�
 // The hacker stops at 2 here: her rainbow and the whale come at heart 3 in chapter 3 (STORY_V4.md).
 // Guardian spirits of people without bonds (SPEC_V6.md 1): a spirits frame (0-15) or a summon. R24: the hacker's spirit is now her サーバークジラ (recruited in chapter 3 at bond 3).
 spirits:{grandpa:7,worker:1,student:2,police:4,grandma:14,delivery:8,shrine:10,musician:11},
-bonds:{mother:{name:'おかあさん',kind:'family',spirit:'nao',likes:['rice'],rewards:{2:{money:100},3:{weapon:'barrier'},5:{weapon:'onigiri',money:200}}},
- sister:{name:'いもうと',kind:'family',spirit:0,likes:['drink'],rewards:{2:{money:50},4:{money:100}}},
- repair:{name:'しゅうりやさん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
- kid:{name:'ゲームの こ',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
+bonds:{mother:{name:'おかあさん',adultName:'お母さん',kind:'family',spirit:'nao',likes:['rice'],rewards:{2:{money:100},3:{weapon:'barrier'},5:{weapon:'onigiri',money:200}}},
+ sister:{name:'いもうと',adultName:'妹',kind:'family',spirit:0,likes:['drink'],rewards:{2:{money:50},4:{money:100}}},
+ repair:{name:'しゅうりやさん',adultName:'修理屋さん',kind:'friend',spirit:'code',likes:['drink'],rewards:{2:{money:100},3:{weapon:'rapid'}}},
+ kid:{name:'ゲームの こ',adultName:'ゲームの子',kind:'friend',spirit:15,likes:['rice'],rewards:{2:{money:60},3:{weapon:'twin'}}},
  hacker:{name:'ハッカーさん',kind:'friend',spirit:'whale',likes:['drink'],rewards:{2:{money:120},3:{weapon:'rainbow'}}},
- clerk:{name:'てんいんさん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}},
+ clerk:{name:'てんいんさん',adultName:'店員さん',kind:'friend',spirit:13,likes:['rice'],rewards:{2:{money:80}}},
+ // R372: adultName is the kanji form shown in adult mode (menu and bond messages), like enemies' adultName (R348). Names without kana-to-kanji stay as they are.
  // Love (12-year-old style): returning the hairclip, then a paper letter after the town is quiet. Heart 3 and the dolphin wait for the rainy day in chapter 3, so her spirit shows the koi until then (like the hacker's fox).
  mio:{name:'ミオ',kind:'love',spirit:12,rewards:{2:{weapon:'letter'},5:{weapon:'charge'}}}},
 // The police officer keeps the electric shop key until three noises are quiet (SPEC_V5.md). Written as event steps.

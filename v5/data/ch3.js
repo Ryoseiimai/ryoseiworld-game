@@ -96,7 +96,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   whale:{name:'サーバークジラ',frame:5,cost:30,backup:true,desc:'いまの HPを ほぞん。\n3ターンの うちに たおれたら\n1かい もどれる。',descAdult:'今のHPを保存。\n3ターン以内に倒れたら\n1回戻れる。'},
   // R25: ことばが わかって、てきが 1かい やすむ（SPEC_V7_MANABU.md 3.2 ほんやく）。
   kotoba:{name:'コトバイルカ',frame:4,cost:20,rest:true,desc:'てきの ことばが わかる。\nつぎの てきの ターンを\n1かい やすませる。',descAdult:'敵の言葉が分かる。\n次の敵のターンを\n1回休ませる。'}},
- bonds:{neon_painter:{name:'えを かく こ',kind:'friend',spirit:'paint',likes:['drink'],rewards:{2:{money:90}}}},
+ bonds:{neon_painter:{name:'えを かく こ',adultName:'絵を描く子',kind:'friend',spirit:'paint',likes:['drink'],rewards:{2:{money:90}}}},
  events:{
   netCafe:[{say:'cafeAsk'},{choice:'とまって いく？',options:[{text:'とまる',then:[{say:'cafeSleep'},{flash:'#c9b8ff',ms:500},{wait:500},{inn:true},{say:'cafeMorning'},{save:true}]},{text:'やめておく',then:[{say:'cafeBye'}]}]}],
   // R24: 壁画の前で、いいねが0の絵をかいている子。「いいね」ではなく「いっしょに かく」を選ぶとペイントキメラが仲間になる（SPEC_V5_CH234.md）。

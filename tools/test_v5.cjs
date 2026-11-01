@@ -1459,6 +1459,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(t2.els.get('modal-title').textContent,title,'R371 '+mode+' title');const rows=t2.els.get('modal-copy').textContent.split('\n');assert.equal(rows[rows.length-1],last,'R371 '+mode+' last row');assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'R371 mode lines stay');
    t2.button('こどもモード');assert.equal(t2.g.screen,'prologue','R371 '+mode+' still starts');}
   result.push('R371: おとなの記録があるとき、モードを選ぶ画面を「モードを選ぶ」「後で設定からも変えられる。」にし、記録なしとこどもは かなのまま PASS');}
+ // R372: adult mode listed bonds as 「しゅうりやさん」「ゲームの こ」 beside kanji 「守護霊」「お小遣い」. Adult shows adultName in the きずな menu and bond lines; kids keep kana.
+ {const read=r=>r.g.dialogue.lines.map(l=>l[1]).join('\n'),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  for(const [mode,names,gone,gave,deep] of [['adult',['［家］お母さん','［家］妹','［友］修理屋さん','［友］ゲームの子','［友］店員さん','［友］ハッカーさん','［恋］ミオ'],['しゅうりやさん','ゲームの こ','おかあさん'],'修理屋さんに\n','修理屋さんとの\nきずなが深まった！'],['kids',['［家］おかあさん','［家］いもうと','［友］しゅうりやさん','［友］ゲームの こ','［友］てんいんさん'],['修理屋さん','ゲームの子'],'しゅうりやさんに\n','しゅうりやさんとの\nきずなが ふかまった！']]){
+   const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+   for(const id of ['mother','sister','repair','kid','hacker','clerk','mio'])r.g.debugBond(id,2);
+   r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');const c=r.els.get('modal-copy').textContent;
+   for(const n of names)assert(c.includes(n),'R372 '+mode+' lists '+n+': '+c);for(const n of gone)assert(!c.includes(n),'R372 '+mode+' no '+n);for(const row of c.split('\n'))assert(wide(row)<=17,'R372 row fits '+row);
+   r.button(mode==='adult'?'戻る':'もどる');r.button(mode==='adult'?'戻る':'もどる');
+   r.g.state.items.drink=1;r.g.debugEvent([{gift:'drink',to:'repair'}]);assert(read(r).startsWith(gave),'R372 '+mode+' gift line: '+read(r));
+   for(let i=0;i<6&&r.g.dialogue&&!read(r).includes('きずなが');i++)r.click('dialogue');assert(read(r).includes(deep),'R372 '+mode+' deepen line: '+read(r));
+   if(mode==='adult')for(const row of read(r).split('\n'))assert(wide(row)<=12||/〔/.test(row),'R372 adult bond line fits '+row);while(r.g.dialogue)r.dialogue();}
+  result.push('R372: おとなモードのきずなの一覧と、きずなの台詞で、人の名前を「修理屋さん」「ゲームの子」などの漢字にし、こどもは かなのまま PASS');}
  result.push('R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS');
  // R147: the tap-for-music hint on the title is full gold (it was 70% see-through and sank into the night sky) with a dark outline.
  {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/color:#f1cd7c;/.test(css),'the hint is solid gold, not see-through: '+css);
@@ -1737,7 +1749,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
  for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const all=[];r.g.debugEvent([{bond:'mother',n:3}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const text=all.join('\n');
-  const want=adult?['おかあさんとの\nきずなが深まった！','おかあさんの守護霊が\n力を貸してくれた！\n〔if バリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
+  // R372: the adult name is お母さん (adultName).
+  const want=adult?['お母さんとの\nきずなが深まった！','お母さんの守護霊が\n力を貸してくれた！\n〔if バリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
   for(const w of want)assert(text.includes(w),mode+' R352 '+w+' in '+text);
   if(adult)assert(!/ふかまった|ちからを かして|えん もらった|おこづかい/.test(text),'R352 adult has no kana bond line '+text);else assert(!/深まった|力を貸して|円もらった|お小遣い/.test(text),'R352 kids keep kana '+text);
   for(const row of text.split('\n'))assert(wide(row)<=12,'R352 row fits '+row);
@@ -1752,7 +1765,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   st.items.rice=2;st.items.drink=0;lines([{gift:'rice',to:'mother'}]);
   const got={again:lines([{gift:'rice',to:'mother'}]),dislike:lines([{gift:'drink',to:'mother'}]),none:lines([{gift:'drink',to:'sister'}])};
   r.g.debugBond('kid',5);st.items.rice=1;got.full=lines([{gift:'rice',to:'kid'}]);
-  const want=adult?{again:'おにぎりは\nもうあげた。',dislike:'おかあさんは\n今はいらないみたい。',none:'エナジードリンクを\n持っていない。',full:'とは\nもう一番の仲良し。'}:{again:'おにぎりは\nもう あげた。',dislike:'おかあさんは\nいまは いらない みたい。',none:'エナジードリンクを\nもっていない。',full:'とは\nもう いちばんの なかよし。'};
+  const want=adult?{again:'おにぎりは\nもうあげた。',dislike:'お母さんは\n今はいらないみたい。',none:'エナジードリンクを\n持っていない。',full:'とは\nもう一番の仲良し。'}:{again:'おにぎりは\nもう あげた。',dislike:'おかあさんは\nいまは いらない みたい。',none:'エナジードリンクを\nもっていない。',full:'とは\nもう いちばんの なかよし。'};
   for(const k of Object.keys(want)){assert(got[k].includes(want[k]),mode+' R353 '+k+' '+got[k]);if(adult)for(const row of got[k].split('\n'))assert(wide(row)<=12,'R353 row fits '+row);}
   const text=Object.values(got).join('\n');if(adult)assert(!/もう あげた|いらない みたい|いちばんの なかよし|もっていない/.test(text),'R353 adult has no kana gift line '+text);else assert(!/今は|一番の仲良し|持っていない/.test(text),'R353 kids keep kana '+text);}}
  result.push('R353: おとなモードの贈り物のお知らせを「もうあげた。」「今はいらないみたい。」「もう一番の仲良し。」「持っていない。」にし、こどもモードは かなのまま PASS');
