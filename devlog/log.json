@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T04:45:33.059Z",
-  "branch": "claude/autodev-20261025-1321-R231",
-  "task": "R231 町のコンビニの前で、スマホの おねえさんの灰色の守護霊が信号の灯器に重なっていたので、おねえさんを東へ半マス動かした",
-  "summary": "コンビニの前で、おねえさんの守護霊が信号の灯器に重なっていた\nおねえさんを東へ半マス動かし、守護霊を信号と店の間の草地に出した\n守護霊が信号の絵に重ならないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/419/mobile-02-mode-select.jpg",
-   "shots/419/mobile-15-custom-full-run.jpg",
-   "shots/419/mobile-27-chapter-2-play.jpg",
-   "shots/419/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2f478da",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40162474954"
- },
- {
   "at": "2026-10-25T06:03:11.377Z",
   "branch": "claude/autodev-20261025-1421-R232",
   "task": "R232 ミナモのバスていの根元が車道と歩道の境に立ち、車道に立って見えたので、歩道の中へ半マス下げた",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d379e5d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41379554821"
+ },
+ {
+  "at": "2026-11-02T04:10:30.516Z",
+  "branch": "claude/autodev-20261102-1242-R392",
+  "task": "R392 ヒカクマオウ戦の上の帯「攻撃力」がボスのHPの下にあり、ボスの力に読めたので、おとなモードでは「自分の攻撃力」とした",
+  "summary": "ヒカクマオウ戦の上の帯を、おとなモードで「自分の攻撃力」にした\nこどもモードは「きみの こうげき」のままで、字は棒の手前に収まる\n確認役が挙げた4章ヒダマリの確かめ用スクショに矢印が無い件は次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/663/mobile-02-mode-select.jpg",
+   "shots/663/mobile-15-custom-full-run.jpg",
+   "shots/663/mobile-27-chapter-2-play.jpg",
+   "shots/663/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ff642ab",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41385815607"
  }
 ]
