@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T06:55:30.206Z",
-  "branch": "claude/autodev-20261025-1523-R233",
-  "task": "R233 戦闘でソラの光の下半分が RYOSEI と HP の欄に隠れて切れていたので、光を上と右へ動かした",
-  "summary": "戦闘でソラの光の下半分が RYOSEI と HP の欄に隠れていた\n光を25px上げ、大きいボスの絵にかからないよう45px右へ動かした\n光が欄で切れず、ボスにもかからないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/423/mobile-02-mode-select.jpg",
-   "shots/423/mobile-15-custom-full-run.jpg",
-   "shots/423/mobile-27-chapter-2-play.jpg",
-   "shots/423/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b9345d7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40170399188"
- },
- {
   "at": "2026-10-25T07:01:21.588Z",
   "branch": "claude/autodev-20261025-1541-R233",
   "task": "R233 戦闘で主人公が自販機の半分ほどの大きさしかなく小さく見えたので、足元はそのままで1.3倍に大きくした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "1717cea",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41406073800"
+ },
+ {
+  "at": "2026-11-02T09:54:08.114Z",
+  "branch": "claude/autodev-20261102-1842-R394",
+  "task": "R394 遊んで一番気になる所を1つ直す",
+  "summary": "武器の画面の最後を「持っていない武器は あと5つ。」にした\nこどもモードも「もっていない ぶきは あと 5つ。」にし、1行17字幅に収めた\n手元のテストの文言も合わせた。スクショは390x844で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/666/mobile-02-mode-select.jpg",
+   "shots/666/mobile-15-custom-full-run.jpg",
+   "shots/666/mobile-27-chapter-2-play.jpg",
+   "shots/666/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d573550",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41423177199"
  }
 ]
