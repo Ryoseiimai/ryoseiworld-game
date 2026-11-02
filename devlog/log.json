@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T04:15:20.844Z",
-  "branch": "claude/autodev-20261025-1221-R230",
-  "task": "R230 町の家の前で、おかあさんの灰色の守護霊が家の門の塀に重なり町のノイズに見えたので、おかあさんと自転車を西へ動かした",
-  "summary": "町の家の前で、おかあさんの守護霊が家の門の塀に重なっていた\nおかあさんを少し西へ、自転車をさらに西へ動かし、守護霊を草地に出した\n守護霊が家と自転車に重ならないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/418/mobile-02-mode-select.jpg",
-   "shots/418/mobile-15-custom-full-run.jpg",
-   "shots/418/mobile-27-chapter-2-play.jpg",
-   "shots/418/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "dfdaf8e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40160700742"
- },
- {
   "at": "2026-10-25T04:45:33.059Z",
   "branch": "claude/autodev-20261025-1321-R231",
   "task": "R231 町のコンビニの前で、スマホの おねえさんの灰色の守護霊が信号の灯器に重なっていたので、おねえさんを東へ半マス動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "ce8eb38",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41374359248"
+ },
+ {
+  "at": "2026-11-02T03:00:23.784Z",
+  "branch": "claude/autodev-20261102-1121-R391",
+  "task": "R391 パソコンで町を歩く時の案内の2行目が「矢印・WASDでも」で切れて見えたので、「矢印・WASDでも歩く」と最後まで書いた",
+  "summary": "町を歩く案内の2行目を「矢印・WASDでも歩く」と最後まで書いた（こどもは「でも あるく」）\n前回の「次」の件は、ボスが板より上にいて重なっていなかったので変えなかった\n確認役が挙げたおとなモードのせりふがひらがなの件などは、次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/662/mobile-02-mode-select.jpg",
+   "shots/662/mobile-15-custom-full-run.jpg",
+   "shots/662/mobile-27-chapter-2-play.jpg",
+   "shots/662/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "d379e5d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41379554821"
  }
 ]
