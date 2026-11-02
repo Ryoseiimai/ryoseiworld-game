@@ -1982,7 +1982,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R339: おとなモードで町の戦いの後の「修理された」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS');
  result.push('R394: 町の戦いで勝った後、戦闘の画面で出した経験値とお金を、マップの台詞でもう一度言わない PASS');
  // R394: the side-scrolling boss shows no rewards on its own screen, so its win in the field still says 経験値 and 円.
- {const r=await runtime();r.tick();r.start('adult');await settle();const D=r.g.GAME_DATA.dialogue;assert(D.zakoWinAdult.some(([,t])=>/\{exp\}/.test(t)),'zakoWin keeps the reward line for bossWon');}
+ // A rematch with a boss already beaten (no chapter clear, no winEvent) ends in bossWon's zakoWin lines.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+  r.g.state.bosses.push('bugking');r.g.debugStartBoss('bugking');if(r.g.modal==='cheats')r.button('はじめる');assert.equal(r.g.screen,'shooter',mode+' bugking rematch starts');
+  r.shooterRuns.at(-1).cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});const seen=[];for(let i=0;i<40&&(r.g.dialogue||!seen.length);i++){if(r.g.dialogue){seen.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}r.tick(200);}const all=seen.join('\n'),def=r.g.GAME_DATA.enemies.bugking;
+  assert(adult?all.includes('経験値 '+def.exp+'と\n'+def.money+'円をもらった。')&&all.includes('修理された。'):all.includes('けいけんち '+def.exp+'と\n'+def.money+'えんを もらった。')&&all.includes('しゅうりされた。'),mode+' boss rematch says the rewards in the field: '+all);}
+ result.push('R394: 横スクロールのボス戦に勝った後は、マップで経験値とお金を言う（こどもとおとなの両方） PASS');
  // R340: the bus stop and the station sign speak in kanji in adult mode (バス停・駅の看板); Sora's line keeps the story kana, and kids keep the hiragana ones.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
   for(const ev of ['busStop','trainStop']){r.g.debugWarp('town',8,27);r.tick(300);r.g.debugEvent(ev);r.tick(300);assert(r.g.dialogue,mode+' '+ev+' says the wait lines');const l=r.g.dialogue.lines;
