@@ -1,7 +1,7 @@
 Title → prologue → naming → Naoslime tutorial (no escape, summon hold timing) → bedroom PASS
 Walking portal, locked shop, police request, contact encounter and real victory PASS
 3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS
-Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines 67, ordinary battles 3 PASS
+Code Dragon via battery → BUG KING talk → kickboard lifts → shooter (lose: town / retry, then win) → town clears → first game at home (key item) → bus → 2しょう card (Z) → ミナモちょう, bus both ways; required lines 64, ordinary battles 3 PASS
 Reload → Enter on the focused つづきから restores map, position, level, battery, money, items, summons and cleared boss; title caption names the saved chapter PASS
 Lethal HP roll can be rescued by Naoslime before zero PASS
 Insufficient battery consumes no turn; arrow/WASD command cursor; Esc keeps focus; defeat restores last checkpoint PASS
@@ -172,7 +172,9 @@ R335: おとなモードの戦いで、実行・for ループ・生成・アイ�
 R336: おとなモードの町のお知らせ（保存した・保存できない・充電できる・向こうを向いて）を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R337: おとなモードのバスと電車の行き先の画面を「電車」「どこへ行く？」で出し、こどもモードは ひらがなのまま PASS
 R338: おとなモードで町のバス停と駅の札を「バス停」「駅」で出し、こどもモードは「バスてい」「えき」のまま PASS
-R339: おとなモードで町の戦いの後の「修理された」「経験値と円をもらった」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS
+R339: おとなモードで町の戦いの後の「修理された」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS
+R394: 町の戦いで勝った後、戦闘の画面で出した経験値とお金を、マップの台詞でもう一度言わない PASS
+R394: 横スクロールのボス戦に勝った後は、マップで経験値とお金を言う（こどもとおとなの両方） PASS
 R340: おとなモードでバス停と駅の看板の「次のバスは…」「電車は止まっています」を漢字で出し、こどもモードは ひらがなのまま PASS
 R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS
 R342: おとなモードで地図名を「塔1F」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS
