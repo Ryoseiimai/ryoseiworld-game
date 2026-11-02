@@ -349,6 +349,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R387: once the ending has played (flag towerEnded) the caption says the game is cleared, not 「続きは 第4章」.
   const dc={...d4,flags:{...(d4.flags||{}),towerEnded:true}},rc=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(dc)]])});rc.tick();
   assert.equal(rc.els.get('title-caption').textContent,adult?'全章クリア':'ぜんぶの しょう クリア','R387 cleared caption '+mode);assert(rc.els.get('title-hint').textContent.includes(adult?'遊べるよ':'あそべるよ'),'R387 cleared hint '+mode);}
+ // R389: while a window is open, the field's 話す button and walk help under it are hidden (they showed through cut by the window edge as broken letters).
+ assert(html.includes('#stage:has(#modal:not([hidden])) #talk-btn,#stage:has(#modal:not([hidden])) #walk-help{visibility:hidden}'),'R389 field controls hidden under a window');
+ result.push('R389: メニューなどの窓を開いている間は、後ろの「話す」ボタンと歩き方の案内を隠し、窓の縁で切れた字に見えない PASS');
  result.push('R387: 全章をクリアしたセーブでは、タイトルが「続きは 第4章」ではなく「全章クリア」になる PASS');
  result.push('R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS');
  result.push('R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS');
