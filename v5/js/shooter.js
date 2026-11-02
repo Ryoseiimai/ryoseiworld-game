@@ -2332,7 +2332,8 @@
     // R390: the label also says why the damage is half (the wall is hard, as ソラ's hint says), so it reads as a hint from the start.
     if (k === 'half') return adult ? '壁が固い ボスへのダメージ 半分' : 'かたい かべ ボスへの ダメージ はんぶん';
     if (k === 'color') return adult ? '色' : 'いろ'; // R329: the ジブン band, like ジブンに色が戻る
-    return adult ? '攻撃力' : 'きみの こうげき';
+    // R392: adult mode says whose power it is (自分の), like the kids' きみの, so it does not read as the boss's power under its HP bar.
+    return adult ? '自分の攻撃力' : 'きみの こうげき';
   }
   function drawTopBand(ctx, S, w) {
     var d = w.def, b = w.b;
