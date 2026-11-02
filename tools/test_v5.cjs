@@ -1421,9 +1421,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R315: the town walk help reads in kanji in adult mode (歩く, 矢印・WASDでも), like the boss fight's move hint (R314); kids mode keeps the hiragana words, and the settings switch changes it at once.
  {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(4000);for(let k=0;k<80&&r.g.dialogue;k++)r.dialogue();
   const t=()=>['walk-sp','walk-verb','walk-kbd'].map(id=>r.els.get(id).textContent);
-  assert.equal(r.g.state.mode,'adult');assert(JSON.stringify(t())===JSON.stringify(['','歩く','矢印・WASDでも']),'adult mode: ドラッグで歩く / 矢印・WASDでも '+t());
+  assert.equal(r.g.state.mode,'adult');assert(JSON.stringify(t())===JSON.stringify(['','歩く','矢印・WASDでも歩く']),'adult mode: ドラッグで歩く / 矢印・WASDでも歩く '+t());
   assert(!r.g.dialogue,'no talk left');r.click('menu-btn');r.button('設定');r.button('モード: おとな');assert.equal(r.g.state.mode,'kids','the settings switch went to kids mode');
-  assert(JSON.stringify(t())===JSON.stringify([' ','あるく','矢印 / WASD でも']),'kids mode keeps ドラッグで あるく / 矢印 / WASD でも '+t());}
+  assert(JSON.stringify(t())===JSON.stringify([' ','あるく','矢印 / WASD でも あるく']),'kids mode keeps ドラッグで あるく / 矢印 / WASD でも あるく '+t());}
  result.push('R315: 町の「ドラッグで あるく」の案内が、おとなモードでは「ドラッグで歩く」になり、こどもモードは今までどおり PASS');
  // R276: the see-through talk button keeps a dark plate behind its letters, so a signal pole behind it does not run through 「はなす」.
  {const rule=(html.match(/#talk-btn\.behind\{([^}]*)\}/)||[])[1]||'';assert(/background-image:radial-gradient\([^)]*#173e3c[0-9a-f]{2} \d+%/.test(rule),'the see-through talk button has a dark plate in the middle');assert(/#f1cd7c1a/.test(rule),'its edges stay see-through');}
