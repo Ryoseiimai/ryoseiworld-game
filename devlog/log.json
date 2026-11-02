@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T07:14:46.030Z",
-  "branch": "claude/autodev-20261025-1541-R233",
-  "task": "R233 戦闘でソラの光の下半分が RYOSEI と HP の欄に隠れて切れていたので、光を上と右へ動かした",
-  "summary": "戦闘の主人公が敵に比べて小さく見えたので、1.3倍に大きくした\n足元の高さは前と同じで、HP の欄と左はしにはかからない\n主人公の大きさと位置を確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/425/mobile-02-mode-select.jpg",
-   "shots/425/mobile-15-custom-full-run.jpg",
-   "shots/425/mobile-27-chapter-2-play.jpg",
-   "shots/425/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b436e6e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40171438354"
- },
- {
   "at": "2026-10-25T08:04:15.355Z",
   "branch": "claude/autodev-20261025-1621-R235",
   "task": "R235 ミナモのバスていの南で、木の葉が街灯の頭にふれていたので、木とおばさんを少し西へ動かした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e5ea0a8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41424207097"
+ },
+ {
+  "at": "2026-11-02T10:21:38.651Z",
+  "branch": "claude/autodev-20261102-1842-R394",
+  "task": "R394 町の戦いに勝つと、戦闘の画面で出した経験値とお金をマップでもう一度言っていたので、マップでは言わないようにした（横スクロールのボス戦の後はそのまま）",
+  "summary": "町の戦いに勝った後、マップで経験値とお金を言い直すのをやめた\n横スクロールのボス戦の後は、今までどおりマップで言う\n前と後のスクショは390x844で撮った。テストも足した",
+  "result": "pass",
+  "shots": [
+   "shots/670/mobile-02-mode-select.jpg",
+   "shots/670/mobile-15-custom-full-run.jpg",
+   "shots/670/mobile-27-chapter-2-play.jpg",
+   "shots/670/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "8af061b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41426118228"
  }
 ]
