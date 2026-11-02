@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-25T07:01:21.588Z",
-  "branch": "claude/autodev-20261025-1541-R233",
-  "task": "R233 戦闘で主人公が自販機の半分ほどの大きさしかなく小さく見えたので、足元はそのままで1.3倍に大きくした",
-  "summary": "戦闘の主人公が敵に比べて小さく見えたので、1.3倍に大きくした\n足元の高さは前と同じで、HP の欄と左はしにはかからない\n主人公の大きさと位置を確かめるテストを足した",
-  "result": "conflict",
-  "shots": [],
-  "sha": "04950fb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40171151571"
- },
- {
   "at": "2026-10-25T07:14:46.030Z",
   "branch": "claude/autodev-20261025-1541-R233",
   "task": "R233 戦闘でソラの光の下半分が RYOSEI と HP の欄に隠れて切れていたので、光を上と右へ動かした",
@@ -2978,5 +2968,20 @@
   ],
   "sha": "d573550",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41423177199"
+ },
+ {
+  "at": "2026-11-02T10:07:37.841Z",
+  "branch": "claude/autodev-20261102-1842-R394",
+  "task": "R394 遊んで一番気になる所を1つ直す",
+  "summary": "武器の画面の最後を「持っていない武器は あと5つ。」にした\nこどもモードも「もっていない ぶきは あと 5つ。」にし、1行17字幅に収めた\n手元のテストの文言も合わせた。スクショは390x844で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/668/mobile-02-mode-select.jpg",
+   "shots/668/mobile-15-custom-full-run.jpg",
+   "shots/668/mobile-27-chapter-2-play.jpg",
+   "shots/668/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "e5ea0a8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41424207097"
  }
 ]
