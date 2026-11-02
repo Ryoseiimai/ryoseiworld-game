@@ -1107,10 +1107,10 @@ async function browserAdapterChecks() {
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
   globalThis.RYW.setMode('adult'); const a = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
-  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === 'ボスへのダメージ 半分' && a[2] === '攻撃力', a);
+  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === '壁が固い ボスへのダメージ 半分' && a[2] === '攻撃力', a);
   check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0]) <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
   globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
-  check('R327: こどもモードの上の帯の字は今までどおり', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
+  check('R327/R390: こどもモードの上の帯の字は今までどおり（はんぶんの時は かたい かべ の理由つき）', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'かたい かべ ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
   globalThis.RYW.setMode(old || 'kids');
 })();
 

@@ -2329,7 +2329,8 @@
   function bandLabel(k, sec) {
     var adult = RYW.mode === 'adult';
     if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
-    if (k === 'half') return adult ? 'ボスへのダメージ 半分' : 'ボスへの ダメージ はんぶん';
+    // R390: the label also says why the damage is half (the wall is hard, as ソラ's hint says), so it reads as a hint from the start.
+    if (k === 'half') return adult ? '壁が固い ボスへのダメージ 半分' : 'かたい かべ ボスへの ダメージ はんぶん';
     if (k === 'color') return adult ? '色' : 'いろ'; // R329: the ジブン band, like ジブンに色が戻る
     return adult ? '攻撃力' : 'きみの こうげき';
   }
