@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T06:03:11.377Z",
-  "branch": "claude/autodev-20261025-1421-R232",
-  "task": "R232 ミナモのバスていの根元が車道と歩道の境に立ち、車道に立って見えたので、歩道の中へ半マス下げた",
-  "summary": "ミナモのバスていの根元が車道の端にあり、車道に立って見えた\nバスていを歩道の中へ半マス下げ、すぐ南の街灯も半マス下げた\nバスていが車道から離れて立つことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/422/mobile-02-mode-select.jpg",
-   "shots/422/mobile-15-custom-full-run.jpg",
-   "shots/422/mobile-27-chapter-2-play.jpg",
-   "shots/422/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d7aed88",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40167163450"
- },
- {
   "at": "2026-10-25T06:55:30.206Z",
   "branch": "claude/autodev-20261025-1523-R233",
   "task": "R233 戦闘でソラの光の下半分が RYOSEI と HP の欄に隠れて切れていたので、光を上と右へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "ff642ab",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41385815607"
+ },
+ {
+  "at": "2026-11-02T07:33:36.168Z",
+  "branch": "claude/autodev-20261102-1542-R393",
+  "task": "R393 武器の画面の最後が「あと5つ。」だけで何の数か分からなかったので、「持っていない武器は あと5つ。」とした",
+  "summary": "武器の画面の最後を「持っていない武器は あと5つ。」にした\nこどもモードも「もっていない ぶきは あと 5つ。」にし、1行17字幅に収めた\n手元のテストの文言も合わせた。スクショは390x844で確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/664/mobile-02-mode-select.jpg",
+   "shots/664/mobile-15-custom-full-run.jpg",
+   "shots/664/mobile-27-chapter-2-play.jpg",
+   "shots/664/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "1717cea",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41406073800"
  }
 ]
