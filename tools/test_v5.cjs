@@ -1972,11 +1972,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R338: おとなモードで町のバス停と駅の札を「バス停」「駅」で出し、こどもモードは「バスてい」「えき」のまま PASS');
  // R339: after a town fight the field lines 「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」 read in kanji in adult mode; kids keep the hiragana ones.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
-  const st=r.g.state;st.exp=st.level*r.g.GAME_DATA.rules.expStep-1;r.g.debugStartBattle('popup','r339');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.g.debugWin();r.tick(2100);
+  const st=r.g.state;st.exp=st.level*r.g.GAME_DATA.rules.expStep-1;r.g.debugStartBattle('popup','r339');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);r.g.debugWin();const shown=r.els.get('battle-log').textContent;r.tick(2100);
   assert(r.g.dialogue,mode+' field lines after the win');const seen=[];while(r.g.dialogue){seen.push(...r.g.dialogue.lines.map(l=>l[1]));r.dialogue();}const all=seen.join('\n');
-  if(adult){assert(all.includes('修理された。')&&/経験値 \d+と\n\d+円をもらった。/.test(all)&&/レベル \d+ になった！\nHP\+\d+ 攻撃力\+\d+/.test(all),all);assert(!/しゅうりされた|けいけんち|えんを もらった|に なった！|こうげき/.test(all),'adult lines in kanji: '+all);}
-  else{assert(all.includes('しゅうりされた。')&&/けいけんち \d+と\n\d+えんを もらった。/.test(all)&&/レベル \d+ に なった！\nHP\+\d+ こうげき\+\d+/.test(all),all);assert(!/修理|経験値|円を|攻撃力/.test(all),'kids lines in hiragana: '+all);}}
- result.push('R339: おとなモードで町の戦いの後の「修理された」「経験値と円をもらった」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS');
+  if(adult){assert(all.includes('修理された。')&&/レベル \d+ になった！\nHP\+\d+ 攻撃力\+\d+/.test(all),all);assert(!/しゅうりされた|けいけんち|えんを もらった|に なった！|こうげき/.test(all),'adult lines in kanji: '+all);}
+  else{assert(all.includes('しゅうりされた。')&&/レベル \d+ に なった！\nHP\+\d+ こうげき\+\d+/.test(all),all);assert(!/修理|経験値|円を|攻撃力/.test(all),'kids lines in hiragana: '+all);}
+  // R394: the battle screen shows 経験値 and 円 under the win line; the field lines after it do not say them again.
+  assert(adult?/経験値 \d+　\d+円/.test(shown):/けいけんち \d+　\d+えん/.test(shown),mode+' rewards on the battle screen: '+shown);
+  assert(!/をもらった|を もらった|経験値|けいけんち/.test(all),mode+' rewards not repeated in the field: '+all);}
+ result.push('R339: おとなモードで町の戦いの後の「修理された」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS');
+ result.push('R394: 町の戦いで勝った後、戦闘の画面で出した経験値とお金を、マップの台詞でもう一度言わない PASS');
+ // R394: the side-scrolling boss shows no rewards on its own screen, so its win in the field still says 経験値 and 円.
+ {const r=await runtime();r.tick();r.start('adult');await settle();const D=r.g.GAME_DATA.dialogue;assert(D.zakoWinAdult.some(([,t])=>/\{exp\}/.test(t)),'zakoWin keeps the reward line for bossWon');}
  // R340: the bus stop and the station sign speak in kanji in adult mode (バス停・駅の看板); Sora's line keeps the story kana, and kids keep the hiragana ones.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
   for(const ev of ['busStop','trainStop']){r.g.debugWarp('town',8,27);r.tick(300);r.g.debugEvent(ev);r.tick(300);assert(r.g.dialogue,mode+' '+ev+' says the wait lines');const l=r.g.dialogue.lines;
