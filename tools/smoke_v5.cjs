@@ -176,9 +176,14 @@ async function runViewport(browser, url, vp, errors, shots) {
       if (R && typeof R.learnQuiet === 'function') for (const id of ['hp', 'glitch']) R.learnQuiet(id); });
     const custom = await page.evaluate(() => Array.isArray(window.__v5.smokeScenes) ? window.__v5.smokeScenes.map(s => s && s.name).filter(Boolean) : []);
     for (const name of custom) {
-      try { await page.evaluate(nm => window.__v5.smokeScenes.find(s => s.name === nm).run(), name); await settle(); await shot('custom-' + name);
+      // R397: a scene with keep:true shows a message on purpose; settle() would click it away before the shot.
+      try { const keep = await page.evaluate(nm => { const s = window.__v5.smokeScenes.find(x => x.name === nm); return Promise.resolve(s.run()).then(() => !!s.keep); }, name);
+        if (!keep) await settle(); await shot('custom-' + name);
         const tut = await page.evaluate(() => { const q = document.querySelector('#quest'), s = window.__v5; return s.screen === 'field' && q && q.offsetParent && /ナオスライム/.test(q.textContent) ? q.textContent.trim() : ''; });
         if (tut) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene ${name}: the goal line still asks for the tutorial after it was done: ${tut}`) });
+        // R397: the bond scene used to hide the message before the shot, so it showed a plain town map.
+        if (name === 'bond-reward') { const said = await page.evaluate(() => { const d = document.getElementById('dialogue'); return d && !d.hidden ? d.textContent : ''; });
+          if (!/きずなが ?(深|ふか)まった/.test(said)) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene bond-reward: the bond message is not on screen: ${said.slice(0, 40)}`) }); }
         // R142: a window's text must not run past its right edge (a long line with no spaces did, in the quiz answer).
         const wide = await page.evaluate(() => { const m = document.getElementById('modal'), c = document.getElementById('modal-copy'); const p = m && m.firstElementChild; return m && !m.hidden && c && (c.scrollWidth > c.clientWidth + 1 || p && p.scrollWidth > p.clientWidth + 1) ? c.textContent.slice(0, 40) : ''; });
         if (wide) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`custom scene ${name}: the window text runs past the edge: ${wide}`) }); }
