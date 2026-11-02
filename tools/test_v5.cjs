@@ -2983,6 +2983,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.cmd('summon');r.button('ナオスライム');assert.deepEqual(on(),[],'R380: the ring goes once the summon is used');r.tick(2400);assert.deepEqual(on(),[],'R380: and stays off on the next turn');
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/#commands button\.nudge:not\(:disabled\)\{outline:3px dashed #f5cf78/.test(html),'R380: the nudge ring is gold, dashed (the focus ring is solid) and off while the button is disabled');}
  result.push('R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS');
+ // R395: the ノーツ hint said 「流れてくる印に合わせよう」 but the boss screen shows no 印 near it; the marks run along the bottom line into the ring at its left end (shooter.js drawRhythm), so the hint says where to look.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);assert(m,'R395: notes entry');
+  assert(/下/.test(m[1])&&/輪/.test(m[1])&&/押/.test(m[1]),'R395: adult hint names the bottom line, the ring and the press: '+m[1]);assert(/した/.test(m[2])&&/わ/.test(m[2])&&/おそう/.test(m[2]),'R395: kids hint too: '+m[2]);
+  assert([...m[2]].length<=30&&[...m[1]].length<=30,'R395: hints stay within 30 letters');
+  const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/var nx = x \+ \(i - r\.phase\) \* 68/.test(sh)&&/ctx\.arc\(x, y, 17 \+ pulse/.test(sh),'R395: the marks still move left into the ring at the line\'s left end');}
+ result.push('R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
