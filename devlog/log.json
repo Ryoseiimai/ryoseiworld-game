@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T02:53:12.556Z",
-  "branch": "claude/autodev-20261025-1121-R229",
-  "task": "R229 BUG KING 戦で、町の電柱がガードレールと石垣の前を通って道まで立っていたので、柱をガードレールの上で止めた",
-  "summary": "BUG KING 戦で、町の電柱がガードレールと石垣の前を通って道まで立っていた\n電柱を、背景の絵の電柱と同じくガードレールの上で止めた\n町の電柱が道まで立たないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/417/mobile-02-mode-select.jpg",
-   "shots/417/mobile-15-custom-full-run.jpg",
-   "shots/417/mobile-27-chapter-2-play.jpg",
-   "shots/417/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7c9bc8c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40155553601"
- },
- {
   "at": "2026-10-25T04:15:20.844Z",
   "branch": "claude/autodev-20261025-1221-R230",
   "task": "R230 町の家の前で、おかあさんの灰色の守護霊が家の門の塀に重なり町のノイズに見えたので、おかあさんと自転車を西へ動かした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "6ebc52d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41370053259"
+ },
+ {
+  "at": "2026-11-02T01:57:17.359Z",
+  "branch": "claude/autodev-20261102-1021-R390",
+  "task": "R390 カテイノジジョウ戦の上の帯が「ボスへのダメージ 半分」だけで理由が分からなかったので、「壁が固い」と理由を足した",
+  "summary": "カテイノジジョウ戦の上の帯に、ダメージが半分の理由「壁が固い」を足した\nこどもモードは「かたい かべ ボスへの ダメージ はんぶん」で、画面の中に収まる\n確認役の2番目「指を滑らせて動く」の板がボスに重なる件は、次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/661/mobile-02-mode-select.jpg",
+   "shots/661/mobile-15-custom-full-run.jpg",
+   "shots/661/mobile-27-chapter-2-play.jpg",
+   "shots/661/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "ce8eb38",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41374359248"
  }
 ]
