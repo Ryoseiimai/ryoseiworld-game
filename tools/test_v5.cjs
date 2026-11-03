@@ -2997,6 +2997,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert([...m[2]].length<=30&&[...m[1]].length<=30,'R395: hints stay within 30 letters');
   const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/var nx = x \+ \(i - r\.phase\) \* 68/.test(sh)&&/ctx\.arc\(x, y, 17 \+ pulse/.test(sh),'R395: the marks still move left into the ring at the line\'s left end');}
  result.push('R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS');
+ // R399: the battle commands 実行/作る/呼び出す gave no clue which one attacks. Until the first 実行, the encounter line says 「実行」で攻撃しよう; after it, the line is the old one.
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
+  r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const fresh=tag=>{r.g.debugStartBattle('popup',tag);r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);return r.els.get('battle-log').textContent;};
+  const hint=adult?'「実行」で攻撃しよう。':'「じっこう」で こうげき しよう。';
+  let l=fresh('r399a');assert(l.includes(adult?'が現れた！':'が あらわれた！')&&l.endsWith('\n'+hint),mode+' R399 first battle: '+l);
+  assert(l.split('\n').length<=3,mode+' 3 rows: '+l);assert(wide(hint)<=16,mode+' the added row fits: '+hint);
+  r.g.battle.enemy.hp=r.g.battle.enemy.displayHp=r.g.battle.enemy.maxHp=999;r.cmd('attack');r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  l=fresh('r399b');assert(l.includes(adult?'が現れた！':'が あらわれた！')&&!l.includes(hint),mode+' R399 after the first 実行 the hint is gone: '+l);}
+ result.push('R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS');
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
