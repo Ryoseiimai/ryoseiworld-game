@@ -184,7 +184,9 @@
       moveA: 120, moveF: 0.45, color: '#ffc27a',
       lines: { intro: ['カテイノジジョウ', 'しょうらい\nどうするの？'],
         bursts: { 75: '…ほんとは\nしんぱいなだけ', 50: 'あの子 なにか\nつくってるの?', 25: 'ちょっと みせて', 0: '…すごいじゃない' },
-        hint: ['ソラ', 'かべは かたい。とくぎで ゲームを みせて みよう'], owlHint: ['サーチフクロウ', 'みせる と いい'],
+        // R400: the first hint names the button (「プレイテスト」 at the bottom right), not 「とくぎ」, so players know what to press before hint2 at 16 s.
+        hint: ['ソラ', 'かべは かたい。みぎしたの\n「' + word('playtest', 'みせる') + '」で ゲームを みせよう'],
+        owlHint: ['サーチフクロウ', '「' + word('playtest', 'みせる') + '」で みせると いい'],
         hint2: ['ソラ', 'みぎしたの「' + word('playtest', 'みせる') + '」を おして みよう'],
         show: ['RYOSEI', 'はじめて つくった ゲーム を みせた！'],
         win: 'カテイノジジョウは おとなしく なった', winAdult: 'カテイノジジョウは\nおとなしくなった' }

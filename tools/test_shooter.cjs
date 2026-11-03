@@ -1081,6 +1081,8 @@ async function browserAdapterChecks() {
   check('R386: おとなモードのヒントのかぎかっこの中は拾う物の名前と同じ', a[0] === 'ソラ' && q(a) === sim.noticeText('paceItem') && q(a) === '自分のペース', a);
   check('R386: 上書きの hint があればそれを使う', sim.createWorld({ seed: 7, boss: 'hikaku', lines: { hint: ['ソラ', 'X'] } }).lines.hint[1] === 'X');
   check('R386: ほかのボスのヒントは今までどおり', sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint[1] === B.kateino.lines.hint[1]);
+  // R400: the カテイノジジョウ hints name the button the player presses (its label is word('playtest')), not 「とくぎ」.
+  for (const kh of [sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint, B.kateino.lines.owlHint]) check('R400: カテイノジジョウのヒントはボタンの名前「' + globalThis.RYW.word('playtest') + '」を言う', q(kh) === globalThis.RYW.word('playtest') && !kh[1].includes('とくぎ'), kh);
   globalThis.RYW.setMode('kids');
   const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386: こどもモードのヒントは今までどおり', k[1] === 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう' && q(k) === sim.noticeText('paceItem'), k);
