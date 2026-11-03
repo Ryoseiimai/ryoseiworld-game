@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T13:08:45.620Z",
-  "branch": "claude/autodev-20261025-2122-R240",
-  "task": "R240 ネオンのかずの人の札が頭から離れて街灯の根元のすぐ下にあり、街灯の札に見えたので、札を頭のすぐ上に下げた",
-  "summary": "ネオンのかずの人の札を、頭のすぐ上に12px下げた\n札の上の「かずの ひと」の名前札も、同じだけ下げた\n4人とも札が頭の上で街灯の根元から離れるかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/432/mobile-02-mode-select.jpg",
-   "shots/432/mobile-15-custom-full-run.jpg",
-   "shots/432/mobile-27-chapter-2-play.jpg",
-   "shots/432/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4fe43ae",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40195645369"
- },
- {
   "at": "2026-10-25T14:05:59.909Z",
   "branch": "claude/autodev-20261025-2222-R241",
   "task": "R241 ボス戦で BUG KING とカテイノジジョウが足元に何もなく宙に浮いて見えたので、足元に影を描いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "910381e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41573774126"
+ },
+ {
+  "at": "2026-11-03T04:29:26.082Z",
+  "branch": "claude/autodev-20261103-1241-R399",
+  "task": "R399 戦いのコマンドの名前だけでは、どれで攻撃するか分からなかったので、初めて「実行」を使うまで出だしに「「実行」で攻撃しよう。」と出した",
+  "summary": "戦いのコマンドの名前だけでは、どれで攻撃するか分からなかった\n初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出した\n鍵のブランチは今回の指示で push できる先でないので、取らずに進めた",
+  "result": "pass",
+  "shots": [
+   "shots/678/mobile-02-mode-select.jpg",
+   "shots/678/mobile-15-custom-full-run.jpg",
+   "shots/678/mobile-27-chapter-2-play.jpg",
+   "shots/678/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "f9bd282",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41577540692"
  }
 ]
