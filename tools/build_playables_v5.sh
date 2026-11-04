@@ -89,6 +89,18 @@ with tempfile.TemporaryDirectory(prefix='.playables_v5-', dir=dist) as temp:
     for bg in ('bg_town.png', 'bg_minamo.png', 'bg_neon.png', 'bg_tower.png'):
         shutil.copy2(v5 / 'assets' / bg, bundle / 'assets' / bg)
 
+    # OutGame art (the title logo etc.) ships as-is; index.html reads it through <img src>.
+    outgame_src = v5 / 'assets' / 'outgame'
+    outgame_out = bundle / 'assets' / 'outgame'
+    if outgame_src.is_dir():
+        outgame_out.mkdir(parents=True)
+        for f in sorted(outgame_src.iterdir()):
+            if f.is_symlink() or not f.is_file() or not re.fullmatch(r'[-a-zA-Z0-9_]+\.png', f.name):
+                continue
+            if f.stat().st_size > 8 * 1024 * 1024:
+                raise SystemExit(f'OutGame asset over 8MB: {f.name}')
+            shutil.copy2(f, outgame_out / f.name)
+
     sizes = [(p.stat().st_size, p.relative_to(bundle)) for p in bundle.rglob('*') if p.is_file()]
     total = sum(size for size, _ in sizes)
     largest, largest_path = max(sizes)
