@@ -3007,6 +3007,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.battle.enemy.hp=r.g.battle.enemy.displayHp=r.g.battle.enemy.maxHp=999;r.cmd('attack');r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   l=fresh('r399b');assert(l.includes(adult?'が現れた！':'が あらわれた！')&&!l.includes(hint),mode+' R399 after the first 実行 the hint is gone: '+l);}
  result.push('R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS');
+ await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
 })().catch(error=>{console.error(error);process.exitCode=1});
