@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-lead-og-anime-cta",
+  "sha": "449c6c488ff17469b859cb837dcc9b498b6787fa",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/689/mobile-02-mode-select.jpg",
+    "devlog/shots/689/mobile-17-custom-og-chapter-card.jpg",
+    "devlog/shots/689/mobile-31-chapter-2.jpg",
+    "devlog/shots/689/mobile-46-battle-bugking.jpg"
+  ],
+  "at": "2026-11-04T14:04:30.638Z",
+  "merged_sha": "449c6c488ff17469b859cb837dcc9b498b6787fa",
+  "tested_base": "98c20261f8f2f0edc87aa440bae42d3dab7acaa6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41841788976"
+}

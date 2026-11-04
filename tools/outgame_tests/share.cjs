@@ -88,14 +88,14 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
   {
     const r = await inField();
     const t = clone(raw);
-    // The bad row's index depends on how many rows ship today, not on og-share's own count: later
-    // 課題 append their own items before this test runs, so this is read from `raw`, not hardcoded.
-    const badIndex = t.items.length;
+    // The bad row's index grows as later 課題 (og-anime-cta, og-ending-epilogue, og-achievement) add
+    // their own rows to the shipped table, so this reads the table's own length instead of a fixed '1'.
+    const badAt = t.items.length;
     t.items.push(rowOf({ id: 'bad', do: 'nope' }));
     const errors = [], real = console.error;
     console.error = (...a) => errors.push(a.join(' '));
     try { r.RYW.registerOutGame(t); } finally { console.error = real; }
-    assert(errors.some(e => e.includes('items.' + badIndex)), 'the bad row is reported: ' + errors.join('|'));
+    assert(errors.some(e => e.includes('items.' + badAt)), 'the bad row is reported: ' + errors.join('|'));
     const left = OG(r)._sim.table().items.map(it => it.id);
     assert.equal(left.join(), raw.items.map(it => it.id).join(), 'only the bad row goes: ' + left);
     assert.equal(OG(r).buttons('challenge-result').length, 1, 'the good row still works');
@@ -381,14 +381,15 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     const r = await inField();
     const t = clone(raw);
     t.links.anime = STAND_IN_ANIME;
-    // og-anime-cta already ships a real row with id 'anime' (in: ['title']); this one tests the same
-    // `do:'open'` mechanics for a place that row does not reach yet, so it needs its own id.
+    // og-anime-cta and og-credit already ship real rows with ids 'anime' and 'about'; this one tests
+    // the same `do:'open'`/`do:'view'` mechanics for a place those rows do not reach yet, so it needs
+    // its own ids.
     t.items.push(
       { id: 'anime-test', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
-      { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
-    // og-achievement: merged, not replaced, so a real view a later 課題 ships (records) survives this
-    // test's own sandbox table alongside the 'about' view made up for this test.
-    t.views = { ...t.views, about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
+      { id: 'about-test', do: 'view', view: 'about-test', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
+    // og-credit and og-achievement already ship real views ('about', 'records'); this merges its own
+    // sandbox view in instead of replacing t.views, so those shipped views survive this test's table.
+    t.views['about-test'] = { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
       { text: ['作った', 'つくった'] }, { text: ['音楽', 'おんがく'], when: { music: true } }, { text: ['アニメ', 'あにめ'], when: { link: 'anime' } }] };
     assert.equal(validate(t).length, 0, JSON.stringify(validate(t)));
@@ -402,7 +403,7 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     assert.equal(r.win.location.href, STAND_IN_ANIME);
     endRun(r, { stage: 1, bestCombo: 1 });
     r.button('このゲームについて');
-    assert.equal(r.g.modal, 'og-about');
+    assert.equal(r.g.modal, 'og-about-test');
     assert.equal(copyText(r), '作った\n\nアニメ', 'lines obey when');
     r.button('戻る');
     assert.equal(r.g.modal, 'challenge-result', 'back returns where it came from');

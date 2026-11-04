@@ -9,14 +9,19 @@
   // Where a row can sit. Only this table knows DOM ids. A slot with a host is drawn into the DOM by
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
-  // og-ending-epilogue adds credit-card, settings, about here.
-  // `title` has no `screen`: screen() (index.html) calls mount('title') itself right after onScreen(name),
-  // so title() stays untouched (design_a.md 1.3), the same way chapterClear() calls mount('chapter-card')
-  // after endingCard().
+  // og-ending-epilogue adds credit-card, settings; og-achievement adds menu here. views.about
+  // (js/outgame.js reads it through openView) reuses credit-card for its own rows, so "about" is a
+  // view id, not a SLOT; "records" is the same: no item is ever placed in:['records'], so it only
+  // needs its own window (see openView calls below), not a SLOTS entry. `title` has no `screen`:
+  // screen() (index.html) calls mount('title') itself right after onScreen(name), so title() stays
+  // untouched (design_a.md 1.3), the same way chapterClear() calls mount('chapter-card') after
+  // endingCard().
   const SLOTS = {
     title: { host: 'title-links', max: 2, wide: 7 },
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
     'challenge-result': { wide: 16 },
+    'credit-card': { host: 'ending-links', screen: 'ending', max: 2, wide: 16 },
+    settings: {},
     // og-achievement: holds the 記録 row inside menu()'s own modal (index.html). No DOM host: it is
     // mixed into menu()'s button list like challenge-result is mixed into showResult()'s.
     menu: {},
@@ -144,8 +149,9 @@
   const DO = {
     open: { ok: (it, c) => c.env === 'web' && !!T.links[it.link], run: (it, c) => openExternal(T.links[it.link], c, c.back || P.close) },
     share: { ok: (it, c, slot) => c.env === 'web' && !!T.links.game && !!T.shareTexts[slot]?.length, run: (it, c, slot) => share(slot, c) },
-    // `env === 'web'` keeps this consistent with `open` and `share`: nothing OutGame shows under the
-    // Playables SDK stub, even though js/outgame.js never actually ships in that bundle (design_final.md 11).
+    // `env === 'web'` keeps this consistent with `open` and `share`: a view is just text and a share
+    // row, but it still disappears on Playables, even though js/outgame.js never actually ships in
+    // that bundle (design_final.md 11).
     view: { ok: (it, c) => c.env === 'web', run: (it, c) => openView(it.view, c) },
   };
 

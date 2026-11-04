@@ -328,6 +328,9 @@ let endingPreload=[];
 function endingTowns(list,done){if(!list.length){done();return;}endingPreload=typeof Image==='function'?list.filter(t=>t.bg).map(t=>{const im=new Image();im.src='assets/'+t.bg+'.png';return im;}):[];const mine=endingPreload,end=done;done=()=>{if(endingPreload===mine)endingPreload=[];end();};let i=0;const showNext=()=>{const t=list[i++];endingCard(t.heading,i<list.length?showNext:done,menuLabel('直った町','なおった まち'),t.copy,t.bg,menuLabel('次へ','つぎへ'));};showNext();}
 // R30: エピローグ（SPEC_V5_CH234.md「rpg.html のエピローグ」）。入力は保存も送信もせず、この場で消す。何を書いても「わかった。つくろう」と返す。
 // R362: the epilogue card's eyebrow and the input hint are UI (SPEC_V7_MANABU.md 9), so adult mode reads 「THE END の後」「何でも書いてね」 next to the 送る button. Sora's line stays story kana.
+// og-ending-epilogue: the OutGame table's credits card ('THE END'), shown after the towns and before
+// the epilogue. No new g.screen: it is one more endingCard(), like the town cards before it.
+function creditCard(id,done){const card=id&&OG()?.cards(id)?.[0];if(!card){done();return;}endingCard(card.heading,done,card.eyebrow,card.copy,null,menuLabel('次へ','つぎへ'));OG()?.mount('credit-card',{});}
 function startEpilogue(next){screen('epilogue');epilogueStage='ask';epilogueDone=next;$('epilogue-speaker').textContent=g.aiName||'ソラ';$('epilogue-text').textContent='つぎは なにを つくる?';$('epilogue-input').hidden=false;$('epilogue-input').value='';$('epilogue-send').hidden=false;$('epilogue-send').textContent=menuLabel('送る','おくる');$('epilogue-eyebrow').textContent=menuLabel('THE END の後','THE END のあと');$('epilogue-input').placeholder=menuLabel('何でも書いてね','なんでも かいてね');$('epilogue-input').setAttribute('aria-label',menuLabel('次に作るもの','つぎに つくるもの'));$('epilogue-input').focus();}
 function epilogueAnswer(){if(epilogueStage!=='ask')return;const made=$('epilogue-input').value.trim();$('epilogue-input').value='';$('epilogue-input').hidden=true;$('epilogue-send').hidden=true;epilogueStage='response';$('epilogue-speaker').textContent=g.aiName||'ソラ';$('epilogue-text').textContent=made?`「${made}」\nいいね。わたしも つくる`:'わかった。つくろう';const done=epilogueDone;epilogueDone=null;later(()=>{epilogueStage='';title();if(done)done();},2200);}
 // R387: after the ending (flag towerEnded) the title still read 「続きは 第4章 ノイズの塔」 as if the story went on (mobile-15). A cleared save reads 「全章クリア」 instead.
@@ -408,7 +411,7 @@ function closeModal(){cancelShop();const wasOpen=!$('modal').hidden,back=modalRe
 function statusLines(){const next=g.level*GAME_DATA.rules.expStep;return`Lv ${g.level}　HP ${g.hero.hp} / ${g.hero.maxHp}\n`+menuLabel(`攻撃力 ${attack()}　電池 ${g.battery}％\nお金 ${g.money}円\n経験値 ${g.exp} / ${next}`,`こうげき ${attack()}　でんち ${g.battery}％\nおかね ${g.money}えん\nけいけんち ${g.exp} / ${next}`);}
 // R319: the menu's title and its talk/save and pause buttons read in kanji in adult mode (SPEC_V7_MANABU.md 9). Kids keep the hiragana ones.
 function menu(){if(protoActive||g.screen!=='field'||dialogue||gameTime<g.holdUntil)return;openModal(menuLabel(g.aiName+'と一休み',g.aiName+'と ひとやすみ'),quest(),[{text:word('status','つよさ'),action:()=>{window.RYW.learn('status');openModal(word('status','つよさ'),statusLines(),[{text:backLabel(),action:menu}]);}},{text:word('item','どうぐ'),action:()=>itemsMenu(false)},{text:menuLabel('武器','ぶき'),action:weaponsMenu},{text:menuLabel('召喚獣','しょうかんじゅう'),action:()=>openModal(menuLabel('召喚獣','しょうかんじゅう'),g.summons.map(k=>summonLabel(k)+'\n'+summonDesc(k)).join('\n\n'),[{text:backLabel(),action:menu}])},{text:'きずな',action:bondsMenu},{text:'ことばノート',action:noteMenu},...(OG()?.buttons('menu',{back:menu})||[]),...(challengeUnlocked()?[{text:'チャレンジ',action:()=>openChallenge()}]:[]),...(!isPlayables()?[{text:'デバッグモード',action:()=>openCheats()}]:[]),{text:'設定',action:openSettings},{text:menuLabel(g.aiName+'に話す・セーブ',g.aiName+'に はなす・セーブ'),action:()=>{closeModal();sayKey('pc',()=>saveGame());}},{text:menuLabel('一休み','ひとやすみ'),action:()=>{closeModal();manualPaused=true;syncPause();}},{text:backLabel(),action:closeModal}]);}
-function openSettings(){openModal('設定','',[{text:'モード: '+(g.mode==='adult'?'おとな':'こども'),action:()=>{g.mode=g.mode==='adult'?'kids':'adult';applyMode();saveGame(false);openSettings();}},{text:backLabel(),action:menu}],'settings');}
+function openSettings(){openModal('設定','',[{text:'モード: '+(g.mode==='adult'?'おとな':'こども'),action:()=>{g.mode=g.mode==='adult'?'kids':'adult';applyMode();saveGame(false);openSettings();}},...(OG()?.buttons('settings',{back:openSettings})||[]),{text:backLabel(),action:menu}],'settings');}
 // Vocabulary cards use the game clock, so host pause freezes them. A boss collects at most two for its prelude.
 const WORD_KINDS={code:['コード','#8de2ff'],game:['ゲームづくり','#f1cd7c'],ai:['AI','#d9b5ff'],net:['ネット','#a1edb0']};
 // R358: the kind heading in ことばノート and 種類 in a word's page are part of the learning side (SPEC_V7_MANABU.md 9). Adult mode reads 「ゲーム作り」 like the title's 「ゲーム作りと AIを学ぶ」; kids keep 「ゲームづくり」.
@@ -521,7 +524,9 @@ function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||pro
  if(next)buttons.push({text:startLabel(),action:()=>{closeModal();next();}});
  buttons.push({text:backLabel(),action:closeModal});
  const adult=g.mode==='adult';
- openModal('デバッグモード',owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ'),buttons,'cheats');return true;}
+ const isChallengeDoor=!!next&&!owned&&!test;
+ const body=owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ');
+ openModal(isChallengeDoor?'チャレンジ':'デバッグモード',isChallengeDoor?recordText(g.challenge.best)+'\n'+body:body,buttons,'cheats');return true;}
 function cleanRecord(r){return Object.fromEntries(Object.keys(freshRecord()).map(k=>[k,Math.max(0,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(num(r?.[k],0))))]));}
 function challengeUnlocked(){return g.chapter>1||g.bosses.includes(GAME_DATA.chapters[1]?.boss);}
 // R125: the challenge texts read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
@@ -703,7 +708,7 @@ const EVENT_STEPS={
  chapterClear:(s,next)=>{const ch=chapter(),nx=GAME_DATA.chapters[ch.next],cleared=g.chapter,eyebrow=`CHAPTER ${String(g.chapter).padStart(2,'0')} COMPLETE`;if(ch.boss&&!g.bosses.includes(ch.boss))g.bosses.push(ch.boss);g.flags.cleared=true;if(nx){const [map,x,y]=nx.start||[nx.town,...GAME_DATA.maps[nx.town].spawn];g.chapter=ch.next;if(!g.towns.includes(ch.next))g.towns.push(ch.next);g.map=map;g.x=x*TILE;g.y=y*TILE;g.dir=0;g.flags.zakoWins=0;g.defeated={};g.music='';enemyState={};}saveGame(false);endingCard(nx?nextCardHeading(ch.next,ch.nextTitle||nx.title||''):(ch.title||'')+'\nクリア',nx?()=>{enterMap(g.map,g.x/TILE,g.y/TILE);screen('field');next();}:null,eyebrow,s.copy);OG()?.mount('chapter-card',{chapter:cleared});},
  ending:(s,next)=>eventSay(typeof s.ending==='string'||Array.isArray(s.ending)?s.ending:[],()=>endingCard(s.title||'おしまい',null,'THE END',s.copy||'ありがとう。\nまた あそぼう。')),
  // R30: {finale:{towns:[{heading,copy,bg}]}} 直った町を見せたあと エピローグへ（SPEC_V5_CH234.md 4章）。
- finale:(s,next)=>endingTowns(s.finale?.towns||[],()=>startEpilogue(next))
+ finale:(s,next)=>endingTowns(s.finale?.towns||[],()=>creditCard(s.finale?.credit,()=>startEpilogue(next)))
 };
 // R372: in adult mode the きずな menu and the bond messages showed kana names like 「しゅうりやさん」「ゲームの こ」 next to kanji 「守護霊」「お小遣い」. Adult uses adultName (修理屋さん・ゲームの子); kids and story lines keep name.
 function bondName(b){return b?(g.mode==='adult'&&b.adultName||b.name):'';}
@@ -1030,6 +1035,8 @@ const outgamePort={env:()=>isPlayables()?'playables':'web',adult:()=>g.screen===
  'title':()=>title(),
  'chapter-card':()=>{const n=3;endingCard(nextCardHeading(n,GAME_DATA.chapters[n].title),title,'CHAPTER 02 COMPLETE','くもの もんから\nひかりの エレベーターが\nのぼっていく。');OG()?.mount('chapter-card',{chapter:n-1});},
  'challenge-result':async()=>{const keep={chapter:g.chapter,bosses:g.bosses};await api.smokeScenes.find(s=>s.name==='challenge-nextgoal').run();Object.assign(g,keep);},
+ 'credit-card':()=>creditCard('credits',()=>{}),
+ 'settings':()=>openSettings(),
  // A made-up, OutGame-only modal, the same idea as the chapter-card opener above: the real menu() mixes
  // in ~12 unrelated rows (status, items, weapons...) long enough to make the panel itself scroll, which
  // would scroll modal-title out of view while this generic check scrolls to a button far down the list.
