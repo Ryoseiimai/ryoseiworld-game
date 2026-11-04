@@ -10,8 +10,9 @@
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
   // og-ending-epilogue and og-achievement add credit-card, menu, settings, records, about here.
-  // `title` has no `screen`: title() (index.html) calls mount('title') itself once it is done drawing
-  // the rest of the screen, the same way chapterClear() calls mount('chapter-card') after endingCard().
+  // `title` has no `screen`: screen() (index.html) calls mount('title') itself right after onScreen(name),
+  // so title() stays untouched (design_a.md 1.3), the same way chapterClear() calls mount('chapter-card')
+  // after endingCard().
   const SLOTS = {
     title: { host: 'title-links', max: 2, wide: 7 },
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
