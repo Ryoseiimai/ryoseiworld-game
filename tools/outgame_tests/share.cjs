@@ -386,7 +386,9 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     t.items.push(
       { id: 'anime-test', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
       { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
-    t.views = { about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
+    // og-achievement: merged, not replaced, so a real view a later 課題 ships (records) survives this
+    // test's own sandbox table alongside the 'about' view made up for this test.
+    t.views = { ...t.views, about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
       { text: ['作った', 'つくった'] }, { text: ['音楽', 'おんがく'], when: { music: true } }, { text: ['アニメ', 'あにめ'], when: { link: 'anime' } }] };
     assert.equal(validate(t).length, 0, JSON.stringify(validate(t)));

@@ -20,14 +20,39 @@ RYW.registerOutGame?.({
   cheat:['チート付き','チートつき']
  },
  items:[
-  // og-anime-cta: `in` holds only the place that exists today. og-credit and og-achievement append
+  // og-anime-cta: `in` holds only the place that exists today. og-credit appends
   // 'credit-card' and 'about' to this same row later; the row stays hidden while links.anime is empty.
   {id:'anime',do:'open',link:'anime',label:['アニメを見る','アニメを みる'],in:['title']},
-  {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result']}
+  {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result']},
+  // og-achievement: a view-only window (no `challenge` row, no `do:'start'`: the stadium door stays the
+  // only way to start a challenge). `when:{save:true}` keeps this hidden on a brand-new title with no save.
+  {id:'records',do:'view',view:'records',label:['記録 {earned}/{total}','きろく {earned}/{total}'],in:['title','menu'],when:{save:true}}
  ],
  // A line whose {var} is empty disappears: the anime line until links.anime is set, the cheat line on a clean run.
  shareTexts:{
   'chapter-card':[['RYOSEIWORLD の第{chapter}章をクリアした','RYOSEIWORLD の {chapter}しょうを クリアした'],ANIME],
   'challenge-result':[['RYOSEIWORLD のチャレンジでステージ {stage} まで行った（コンボ {combo}）','RYOSEIWORLD の チャレンジで ステージ {stage} まで いった（コンボ {combo}）'],['{cheat}','{cheat}'],ANIME]
- }
+ },
+ // og-achievement: a view-only window; `slot:'records'` is this view's own id, so js/outgame.js's
+ // validate() accepts it without a new place in SLOTS (docs/OUTGAME.md "新しい置き場所"). No item is ever
+ // placed `in:['records']`, so the window holds nothing but the achievement list and the best record.
+ views:{
+  records:{title:['記録','きろく'],body:'records',slot:'records'}
+ },
+ // 12 rows. `secret` ones show '？？？' until earned (js/outgame.js BODY.records). `when` never uses
+ // {not} or {item}: validate() rejects those for an achievement because they can turn false again.
+ achievements:[
+  {id:'ch1',name:['BUG KING を修理した','BUG KING を しゅうりした'],when:{boss:'bugking'}},
+  {id:'ch2',name:['カテイノジジョウを静めた','カテイノジジョウを しずめた'],when:{boss:'kateino'}},
+  {id:'ch3',name:['ヒカクマオウを静めた','ヒカクマオウを しずめた'],when:{boss:'hikaku'}},
+  {id:'jibun',name:['ジブンと向き合った','ジブンと むきあった'],when:{boss:'jibun'},secret:true},
+  {id:'zero',name:['ゼロと作る','ゼロと つくる'],when:{summon:'zero'},secret:true},
+  {id:'word10',name:['言葉を10個集めた','ことばを 10こ あつめた'],when:{count:'words',atLeast:10}},
+  {id:'word40',name:['言葉を40個集めた','ことばを 40こ あつめた'],when:{count:'words',atLeast:40}},
+  {id:'bond3',name:['守護霊が一緒に飛んだ','しゅごれいが いっしょに とんだ'],when:{count:'bondMax',atLeast:3}},
+  {id:'bond5',name:['ハート5になった','ハート5に なった'],when:{count:'bondMax',atLeast:5}},
+  {id:'stage5',name:['ステージ5に届いた','ステージ5に とどいた'],when:{count:'stage',atLeast:5}},
+  {id:'stage10',name:['ステージ10に届いた','ステージ10に とどいた'],when:{count:'stage',atLeast:10}},
+  {id:'combo50',name:['コンボ50を出した','コンボ50を だした'],when:{count:'combo',atLeast:50}}
+ ]
 });

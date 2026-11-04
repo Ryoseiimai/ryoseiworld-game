@@ -9,7 +9,7 @@
   // Where a row can sit. Only this table knows DOM ids. A slot with a host is drawn into the DOM by
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
-  // og-ending-epilogue and og-achievement add credit-card, menu, settings, records, about here.
+  // og-ending-epilogue adds credit-card, settings, about here.
   // `title` has no `screen`: screen() (index.html) calls mount('title') itself right after onScreen(name),
   // so title() stays untouched (design_a.md 1.3), the same way chapterClear() calls mount('chapter-card')
   // after endingCard().
@@ -17,6 +17,9 @@
     title: { host: 'title-links', max: 2, wide: 7 },
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
     'challenge-result': { wide: 16 },
+    // og-achievement: holds the 記録 row inside menu()'s own modal (index.html). No DOM host: it is
+    // mixed into menu()'s button list like challenge-result is mixed into showResult()'s.
+    menu: {},
   };
   const LINK_IDS = ['game', 'anime'];
   const COUNT_IDS = ['words', 'bondMax', 'stage', 'combo'];
@@ -62,8 +65,6 @@
   function shareText(slot, c) {
     return (T.shareTexts[slot] || []).map(line => say(line, c)).filter(Boolean).join('\n');
   }
-  // The eventCheck branch reads the running game, not `save`, until og-achievement adds its second
-  // argument (design_final.md); no row uses it before then.
   function cond(w, c) {
     if (!w) return true;
     if (w.link) return c.env === 'web' && !!T.links[w.link];
@@ -123,6 +124,17 @@
 
   const BODY = {
     credits: c => T.credits.lines.filter(l => cond(l.when, c)).map(l => pick(l.text, c)).join('\n\n'),
+    // The best challenge record (if any) sits above the achievement list. `secret` rows show '？？？'
+    // until earned; every other row keeps its name either way so the player knows what to aim for.
+    records: c => {
+      const rows = T.achievements.map(a => {
+        const got = !!(c.save && P.check(a.when, c.save));
+        const name = a.secret && !got ? pick(['？？？', '？？？'], c) : pick(a.name, c);
+        return (got ? '☆ ' : '・ ') + name;
+      }).join('\n');
+      const best = P.recordsText(c.save, c.adult);
+      return best ? best + '\n\n' + rows : rows;
+    },
   };
   function openView(id, from) {
     const v = T.views[id], c = ctx({ back: from.back }), reopen = () => openView(id, from);
@@ -132,7 +144,9 @@
   const DO = {
     open: { ok: (it, c) => c.env === 'web' && !!T.links[it.link], run: (it, c) => openExternal(T.links[it.link], c, c.back || P.close) },
     share: { ok: (it, c, slot) => c.env === 'web' && !!T.links.game && !!T.shareTexts[slot]?.length, run: (it, c, slot) => share(slot, c) },
-    view: { ok: () => true, run: (it, c) => openView(it.view, c) },
+    // `env === 'web'` keeps this consistent with `open` and `share`: nothing OutGame shows under the
+    // Playables SDK stub, even though js/outgame.js never actually ships in that bundle (design_final.md 11).
+    view: { ok: (it, c) => c.env === 'web', run: (it, c) => openView(it.view, c) },
   };
 
   // --- validate(): the list of problems in a table. Empty means every row is usable. ---
@@ -212,7 +226,11 @@
       const view = asMap(v);
       checkLabel(['views', id], view.title);
       if (!Object.hasOwn(BODY, view.body)) add(['views', id], 'unknown body: ' + view.body);
-      if (!Object.hasOwn(SLOTS, view.slot)) add(['views', id], 'unknown place: ' + view.slot);
+      // A view's own id is a valid, private `slot`: no item is ever placed there (buttons() returns
+      // [] for a name that is not in SLOTS), so a view with nothing extra to show does not need a new
+      // row in SLOTS, an opener and a smoke scene (docs/OUTGAME.md "新しい置き場所"). og-achievement's
+      // `records` view uses this; a view that wants extra buttons still names a real place in SLOTS.
+      if (!Object.hasOwn(SLOTS, view.slot) && view.slot !== id) add(['views', id], 'unknown place: ' + view.slot);
     }
     if (t.credits !== undefined) {
       const credits = asMap(t.credits);
@@ -324,6 +342,10 @@
     const windows = [
       { name: 'og-window-share', run: () => withBothLinks(() => { shareMenu(sample(), ctx()); checkModal('og-window-share'); }) },
       { name: 'og-window-blocked', run: () => withBothLinks(() => { openBlocked(T.links.game, ctx(), P.close); checkModal('og-window-blocked'); }) },
+      // `records` is a view, not a SLOTS place (no item ever sits in it), so it gets its own window
+      // scene here instead of the generic per-slot one above. The list can be long: #modal-copy scrolls
+      // on its own (CSS), and checkScene only checks overflow on buttons, not on the copy text.
+      { name: 'og-window-records', run: () => withBothLinks(() => { openView('records', {}); checkModal('og-window-records'); }) },
     ];
     return [...slots, ...windows];
   }
@@ -361,9 +383,15 @@
       const c = ctx();
       return [{ eyebrow: T.credits.eyebrow, heading: pick(T.credits.heading, c), copy: BODY.credits(c), slot: 'credit-card' }];
     },
-    // og-achievement fills this in: announce the rows earned(next) has and earned(prev) does not.
-    // The table has no achievements yet, so there is nothing to say and the engine does not call it.
-    onSaved() {},
+    // Announces the rows earned(next) has and earned(prev) does not. P.announce (index.html) drops
+    // the message instead of toasting it on the title, ending and epilogue screens, and never replays
+    // a dropped one: the row still shows in the records window once it is earned.
+    onSaved(prev, next) {
+      if (!T || !P) return;
+      const before = new Set(earned(prev).map(a => a.id));
+      const c = ctx();
+      earned(next).filter(a => !before.has(a.id)).forEach((a, i) => P.announce(pick(['実績: ', 'じっせき: '], c) + pick(a.name, c), i));
+    },
     // For the Node tests and the smoke scenes only. Nothing in the game calls these, and no URL argument reaches them.
     _sim: {
       validate, earned, fill, setLinks, SLOTS,
