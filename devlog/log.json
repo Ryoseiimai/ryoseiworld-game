@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T14:47:53.152Z",
-  "branch": "claude/autodev-20261025-2321-R242",
-  "task": "R242 ボス戦の始まりで「キックボードが うかんだ！」の字が、主人公がまだ立っている間に出ていたので、浮いた後に出るようにした",
-  "summary": "ボス戦の始まりの「キックボードが うかんだ！」の字を、主人公が浮いた後に出した\n前は字が先に出て、主人公はまだ地面に立っていた（約0.25秒）\n浮く前に字が出ないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/435/mobile-02-mode-select.jpg",
-   "shots/435/mobile-15-custom-full-run.jpg",
-   "shots/435/mobile-27-chapter-2-play.jpg",
-   "shots/435/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "95091e9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40203326607"
- },
- {
   "at": "2026-10-25T16:07:06.871Z",
   "branch": "claude/autodev-20261026-0022-R243",
   "task": "R243 ミナモと町の「こうえん」の看板の影が柱の足元から離れて草の上に浮いていたので、2本の柱の足元をつなぐ影にした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1b7ebdd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41593340474"
+ },
+ {
+  "at": "2026-11-04T10:09:26.091Z",
+  "branch": "claude/autodev-lead-og-title-brand",
+  "task": "lead-og-title-brand",
+  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/684/mobile-02-mode-select.jpg",
+   "shots/684/mobile-15-custom-full-run.jpg",
+   "shots/684/mobile-27-chapter-2-play.jpg",
+   "shots/684/mobile-41-battle-bugking.jpg"
+  ],
+  "sha": "5eb6d81",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41811010694"
  }
 ]
