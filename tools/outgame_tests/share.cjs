@@ -88,13 +88,16 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
   {
     const r = await inField();
     const t = clone(raw);
+    // The bad row's index depends on how many rows ship today, not on og-share's own count: later
+    // 課題 append their own items before this test runs, so this is read from `raw`, not hardcoded.
+    const badIndex = t.items.length;
     t.items.push(rowOf({ id: 'bad', do: 'nope' }));
     const errors = [], real = console.error;
     console.error = (...a) => errors.push(a.join(' '));
     try { r.RYW.registerOutGame(t); } finally { console.error = real; }
-    assert(errors.some(e => e.includes('items.1')), 'the bad row is reported: ' + errors.join('|'));
+    assert(errors.some(e => e.includes('items.' + badIndex)), 'the bad row is reported: ' + errors.join('|'));
     const left = OG(r)._sim.table().items.map(it => it.id);
-    assert.equal(left.join(), 'share', 'only the bad row goes: ' + left);
+    assert.equal(left.join(), raw.items.map(it => it.id).join(), 'only the bad row goes: ' + left);
     assert.equal(OG(r).buttons('challenge-result').length, 1, 'the good row still works');
   }
   result.push('og-share: registerOutGame removes the row with a problem, reports it on console.error, and the rest keeps working PASS');
@@ -378,8 +381,10 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     const r = await inField();
     const t = clone(raw);
     t.links.anime = STAND_IN_ANIME;
+    // og-anime-cta already ships a real row with id 'anime' (in: ['title']); this one tests the same
+    // `do:'open'` mechanics for a place that row does not reach yet, so it needs its own id.
     t.items.push(
-      { id: 'anime', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
+      { id: 'anime-test', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
       { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
     t.views = { about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
