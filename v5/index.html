@@ -511,7 +511,9 @@ function openCheats(next=null,skipIfUnowned=false){if(isPlayables()||paused||pro
  if(next)buttons.push({text:startLabel(),action:()=>{closeModal();next();}});
  buttons.push({text:backLabel(),action:closeModal});
  const adult=g.mode==='adult';
- openModal('デバッグモード',owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ'),buttons,'cheats');return true;}
+ const isChallengeDoor=!!next&&!owned&&!test;
+ const body=owned?(test?'テスト用（お金は動かない）\n使う道具を選ぼう':adult?'使う道具を選ぼう':'つかう どうぐを えらぼう'):test?(adult?'テスト用（お金は動かない）':'テスト用（おかねは うごかない）'):(adult?'デバッグモードはアプリ版で使えます。':'デバッグモードは アプリ版で つかえるよ');
+ openModal(isChallengeDoor?'チャレンジ':'デバッグモード',isChallengeDoor?recordText(g.challenge.best)+'\n'+body:body,buttons,'cheats');return true;}
 function cleanRecord(r){return Object.fromEntries(Object.keys(freshRecord()).map(k=>[k,Math.max(0,Math.min(Number.MAX_SAFE_INTEGER,Math.floor(num(r?.[k],0))))]));}
 function challengeUnlocked(){return g.chapter>1||g.bosses.includes(GAME_DATA.chapters[1]?.boss);}
 // R125: the challenge texts read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
