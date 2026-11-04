@@ -9,13 +9,18 @@
   // Where a row can sit. Only this table knows DOM ids. A slot with a host is drawn into the DOM by
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
-  // og-anime-cta adds title; og-achievement adds menu, records here. views.about (js/outgame.js reads
-  // it through openView) reuses credit-card for its own rows, so "about" is a view id, not a SLOT.
+  // og-ending-epilogue adds credit-card, settings; og-achievement adds menu, records. `about` is its
+  // own modal-mixed SLOT (not a host in the DOM): openView() reads it to draw the rows that sit inside
+  // the "このゲームについて" view itself (design_a.md 2.1). `title` has no `screen`: screen()
+  // (index.html) calls mount('title') itself right after onScreen(name), so title() stays untouched
+  // (design_a.md 1.3), the same way chapterClear() calls mount('chapter-card') after endingCard().
   const SLOTS = {
+    title: { host: 'title-links', max: 2, wide: 7 },
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
     'challenge-result': { wide: 16 },
     'credit-card': { host: 'ending-links', screen: 'ending', max: 2, wide: 16 },
     settings: {},
+    about: {},
   };
   const LINK_IDS = ['game', 'anime'];
   const COUNT_IDS = ['words', 'bondMax', 'stage', 'combo'];

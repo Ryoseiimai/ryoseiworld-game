@@ -381,12 +381,13 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     const r = await inField();
     const t = clone(raw);
     t.links.anime = STAND_IN_ANIME;
-    // A table of its own, not the shipped items (og-ending-epilogue's own 'about' row would otherwise
-    // collide with the id used here for this generic open/view/cards check).
-    t.items = [
-      { id: 'anime', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
-      { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] }];
-    t.views = { about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
+    // og-anime-cta and og-credit already ship real rows with ids 'anime' and 'about'; this one tests
+    // the same `do:'open'`/`do:'view'` mechanics for a place those rows do not reach yet, so it needs
+    // its own ids.
+    t.items.push(
+      { id: 'anime-test', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
+      { id: 'about-test', do: 'view', view: 'about-test', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
+    t.views = { 'about-test': { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
       { text: ['作った', 'つくった'] }, { text: ['音楽', 'おんがく'], when: { music: true } }, { text: ['アニメ', 'あにめ'], when: { link: 'anime' } }] };
     assert.equal(validate(t).length, 0, JSON.stringify(validate(t)));
@@ -400,7 +401,7 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     assert.equal(r.win.location.href, STAND_IN_ANIME);
     endRun(r, { stage: 1, bestCombo: 1 });
     r.button('このゲームについて');
-    assert.equal(r.g.modal, 'og-about');
+    assert.equal(r.g.modal, 'og-about-test');
     assert.equal(copyText(r), '作った\n\nアニメ', 'lines obey when');
     r.button('戻る');
     assert.equal(r.g.modal, 'challenge-result', 'back returns where it came from');

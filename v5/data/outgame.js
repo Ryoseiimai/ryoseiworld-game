@@ -20,6 +20,9 @@ RYW.registerOutGame?.({
   cheat:['チート付き','チートつき']
  },
  items:[
+  // og-anime-cta: the anime button appears on the title, the credit card, and "このゲームについて".
+  // The row stays hidden while links.anime is empty.
+  {id:'anime',do:'open',link:'anime',label:['アニメを見る','アニメを みる'],in:['title','credit-card','about']},
   {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result','credit-card']},
   {id:'about',do:'view',view:'about',label:['このゲームについて','このゲームについて'],in:['settings']}
  ],
@@ -32,7 +35,7 @@ RYW.registerOutGame?.({
  // The about view (opened from settings) shows the same card as the finale's THE END card, so it
  // reuses the credit-card slot for its rows instead of a slot of its own (js/outgame.js SLOTS).
  views:{
-  about:{title:['このゲームについて','このゲームについて'],body:'credits',slot:'credit-card'}
+  about:{title:['このゲームについて','このゲームについて'],body:'credits',slot:'about'}
  },
  // og-ending-epilogue: shown on the finale's THE END card and in the settings "このゲームについて" view.
  // The Lyria line gets an explicit \n before 作りました/つくりました so it never breaks mid-word at

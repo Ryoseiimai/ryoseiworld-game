@@ -46,7 +46,7 @@ maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょ�
  enemies:[],portals:[],cells:[{x:2.2,y:3.5,warp:'tower3',at:[5,10]}]};
 RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔',town:'tower1',zakoGoal:3,
  // R29: ジブンに勝っても まだ 章は終わらない（jibun.winEvent が jibunWin を走らせるだけ）。章の ほんとうの ボスは ゼロ。
- boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',
+ boss:'zero',clearDialogue:'zeroClear',clearSpot:['tower_roof',5,4],clearEvent:'zeroJoin',clearDone:'zero',
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // R88: cleared shows during the rooftop scene; after the ending (towerEnded) the field points to what is left to play (チャレンジ opens from chapter 2 on).
