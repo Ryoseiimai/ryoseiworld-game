@@ -20,6 +20,9 @@ RYW.registerOutGame?.({
   cheat:['チート付き','チートつき']
  },
  items:[
+  // og-anime-cta: `in` holds only the place that exists today. og-credit and og-achievement append
+  // 'credit-card' and 'about' to this same row later; the row stays hidden while links.anime is empty.
+  {id:'anime',do:'open',link:'anime',label:['アニメを見る','アニメを みる'],in:['title']},
   {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result']}
  ],
  // A line whose {var} is empty disappears: the anime line until links.anime is set, the cheat line on a clean run.

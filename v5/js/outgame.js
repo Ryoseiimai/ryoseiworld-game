@@ -9,8 +9,11 @@
   // Where a row can sit. Only this table knows DOM ids. A slot with a host is drawn into the DOM by
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
-  // og-anime-cta, og-ending-epilogue and og-achievement add title, credit-card, menu, settings, records, about here.
+  // og-ending-epilogue and og-achievement add credit-card, menu, settings, records, about here.
+  // `title` has no `screen`: title() (index.html) calls mount('title') itself once it is done drawing
+  // the rest of the screen, the same way chapterClear() calls mount('chapter-card') after endingCard().
   const SLOTS = {
+    title: { host: 'title-links', max: 2, wide: 7 },
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
     'challenge-result': { wide: 16 },
   };
