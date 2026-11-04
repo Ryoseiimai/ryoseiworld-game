@@ -65,7 +65,9 @@ RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔
   // R29: ゼロに勝った後（STORY_V4.md「最後はみんなの守護霊が…」）。ゼロが仲間になり、章が終わる。
   // R30: 章が終わったら すぐ タイトルへ ではなく、3つの町の 直った様子 → エピローグ（SPEC_V5_CH234.md 4章）。
   // 背景は shooter.js の bg_town/bg_minamo/bg_neon をそのまま使う（新しい絵を依頼せず、ある絵で「見せる」を満たす）。
-  zeroJoin:[{join:'zero'},{flag:'towerEnded'},{save:'quiet'},{finale:{towns:[
+  // R30続き: 町のカードの後、data/outgame.js の credits で「THE END」のカードを出してから エピローグへ
+  // （design_final.md「og-ending-epilogue（クレジット）」節）。
+  zeroJoin:[{join:'zero'},{flag:'towerEnded'},{save:'quiet'},{finale:{credit:'credits',towns:[
    {heading:'ヒダマリちょう',bg:'bg_town',copy:'あかりが もどり、\nこうえんで みんなが\nあそんでいる。'},
    {heading:'ミナモちょう',bg:'bg_minamo',copy:'しんぱいの かべが きえて、\nおやこで さんぽ している。'},
    {heading:'ネオンシティ',bg:'bg_neon',copy:'かおの いろが もどり、\nすきな ものの はなしを\nしている。'}

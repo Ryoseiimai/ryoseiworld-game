@@ -20,11 +20,26 @@ RYW.registerOutGame?.({
   cheat:['チート付き','チートつき']
  },
  items:[
-  {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result']}
+  {id:'share',do:'share',label:['シェアする','シェアする'],in:['chapter-card','challenge-result','credit-card']},
+  {id:'about',do:'view',view:'about',label:['このゲームについて','このゲームについて'],in:['settings']}
  ],
  // A line whose {var} is empty disappears: the anime line until links.anime is set, the cheat line on a clean run.
  shareTexts:{
   'chapter-card':[['RYOSEIWORLD の第{chapter}章をクリアした','RYOSEIWORLD の {chapter}しょうを クリアした'],ANIME],
-  'challenge-result':[['RYOSEIWORLD のチャレンジでステージ {stage} まで行った（コンボ {combo}）','RYOSEIWORLD の チャレンジで ステージ {stage} まで いった（コンボ {combo}）'],['{cheat}','{cheat}'],ANIME]
- }
+  'challenge-result':[['RYOSEIWORLD のチャレンジでステージ {stage} まで行った（コンボ {combo}）','RYOSEIWORLD の チャレンジで ステージ {stage} まで いった（コンボ {combo}）'],['{cheat}','{cheat}'],ANIME],
+  'credit-card':[['RYOSEIWORLD を最後まで遊んだ','RYOSEIWORLD を さいごまで あそんだ'],ANIME]
+ },
+ // The about view (opened from settings) shows the same card as the finale's THE END card, so it
+ // reuses the credit-card slot for its rows instead of a slot of its own (js/outgame.js SLOTS).
+ views:{
+  about:{title:['このゲームについて','このゲームについて'],body:'credits',slot:'credit-card'}
+ },
+ // og-ending-epilogue: shown on the finale's THE END card and in the settings "このゲームについて" view.
+ // The Lyria line gets an explicit \n before 作りました/つくりました so it never breaks mid-word at
+ // 390px width (design_final.md 4節7: the old auto-wrap split 作/りました).
+ credits:{eyebrow:'THE END',heading:['ありがとう','ありがとう'],lines:[
+  {text:['作った人 RYOSEIWORLD','つくった ひと RYOSEIWORLD']},
+  {text:['音楽の一部は Google の Lyria で\n作りました','おんがくの いちぶは Google の Lyria で\nつくりました'],when:{music:true}},
+  {text:['アニメ第1話もあります','アニメ だい1わも あります'],when:{link:'anime'}}
+ ]}
 });
