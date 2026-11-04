@@ -9,10 +9,13 @@
   // Where a row can sit. Only this table knows DOM ids. A slot with a host is drawn into the DOM by
   // mount(); one without goes into a modal through buttons(). `screen` is the screen that shows the
   // host (onScreen empties it); `wide` is the longest label in full-width characters.
-  // og-anime-cta, og-ending-epilogue and og-achievement add title, credit-card, menu, settings, records, about here.
+  // og-anime-cta adds title; og-achievement adds menu, records here. views.about (js/outgame.js reads
+  // it through openView) reuses credit-card for its own rows, so "about" is a view id, not a SLOT.
   const SLOTS = {
     'chapter-card': { host: 'ending-links', screen: 'ending', max: 1, wide: 16 },
     'challenge-result': { wide: 16 },
+    'credit-card': { host: 'ending-links', screen: 'ending', max: 2, wide: 16 },
+    settings: {},
   };
   const LINK_IDS = ['game', 'anime'];
   const COUNT_IDS = ['words', 'bondMax', 'stage', 'combo'];
@@ -128,7 +131,8 @@
   const DO = {
     open: { ok: (it, c) => c.env === 'web' && !!T.links[it.link], run: (it, c) => openExternal(T.links[it.link], c, c.back || P.close) },
     share: { ok: (it, c, slot) => c.env === 'web' && !!T.links.game && !!T.shareTexts[slot]?.length, run: (it, c, slot) => share(slot, c) },
-    view: { ok: () => true, run: (it, c) => openView(it.view, c) },
+    // Only web: a view is just text and a share row, but it still disappears on Playables like open/share do.
+    view: { ok: (it, c) => c.env === 'web', run: (it, c) => openView(it.view, c) },
   };
 
   // --- validate(): the list of problems in a table. Empty means every row is usable. ---
