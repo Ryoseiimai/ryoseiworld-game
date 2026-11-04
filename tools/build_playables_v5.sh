@@ -26,6 +26,10 @@ with tempfile.TemporaryDirectory(prefix='.playables_v5-', dir=dist) as temp:
     sdk = '<script src="https://www.youtube.com/game_api/v1"></script>'
     if sdk in html or html.count('<head>') != 1:
         raise SystemExit('Expected one <head> and no SDK in the v5 source')
+    # The Playables host does not read Open Graph / Twitter Card meta, and the bundle must not
+    # carry the public GitHub Pages URL used for sharing (og-ogp, design_final.md 11). The OGP
+    # image itself (v5/assets/og/) is never copied into the bundle below either.
+    html = re.sub(r'<meta (?:property="og:[a-z]+"|name="twitter:card") content="[^"]*">', '', html)
     (bundle / 'index.html').write_text(html.replace('<head>', '<head>' + sdk, 1), encoding='utf-8')
 
     (bundle / 'data').mkdir()
