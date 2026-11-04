@@ -832,7 +832,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.screen,'ending','ゼロに勝って まず まちの カード');assert(r.els.get('ending-heading').textContent.includes('ヒダマリ'),r.els.get('ending-heading').textContent);assert.equal(r.els.get('ending-bg').hidden,false);assert(r.els.get('ending-bg').src.includes('bg_town'));
   r.click('ending-title');assert(r.els.get('ending-heading').textContent.includes('ミナモ'));assert(r.els.get('ending-bg').src.includes('bg_minamo'));
   r.click('ending-title');assert(r.els.get('ending-heading').textContent.includes('ネオン'));assert(r.els.get('ending-bg').src.includes('bg_neon'));
-  r.click('ending-title');assert.equal(r.g.screen,'epilogue','3まい おわったら エピローグ');assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?');
+  // og-ending-epilogue: 町のカードの後に data/outgame.js の credits で「THE END」のカードが出る（1回多く押す）。
+  r.click('ending-title');assert.equal(r.els.get('ending-heading').textContent,'ありがとう','3まい おわったら クレジットのカード');assert.equal(r.els.get('ending-eyebrow').textContent,'THE END');
+  r.click('ending-title');assert.equal(r.g.screen,'epilogue','クレジットの あと エピローグ');assert.equal(r.els.get('epilogue-text').textContent,'つぎは なにを つくる?');
   for(const k of ['zeroTalk','zeroLocked','zeroGone','zeroClear'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'R29 line fits '+row);}
  result.push('R29: 4章 ゼロのシューティング版（「こえ」の光で守護霊がつながり、みんなの こえ で ノイズが晴れる・会話・仲間になる）PASS');
  // R30: エンディング（3つの町のカード）とエピローグ（なにを かいても「わかった。つくろう」→ タイトルへ）。

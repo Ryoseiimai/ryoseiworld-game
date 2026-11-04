@@ -88,13 +88,16 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
   {
     const r = await inField();
     const t = clone(raw);
+    // The bad row's index grows as later 課題 (og-anime-cta, og-ending-epilogue, og-achievement) add
+    // their own rows to the shipped table, so this reads the table's own length instead of a fixed '1'.
+    const badAt = t.items.length;
     t.items.push(rowOf({ id: 'bad', do: 'nope' }));
     const errors = [], real = console.error;
     console.error = (...a) => errors.push(a.join(' '));
     try { r.RYW.registerOutGame(t); } finally { console.error = real; }
-    assert(errors.some(e => e.includes('items.1')), 'the bad row is reported: ' + errors.join('|'));
+    assert(errors.some(e => e.includes('items.' + badAt)), 'the bad row is reported: ' + errors.join('|'));
     const left = OG(r)._sim.table().items.map(it => it.id);
-    assert.equal(left.join(), 'share', 'only the bad row goes: ' + left);
+    assert.equal(left.join(), raw.items.map(it => it.id).join(), 'only the bad row goes: ' + left);
     assert.equal(OG(r).buttons('challenge-result').length, 1, 'the good row still works');
   }
   result.push('og-share: registerOutGame removes the row with a problem, reports it on console.error, and the rest keeps working PASS');
@@ -378,9 +381,11 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     const r = await inField();
     const t = clone(raw);
     t.links.anime = STAND_IN_ANIME;
-    t.items.push(
+    // A table of its own, not the shipped items (og-ending-epilogue's own 'about' row would otherwise
+    // collide with the id used here for this generic open/view/cards check).
+    t.items = [
       { id: 'anime', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
-      { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
+      { id: 'about', do: 'view', view: 'about', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] }];
     t.views = { about: { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
       { text: ['作った', 'つくった'] }, { text: ['音楽', 'おんがく'], when: { music: true } }, { text: ['アニメ', 'あにめ'], when: { link: 'anime' } }] };
