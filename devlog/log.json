@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T19:48:03.363Z",
-  "branch": "claude/autodev-20261026-0422-R247",
-  "task": "R247 1章と3章の始めで「はなす」ボタンが地図の真ん中まで上がり、こうえんの看板や道の上に浮いていたので、上へずれるのを1段までにした",
-  "summary": "1章と3章の始めで「はなす」ボタンが地図の真ん中まで上がっていたので、上へずれるのを1段までにした\n人の上に来たときは、ボタンは右下のまま透けた板になる\nボタンが96pxより上へ行かないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/441/mobile-02-mode-select.jpg",
-   "shots/441/mobile-15-custom-full-run.jpg",
-   "shots/441/mobile-27-chapter-2-play.jpg",
-   "shots/441/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2f0ba7b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40226925773"
- },
- {
   "at": "2026-10-25T21:05:29.245Z",
   "branch": "claude/autodev-20261026-0521-R248",
   "task": "R248 2章の始めのミナモなどで、外の地図が下のボタンの帯の手前で終わり、道がぷつりと切れて何もない帯が見えたので、地図の端の地面を画面の端まで続けて描いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "6f23104",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41837149925"
+ },
+ {
+  "at": "2026-11-04T14:04:30.638Z",
+  "branch": "claude/autodev-lead-og-anime-cta",
+  "task": "lead-og-anime-cta",
+  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/689/mobile-02-mode-select.jpg",
+   "shots/689/mobile-17-custom-og-chapter-card.jpg",
+   "shots/689/mobile-31-chapter-2.jpg",
+   "shots/689/mobile-46-battle-bugking.jpg"
+  ],
+  "sha": "449c6c4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41841788976"
  }
 ]
