@@ -258,7 +258,9 @@
   }
 
   // --- Smoke scenes, derived from SLOTS so a new place gets its three-screen check with it. ---
-  function checkScene(name, targets, others) {
+  // `scroller` is the long window's panel: its buttons may sit below the fold, so it scrolls to each one.
+  // Nothing else scrolls here, since scrollIntoView would also move the stage and hide a button off it.
+  function checkScene(name, targets, others, scroller) {
     const fail = message => { throw new Error(`${name}: ${message}`); };
     if (!targets.length) fail('nothing to check');
     const stage = $('stage'), st = stage.getBoundingClientRect(), scale = st.width / STAGE_W;
@@ -269,10 +271,17 @@
     const seen = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
     const hit = (a, b) => a.x0 < b.x1 - 1 && b.x0 < a.x1 - 1 && a.y0 < b.y1 - 1 && b.y0 < a.y1 - 1;
     targets.forEach((el, i) => {
-      el.scrollIntoView({ block: 'nearest' });
+      if (scroller) {
+        const r = el.getBoundingClientRect(), p = scroller.getBoundingClientRect();
+        scroller.scrollTop += (Math.max(r.bottom - p.bottom, 0) + Math.min(r.top - p.top, 0)) / scale;
+      }
       const q = box(el), label = JSON.stringify(el.textContent);
       if (q.x0 < -1 || q.y0 < -1 || q.x1 > STAGE_W + 1 || q.y1 > STAGE_H + 1) fail(`${label} leaves the stage`);
       if (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1) fail(`${label} overflows its button`);
+      for (const other of others) {
+        const o = box(other);
+        if (seen(other) && (o.x0 < -1 || o.y0 < -1 || o.x1 > STAGE_W + 1 || o.y1 > STAGE_H + 1)) fail(`${other.id || 'an element'} leaves the stage`);
+      }
       for (const other of [...others, ...targets.slice(i + 1)]) {
         if (seen(other) && hit(q, box(other))) fail(`${label} overlaps ${other.id || JSON.stringify(other.textContent)}`);
       }
@@ -283,7 +292,7 @@
     if (/ryoseiimai/i.test(stage.textContent)) fail('the address shows on screen');
   }
   const checkHost = (name, host) => checkScene(name, [...host.children], [...host.parentNode.children].filter(el => el !== host));
-  const checkModal = name => checkScene(name, [...$('modal-buttons').children], [$('modal-title'), $('modal-copy')]);
+  const checkModal = name => checkScene(name, [...$('modal-buttons').children], [$('modal-title'), $('modal-copy')], $('modal').firstElementChild);
   // The game's own address stands in for the anime one, so no made-up URL ships in the game.
   async function withBothLinks(run) {
     const restore = setLinks({ anime: T.links.game });

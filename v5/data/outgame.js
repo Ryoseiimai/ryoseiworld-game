@@ -1,7 +1,7 @@
 // The OutGame table. To add or remove an OutGame item, look here first (docs/OUTGAME.md).
 // Rows are data only; js/outgame.js reads them. Every label is [adult, kids].
-// The `?.` is here because the game still runs when js/outgame.js does not load.
 const ANIME=['アニメ第1話 {animeUrl}','アニメ だい1わ {animeUrl}'];
+// The `?.` is here because the game still runs when js/outgame.js does not load.
 RYW.registerOutGame?.({
  // Empty means "not there yet": its rows and share lines stay hidden. The anime URL goes in with its own
  // commit after the public release is approved, never while it is unlisted (the repository is public).
@@ -15,7 +15,7 @@ RYW.registerOutGame?.({
   copied:['リンクをコピーした。','リンクを コピーした。'],
   copyFailed:['コピーできなかった。','コピーできなかった。'],
   blockedTitle:['開けなかった','ひらけなかった'],
-  blockedBody:['新しいタブを開けなかった。\nこの画面で開くと、ゲームから離れる。','あたらしい タブを ひらけなかった。\nこの がめんで ひらくと、ゲームから はなれる。'],
+  blockedBody:['新しいタブを開けなかった。\nこの画面で開くと、\nゲームから離れる。','あたらしい タブを ひらけなかった。\nこの がめんで ひらくと、\nゲームから はなれる。'],
   openHere:['この画面で開く','この がめんで ひらく'],
   cheat:['チート付き','チートつき']
  },

@@ -23,7 +23,7 @@ function pngPixels(file){
  decoded.set(file,{data});return {data};
 }
 
-async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,search='',capacitor=null,musicLedger,musicDurations={}}={}) {
+async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7,sdk=false,holdLoad=false,loadError=false,rawSave='',holdSave=false,initialPause=false,missingFiles=[],omitWords=false,omitProto=false,omitOutGame=false,search='',capacitor=null,musicLedger,musicDurations={}}={}) {
   const sources=[];const listeners = {}, els = new Map(), draws=[], imageLog=[], imageAlpha=[], imageX=[], requests=[], canvasCalls=[], windowListeners={}, calls=[], saves=[], audio=[];
   const host={enabled:false}; let resolveLoad, rejectLoad, resolveSave;
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
@@ -52,6 +52,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   // Command buttons rely on the click bubbling to #commands, as in the browser.
   for(const b of buttons)b.click=()=>els.get('commands').onclick?.({target:b});
   els.get('title-actions').children=[els.get('start-btn'),els.get('continue-btn')];
+  els.get('ending-card').children=[els.get('ending-title'),els.get('ending-links')];
   els.get('modal').hidden=true;els.get('dialogue').hidden=true;els.get('continue-btn').disabled=true;
   let rafs=[], now=0, rafId=0;
   const document={hidden:false,activeElement:null,getElementById:id=>{assert(els.has(id),id);return els.get(id)},querySelectorAll:sel=>sel==='.screen'?[...els.values()].filter(e=>e.id.startsWith('screen-')):buttons,createElement:tag=>{const e=new El();e.tagName=tag.toUpperCase();return e;},addEventListener(n,f){(listeners[n]??=[]).push(f)}};
@@ -87,7 +88,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     system:{onPause(cb){host.pause=cb;if(initialPause)cb()},onResume(cb){host.resume=cb},
       isAudioEnabled(){return host.enabled},onAudioEnabledChange(cb){host.audio=cb}}
   };
-  for(const s of scripts){if((omitWords&&s.file==='v5/data/words.js')||(omitProto&&s.file==='v5/js/proto.js'))continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
+  for(const s of scripts){if((omitWords&&s.file==='v5/data/words.js')||(omitProto&&s.file==='v5/js/proto.js')||(omitOutGame&&s.file==='v5/js/outgame.js'))continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
   // The side-scrolling boss battle needs a real browser (tools/test_shooter.cjs and the smoke cover it); here a double records each start.
   const shooterRuns=[];assert(sandbox.window.RYW.Shooter,'index.html loads js/shooter.js after the engine');
   sandbox.window.RYW.Shooter.start=cfg=>{const h={cfg,stopped:false,stop(){h.stopped=true;}};shooterRuns.push(h);return h;};
@@ -108,7 +109,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   // R320: adult menus say 「戻る」 where kids menus say 「もどる」; button('もどる') finds either back button. R322: button('はじめる') finds 「始める」 too.
   function button(text){const b=els.get('modal-buttons').children.find(b=>b.textContent.includes(text)||text==='もどる'&&b.textContent==='戻る'||text==='はじめる'&&b.textContent==='始める');assert(b,'button '+text);assert(!b.disabled,'button enabled '+text);b.onclick();}
   function key(key,up=false,target=els.get('stage')){for(const f of listeners[up?'keyup':'keydown']||[])f({key,target,preventDefault(){},repeat:false});}
-  return {imageSrcs,RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
+  return {win:sandbox.window,imageSrcs,RYW:sandbox.window.RYW,setRandom:f=>sandbox.Math.random=f,g,els,cmd,button,key,click,tick,shooterRuns,protoRuns,dialogue,visibility,start,saved,requests,draws,imageLog,imageAlpha,imageX,canvasCalls,calls,saves,audio,sources,host,listeners,resize,
     active:()=>document.activeElement,lines:()=>lineTotal,setCounting:v=>{counting=v},now:()=>now,
     setMissingArt:value=>{missing=value},resolveLoad,rejectLoad,resolveSave:()=>resolveSave(),hasFrame:hasLoop};
 }

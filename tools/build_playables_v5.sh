@@ -30,6 +30,11 @@ with tempfile.TemporaryDirectory(prefix='.playables_v5-', dir=dist) as temp:
     # carry the public GitHub Pages URL used for sharing (og-ogp, design_final.md 11). The OGP
     # image itself (v5/assets/og/) is never copied into the bundle below either.
     html = re.sub(r'<meta (?:property="og:[a-z]+"|name="twitter:card") content="[^"]*">', '', html)
+    # OutGame opens the outside world (sharing, the anime link), which Playables does not allow, so
+    # neither file ships (design_final.md 11). The engine asks through OG()?. and runs without them.
+    html = re.sub(r'<script src="(?:js|data)/outgame\.js"></script>', '', html)
+    if re.search(r'<script src="[^"]*outgame', html):
+        raise SystemExit('An OutGame <script> is still in the Playables index.html')
     (bundle / 'index.html').write_text(html.replace('<head>', '<head>' + sdk, 1), encoding='utf-8')
 
     (bundle / 'data').mkdir()

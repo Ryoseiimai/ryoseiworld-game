@@ -52,6 +52,17 @@ const sdk = '<script src="https://www.youtube.com/game_api/v1"></script>';
 assert(html.indexOf(sdk) > -1 && html.indexOf(sdk) < html.indexOf('<script>\n'), 'SDK script precedes the game script');
 result.push('build: YouTube SDK script injected before the game script PASS');
 
+// --- OutGame opens the outside world, so none of it ships (design_final.md 11) ---
+assert(!allFiles.includes('js/outgame.js') && !allFiles.includes('data/outgame.js'), 'the OutGame files stay out of the bundle');
+assert(!/<script src="[^"]*outgame/.test(html), 'no OutGame <script> in the bundled index.html');
+for (const f of allFiles.filter(name => /\.(html|js|json)$/.test(name))) {
+  const text = fs.readFileSync(path.join(bundle, f), 'utf8');
+  for (const banned of [/\bx\.com\b/, /clipboard/, /github\.io/, /intent\/post/, /example\.test/, /navigator\??\.share/]) {
+    assert(!banned.test(text), f + ' must not contain ' + banned);
+  }
+}
+result.push('build: no OutGame file, X address, clipboard, github.io or stand-in URL in the bundle PASS');
+
 // --- Run the bundled scripts for real, as a Playables host (window.ytgame present) would,
 // and confirm the debug-mode shop never opens: no purchase flow, no "use it in the app" text.
 async function runBundled() {
@@ -96,5 +107,8 @@ async function runBundled() {
   assert.equal(RYW.Shop.kind, 'none', 'YouTube Playables host must not expose a shop');
   assert.equal(v5.debugOpenCheats(), false, 'debug-mode menu must not open on the Playables host');
   result.push('runtime (window.ytgame present): Shop.kind is none and the debug-mode menu never opens PASS');
+  assert.equal(RYW.OutGame, undefined, 'OutGame is not in the bundle');
+  assert.equal(v5.screen, 'title', 'the bundle boots to the title without OutGame');
+  result.push('runtime (window.ytgame present): boots to the title without OutGame PASS');
   console.log(result.join('\n'));
 })().catch(e => { console.error(e); process.exitCode = 1; });
