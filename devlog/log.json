@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T19:02:53.385Z",
-  "branch": "claude/autodev-20261026-0322-R246",
-  "task": "R246 塔の部屋の壁が家と同じ薄い緑の壁紙と木のはばきで、青い床に合わなかったので、紺色の壁と青い線にした",
-  "summary": "塔の部屋の壁が家と同じ薄い緑で、青い床に合わなかったので紺色の壁にした\n床が青い格子の部屋だけ壁と前の壁と線を青系にし、家の部屋の色は変えていない\n塔の4つの階の壁が家の部屋より暗い紺色になることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/440/mobile-02-mode-select.jpg",
-   "shots/440/mobile-15-custom-full-run.jpg",
-   "shots/440/mobile-27-chapter-2-play.jpg",
-   "shots/440/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7974123",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40223368707"
- },
- {
   "at": "2026-10-25T19:48:03.363Z",
   "branch": "claude/autodev-20261026-0422-R247",
   "task": "R247 1章と3章の始めで「はなす」ボタンが地図の真ん中まで上がり、こうえんの看板や道の上に浮いていたので、上へずれるのを1段までにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e27b123",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41812510348"
+ },
+ {
+  "at": "2026-11-04T13:34:09.234Z",
+  "branch": "claude/autodev-lead-og-share",
+  "task": "lead-og-share",
+  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/688/mobile-02-mode-select.jpg",
+   "shots/688/mobile-16-custom-og-chapter-card.jpg",
+   "shots/688/mobile-30-chapter-2.jpg",
+   "shots/688/mobile-45-battle-bugking.jpg"
+  ],
+  "sha": "6f23104",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41837149925"
  }
 ]

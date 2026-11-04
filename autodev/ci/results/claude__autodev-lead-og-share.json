@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-lead-og-share",
+  "sha": "6f2310419abdbefee6530cf17b9524dd64d9c65b",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/688/mobile-02-mode-select.jpg",
+    "devlog/shots/688/mobile-16-custom-og-chapter-card.jpg",
+    "devlog/shots/688/mobile-30-chapter-2.jpg",
+    "devlog/shots/688/mobile-45-battle-bugking.jpg"
+  ],
+  "at": "2026-11-04T13:34:09.234Z",
+  "merged_sha": "6f2310419abdbefee6530cf17b9524dd64d9c65b",
+  "tested_base": "d89ea7820db72ec25921a8477f9774599ca2fbd5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41837149925"
+}
