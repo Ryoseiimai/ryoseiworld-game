@@ -300,6 +300,7 @@ R385: 4章でヒダマリに戻ると「塔のノイズを静めよう」の矢�
 R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS
 R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS
 R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS
+og-challenge: ?shop=test なし・未所持でチャレンジを選ぶと題が「チャレンジ」、本文の先頭に最高ステージの記録が出る PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 122ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 120ms) PASS
