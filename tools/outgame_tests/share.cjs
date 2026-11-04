@@ -387,7 +387,7 @@ module.exports = async function share({ runtime, result, assert, html, root }) {
     t.items.push(
       { id: 'anime-test', do: 'open', link: 'anime', label: ['アニメを見る', 'アニメを みる'], in: ['challenge-result'] },
       { id: 'about-test', do: 'view', view: 'about-test', label: ['このゲームについて', 'このゲームについて'], in: ['challenge-result'] });
-    t.views = { 'about-test': { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' } };
+    t.views['about-test'] = { title: ['このゲームについて', 'このゲームについて'], body: 'credits', slot: 'chapter-card' };
     t.credits = { eyebrow: 'THE END', heading: ['ありがとう', 'ありがとう'], lines: [
       { text: ['作った', 'つくった'] }, { text: ['音楽', 'おんがく'], when: { music: true } }, { text: ['アニメ', 'あにめ'], when: { link: 'anime' } }] };
     assert.equal(validate(t).length, 0, JSON.stringify(validate(t)));
