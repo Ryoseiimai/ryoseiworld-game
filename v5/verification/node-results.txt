@@ -209,7 +209,6 @@ R191: ずれた「はなす」ボタンが街灯・信号・電柱・じはん�
 R189: ミナモちょうに着いた時、主人公がバスていと街灯の間にはさまらない PASS
 R180: 「メニュー」ボタンの後ろに人がいる時、ボタンが透けて人が見える PASS
 R184: ネオンの道しるべの矢印が、画面の外の敵より画面に見えている敵を指す PASS
-R398: ネオンに着いた時、左端で半分切れたノイズを矢印が指さない PASS
 R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS
 R186: ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませない PASS
 R190: ミナモの木のそばの人の守護霊を、木の上ではなく反対の側に出す PASS
@@ -299,8 +298,3 @@ R384: 1章のボスの後「バス停からミナモちょうへ行こう」の�
 R385: 4章でヒダマリに戻ると「塔のノイズを静めよう」の矢印がバス停を指す PASS
 R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS
 R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS
-R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS
-og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
-og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 116ms) PASS
-og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
