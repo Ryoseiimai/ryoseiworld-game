@@ -1,0 +1,22 @@
+{
+  "branch": "claude/autodev-lead-og-credit",
+  "sha": "03d8c4387d9c9696c4ab5139ee50d7c434630943",
+  "result": "pass",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "pass",
+    "smoke": "pass"
+  },
+  "errors": [],
+  "shots": [
+    "devlog/shots/690/mobile-02-mode-select.jpg",
+    "devlog/shots/690/mobile-18-custom-og-challenge-result.jpg",
+    "devlog/shots/690/mobile-32-chapter-1-play.jpg",
+    "devlog/shots/690/mobile-48-battle-bugking.jpg"
+  ],
+  "at": "2026-11-04T14:49:58.705Z",
+  "merged_sha": "03d8c4387d9c9696c4ab5139ee50d7c434630943",
+  "tested_base": "316b668d59175e6c82a163120824811602fe1b95",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41849574785"
+}

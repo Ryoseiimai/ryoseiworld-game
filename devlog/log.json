@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-25T21:05:29.245Z",
-  "branch": "claude/autodev-20261026-0521-R248",
-  "task": "R248 2章の始めのミナモなどで、外の地図が下のボタンの帯の手前で終わり、道がぷつりと切れて何もない帯が見えたので、地図の端の地面を画面の端まで続けて描いた",
-  "summary": "外の地図で、地図の下の端より外にも端の行の地面を描くようにした\n2章の始めのミナモで、道が下のボタンの帯まで続くようになった\n地図の上と下の外側に地面があることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/442/mobile-02-mode-select.jpg",
-   "shots/442/mobile-15-custom-full-run.jpg",
-   "shots/442/mobile-27-chapter-2-play.jpg",
-   "shots/442/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b73975d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40232903217"
- },
- {
   "at": "2026-10-25T22:00:50.626Z",
   "branch": "claude/autodev-20261026-0621-R249",
   "task": "R249 町の4マス幅の道で、縦と横の中央線が重なって道の真ん中に「＋」の印が出ていたので、横の線は太い横の道だけに引き、縦の線のあるマスには引かないようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "449c6c4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41841788976"
+ },
+ {
+  "at": "2026-11-04T14:49:58.705Z",
+  "branch": "claude/autodev-lead-og-credit",
+  "task": "lead-og-credit",
+  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
+  "result": "pass",
+  "shots": [
+   "shots/690/mobile-02-mode-select.jpg",
+   "shots/690/mobile-18-custom-og-challenge-result.jpg",
+   "shots/690/mobile-32-chapter-1-play.jpg",
+   "shots/690/mobile-48-battle-bugking.jpg"
+  ],
+  "sha": "03d8c43",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41849574785"
  }
 ]
