@@ -159,6 +159,27 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   }
   result.push('og-achievement: the achievement toast uses #toast and waits for the save toast to clear before showing PASS');
 
+  // R401: a window open over the field (the challenge record, the menu) sat right under #toast and hid its heading,
+  // so the achievement waits for the window to close.
+  {
+    const r = await runtime();
+    r.tick();
+    r.g.debugStartChapter(1);
+    r.tick(300);
+    r.click('menu-btn');
+    assert.equal(r.g.modal, 'menu', 'the menu window is open');
+    r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
+    await r.g.save();
+    r.tick(2700);
+    r.tick(2700);
+    assert(!(!toast(r).hidden && toast(r).textContent.startsWith('実績')), 'no achievement toast over the open window: ' + toast(r).textContent);
+    r.button('戻る');
+    assert.equal(r.g.modal, '', 'the menu window closed');
+    r.tick(600);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'the achievement shows once the window closes: ' + toast(r).textContent);
+  }
+  result.push('og-achievement: the achievement toast waits while a window is open, then shows PASS');
+
   {
     const r = await runtime();
     r.tick();

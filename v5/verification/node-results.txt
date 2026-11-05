@@ -209,6 +209,7 @@ R191: ずれた「はなす」ボタンが街灯・信号・電柱・じはん�
 R189: ミナモちょうに着いた時、主人公がバスていと街灯の間にはさまらない PASS
 R180: 「メニュー」ボタンの後ろに人がいる時、ボタンが透けて人が見える PASS
 R184: ネオンの道しるべの矢印が、画面の外の敵より画面に見えている敵を指す PASS
+R398: ネオンに着いた時、左端で半分切れたノイズを矢印が指さない PASS
 R185: ミナモの友だちの子の赤い帽子と黄色の服を、新しい絵が届くまで緑と青緑で描く PASS
 R186: ボス戦の入り口で「フクの ちからで」「うかんだ」を2回続けて読ませない PASS
 R190: ミナモの木のそばの人の守護霊を、木の上ではなく反対の側に出す PASS
@@ -298,3 +299,57 @@ R384: 1章のボスの後「バス停からミナモちょうへ行こう」の�
 R385: 4章でヒダマリに戻ると「塔のノイズを静めよう」の矢印がバス停を指す PASS
 R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS
 R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS
+R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS
+og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
+og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
+og-achievement: every row is earned on a save that satisfies its `when`, none on an empty save, and atLeast is a hard floor PASS
+og-achievement: snapshot() keeps its key list, and an old save earns its rows and shows the title band the moment it is read PASS
+og-achievement: きろく from the menu shows the best record and all 12 rows, secret ones as ？？？ until earned PASS
+og-achievement: きろく from the title (before つづきから) reads the loaded save, kids text by default, no best record when none was ever played PASS
+og-achievement: the achievement toast uses #toast and waits for the save toast to clear before showing PASS
+og-achievement: the achievement toast waits while a window is open, then shows PASS
+og-achievement: two achievements earned in the same save() toast one after another, not merged PASS
+og-achievement: an achievement earned on the title screen never toasts PASS
+og-achievement: an achievement earned on the ending screen never toasts, and is not replayed later PASS
+og-achievement: はじめから warns that the old records are erased, matching that a fresh save earns nothing PASS
+og-anime-cta: the title band is empty while links.anime is empty PASS
+og-anime-cta: the row appears once links.anime is set, with the kids label by default PASS
+og-anime-cta: an arrow reaches the row, Z calls window.open once and cuts the opener PASS
+og-anime-cta: window.open returning null offers この画面で開く, which opens the URL in this tab PASS
+og-anime-cta: the SDK stub shows no row PASS
+og-anime-cta: a link with ?from=anime1 boots as usual PASS
+og-challenge: ?shop=test なし・未所持でチャレンジを選ぶと題が「チャレンジ」、本文の先頭に最高ステージの記録が出る PASS
+og-ending-epilogue(credit): validate() accepts the shipped credits/about rows and catches a broken one PASS
+og-ending-epilogue(credit): towns -> THE END card (one row: シェアする) -> epilogue; no card without `credit`; an unknown id is skipped PASS
+og-ending-epilogue(credit): 設定 > このゲームについて shows the credits text; 戻る returns to 設定 PASS
+og-ending-epilogue(credit): the Lyria line needs a decoded recording, and the anime line needs links.anime PASS
+og-ogp: <head> carries og:title, og:description, og:image, og:url, og:type, twitter:card PASS
+og-ogp: v5/assets/og/ogp.jpg is a 1200x630 JPEG, 170327 bytes PASS
+og-ogp: tools/make_outgame_art.py has no mirror, flip or transpose PASS
+og-ogp: tools/test_playables_v5.cjs (not otherwise run by gate.sh) PASS
+og-ogp: build_playables_v5.sh leaves the OGP meta and assets/og/ out of the bundle PASS
+og-ogp: no file in the Playables bundle (287 files) carries the string github.io PASS
+og-share: validate() is empty for the shipped table and catches every rule in design_a.md 2.3, including {not} and {item} in an achievement PASS
+og-share: registerOutGame removes the row with a problem, reports it on console.error, and the rest keeps working PASS
+og-share: navigator.share gets this run (lower than the best), the game URL and no empty {var} PASS
+og-share: AbortError shows nothing; other failures and no navigator.share open the X and copy window; X opens intent/post; back keeps the result PASS
+og-share: repeated presses share once, the row comes back when the sheet is done, and a late failure opens nothing PASS
+og-share: a run with cheats says チート付き (チートつき for kids) in the shared text PASS
+og-share: a null window.open offers この画面で開く, which opens X in the same tab; back returns to the window PASS
+og-share: copying tells its result in a toast, including when the clipboard refuses or is missing PASS
+og-share: the chapter card names the cleared chapter; arrows reach the row, Z presses it and stays, Z on the main button goes on; town cards have no row PASS
+og-share: under the Playables SDK stub no place shows a row, even with an anime URL PASS
+og-share: without js/outgame.js the title, the menu, the result and the chapter card all work PASS
+og-share: a link with ?from=anime1 boots as usual PASS
+og-share: a line with an empty {var} disappears, and the anime line appears only with its URL PASS
+og-share: open rows, view rows and credit cards work from a table written for this test PASS
+og-share: the address shows in no place and no window PASS
+og-share: every place has its host, an engine call, an opener and a smoke scene PASS
+og-share: window.open, navigator.share, the X address and the clipboard appear only in js/outgame.js; no new network call; no made-up URL PASS
+og-share: og:url matches links.game, and og:image is a file under it PASS
+og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard, github.io or intent/post in the bundle PASS
+og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
+og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
+og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 80ms) PASS
+og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
