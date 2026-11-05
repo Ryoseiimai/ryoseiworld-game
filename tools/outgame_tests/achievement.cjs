@@ -117,6 +117,13 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert(copy.includes('最高ステージ 3') && copy.includes('最高コンボ 4'), 'the best challenge record shows: ' + copy);
     assert(copy.includes('BUG KING を修理した'), 'the earned row names itself: ' + copy);
     assert(copy.includes('？？？'), 'an un-earned secret row still shows as ？？？: ' + copy);
+    // R404: earned rows carry the filled ★, the rest the hollow ☆ and the word まだ, so the two are told apart without a legend.
+    const rowLines = copy.split('\n').filter(l => /^[★☆] /.test(l));
+    assert.equal(rowLines.length, 12, 'every achievement row starts with ★ or ☆: ' + JSON.stringify(copy));
+    assert.equal(rowLines.filter(l => l.startsWith('★ ')).length, 1, 'only the one earned row is ★ (it matches 記録 1/12): ' + JSON.stringify(rowLines));
+    assert(rowLines.filter(l => l.startsWith('☆ ')).every(l => l.endsWith('（まだ）')), 'every un-earned row says まだ: ' + JSON.stringify(rowLines));
+    assert(rowLines.find(l => l.includes('BUG KING を修理した')).startsWith('★ '), 'the earned BUG KING row is the ★ one');
+    assert(!copy.includes('・ '), 'the old ・ mark is gone');
     assert(!copy.includes('ジブンと向き合った') && !copy.includes('ゼロと作る'), 'secret rows stay hidden until earned');
     assert.equal(copy.split('\n').filter(l => l.trim()).length - 2, 12, '12 achievement lines plus the two best-record lines: ' + JSON.stringify(copy));
     r.button('戻る');

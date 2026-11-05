@@ -135,7 +135,8 @@
       const rows = T.achievements.map(a => {
         const got = !!(c.save && P.check(a.when, c.save));
         const name = a.secret && !got ? pick(['？？？', '？？？'], c) : pick(a.name, c);
-        return (got ? '☆ ' : '・ ') + name;
+        // R404: a hollow ☆ read as "not yet" to players, so earned rows get the filled ★ and the rest say まだ in words.
+        return got ? '★ ' + name : '☆ ' + name + pick(['（まだ）', '（まだ）'], c);
       }).join('\n');
       const best = P.recordsText(c.save, c.adult);
       return best ? best + '\n\n' + rows : rows;
