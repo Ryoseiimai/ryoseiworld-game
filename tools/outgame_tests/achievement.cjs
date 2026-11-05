@@ -220,6 +220,24 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   }
   result.push('og-achievement: an achievement earned on the ending screen never toasts, and is not replayed later PASS');
 
+  // R402: a toast already showing on the field (the achievement, the save) stayed over THE END after the screen changed.
+  {
+    const r = await runtime();
+    r.tick();
+    r.g.debugStartChapter(1);
+    r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
+    await r.g.save();
+    r.tick(2700);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績'), 'the achievement toast is showing on the field: ' + toast(r).textContent);
+    r.g.state.flags.cleared = true;
+    r.g.debugEvent([{ chapterClear: true, copy: 'x' }]);
+    assert.equal(r.g.screen, 'ending', 'on the ending screen');
+    assert(toast(r).hidden, 'the toast from the field is cleared when the ending opens');
+    r.tick(16);
+    assert(toast(r).hidden, 'and stays cleared on the next frame');
+  }
+  result.push('og-achievement: a toast left from the field is cleared when the ending screen opens PASS');
+
   // --- はじめから wipes the achievements along with the rest of the save (confirm text already says so) ---
   {
     const r = await runtime();
