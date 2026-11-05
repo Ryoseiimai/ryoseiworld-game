@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T00:58:10.511Z",
-  "branch": "claude/autodev-20261026-0921-R252",
-  "task": "R252 町の公園でベンチがおじいさんに重なり、看板の左の柱が池のふちに近かったので、池を3マス幅にし、おじいさんをベンチの左へ動かした",
-  "summary": "町の公園の池を4マス幅から3マス幅にし、看板の左の柱と池の間を約1マスあけた\nおじいさんをベンチの左へ動かし、看板とベンチを少し下げて板と車道の間を13pxあけた\nベンチの確かめを、看板・ベンチ・おじいさんの絵の大きさから測る形に書き直した",
-  "result": "pass",
-  "shots": [
-   "shots/449/mobile-02-mode-select.jpg",
-   "shots/449/mobile-15-custom-full-run.jpg",
-   "shots/449/mobile-27-chapter-2-play.jpg",
-   "shots/449/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "051bc86",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40250962881"
- },
- {
   "at": "2026-10-26T01:54:06.287Z",
   "branch": "claude/autodev-20261026-1021-R253",
   "task": "R253 ミナモの駅がバスていと同じ赤白の札で、町にバスていが2本あるように見えたので、届いていた電車の札の絵に替えた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d1fa651",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42089240560"
+ },
+ {
+  "at": "2026-11-05T22:01:42.461Z",
+  "branch": "claude/autodev-20261106-0641-R404",
+  "task": "R404 遊んで一番気になる所を1つ直す",
+  "summary": "確かめ用のメニューの窓の見出しが、おとなモードでも「めにゅー」だった\nおとなモードでは「メニュー」、こどもモードでは「めにゅー」と出すようにした\n両方のモードで見出しを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/701/mobile-02-mode-select.jpg",
+   "shots/701/mobile-19-custom-og-credit-card.jpg",
+   "shots/701/mobile-34-chapter-1-play.jpg",
+   "shots/701/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a7574db",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42115947569"
  }
 ]
