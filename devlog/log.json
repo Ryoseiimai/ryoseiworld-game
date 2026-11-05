@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T00:11:49.159Z",
-  "branch": "claude/autodev-20261026-0821-R251",
-  "task": "R251 町の公園の「こうえん」の看板の板が車道の上にかかっていたので、看板を公園の奥へ下げ、池を1マス西へ動かした",
-  "summary": "町の公園の「こうえん」の看板を1.7マス南へ下げ、板が車道にかからないようにした\n左の柱が池に立たないよう、池を1マス西へ動かし、ベンチを2本の柱の間に置いた\nベンチの確かめ（看板から2.5マス下）は成り立たないので、柱の間で柱に重ならない形に書き直した",
-  "result": "pass",
-  "shots": [
-   "shots/447/mobile-02-mode-select.jpg",
-   "shots/447/mobile-15-custom-full-run.jpg",
-   "shots/447/mobile-27-chapter-2-play.jpg",
-   "shots/447/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "52a94ac",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40247308231"
- },
- {
   "at": "2026-10-26T00:58:10.511Z",
   "branch": "claude/autodev-20261026-0921-R252",
   "task": "R252 町の公園でベンチがおじいさんに重なり、看板の左の柱が池のふちに近かったので、池を3マス幅にし、おじいさんをベンチの左へ動かした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "82d071a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42062001022"
+ },
+ {
+  "at": "2026-11-05T19:09:03.161Z",
+  "branch": "claude/autodev-20261106-0341-R403",
+  "task": "R403 おとなモードで、エンディングの上のメニューの見出しが「めにゅー」のまま",
+  "summary": "確かめ用のメニューの窓の見出しが、おとなモードでも「めにゅー」だった\nおとなモードでは「メニュー」、こどもモードでは「めにゅー」と出すようにした\n両方のモードで見出しを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/700/mobile-02-mode-select.jpg",
+   "shots/700/mobile-19-custom-og-credit-card.jpg",
+   "shots/700/mobile-34-chapter-1-play.jpg",
+   "shots/700/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d1fa651",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42089240560"
  }
 ]
