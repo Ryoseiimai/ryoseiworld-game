@@ -1041,7 +1041,7 @@ const outgamePort={env:()=>isPlayables()?'playables':'web',adult:()=>g.screen===
  // in ~12 unrelated rows (status, items, weapons...) long enough to make the panel itself scroll, which
  // would scroll modal-title out of view while this generic check scrolls to a button far down the list.
  // That scroll is real menu() UI, already covered by its own tests; this opener isolates OutGame's own row.
- 'menu':()=>{openModal('めにゅー','',[...(OG()?.buttons('menu',{back:closeModal})||[]),{text:backLabel(),action:closeModal}],'menu');}
+ 'menu':()=>{openModal(menuLabel('メニュー','めにゅー'),'',[...(OG()?.buttons('menu',{back:closeModal})||[]),{text:backLabel(),action:closeModal}],'menu');}
 }};
 function start(){if(started)return;started=true;applyMode();OG()?.connect(outgamePort);if(!GAME_DATA.chapters[1])console.error('chapter 1 data is missing (data/ch1.js)');(async()=>{await Promise.all([loadAssets(),platform.load().then(s=>{s=migrateSave(s);if(validSave(s)){saved=s;if(s.mode==='adult'&&!$('loading').hidden)$('loading').textContent='町の明かりをつけています…';}})]);await platform.whenActive();title();$('loading').hidden=true;booted=true;scheduleFrame();loadMusic();})();}
 window.RYW=Object.assign(window.RYW||{},{Shop,registerChapter,start,learn,learnQuiet,prepareBossWords,helpers:{object,person,prop,props}});
