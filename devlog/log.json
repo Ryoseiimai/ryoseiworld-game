@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T20:57:12.773Z",
-  "branch": "claude/autodev-20261027-0521-R269",
-  "task": "R269 遊んで一番気になる所を1つ直す（前半: 確認役が挙げた4つを調べ、どれも前の回で直さないと決めた所だった）",
-  "summary": "全章のスクショ42枚を確認役に見せ、気になる所を4つ挙げてもらった\n話すボタンが人を隠す・信号の位置・公園の看板の大きさは、前の回で直さないと決めた所だった\n1しょうの始めでおまわりさんがメニューのボタンの下に半分隠れる件を、次の件にした",
-  "result": "pass",
-  "shots": [
-   "shots/475/mobile-02-mode-select.jpg",
-   "shots/475/mobile-15-custom-full-run.jpg",
-   "shots/475/mobile-27-chapter-2-play.jpg",
-   "shots/475/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7147a42",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40398849809"
- },
- {
   "at": "2026-10-26T21:47:42.408Z",
   "branch": "claude/autodev-20261027-0622-R270",
   "task": "R270 1しょうの始めの町で、おまわりさんがメニューのボタンの下に半分かくれていたので、道の向かいの歩道へ動かした",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "95ccdf7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42252668568"
+ },
+ {
+  "at": "2026-11-06T17:04:04.738Z",
+  "branch": "claude/autodev-20261107-0121-R418",
+  "task": "R418 モードを選ぶ画面が「おとな＝漢字まじりで学ぶ」だけで、物語の台詞も漢字になると読めたので、「物語の台詞はどちらも同じ。」と足した",
+  "summary": "モードを選ぶ画面に「物語の台詞はどちらも同じ。」の1行を足した\nこどもモードの記録では「おはなしは どちらも おなじ。」と出す\n新しい1行の確認を tools/test_v5.cjs に足し、前と後のスクショを docs/shots/R418 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/730/mobile-02-mode-select.jpg",
+   "shots/730/mobile-19-custom-og-credit-card.jpg",
+   "shots/730/mobile-34-chapter-1-play.jpg",
+   "shots/730/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6f5aba2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42253136403"
  }
 ]
