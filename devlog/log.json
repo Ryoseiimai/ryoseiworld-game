@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T05:13:23.248Z",
-  "branch": "claude/autodev-20261026-1321-R256",
-  "task": "R256 町とミナモの木の看板の板に字が無く、何の看板か分からなかったので、板を少し大きくして「ちず」「ミナモ」と書いた",
-  "summary": "町とミナモの木の看板に「ちず」「ミナモ」と書き、字が入るよう板を大きくした\nミナモの看板は桜の木に当たらないよう少し東へ動かした\n看板に字があり、柱の間に収まることをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/453/mobile-02-mode-select.jpg",
-   "shots/453/mobile-15-custom-full-run.jpg",
-   "shots/453/mobile-27-chapter-2-play.jpg",
-   "shots/453/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f9e104a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40272354057"
- },
- {
   "at": "2026-10-26T05:54:06.634Z",
   "branch": "claude/autodev-20261026-1421-R257",
   "task": "R257 4章のとう2Fで黒っぽいカラスのノイズが紺の床に沈んで見えなかったので、塔の床の上の敵の後ろにうすい光の輪を描いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "c12f413",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42141474364"
+ },
+ {
+  "at": "2026-11-06T03:49:17.148Z",
+  "branch": "claude/autodev-20261106-1221-R406",
+  "task": "R406 遊んで一番気になる所を1つ直す",
+  "summary": "チャレンジ中に取った実績の知らせが、記録の窓の見出しを隠していた\n窓が開くと知らせを引っ込め、窓を閉じた後に先に出し直すようにした\n確かめるテストを足し、前と後のスクショを docs/shots/R405 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/706/mobile-02-mode-select.jpg",
+   "shots/706/mobile-19-custom-og-credit-card.jpg",
+   "shots/706/mobile-34-chapter-1-play.jpg",
+   "shots/706/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "89a1bb9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42157448998"
  }
 ]
