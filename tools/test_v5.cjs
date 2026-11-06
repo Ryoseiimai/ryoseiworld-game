@@ -1757,6 +1757,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.state.mode=mode;r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'}]}}]);
   assert.equal(r.els.get('ending-eyebrow').textContent,adult?'直った町':'なおった まち');assert.equal(r.els.get('ending-title').textContent,adult?'次へ':'つぎへ');
   r.click('ending-title');assert.equal(r.g.screen,'epilogue');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R350 send button');}}
+ // R411: the shop heading follows the mode: adult 「コンビニ・夜の川」, kids keep 「コンビニ・よるの かわ」.
+ for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugStartChapter(1);r.tick(100);r.g.state.mode=mode;
+  r.g.debugWarp('store',5,5.6);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue,mode+' R411 register talk');while(r.g.dialogue)r.dialogue();assert.equal(r.g.modal,'shop',mode+' R411 shop opens');
+  assert.equal(r.els.get('modal-title').textContent,adult?'コンビニ・夜の川':'コンビニ・よるの かわ',mode+' R411 shop heading');}
+ result.push('R411: おとなモードの店の窓の見出しを「コンビニ・夜の川」にした（こどもは「コンビニ・よるの かわ」のまま） PASS');
  result.push('R410: おとなモードの章クリアの札は「ネオンシティへ」のように、名前と「へ」の間を空けない PASS');
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
  // R376: the hearts of the きずな list started where each name ended; one-row names are now padded so the hearts start in one column (ASCII counts half).
