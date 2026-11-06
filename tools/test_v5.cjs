@@ -3041,10 +3041,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS');
  // R395: the ノーツ hint said 「流れてくる印に合わせよう」 but the boss screen shows no 印 near it; the marks run along the bottom line into the ring at its left end (shooter.js drawRhythm), so the hint says where to look.
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);assert(m,'R395: notes entry');
-  assert(/下/.test(m[1])&&/輪/.test(m[1])&&/押/.test(m[1]),'R395: adult hint names the bottom line, the ring and the press: '+m[1]);assert(/した/.test(m[2])&&/わ/.test(m[2])&&/おそう/.test(m[2]),'R395: kids hint too: '+m[2]);
+  assert(/下/.test(m[1])&&/輪/.test(m[1])&&/押/.test(m[1]),'R395: adult hint names the bottom line, the ring and the press: '+m[1]);assert(/しるし/.test(m[2])&&/わ/.test(m[2])&&/おして/.test(m[2]),'R395: kids hint too: '+m[2]);
   assert([...m[2]].length<=30&&[...m[1]].length<=30,'R395: hints stay within 30 letters');
   const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/var nx = x \+ \(i - r\.phase\) \* 68/.test(sh)&&/ctx\.arc\(x, y, 17 \+ pulse/.test(sh),'R395: the marks still move left into the ring at the line\'s left end');}
  result.push('R395: ボス戦のノーツのひとことが「下の印が左の輪に来たら押そう」と、印の場所を言う PASS');
+ // R424: the ノーツ hint never named the button; the only button on the boss screen is 「ビート」 (shooter.js rs-beat), and kids' 「おそう」 also reads as 襲う. Both hints now name ビート and the kids' verb is おして.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
+  assert(/「ビート」を押/.test(m[1]),'R424: adult hint names the ビート button: '+m[1]);assert(/ビートを おして/.test(m[2])&&!/おそう/.test(m[2]),'R424: kids hint names ビート and does not say おそう: '+m[2]);
+  const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/class="rs-beat"[^>]*>ビート</.test(sh),'R424: the boss screen button is still labelled ビート');}
+ result.push('R424: ボス戦のノーツのひとことが、押すボタン「ビート」を言う PASS');
  // R399: the battle commands 実行/作る/呼び出す gave no clue which one attacks. Until the first 実行, the encounter line says 「実行」で攻撃しよう; after it, the line is the old one.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
