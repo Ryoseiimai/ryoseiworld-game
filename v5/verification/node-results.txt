@@ -120,6 +120,7 @@ R112: 「はなす」の地が薄い間は、字が明るい色と濃いふち�
 R114: 「ドラッグで あるく」の箱が薄い間も、字は濃いふちで読める PASS
 R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS
 R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS
+R407: 設定と終わりの画面のメニューの窓で、見出しの下に空きが出ない PASS
 R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS
 R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS
 R161: ヒカクマオウ戦の背景の看板を薄くして中の棒を止め、こうげきの棒や拾う物に見えないようにした PASS
@@ -355,5 +356,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 100ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 108ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
