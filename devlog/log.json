@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T09:53:31.438Z",
-  "branch": "claude/autodev-20261026-1822-R260",
-  "task": "R260 遊んで一番気になる所を1つ直す（前半: 確認役が挙げた5つを調べ、どれも直す所ではなかった）",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n5つとも実際の画面で確かめたが、直す所ではなかった\n戦闘の主人公の影はすでにあり、字はすべて24px以上だった",
-  "result": "pass",
-  "shots": [
-   "shots/458/mobile-02-mode-select.jpg",
-   "shots/458/mobile-15-custom-full-run.jpg",
-   "shots/458/mobile-27-chapter-2-play.jpg",
-   "shots/458/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8c8d393",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40301733393"
- },
- {
   "at": "2026-10-26T10:46:01.073Z",
   "branch": "claude/autodev-20261026-1921-R261",
   "task": "R261 店や家の出口の「↓」の札が手前の壁から1.5〜2マス上の床の真ん中に浮いていたので、7つの部屋で札を壁のそばへ下げた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d26ee5f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42169261119"
+ },
+ {
+  "at": "2026-11-06T05:54:51.712Z",
+  "branch": "claude/autodev-20261106-1421-R407",
+  "task": "R407 終わりの画面の「設定」と「メニュー」の窓で、空の本文が見出しの下に大きな空きを作っていたので、本文が空の時は出さないようにした",
+  "summary": "終わりの画面の設定とメニューの窓で、見出しの下が空いていた\n本文が空の時は段落を出さないようにし、空きを無くした\n確かめるテストを足し、前と後のスクショを docs/shots/R407 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/713/mobile-02-mode-select.jpg",
+   "shots/713/mobile-19-custom-og-credit-card.jpg",
+   "shots/713/mobile-34-chapter-1-play.jpg",
+   "shots/713/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1fe5298",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42169692019"
  }
 ]
