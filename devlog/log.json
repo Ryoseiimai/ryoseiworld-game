@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T22:56:26.635Z",
-  "branch": "claude/autodev-20261027-0721-R271",
-  "task": "R271 遊んで一番気になる所を1つ直す",
-  "summary": "おまわりさんを交番の前から、道をはさんだ南の歩道へ動かした\n1しょうの始めで、体も守護霊もメニューのボタンと上の札に重ならない\n話しかける位置のテストを直し、重ならないことを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/477/mobile-02-mode-select.jpg",
-   "shots/477/mobile-15-custom-full-run.jpg",
-   "shots/477/mobile-27-chapter-2-play.jpg",
-   "shots/477/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "84fdff1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40414753998"
- },
- {
   "at": "2026-10-26T23:05:09.115Z",
   "branch": "claude/autodev-20261027-0721-R271",
   "task": "R271 ミナモの「ミナモ」看板の板が東西の車道にかかっていたので、看板を1.5マス南へ下げた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "38eabd7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42255000445"
+ },
+ {
+  "at": "2026-11-06T19:01:22.258Z",
+  "branch": "claude/autodev-20261107-0321-R419",
+  "task": "R419 記録の窓で、まだ取っていない実績が「言葉を10個集めた（まだ）」と、終わった形と「まだ」が並んでいたので、おとなモードでは「（未達成）」とした",
+  "summary": "記録の窓で、まだの実績の後ろを、おとなモードでは「（未達成）」にした\nこどもモードは短い「（まだ）」のままにし、両方の確認を tools/outgame_tests に足した\n全章のテストを通し、前と後のスクショを docs/shots/R419 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/732/mobile-02-mode-select.jpg",
+   "shots/732/mobile-19-custom-og-credit-card.jpg",
+   "shots/732/mobile-34-chapter-1-play.jpg",
+   "shots/732/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8e2663f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42273524245"
  }
 ]
