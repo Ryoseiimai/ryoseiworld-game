@@ -127,6 +127,9 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert(rowLines.filter(l => l.startsWith('☆ ')).every(l => l.endsWith('（未達成）')), 'every un-earned row says 未達成: ' + JSON.stringify(rowLines));
     assert(!copy.includes('（まだ）'), 'adult mode no longer pairs a done-form name with まだ: ' + JSON.stringify(rowLines));
     assert(rowLines.find(l => l.includes('BUG KING を修理した')).startsWith('★ '), 'the earned BUG KING row is the ★ one');
+    // R421: earned rows are listed before every un-earned one.
+    const firstHollow = rowLines.findIndex(l => l.startsWith('☆ '));
+    assert(rowLines.slice(firstHollow).every(l => l.startsWith('☆ ')), 'R421: every ★ row comes before the first ☆ row: ' + JSON.stringify(rowLines));
     assert(!copy.includes('・ '), 'the old ・ mark is gone');
     assert(!copy.includes('ジブンと向き合った') && !copy.includes('ゼロと作った'), 'secret rows stay hidden until earned');
     assert.equal(copy.split('\n').filter(l => l.trim()).length - 2, 12, '12 achievement lines plus the two best-record lines: ' + JSON.stringify(copy));
@@ -154,6 +157,21 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.screen, 'title', 'back returns to the title, unchanged');
   }
   result.push('og-achievement: きろく from the title (before つづきから) reads the loaded save, kids text by default, no best record when none was ever played PASS');
+
+  // --- R421: an earned row late in the data (stage5) is listed right after the other earned rows, above every ☆ row ---
+  {
+    const old = { version: 5, saveVersion: 2, towns: [1], started: true, chapter: 1, map: 'town', x: 100, y: 100, dir: 0, level: 3, exp: 0, hp: 40, battery: 80, money: 50, items: {}, summons: ['nao'], bosses: ['bugking'], flags: { tutorial: true, cleared: true }, weapons: ['fuku'], bonds: {}, met: [], words: [], proto: {}, shop: { debugmode: false }, cheats: {}, challenge: { best: { stage: 5, bestCombo: 3 }, bestCheat: { stage: 0, bestCombo: 0 } }, gifts: {}, aiName: 'ソラ', mode: 'adult' };
+    const r = await runtime({ saved: new Map([['ryoseiworld-rpg-v5', JSON.stringify(old)]]) });
+    r.tick();
+    r.els.get('title-links').children[0].click();
+    assert.equal(r.g.modal, 'og-records', 'R421: the records window opens from the title');
+    const rows = r.els.get('modal-copy').textContent.split('\n').filter(l => /^[★☆] /.test(l));
+    assert.equal(rows.length, 12, 'R421: all 12 rows: ' + JSON.stringify(rows));
+    assert.deepEqual(rows.slice(0, 2), ['★ BUG KING を修理した', '★ ステージ5に届いた'], 'R421: the two earned rows come first, in data order: ' + JSON.stringify(rows));
+    assert(rows.slice(2).every(l => l.startsWith('☆ ')), 'R421: the rest are un-earned: ' + JSON.stringify(rows));
+    assert.equal(rows[2], '☆ カテイノジジョウを静めた（未達成）', 'R421: un-earned rows keep their data order: ' + JSON.stringify(rows));
+  }
+  result.push('og-achievement: R421 earned rows are listed first, so stage5 sits right under BUG KING above every ☆ row PASS');
 
   // --- The toast: #toast, after the save toast clears, never on title/ending/epilogue, and not replayed later ---
   {

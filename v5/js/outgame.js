@@ -132,8 +132,12 @@
     // The best challenge record (if any) sits above the achievement list. `secret` rows show '？？？'
     // until earned; every other row keeps its name either way so the player knows what to aim for.
     records: c => {
-      const rows = T.achievements.map(a => {
-        const got = !!(c.save && P.check(a.when, c.save));
+      // R421: earned rows come first (each group keeps the data order), so an earned row is never pushed below
+      // the 「▼続き」 fold by the un-earned ones and the player sees what they already have at a glance.
+      const gotOf = a => !!(c.save && P.check(a.when, c.save));
+      const list = T.achievements.filter(gotOf).concat(T.achievements.filter(a => !gotOf(a)));
+      const rows = list.map(a => {
+        const got = gotOf(a);
         const name = a.secret && !got ? pick(['？？？', '？？？'], c) : pick(a.name, c);
         // R404: a hollow ☆ read as "not yet" to players, so earned rows get the filled ★ and the rest say so in words.
         // R419: in adult mode "言葉を10個集めた（まだ）" read as done and not done at once, so it says 未達成 instead.
