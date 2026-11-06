@@ -17,8 +17,8 @@ module.exports = async function animeCta({ runtime, result, assert }) {
   result.push('og-anime-cta: the title band is empty while links.anime is empty PASS');
 
   // --- Setting the URL and re-drawing (title() calls OG()?.mount('title') itself; mount() is called
-  // directly here, the way other OutGame places are tested) puts the row on screen, kids label by
-  // default (titleAdult() is false with no save) ---
+  // directly here, the way other OutGame places are tested) puts the row on screen, adult label by
+  // default (R406: titleAdult() is true with no save, as SPEC_V7_MANABU 9.1 starts on おとな) ---
   {
     const r = await runtime();
     r.tick();
@@ -26,10 +26,10 @@ module.exports = async function animeCta({ runtime, result, assert }) {
     OG(r).mount('title');
     const row = band(r);
     assert.equal(row.length, 1, 'one row once the URL is set');
-    assert.equal(row[0].textContent, 'アニメを みる', 'kids label (no save means titleAdult() is false)');
+    assert.equal(row[0].textContent, 'アニメを見る', 'adult label (R406: no save means titleAdult() is true)');
     restore();
   }
-  result.push('og-anime-cta: the row appears once links.anime is set, with the kids label by default PASS');
+  result.push('og-anime-cta: the row appears once links.anime is set, with the adult label by default PASS');
 
   // --- Arrow key reaches the row (title-actions via NAV_EXTRA), Z presses it: window.open once, no
   // noopener (the opener is cut after opening, as in js/outgame.js openExternal) ---
@@ -66,10 +66,10 @@ module.exports = async function animeCta({ runtime, result, assert }) {
     band(r)[0].click();
     assert.equal(r.g.modal, 'open-blocked', 'a null window asks');
     const buttons = r.els.get('modal-buttons').children.map(b => b.textContent);
-    assert.deepEqual(buttons, ['この がめんで ひらく', 'もどる'], 'one way out, plus back (kids label by default)');
+    assert.deepEqual(buttons, ['この画面で開く', '戻る'], 'one way out, plus back (adult label by default)');
     assert(!/https?:/.test(r.els.get('modal-copy').textContent + buttons.join()), 'no URL on screen');
     assert.equal(r.win.location.href, undefined, 'nothing moves until the player presses');
-    const back = r.els.get('modal-buttons').children.find(b => b.textContent === 'もどる');
+    const back = r.els.get('modal-buttons').children.find(b => b.textContent === '戻る');
     back.onclick();
     assert.equal(r.g.modal, '', 'back closes the modal and returns to the title');
     assert.equal(r.g.screen, 'title');
