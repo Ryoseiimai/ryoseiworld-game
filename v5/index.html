@@ -257,7 +257,7 @@ const OG=()=>window.RYW?.OutGame;
 const GAME_DATA={
  chapters:{},dialogue:{},events:{},bonds:{},spirits:{},
  // Boss-fight weapons (SPEC_V6.md 3); the ids match RYW.Shooter. fuku is there from the start.
- weapons:{fuku:{name:'フクの ひかりだま',kind:'start',desc:'まっすぐ みぎへ うつ'},rapid:{name:'れんしゃ モジュール',kind:'friend',desc:'うつ かんかくが みじかく なる'},twin:{name:'2ほうこう チップ',kind:'friend',desc:'ななめ うえと したにも うつ'},rainbow:{name:'にじいろ チップ',kind:'friend',desc:'てきの たまを つらぬく'},barrier:{name:'おまもりバリア',kind:'family',desc:'1かい あたっても へいき。\n15びょうで もどる'},onigiri:{name:'てづくり おにぎり',kind:'family',desc:'ハートが 1つ ふえる'},letter:{name:'ハートの てがみ',kind:'love',desc:'てきを おいかける ハートの たま'},charge:{name:'フクの ためうち',kind:'love',desc:'おしつづけて ためると\nおおきな とらの たま'}},
+ weapons:{fuku:{name:'フクの ひかりだま',kind:'start',desc:'まっすぐ みぎへ うつ'},rapid:{name:'れんしゃ モジュール',kind:'friend',desc:'うつ かんかくが みじかく なる'},twin:{name:'2ほうこう チップ',kind:'friend',desc:'ななめ うえと したにも うつ'},rainbow:{name:'にじいろ チップ',kind:'friend',desc:'てきの たまを つらぬく'},barrier:{name:'おまもりバリア',kind:'family',desc:'1かいだけ こうげきを ふせぐ。\nきえても 15びょうで はりなおす'},onigiri:{name:'てづくり おにぎり',kind:'family',desc:'ハートが 1つ ふえる'},letter:{name:'ハートの てがみ',kind:'love',desc:'てきを おいかける ハートの たま'},charge:{name:'フクの ためうち',kind:'love',desc:'おしつづけて ためると\nおおきな とらの たま'}},
  summons:{nao:{name:'ナオスライム',frame:0,cost:15,heal:38,desc:'HPを38 かいふく。ノイズも なおす。',descAdult:'HPを38回復。ノイズも直す。'},code:{name:'コードラゴン',frame:1,cost:25,damage:56,desc:'コードの ブレスで おおダメージ。',descAdult:'コードのブレスで大ダメージ。'}},
  items:{rice:{name:'おにぎり',price:35,heal:35,desc:'HPが35 もどる。しおあじ。'},drink:{name:'エナジードリンク',price:60,heal:65,desc:'HPが65 もどる。よるの あじ。'},battery:{name:'モバイルバッテリー',price:75,battery:50,desc:'でんちが50％ もどる。'}},
  enemies:{},
@@ -429,7 +429,7 @@ const word=(id,fallback)=>window.RYW?.word?window.RYW.word(id):fallback;
 // SPEC_V7_MANABU.md 9・9.1: the "作る"/"にげる" commands have no words.js entry (they are plain UI labels, not learned vocabulary), so the mode swap is done directly here.
 function refreshCommandLabels(){const LABELS={attack:'jikkou',summon:'yobidasu',item:'item'};for(const el of $('commands').children){const id=LABELS[el.dataset.cmd];if(id)el.textContent=word(id,el.textContent);else if(el.dataset.cmd==='create')el.textContent=g.mode==='adult'?'作る':'つくる';else if(el.dataset.cmd==='run')el.textContent=g.mode==='adult'?'逃げる':'にげる';}}
 // SPEC_V7_MANABU.md 9: weapon descriptions are part of the learning side, so adult mode reads them in kanji. Kids keep the hiragana ones.
-const WEAPON_DESC_ADULT={fuku:'まっすぐ右へ撃つ',twin:'斜め上と斜め下にも撃つ',rainbow:'敵の弾を貫く',barrier:'1回当たっても平気。\n15秒で戻る',onigiri:'ライフが1つ増える',letter:'敵を追いかけるハートの弾',charge:'押し続けてためると\n大きな虎の弾'};
+const WEAPON_DESC_ADULT={fuku:'まっすぐ右へ撃つ',twin:'斜め上と斜め下にも撃つ',rainbow:'敵の弾を貫く',barrier:'1回だけ攻撃を防ぐ。\n消えても15秒で張り直す',onigiri:'ライフが1つ増える',letter:'敵を追いかけるハートの弾',charge:'押し続けてためると\n大きな虎の弾'};
 function weaponDescAdult(id){return id==='rapid'?'次に撃つまで\n'+window.RYW.Shooter.cooldownLabel():WEAPON_DESC_ADULT[id];}
 function refreshWeaponData(){if(!window.RYW?.Shooter?.syncWeaponNames)return;window.RYW.Shooter.syncWeaponNames();for(const w of window.RYW.Shooter._sim.WEAPONS||[])if(Object.hasOwn(GAME_DATA.weapons,w.id)){const d=GAME_DATA.weapons[w.id];if(d.kidsDesc==null)d.kidsDesc=d.desc;const kids=['rapid','onigiri'].includes(w.id)?w.desc:d.kidsDesc;Object.assign(d,{name:w.name,desc:g.mode==='adult'&&weaponDescAdult(w.id)||kids});}}
 // R315: the town walk help is a how-to line like the boss fight's move hint (R314), so adult mode reads it in kanji. Kids keep the hiragana one.

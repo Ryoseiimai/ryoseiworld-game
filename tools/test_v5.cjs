@@ -2067,7 +2067,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('menu-btn');r.button('武器');assert.equal(r.g.modal,'weapons');let c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ右へ撃つ'),c);assert(c.includes('\n\n持っていない武器は あと7つ。\nきずなが深まると増える。'),c);fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('武器');c=copy();assert(c.includes('全部そろった！'),c);
   for(const w of Object.values(D.weapons)){assert(w.desc&&c.includes(w.desc),w.name+' desc');assert(!/[ぁ-ん]{2,} [ぁ-ん]{2,}/.test(w.desc),'adult desc reads in kanji: '+w.desc);}
-  assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
+  assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で張り直す')&&!D.weapons.barrier.desc.includes('戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);fits(c);}
  result.push('R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS');
  // R122: the bonds menu hints read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.

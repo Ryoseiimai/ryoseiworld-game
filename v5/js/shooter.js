@@ -98,7 +98,7 @@
     { id: 'rapid', name: 'れんしゃ モジュール', kind: 'friend', icon: [1, 0], desc: 'うつ かんかくが みじかく なる' },
     { id: 'twin', name: '2ほうこう チップ', kind: 'friend', icon: [0, 3], desc: 'うえと したの ななめにも うつ' },
     { id: 'rainbow', name: 'にじいろ チップ', kind: 'friend', icon: [1, 1], desc: 'てきの たまを つらぬく' },
-    { id: 'barrier', name: 'おまもりバリア', kind: 'family', icon: [2, 0], desc: '1かいだけ あたっても へいき。15びょうで もどる' },
+    { id: 'barrier', name: 'おまもりバリア', kind: 'family', icon: [2, 0], desc: '1かいだけ こうげきを ふせぐ。きえても 15びょうで はりなおす' },
     { id: 'onigiri', name: 'てづくり おにぎり', kind: 'family', icon: [2, 1], desc: 'ハートの かずが 1つ ふえる' },
     { id: 'letter', name: 'ハートの てがみ', kind: 'love', icon: [1, 2], desc: 'てきを おいかける ハートの たま' },
     { id: 'charge', name: 'フクの ためうち', kind: 'love', icon: [1, 3], desc: 'おしつづけて ためると おおきな とらの たま' }
