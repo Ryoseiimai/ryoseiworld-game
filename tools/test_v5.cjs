@@ -1462,7 +1462,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');assert.equal(r.g.modal,'mode-select');const rows=r.els.get('modal-copy').textContent.split('\n'),wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'each mode has its own line: '+JSON.stringify(rows));
   for(const row of rows)assert(wide(row)<=17,'the row fits the 540px window without wrapping: '+row);}
- // R371/R406: with an adult save (and, since R406, with no save), the confirm before reads kanji but the mode screen fell back to 「モードを えらぶ」「あとで 設定からも かえられる。」. Adult save shows 「モードを選ぶ」「後で設定からも変えられる。」; no save and a kids save keep kana.
+ // R371/R406: with an adult save (and, since R406, with no save), the confirm before reads kanji but the mode screen fell back to 「モードを えらぶ」「あとで 設定からも かえられる。」. Adult save shows 「モードを選ぶ」「後で設定からも変えられる。」; R406: no save reads kanji too, a kids save keeps kana.
+ // R406: a save without mode (made before 9.1) counts as adult, so the title reads in kanji.
+ {const m=await runtime();m.tick();m.start('adult');await settle();await m.g.save(false);const data=JSON.parse(m.saved.get('ryoseiworld-rpg-v5'));delete data.mode;const r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(data)]])});r.tick();assert.equal(r.els.get('start-btn').textContent,'始めから','R406 save without mode: start button');assert.equal(r.els.get('continue-btn').textContent,'続きから','R406 save without mode: continue button');assert(r.els.get('title-genre').innerHTML.startsWith('遊びながら'),'R406 save without mode: genre line');}
+ result.push('R406: 記録が無い時と mode の無い記録では、タイトルとモード選択が おとなの漢字まじりになる PASS');
  {const fresh=await runtime();fresh.tick();fresh.click('start-btn');assert.equal(fresh.g.modal,'mode-select');assert.equal(fresh.els.get('modal-title').textContent,'モードを選ぶ','R406 no save reads adult (9.1 starts on おとな)');assert(fresh.els.get('modal-copy').textContent.endsWith('後で設定からも変えられる。'),'R406 no save copy');
   for(const [mode,title,last] of [['adult','モードを選ぶ','後で設定からも変えられる。'],['kids','モードを えらぶ','あとで 設定からも かえられる。']]){const r=await runtime();r.tick();r.start(mode);await settle();await r.g.save(false);assert(r.saved.get('ryoseiworld-rpg-v5'),'R371 saved');
    const keep=new Map(r.saved);const t2=await runtime({saved:keep});t2.tick();t2.click('start-btn');assert.equal(t2.g.modal,'confirm');t2.button(mode==='adult'?'始める':'はじめる');assert.equal(t2.g.modal,'mode-select');
@@ -1502,7 +1505,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R113: the genre line on the title keeps a margin from the screen edges and wraps after ゲームづくりと, so RPG is not left alone on a line.
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
   assert(/<p class="genre-tag"[^>]*>遊びながら ゲーム作りと<br>AIを学ぶ RPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
- result.push('R113: タイトルの「あそびながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
+ result.push('R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
  // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
  {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);
   const card=Number((html.match(/\.hp-card\{[^}]*top:(\d+)px/)||[])[1]);assert(card>0,'the HP card has a top');
