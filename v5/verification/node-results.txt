@@ -111,6 +111,7 @@ R141: ネオンの「かずの ひと」が「はなす」ボタンの後ろに�
 R143: 町の池と砂場に、ほかの地面と接する辺だけ縁を描く PASS
 R144: ボス戦の右下のボタンが、画面の右端から22pxはなれる PASS
 R145: ネオンの駅で、くもの もんが上の表示の後ろに来ると、表示の地が薄くなる PASS
+R406: 記録が無い時と mode の無い記録では、タイトルとモード選択が おとなの漢字まじりになる PASS
 R371: おとなの記録があるとき、モードを選ぶ画面を「モードを選ぶ」「後で設定からも変えられる。」にし、記録なしとこどもは かなのまま PASS
 R372: おとなモードのきずなの一覧と、きずなの台詞で、人の名前を「修理屋さん」「ゲームの子」などの漢字にし、こどもは かなのまま PASS
 R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS
@@ -118,7 +119,7 @@ R147: タイトルの「♪ タップで音楽」が透けない金色になり�
 R112: 「はなす」の地が薄い間は、字が明るい色と濃いふちになり、後ろの人に溶けない PASS
 R114: 「ドラッグで あるく」の箱が薄い間も、字は濃いふちで読める PASS
 R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS
-R113: タイトルの「あそびながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS
+R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS
 R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS
 R83: ヒカクマオウ戦の背景の看板が、上の台詞やお知らせの後ろに来ない PASS
 R161: ヒカクマオウ戦の背景の看板を薄くして中の棒を止め、こうげきの棒や拾う物に見えないようにした PASS
@@ -315,7 +316,7 @@ og-achievement: an achievement earned on the ending screen never toasts, and is 
 og-achievement: a toast left from the field is cleared when the ending screen opens PASS
 og-achievement: はじめから warns that the old records are erased, matching that a fresh save earns nothing PASS
 og-anime-cta: the title band is empty while links.anime is empty PASS
-og-anime-cta: the row appears once links.anime is set, with the kids label by default PASS
+og-anime-cta: the row appears once links.anime is set, with the adult label by default PASS
 og-anime-cta: an arrow reaches the row, Z calls window.open once and cuts the opener PASS
 og-anime-cta: window.open returning null offers この画面で開く, which opens the URL in this tab PASS
 og-anime-cta: the SDK stub shows no row PASS
@@ -354,5 +355,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 136ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 100ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

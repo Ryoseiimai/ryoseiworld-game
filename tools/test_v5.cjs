@@ -1506,6 +1506,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
   assert(/<p class="genre-tag"[^>]*>遊びながら ゲーム作りと<br>AIを学ぶ RPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
  result.push('R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
+ // R407: the settings and the end-screen menu open with an empty copy, and the empty <p> kept its margins, leaving a blank band under the heading. An empty copy is now hidden.
+ {assert(/\.panel>#modal-copy:empty\{display:none\}/.test(html),'R407: an empty modal copy is hidden');assert(/function openSettings\(\)\{openModal\('設定',''/.test(html),'R407: settings opens with an empty copy (hidden by the rule)');}
+ result.push('R407: 設定と終わりの画面のメニューの窓で、見出しの下に空きが出ない PASS');
  // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
  {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);
   const card=Number((html.match(/\.hp-card\{[^}]*top:(\d+)px/)||[])[1]);assert(card>0,'the HP card has a top');
