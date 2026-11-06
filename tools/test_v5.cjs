@@ -1749,7 +1749,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // Adult now reads 第2章 / 続く / 次の章へ (and the next chapter's titleAdult, e.g. ノイズの塔); the finale cards read 直った町 / 次へ and the epilogue button 送る. Kids keep the kana.
  {const wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
  for(const mode of ['adult','kids']){const adult=mode==='adult';
-  for(const [from,head] of [[1,adult?'第2章\nミナモちょう へ\n続く':'2しょう\nミナモちょう へ\nつづく'],[3,adult?'第4章\nノイズの塔 へ\n続く':'4しょう\nノイズのとう へ\nつづく']]){
+  for(const [from,head] of [[1,adult?'第2章\nミナモちょうへ\n続く':'2しょう\nミナモちょう へ\nつづく'],[2,adult?'第3章\nネオンシティへ\n続く':'3しょう\nネオンシティ へ\nつづく'],[3,adult?'第4章\nノイズの塔へ\n続く':'4しょう\nノイズのとう へ\nつづく']]){
    const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugStartChapter(from);r.tick(100);r.g.state.mode=mode;
    r.g.debugEvent([{chapterClear:true}]);assert.equal(r.g.screen,'ending',mode+' chapter card');
    assert.equal(r.els.get('ending-heading').textContent,head,mode+' R350 heading');assert.equal(r.els.get('ending-title').textContent,adult?'次の章へ':'つぎの しょうへ',mode+' R350 button');
@@ -1757,6 +1757,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.state.mode=mode;r.g.debugEvent([{finale:{towns:[{heading:'A',bg:'bg_town',copy:'x'}]}}]);
   assert.equal(r.els.get('ending-eyebrow').textContent,adult?'直った町':'なおった まち');assert.equal(r.els.get('ending-title').textContent,adult?'次へ':'つぎへ');
   r.click('ending-title');assert.equal(r.g.screen,'epilogue');assert.equal(r.els.get('epilogue-send').textContent,adult?'送る':'おくる',mode+' R350 send button');}}
+ result.push('R410: おとなモードの章クリアの札は「ネオンシティへ」のように、名前と「へ」の間を空けない PASS');
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
  // R376: the hearts of the きずな list started where each name ended; one-row names are now padded so the hearts start in one column (ASCII counts half).
  {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);

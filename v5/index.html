@@ -322,7 +322,8 @@ function renderLine(){const [speaker,text,opt]=dialogue.lines[dialogue.index];$(
 // The closing tap must not fall through to the battle or shop buttons that open under it.
 function advance(){if(paused||!dialogue)return;sfx.decide();if(skipTypewriter())return;if(++dialogue.index<dialogue.lines.length){renderLine();return;}const cb=dialogue.done;dialogue=null;typewriter.active=false;$('dialogue').hidden=true;inputGuardUntil=performance.now()+250;if(cb)cb();}
 // R350: in adult mode the chapter card reads like the title's 続きは 第N章 (第2章 / 続く / 次の章へ) and uses the next chapter's titleAdult when it has one; kids mode keeps 2しょう / つづく.
-function nextCardHeading(n,name){const nx=GAME_DATA.chapters[n];return g.mode==='adult'?'第'+n+'章\n'+(nx?.titleAdult||name)+' へ\n続く':n+'しょう\n'+name+' へ\nつづく';}
+// R410: adult text runs words together (バス停からミナモちょうへ行こう), so the card reads 「ネオンシティへ」 with no kana-style gap before へ.
+function nextCardHeading(n,name){const nx=GAME_DATA.chapters[n];return g.mode==='adult'?'第'+n+'章\n'+(nx?.titleAdult||name)+'へ\n続く':n+'しょう\n'+name+' へ\nつづく';}
 // The chapter card either goes on to the next chapter (set by the chapterClear step) or back to the title.
 function endingDone(){const go=endingGo;endingGo=null;$('ending-title').textContent='タイトルへ';if(go)go();else title();}
 function endingCard(heading,go,eyebrow,copy,bg,btnLabel){screen('ending');$('ending-heading').textContent=heading;$('ending-eyebrow').textContent=eyebrow||`CHAPTER ${String(g.chapter).padStart(2,'0')} COMPLETE`;$('ending-copy').textContent=copy||'まちに あかりが もどった。\nきみの でんちは、まだ ある。';if(bg){$('ending-bg').src='assets/'+bg+'.png';$('ending-bg').hidden=false;}else $('ending-bg').hidden=true;endingGo=go||null;$('ending-title').textContent=btnLabel||(go?menuLabel('次の章へ','つぎの しょうへ'):'タイトルへ');$('ending-title').focus();}
