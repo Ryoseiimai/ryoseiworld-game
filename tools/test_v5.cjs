@@ -339,9 +339,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R326: a save made in adult mode turns the title buttons, caption, hint and the wipe window into kanji; a kids save keeps hiragana.
  for(const mode of ['adult','kids']){const data=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));data.mode=mode;const r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(data)]])});r.tick();const adult=mode==='adult';
   assert.equal(r.els.get('start-btn').textContent,adult?'始めから':'はじめから','R326 start button '+mode);assert.equal(r.els.get('continue-btn').textContent,adult?'続きから':'つづきから','R326 continue button '+mode);
-  assert.equal(r.els.get('title-caption').textContent,adult?'続きは 第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(r.els.get('title-hint').textContent.includes(adult?'遊べるよ':'あそべるよ'),'R326 hint '+mode);
+  assert.equal(r.els.get('title-caption').textContent,adult?'続きは 第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(adult?/(遊べる|できる)よ$/.test(r.els.get('title-hint').textContent):r.els.get('title-hint').textContent.includes('あそべるよ'),'R326 hint '+mode);
   // R360: the adult hint dropped the kids' word spaces (「おさらいも　遊べるよ」); kids keep them.
-  {const h=r.els.get('title-hint').textContent;assert(adult?!/[ 　]/.test(h)&&/遊べるよ$/.test(h):/　あそべるよ$/.test(h),'R360 hint '+mode+': '+h);}
+  {const h=r.els.get('title-hint').textContent;assert(adult?!/[ 　]/.test(h)&&/(遊べる|できる)よ$/.test(h):/　あそべるよ$/.test(h),'R360 hint '+mode+': '+h);
+   // R409: adult mode says the review can be done, not played; a challenge alone is still 遊べるよ.
+   if(adult)assert(!h.includes('おさらいも遊べる')&&(!h.includes('おさらい')||/おさらいもできるよ$/.test(h)),'R409 hint: '+h);}
   r.click('start-btn');assert.equal(r.g.modal,'confirm');assert(r.els.get('modal-buttons').children.some(b=>b.textContent===(adult?'始める':'はじめる')),'R326 wipe window button '+mode);
   // R347: the genre line under the title follows the save's mode too, and a chapter 4 save names ノイズの塔 in kanji.
   assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながら ゲーム作りと<br>AIを学ぶ RPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
@@ -349,10 +351,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r4.els.get('title-caption').textContent,adult?'続きは 第4章　ノイズの塔':'つづきは 4しょう　ノイズのとう','R347 chapter 4 caption '+mode);
   // R387: once the ending has played (flag towerEnded) the caption says the game is cleared, not 「続きは 第4章」.
   const dc={...d4,flags:{...(d4.flags||{}),towerEnded:true}},rc=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(dc)]])});rc.tick();
-  assert.equal(rc.els.get('title-caption').textContent,adult?'全章クリア':'ぜんぶの しょう クリア','R387 cleared caption '+mode);assert(rc.els.get('title-hint').textContent.includes(adult?'遊べるよ':'あそべるよ'),'R387 cleared hint '+mode);}
+  assert.equal(rc.els.get('title-caption').textContent,adult?'全章クリア':'ぜんぶの しょう クリア','R387 cleared caption '+mode);assert(rc.els.get('title-hint').textContent.match(adult?/(遊べる|できる)よ$/:/あそべるよ/)&&!rc.els.get('title-hint').textContent.includes('おさらいも遊べる'),'R387 cleared hint '+mode);}
+ // R409: each mix of challenge and notebook gives its own adult hint: the review 「できるよ」, a challenge alone still 「遊べるよ」.
+ {const base=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));const cases=[[{chapter:2,words:['jikkou','item','cost','yobidasu']},'チャレンジやことばノートの\nおさらいもできるよ'],[{chapter:2,words:[]},'チャレンジも遊べるよ'],[{chapter:1,bosses:[],words:['jikkou','item','cost','yobidasu']},'ことばノートの\nおさらいもできるよ']];
+  for(const [patch,want] of cases){const d={...base,...patch,mode:'adult'},r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d)]])});r.tick();assert.equal(r.els.get('title-hint').textContent,want,'R409 adult hint for '+JSON.stringify(patch));}}
  // R389: while a window is open, the field's 話す button and walk help under it are hidden (they showed through cut by the window edge as broken letters).
  assert(html.includes('#stage:has(#modal:not([hidden])) #talk-btn,#stage:has(#modal:not([hidden])) #walk-help{visibility:hidden}'),'R389 field controls hidden under a window');
  result.push('R389: メニューなどの窓を開いている間は、後ろの「話す」ボタンと歩き方の案内を隠し、窓の縁で切れた字に見えない PASS');
+ result.push('R409: おとなモードのタイトルの案内を「おさらいも遊べるよ」から「おさらいもできるよ」にした（こどもはそのまま） PASS');
  result.push('R387: 全章をクリアしたセーブでは、タイトルが「続きは 第4章」ではなく「全章クリア」になる PASS');
  result.push('R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS');
  result.push('R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS');
