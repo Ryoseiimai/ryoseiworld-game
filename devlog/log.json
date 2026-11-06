@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T02:55:19.959Z",
-  "branch": "claude/autodev-20261026-1121-R254",
-  "task": "R254 ミナモの南北の道の街灯3本が歩道の横の草の上に立っていたので、歩道の車道寄りへ動かした",
-  "summary": "ミナモの南北の道の街灯3本を、草の上から歩道の車道寄りへ動かした\nミナモの街灯がどれも歩道に立ち、車道にかからないことをテストに足した\n前と後のスクショを撮り、全部のテストと全章の確認が通ることを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/451/mobile-02-mode-select.jpg",
-   "shots/451/mobile-15-custom-full-run.jpg",
-   "shots/451/mobile-27-chapter-2-play.jpg",
-   "shots/451/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2cdeca2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40260788459"
- },
- {
   "at": "2026-10-26T04:11:51.558Z",
   "branch": "claude/autodev-20261026-1221-R255",
   "task": "R255 3章でネオンに着いた最初の画面で、「いいね 3204」の人が「はなす」ボタンの下に隠れていたので、その人を南の大通りの歩道へ動かした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "c8c01ea",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42119433681"
+ },
+ {
+  "at": "2026-11-06T00:56:16.296Z",
+  "branch": "claude/autodev-20261106-0941-R405",
+  "task": "R405 遊んで一番気になる所を1つ直す",
+  "summary": "記録の窓で、取った実績とまだの実績の見分けが付かなかった\n取った実績は「★」、まだの実績は「☆」と「（まだ）」で出すようにした\n印と「まだ」を確かめるテストを足し、前と後のスクショを docs/shots/R404 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/704/mobile-02-mode-select.jpg",
+   "shots/704/mobile-19-custom-og-credit-card.jpg",
+   "shots/704/mobile-34-chapter-1-play.jpg",
+   "shots/704/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "971c54d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42139016747"
  }
 ]
