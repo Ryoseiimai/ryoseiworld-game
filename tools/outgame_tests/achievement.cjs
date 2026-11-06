@@ -123,7 +123,9 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     const rowLines = copy.split('\n').filter(l => /^[★☆] /.test(l));
     assert.equal(rowLines.length, 12, 'every achievement row starts with ★ or ☆: ' + JSON.stringify(copy));
     assert.equal(rowLines.filter(l => l.startsWith('★ ')).length, 1, 'only the one earned row is ★ (it matches 記録 1/12): ' + JSON.stringify(rowLines));
-    assert(rowLines.filter(l => l.startsWith('☆ ')).every(l => l.endsWith('（まだ）')), 'every un-earned row says まだ: ' + JSON.stringify(rowLines));
+    // R419: adult mode says 未達成, so a past-tense name is never followed by まだ.
+    assert(rowLines.filter(l => l.startsWith('☆ ')).every(l => l.endsWith('（未達成）')), 'every un-earned row says 未達成: ' + JSON.stringify(rowLines));
+    assert(!copy.includes('（まだ）'), 'adult mode no longer pairs a done-form name with まだ: ' + JSON.stringify(rowLines));
     assert(rowLines.find(l => l.includes('BUG KING を修理した')).startsWith('★ '), 'the earned BUG KING row is the ★ one');
     assert(!copy.includes('・ '), 'the old ・ mark is gone');
     assert(!copy.includes('ジブンと向き合った') && !copy.includes('ゼロと作った'), 'secret rows stay hidden until earned');
@@ -146,6 +148,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.modal, 'og-records', 'it opens from the title, no つづきから needed');
     const copy = r.els.get('modal-copy').textContent;
     assert(copy.includes('しゅうりした') || copy.includes('BUG KING'), 'the earned row names itself in kids text: ' + copy);
+    assert(copy.includes('ことばを 10こ あつめた（まだ）') && !copy.includes('未達成'), 'R419: kids rows keep the short まだ: ' + copy);
     assert(!copy.includes('最高ステージ'), 'no challenge has ever been played: no best-record line (recordsText returns empty)');
     r.button('もどる');
     assert.equal(r.g.screen, 'title', 'back returns to the title, unchanged');

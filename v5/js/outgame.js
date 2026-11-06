@@ -135,8 +135,10 @@
       const rows = T.achievements.map(a => {
         const got = !!(c.save && P.check(a.when, c.save));
         const name = a.secret && !got ? pick(['？？？', '？？？'], c) : pick(a.name, c);
-        // R404: a hollow ☆ read as "not yet" to players, so earned rows get the filled ★ and the rest say まだ in words.
-        return got ? '★ ' + name : '☆ ' + name + pick(['（まだ）', '（まだ）'], c);
+        // R404: a hollow ☆ read as "not yet" to players, so earned rows get the filled ★ and the rest say so in words.
+        // R419: in adult mode "言葉を10個集めた（まだ）" read as done and not done at once, so it says 未達成 instead.
+        // The kids' row keeps the short まだ: a longer hiragana tail would wrap the longest row at 540px.
+        return got ? '★ ' + name : '☆ ' + name + pick(['（未達成）', '（まだ）'], c);
       }).join('\n');
       const best = P.recordsText(c.save, c.adult);
       return best ? best + '\n\n' + rows : rows;
