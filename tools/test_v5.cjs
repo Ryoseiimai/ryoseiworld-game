@@ -574,7 +574,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');assert(copy().includes('はなしかけて'),copy());fits(copy());r.button('もどる');assert.equal(r.g.modal,'menu');r.button('もどる');
   r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();if(r.g.modal==='event'){r.tick(400);r.button('やめておく');}while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
   r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('［家］おかあさん　♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
-  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で ぶきの ちから'),c);assert(c.includes('［家］いもうと　　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),'R376: hearts line up under おかあさん '+c);fits(c);r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で あたらしい ぶき'),c);assert(c.includes('［家］いもうと　　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),'R376: hearts line up under おかあさん '+c);fits(c);r.button('もどる');
   D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('［恋］テストの ひと　♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);D.bonds.r106={name:'ながい なまえの ともだち',kind:'friend',spirit:15,rewards:{}};r.g.debugBond('r106',2);r.button('もどる');r.button('きずな');c=copy();assert(c.includes('［友］ながい なまえの ともだち\n♥♥♡♡♡'),'R106: a long name keeps its hearts on the next row '+c);delete D.bonds.r106;delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
   r.button('ぶき');assert.equal(r.g.modal,'weapons');c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ みぎへ うつ'),c);assert(!c.includes('〔if バリア〕'));assert(c.includes('\n\nもっていない ぶきは あと 7つ。\nきずなで ふえる。'),c);fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('ぶき');c=copy();assert(c.includes('ぜんぶ そろった'),c);for(const w of Object.values(D.weapons)){assert(w.desc,w.name+' desc');assert(c.includes(w.name));}fits(c);r.button('もどる');r.button('もどる');
@@ -1762,6 +1762,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('store',5,5.6);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue,mode+' R411 register talk');while(r.g.dialogue)r.dialogue();assert.equal(r.g.modal,'shop',mode+' R411 shop opens');
   assert.equal(r.els.get('modal-title').textContent,adult?'コンビニ・夜の川':'コンビニ・よるの かわ',mode+' R411 shop heading');}
  result.push('R411: おとなモードの店の窓の見出しを「コンビニ・夜の川」にした（こどもは「コンビニ・よるの かわ」のまま） PASS');
+ // R412: the きずな hint names what a weapon reward is: adult 「次は♥3で新しい武器」, kids 「つぎ ♥3で あたらしい ぶき」. The old 「武器の力」 is gone.
+ for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  r.g.debugBond('mother',3);r.tick(300);r.click('menu-btn');r.button(adult?'きずな':'きずな');const c=r.els.get('modal-copy').textContent;
+  assert(c.includes(adult?'次は♥5で新しい武器':'つぎ ♥5で あたらしい ぶき'),mode+' R412 bond hint '+c);assert(!c.includes('武器の力')&&!c.includes('ぶきの ちから'),mode+' R412 old hint gone '+c);}
+ result.push('R412: きずなの画面の次のごほうびを「武器の力」から「新しい武器」にした PASS');
  result.push('R410: おとなモードの章クリアの札は「ネオンシティへ」のように、名前と「へ」の間を空けない PASS');
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
  // R376: the hearts of the きずな list started where each name ended; one-row names are now padded so the hearts start in one column (ASCII counts half).
@@ -2067,8 +2072,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
   r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('話しかけて'),c);fits(c);r.button('もどる');r.button('もどる');
   r.g.debugBond('mother',3);r.g.debugBond('sister',1);D.bonds.r122={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r122',5);D.bonds.r122b={name:'テストの とも',kind:'friend',spirit:15,rewards:{3:{money:5}}};r.g.debugBond('r122b',1);
-  r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('次は♥5で武器の力')&&c.includes('次は♥2でお小遣い')&&c.includes('次は♥3でお礼')&&c.includes('ごほうびは全部もらった'),c);fits(c);r.button('もどる');r.button('もどる');
-  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('つぎ ♥5で ぶきの ちから')&&c.includes('つぎ ♥3で おれい')&&c.includes('ごほうびは ぜんぶ もらった'),c);fits(c);
+  r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('次は♥5で新しい武器')&&c.includes('次は♥2でお小遣い')&&c.includes('次は♥3でお礼')&&c.includes('ごほうびは全部もらった'),c);fits(c);r.button('もどる');r.button('もどる');
+  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('つぎ ♥5で あたらしい ぶき')&&c.includes('つぎ ♥3で おれい')&&c.includes('ごほうびは ぜんぶ もらった'),c);fits(c);
   for(const k of ['r122','r122b']){delete D.bonds[k];delete st.bonds[k];}}
  result.push('R122: おとなモードのきずなの画面のヒントを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R123: the status screen reads in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana one.

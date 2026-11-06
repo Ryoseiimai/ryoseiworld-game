@@ -147,6 +147,7 @@ R310: 英字の名前（BUG KING）と「は」「が」の間を空けた PASS
 R348: おとなモードの戦闘で、敵の名前を「バグった自販機」「暴走掃除機」など漢字まじりにした PASS
 R349: おとなモードの戦闘で、敵の行動の文・フクロウの次の動き・勝った時の文を漢字まじりにし、こどもモードは かなのまま PASS
 R411: おとなモードの店の窓の見出しを「コンビニ・夜の川」にした（こどもは「コンビニ・よるの かわ」のまま） PASS
+R412: きずなの画面の次のごほうびを「武器の力」から「新しい武器」にした PASS
 R410: おとなモードの章クリアの札は「ネオンシティへ」のように、名前と「へ」の間を空けない PASS
 R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS
 R376: きずなの一覧で、名前の長さがちがってもハートが同じ列から始まる PASS
@@ -359,5 +360,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 101ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 103ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
