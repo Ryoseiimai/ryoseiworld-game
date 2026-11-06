@@ -176,8 +176,9 @@
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
-        half: 'BUG KING は こわれかけている', win: 'BUG KING は おとなしく なった',
-        halfAdult: 'BUG KING は壊れかけている', winAdult: 'BUG KING はおとなしくなった' }
+        // R423: RULES 4 says no 壊す for enemies, so the half-HP notice says the boss is getting flustered (its shots get fiercer).
+        half: 'BUG KING は あせりだした', win: 'BUG KING は おとなしく なった',
+        halfAdult: 'BUG KING は焦りだした', winAdult: 'BUG KING はおとなしくなった' }
     },
     kateino: {
       name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6, feet: 0.42,

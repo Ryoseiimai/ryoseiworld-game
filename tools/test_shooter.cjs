@@ -1062,14 +1062,28 @@ async function browserAdapterChecks() {
   const old = globalThis.RYW.mode, wide = t => Math.max(...t.split('\n').map(r => [...r].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .55 : 1), 0))) * 30;
   globalThis.RYW.setMode('adult');
   const a = id => sim.createWorld({ seed: 7, boss: id }).lines;
-  check('R369: おとなの BUG KING の勝ちと半分の文は漢字まじり', a('bugking').win === 'BUG KING はおとなしくなった' && a('bugking').half === 'BUG KING は壊れかけている', a('bugking'));
+  check('R369: おとなの BUG KING の勝ちと半分の文は漢字まじり', a('bugking').win === 'BUG KING はおとなしくなった' && a('bugking').half === 'BUG KING は焦りだした', a('bugking'));
   check('R369: おとなのカテイノジジョウとヒカクマオウの勝ちの文', a('kateino').win === 'カテイノジジョウは\nおとなしくなった' && a('hikaku').win === 'ヒカクマオウはおとなしくなった');
   check('R369: おとなの勝ちの文は1行ずつ帯（480px）に収まる', ['bugking', 'kateino', 'hikaku'].every(id => wide(a(id).win) <= 480));
   check('R369: 上書きの win があればそれを使う', sim.createWorld({ seed: 7, boss: 'bugking', lines: { win: 'X' } }).lines.win === 'X');
   check('R369: ジブンとゼロの勝ちの文（物語の地の文）はそのまま', a('jibun').win === B.jibun.lines.win && a('zero').win === B.zero.lines.win);
   globalThis.RYW.setMode('kids');
   const k = sim.createWorld({ seed: 7, boss: 'bugking' }).lines;
-  check('R369: こどもモードは今までどおり', k.win === 'BUG KING は おとなしく なった' && k.half === 'BUG KING は こわれかけている' && sim.createWorld({ seed: 7, boss: 'kateino' }).lines.win === 'カテイノジジョウは おとなしく なった', k);
+  check('R369: こどもモードは今までどおり', k.win === 'BUG KING は おとなしく なった' && k.half === 'BUG KING は あせりだした' && sim.createWorld({ seed: 7, boss: 'kateino' }).lines.win === 'カテイノジジョウは おとなしく なった', k);
+  globalThis.RYW.setMode(old || 'kids');
+})();
+
+// R423: RULES 4: no boss line says 壊す / こわれる / 殺す, in either mode (the half-HP notice said 「こわれかけている」).
+(() => {
+  const old = globalThis.RYW.mode, bad = /壊|こわれ|こわす|殺|ころす/;
+  const texts = l => [l.half, l.win, l.intro && l.intro[1], l.hint && l.hint[1], l.hint2 && l.hint2[1], ...Object.values(l.bursts || {})].filter(Boolean);
+  for (const mode of ['kids', 'adult']) {
+    globalThis.RYW.setMode(mode);
+    for (const id of Object.keys(B)) {
+      const t = texts(sim.createWorld({ seed: 7, boss: id }).lines);
+      check('R423: ' + mode + ' の ' + id + ' の台詞に「壊す」が無い', !t.some(x => bad.test(x)), t.filter(x => bad.test(x)));
+    }
+  }
   globalThis.RYW.setMode(old || 'kids');
 })();
 
