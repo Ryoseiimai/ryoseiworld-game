@@ -1764,8 +1764,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R411: おとなモードの店の窓の見出しを「コンビニ・夜の川」にした（こどもは「コンビニ・よるの かわ」のまま） PASS');
  // R412: the きずな hint names what a weapon reward is: adult 「次は♥3で新しい武器」, kids 「つぎ ♥3で あたらしい ぶき」. The old 「武器の力」 is gone.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
-  r.g.debugBond('mother',3);r.tick(300);r.click('menu-btn');r.button(adult?'きずな':'きずな');const c=r.els.get('modal-copy').textContent;
-  assert(c.includes(adult?'次は♥5で新しい武器':'つぎ ♥5で あたらしい ぶき'),mode+' R412 bond hint '+c);assert(!c.includes('武器の力')&&!c.includes('ぶきの ちから'),mode+' R412 old hint gone '+c);}
+  r.g.debugBond('mother',3);r.tick(300);r.click('menu-btn');r.button('きずな');let c=r.els.get('modal-copy').textContent;
+  assert(c.includes(adult?'次は♥5で新しい武器':'つぎ ♥5で あたらしい ぶき'),mode+' R412 bond hint '+c);assert(!c.includes('武器の力')&&!c.includes('ぶきの ちから'),mode+' R412 old hint gone '+c);r.button(adult?'戻る':'もどる');r.button(adult?'戻る':'もどる');
+  // onigiri is also the ♥3 reward of minamo's grandpa: once owned, the mother's ♥5 hint must not promise a new weapon (bondRewards gives only the money then).
+  r.g.state.weapons.push('onigiri');r.tick(300);r.click('menu-btn');r.button('きずな');c=r.els.get('modal-copy').textContent;
+  assert(c.includes(adult?'次は♥5でお小遣い':'つぎ ♥5で おこづかい'),mode+' R412 owned weapon falls back to money '+c);}
  result.push('R412: きずなの画面の次のごほうびを「武器の力」から「新しい武器」にした PASS');
  result.push('R410: おとなモードの章クリアの札は「ネオンシティへ」のように、名前と「へ」の間を空けない PASS');
  result.push('R350: おとなモードの章クリアの札を「第2章」「続く」「次の章へ」にし、町のカードは「直った町」「次へ」、エピローグのボタンは「送る」にした。こどもモードは かなのまま PASS');
