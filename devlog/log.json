@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T13:33:04.857Z",
-  "branch": "claude/autodev-20261026-2135-R263",
-  "task": "R263 1しょうの始めの町で、公園のおじいさんの守護霊が看板の左の柱にかかっていたので、おじいさんを少し西へ動かし、守護霊を頭の上に浮かせた",
-  "summary": "公園のおじいさんの守護霊が、看板の左の柱に重なっていた\nおじいさんを4分の1マス西へ動かし、守護霊を頭の上に浮かせた\n守護霊が柱にも池にもかからないことをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/463/mobile-02-mode-select.jpg",
-   "shots/463/mobile-15-custom-full-run.jpg",
-   "shots/463/mobile-27-chapter-2-play.jpg",
-   "shots/463/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1ce5262",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40329830585"
- },
- {
   "at": "2026-10-26T14:59:49.745Z",
   "branch": "claude/autodev-20261026-2325-R264",
   "task": "R264 2しょうのミナモで、画面の左外にいるカテイノジジョウの名前の札が左端から1文字だけのぞいていたので、画面の外の相手の札は描かず、端の近くの札は画面の中へ寄せた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "80fd47f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42203102892"
+ },
+ {
+  "at": "2026-11-06T11:53:47.945Z",
+  "branch": "claude/autodev-20261106-2022-R412",
+  "task": "R412 きずなの画面の次のごほうびが「次は♥3で武器の力」で、武器がもらえると分かりにくかったので、「次は♥3で新しい武器」とした",
+  "summary": "きずなの画面の次のごほうびを「次は♥3で新しい武器」にした（こどもは「つぎ ♥3で あたらしい ぶき」）\n前の「武器の力」では、武器がもらえると分かりにくかった\n両方のモードで新しい言い方を確かめるテストを足し、前のテストの期待も合わせた",
+  "result": "pass",
+  "shots": [
+   "shots/719/mobile-02-mode-select.jpg",
+   "shots/719/mobile-19-custom-og-credit-card.jpg",
+   "shots/719/mobile-34-chapter-1-play.jpg",
+   "shots/719/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3bb19f8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42211899939"
  }
 ]
