@@ -2332,7 +2332,8 @@
     var adult = RYW.mode === 'adult';
     if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
     // R390: the label also says why the damage is half (the wall is hard, as ソラ's hint says), so it reads as a hint from the start.
-    if (k === 'half') return adult ? '壁が固い ボスへのダメージ 半分' : 'かたい かべ ボスへの ダメージ はんぶん';
+    // R422: adult mode reads it as one sentence (壁が固く、…は半分), so the reason and the result do not run together as three words.
+    if (k === 'half') return adult ? '壁が固く、ボスへのダメージは半分' : 'かたい かべ ボスへの ダメージ はんぶん';
     if (k === 'color') return adult ? '色' : 'いろ'; // R329: the ジブン band, like ジブンに色が戻る
     // R392: adult mode says whose power it is (自分の), like the kids' きみの, so it does not read as the boss's power under its HP bar.
     return adult ? '自分の攻撃力' : 'きみの こうげき';

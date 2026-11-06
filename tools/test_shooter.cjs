@@ -711,7 +711,7 @@ async function browserAdapterChecks() {
     check('stage '+n+' は開始時にBPMを見せる',!!bpmLabel,bpm);
     check('stage '+n+' の「ステージ」はBPM帯(y45-75)の下、帯の線(113)の上に出る',!!stageLabel&&stageLabel.y-12-2.5>=75&&stageLabel.y+12+2.5<=113,stageLabel);
     await advance(3);
-    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|攻撃力|つながり|たまは とどかない|こうげきが きかない|攻撃が効かない/.test(d.text)));
+    check('stage '+n+' は通常戦の誤説明を描かない',!drawn.some(d=>/ダメージ はんぶん|ダメージ 半分|ダメージは半分|攻撃力|つながり|たまは とどかない|こうげきが きかない|攻撃が効かない/.test(d.text)));
     check('stage '+n+' は不要なとくぎを隠す',doc.querySelector('.rs-skill').hidden);
     if(n===20){win.__shooter.debugCombo(12);win.__shooter.debugSetHearts(0);await advance(1.2);check('onEndは到達stage/コンボ/score/cheatedを返す',ended&&ended.stage===20&&ended.bestCombo===12&&typeof ended.score==='number'&&ended.cheated===false);}
     handle.stop();
@@ -1109,8 +1109,9 @@ async function browserAdapterChecks() {
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
   globalThis.RYW.setMode('adult'); const a = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
-  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === '壁が固い ボスへのダメージ 半分' && a[2] === '自分の攻撃力', a);
+  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === '壁が固く、ボスへのダメージは半分' && a[2] === '自分の攻撃力', a);
   check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0]) <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
+  check('R422: おとなの「半分」の帯は、理由と結果を読点で区切った一文', a[1].split('、').length === 2 && a[1].endsWith('は半分') && !/ 半分/.test(a[1]), a[1]);
   globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
   check('R327/R390: こどもモードの上の帯の字は今までどおり（はんぶんの時は かたい かべ の理由つき）', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'かたい かべ ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
   globalThis.RYW.setMode(old || 'kids');
