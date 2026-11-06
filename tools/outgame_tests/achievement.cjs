@@ -187,6 +187,30 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   }
   result.push('og-achievement: the achievement toast waits while a window is open, then shows PASS');
 
+  // R405: an achievement earned during the challenge run was still showing when the result window opened, and covered
+  // the heading 「チャレンジの記録」. A window that opens over a showing achievement takes it back until it closes.
+  {
+    const r = await runtime();
+    r.tick();
+    r.g.debugStartChapter(1);
+    r.tick(300);
+    r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
+    await r.g.save();
+    r.tick(2700);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'the achievement is showing: ' + toast(r).textContent);
+    r.click('menu-btn');
+    assert.equal(r.g.modal, 'menu', 'a window opened while the achievement showed');
+    assert(toast(r).hidden, 'the achievement no longer covers the window heading');
+    r.tick(3000);
+    assert(toast(r).hidden, 'it stays back while the window is open');
+    r.button('戻る');
+    r.tick(600);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'it shows again once the window closes: ' + toast(r).textContent);
+    r.tick(2700);
+    assert(toast(r).hidden, 'and clears on its own');
+  }
+  result.push('og-achievement: a showing achievement steps back when a window opens and shows again after PASS');
+
   {
     const r = await runtime();
     r.tick();
