@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T12:10:56.525Z",
-  "branch": "claude/autodev-20261026-2022-R262",
-  "task": "R262 戦闘の呼び出しで、輪が主人公の足にかかり、ソラの光が大小2つ出ていたので、輪をせまくし小さい光を隠した",
-  "summary": "呼び出しの輪が、左の主人公の足と車輪にかかっていた\n輪の幅をせまくし、揺れても主人公から離れるようにした\n呼び出しの間は、敵の横の小さいソラの光を出さないようにした",
-  "result": "pass",
-  "shots": [
-   "shots/462/mobile-02-mode-select.jpg",
-   "shots/462/mobile-15-custom-full-run.jpg",
-   "shots/462/mobile-27-chapter-2-play.jpg",
-   "shots/462/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ea26809",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40317764888"
- },
- {
   "at": "2026-10-26T13:33:04.857Z",
   "branch": "claude/autodev-20261026-2135-R263",
   "task": "R263 1しょうの始めの町で、公園のおじいさんの守護霊が看板の左の柱にかかっていたので、おじいさんを少し西へ動かし、守護霊を頭の上に浮かせた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "8befd19",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42198704592"
+ },
+ {
+  "at": "2026-11-06T10:49:13.321Z",
+  "branch": "claude/autodev-20261106-1921-R411",
+  "task": "R411 おとなモードで店の窓の見出しが「コンビニ・よるの かわ」とひらがなのままだったので、「コンビニ・夜の川」とした",
+  "summary": "おとなモードの店の窓の見出しを「コンビニ・夜の川」にした（こどもはかなのまま）\n両方のモードで店を開き、見出しを確かめるテストを足した\n店員の詩の台詞は物語の台詞なので、かなのまま残した",
+  "result": "pass",
+  "shots": [
+   "shots/718/mobile-02-mode-select.jpg",
+   "shots/718/mobile-19-custom-og-credit-card.jpg",
+   "shots/718/mobile-34-chapter-1-play.jpg",
+   "shots/718/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "80fd47f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42203102892"
  }
 ]
