@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T23:48:03.045Z",
-  "branch": "claude/autodev-20261027-0821-R272",
-  "task": "R272 町の電柱が「ちず」の看板の屋根の上に立ち、1本の高い柱に見えたので、看板を歩道の南の端へ下げた",
-  "summary": "町の「ちず」看板を歩道の南の端へ下げ、電柱の根元と板の間を約47pxあけた\n看板の当たりを柱の足元だけにし、家の前の歩道を東へ歩いて通れるようにした\n電柱と板の間と、歩道を通れることを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/481/mobile-02-mode-select.jpg",
-   "shots/481/mobile-15-custom-full-run.jpg",
-   "shots/481/mobile-27-chapter-2-play.jpg",
-   "shots/481/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "048bd2f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40420189058"
- },
- {
   "at": "2026-10-27T00:00:10.355Z",
   "branch": "claude/autodev-20261027-0821-R272",
   "task": "R272 町の電柱が「ちず」の看板の屋根の上に立ち、1本の高い柱に見えたので、看板を歩道の南の端へ下げた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "ab877db",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42290956031"
+ },
+ {
+  "at": "2026-11-06T21:44:32.737Z",
+  "branch": "claude/autodev-20261107-0622-R422",
+  "task": "R422 カテイノジジョウ戦の上の帯「壁が固い ボスへのダメージ 半分」が3つの語の並びで読みにくかったので、おとなモードでは「壁が固く、ボスへのダメージは半分」とした",
+  "summary": "おとなモードのカテイノジジョウ戦の帯を「壁が固く、ボスへのダメージは半分」とした\n理由と結果が読点で区切られた一文になる確認を足し、ほかの戦いに出ない確認も広げた\n前と後のスクショを docs/shots/R422 に置いた。こどもモードは幅が足りず今までどおり",
+  "result": "pass",
+  "shots": [
+   "shots/735/mobile-02-mode-select.jpg",
+   "shots/735/mobile-19-custom-og-credit-card.jpg",
+   "shots/735/mobile-34-chapter-1-play.jpg",
+   "shots/735/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2900848",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42297277674"
  }
 ]
