@@ -1993,6 +1993,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(r.g.modal,'event',ev+' opens');assert.equal(r.els.get('modal-title').textContent,title);assert.equal(r.els.get('modal-copy').textContent,adult?'どこへ行く？':'どこへ いく？');
    const names=r.els.get('modal-buttons').children.map(b=>b.textContent);assert(names.includes('ミナモちょう'),'place names stay: '+names);r.button('やめる');r.tick(300);assert.equal(r.g.modal,'');}}
  result.push('R337: おとなモードのバスと電車の行き先の画面を「電車」「どこへ行く？」で出し、こどもモードは ひらがなのまま PASS');
+ // R416: every chapterClear step in the data carries copyAdult; adult mode shows it on the chapter card (kanji), kids keep copy.
+ {const steps=[];const walk=x=>{if(Array.isArray(x))x.forEach(walk);else if(x&&typeof x==='object'){if(x.chapterClear)steps.push(x);Object.values(x).forEach(walk);}};
+  const r0=await runtime();r0.tick();walk(r0.g.GAME_DATA.events);assert(steps.length>=3,'chapterClear steps found: '+steps.length);
+  for(const st of steps){assert(typeof st.copyAdult==='string'&&st.copyAdult!==st.copy,'copyAdult set: '+st.copy);assert(!/くもの|ひかりの|かわぞい|でんしゃ|はじめて/.test(st.copyAdult),'adult copy in kanji: '+st.copyAdult);
+   for(const line of st.copyAdult.split('\n'))assert(line.length<=16,'adult line fits the card: '+line);}
+  for(const [i,st] of steps.entries())for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
+   r.g.debugEvent([{chapterClear:true,copy:st.copy,copyAdult:st.copyAdult}]);r.tick(300);assert.equal(r.g.screen,'ending',i+' card opens');assert.equal(r.els.get('ending-copy').textContent,adult?st.copyAdult:st.copy);}}
+ result.push('R416: おとなモードの章の終わりの札の本文を漢字まじり（雲の門から…など）で出し、こどもモードは ひらがなのまま PASS');
  // R338: the field plates on the bus stops and stations read バス停・駅 in adult mode; kids keep バスてい・えき.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
   for(const [map,id] of [['town','bus'],['minamo','minamo_bus'],['minamo','minamo_station'],['neon','neon_station']]){const o=r.g.GAME_DATA.maps[map].objects.find(x=>x.id===id),want=o.event==='busStop'?(adult?'バス停':'バスてい'):(adult?'駅':'えき');

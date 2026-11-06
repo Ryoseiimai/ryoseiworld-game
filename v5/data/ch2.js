@@ -84,7 +84,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   // After the boss: the walls are gone and parents and children play in the park (SPEC_V5_CH234.md).
   // Then RYOSEI rides the train from the station, and the chapter card saves at the head of chapter 3.
   // A reload before that plays this scene again (clearDone neonVisited in the engine; it also helps saves from before R37).
-  minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{warp:'minamo',at:[17.8,13.6]},{wait:300},{say:'trainRide'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。'}],
+  minamoPark:[{say:'minamoPark'},{say:'trainOpen'},{flag:'minamoCleared'},{warp:'minamo',at:[17.8,13.6]},{wait:300},{say:'trainRide'},{flag:'neonVisited'},{chapterClear:true,copy:'でんしゃは ひかる まちへ。\nポケットに はじめての ゲーム。',copyAdult:'電車は光る町へ。\nポケットに初めてのゲーム。'}],
   // The station: after chapter 2 the train goes back and forth (chapter 3 points its own station here too).
   trainStop:[{if:'neonVisited',then:[{transport:'でんしゃ',transportAdult:'電車',copy:'どこへ いく？',copyAdult:'どこへ行く？',stops:trainStops}],else:[{say:'trainWait'}]}],
   // The grandpa keeps the library open. Once three noises are quiet he lets RYOSEI use the search machine.

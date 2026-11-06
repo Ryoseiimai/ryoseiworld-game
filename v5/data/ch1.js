@@ -136,7 +136,7 @@ events:{
  mio:[{if:'clipDone',then:[{if:'cleared',then:[{if:'mioLetter',then:[{say:'mioAfter'}],else:[{say:'mioLetter'},{flag:'mioLetter'},{bond:'mio'}]}],else:[{say:'mioWait'}]}],
   else:[{if:'clip',then:[{say:'mioClip'},{flag:'clipDone'},{bond:'mio'}],else:[{say:'mio'},{flag:'clipAsk'}]}]}],
  hairclip:[{if:'clip',then:[{say:'sandbox'}],else:[{if:'clipAsk',then:[{say:'clipFound'},{flag:'clip'}],else:[{say:'sandboxShine'}]}]}],
- busStop:[{if:'minamoVisited',then:[{transport:'バス',copy:'どこへ いく？',copyAdult:'どこへ行く？',stops:busStops}],else:[{if:'cleared',then:[{if:{not:'gameMade'},then:[...makeGame,{warp:'town',at:[11,17.4]}]},{say:'busRide'},{flag:'minamoVisited'},{chapterClear:true,copy:'バスは かわぞいの まちへ。\nポケットに はじめての ゲーム。'}],else:[{say:'busWait'}]}]}],
+ busStop:[{if:'minamoVisited',then:[{transport:'バス',copy:'どこへ いく？',copyAdult:'どこへ行く？',stops:busStops}],else:[{if:'cleared',then:[{if:{not:'gameMade'},then:[...makeGame,{warp:'town',at:[11,17.4]}]},{say:'busRide'},{flag:'minamoVisited'},{chapterClear:true,copy:'バスは かわぞいの まちへ。\nポケットに はじめての ゲーム。',copyAdult:'バスは川沿いの町へ。\nポケットに初めてのゲーム。'}],else:[{say:'busWait'}]}]}],
  police:[{if:'key',then:[{say:'police'}],else:[{if:{flag:'zakoWins',atLeast:'zakoGoal'},then:[{say:'policeGive'},{flag:'key'},{save:'quiet'}],else:[{say:'policeAsk'}]}]}]},
 // R384: after the boss the goal 「バス停からミナモちょうへ行こう」 showed no arrow, so the way to the bus stop was a guess; the cleared line now points at the stop.
 clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょう',title:'ヒダマリちょう',recruit:'code',clearDialogue:'clear',clearSpot:['town',22,9.3],zakoGoal:3,keyFlag:'key',serverItem:'battery',

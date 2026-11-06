@@ -114,7 +114,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   // R25: ミオの雨の日（STORY_V4.md 恋愛きずな3）。かさに いれる を えらぶと きずなが あがり、3で コトバイルカが 仲間に なる。
   // R27: after ヒカクマオウ, a short ride on the light elevator opens ノイズのとう (SPEC_V5_CH234.md).
   hikakuTower:[{flag:'neonCleared'},{say:'hikakuTowerGate'},{flash:'#bfe8ff',ms:500},{wait:500},
-   {chapterClear:true,copy:'くもの もんから\nひかりの エレベーターが\nのぼっていく。'}],
+   {chapterClear:true,copy:'くもの もんから\nひかりの エレベーターが\nのぼっていく。',copyAdult:'雲の門から\n光のエレベーターが\n上っていく。'}],
   mioRain:[{if:{summon:'kotoba'},then:[{say:'mioRainIdle'}],
    else:[{if:{bond:'mio',atLeast:2},then:[{say:'mioRainAsk'},{choice:'どうする？',options:[
      {text:'かさに いれる',then:[{say:'mioRainShare'},{bond:'mio'},{if:{bond:'mio',atLeast:3},then:[{say:'mioRainJoin'},{join:'kotoba'},{proto:'text'},{save:'quiet'}]}]},
