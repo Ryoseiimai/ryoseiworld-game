@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-26T16:15:47.967Z",
-  "branch": "claude/autodev-20261027-0042-R265",
-  "task": "R265 2しょうのミナモで、画面の左端の公園の看板の字が「ん」だけ見えていたので、看板の字は全部画面に入る時だけ描くようにした",
-  "summary": "ミナモで、画面の左端の公園の看板の字が「ん」だけ見えていた\n看板の字は、全部が画面に入る時だけ描くようにした（板の絵はそのまま）\n字が端で切れないことをテストに足し、前と後のスクショを手元で撮った（mobile-20）",
-  "result": "conflict",
-  "shots": [],
-  "sha": "c7b7093",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40357229820"
- },
- {
   "at": "2026-10-26T16:30:38.418Z",
   "branch": "claude/autodev-20261027-0114-R267",
   "task": "R267 2しょうのミナモで、画面の左端の公園の看板の字が「ん」だけ見えていたので、看板の字は全部画面に入る時だけ描くようにした",
@@ -2983,5 +2973,20 @@
   ],
   "sha": "5cb7664",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42227737383"
+ },
+ {
+  "at": "2026-11-06T14:50:28.009Z",
+  "branch": "claude/autodev-20261106-2323-R416",
+  "task": "R416 おとなモードの章の終わりの札で、本文「くもの もんから…」だけがひらがなのまま",
+  "summary": "おとなモードの章の終わりの札の本文を、1章から3章まで漢字まじりにした\n例: 「雲の門から 光のエレベーターが 上っていく。」。こどもモードはひらがなのまま\n札の本文がおとなモードで漢字になるかの確認を tools/test_v5.cjs に足した",
+  "result": "pass",
+  "shots": [
+   "shots/723/mobile-02-mode-select.jpg",
+   "shots/723/mobile-19-custom-og-credit-card.jpg",
+   "shots/723/mobile-34-chapter-1-play.jpg",
+   "shots/723/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "53b2578",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42234675007"
  }
 ]
