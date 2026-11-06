@@ -118,7 +118,7 @@ const TILE=48;
 // R343: in おとな mode the floor and town signs are drawn in kanji; こども keeps the kana written in the map data.
 const SIGN_ADULT={'そとへ':'外へ','うえへ':'上へ','したへ':'下へ','ちず':'地図','こうえん':'公園'};
 // R345: おとな mode draws the ネオン number signs 「じゅんい 86」 as 「順位 86」; NUM gives the words a runtime draws for a number person.
-const NUM=(r,o)=>r.g.state.mode==='adult'?o.sign.replace(/^じゅんい /,'順位 '):o.sign;
+const NUM=(r,o)=>r.g.state.mode==='adult'?o.sign.replace(/^(ランク [0-9]+)い$/,'$1位'):o.sign;
 const A=w=>SIGN_ADULT[w]||w,signText=(mode,w)=>mode!=='こどもモード'&&SIGN_ADULT[w]||w,signHalfOf=w=>[...w].length*12;
 // Plays one ordinary battle to the end: summon when hurt, otherwise "create".
 function fight(t){let guard=40;while(t.g.screen==='battle'&&guard--){if(t.g.battle.locked||t.g.battle.over){t.tick(400);continue;}if(t.g.hp.hp<25&&t.g.battery>=15){t.cmd('summon');t.button('ナオスライム');}else {t.cmd('create');t.button('くりかえし');}t.tick(3000);}assert(guard>0,'battle ends');}
@@ -896,7 +896,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(t2&&tag,'name tag is shown when the person is the talk target');
    const pl2=r.canvasCalls.filter(c=>c[0]==='plate'&&Math.abs(c[1]+c[3]/2-t2[2])<12).at(-1);assert(pl2&&pl2[2]>=tag[2]+tag[4]+2,'name tag does not touch the dark plate (plate top '+pl2?.[2]+', tag bottom '+(tag[2]+tag[4])+')');assert(t2[3]-24>=tag[2]+tag[4],'name tag does not cover the number (text top '+(t2[3]-24)+', tag bottom '+(tag[2]+tag[4])+')');}
   // R84: each number says what it counts (SPEC_V5_CH234.md: followers, likes, rank), and the wider sign still ends before the nearest lamp head.
-  for(const o of m.objects.filter(x=>x.kind==='numberperson')){assert(/^(じゅんい|いいね|フォロワー) [0-9,]+$/.test(o.sign),o.id+' sign names what the number is: '+o.sign);
+  for(const o of m.objects.filter(x=>x.kind==='numberperson')){assert(/^(ランク [0-9]+い|いいね [0-9,]+|フォロワー [0-9,]+)$/.test(o.sign),o.id+' sign names what the number is: '+o.sign);
    const half=[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;
    for(const l of m.objects.filter(x=>x.id.startsWith('neon_light')&&Math.abs(x.y-o.y)<2.5))assert(Math.abs(o.x-l.x)*48-14>=half,o.id+' sign ('+o.sign+') ends clear of '+l.id);}
   // R85: a sign whose person stands at the screen edge slides inward and is drawn whole (it was cut to 「じゅんい 86」 / 「いいね 320」 on a phone).
@@ -2823,14 +2823,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R293: in the ネオン arrival view, num1's 「じゅんい 86」 sign stays over its person instead of sliding in from the left edge.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.tick(16);r.canvasCalls.length=0;r.tick(16);
   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1);assert(txt,'R293: num1 sign is drawn in the arrival view');assert(Math.abs(txt[2]-o.x*48)<1,'R293: num1 sign sits over its person (sign x '+txt[2]+', person x '+o.x*48+')');}
- result.push('R293: ネオンの着いた所で「じゅんい 86」の札が人の上にある PASS');
+ result.push('R293: ネオンの着いた所で「ランク 86い」の札が人の上にある PASS');
  // R294: talking to ミオ, her name tag and num1's 「じゅんい 86」 sign no longer touch end to end; they sit at different heights.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   r.g.debugWarp('neon',mio.x,mio.y+1.1);r.g.debugFace(3);r.tick(16);r.canvasCalls.length=0;r.tick(16);
   // both plates are about 34 tall; baselines 38 or more apart leave a visible gap (4px or more) between them.
   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),name=r.canvasCalls.filter(c=>c[0]==='fillText'&&c[1]===mio.label).at(-1);
-  assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-38,'R294: ミオ tag sits above the じゅんい 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
- result.push('R294: ミオの名札と「じゅんい 86」の札が重ならない PASS');
+  assert(txt&&name,'R294: num1 sign and ミオ name tag are both drawn');assert(name[3]<=txt[3]-38,'R294: ミオ tag sits above the rank 86 sign (tag text y '+name[3]+', sign text y '+txt[3]+')');}
+ result.push('R294: ミオの名札と「ランク 86い」の札が重ならない PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
@@ -2875,17 +2875,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R345: おとな mode draws the ネオン number signs 「じゅんい 86」「じゅんい 99」 as 「順位 86」「順位 99」; こども keeps the kana, and いいね・フォロワー stay as they are.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();if(mode==='kids'){r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
   assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();assert.equal(r.g.state.mode,mode,'R345: runs in '+mode+' mode');
-  for(const [id,adult] of [['neon_num1','順位 86'],['neon_num2','いいね 3204'],['neon_num4','順位 99']]){const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id===id),want=mode==='adult'?adult:o.sign;
-   r.g.debugWarp('neon',o.x,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);const drawn=r.canvasCalls.filter(c=>c[0]==='strokeText'&&/^(順位|じゅんい|いいね|フォロワー) /.test(c[1])).map(c=>c[1]);
-   assert(drawn.includes(want),'R345: '+mode+' draws '+want+' over '+id+' (drawn: '+drawn.join(' / ')+')');assert(!drawn.some(t=>mode==='adult'?/^じゅんい /.test(t):/^順位 /.test(t)),'R345: '+mode+' does not draw the other mode\'s rank word ('+drawn.join(' / ')+')');
+  for(const [id,adult] of [['neon_num1','ランク 86位'],['neon_num2','いいね 3204'],['neon_num4','ランク 99位']]){const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id===id),want=mode==='adult'?adult:o.sign;
+   r.g.debugWarp('neon',o.x,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);const drawn=r.canvasCalls.filter(c=>c[0]==='strokeText'&&/^(ランク|順位|じゅんい|いいね|フォロワー) /.test(c[1])).map(c=>c[1]);
+   assert(drawn.includes(want),'R345: '+mode+' draws '+want+' over '+id+' (drawn: '+drawn.join(' / ')+')');assert(!drawn.some(t=>mode==='adult'?/^(じゅんい |ランク [0-9]+い$)/.test(t):/^(順位 |ランク [0-9]+位$)/.test(t)),'R345: '+mode+' does not draw the other mode\'s rank word ('+drawn.join(' / ')+')');
    const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===want).at(-1),half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2,pl=r.canvasCalls.filter(c=>c[0]==='plate').find(c=>c[1]<=txt[2]-half&&c[1]+c[3]>=txt[2]+half);
    assert(pl,'R345: the dark plate covers '+want+' in '+mode+' mode');}}
- result.push('R345: ネオンのかずの人の札が、おとなでは「順位 86」、こどもでは「じゅんい 86」になる PASS');
+ result.push('R345: ネオンのかずの人の札が、おとなでは「ランク 86位」、こどもでは「ランク 86い」になる PASS');
  // R346: on a phone the right-hand number people showed 「いいね 320」 and 「順」 cut by the screen edge; walking along their rows in both modes,
  // every number sign drawn sits whole on screen with its plate, a sign is skipped only while its person stands at the very edge, and each sign is drawn from somewhere on the street.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();if(mode==='kids'){r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
   assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;
-  for(const id of ['neon_num2','neon_num4']){const o=m.objects.find(x=>x.id===id),want=mode==='adult'?o.sign.replace(/^じゅんい /,'順位 '):o.sign,half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;let seen=0,hidden=0;
+  for(const id of ['neon_num2','neon_num4']){const o=m.objects.find(x=>x.id===id),want=mode==='adult'?o.sign.replace(/^(ランク [0-9]+)い$/,'$1位'):o.sign,half=[...want].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;let seen=0,hidden=0;
    for(let hx=8;hx<=28;hx+=0.5){r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);const camX=Math.max(0,Math.min(m.w*48-540,hx*48-270)),calls=r.canvasCalls,at=calls.findLastIndex(c=>c[0]==='strokeText'&&c[1]===want);
     const ox=o.x*48;if(ox+24<camX||ox-24>camX+540)continue;
     if(at<0){hidden++;assert(ox<camX+2||ox>camX+538,'R346: '+mode+' '+want+' is only skipped while '+id+' stands at the screen edge (person x '+ox+', screen '+camX+'..'+(camX+540)+')');continue;}
