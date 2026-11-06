@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-26T04:11:51.558Z",
-  "branch": "claude/autodev-20261026-1221-R255",
-  "task": "R255 3章でネオンに着いた最初の画面で、「いいね 3204」の人が「はなす」ボタンの下に隠れていたので、その人を南の大通りの歩道へ動かした",
-  "summary": "ネオンに着いた画面で「はなす」ボタンの下にいた「いいね」の人を南の歩道へ動かした\nネオンに着いた時ボタンの下に人がいないことをテストに足した\n前と後のスクショを撮り、全部のテストが通ることを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/452/mobile-02-mode-select.jpg",
-   "shots/452/mobile-15-custom-full-run.jpg",
-   "shots/452/mobile-27-chapter-2-play.jpg",
-   "shots/452/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ef6df9e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40266782909"
- },
- {
   "at": "2026-10-26T05:13:23.248Z",
   "branch": "claude/autodev-20261026-1321-R256",
   "task": "R256 町とミナモの木の看板の板に字が無く、何の看板か分からなかったので、板を少し大きくして「ちず」「ミナモ」と書いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "971c54d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42139016747"
+ },
+ {
+  "at": "2026-11-06T01:17:58.509Z",
+  "branch": "claude/autodev-20261106-0941-R405",
+  "task": "R405 チャレンジ中に取った実績の知らせが、終わって開く記録の窓の見出しに重なっていたので、窓を開く時に知らせを引っ込め、閉じた後に出し直した",
+  "summary": "チャレンジ中に取った実績の知らせが、記録の窓の見出しを隠していた\n窓が開くと知らせを引っ込め、窓を閉じた後に先に出し直すようにした\n確かめるテストを足し、前と後のスクショを docs/shots/R405 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/705/mobile-02-mode-select.jpg",
+   "shots/705/mobile-19-custom-og-credit-card.jpg",
+   "shots/705/mobile-34-chapter-1-play.jpg",
+   "shots/705/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c12f413",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42141474364"
  }
 ]
