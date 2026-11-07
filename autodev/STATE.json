@@ -3,7 +3,7 @@
   "current": {
     "id": "R446",
     "branch": "claude/autodev-20261108-0621-R446",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-11-08T06:21:50+09:00"
