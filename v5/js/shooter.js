@@ -431,6 +431,8 @@
     if (k === 'voice') return (adult ? '守護霊がつながった (' : 'しゅごれいが つながった (') + n + ')';
     if (k === 'ready') return adult ? '特技が「みんなの声」に変わった！' : 'とくぎが「みんなの こえ」に かわった！'; // R330: the ゼロ fight, like the button label
     if (k === 'down') return adult ? '数字に当たって 攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
+    // R428: picking up the pace light before any number hit used to say 「1段 戻った」 though nothing had gone down.
+    if (k === 'paceKeep') return adult ? '自分のペースで作った。\n攻撃力は下がっていない' : 'じぶんの ペースで つくった。\nこうげきりょく は さがって いない';
     return adult ? '自分のペースで作った。\n攻撃力が1段 戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
   }
   function toast(w, text, dur) { if (text) w.toast = { text: String(text), t: w.t, dur: dur || 2.4 }; }
@@ -1023,8 +1025,8 @@
     w.flash = Math.max(w.flash, 0.2);
     emit(w, 'pickup');
     if (pk.kind === 'pace') {
+      toast(w, noticeText(m.down > 0 ? 'pace' : 'paceKeep'), 2.6);
       m.down = Math.max(0, m.down - 1);
-      toast(w, noticeText('pace'), 2.6);
       m.paceAt = w.playT + (m.down > 0 ? 8 : 16);
     } else if (pk.kind === 'make') {
       m.made++;

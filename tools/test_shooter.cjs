@@ -238,6 +238,13 @@ check('ハートは最初3', world({}).p.hearts === 3);
   const wp = world({ boss: 'hikaku' }); let paced = false;
   run(wp, 14, w => { w.p.inv = 5; if (w.pickups.some(p => p.kind === 'pace')) paced = true; return IDLE; });
   check('「じぶんの ペース」の光が出る', paced);
+  // R428: before any number hit, the pace light does not say 「1だん もどった」.
+  const w0 = world({ boss: 'hikaku' }); sim.spawnPickup(w0, 'pace'); const pk0 = w0.pickups[w0.pickups.length - 1]; pk0.x = w0.p.x; pk0.y0 = w0.p.y;
+  sim.step(w0, DT, IDLE);
+  check('R428: 下がっていない時に拾うと「さがって いない」と出る', w0.m.down === 0 && w0.toast && w0.toast.text === sim.noticeText('paceKeep') && !/もどった/.test(w0.toast.text), w0.toast);
+  const w1 = world({ boss: 'hikaku' }); w1.m.down = 1; sim.spawnPickup(w1, 'pace'); const pk1 = w1.pickups[w1.pickups.length - 1]; pk1.x = w1.p.x; pk1.y0 = w1.p.y;
+  sim.step(w1, DT, IDLE);
+  check('R428: 下がっている時は今までどおり「1だん もどった」', w1.m.down === 0 && w1.toast && w1.toast.text === sim.noticeText('pace'), w1.toast);
 })();
 (() => {
   const w = world({ boss: 'jibun', options: 2 }); w.m.ballT = 99; w.m.makeAt = 999;
@@ -1146,12 +1153,14 @@ async function browserAdapterChecks() {
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
   globalThis.RYW.setMode('adult'); const a = ['crack', 'down', 'pace'].map(k => sim.noticeText(k));
+  check('R428: おとなモードの「下がっていない」も漢字まじりで、1行が箱（440px）に収まる', sim.noticeText('paceKeep') === '自分のペースで作った。\n攻撃力は下がっていない' && sim.noticeText('paceKeep').split('\n').every(r => wide(r) <= 440));
   check('R328: おとなモードのお知らせは漢字まじり', a[0] === 'ひびが入った！\n10秒 ボスへのダメージ 2倍' && a[1] === '数字に当たって 攻撃力が下がった' && a[2] === '自分のペースで作った。\n攻撃力が1段 戻った！', a);
   check('R328: おとなのお知らせは1行ずつ箱の中（440px）に収まる', a.every(t => t.split('\n').every(l => wide(l) <= 440)), a.map(t => t.split('\n').map(wide)));
   const b = ['immune', 'paceItem', 'makeItem'].map(k => sim.noticeText(k));
   check('R328: おとなモードの「攻撃が効かない」と拾う物の名前も漢字まじり', b.join('|') === '攻撃が効かない…|自分のペース|作る', b);
   globalThis.RYW.setMode('kids'); const k = ['crack', 'down', 'pace'].map(k => sim.noticeText(k));
   check('R328: こどもモードの「こうげきが きかない」と拾う物の名前は今までどおり', ['immune', 'paceItem', 'makeItem'].map(k => sim.noticeText(k)).join('|') === 'こうげきが きかない…|じぶんの ペース|つくる');
+  check('R428: こどもモードの「さがって いない」も1行が箱（440px）に収まる', sim.noticeText('paceKeep') === 'じぶんの ペースで つくった。\nこうげきりょく は さがって いない' && sim.noticeText('paceKeep').split('\n').every(r => wide(r) <= 440));
   check('R328: こどもモードのお知らせは今までどおり', k[0] === 'ひびが はいった！\n10びょう ダメージ 2ばい' && k[1] === 'すうじに あたって こうげきりょく が さがった' && k[2] === 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！', k);
   globalThis.RYW.setMode(old || 'kids');
 })();
