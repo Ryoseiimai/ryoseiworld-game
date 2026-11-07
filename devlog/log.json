@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T03:02:26.078Z",
-  "branch": "claude/autodev-20261027-1121-R275",
-  "task": "R275 町の始めで、左下の「ドラッグで あるく」の箱が公園の看板の柱にかかっても濃いままだったので、柱が後ろにあれば箱を薄くした",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の始めで「ドラッグで あるく」の箱が公園の看板の柱にかかっていた\n看板の字だけでなく板と柱が後ろにあっても、箱を薄くするようにした",
-  "result": "pass",
-  "shots": [
-   "shots/486/mobile-02-mode-select.jpg",
-   "shots/486/mobile-15-custom-full-run.jpg",
-   "shots/486/mobile-27-chapter-2-play.jpg",
-   "shots/486/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "385af9e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40440903931"
- },
- {
   "at": "2026-10-27T03:33:44.569Z",
   "branch": "claude/autodev-20261027-1221-R276",
   "task": "R276 遊んで一番気になる所を1つ直す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "5cb4f7e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42320377325"
+ },
+ {
+  "at": "2026-11-07T01:15:46.398Z",
+  "branch": "claude/autodev-20261107-0922-R425",
+  "task": "R425 ネオンに着いた時、掃除機のノイズが画面の下で切れて「話す」ボタンの横に隠れ、矢印も → に変わったので、少し上を歩かせた",
+  "summary": "ネオンの掃除機のノイズを1.4マス上に動かし、着いた画面に全部見えるようにした\n下で切れている間に矢印が → を指していたのが、ずっと ↓ になった\n確認を足し、前と後のスクショを docs/shots/R425 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/740/mobile-02-mode-select.jpg",
+   "shots/740/mobile-19-custom-og-credit-card.jpg",
+   "shots/740/mobile-34-chapter-1-play.jpg",
+   "shots/740/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2323526",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42321348817"
  }
 ]
