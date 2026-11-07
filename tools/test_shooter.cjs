@@ -1107,7 +1107,10 @@ async function browserAdapterChecks() {
   for (const kh of [sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint, B.kateino.lines.owlHint]) check('R400: カテイノジジョウのヒントはボタンの名前「' + globalThis.RYW.word('playtest') + '」を言う', q(kh) === globalThis.RYW.word('playtest') && !kh[1].includes('とくぎ'), kh);
   globalThis.RYW.setMode('kids');
   const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
-  check('R386: こどもモードのヒントは今までどおり', k[1] === 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう' && q(k) === sim.noticeText('paceItem'), k);
+  check('R386/R427: こどもモードのヒントはひらがなの名前を引く', k[1] === 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる' && q(k) === sim.noticeText('paceItem'), k);
+  // R427: the pickup comes up 9 s after the hint, so the hint says what to look for (みどり, the pickup's colour) and what it does (もどる).
+  for (const h of [a, k]) check('R427: ヒカクマオウのヒントは拾う物の色と、拾うと戻ることを言う', h[1].includes('みどりの「') && h[1].endsWith('で もどる') && !h[1].includes('とろう'), h);
+  for (const h of [a, k]) check('R427: ヒカクマオウのヒントは2行で、空白をのぞいて30字まで', h[1].split('\n').length === 2 && h[1].replace(/[\s]/g, '').length <= 30, h);
   globalThis.RYW.setMode(old || 'kids');
 })();
 

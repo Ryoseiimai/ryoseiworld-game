@@ -197,9 +197,10 @@
       crown: [-6, -78, 32], moveA: 180, moveF: 0.6, color: '#ffd94a',
       lines: { intro: ['ヒカクマオウ', 'おなじ としで\nもう しゃちょう'],
         bursts: { 75: 'きのうの じぶんより\nすすんでる', 50: 'くらべる あいては\nきのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' },
-        hint: ['ソラ', 'すうじに あたると たまが よわくなる。「じぶんの ペース」を とろう'],
+        hint: ['ソラ', 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる'],
         // R386: adult mode names the pickup 「自分のペース」 (noticeText paceItem), so Sora's hint quotes that name; the rest of the line stays kana.
-        hintAdult: ['ソラ', 'すうじに あたると たまが よわくなる。「自分のペース」を とろう'],
+        // R427: the pickup is not on screen yet when the hint shows (paceAt 9 s), so the hint says its colour and what it does (もどる), not just 「とろう」. Two lines, 30 letters at most.
+        hintAdult: ['ソラ', 'すうじに あたると よわる。\nみどりの「自分のペース」で もどる'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
         win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },
