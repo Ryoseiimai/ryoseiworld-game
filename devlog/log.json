@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T10:58:26.593Z",
-  "branch": "claude/autodev-20261027-1921-R283",
-  "task": "R283 BUG KING 戦で、足もとの黒い影が夜の町の暗い塀に沈み、ボスが宙に浮いて見えたので、足もとにボスの色の薄い光と細い線を足した",
-  "summary": "確認役が全章のスクショを見て、BUG KING が宙に浮いて見えると挙げた\nBUG KING の足もとに、ボスの色の薄い光と細い線を足した。前と後のスクショで足もとが見えた\n空の会話の枠・ヒカクマオウ戦の薄い字は出入りの途中を写したもの、24px 未満の字は縮めたスクショの見え方なので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/499/mobile-02-mode-select.jpg",
-   "shots/499/mobile-15-custom-full-run.jpg",
-   "shots/499/mobile-27-chapter-2-play.jpg",
-   "shots/499/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "015d0e2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40491039240"
- },
- {
   "at": "2026-10-27T11:55:39.220Z",
   "branch": "claude/autodev-20261027-2023-R284",
   "task": "R284 ネオンの「かずの ひと」4人がほかの人より頭ひとつ大きかったので、ミオと同じ背にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "9df0423",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42352731001"
+ },
+ {
+  "at": "2026-11-07T08:55:28.684Z",
+  "branch": "claude/autodev-20261107-1721-R435",
+  "task": "R435 チャレンジの記録で「最高ステージ 12」と「次はステージ13」の空き方が行ごとに違っていたので、おとなモードでは数字の前の空きを取った",
+  "summary": "おとなモードのチャレンジの記録で、数字の前の空きを取って行を揃えた\n「今回ステージ1」「最高コンボ48」などにし、こどもモードはそのまま\n前と後のスクショ（mobile-14）で揃ったことを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/757/mobile-02-mode-select.jpg",
+   "shots/757/mobile-19-custom-og-credit-card.jpg",
+   "shots/757/mobile-34-chapter-1-play.jpg",
+   "shots/757/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "09f37f6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42356695536"
  }
 ]
