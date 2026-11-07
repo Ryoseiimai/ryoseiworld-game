@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T12:18:34.265Z",
-  "branch": "claude/autodev-20261027-2023-R284",
-  "task": "R284 ネオンの「かずの ひと」4人がほかの人より頭ひとつ大きかったので、ミオと同じ背にした",
-  "summary": "確認役が全章のスクショを見て、ネオンの「かずの ひと」が大きすぎると挙げた\n4人の高さを100から76にし、体がミオと同じ66pxくらいになった。前と後のスクショで確かめた\n「呼び出す」の目当てがフィールドに出る件は確認用の画面だけで起きるので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/501/mobile-02-mode-select.jpg",
-   "shots/501/mobile-15-custom-full-run.jpg",
-   "shots/501/mobile-27-chapter-2-play.jpg",
-   "shots/501/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f438cc0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40500213688"
- },
- {
   "at": "2026-10-27T13:13:43.260Z",
   "branch": "claude/autodev-20261027-2134-R285",
   "task": "R285 タイトルで、つづきの説明の箱がボタンより左右に広くはみ出して見えたので、ボタンを箱と同じ幅にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "1876c8d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42360123065"
+ },
+ {
+  "at": "2026-11-07T10:04:56.056Z",
+  "branch": "claude/autodev-20261107-1822-R436",
+  "task": "R436 武器の画面の「持っていない武器は あと5つ。きずなが深まると増える。」が、持っていない武器が増えると読めたので、「持っていない武器が あと5つ。きずなが深まると もらえる。」にした",
+  "summary": "武器の画面の「きずなが深まると増える」を「もらえる」に直した\n持っていない武器が増えると読めていた。こどもモードも同じに直した\n前と後のスクショ（mobile-12）で確かめ、「増える」が出ないテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/760/mobile-02-mode-select.jpg",
+   "shots/760/mobile-19-custom-og-credit-card.jpg",
+   "shots/760/mobile-34-chapter-1-play.jpg",
+   "shots/760/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "048a0ec",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42361451679"
  }
 ]
