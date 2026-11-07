@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T23:23:42.547Z",
-  "branch": "claude/autodev-20261028-0721-R294",
-  "task": "R294 ネオンでミオに話しかける時、ミオの名札と「じゅんい 86」の札が横に並んで触れていたので、ミオを少し上に立たせた",
-  "summary": "前の回が残したミオの名札と「じゅんい 86」の札が触れる件に決めた\nミオを少し上に立たせ、名札を札より上に出した。前と後のスクショを見比べた\n名札と札の高さがずれていることを調べる確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/516/mobile-02-mode-select.jpg",
-   "shots/516/mobile-15-custom-full-run.jpg",
-   "shots/516/mobile-27-chapter-2-play.jpg",
-   "shots/516/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "aedcbaa",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40600654331"
- },
- {
   "at": "2026-10-28T00:49:37.226Z",
   "branch": "claude/autodev-20261028-0921-R295",
   "task": "R295 町の始めで、砂場の子の足が「はなす」ボタンの上の縁に触れていたので、子を少し上に立たせた",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "ed73aea",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42412307409"
+ },
+ {
+  "at": "2026-11-07T21:43:33.221Z",
+  "branch": "claude/autodev-20261108-0621-R446",
+  "task": "R446 遊んで一番気になる所を1つ直す",
+  "summary": "タイトルとメニューの「記録 5/12」を「実績 5/12」にした（こどもは「じっせき」）\n開く画面は最高ステージも出すので、見出しを「実績と記録」にした\n確認役の残り（召喚獣と守護霊の呼び名、町と戦闘の操作案内の違い）は次の候補にした",
+  "result": "pass",
+  "shots": [
+   "shots/774/mobile-02-mode-select.jpg",
+   "shots/774/mobile-19-custom-og-credit-card.jpg",
+   "shots/774/mobile-34-chapter-1-play.jpg",
+   "shots/774/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3aecfbf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42416257253"
  }
 ]
