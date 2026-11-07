@@ -1048,7 +1048,7 @@ let started=false;
 // the field whose delay runs past a later() quit-to-title must still drop it there (design_final.md 不具合の直し 3).
 const outgamePort={env:()=>isPlayables()?'playables':'web',adult:()=>g.screen==='title'?titleAdult():g.mode==='adult',save:()=>g.screen==='title'?saved:snapshot(),check:eventCheck,modal:openModal,close:closeModal,toast,press:fn=>{if(performance.now()<inputGuardUntil)return;ensureAudio();sfx.decide();fn();},musicRecorded:()=>Object.keys(rec.buffers).length>0,place:()=>g.screen+'/'+modalKind,recordsText:(save,adult)=>{const r=save?.challenge?.best;return r&&(r.stage||r.bestCombo)?recordText(r,adult):'';},announce:(text,order)=>{later(()=>announceToast(text),Math.max(0,toastUntil-gameTime)+order*2600);},openers:{
  'title':()=>title(),
- 'chapter-card':()=>{const n=3;endingCard(nextCardHeading(n,GAME_DATA.chapters[n].title),title,'CHAPTER 02 COMPLETE',menuLabel('雲の門から\n光のエレベーターが\n上っていく。','くもの もんから\nひかりの エレベーターが\nのぼっていく。'));OG()?.mount('chapter-card',{chapter:n-1});},
+ 'chapter-card':()=>{const n=3,c=(GAME_DATA.events.minamoPark||[]).find(s=>s.chapterClear)||{}/* R431: CHAPTER 02 の札に3章の終わりの文が出ていたので、2章の終わりの文をデータから引く */;endingCard(nextCardHeading(n,GAME_DATA.chapters[n].title),title,'CHAPTER 02 COMPLETE',menuLabel(c.copyAdult||c.copy||'',c.copy||''));OG()?.mount('chapter-card',{chapter:n-1});},
  'challenge-result':async()=>{const keep={chapter:g.chapter,bosses:g.bosses};await api.smokeScenes.find(s=>s.name==='challenge-nextgoal').run();Object.assign(g,keep);},
  'credit-card':()=>creditCard('credits',()=>{}),
  'settings':()=>openSettings(),

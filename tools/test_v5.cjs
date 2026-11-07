@@ -3071,6 +3071,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.battle.enemy.hp=r.g.battle.enemy.displayHp=r.g.battle.enemy.maxHp=999;r.cmd('attack');r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   l=fresh('r399b');assert(l.includes(adult?'が現れた！':'が あらわれた！')&&!l.includes(hint),mode+' R399 after the first 実行 the hint is gone: '+l);}
  result.push('R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS');
+ // R431: the smoke card for CHAPTER 02 used chapter 3's closing words (雲の門から…); it now reads chapter 2's chapterClear copy from the data.
+ {const m=html.match(/'chapter-card':\(\)=>\{[^\n]*?OG\(\)\?\.mount\('chapter-card'/);assert(m,'R431: chapter-card opener found');
+  assert(m[0].includes("'CHAPTER 02 COMPLETE'")&&m[0].includes('GAME_DATA.events.minamoPark')&&!m[0].includes('雲の門')&&!m[0].includes('くもの もん'),'R431: the CHAPTER 02 card takes chapter 2 words: '+m[0]);}
+ result.push('R431: 確認用の CHAPTER 02 の札が、2章の終わりの文を出す PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
