@@ -60,7 +60,8 @@ RYW.registerOutGame?.({
   {id:'ch2',name:['カテイノジジョウを静めた','カテイノジジョウを しずめた'],when:{boss:'kateino'}},
   {id:'ch3',name:['ヒカクマオウを静めた','ヒカクマオウを しずめた'],when:{boss:'hikaku'}},
   {id:'jibun',name:['ジブンと向き合った','ジブンと むきあった'],when:{boss:'jibun'},secret:true},
-  {id:'zero',name:['ゼロと作った','ゼロと つくった'],when:{summon:'zero'},secret:true},
+  // R438: 「ゼロと作った」は何を作ったのか言わず「ゼロから作った」とも読めたので、ゼロとの和解（STORY_V4.md）をそのまま「ゼロと分かり合えた」と書く
+  {id:'zero',name:['ゼロと分かり合えた','ゼロと わかりあえた'],when:{summon:'zero'},secret:true},
   {id:'word10',name:['言葉を10個集めた','ことばを 10こ あつめた'],when:{count:'words',atLeast:10}},
   {id:'word40',name:['言葉を40個集めた','ことばを 40こ あつめた'],when:{count:'words',atLeast:40}},
   {id:'bond3',name:['守護霊が一緒に飛んだ','しゅごれいが いっしょに とんだ'],when:{count:'bondMax',atLeast:3}},

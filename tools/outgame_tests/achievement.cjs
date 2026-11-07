@@ -28,6 +28,9 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(new Set(ids).size, 12, 'all 12 ids are distinct: ' + ids.join());
     // R408: every name reads as something already done (past tense), so a ★ row never looks like a goal still ahead.
     for (const a of raw.achievements) for (const n of a.name) assert(/(た|だ)$/.test(n), 'achievement name is past tense: ' + n);
+    // R438: the zero row said 「ゼロと作った」 without what was made (and read like 「ゼロから作った」); it names the reconciliation instead.
+    assert.deepEqual(raw.achievements.find(a => a.id === 'zero').name, ['ゼロと分かり合えた', 'ゼロと わかりあえた'], 'R438: the zero achievement names the reconciliation');
+    assert(!raw.achievements.some(a => a.name.some(n => n.includes('作った') || n.includes('つくった'))), 'R438: no achievement says 作った without what');
   }
   result.push('og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS');
 
@@ -131,7 +134,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     const firstHollow = rowLines.findIndex(l => l.startsWith('☆ '));
     assert(rowLines.slice(firstHollow).every(l => l.startsWith('☆ ')), 'R421: every ★ row comes before the first ☆ row: ' + JSON.stringify(rowLines));
     assert(!copy.includes('・ '), 'the old ・ mark is gone');
-    assert(!copy.includes('ジブンと向き合った') && !copy.includes('ゼロと作った'), 'secret rows stay hidden until earned');
+    assert(!copy.includes('ジブンと向き合った') && !copy.includes('ゼロと分かり合えた'), 'secret rows stay hidden until earned');
     assert.equal(copy.split('\n').filter(l => l.trim()).length - 2, 12, '12 achievement lines plus the two best-record lines: ' + JSON.stringify(copy));
     r.button('戻る');
     assert.equal(r.g.modal, 'menu', 'back returns to the menu, not the field');
