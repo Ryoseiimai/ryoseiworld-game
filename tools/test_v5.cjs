@@ -2019,6 +2019,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const ch2=r0.g.GAME_DATA.events.minamoPark.find(s=>s.chapterClear);assert(ch2.copy.includes('こうえん')&&!ch2.copy.includes('ゲーム'),'chapter 2 card: '+ch2.copy);assert(ch2.copyAdult.includes('公園'),'chapter 2 adult card: '+ch2.copyAdult);
   for(const st of steps)for(const line of st.copy.split('\n'))assert(line.length<=16,'kids line fits the card: '+line);}
  result.push('R417: 2章の終わりの札を「こうえんで みんな わらってた。」にし、章の札の本文が章ごとにちがう PASS');
+ // R443: the chapter 2 card read 電車は光る町へ (next) before 公園でみんな笑っていた (what just happened); it now tells the park first and ends on the train, like the chapter 3 card ends on the lift.
+ {const r0=await runtime();r0.tick();const ch2=r0.g.GAME_DATA.events.minamoPark.find(s=>s.chapterClear);
+  assert.deepEqual(ch2.copyAdult.split('\n'),['公園でみんな笑っていた。','電車は光る町へ。'],'R443: adult chapter 2 card in time order: '+ch2.copyAdult);
+  assert.deepEqual(ch2.copy.split('\n'),['こうえんで みんな わらってた。','でんしゃは ひかる まちへ。'],'R443: kids chapter 2 card in time order: '+ch2.copy);}
+ result.push('R443: 2章の終わりの札を「公園でみんな笑っていた。」「電車は光る町へ。」の起きた順にした PASS');
  // R338: the field plates on the bus stops and stations read バス停・駅 in adult mode; kids keep バスてい・えき.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
   for(const [map,id] of [['town','bus'],['minamo','minamo_bus'],['minamo','minamo_station'],['neon','neon_station']]){const o=r.g.GAME_DATA.maps[map].objects.find(x=>x.id===id),want=o.event==='busStop'?(adult?'バス停':'バスてい'):(adult?'駅':'えき');
