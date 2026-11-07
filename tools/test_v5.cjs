@@ -1070,7 +1070,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.key('Escape');r.click('menu-btn');assert(labels(r).includes('チャレンジ'),'chapter 1 boss clear unlocks entry');
   r.button('チャレンジ');assert.equal(r.g.modal,'cheats');assert.equal(r.shooterRuns.length,0);assert(r.g.debugWords().includes('cheat')&&r.g.debugWords().includes('debugmode'));
   r.button('はじめる');assert.equal(r.shooterRuns.at(-1).cfg.mode,'challenge');assert.equal(r.shooterRuns.at(-1).cfg.startStage,1);assert.deepEqual(plain(r.shooterRuns.at(-1).cfg.options.cheats),blank);
-  const first=r.shooterRuns.at(-1).cfg;first.onEnd({stage:12,bestCombo:48,score:1000,cheated:false});assert.equal(r.g.screen,'field');assert(copy(r).includes('さいこう ステージ 12')&&copy(r).includes('さいこう コンボ 48'));assert(!copy(r).includes('チートつき'),'R103: no cheat record row before any cheat run');
+  const first=r.shooterRuns.at(-1).cfg;first.onEnd({stage:12,bestCombo:48,score:1000,cheated:false});assert.equal(r.g.screen,'field');assert(copy(r).includes('こんかい ステージ 12')&&copy(r).includes('こんかい コンボ 48'));assert.deepEqual([r.g.state.challenge.best.stage,r.g.state.challenge.best.bestCombo],[12,48],'R430: the first run is saved as the best even though the window shows it once');assert(!copy(r).includes('チートつき'),'R103: no cheat record row before any cheat run');
   first.onEnd({stage:99,bestCombo:99,score:99999,cheated:true});assert.deepEqual(plain(r.g.state.challenge.bestCheat),record,'duplicate callback ignored');
   r.tick(300);r.key('Escape');const shop=r.g.debugShop();assert.equal(shop,r.RYW.Shop);assert.equal(shop.kind,'test');assert.equal(shop.has('debugmode'),false);assert.equal(await shop.buy('unknown'),false);assert.equal(await shop.restore(),false);
   r.g.debugOpenCheats();r.button('［デバッグモード');assert.equal(r.g.modal,'shop-gate');assert.equal(labels(r).filter(t=>/^\d+$/.test(t)).length,4);assert(!r.g.debugWords().includes('iap'));const q=copy(r),wrong=labels(r).find(t=>/^\d+$/.test(t)&&Number(t)!==answer(r));r.button(wrong);await settle();assert.equal(r.g.modal,'');assert(!shop.has('debugmode'));assert(!r.g.debugWords().includes('iap'));
@@ -1146,7 +1146,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.g.debugStartChapter(1);r.g.state.mode='kids';r.RYW.setMode('kids');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
   // R162: the first run has no record to beat, so it reads はじめての きろく and already points at the next stage.
-  assert.equal(title(r),'はじめての きろく','the first run reads as a first record');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'the first record shows the next stage');
+  assert.equal(title(r),'はじめての きろく','the first run reads as a first record');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'the first record shows the next stage');assert(!copy(r).includes('さいこう'),'R430: the kids first record does not repeat this run as さいこう');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   assert.equal(title(r),'チャレンジの きろく','a worse run keeps the plain title');assert(copy(r).includes('つぎは ステージ 6 を めざそう'),'a worse run points at the next stage past the best');
   r.tick(300);r.button('もう いちど');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:9,bestCombo:15,score:900,cheated:false});
@@ -2119,7 +2119,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
   const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  let c=copy(r);assert.equal(title(r),'初めての記録');assert(c.startsWith('今回ステージ 5\n今回コンボ 20\n\n最高ステージ 5\n最高コンボ 20')&&c.endsWith('\n\n次はステージ6を目指そう'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  let c=copy(r);assert.equal(title(r),'初めての記録');assert.equal(c,'今回ステージ 5\n今回コンボ 20\n\n次はステージ6を目指そう','R430: the first record does not repeat this run as 最高');assert(!c.includes('最高'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
   assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
   r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ6を目指そう'),c);fits(c);
