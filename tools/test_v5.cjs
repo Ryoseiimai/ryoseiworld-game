@@ -2119,19 +2119,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
   const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  let c=copy(r);assert.equal(title(r),'初めての記録');assert.equal(c,'今回ステージ 5\n今回コンボ 20\n\n次はステージ6を目指そう','R430: the first record does not repeat this run as 最高');assert(!c.includes('最高'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  let c=copy(r);assert.equal(title(r),'初めての記録');assert.equal(c,'今回ステージ5\n今回コンボ20\n\n次はステージ6を目指そう','R430: the first record does not repeat this run as 最高');assert(!c.includes('最高'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
   assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
   r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ6を目指そう'),c);fits(c);
   r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:2,bestCombo:4,score:50,cheated:true});
-  c=copy(r);assert.equal(title(r),'初めての記録 チート付き');assert(c.startsWith('今回ステージ 2\n今回コンボ 4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ 2'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'初めての記録 チート付き');assert(c.startsWith('今回ステージ2\n今回コンボ4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ2'),c);fits(c);
   r.g.state.cheats.godmode=false;r.tick(300);r.button('もう一度');r.g.state.mode='kids';r.RYW.setMode('kids');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:2,score:10,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);
   // R162: a run that beats an earlier record still reads 記録更新！ without a goal line.
   r.tick(300);r.button('もう いちど');r.g.state.mode='adult';r.RYW.setMode('adult');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:7,bestCombo:3,score:900,cheated:false});
-  c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ 7\n今回コンボ 3\n\n通常\n最高ステージ 7\n最高コンボ 20')&&!c.includes('目指そう'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ7\n今回コンボ3\n\n通常\n最高ステージ7\n最高コンボ20')&&!c.includes('目指そう'),c);fits(c);
   r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:4,bestCombo:4,score:90,cheated:true});
-  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.includes('\n\nチート付き\n最高ステージ 4')&&!c.includes('目指そう'),c);fits(c);}
+  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.includes('\n\nチート付き\n最高ステージ4')&&!c.includes('目指そう'),c);fits(c);
+  // R435: adult record lines put the number right after the kanji, as 「次はステージ13を目指そう」 (R420) does.
+  assert(!/(ステージ|コンボ) \d/.test(c),'R435: '+c);}
+ result.push('R435: おとなモードのチャレンジの記録で「最高ステージ 12」などの数字の前の空きを取り、「次はステージ13」と揃えた（こどもはそのまま） PASS');
  result.push('R125: おとなモードのチャレンジの結果の窓を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R149: the number people's art floats a small 1-4 over each head that never matched the sign; the rows above the head are not drawn.
  {const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]);assert.equal(crop.length,4);
@@ -2985,7 +2988,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugOpenCheats();assert(labels().includes('［デバッグモードを開く］')&&labels().includes('持っているか確かめる')&&!labels().some(t=>/ひらく|たしかめる/.test(t)),'R323: adult shop '+labels().join('/'));r.key('Escape');
   r.g.state.mode='kids';r.RYW.setMode('kids');r.g.debugOpenCheats();assert(labels().includes('［デバッグモードを ひらく］')&&labels().includes('もっているか たしかめる'),'R323: kids shop '+labels().join('/'));r.key('Escape');}
  result.push('R323: デバッグモードの「ひらく」「たしかめる」が、おとなモードでは漢字になる PASS');
- // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ 48」; the word now comes first there too.
+ // R308: the boss fight's corner read 「0 コンボ」 while the record reads 「最高コンボ48」; the word now comes first there too.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/'コンボ ' \+ r\.combo/.test(src)&&!/r\.combo \+ ' コンボ'/.test(src),'R308: the combo count follows the word');}
  // R307: in a boss fight the speech panel sat 8px under the word card (about 6px on a phone) and the two read as one box; the gap is 12px now, like R250.
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const m=src.match(/var WORD_CARD_GAP = (\d+);\s*function wordCardH\(S\) \{[^\n]*\}/);assert(m,'R307: wordCardH uses the named gap');

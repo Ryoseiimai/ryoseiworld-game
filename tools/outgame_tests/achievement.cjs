@@ -116,7 +116,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     r.button(recordsLabel);
     assert.equal(r.g.modal, 'og-records', 'the records window opens');
     const copy = r.els.get('modal-copy').textContent;
-    assert(copy.includes('最高ステージ 3') && copy.includes('最高コンボ 4'), 'the best challenge record shows: ' + copy);
+    assert(copy.includes('最高ステージ3') && copy.includes('最高コンボ4'), 'the best challenge record shows: ' + copy);
     assert(copy.includes('BUG KING を修理した'), 'the earned row names itself: ' + copy);
     assert(copy.includes('？？？'), 'an un-earned secret row still shows as ？？？: ' + copy);
     // R404: earned rows carry the filled ★, the rest the hollow ☆ and the word まだ, so the two are told apart without a legend.
