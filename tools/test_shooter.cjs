@@ -674,7 +674,7 @@ async function browserAdapterChecks() {
   // R426: the entrance band is a screen notice, so adult mode reads it in kanji; kids keep the kana.
   {handle.stop();R.setMode('adult');drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
    const a1=drawn.filter(d=>d.text==='フクの力で').at(-1),a2=drawn.filter(d=>d.text==='キックボードが浮かんだ！').at(-1),kana=drawn.some(d=>d.text==='キックボードが うかんだ！');
-   const plate=a1&&a2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=a1.y-15&&d.bottom>=a2.y+15&&d.left<=a2.x-150&&d.right>=a2.x+150);
+   const plate=a1&&a2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=a1.y-15&&d.bottom>=a2.y+15&&d.left<=a2.x-180&&d.right>=a2.x+180);
    check('R426: おとなモードでは登場の2行が「フクの力で／キックボードが浮かんだ！」で、暗い下じきの上に出る',!!(a1&&a2&&plate)&&!kana,{a1,a2,kana});
    handle.stop();R.setMode(modeBeforeIntro);drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);}
   // R298: the row moved up (name 29, bar 50..70, label at 92) so the label keeps 6px from both the bar and the line.
