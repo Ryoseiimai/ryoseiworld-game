@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-10-27T04:16:39.445Z",
-  "branch": "claude/autodev-20261027-1241-R276",
-  "task": "R276 戦闘画面の右の光の玉が何か分からなかったので、玉の下にAIの相棒の名前を出した",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n戦闘画面の右の光の玉が、消し忘れの汚れに見えていた\n玉の下に相棒の名前（既定はソラ）を24pxで出した。前と後は v5/verification/R276_battle-sora_*.png",
-  "result": "conflict",
-  "shots": [],
-  "sha": "4482094",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40448761854"
- },
- {
   "at": "2026-10-27T04:37:32.213Z",
   "branch": "claude/autodev-20261027-1241-R276",
   "task": "R276 町で「はなす」のボタンが透けた時、後ろの信号の柱が字を横切っていたので、字の後ろだけ暗い板を敷いた",
@@ -2988,5 +2978,20 @@
   ],
   "sha": "7270e24",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42329914848"
+ },
+ {
+  "at": "2026-11-07T02:58:09.151Z",
+  "branch": "claude/autodev-20261107-1121-R427",
+  "task": "R427 ヒカクマオウ戦のソラのヒントが、まだ画面に無い物を「とろう」と言っていたので、「みどりの「自分のペース」で もどる」と色と働きを言うようにした",
+  "summary": "ヒカクマオウ戦の最初のソラのヒントを「すうじに あたると よわる。／みどりの「じぶんの ペース」で もどる」にした\n拾う物が出る前でも、緑の光を拾うと攻撃力が戻ると分かる。2行・30字までに収め、確認を足した\n前と後のスクショを docs/shots/R427 に置いた。一度も当たらずに拾っても「1だん もどった」と出る件は今回は直さない",
+  "result": "pass",
+  "shots": [
+   "shots/746/mobile-02-mode-select.jpg",
+   "shots/746/mobile-19-custom-og-credit-card.jpg",
+   "shots/746/mobile-34-chapter-1-play.jpg",
+   "shots/746/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a2cfde8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42330246073"
  }
 ]
