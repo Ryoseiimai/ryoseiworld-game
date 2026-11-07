@@ -702,7 +702,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=D.maps.minamo.objects.find(o=>o.id==='minamo_wall1');r.g.debugWarp('minamo',w.x,w.y+1.4);r.g.debugFace(3);r.tick(16);r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y<w.y*48-10,'the wall is gone '+r.g.position.y);
   r.g.debugWarp('minamo',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='しんぱいの かべ'),'the park wall is gone too');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_friend',4.6,7.7).includes('あした'),'the friend changes after the boss');while(r.g.dialogue)r.dialogue();
-  for(const k of ['kateinoTalk','kateinoClear','minamoPark','dadAfter','momAfter','boyAfter'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);}
+  for(const k of ['kateinoTalk','kateinoClear','minamoPark','dadAfter','momAfter','boyAfter'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
+  // R440: the boss speaks under the same name its map label shows.
+  {const b=D.maps.minamo.objects.find(o=>o.id==='minamo_boss');assert.equal(D.dialogue[b.dialogue][0][0],b.label,'the boss talks under its own name');}}
  // R37: the train goes both ways after the card, and a save made between the boss and the park scene plays the scene again.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));assert.equal(r.g.map,'neon');assert.equal(r.g.chapter,3);const D=r.g.GAME_DATA;
