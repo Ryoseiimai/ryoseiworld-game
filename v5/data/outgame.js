@@ -67,7 +67,7 @@ RYW.registerOutGame?.({
   {id:'word10',name:['言葉を10個集めた','ことばを 10こ あつめた'],when:{count:'words',atLeast:10}},
   {id:'word40',name:['言葉を40個集めた','ことばを 40こ あつめた'],when:{count:'words',atLeast:40}},
   // R441: 「守護霊が一緒に飛んだ」は何をすれば取れるか読めず、ボス戦の前でも取れて事実とずれたので、条件どおり bond5 と同じ形にする
-  {id:'bond3',name:['ハート3になった','ハート3に なった'],when:{count:'bondMax',atLeast:3}},
+  {id:'bond3',name:['きずなが♥3になった','きずなが ♥3に なった'],when:{count:'bondMax',atLeast:3}},
   {id:'bond5',name:['ハート5になった','ハート5に なった'],when:{count:'bondMax',atLeast:5}},
   {id:'stage5',name:['ステージ5に届いた','ステージ5に とどいた'],when:{count:'stage',atLeast:5}},
   {id:'stage10',name:['ステージ10に届いた','ステージ10に とどいた'],when:{count:'stage',atLeast:10}},
