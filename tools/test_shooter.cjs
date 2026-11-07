@@ -1116,7 +1116,10 @@ async function browserAdapterChecks() {
   const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386/R427: こどもモードのヒントはひらがなの名前を引く', k[1] === 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる' && q(k) === sim.noticeText('paceItem'), k);
   // R427: the pickup comes up 9 s after the hint, so the hint says what to look for (みどり, the pickup's colour) and what it does (もどる).
-  for (const h of [a, k]) check('R427: ヒカクマオウのヒントは拾う物の色と、拾うと戻ることを言う', h[1].includes('みどりの「') && h[1].endsWith('で もどる') && !h[1].includes('とろう'), h);
+  check('R427: ヒカクマオウのヒントは拾う物の色と、拾うと戻ることを言う', k[1].includes('みどりの「') && k[1].endsWith('で もどる') && !k[1].includes('とろう'), k);
+  // R432: adult mode says it in kanji like its notices, and names what goes down (攻撃力).
+  check('R427/R432: おとなモードのヒントは拾う物の色と、拾うと戻ることを漢字で言う', a[1].includes('緑の「') && a[1].endsWith('で戻る') && !a[1].includes('とろう'), a);
+  check('R432: おとなモードのヒントは何が下がるか（攻撃力）を言い、ひらがなの「すうじ」「よわる」「もどる」を使わない', a[1].includes('攻撃力が下がる') && a[1].startsWith('数字に当たると') && !/すうじ|よわる|もどる/.test(a[1]), a);
   for (const h of [a, k]) check('R427: ヒカクマオウのヒントは2行で、空白をのぞいて30字まで', h[1].split('\n').length === 2 && h[1].replace(/[\s]/g, '').length <= 30, h);
   globalThis.RYW.setMode(old || 'kids');
 })();

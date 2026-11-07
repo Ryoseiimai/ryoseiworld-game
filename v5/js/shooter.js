@@ -198,9 +198,11 @@
       lines: { intro: ['ヒカクマオウ', 'おなじ としで\nもう しゃちょう'],
         bursts: { 75: 'きのうの じぶんより\nすすんでる', 50: 'くらべる あいては\nきのうの じぶん', 25: 'はやさは ひとそれぞれ', 0: '…じぶんの はやさで いい' },
         hint: ['ソラ', 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる'],
-        // R386: adult mode names the pickup 「自分のペース」 (noticeText paceItem), so Sora's hint quotes that name; the rest of the line stays kana.
+        // R386: adult mode names the pickup 「自分のペース」 (noticeText paceItem), so Sora's hint quotes that name (R432: the whole adult line is now kanji-kana).
         // R427: the pickup is not on screen yet when the hint shows (paceAt 9 s), so the hint says its colour and what it does (もどる), not just 「とろう」. Two lines, 30 letters at most.
-        hintAdult: ['ソラ', 'すうじに あたると よわる。\nみどりの「自分のペース」で もどる'],
+        // R432: the adult hint was kana in front and kanji in the quote, and 「よわる」 did not say what weakens; it now reads like the
+        // adult notices (down: 「数字に当たって 攻撃力が下がった」, pace: 「攻撃力が1段 戻った！」).
+        hintAdult: ['ソラ', '数字に当たると 攻撃力が下がる。\n緑の「自分のペース」で戻る'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
         win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },
