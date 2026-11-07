@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T22:12:03.370Z",
-  "branch": "claude/autodev-20261028-0621-R293",
-  "task": "R293 ネオンに着いた時、「じゅんい 86」の札が人の横にずれて見えたので、人を少し右に立たせ、札を頭の真上にした",
-  "summary": "全章のスクショから、ネオンの「じゅんい 86」の札が人の横にずれる件に決めた\nかずの ひと（1人目）を少し右に立たせ、着いた画面で札が頭の真上に来るようにした\n頭の上の札の確認が街の小物の絵を人と取り違えていたので、人の絵で比べるように直した",
-  "result": "pass",
-  "shots": [
-   "shots/513/mobile-02-mode-select.jpg",
-   "shots/513/mobile-15-custom-full-run.jpg",
-   "shots/513/mobile-27-chapter-2-play.jpg",
-   "shots/513/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "db30ddf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40591332203"
- },
- {
   "at": "2026-10-27T22:20:38.878Z",
   "branch": "claude/autodev-20261028-0621-R293",
   "task": "R293 ネオンに着いた時、「じゅんい 86」の札が人の横にずれて見えたので、人を少し右に立たせ、札を頭の真上にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "ea395e4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42397580286"
+ },
+ {
+  "at": "2026-11-07T19:04:42.023Z",
+  "branch": "claude/autodev-20261108-0341-R443",
+  "task": "R443 2章の終わりの札が「電車は光る町へ。」の後に「公園でみんな笑っていた。」と起きた順が逆だったので、公園の行を先にした",
+  "summary": "2章の終わりの札の2行を、公園の行が先・電車の行が後になるよう入れ替えた\n起きた順になっているかを調べる確認を tools/test_v5.cjs に足した\n確認役の「きずなを漢字に」は、設計書でメニューの言葉と決まっているので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/770/mobile-02-mode-select.jpg",
+   "shots/770/mobile-19-custom-og-credit-card.jpg",
+   "shots/770/mobile-34-chapter-1-play.jpg",
+   "shots/770/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e0ce5d6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42403276086"
  }
 ]
