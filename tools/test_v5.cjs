@@ -3061,6 +3061,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'/);
   assert([...m[1]].length<=19,'R429: adult ノーツ hint fits one line on a phone: '+m[1]);assert(/下/.test(m[1])&&/輪/.test(m[1])&&/「ビート」を押そう$/.test(m[1]),'R429: it still names the line, the ring and ビート: '+m[1]);}
  result.push('R429: ボス戦のノーツのひとことが、スマホ幅で1行に収まる PASS');
+ // R433: the first boss hint (ビート) said 「ビートに合わせて押してみて」 without naming what to press. It now names the 「ビート」 button, keeps the meaning (曲の刻み) and stays within 19 letters like R429.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/beat:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
+  assert([...m[1]].length<=19,'R433: adult ビート hint fits one line on a phone: '+m[1]);assert(/刻み/.test(m[1])&&/「ビート」をたたこう$/.test(m[1]),'R433: adult ビート hint says 刻み and names the button: '+m[1]);
+  assert(/ビートを たたこう$/.test(m[2])&&!/おそう/.test(m[2]),'R433: kids ビート hint names the button: '+m[2]);}
+ result.push('R433: ボス戦のビートのひとことが、押すボタン「ビート」を言う PASS');
  // R399: the battle commands 実行/作る/呼び出す gave no clue which one attacks. Until the first 実行, the encounter line says 「実行」で攻撃しよう; after it, the line is the old one.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
