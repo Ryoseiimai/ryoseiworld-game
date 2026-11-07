@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T22:20:38.878Z",
-  "branch": "claude/autodev-20261028-0621-R293",
-  "task": "R293 ネオンに着いた時、「じゅんい 86」の札が人の横にずれて見えたので、人を少し右に立たせ、札を頭の真上にした",
-  "summary": "全章のスクショから、ネオンの「じゅんい 86」の札が人の横にずれる件に決めた\nかずの ひと（1人目）を少し右に立たせ、着いた画面で札が頭の真上に来るようにした\n頭の上の札の確認が街の小物の絵を人と取り違えていたので、人の絵で比べるように直した",
-  "result": "pass",
-  "shots": [
-   "shots/514/mobile-02-mode-select.jpg",
-   "shots/514/mobile-15-custom-full-run.jpg",
-   "shots/514/mobile-27-chapter-2-play.jpg",
-   "shots/514/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "985e638",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40591884115"
- },
- {
   "at": "2026-10-27T23:13:16.778Z",
   "branch": "claude/autodev-20261028-0721-R294",
   "task": "R294 ネオンでミオに話しかける時、ミオの名札と「じゅんい 86」の札が横に並んで触れていたので、ミオを少し上に立たせた",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "e0ce5d6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42403276086"
+ },
+ {
+  "at": "2026-11-07T20:02:48.972Z",
+  "branch": "claude/autodev-20261108-0421-R444",
+  "task": "R444 1章のノイズの目標だけが「町のノイズを静めよう」で町の名前を言わなかったので、おとなモードでは「ヒダマリのノイズを静めよう」にした",
+  "summary": "1章の目標の帯を、おとなモードで「ヒダマリのノイズを静めよう」にした\nこどもモードは「まちの ノイズを しずめよう」のままにした（19字までの決まりを超えるため）\n確認役が挙げた「記録」の呼び名が2つの意味を持つ件は、次の候補として残した",
+  "result": "pass",
+  "shots": [
+   "shots/771/mobile-02-mode-select.jpg",
+   "shots/771/mobile-19-custom-og-credit-card.jpg",
+   "shots/771/mobile-34-chapter-1-play.jpg",
+   "shots/771/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8f8ff7c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42408190247"
  }
 ]
