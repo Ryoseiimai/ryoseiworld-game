@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T19:49:39.723Z",
-  "branch": "claude/autodev-20261028-0422-R291",
-  "task": "R291 戦闘中のおさらいの答えの箱で、後ろのHPの数字が透けて見えたので、箱の地を透けない色にした",
-  "summary": "全章のスクショから、戦闘中のおさらいの答えの箱を直す件に決めた\n答えの箱の地を少し透ける色から透けない色にし、後ろのHPの数字を消した\nテストに、箱の地が透けない色かの確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/511/mobile-02-mode-select.jpg",
-   "shots/511/mobile-15-custom-full-run.jpg",
-   "shots/511/mobile-27-chapter-2-play.jpg",
-   "shots/511/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "caef9dd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40571230314"
- },
- {
   "at": "2026-10-27T21:08:43.432Z",
   "branch": "claude/autodev-20261028-0522-R292",
   "task": "R292 タイトルで、キックボードの主人公が木の幹の上を走って見えたので、木を奥にし、ボタンの上に見える歩道を走らせた",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "57b08b1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382451680"
+ },
+ {
+  "at": "2026-11-07T16:06:54.456Z",
+  "branch": "claude/autodev-20261108-0022-R441",
+  "task": "R441 記録の実績「守護霊が一緒に飛んだ」が何をすれば取れるか分からなかったので、条件どおり「ハート3になった」とした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n実績「守護霊が一緒に飛んだ」を「ハート3になった」に直した\n4章でヒダマリに戻ると矢印が出ない件は確かめきれず残した",
+  "result": "pass",
+  "shots": [
+   "shots/768/mobile-02-mode-select.jpg",
+   "shots/768/mobile-19-custom-og-credit-card.jpg",
+   "shots/768/mobile-34-chapter-1-play.jpg",
+   "shots/768/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3be3077",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42388680652"
  }
 ]
