@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T18:10:28.754Z",
-  "branch": "claude/autodev-20261028-0221-R289",
-  "task": "R289 ミナモの「こうえん」の看板が家や木よりずっと大きかったので、町の看板と同じ大きさにした",
-  "summary": "全章のスクショを確認役に見せ、ミナモの「こうえん」の看板を直す件に決めた\n看板を240から224に小さくし、町の看板とそろえた。足もとの位置はそのまま\nテストに、2つの町の看板が同じ大きさで、24pxの字が柱の間に収まる確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/507/mobile-02-mode-select.jpg",
-   "shots/507/mobile-15-custom-full-run.jpg",
-   "shots/507/mobile-27-chapter-2-play.jpg",
-   "shots/507/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b479a57",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40555236500"
- },
- {
   "at": "2026-10-27T18:55:59.602Z",
   "branch": "claude/autodev-20261028-0322-R290",
   "task": "R290 ボス戦の始めで、主人公が道に立ったまま「キックボードが うかんだ！」が出ていたので、浮く動きを早め、浮いてから字を出した",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "cf9c544",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42378230140"
+ },
+ {
+  "at": "2026-11-07T14:47:07.046Z",
+  "branch": "claude/autodev-20261107-2321-R441",
+  "task": "R441 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\nどれも不具合と言い切れず、迷ったのでコードは変えなかった\n迷った点: 1章の記録「BUG KING を修理した」と2・3章の「静めた」をそろえるか",
+  "result": "pass",
+  "shots": [
+   "shots/765/mobile-02-mode-select.jpg",
+   "shots/765/mobile-19-custom-og-credit-card.jpg",
+   "shots/765/mobile-34-chapter-1-play.jpg",
+   "shots/765/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b235b67",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382111193"
  }
 ]
