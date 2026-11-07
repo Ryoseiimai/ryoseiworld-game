@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T18:55:59.602Z",
-  "branch": "claude/autodev-20261028-0322-R290",
-  "task": "R290 ボス戦の始めで、主人公が道に立ったまま「キックボードが うかんだ！」が出ていたので、浮く動きを早め、浮いてから字を出した",
-  "summary": "全章のスクショを確認役に見せ、ボス戦の始めの字と主人公の位置を直す件に決めた\n主人公が浮く動きを0.45秒から0.7秒で終わるようにし、字は浮き始めて0.25秒後に出した\nテストに、字が出た時に主人公が4分の1以上浮いている確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/509/mobile-02-mode-select.jpg",
-   "shots/509/mobile-15-custom-full-run.jpg",
-   "shots/509/mobile-27-chapter-2-play.jpg",
-   "shots/509/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "fa15938",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40562944349"
- },
- {
   "at": "2026-10-27T19:49:39.723Z",
   "branch": "claude/autodev-20261028-0422-R291",
   "task": "R291 戦闘中のおさらいの答えの箱で、後ろのHPの数字が透けて見えたので、箱の地を透けない色にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "b235b67",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382111193"
+ },
+ {
+  "at": "2026-11-07T14:59:07.795Z",
+  "branch": "claude/autodev-20261107-2321-R441",
+  "task": "R441 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\nどれも不具合と言い切れず、迷ったのでコードは変えなかった\n迷った点: 1章の記録「BUG KING を修理した」と2・3章の「静めた」をそろえるか",
+  "result": "pass",
+  "shots": [
+   "shots/766/mobile-02-mode-select.jpg",
+   "shots/766/mobile-19-custom-og-credit-card.jpg",
+   "shots/766/mobile-34-chapter-1-play.jpg",
+   "shots/766/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "57b08b1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382451680"
  }
 ]
