@@ -1,22 +1,37 @@
 {
   "branch": "claude/autodev-20261108-0621-R446",
-  "sha": "3aecfbf1505f5bb59f1129ec411182bf786f2863",
-  "result": "pass",
+  "sha": "ca366f8445d097711d4cf3d8f245ae82c5a87ebd",
+  "result": "fail",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
-    "test_v5": "pass",
+    "merge": "merge",
+    "test_v5": "fail",
     "smoke": "pass"
   },
-  "errors": [],
-  "shots": [
-    "devlog/shots/774/mobile-02-mode-select.jpg",
-    "devlog/shots/774/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/774/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/774/mobile-50-battle-bugking.jpg"
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: R441: a bond row starts with ハート3: きずなが♥3になった,きずなが ♥3に なった",
+    "    at achievement (/tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/outgame_tests/achievement.cjs:36:79)",
+    "    at testOutgame (/tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/test_outgame.cjs:13:40)",
+    "    at /tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/test_v5.cjs:3103:37 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
   ],
-  "at": "2026-11-07T21:43:33.221Z",
-  "merged_sha": "3aecfbf1505f5bb59f1129ec411182bf786f2863",
-  "tested_base": "b256ba1d31415689ed55522c3bf9dfb94d1840b5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42416257253"
+  "shots": [
+    "devlog/shots/775/mobile-02-mode-select.jpg",
+    "devlog/shots/775/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/775/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/775/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-07T21:57:31.261Z",
+  "merged_sha": null,
+  "tested_base": "037e9f37a30a5fa058110512ea4459fdc058a38b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42416646942"
 }
