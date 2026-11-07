@@ -3057,6 +3057,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/「ビート」を押/.test(m[1]),'R424: adult hint names the ビート button: '+m[1]);assert(/ビートを おして/.test(m[2])&&!/おそう/.test(m[2]),'R424: kids hint names ビート and does not say おそう: '+m[2]);
   const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');assert(/class="rs-beat"[^>]*>ビート</.test(sh),'R424: the boss screen button is still labelled ビート');}
  result.push('R424: ボス戦のノーツのひとことが、押すボタン「ビート」を言う PASS');
+ // R429: at 390px wide the adult ノーツ hint (20 letters) wrapped so the second line was only 「を押そう」; the other adult hints are 19 letters or fewer and stay on one line, so this one is kept within 19 too.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'/);
+  assert([...m[1]].length<=19,'R429: adult ノーツ hint fits one line on a phone: '+m[1]);assert(/下/.test(m[1])&&/輪/.test(m[1])&&/「ビート」を押そう$/.test(m[1]),'R429: it still names the line, the ring and ビート: '+m[1]);}
+ result.push('R429: ボス戦のノーツのひとことが、スマホ幅で1行に収まる PASS');
  // R399: the battle commands 実行/作る/呼び出す gave no clue which one attacks. Until the first 実行, the encounter line says 「実行」で攻撃しよう; after it, the line is the old one.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
