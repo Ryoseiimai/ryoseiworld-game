@@ -28,7 +28,7 @@ RYW.registerOutGame?.({
   {id:'about',do:'view',view:'about',label:['このゲームについて','このゲームについて'],in:['settings']},
   // og-achievement: a view-only window (no `challenge` row, no `do:'start'`: the stadium door stays the
   // only way to start a challenge). `when:{save:true}` keeps this hidden on a brand-new title with no save.
-  {id:'records',do:'view',view:'records',label:['記録 {earned}/{total}','きろく {earned}/{total}'],in:['title','menu'],when:{save:true}}
+  {id:'records',do:'view',view:'records',label:['実績 {earned}/{total}','じっせき {earned}/{total}'],in:['title','menu'],when:{save:true}}
  ],
  // A line whose {var} is empty disappears: the anime line until links.anime is set, the cheat line on a clean run.
  shareTexts:{
@@ -43,7 +43,9 @@ RYW.registerOutGame?.({
  // placed `in:['records']`, so the window holds nothing but the achievement list and the best record.
  views:{
   about:{title:['このゲームについて','このゲームについて'],body:'credits',slot:'credit-card'},
-  records:{title:['記録','きろく'],body:'records',slot:'records'}
+  // R445: the band read 記録 5/12 while the challenge result also says 記録, so the count is named 実績 like the
+  // earned toast (実績: …); the window keeps both words because it shows the best challenge record above the list.
+  records:{title:['実績と記録','じっせきと きろく'],body:'records',slot:'records'}
  },
  // og-ending-epilogue: shown on the finale's THE END card and in the settings "このゲームについて" view.
  // The Lyria line gets an explicit \n before 作りました/つくりました so it never breaks mid-word at

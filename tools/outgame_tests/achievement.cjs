@@ -20,9 +20,9 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   {
     const row = raw.items.find(it => it.id === 'records');
     assert(row, 'a records row exists');
-    assert.deepEqual(row, { id: 'records', do: 'view', view: 'records', label: ['記録 {earned}/{total}', 'きろく {earned}/{total}'], in: ['title', 'menu'], when: { save: true } });
+    assert.deepEqual(row, { id: 'records', do: 'view', view: 'records', label: ['実績 {earned}/{total}', 'じっせき {earned}/{total}'], in: ['title', 'menu'], when: { save: true } });
     assert(!raw.items.some(it => it.id === 'challenge' || it.do === 'start'), 'no challenge row, no do:start: the title window is view-only');
-    assert.deepEqual(raw.views.records, { title: ['記録', 'きろく'], body: 'records', slot: 'records' });
+    assert.deepEqual(raw.views.records, { title: ['実績と記録', 'じっせきと きろく'], body: 'records', slot: 'records' });
     assert.equal(raw.achievements.length, 12, '12 achievements');
     const ids = raw.achievements.map(a => a.id);
     assert.equal(new Set(ids).size, 12, 'all 12 ids are distinct: ' + ids.join());
@@ -98,7 +98,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     const reloaded = await runtime({ saved: new Map([['ryoseiworld-rpg-v5', JSON.stringify(old)]]) });
     reloaded.tick();
     assert.equal(OG(reloaded)._sim.earned(old).map(a => a.id).sort().join(), ['ch1'].join(), 'an old save earns exactly what it already qualifies for, read as-is, with no migration');
-    assert(reloaded.els.get('title-links').children[0]?.textContent.startsWith('記録 1/12'), '記録 1/12 shows on the title band for a save that already qualifies for one row');
+    assert(reloaded.els.get('title-links').children[0]?.textContent.startsWith('実績 1/12'), '実績 1/12 shows on the title band for a save that already qualifies for one row');
   }
   result.push('og-achievement: snapshot() keeps its key list, and an old save earns its rows and shows the title band the moment it is read PASS');
 
@@ -117,8 +117,8 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     toast(r).hidden = true; toast(r).textContent = ''; // the save toast is not what this block checks
     r.click('menu-btn');
     const labels = () => r.els.get('modal-buttons').children.map(b => b.textContent);
-    const recordsLabel = labels().find(t => t.startsWith('記録 '));
-    assert.equal(recordsLabel, '記録 1/12', 'the 記録 row in the menu counts what this save has earned so far: ' + labels().join('|'));
+    const recordsLabel = labels().find(t => t.startsWith('実績 '));
+    assert.equal(recordsLabel, '実績 1/12', 'the 実績 row in the menu counts what this save has earned so far: ' + labels().join('|'));
     r.button(recordsLabel);
     assert.equal(r.g.modal, 'og-records', 'the records window opens');
     const copy = r.els.get('modal-copy').textContent;
@@ -152,7 +152,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.screen, 'title', 'still on the title: restore() has not run');
     const band = () => r.els.get('title-links').children;
     assert.equal(band().length, 1, 'the きろく row shows on the title too');
-    assert.equal(band()[0].textContent, 'きろく 1/12', 'kids label (the save is a kids-mode one)');
+    assert.equal(band()[0].textContent, 'じっせき 1/12', 'kids label (the save is a kids-mode one)');
     band()[0].click();
     assert.equal(r.g.modal, 'og-records', 'it opens from the title, no つづきから needed');
     const copy = r.els.get('modal-copy').textContent;
