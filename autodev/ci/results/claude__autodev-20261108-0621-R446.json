@@ -1,37 +1,22 @@
 {
   "branch": "claude/autodev-20261108-0621-R446",
-  "sha": "ca366f8445d097711d4cf3d8f245ae82c5a87ebd",
-  "result": "fail",
+  "sha": "79674dd4488bc2ccba211e520169b63463a2471b",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "merge",
-    "test_v5": "fail",
+    "merge": "ff",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "AssertionError [ERR_ASSERTION]: R441: a bond row starts with ハート3: きずなが♥3になった,きずなが ♥3に なった",
-    "    at achievement (/tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/outgame_tests/achievement.cjs:36:79)",
-    "    at testOutgame (/tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/test_outgame.cjs:13:40)",
-    "    at /tmp/tmp.MpuU8pg6Rj/tree-claude__autodev-20261108-0621-R446/tools/test_v5.cjs:3103:37 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/775/mobile-02-mode-select.jpg",
-    "devlog/shots/775/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/775/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/775/mobile-50-battle-bugking.jpg"
+    "devlog/shots/776/mobile-02-mode-select.jpg",
+    "devlog/shots/776/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/776/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/776/mobile-50-battle-bugking.jpg"
   ],
-  "at": "2026-11-07T21:57:31.261Z",
-  "merged_sha": null,
-  "tested_base": "037e9f37a30a5fa058110512ea4459fdc058a38b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42416646942"
+  "at": "2026-11-07T22:43:52.960Z",
+  "merged_sha": "79674dd4488bc2ccba211e520169b63463a2471b",
+  "tested_base": "77a20ada8b0d1909ef808b09887b2fdb711d68de",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42421224231"
 }
