@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T16:37:11.011Z",
-  "branch": "claude/autodev-20261028-0048-R288",
-  "task": "R288 でんきや・ジャンクで、テレビの やま の上の線が目当ての帯に少し重なっていたので、やまを少し小さくした",
-  "summary": "全章のスクショを確認役に見せ、でんきやのテレビの やま を直す件に決めた\nテレビの やま を170から156に小さくし、足もとの位置はそのままにした\nテストに、やまの見える上の端が目当ての帯より下にある確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/506/mobile-02-mode-select.jpg",
-   "shots/506/mobile-15-custom-full-run.jpg",
-   "shots/506/mobile-27-chapter-2-play.jpg",
-   "shots/506/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "9dfce33",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40539880913"
- },
- {
   "at": "2026-10-27T18:10:28.754Z",
   "branch": "claude/autodev-20261028-0221-R289",
   "task": "R289 ミナモの「こうえん」の看板が家や木よりずっと大きかったので、町の看板と同じ大きさにした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "9876103",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42375266558"
+ },
+ {
+  "at": "2026-11-07T13:54:38.218Z",
+  "branch": "claude/autodev-20261107-2221-R440",
+  "task": "R440 2章のボスに話しかけると、名札は「カテイノジジョウ」なのに話す人が「しんぱいの かべ」だったので、名札と同じ名前にした",
+  "summary": "2章のボスの話す人の名前を「カテイノジジョウ」にそろえた\n道の「しんぱいの かべ」とボス戦の壁の文字はそのまま残した\n前と後のスクショで確かめ、名札と話す人が同じかのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/764/mobile-02-mode-select.jpg",
+   "shots/764/mobile-19-custom-og-credit-card.jpg",
+   "shots/764/mobile-34-chapter-1-play.jpg",
+   "shots/764/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cf9c544",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42378230140"
  }
 ]
