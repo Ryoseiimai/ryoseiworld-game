@@ -31,6 +31,9 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     // R438: the zero row said 「ゼロと作った」 without what was made (and read like 「ゼロから作った」); it names the reconciliation instead.
     assert.deepEqual(raw.achievements.find(a => a.id === 'zero').name, ['ゼロと分かり合えた', 'ゼロと わかりあえた'], 'R438: the zero achievement names the reconciliation');
     assert(!raw.achievements.some(a => a.name.some(n => n.includes('作った') || n.includes('つくった'))), 'R438: no achievement says 作った without what');
+    // R441: the bond3 row said 「守護霊が一緒に飛んだ」, which neither told what to do nor was true before a boss fight; it names its condition like bond5.
+    assert.deepEqual(raw.achievements.find(a => a.id === 'bond3').name, ['ハート3になった', 'ハート3に なった'], 'R441: bond3 names its condition');
+    for (const a of raw.achievements.filter(a => a.when.count === 'bondMax')) assert(a.name.every(n => n.startsWith('ハート' + a.when.atLeast)), 'R441: a bond row starts with ハート' + a.when.atLeast + ': ' + a.name);
   }
   result.push('og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS');
 
