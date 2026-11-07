@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T14:28:57.771Z",
-  "branch": "claude/autodev-20261027-2238-R286",
-  "task": "R286 でんきや・ジャンクの入口で、テレビの やま の上が上の帯に隠れていたので、山を少し下に置いた",
-  "summary": "確認役が全章のスクショを見て5つ挙げ、でんきやのテレビの やま の件を直した\n山を0.4マス下げ、入口から見ても上の帯にかからないことを前と後のスクショで確かめた\nテストに、入口で山の上が帯の下に入らない確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/504/mobile-02-mode-select.jpg",
-   "shots/504/mobile-15-custom-full-run.jpg",
-   "shots/504/mobile-27-chapter-2-play.jpg",
-   "shots/504/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "eeba3bc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40518358536"
- },
- {
   "at": "2026-10-27T15:28:03.611Z",
   "branch": "claude/autodev-20261027-2353-R287",
   "task": "R287 とう1Fの出口で ↓ の札と「そとへ」の札が上下2枚に見えたので、1枚の札に「↓ そとへ」と並べた",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "1f48ed9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42365222995"
+ },
+ {
+  "at": "2026-11-07T11:55:53.095Z",
+  "branch": "claude/autodev-20261107-2021-R438",
+  "task": "R438 記録の実績「ゼロと作った」が、何を作ったのか言わず「ゼロから作った」とも読めたので、「ゼロと分かり合えた」にした",
+  "summary": "記録の実績「ゼロと作った」を「ゼロと分かり合えた」に直した\n前は何を作ったのか言わず「ゼロから作った」とも読めた。こどもモードは「ゼロと わかりあえた」\n前と後のスクショ（mobile-24）で確かめ、「作った」だけの実績が無いテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/762/mobile-02-mode-select.jpg",
+   "shots/762/mobile-19-custom-og-credit-card.jpg",
+   "shots/762/mobile-34-chapter-1-play.jpg",
+   "shots/762/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "06bb9bc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42369255462"
  }
 ]
