@@ -652,6 +652,8 @@ async function browserAdapterChecks() {
   check('FUN-VID3: タメ(発射前の予告)は発射が近づくほど強くなる',tellSamples[0]<0.5&&Math.max(...tellSamples)>0.7,tellSamples);
   win.__shooter.debugWin();await advance(7);check('onWinにcheatedが入る',won&&won.cheated===true&&handle.state==='closed');
   // R242: the entrance lines said the board floated while the hero still stood on the ground; they now wait for the rise.
+  // R426: these checks read the kids words of the band, so they pin kids mode; the adult words are checked below (R426).
+  const modeBeforeIntro=R.mode;R.setMode('kids');
   {handle=R.Shooter.start({boss:'kateino',platform});await ready();drawn.length=0;await advance(.3);
    const early=drawn.some(d=>d.text==='キックボードが うかんだ！');
    drawn.length=0;await advance(.5);const late=drawn.some(d=>d.text==='キックボードが うかんだ！');
@@ -669,6 +671,12 @@ async function browserAdapterChecks() {
   {const l1=drawn.filter(d=>d.text==='フクの ちからで').at(-1),l2=drawn.filter(d=>d.text==='キックボードが うかんだ！').at(-1);
    const plate=l1&&l2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=l1.y-15&&d.bottom>=l2.y+15&&d.left<=l2.x-180&&d.right>=l2.x+180);
    check('R75: 登場の2行の後ろに暗い下じきがある',!!plate,{l1,l2});}
+  // R426: the entrance band is a screen notice, so adult mode reads it in kanji; kids keep the kana.
+  {handle.stop();R.setMode('adult');drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);
+   const a1=drawn.filter(d=>d.text==='フクの力で').at(-1),a2=drawn.filter(d=>d.text==='キックボードが浮かんだ！').at(-1),kana=drawn.some(d=>d.text==='キックボードが うかんだ！');
+   const plate=a1&&a2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=a1.y-15&&d.bottom>=a2.y+15&&d.left<=a2.x-150&&d.right>=a2.x+150);
+   check('R426: おとなモードでは登場の2行が「フクの力で／キックボードが浮かんだ！」で、暗い下じきの上に出る',!!(a1&&a2&&plate)&&!kana,{a1,a2,kana});
+   handle.stop();R.setMode(modeBeforeIntro);drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);}
   // R298: the row moved up (name 29, bar 50..70, label at 92) so the label keeps 6px from both the bar and the line.
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
   // R327: the label follows RYW.mode (adult here), so the layout checks run in both modes and read the drawn words from bandLabel.

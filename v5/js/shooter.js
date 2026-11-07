@@ -2551,6 +2551,9 @@
   // R314: SPEC_V7_MANABU.md 9: the move hint reads in kanji in adult mode, like the battle and menu lines.
   function moveHintLines() { return RYW.mode === 'adult' ? ['指を滑らせて動く', '矢印・WASDでも動く'] : ['ゆびを すべらせて うごく', 'やじるし・WASD でも うごく']; }
 
+  // R426: the band at the start of a boss fight is a screen notice, not a story line, so adult mode reads it in kanji (SPEC_V7_MANABU.md 9).
+  function introFloatLines() { return RYW.mode === 'adult' ? ['フクの力で', 'キックボードが浮かんだ！'] : ['フクの ちからで', 'キックボードが うかんだ！']; }
+
   function touchOnly() { return !!(root.document && root.document.documentElement && root.document.documentElement.classList.contains('touch-only')); }
 
   // Center y of the cooldown note, just under the stacked lines. When they reach down toward the intro
@@ -2564,10 +2567,11 @@
       var ia = clamp(Math.min((w.stateT - INTRO_LINES_T) * 4, (INTRO_TEXT_END - w.stateT) * 3), 0, 1);
       ctx.globalAlpha = ia; ctx.font = '800 30px ' + FONT;
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
-      var iw = Math.max(ctx.measureText('フクの ちからで').width, ctx.measureText('キックボードが うかんだ！').width) + 48;
+      var il = introFloatLines();
+      var iw = Math.max(ctx.measureText(il[0]).width, ctx.measureText(il[1]).width) + 48;
       ctx.fillStyle = 'rgba(8,14,34,0.74)'; rr(ctx, (W - iw) / 2, INTRO_PLATE_T, iw, INTRO_PLATE_H, 14); ctx.fill();
-      outlinedText(ctx, 'フクの ちからで', W / 2, INTRO_LINE_Y[0], '#bff6ff');
-      outlinedText(ctx, 'キックボードが うかんだ！', W / 2, INTRO_LINE_Y[1], '#bff6ff');
+      outlinedText(ctx, il[0], W / 2, INTRO_LINE_Y[0], '#bff6ff');
+      outlinedText(ctx, il[1], W / 2, INTRO_LINE_Y[1], '#bff6ff');
       ctx.globalAlpha = 1;
     }
     if (w.state === 'win' && w.stateT > 1.0 && w.bossId !== 'zero') {
