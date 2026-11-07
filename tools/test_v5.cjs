@@ -2953,12 +2953,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const mode of ['adult','kids']){const t=await runtime();t.tick();t.start(mode);const log=t.g.battle.log;assert(log.includes(mode==='adult'?'「呼び出す」で\nナオスライムを呼ぼう。':'「よびだす」で\nナオスライムを よぼう。'),'R313: '+mode+' tutorial battle line ('+log+')');}}
  result.push('R313: チュートリアルの案内と戦闘の文が、おとなモードでは漢字まじりになる PASS');
  // R316: the town goal 「まちの ノイズを しずめよう」 stayed in hiragana in adult mode; each chapter's zako goal reads in kanji there now, and kids mode keeps it.
- {const r=await runtime();r.tick();const D=r.g.GAME_DATA,want={1:['まちの','町の'],2:['ミナモの','ミナモの'],3:['ネオンの','ネオンの'],4:['とうの','塔の']};
+ {const r=await runtime();r.tick();const D=r.g.GAME_DATA,want={1:['まちの','ヒダマリの'],2:['ミナモの','ミナモの'],3:['ネオンの','ネオンの'],4:['とうの','塔の']};
   for(const [id,ch] of Object.entries(D.chapters)){const q=ch.quests.zako,[k,a]=want[id];assert.equal(q.text,k+' ノイズを しずめよう {n}/{goal}',id+' kids: '+q.text);assert.equal(q.adult,a+'ノイズを静めよう {n}/{goal}',id+' adult: '+q.adult);
    const w=[...a+'ノイズを静めよう 3/3 ↑'].reduce((s,c)=>s+(c===' '?8:/[0-9\/]/.test(c)?16:28),0);assert(w<=480,'R316: '+id+' adult goal fits the HUD ('+w+')');}
-  r.g.state.flags.tutorial=true;r.g.state.mode='adult';assert.equal(r.g.questStep,'zako');assert(r.g.quest.startsWith('町のノイズを静めよう 0/3'),'R316: adult goal ('+r.g.quest+')');
+  r.g.state.flags.tutorial=true;r.g.state.mode='adult';assert.equal(r.g.questStep,'zako');assert(r.g.quest.startsWith('ヒダマリのノイズを静めよう 0/3'),'R316/R444: adult goal ('+r.g.quest+')');
   r.g.state.mode='kids';assert(r.g.quest.startsWith('まちの ノイズを しずめよう 0/3'),'R316: kids goal ('+r.g.quest+')');}
- result.push('R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「町のノイズを静めよう」になる PASS');
+ result.push('R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「ヒダマリのノイズを静めよう」になる PASS');
+ // R444: chapter 1 alone said 「町のノイズを静めよう」 under the place label ヒダマリ, while chapters 2-4 name their place (ミナモ・ネオン・塔).
+ // Adult mode names ヒダマリ too. Kids keep 「まちの ノイズを しずめよう」: 「ヒダマリの ノイズを しずめよう 0/3」 is 20 letters, over R117's 19.
+ {const r=await runtime();const C=r.g.GAME_DATA.chapters,map={1:'ヒダマリ',2:'ミナモ',3:'ネオン',4:'塔'};
+  for(const n of [1,2,3,4]){const a=C[n].quests.zako.adult;assert(a.startsWith(map[n]+'のノイズを静めよう'),'R444: chapter '+n+' adult goal names its place: '+a);assert([...a.replace('{n}/{goal}','0/3')].length<=19,'R444: adult goal stays short: '+a);}}
+ result.push('R444: 1章のノイズの目標が、おとなモードでは「ヒダマリのノイズを静めよう」と町の名前を言う PASS');
  // R317: chapter 1's later goals (交番・コンビニ・でんきや・テレビの王様・バス停) stayed in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
  {const r=await runtime();r.tick();const q=r.g.GAME_DATA.chapters[1].quests,want={key:['こうばんで カギを もらおう','交番でカギをもらおう'],battery:['コンビニで バッテリーを かおう','コンビニでバッテリーを買おう'],recruit:['でんきやの おくを しらべよう','電気屋の奥を調べよう'],boss:['テレビの おうさまに あいに いこう','テレビの王様に会いに行こう'],cleared:['バスていから ミナモちょうへ いこう','バス停からミナモちょうへ行こう']};
   for(const [k,[kid,adult]] of Object.entries(want)){assert.equal(q[k].text,kid,'R317 kids '+k);assert.equal(q[k].adult,adult,'R317 adult '+k);const w=[...adult+' ↑'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R317: '+k+' adult goal fits the HUD ('+w+')');}

@@ -182,6 +182,7 @@ R336: おとなモードの町のお知らせ（保存した・保存できな�
 R337: おとなモードのバスと電車の行き先の画面を「電車」「どこへ行く？」で出し、こどもモードは ひらがなのまま PASS
 R416: おとなモードの章の終わりの札の本文を漢字まじり（雲の門から…など）で出し、こどもモードは ひらがなのまま PASS
 R417: 2章の終わりの札を「こうえんで みんな わらってた。」にし、章の札の本文が章ごとにちがう PASS
+R443: 2章の終わりの札を「公園でみんな笑っていた。」「電車は光る町へ。」の起きた順にした PASS
 R338: おとなモードで町のバス停と駅の札を「バス停」「駅」で出し、こどもモードは「バスてい」「えき」のまま PASS
 R339: おとなモードで町の戦いの後の「修理された」「レベルになった」を漢字で出し、こどもモードは ひらがなのまま PASS
 R394: 町の戦いで勝った後、戦闘の画面で出した経験値とお金を、マップの台詞でもう一度言わない PASS
@@ -297,7 +298,8 @@ R346: ネオンの右端のかずの人の札が、画面の端で切れて見�
 R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS
 R312: 塔の後の町の案内が、おとなモードでは漢字まじりになる PASS
 R313: チュートリアルの案内と戦闘の文が、おとなモードでは漢字まじりになる PASS
-R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「町のノイズを静めよう」になる PASS
+R316: 町の上の「ノイズを しずめよう」の案内が、おとなモードでは「ヒダマリのノイズを静めよう」になる PASS
+R444: 1章のノイズの目標が、おとなモードでは「ヒダマリのノイズを静めよう」と町の名前を言う PASS
 R317: 1章の交番・コンビニ・でんきや・王様・バス停の案内が、おとなモードでは漢字まじりになる PASS
 R318: 2章から4章の図書館・検索・公園・スタジアム・塔の案内が、おとなモードでは漢字まじりになる PASS
 R319: メニューの題と「話す・セーブ」「一休み」が、おとなモードでは漢字まじりになる PASS
@@ -372,5 +374,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 90ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 82ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
