@@ -2343,9 +2343,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R425: the vacuum nz3 swung down past the bottom of the ネオン arrival view beside the 話す button, and while it was low the arrow turned → to nz2 off screen.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;r.g.debugWarp('neon',m.spawn[0],m.spawn[1]);r.tick(16);
-  let low=-1e9,arrows=new Set();
-  for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);arrows.add((r.els.get('quest').textContent.match(/[←→↑↓]/)||[''])[0]);}
-  assert(low<=960-40,'the vacuum feet stay well inside the bottom of the arrival view: '+low.toFixed(1));assert.deepEqual([...arrows],['↓'],'the arrow keeps pointing down at the vacuum: '+[...arrows]);}
+  let low=-1e9,right=-1e9,arrows=new Set();
+  for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);right=Math.max(right,p.x+28-r.g.camera.x);arrows.add((r.els.get('quest').textContent.match(/[←→↑↓]/)||[''])[0]);}
+  assert(low<=960-40,'the vacuum feet stay well inside the bottom of the arrival view: '+low.toFixed(1));assert(right<540-22-142,'the vacuum never walks behind the talk button: '+right.toFixed(1));assert.deepEqual([...arrows],['↓'],'the arrow keeps pointing down at the vacuum: '+[...arrows]);}
  result.push('R425: ネオンに着いた時、掃除機のノイズが画面の下で切れず、矢印は下を指したまま PASS');
  // R185: ミナモの友だちの子（赤い帽子・黄色の服）が、ほかのゲームの主人公に似ないよう、新しい絵が届くまで帽子と服の色を変えて描く（RULES 4）。
  {const src=html.match(/const RECOLOR=[^\n]*\nfunction hueOf[^\n]*\nfunction fromHsl[^\n]*\n/);assert(src,'RECOLOR and the colour helpers are in index.html');
