@@ -1970,6 +1970,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS');
  result.push('R126: おとなモードで勝った時の行を「経験値／円」で出し、こどもモードは「けいけんち／えん」のまま PASS');
  result.push('R439: 勝った時の行は円の前に「お金」（こどもモードは「おかね」）を付け、数字だけを並べない PASS');
+ // R447: the battle HP read 「060」 with a leading zero that meant nothing; it now shows the same plain number as the field and status 「HP 60」.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('popup','r447');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);const t=r.els.get('hp-number').textContent;
+  assert(/^[1-9]\d*$|^0$/.test(t),'R447: battle HP has no leading zero: '+t);r.g.state.battle=null;}
+ result.push('R447: 戦闘のHPを「060」ではなく「60」と、頭に0を付けずに出す PASS');
  // R127: the battle screen's battery label and the summon result lines read in kanji in adult mode (SPEC_V7_MANABU.md 9); kids mode keeps the hiragana ones.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();const st=r.g.state,S=r.g.GAME_DATA.summons,ids=Object.keys(S),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   st.summons=[...ids];const kidsWords=/よんだ|もどった|なおった|でどころ|ほんとう|みがわり|うけとめる|ほぞん|たおれ|わかった|やすみ|せいせい！|とじて|よわみ|ばい！|けんさく/;

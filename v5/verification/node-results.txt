@@ -176,6 +176,7 @@ R117: ノイズの目標に章ごとの町の名前を入れ、1〜3章で同じ
 R118: 戦闘に勝った時の「けいけんち」の行を、数の前に言葉を出す形にした PASS
 R126: おとなモードで勝った時の行を「経験値／円」で出し、こどもモードは「けいけんち／えん」のまま PASS
 R439: 勝った時の行は円の前に「お金」（こどもモードは「おかね」）を付け、数字だけを並べない PASS
+R447: 戦闘のHPを「060」ではなく「60」と、頭に0を付けずに出す PASS
 R127: おとなモードの戦いの画面の電池と召喚の結果の文を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R335: おとなモードの戦いで、実行・for ループ・生成・アイテム・逃げるの結果の文と、最初の戦いの案内を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R336: おとなモードの町のお知らせ（保存した・保存できない・充電できる・向こうを向いて）を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
@@ -374,5 +375,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 118ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 85ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
