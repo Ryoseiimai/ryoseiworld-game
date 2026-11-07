@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T05:48:42.088Z",
-  "branch": "claude/autodev-20261027-1421-R278",
-  "task": "R278 カテイノジジョウ戦の始めで、浮く前の主人公が川の柵の上に立っていたので、石垣の足もとに立たせた",
-  "summary": "カテイノジジョウ戦の始めで、浮く前の主人公が川の柵の上に立っていた\nミナモの背景の時だけ、石垣の足もと（水との境）から浮くようにした。おともも同じ高さから出る\n前と後は v5/verification/R278_kateino-start_*.png。浮く幅が町より短くなる点はそのままにした",
-  "result": "pass",
-  "shots": [
-   "shots/492/mobile-02-mode-select.jpg",
-   "shots/492/mobile-15-custom-full-run.jpg",
-   "shots/492/mobile-27-chapter-2-play.jpg",
-   "shots/492/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "23ee900",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40456439480"
- },
- {
   "at": "2026-10-27T07:12:18.317Z",
   "branch": "claude/autodev-20261027-1521-R279",
   "task": "R279 町で、画面の右端に立つ人の守護霊が端で半分切れていたので、画面に収まる左側に出した",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "2a1a475",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42333986810"
+ },
+ {
+  "at": "2026-11-07T04:06:21.114Z",
+  "branch": "claude/autodev-20261107-1241-R429",
+  "task": "R429 ボス戦のノーツのひとことがスマホ幅で折り返し、2行目が「を押そう」だけになっていたので、「下の印が輪に来たら「ビート」を押そう」と短くした",
+  "summary": "ノーツのひとことを「下の印が輪に来たら「ビート」を押そう」と短くし、スマホ幅で1行に収めた\n1行に収まるかを見るテストを足した。手元のテストと全章の通しは通った\n前と後のスクショを docs/shots/R429 に置いた。ソラのヒントのひらがなは仕様どおりなので変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/748/mobile-02-mode-select.jpg",
+   "shots/748/mobile-19-custom-og-credit-card.jpg",
+   "shots/748/mobile-34-chapter-1-play.jpg",
+   "shots/748/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a391877",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42336215517"
  }
 ]
