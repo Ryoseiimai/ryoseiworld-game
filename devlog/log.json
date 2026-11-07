@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-27T03:53:11.274Z",
-  "branch": "claude/autodev-20261027-1241-R276",
-  "task": "R276 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の始めで「ドラッグで あるく」の箱が公園の看板の柱にかかっていた\n看板の字だけでなく板と柱が後ろにあっても、箱を薄くするようにした",
-  "result": "pass",
-  "shots": [
-   "shots/488/mobile-02-mode-select.jpg",
-   "shots/488/mobile-15-custom-full-run.jpg",
-   "shots/488/mobile-27-chapter-2-play.jpg",
-   "shots/488/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bf89cdc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40445614810"
- },
- {
   "at": "2026-10-27T04:06:51.807Z",
   "branch": "claude/autodev-20261027-1221-R276",
   "task": "R276 町で「はなす」のボタンが透けた時、後ろの信号の柱が字を横切っていたので、字の後ろだけ暗い板を敷いた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "ba72c27",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42325050928"
+ },
+ {
+  "at": "2026-11-07T02:01:23.001Z",
+  "branch": "claude/autodev-20261107-1021-R426",
+  "task": "R426 おとなモードでも、ボス戦の出だしの帯が「フクの ちからで キックボードが うかんだ！」とひらがなだったので、「フクの力で キックボードが浮かんだ！」とした",
+  "summary": "おとなモードのボス戦の出だしの帯を、漢字まじりの「フクの力で／キックボードが浮かんだ！」にした\nこどもモードは今のひらがなのまま。確認を足し、前と後のスクショを docs/shots/R426 に置いた\n灰色の守護霊がノイズに見える件は R388 で判断待ちなので、今回は選ばなかった",
+  "result": "pass",
+  "shots": [
+   "shots/743/mobile-02-mode-select.jpg",
+   "shots/743/mobile-19-custom-og-credit-card.jpg",
+   "shots/743/mobile-34-chapter-1-play.jpg",
+   "shots/743/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2ca3ea2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42325449365"
  }
 ]
