@@ -125,7 +125,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.modal, 'og-records', 'the records window opens');
     const copy = r.els.get('modal-copy').textContent;
     assert(copy.includes('最高ステージ3') && copy.includes('最高コンボ4'), 'the best challenge record shows: ' + copy);
-    assert(copy.includes('BUG KING を修理した'), 'the earned row names itself: ' + copy);
+    assert(copy.includes('BUG KING を静めた'), 'the earned row names itself: ' + copy);
     assert(copy.includes('？？？'), 'an un-earned secret row still shows as ？？？: ' + copy);
     // R404: earned rows carry the filled ★, the rest the hollow ☆ and the word まだ, so the two are told apart without a legend.
     const rowLines = copy.split('\n').filter(l => /^[★☆] /.test(l));
@@ -134,7 +134,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     // R419: adult mode says 未達成, so a past-tense name is never followed by まだ.
     assert(rowLines.filter(l => l.startsWith('☆ ')).every(l => l.endsWith('（未達成）')), 'every un-earned row says 未達成: ' + JSON.stringify(rowLines));
     assert(!copy.includes('（まだ）'), 'adult mode no longer pairs a done-form name with まだ: ' + JSON.stringify(rowLines));
-    assert(rowLines.find(l => l.includes('BUG KING を修理した')).startsWith('★ '), 'the earned BUG KING row is the ★ one');
+    assert(rowLines.find(l => l.includes('BUG KING を静めた')).startsWith('★ '), 'the earned BUG KING row is the ★ one');
     // R421: earned rows are listed before every un-earned one.
     const firstHollow = rowLines.findIndex(l => l.startsWith('☆ '));
     assert(rowLines.slice(firstHollow).every(l => l.startsWith('☆ ')), 'R421: every ★ row comes before the first ☆ row: ' + JSON.stringify(rowLines));
@@ -158,7 +158,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     band()[0].click();
     assert.equal(r.g.modal, 'og-records', 'it opens from the title, no つづきから needed');
     const copy = r.els.get('modal-copy').textContent;
-    assert(copy.includes('しゅうりした') || copy.includes('BUG KING'), 'the earned row names itself in kids text: ' + copy);
+    assert(copy.includes('BUG KING を しずめた'), 'the earned row names itself in kids text: ' + copy);
     assert(copy.includes('ことばを 10こ あつめた（まだ）') && !copy.includes('未達成'), 'R419: kids rows keep the short まだ: ' + copy);
     assert(!copy.includes('最高ステージ'), 'no challenge has ever been played: no best-record line (recordsText returns empty)');
     r.button('もどる');
@@ -175,9 +175,17 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.modal, 'og-records', 'R421: the records window opens from the title');
     const rows = r.els.get('modal-copy').textContent.split('\n').filter(l => /^[★☆] /.test(l));
     assert.equal(rows.length, 12, 'R421: all 12 rows: ' + JSON.stringify(rows));
-    assert.deepEqual(rows.slice(0, 2), ['★ BUG KING を修理した', '★ ステージ5に届いた'], 'R421: the two earned rows come first, in data order: ' + JSON.stringify(rows));
+    assert.deepEqual(rows.slice(0, 2), ['★ BUG KING を静めた', '★ ステージ5に届いた'], 'R421: the two earned rows come first, in data order: ' + JSON.stringify(rows));
     assert(rows.slice(2).every(l => l.startsWith('☆ ')), 'R421: the rest are un-earned: ' + JSON.stringify(rows));
     assert.equal(rows[2], '☆ カテイノジジョウを静めた（未達成）', 'R421: un-earned rows keep their data order: ' + JSON.stringify(rows));
+  }
+  // R458: the boss rows that are not secret all use the same verb (1章 used 修理した while 2章・3章 used 静めた).
+  {
+    let data = null;
+    const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../v5/data/outgame.js'), 'utf8');
+    require('node:vm').runInNewContext(src, { RYW: { registerOutGame: d => { data = d; } } });
+    const boss = data.achievements.filter(a => a.when && a.when.boss && !a.secret);
+    assert(boss.length >= 3 && boss.every(a => a.name[0].endsWith('を静めた') && a.name[1].endsWith('を しずめた')), 'R458: boss rows share 静めた: ' + JSON.stringify(boss.map(a => a.name)));
   }
   result.push('og-achievement: R421 earned rows are listed first, so stage5 sits right under BUG KING above every ☆ row PASS');
 

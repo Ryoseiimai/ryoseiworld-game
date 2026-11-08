@@ -58,7 +58,8 @@ RYW.registerOutGame?.({
  // 12 rows. `secret` ones show '？？？' until earned (js/outgame.js BODY.records). `when` never uses
  // {not} or {item}: validate() rejects those for an achievement because they can turn false again.
  achievements:[
-  {id:'ch1',name:['BUG KING を修理した','BUG KING を しゅうりした'],when:{boss:'bugking'}},
+  // R458: 1章だけ「修理した」で、2章・3章の「静めた」と動詞が違ったので、ボス戦の勝ちの文（おとなしくなった）とも合う「静めた」にそろえる
+  {id:'ch1',name:['BUG KING を静めた','BUG KING を しずめた'],when:{boss:'bugking'}},
   {id:'ch2',name:['カテイノジジョウを静めた','カテイノジジョウを しずめた'],when:{boss:'kateino'}},
   {id:'ch3',name:['ヒカクマオウを静めた','ヒカクマオウを しずめた'],when:{boss:'hikaku'}},
   {id:'jibun',name:['ジブンと向き合った','ジブンと むきあった'],when:{boss:'jibun'},secret:true},
