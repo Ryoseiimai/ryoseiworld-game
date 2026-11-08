@@ -265,10 +265,10 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     r.g.state.bonds.sister = 5;
     await r.g.save();
     r.tick(2700);
-    assert(toast(r).textContent.startsWith('実績:'), 'the first of two achievements earned together shows');
+    assert(toast(r).textContent.startsWith('実績：'), 'the first of two achievements earned together shows');
     const first = toast(r).textContent;
     r.tick(2700);
-    assert(toast(r).textContent.startsWith('実績:') && toast(r).textContent !== first, 'the second follows staggered, not merged: ' + toast(r).textContent);
+    assert(toast(r).textContent.startsWith('実績：') && toast(r).textContent !== first, 'the second follows staggered, not merged: ' + toast(r).textContent);
   }
   result.push('og-achievement: two achievements earned in the same save() toast one after another, not merged PASS');
 
