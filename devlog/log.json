@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T09:59:16.475Z",
-  "branch": "claude/autodev-20261028-1822-R302",
-  "task": "R302 塔の「うえへ」「したへ」の札に向きの印が無く、出口の「↓ そとへ」と揃っていなかったので、↑ と ↓ を付けた",
-  "summary": "塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ と ↓ を付けた\n札を矢印の分だけ広げ、ボタンが透ける判定の幅も合わせた\n矢印が札の中で字の左に出る確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/528/mobile-02-mode-select.jpg",
-   "shots/528/mobile-15-custom-full-run.jpg",
-   "shots/528/mobile-27-chapter-2-play.jpg",
-   "shots/528/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "151a7fe",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40667441667"
- },
- {
   "at": "2026-10-28T11:09:42.512Z",
   "branch": "claude/autodev-20261028-1921-R303",
   "task": "R303 町の始めで公園の看板の柱が「ドラッグで あるく」の字を横切っていたので、スマホでは箱を2行にして柱の左に収めた",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "815493f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42451486987"
+ },
+ {
+  "at": "2026-11-08T06:58:27.360Z",
+  "branch": "claude/autodev-20261108-1522-R453",
+  "task": "R453 ボス戦の下のハート3つに名前が無く、きずなの♥や消えたHPと見分けがつかなかったので、右に「ライフ」と出した",
+  "summary": "ボス戦の下のハートの右に「ライフ」の字を出した\nとくぎのボタンにかかる時（ハート6つ以上など）は字を出さない\n字の位置のテストを足した（直す前は落ち、直した後は通る）",
+  "result": "pass",
+  "shots": [
+   "shots/787/mobile-02-mode-select.jpg",
+   "shots/787/mobile-19-custom-og-credit-card.jpg",
+   "shots/787/mobile-34-chapter-1-play.jpg",
+   "shots/787/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9298d07",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42456123616"
  }
 ]
