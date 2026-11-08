@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T19:01:28.201Z",
-  "branch": "claude/autodev-20261029-0322-R310",
-  "task": "R310 戦闘の文が「BUG KINGは」と英字の名前に「は」「が」が付いて読みにくかったので、ボス戦と同じ「BUG KING は」と間を空けた",
-  "summary": "戦闘の文の「BUG KINGは」「BUG KINGが」を「BUG KING は」と間を空けた\nかなの名前は今までどおり間を空けず、そのことをテストで確かめた\n確認役が挙げた上の帯の透け・HPの0・部屋の出口の札は、前の件で決めた形なので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/538/mobile-02-mode-select.jpg",
-   "shots/538/mobile-15-custom-full-run.jpg",
-   "shots/538/mobile-27-chapter-2-play.jpg",
-   "shots/538/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "6453b7d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40748541918"
- },
- {
   "at": "2026-10-28T19:53:02.546Z",
   "branch": "claude/autodev-20261029-0422-R311",
   "task": "R311 ボス戦の台詞で話し手の名前が「カテイノジジョウ しょうらい」と台詞の始めの言葉に見えたので、名前を金色の札に入れた",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "e03bd13",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42481045316"
+ },
+ {
+  "at": "2026-11-08T13:40:58.701Z",
+  "branch": "claude/autodev-20261108-2221-R460",
+  "task": "R460 ヒカクマオウ戦のおとなのお知らせ「数字に当たって 攻撃力が下がった」「攻撃力が1段 戻った！」だけ文の中が空いていて、R459で詰めたヒントと食い違っていたので詰めた",
+  "summary": "ヒカクマオウ戦のおとなのお知らせ2つの文の中の空白を詰めた\n空白が無いことを調べるテストを足し、前と後のスクショを v5/verification に置いた\n「戻った」の画面は撮らず、幅のテストに任せた。鍵の枝への push は許されず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/797/mobile-02-mode-select.jpg",
+   "shots/797/mobile-19-custom-og-credit-card.jpg",
+   "shots/797/mobile-34-chapter-1-play.jpg",
+   "shots/797/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0594876",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42484992243"
  }
 ]
