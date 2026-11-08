@@ -1437,9 +1437,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(4000);for(let k=0;k<80&&r.g.dialogue;k++)r.dialogue();
   const t=()=>['walk-sp','walk-verb','walk-kbd'].map(id=>r.els.get(id).textContent);
   assert.equal(r.g.state.mode,'adult');assert(JSON.stringify(t())===JSON.stringify(['','歩く','矢印・WASDでも歩く']),'adult mode: ドラッグで歩く / 矢印・WASDでも歩く '+t());
-  assert(!r.g.dialogue,'no talk left');r.click('menu-btn');r.button('設定');r.button('モード: おとな');assert.equal(r.g.state.mode,'kids','the settings switch went to kids mode');
+  assert(!r.g.dialogue,'no talk left');r.click('menu-btn');r.button('設定');{const lab=[...r.els.get('modal-buttons').children].map(b=>b.textContent);assert(lab.includes('今のモード：おとな')&&!lab.some(t=>/モード: /.test(t)),'R450: the mode switch reads 今のモード：おとな '+lab);}r.button('今のモード：おとな');assert.equal(r.g.state.mode,'kids','the settings switch went to kids mode');r.button('いまの モード：こども');assert.equal(r.g.state.mode,'adult','R450: the switch reads いまの モード：こども in kids mode and goes back');r.button('今のモード：おとな');assert.equal(r.g.state.mode,'kids');
   assert(JSON.stringify(t())===JSON.stringify([' ','あるく','矢印 / WASD でも あるく']),'kids mode keeps ドラッグで あるく / 矢印 / WASD でも あるく '+t());}
  result.push('R315: 町の「ドラッグで あるく」の案内が、おとなモードでは「ドラッグで歩く」になり、こどもモードは今までどおり PASS');
+ result.push('R450: 設定のモードの切り替えが「今のモード：おとな」「いまの モード：こども」と今の値を言い、押すと切り替わる PASS');
  // R276: the see-through talk button keeps a dark plate behind its letters, so a signal pole behind it does not run through 「はなす」.
  {const rule=(html.match(/#talk-btn\.behind\{([^}]*)\}/)||[])[1]||'';assert(/background-image:radial-gradient\([^)]*#173e3c[0-9a-f]{2} \d+%/.test(rule),'the see-through talk button has a dark plate in the middle');assert(/#f1cd7c1a/.test(rule),'its edges stay see-through');}
  result.push('R276: 透けた「はなす」の字の後ろに暗い板があり、後ろの柱が字を横切らない PASS');
