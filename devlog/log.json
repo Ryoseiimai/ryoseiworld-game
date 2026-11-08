@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T08:58:42.539Z",
-  "branch": "claude/autodev-20261028-1721-R301",
-  "task": "R301 ボス戦の始めで、主人公の足とキックボードが道の帯に隠れていたので、足を道の上の線に乗せた",
-  "summary": "ボス戦の始めに主人公のひざから下が道の帯に隠れていた\n町・ネオン・とうの道で、足が道の上の線に乗る高さから始めた\n足の高さを全部のボスで見る確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/527/mobile-02-mode-select.jpg",
-   "shots/527/mobile-15-custom-full-run.jpg",
-   "shots/527/mobile-27-chapter-2-play.jpg",
-   "shots/527/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ebc571f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40659213349"
- },
- {
   "at": "2026-10-28T09:59:16.475Z",
   "branch": "claude/autodev-20261028-1822-R302",
   "task": "R302 塔の「うえへ」「したへ」の札に向きの印が無く、出口の「↓ そとへ」と揃っていなかったので、↑ と ↓ を付けた",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "3873615",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42445638742"
+ },
+ {
+  "at": "2026-11-08T05:51:14.464Z",
+  "branch": "claude/autodev-20261108-1421-R452",
+  "task": "R452 戦闘でサーチフクロウが弱みを見せた時の「検索・出どころ: 動き」「次: 」が半角のコロンで、実績や設定の「：」と食い違っていたので、全角の「：」にした",
+  "summary": "サーチフクロウの「検索・出どころ: 動き」「次: 」を全角の「：」にした\nこどもモードの「でどころ：うごき」「つぎ：」も同じにそろえた\nテストに全角のコロンの確認を足した（ブラウザの確認は自動確認に任せた）",
+  "result": "pass",
+  "shots": [
+   "shots/785/mobile-02-mode-select.jpg",
+   "shots/785/mobile-19-custom-og-credit-card.jpg",
+   "shots/785/mobile-34-chapter-1-play.jpg",
+   "shots/785/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "815493f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42451486987"
  }
 ]
