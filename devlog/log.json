@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T07:17:33.858Z",
-  "branch": "claude/autodev-20261030-1543-R319",
-  "task": "R319 メニューの題と「ソラに はなす・セーブ」「ひとやすみ」がおとなモードでもひらがなだったので、おとなでは「ソラと一休み」「ソラに話す・セーブ」「一休み」にした",
-  "summary": "メニューの題と「話す・セーブ」「一休み」を、おとなモードでは漢字まじりにした\nこどもモードは今までどおり。前と後のスクショを v5/verification に入れた\n手元のテストは全部通った。鍵のブランチは push の決まりで取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/561/mobile-02-mode-select.jpg",
-   "shots/561/mobile-15-custom-full-run.jpg",
-   "shots/561/mobile-27-chapter-2-play.jpg",
-   "shots/561/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "b803f33",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41018292790"
- },
- {
   "at": "2026-10-30T08:09:12.057Z",
   "branch": "claude/autodev-20261030-1621-R320",
   "task": "R320 メニューの戻るボタンがおとなモードでも「もどる」だったので、おとなでは「戻る」にした（はじめてのゲームの「遊ぶ」「調べる」も）",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "6f2054a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42526593284"
+ },
+ {
+  "at": "2026-11-08T22:53:48.822Z",
+  "branch": "claude/autodev-20261109-0721-R468",
+  "task": "R468 タイトルの案内が「始まりは 第1章　ヒダマリちょう」と半角と全角の空きが混ざっていたので、大人モードは「始まりは第1章」「続きは第N章」と詰めた",
+  "summary": "タイトルの案内を「始まりは第1章　ヒダマリちょう」と詰めた（大人モード）\n「続きは第N章」も同じく詰めた。こどもモードは今のまま\n武器名の空きは仕様書の表どおりなので変えなかった。テストと前後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/814/mobile-02-mode-select.jpg",
+   "shots/814/mobile-19-custom-og-credit-card.jpg",
+   "shots/814/mobile-34-chapter-1-play.jpg",
+   "shots/814/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6f00efb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42531510971"
  }
 ]
