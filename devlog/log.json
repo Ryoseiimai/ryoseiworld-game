@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T06:54:49.126Z",
-  "branch": "claude/autodev-20261028-1522-R300",
-  "task": "R300 ことばの札の右上の「ソラ」に枠があり、押せるボタンに見えたので、枠を消して名前だけにした",
-  "summary": "ことばの札の右上の「ソラ」が枠つきで、押せるボタンに見えた\n町の札とボス戦の札の両方で、名前の枠を消して字だけにした\n名前に枠が無いことを見る確認を2つのテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/526/mobile-02-mode-select.jpg",
-   "shots/526/mobile-15-custom-full-run.jpg",
-   "shots/526/mobile-27-chapter-2-play.jpg",
-   "shots/526/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5904f14",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40645747393"
- },
- {
   "at": "2026-10-28T08:58:42.539Z",
   "branch": "claude/autodev-20261028-1721-R301",
   "task": "R301 ボス戦の始めで、主人公の足とキックボードが道の帯に隠れていたので、足を道の上の線に乗せた",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "e3349a9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42444283917"
+ },
+ {
+  "at": "2026-11-08T04:23:44.527Z",
+  "branch": "claude/autodev-20261108-1240-R451",
+  "task": "R451 実績のお知らせが「実績: 」と半角のコロンで、設定の「今のモード：おとな」やクイズの「選んだ答え：」と食い違っていたので、「実績：」にした",
+  "summary": "同じ R451 を、12:21 に始まった別の回が先に仕上げて main に合流していた\n今回の枝は同じ直しの重ねだったので、main の中身にそろえて何も足さないようにした\n迷った点: 12:40 に鍵を見た時は「返した」のままで、別の回が鍵を取らずに動いていた見込み",
+  "result": "pass",
+  "shots": [
+   "shots/783/mobile-02-mode-select.jpg",
+   "shots/783/mobile-19-custom-og-credit-card.jpg",
+   "shots/783/mobile-34-chapter-1-play.jpg",
+   "shots/783/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3873615",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42445638742"
  }
 ]
