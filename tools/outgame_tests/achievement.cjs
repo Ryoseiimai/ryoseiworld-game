@@ -181,12 +181,10 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   }
   // R458: the boss rows that are not secret all use the same verb (1章 used 修理した while 2章・3章 used 静めた).
   {
-    let data = null;
-    const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../../v5/data/outgame.js'), 'utf8');
-    require('node:vm').runInNewContext(src, { RYW: { registerOutGame: d => { data = d; } } });
-    const boss = data.achievements.filter(a => a.when && a.when.boss && !a.secret);
+    const boss = raw.achievements.filter(a => a.when && a.when.boss && !a.secret);
     assert(boss.length >= 3 && boss.every(a => a.name[0].endsWith('を静めた') && a.name[1].endsWith('を しずめた')), 'R458: boss rows share 静めた: ' + JSON.stringify(boss.map(a => a.name)));
   }
+  result.push('og-achievement: R458 the boss rows all read 〜を静めた / 〜を しずめた PASS');
   result.push('og-achievement: R421 earned rows are listed first, so stage5 sits right under BUG KING above every ☆ row PASS');
 
   // --- The toast: #toast, after the save toast clears, never on title/ending/epilogue, and not replayed later ---
