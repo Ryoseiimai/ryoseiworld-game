@@ -333,13 +333,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  }
  result.push('Balance: Lv2/HP72/battery100/1 drink beats BUG KING in 6-9 turns; Lv1 with nothing loses (seeds 1,2,3) PASS');
  // F04/F05: title keys and naming keys.
- const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');assert.equal(fresh.els.get('title-caption').textContent,'始まりは 第1章　ヒダマリちょう','no save: caption keeps the chapter 1 default (R170: says it is where the story starts, so it does not read as a save under the grey つづきから; R406: in adult mode, the default)');assert.equal(fresh.els.get('start-btn').textContent,'始めから','R406: no save reads in adult mode (SPEC_V7_MANABU 9.1 starts on おとな)');assert.equal(fresh.els.get('continue-btn').textContent,'続きから','R406: no save continue button in adult mode');fresh.key('z');assert.equal(fresh.g.modal,'mode-select');fresh.key('z');assert.equal(fresh.g.state.mode,'adult');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
+ const fresh=await runtime();fresh.tick();assert.equal(fresh.active().id,'start-btn');assert.equal(fresh.els.get('title-caption').textContent,'始まりは第1章　ヒダマリちょう','no save: caption keeps the chapter 1 default (R170: says it is where the story starts, so it does not read as a save under the grey つづきから; R406: in adult mode, the default)');assert.equal(fresh.els.get('start-btn').textContent,'始めから','R406: no save reads in adult mode (SPEC_V7_MANABU 9.1 starts on おとな)');assert.equal(fresh.els.get('continue-btn').textContent,'続きから','R406: no save continue button in adult mode');fresh.key('z');assert.equal(fresh.g.modal,'mode-select');fresh.key('z');assert.equal(fresh.g.state.mode,'adult');assert.equal(fresh.g.screen,'prologue');fresh.dialogue();assert.equal(fresh.g.screen,'naming');assert.equal(fresh.active().id,'name-input');fresh.key('z');assert.equal(fresh.g.screen,'field');
  const keep=new Map(t.saved),guarded=await runtime({saved:keep});guarded.tick();const kept=keep.get('ryoseiworld-rpg-v5');guarded.click('start-btn');assert.equal(guarded.g.modal,'confirm');assert.equal(guarded.active().textContent,'やめる');guarded.button('やめる');assert.equal(guarded.g.screen,'title');assert.equal(keep.get('ryoseiworld-rpg-v5'),kept);guarded.click('start-btn');guarded.button('はじめる');assert.equal(guarded.g.modal,'mode-select');guarded.button('こどもモード');assert.equal(guarded.g.screen,'prologue');
  result.push('Title: Z on はじめから without a save; はじめから with a save asks first and やめる keeps it; naming input focused and Z confirms PASS');
  // R326: a save made in adult mode turns the title buttons, caption, hint and the wipe window into kanji; a kids save keeps hiragana.
  for(const mode of ['adult','kids']){const data=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));data.mode=mode;const r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(data)]])});r.tick();const adult=mode==='adult';
   assert.equal(r.els.get('start-btn').textContent,adult?'始めから':'はじめから','R326 start button '+mode);assert.equal(r.els.get('continue-btn').textContent,adult?'続きから':'つづきから','R326 continue button '+mode);
-  assert.equal(r.els.get('title-caption').textContent,adult?'続きは 第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(adult?/(遊べる|できる)よ$/.test(r.els.get('title-hint').textContent):r.els.get('title-hint').textContent.includes('あそべるよ'),'R326 hint '+mode);
+  assert.equal(r.els.get('title-caption').textContent,adult?'続きは第2章　ミナモちょう':'つづきは 2しょう　ミナモちょう','R326 caption '+mode);assert(adult?/(遊べる|できる)よ$/.test(r.els.get('title-hint').textContent):r.els.get('title-hint').textContent.includes('あそべるよ'),'R326 hint '+mode);
   // R360: the adult hint dropped the kids' word spaces (「おさらいも　遊べるよ」); kids keep them.
   {const h=r.els.get('title-hint').textContent;assert(adult?!/[ 　]/.test(h)&&/(遊べる|できる)よ$/.test(h):/　あそべるよ$/.test(h),'R360 hint '+mode+': '+h);
    // R409: adult mode says the review can be done, not played; a challenge alone is still 遊べるよ.
@@ -348,7 +348,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R347: the genre line under the title follows the save's mode too, and a chapter 4 save names ノイズの塔 in kanji.
   assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながら ゲーム作りと<br>AIを学ぶ RPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
   const d4={...data,chapter:4},r4=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d4)]])});r4.tick();
-  assert.equal(r4.els.get('title-caption').textContent,adult?'続きは 第4章　ノイズの塔':'つづきは 4しょう　ノイズのとう','R347 chapter 4 caption '+mode);
+  assert.equal(r4.els.get('title-caption').textContent,adult?'続きは第4章　ノイズの塔':'つづきは 4しょう　ノイズのとう','R347 chapter 4 caption '+mode);
+  if(adult)assert(!/ 第/.test(r4.els.get('title-caption').textContent),'R468: adult caption has no half-width gap before 第');
   // R387: once the ending has played (flag towerEnded) the caption says the game is cleared, not 「続きは 第4章」.
   const dc={...d4,flags:{...(d4.flags||{}),towerEnded:true}},rc=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(dc)]])});rc.tick();
   assert.equal(rc.els.get('title-caption').textContent,adult?'全章クリア':'ぜんぶの しょう クリア','R387 cleared caption '+mode);assert(rc.els.get('title-hint').textContent.match(adult?/(遊べる|できる)よ$/:/あそべるよ/)&&!rc.els.get('title-hint').textContent.includes('おさらいも遊べる'),'R387 cleared hint '+mode);}
@@ -365,6 +366,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R409: おとなモードのタイトルの案内を「おさらいも遊べるよ」から「おさらいもできるよ」にした（こどもはそのまま） PASS');
  result.push('R387: 全章をクリアしたセーブでは、タイトルが「続きは 第4章」ではなく「全章クリア」になる PASS');
  result.push('R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS');
+ result.push('R468: おとなモードのタイトルの案内は「始まりは第1章」「続きは第4章」と、第の前に半角の空きを入れない PASS');
  result.push('R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS');
  // F07/F16/F17: hand-edited or stale saves never freeze the loop.
  const base=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));
