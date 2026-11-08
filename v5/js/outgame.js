@@ -403,7 +403,8 @@
       if (!T || !P) return;
       const before = new Set(earned(prev).map(a => a.id));
       const c = ctx();
-      earned(next).filter(a => !before.has(a.id)).forEach((a, i) => P.announce(pick(['実績: ', 'じっせき: '], c) + pick(a.name, c), i));
+      // R451: the prefix uses the full-width colon like the settings switch (今のモード：おとな), not 実績: .
+      earned(next).filter(a => !before.has(a.id)).forEach((a, i) => P.announce(pick(['実績：', 'じっせき：'], c) + pick(a.name, c), i));
     },
     // For the Node tests and the smoke scenes only. Nothing in the game calls these, and no URL argument reaches them.
     _sim: {
