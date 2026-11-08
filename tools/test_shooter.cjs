@@ -1269,6 +1269,18 @@ async function browserAdapterChecks() {
   globalThis.RYW.setMode(old || 'kids');
 })();
 
+// R469: the lone weapon name in the boss HUD had no label, so it read like a name for the beat row.
+(() => {
+  const old = globalThis.RYW.mode;
+  globalThis.RYW.setMode('adult');
+  check('R469: おとなモードの武器のラベルはメニューと同じ「武器」', sim.weaponLabel() === '武器', sim.weaponLabel());
+  globalThis.RYW.setMode('kids');
+  check('R469: こどもモードは「ぶき」', sim.weaponLabel() === 'ぶき', sim.weaponLabel());
+  globalThis.RYW.setMode(old || 'kids');
+  const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../v5/js/shooter.js'), 'utf8');
+  check('R469: 武器の名前の前にラベルを描く', /outlinedText\(ctx, wl, 22,[^\n]*\n[^\n]*WEAPONS\[0\]\.name, 22 \+ ctx\.measureText\(wl\)/.test(src));
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

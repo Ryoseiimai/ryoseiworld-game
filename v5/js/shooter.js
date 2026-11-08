@@ -31,6 +31,8 @@
   // ============ 定数 ============
   var FIRE_INTERVAL = 0.20, RAPID_INTERVAL = 0.14;
   function word(id, fallback) { return typeof RYW.word === 'function' ? RYW.word(id) : fallback; }
+  // R469: the same word as the menu button (index.html menuLabel('武器','ぶき')).
+  function weaponLabel() { return RYW.mode === 'adult' ? '武器' : 'ぶき'; }
   function cooldownText() { return FIRE_INTERVAL.toFixed(2) + '→' + RAPID_INTERVAL.toFixed(2) + ' びょう'; }
   // SPEC_V7_MANABU.md 9: the wait time on screen reads in kanji in adult mode (cooldownText stays the kids form other code builds on).
   function cooldownLabel() { return RYW.mode === 'adult' ? cooldownText().replace(' びょう', '秒') : cooldownText(); }
@@ -1162,7 +1164,7 @@
 
   var SIM = {
     W: W, H: H, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
-    BOSSES: BOSSES, WEAPONS: WEAPONS, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
+    BOSSES: BOSSES, WEAPONS: WEAPONS, weaponLabel: weaponLabel, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
     addBullet: addBullet, spawnPickup: spawnPickup, debugWin: debugWin, debugSetHearts: debugSetHearts, debugCollect: debugCollect,
@@ -2453,7 +2455,10 @@
     });
     if (!icons.length) {
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-      outlinedText(ctx, WEAPONS[0].name, 22, y0 + 65, '#bfe9f5');
+      // R469: the bare name フク・ショット read like a name for the beat row below it, so it gets the menu's word 武器 / ぶき in front (like ライフ above).
+      var wl = weaponLabel();
+      outlinedText(ctx, wl, 22, y0 + 65, '#ffd98a');
+      outlinedText(ctx, WEAPONS[0].name, 22 + ctx.measureText(wl).width + 10, y0 + 65, '#bfe9f5');
     }
   }
 
