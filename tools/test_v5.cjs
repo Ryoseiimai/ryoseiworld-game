@@ -1567,7 +1567,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();const ended=r.g.GAME_DATA.chapters[4].quests.ended;
   assert(ended&&ended.text.includes('チャレンジ')&&[...ended.text].length<=18,'chapter 4 has an ended line to the challenge');
-  r.g.state.bosses.push('zero');r.tick(16);assert.equal(r.g.questStep,'cleared');assert.equal(r.els.get('quest').textContent,'塔の中が静かになった。','rooftop scene (R318: adult mode reads in kanji)');
+  r.g.state.bosses.push('zero');r.tick(16);assert.equal(r.g.questStep,'cleared');assert.equal(r.els.get('quest').textContent,'塔の中が静かになった','rooftop scene (R318: adult mode reads in kanji)');
   const ev=r.g.GAME_DATA.events.zeroJoin;assert(ev.some(e=>e.flag===ended.flag)&&ev.findIndex(e=>e.flag===ended.flag)<ev.findIndex(e=>e.save),'the join event sets the flag before it saves');
   r.g.debugEvent([{flag:ended.flag}]);r.tick(16);assert.equal(r.g.questStep,'ended');assert.equal(r.els.get('quest').textContent,ended.adult,'R312: adult mode shows the kanji line');
   r.g.debugEvent([{save:'quiet'}]);r.tick(16);const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));delete sv.flags[ended.flag];assert(sv.bosses.includes('zero'));
@@ -1732,6 +1732,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(log.startsWith(name+' は'),log);assert(!log.includes(name+'は'),log);
   r.g.debugStartBattle('vending','r310b');r.tick(300);const v=r.g.GAME_DATA.enemies.vending.name,vm=r.els.get('battle-log').textContent;assert(!vm.includes(v+' が'),'a kana name keeps no gap: '+vm);}
  result.push('R310: 英字の名前（BUG KING）と「は」「が」の間を空けた PASS');
+ // R463: only the cleared goals of chapters 2-4 ended with 「。」 (町に声が戻った。), unlike every other goal line.
+ {const r=await runtime();r.tick();const C=r.g.GAME_DATA.chapters;let n=0;
+  for(const [id,ch] of Object.entries(C))for(const [step,q] of Object.entries(ch.quests||{}))for(const t of [q.text,q.adult].filter(Boolean)){n++;assert(!/[。.]$/.test(t),'ch'+id+' '+step+': '+t);}
+  assert(n>=40,'goal lines checked: '+n);
+}
+ result.push('R463: 目標の帯の文を、章の終わりの行も「。」なしにそろえた PASS');
  // R348: battle messages were kanji in adult mode (現れた・経験値) but the foe's name stayed kana (バグったじはんき). Adult now shows adultName; kids keeps name.
  {const E=r=>r.g.GAME_DATA.enemies;
   for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
@@ -2981,9 +2987,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.mode='kids';assert(r.g.quest.startsWith('こうばんで カギを もらおう'),'R317: kids key goal ('+r.g.quest+')');}
  result.push('R317: 1章の交番・コンビニ・でんきや・王様・バス停の案内が、おとなモードでは漢字まじりになる PASS');
  // R318: chapters 2 to 4 kept their later goals (図書館・検索の機械・公園の壁・スタジアム・塔) in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
- {const r=await runtime();r.tick();const C=r.g.GAME_DATA.chapters,want={2:{cleared:['まちに こえが もどった。','町に声が戻った。'],key:['としょかんの おじいちゃんへ','図書館のおじいちゃんへ'],battery:['としょかんの おじいちゃんへ','図書館のおじいちゃんへ'],recruit:['けんさくの きかいを しらべよう','検索の機械を調べよう'],boss:['こうえんの おおきな かべへ','公園の大きな壁へ']},
-   3:{cleared:['まちが すこし おだやかに なった。','町が少し穏やかになった。'],key:['スタジアムの ヒカクマオウへ','スタジアムのヒカクマオウへ'],boss:['スタジアムの ヒカクマオウへ','スタジアムのヒカクマオウへ']},
-   4:{cleared:['とうの なかが しずかに なった。','塔の中が静かになった。'],boss:['とうの いちばん うえを めざそう','塔の一番上を目指そう'],key:['うえの かいへ すすもう','上の階へ進もう'],recruit:['うえの かいへ すすもう','上の階へ進もう']}};
+ {const r=await runtime();r.tick();const C=r.g.GAME_DATA.chapters,want={2:{cleared:['まちに こえが もどった','町に声が戻った'],key:['としょかんの おじいちゃんへ','図書館のおじいちゃんへ'],battery:['としょかんの おじいちゃんへ','図書館のおじいちゃんへ'],recruit:['けんさくの きかいを しらべよう','検索の機械を調べよう'],boss:['こうえんの おおきな かべへ','公園の大きな壁へ']},
+   3:{cleared:['まちが すこし おだやかに なった','町が少し穏やかになった'],key:['スタジアムの ヒカクマオウへ','スタジアムのヒカクマオウへ'],boss:['スタジアムの ヒカクマオウへ','スタジアムのヒカクマオウへ']},
+   4:{cleared:['とうの なかが しずかに なった','塔の中が静かになった'],boss:['とうの いちばん うえを めざそう','塔の一番上を目指そう'],key:['うえの かいへ すすもう','上の階へ進もう'],recruit:['うえの かいへ すすもう','上の階へ進もう']}};
   for(const [n,qs] of Object.entries(want))for(const [k,[kid,adult]] of Object.entries(qs)){const q=C[n].quests[k];assert.equal(q.text,kid,'R318 kids '+n+' '+k);assert.equal(q.adult,adult,'R318 adult '+n+' '+k);const w=[...adult+' ↑'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R318: '+n+' '+k+' adult goal fits the HUD ('+w+')');}
   for(const ch of Object.values(C))for(const [k,q] of Object.entries(ch.quests))assert(q.adult,'R318: every goal has an adult text ('+k+')');}
  result.push('R318: 2章から4章の図書館・検索・公園・スタジアム・塔の案内が、おとなモードでは漢字まじりになる PASS');
