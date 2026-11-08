@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T17:09:20.780Z",
-  "branch": "claude/autodev-20261029-0124-R308",
-  "task": "R308 ボス戦の右上が「0 コンボ」で、記録の「最高コンボ 48」と数字の順が逆だったので、「コンボ 0」にそろえた",
-  "summary": "ボス戦の右上の「0 コンボ」を記録と同じ「コンボ 0」にした\n順を確かめるテストを足し、前と後のスクショを v5/verification に置いた\n手元の全テストとブラウザの確認は通った",
-  "result": "pass",
-  "shots": [
-   "shots/535/mobile-02-mode-select.jpg",
-   "shots/535/mobile-15-custom-full-run.jpg",
-   "shots/535/mobile-27-chapter-2-play.jpg",
-   "shots/535/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2ae9e7c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40731130214"
- },
- {
   "at": "2026-10-28T17:49:47.653Z",
   "branch": "claude/autodev-20261029-0222-R309",
   "task": "R309 タイトルの「つづきから」の下の案内がボタンと同じ幅の帯になり3つめのボタンに見えたので、短い2行にして帯を字の幅にした",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "21e331e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42476287626"
+ },
+ {
+  "at": "2026-11-08T11:59:09.189Z",
+  "branch": "claude/autodev-20261108-2021-R458",
+  "task": "R458 実績の一覧で1章だけ「BUG KING を修理した」と動詞が違い、2章と3章の「静めた」とそろっていなかったので、「BUG KING を静めた」にした",
+  "summary": "実績の「BUG KING を修理した」を「BUG KING を静めた」にした\nボスの実績の動詞がそろっていることを調べるテストを足した\n武器名の区切りの不揃いは設計書の名前どおりなので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/793/mobile-02-mode-select.jpg",
+   "shots/793/mobile-19-custom-og-credit-card.jpg",
+   "shots/793/mobile-34-chapter-1-play.jpg",
+   "shots/793/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f579029",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42477251836"
  }
 ]
