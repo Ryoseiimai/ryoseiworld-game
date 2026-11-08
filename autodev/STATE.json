@@ -2,11 +2,11 @@
   "version": 1,
   "current": {
     "id": "R451",
-    "branch": "claude/autodev-20261108-1240-R451",
+    "branch": "claude/autodev-20261108-1221-R451",
     "attempts": 1,
     "conflicts": 0,
     "retriggers": 0,
-    "started_at": "2026-11-08T12:40:46+09:00"
+    "started_at": "2026-11-08T12:21:59+09:00"
   },
   "history": [
     {
@@ -307,7 +307,7 @@
       "id": "R450",
       "branch": "claude/autodev-20261108-1121-R450",
       "result": "pass",
-      "at": "2026-11-08T12:40:46+09:00"
+      "at": "2026-11-08T12:21:59+09:00"
     }
   ],
   "blocked": []

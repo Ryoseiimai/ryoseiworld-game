@@ -196,19 +196,21 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert(toast(r).hidden, 'the achievement toast clears on its own too');
   }
   result.push('og-achievement: the achievement toast uses #toast and waits for the save toast to clear before showing PASS');
-  // R451: the toast prefix uses the full-width colon in both modes, like the settings switch (今のモード：おとな).
+
+  // R451: the label reads 実績：… with a full-width colon like 今のモード：おとな; kids mode reads じっせき：….
   {
     const r = await runtime();
     r.tick();
     r.g.debugStartChapter(1);
     r.g.state.mode = 'kids';
+    r.RYW.setMode('kids');
     r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
     await r.g.save();
     r.tick(2700);
     const text = toast(r).textContent;
-    assert(text.startsWith('じっせき：') && !/[:]/.test(text), 'R451: the kids achievement toast reads じっせき： with no half-width colon: ' + text);
+    assert(text.startsWith('じっせき：ことばを 10こ あつめた') && !text.includes(':'), 'R451: the kids achievement toast reads じっせき：…: ' + text);
   }
-  result.push('R451: the achievement toast reads 実績：/じっせき： with the full-width colon PASS');
+  result.push('R451: 実績のお知らせが「実績：」「じっせき：」と全角のコロンで出る PASS');
 
   // R401: a window open over the field (the challenge record, the menu) sat right under #toast and hid its heading,
   // so the achievement waits for the window to close.
