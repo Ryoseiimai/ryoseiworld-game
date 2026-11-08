@@ -590,7 +590,7 @@ function summonMenu(){window.RYW.learn('cost');openModal(word('yobidasu','しょ
 function attack(){return GAME_DATA.rules.baseAttack+(g.level-1)*GAME_DATA.rules.attackPerLevel;}
 // Search Owl (boost summons): for the next `turns` turns RYOSEI's side does x times the damage. The enemy turns count it down.
 function power(n){const b=g.battle;return b&&b.boost?Math.round(n*b.boost.x):n;}
-function seeLine(b,s){const def=GAME_DATA.enemies[b.type],i=b.turn%def.actions.length,hint=def.hints?.[i]||def.actions[i],hintA=enemyHint(def,i);return menuLabel('弱みが見えた！ '+s.boost+'倍！\n検索・出どころ: 動き\n'+(def.hint||'次: '+hintA),'よわみが みえた！ '+s.boost+'ばい！\nけんさく・でどころ: うごき\n'+(def.hint||'つぎ: '+hint));}
+function seeLine(b,s){const def=GAME_DATA.enemies[b.type],i=b.turn%def.actions.length,hint=def.hints?.[i]||def.actions[i],hintA=enemyHint(def,i);return menuLabel('弱みが見えた！ '+s.boost+'倍！\n検索・出どころ：動き\n'+(def.hint||'次：'+hintA),'よわみが みえた！ '+s.boost+'ばい！\nけんさく・でどころ：うごき\n'+(def.hint||'つぎ：'+hint));}
 function log(text){$('battle-log').textContent=text;if(g.battle)g.battle.log=text;}
 // R380: the tutorial says 「呼び出す」, but after a tap the browser hides the focus ring, so on a phone no button stood out. The summon button keeps a gold ring until it is used.
 function syncCommands(){const b=g.battle;for(const el of $('commands').children){el.disabled=!b||b.locked||b.over;el.classList.toggle('nudge',!!(b&&b.tutorial&&!b.usedSummon&&el.dataset.cmd==='summon'));}}

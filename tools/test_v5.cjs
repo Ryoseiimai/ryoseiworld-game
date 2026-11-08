@@ -678,7 +678,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.state.bonds.minamo_grandpa,3);assert(st.weapons.includes('onigiri'),'heart 3 lends the onigiri');
   // In battle the owl shows the next move and the next two hits do 1.5 times.
   st.battery=100;r.g.debugStartBattle('spam','r21-owl');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});r.cmd('summon');r.button('サーチフクロウ');assert.equal(st.battery,90);r.tick(1000);
-  assert(r.g.battle.log.includes('よわみが みえた'),r.g.battle.log);assert(r.g.battle.log.split('\n').reduce((n,row)=>n+Math.ceil(wide(row)/15),0)<=3,'owl log fits 3 rows of the battle box '+r.g.battle.log);r.tick(3000);
+  assert(r.g.battle.log.includes('よわみが みえた'),r.g.battle.log);assert(r.g.battle.log.split('\n').reduce((n,row)=>n+Math.ceil(wide(row)/15),0)<=3,'owl log fits 3 rows of the battle box '+r.g.battle.log);assert(r.g.battle.log.includes('でどころ：うごき')&&!/(でどころ|つぎ):/.test(r.g.battle.log),'R452: the owl log uses the full-width colon '+r.g.battle.log);{const src=require('fs').readFileSync(require('path').join(__dirname,'../v5/index.html'),'utf8'),line=src.split('\n').find(l=>l.startsWith('function seeLine'));assert(line&&line.includes('検索・出どころ：動き')&&line.includes("'次：'")&&!/: /.test(line),'R452: the adult owl line uses the full-width colon too');}r.tick(3000);
   const hit=()=>{const hp=r.g.battle.enemy.hp;r.cmd('attack');r.tick(3000);return hp-r.g.battle.enemy.hp;};
   const h1=hit(),h2=hit(),h3=hit();assert(h1>h3&&h2>h3,'two boosted hits then normal '+[h1,h2,h3]);assert.equal(h1,Math.round(h3*1.5));
   // Chapter 2 lines fit.
