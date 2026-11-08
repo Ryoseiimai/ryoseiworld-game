@@ -3105,6 +3105,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert([...m[1]].length<=19,'R433: adult ビート hint fits one line on a phone: '+m[1]);assert(/刻み/.test(m[1])&&/「ビート」をたたこう$/.test(m[1]),'R433: adult ビート hint says 刻み and names the button: '+m[1]);
   assert(/ビートを たたこう$/.test(m[2])&&!/おそう/.test(m[2]),'R433: kids ビート hint names the button: '+m[2]);}
  result.push('R433: ボス戦のビートのひとことが、押すボタン「ビート」を言う PASS');
+ // R467: the first-battle card 「HP / 0になると倒れる」 sat under the enemy HP bar and started with a number, so it was unclear what HP is. It now says 残りの体力 first.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/hp:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
+  assert(/^残りの体力。/.test(m[1])&&/0になると倒れる$/.test(m[1])&&[...m[1]].length<=19,'R467: adult HP hint says 残りの体力 first and fits one line: '+m[1]);
+  assert(/^のこりの たいりょく。/.test(m[2])&&/たおれちゃう$/.test(m[2])&&[...m[2]].length<=30,'R467: kids HP hint says のこりの たいりょく first: '+m[2]);}
+ result.push('R467: はじめての戦いの HP のひとことが、残りの体力のことだと分かる PASS');
  // R399: the battle commands 実行/作る/呼び出す gave no clue which one attacks. Until the first 実行, the encounter line says 「実行」で攻撃しよう; after it, the line is the old one.
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);const adult=mode==='adult',wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
