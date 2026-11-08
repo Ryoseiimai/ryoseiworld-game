@@ -684,6 +684,9 @@ async function browserAdapterChecks() {
    const plate=a1&&a2&&drawn.filter(d=>d.fill&&/^rgba\(8,14,34/.test(d.fill)).find(d=>d.top<=a1.y-15&&d.bottom>=a2.y+15&&d.left<=a2.x-180&&d.right>=a2.x+180);
    check('R426: おとなモードでは登場の2行が「フクの力で／キックボードが浮かんだ！」で、暗い下じきの上に出る',!!(a1&&a2&&plate)&&!kana,{a1,a2,kana});
    handle.stop();R.setMode(modeBeforeIntro);drawn.length=0;handle=R.Shooter.start({boss:'hikaku',platform});await ready();await advance(1.2);}
+  // R453: the boss-fight hearts had no name and read like the きずな ♥; ライフ sits right of them and stops before the skill button (left 338).
+  {const life=drawn.filter(d=>d.text==='ライフ').at(-1),hearts=drawn.filter(d=>(d.fill==='#ff5c7a'||d.fill==='rgba(255,255,255,0.08)')&&d.top>=826&&d.top<860),hr=hearts.length?Math.max(...hearts.map(d=>d.right)):0;
+   check('R453: ボス戦のハートの右に「ライフ」が出て、とくぎのボタンにかからない',!!life&&life.y===826+18&&life.x>hr&&life.x+3*24+3<=334&&/700 24px/.test(life.font),{life,hr});}
   // R298: the row moved up (name 29, bar 50..70, label at 92) so the label keeps 6px from both the bar and the line.
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
   // R327: the label follows RYW.mode (adult here), so the layout checks run in both modes and read the drawn words from bandLabel.

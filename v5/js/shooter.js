@@ -2423,6 +2423,11 @@
         ctx.strokeStyle = '#9fe8ff'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(bx, by, 22, -Math.PI / 2, -Math.PI / 2 + k * Math.PI * 2); ctx.stroke();
       }
     }
+    // R453: the hearts had no name, so they read like the きずな ♥ or a lost HP. Name them ライフ (words.js life).
+    // It stops 4px before the skill button (left 338, top 834), which sits on the same row.
+    var lx = ix + (p.barrier && ix < 320 ? 44 : 0), life = word('life', 'ライフ');
+    ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    if (lx + ctx.measureText(life).width + 3 <= 334) outlinedText(ctx, life, lx, y0 + 18, '#ffb3c2');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
 
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
