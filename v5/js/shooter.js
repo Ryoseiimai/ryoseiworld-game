@@ -408,8 +408,11 @@
     return { sx: 1 - k * 0.14, sy: 1 + k * 0.22 };
   }
   // urgent: a line that answers what just happened (みせた・HPの節目・つくる) goes before plain lines and cuts a plain one that is showing.
+  // R465: the partner's lines say 'ソラ' in the data; show the name the player chose, like the word card on the same screen.
+  function partnerName(cfg) { var n = cfg && typeof cfg.aiName === 'string' ? cfg.aiName.trim() : ''; return n || 'ソラ'; }
   function burst(w, speaker, text, dur, urgent) {
     if (!text) return;
+    if (speaker === 'ソラ') speaker = partnerName(w.cfg);
     var it = { speaker: speaker || '', text: String(text), dur: dur || 2.6, t: 0, urgent: !!urgent };
     if (!urgent) { w.burstQ.push(it); return; }
     var k = 0;
@@ -1515,6 +1518,7 @@
     S.btnGauge = rootEl.querySelector('.rs-skill i');
     S.pauseEl = rootEl.querySelector('.rs-pause');
     S.panel = rootEl.querySelector('.rs-panel');
+    S.panel.querySelector('.rs-who').textContent = partnerName(cfg);
 
     var ids = WEAPONS.filter(function (wp) { return S.world.weapons[wp.id]; }).map(function (wp) { return WEAPON_WORDS[wp.id]; }).concat(['life', 'frame']);
     if (S.world.bossId === 'bugking') ids.unshift('bug');

@@ -562,6 +562,15 @@ rhythmRows.forEach((r,i)=>check(r.boss+': ビートで押すと自動だけよ�
   check('タメが山場に来るとボスにも のび が入る', w.b.sqT > 0 && w.b.sqSign === 1);
 })();
 check('主人公の当たり判定は見た目(P_R=11)より小さい', sim.P_HIT_R < 11 && Math.abs(sim.P_HIT_R - 11 * 0.7) < 1e-9);
+// R465: the partner's lines use the name the player chose (the word card on the same screen already does).
+{
+  for (const [boss, aiName] of [['kateino', 'ほし'], ['hikaku', '  ほし '], ['bugking', '']]) {
+    const w = sim.createWorld({ seed: 7, boss, aiName, lines: { intro: ['ソラ', 'いっしょに なおそう！'] } }), got = [];
+    let n = 0; while (n++ < 60 * 30) { sim.step(w, DT, IDLE); if (w.burst && got[got.length - 1] !== w.burst) got.push(w.burst); }
+    const who = got.map(b => b.speaker);
+    check('ボス戦の台詞の名前が付けた名前になる: ' + boss, who.includes(aiName.trim() || 'ソラ') && (!aiName.trim() || !who.includes('ソラ')), who);
+  }
+}
 (() => {
   // 弾のすぐそばに当たっても、見た目の大きさならアウトだが、小さくした実際の判定ならまだ大丈夫な距離を確かめる
   const w = world({ boss: 'bugking' });
