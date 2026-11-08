@@ -590,7 +590,7 @@ function summonMenu(){window.RYW.learn('cost');openModal(word('yobidasu','しょ
 function attack(){return GAME_DATA.rules.baseAttack+(g.level-1)*GAME_DATA.rules.attackPerLevel;}
 // Search Owl (boost summons): for the next `turns` turns RYOSEI's side does x times the damage. The enemy turns count it down.
 function power(n){const b=g.battle;return b&&b.boost?Math.round(n*b.boost.x):n;}
-function seeLine(b,s){const def=GAME_DATA.enemies[b.type],i=b.turn%def.actions.length,hint=def.hints?.[i]||def.actions[i],hintA=enemyHint(def,i);return menuLabel('弱みが見えた！ '+s.boost+'倍！\n検索・出どころ：動き\n'+(def.hint||'次：'+hintA),'よわみが みえた！ '+s.boost+'ばい！\nけんさく・でどころ：うごき\n'+(def.hint||'つぎ：'+hint));}
+function seeLine(b,s){const def=GAME_DATA.enemies[b.type],i=b.turn%def.actions.length,hint=def.hints?.[i]||def.actions[i],hintA=enemyHint(def,i);return menuLabel('弱みが見えた！'+s.boost+'倍！\n検索・出どころ：動き\n'+(def.hint||'次：'+hintA),'よわみが みえた！ '+s.boost+'ばい！\nけんさく・でどころ：うごき\n'+(def.hint||'つぎ：'+hint));}
 function log(text){$('battle-log').textContent=text;if(g.battle)g.battle.log=text;}
 // R380: the tutorial says 「呼び出す」, but after a tap the browser hides the focus ring, so on a phone no button stood out. The summon button keeps a gold ring until it is used.
 function syncCommands(){const b=g.battle;for(const el of $('commands').children){el.disabled=!b||b.locked||b.over;el.classList.toggle('nudge',!!(b&&b.tutorial&&!b.usedSummon&&el.dataset.cmd==='summon'));}}
@@ -605,7 +605,7 @@ function command(cmd,arg){const b=g.battle;if(paused||!b||b.over||b.locked||dial
   const rescue=!!(s.heal&&g.hero.rolling);if(rescue){healEntity(g.hero,s.heal);g.status=null;}
   const hall=s.boost&&GAME_DATA.enemies[b.type].fakeHp;
   // R24: sprite (ペイントキメラ) makes a mirror image that catches the enemy's next hit; backup (サーバークジラ) saves the current HP for 3 turns and restores it once if the hero would fall.
-  later(()=>{if(g.battle!==b||b.over)return;let msg;fx.flashUntil=gameTime+(fx.flashMs=500);fx.flash=s.damage?'#ffcf8a':'#d6fff0';if(s.heal){if(!rescue)healEntity(g.hero,s.heal);g.status=null;sfx.heal();msg=menuLabel('デバッグ！ HPが戻った。\n表示バグも直った！','デバッグ！ HPが もどった。\nひょうじバグも なおった！');}
+  later(()=>{if(g.battle!==b||b.over)return;let msg;fx.flashUntil=gameTime+(fx.flashMs=500);fx.flash=s.damage?'#ffcf8a':'#d6fff0';if(s.heal){if(!rescue)healEntity(g.hero,s.heal);g.status=null;sfx.heal();msg=menuLabel('デバッグ！HPが戻った。\n表示バグも直った！','デバッグ！ HPが もどった。\nひょうじバグも なおった！');}
    else if(s.boost){if(hall)b.hallReveal=true;else b.boost={x:s.boost,left:(s.turns||2)+1};sfx.heal();msg=hall?menuLabel('出どころがない！\n本当のHPが見えた。ダメージ2倍！','でどころが ない！\nほんとうの HPが みえた。ダメージ 2ばい！'):seeLine(b,s);}
    else if(s.mirror){b.mirror=true;sfx.heal();msg=menuLabel('絵の身代わりを作った！\n次の攻撃を受け止める。','えの みがわりを つくった！\nつぎの こうげきを うけとめる。');}
    else if(s.backup){b.backup={hp:g.hero.hp,turnsLeft:3};sfx.heal();msg=menuLabel('今のHPを保存した！\n倒れても1回戻れる。','いまの HPを ほぞんした！\nたおれても 1かい もどれる。');}
