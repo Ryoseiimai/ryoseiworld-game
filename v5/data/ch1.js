@@ -90,7 +90,9 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // R288: its cable top still touched the goal bar by 6px (mobile-19), so the pile is 156px instead of 170 with its feet kept.
 // R286: by the exit its top still sat 8px under the goal bar below the HUD (mobile-19), so it stands 0.4 tile lower.
 // R204: the TV pile (boss) stood with its top 70px up in the plain back wall and hid under the HUD by the exit (mobile-19), so it moved down onto the floor and got a little smaller.
-maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや・ジャンク',shortAdult:'電気屋・ジャンク',w:11,h:17,spawn:[5,14],objects:[
+// R466: the label read 電気屋・ジャンク, which looked like two places or a shop called ジャンク; it is the back room of the
+// electric shop (STORY_V3: でんきやのジャンク置き場, the town sign says 電気屋), so the label now reads 電気屋の奥 / でんきやの おく.
+maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:17,spawn:[5,14],objects:[
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
  object('server','interior',10,7,8,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
  object('boss','interior',9,5,6.2,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),

@@ -2081,9 +2081,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R342: the map label above the goal reads 塔1F・図書館・屋上 in adult mode (the goal under it was already kanji); kids keep とう1F, and katakana names stay as they are.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
-  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋・ジャンク','でんきや・ジャンク'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1F','とう1F'],tower2:['塔2F','とう2F'],tower3:['塔3F','とう3F'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオン','ネオン'],town:['ヒダマリ','ヒダマリ']}; // R368: the first town reads by its short name like ミナモ and ネオン
+  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋の奥','でんきやの おく'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1F','とう1F'],tower2:['塔2F','とう2F'],tower3:['塔3F','とう3F'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオン','ネオン'],town:['ヒダマリ','ヒダマリ']}; // R368: the first town reads by its short name like ミナモ and ネオン
   for(const [map,[a,k]] of Object.entries(want)){const m=r.g.GAME_DATA.maps[map];r.g.debugWarp(map,m.spawn[0],m.spawn[1]);r.tick(300);while(r.g.dialogue)r.dialogue();r.tick(100);assert.equal(r.g.map,map);assert.equal(r.els.get('map-label').textContent,adult?a:k,mode+' '+map+' label');}}
  result.push('R342: おとなモードで地図名を「塔1F」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS');
+ // R466: the electric shop label read 電気屋・ジャンク (two words joined by a dot, unclear what place); it names the back room of the shop the town sign calls 電気屋.
+ {const m=(await runtime()).g.GAME_DATA.maps.electric;assert.equal(m.shortAdult,'電気屋の奥');assert.equal(m.short,'でんきやの おく');assert(!/・/.test(m.shortAdult+m.short),'R466: no dot in the label');}
+ result.push('R466: 電気屋の地図名を「電気屋・ジャンク」から「電気屋の奥」（こどもは「でんきやの おく」）にした PASS');
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};

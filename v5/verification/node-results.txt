@@ -193,6 +193,7 @@ R394: 横スクロールのボス戦に勝った後は、マップで経験値�
 R340: おとなモードでバス停と駅の看板の「次のバスは…」「電車は止まっています」を漢字で出し、こどもモードは ひらがなのまま PASS
 R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS
 R342: おとなモードで地図名を「塔1F」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS
+R466: 電気屋の地図名を「電気屋・ジャンク」から「電気屋の奥」（こどもは「でんきやの おく」）にした PASS
 R128: おとなモードのメニューの召喚獣の説明を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R129: ネオンの数字の人を街灯の足元より下に立たせ、数字の札が街灯の絵に重ならない PASS
 R119: ボスの始めの台詞が言葉の途中で折り返されず、ヒカクマオウは「おなじ としで」で改行する PASS
@@ -379,5 +380,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 77ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 68ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
