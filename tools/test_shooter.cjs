@@ -978,6 +978,29 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R462: カテイノジジョウ戦の吹き出し（しょうらい など）が、始まってすぐの「ドラッグで動く」の案内の上を通り、字と字が重なっていた。
+// 案内が出ている間は、吹き出しはゆれても案内の板より上を通る。吹き出しどうしも重ならない。
+(() => {
+  const I = sim.INTRO;
+  for (const seed of [1, 7, 42]) {
+    const w = sim.createWorld({ seed, boss: 'kateino', god: true }); let g = 0, seen = 0, bad = 0, touch = 0;
+    while (g++ < 3000 && !(w.state === 'play' && w.stateT > I.hintT)) {
+      sim.step(w, DT, IDLE);
+      if (w.state !== 'play' || sim.hintAlpha(w.stateT) <= 0) continue;
+      const bs = w.eb.filter(e => !e.dead && e.kind === 'bubble');
+      for (const e of bs) { seen++; if (e.x + e.hw > 60 && e.x - e.hw < 480 && e.y + e.hh > I.hintPlateT) bad++; }
+      for (let i = 0; i < bs.length; i++) for (let j = i + 1; j < bs.length; j++) {
+        const a = bs[i], b = bs[j];
+        if (Math.abs(a.x - b.x) < a.hw + b.hw && Math.abs(a.y - b.y) < a.hh + b.hh) touch++;
+      }
+    }
+    check('R462: 案内の間、カテイノジジョウの吹き出しは案内の板より上（seed ' + seed + '）', seen > 0 && bad === 0, { seen, bad });
+    check('R462: 案内の間、吹き出しどうしも重ならない（seed ' + seed + '）', touch === 0, touch);
+    const ys = [...new Set(w.eb.filter(e => e.kind === 'bubble').map(e => e.y0))].sort((a, b) => a - b);
+    check('R462: 持ち上げた吹き出しも上下の間（125px以上）と上の壁からの間を保つ（seed ' + seed + '）', ys.length > 0 && ys.every((y, i) => !i || y - ys[i - 1] >= 125) && ys[0] - 26 - 48 >= 116, ys);
+  }
+})();
+
 // R153: the move hint (「ゆびを すべらせて うごく」) used to spend its last 0.5 s half see-through over the city.
 // Now it is full until the last moment and gone within 0.2 s, so no half-faded frame lasts long enough to read badly.
 (() => {

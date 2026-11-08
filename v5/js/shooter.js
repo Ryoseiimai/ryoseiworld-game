@@ -764,13 +764,19 @@
         // Every 3rd wave lands when the wall is near its highest point (cyc 4〜10): a rare "全部の ことば" triple,
         // faster and centered, so the usual two-bubble pattern gets a periodic accent instead of repeating forever unchanged.
         var chord = (m.waveCycle++ % 3 === 2) && !cracked && cyc >= 4 && cyc < 10;
-        var count = chord ? 3 : n;
+        var count = chord ? 3 : n, amp = chord ? 30 : 48, lift = 0;
+        // R462: while the move hint is up, the whole wave is lifted so its lowest bubble (and its sway) stays above the hint's plate.
+        // The bubbles keep their spacing, so their words sit neither on the hint's two lines nor on each other.
+        if (w.state === 'play' && w.stateT < HINT_T) {
+          var lowOff = chord ? 125 : n === 1 ? ((m.k + 1) % 2 ? 125 : -125) : 125;
+          lift = Math.max(0, clamp(b.y + lowOff, g.top + 70, g.bottom - 70) - (HINT_PLATE_T - 6 - 26 - amp));
+        }
         for (var i = 0; i < count; i++) {
           var text = BUBBLE_WORDS[m.k++ % BUBBLE_WORDS.length], hw = (textW(text, 24) + 34) / 2;
           // Bubbles pass above and below the boss line, so the lane in front of the boss stays open for shooting.
           var off = chord ? (i - 1) * 125 : n === 1 ? (m.k % 2 ? 125 : -125) : (i === 0 ? -125 : 125);
-          var y0 = clamp(b.y + off, g.top + 70, g.bottom - 70);
-          addBullet(w, { kind: 'bubble', x: spawnX(w, -70 - hw, hw), y: y0, y0: y0, vx: chord ? -175 : -140, vy: 0, hw: hw, hh: 26, hp: 3, text: text, amp: chord ? 30 : 48, freq: 2.0, ph: i * Math.PI, chord: chord });
+          var y0 = clamp(b.y + off, g.top + 70, g.bottom - 70) - lift;
+          addBullet(w, { kind: 'bubble', x: spawnX(w, -70 - hw, hw), y: y0, y0: y0, vx: chord ? -175 : -140, vy: 0, hw: hw, hh: 26, hp: 3, text: text, amp: amp, freq: 2.0, ph: i * Math.PI, chord: chord });
         }
         if (chord) { w.shake = Math.max(w.shake, 3); toast(w, '…ぜんぶ いっぺんに？', 1.4); }
         b.attackT = 0.45; squash(b, -1, 0.12); emit(w, 'eshot');
