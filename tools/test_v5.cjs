@@ -2953,7 +2953,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R306: the field HUD read 「Lv13 HP204 100%」 while the battle panel and the status menu say 「Lv 13」「HP 204」「100％」; the HUD now uses the same spacing and ％.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
   const main=r.els.get('st-main').textContent,batt=r.els.get('st-batt').textContent;
-  assert(/^Lv \d+ HP \d+$/.test(main),'R306: HUD shows 「Lv n HP n」 with spaces ('+main+')');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
+  assert(/^Lv \d+　HP \d+$/.test(main),'R306/R464: HUD shows 「Lv n　HP n」 with the full-width space of the status screen ('+main+')');assert(/`Lv \$\{g\.level\}　HP \$\{g\.hero\.hp\}/.test(require('node:fs').readFileSync(require('node:path').join(__dirname,'../v5/index.html'),'utf8')),'R464: the status screen splits Lv and HP with the same full-width space');assert(/^\d+％$/.test(batt),'R306: HUD battery uses ％ ('+batt+')');}
  result.push('R306: 町の上の帯の Lv・HP・電池の書き方が戦闘やメニューとそろう PASS');
  // R312: after the tower the town hint pointed to the menu's challenge in hiragana in adult mode too; adult mode reads it in kanji now.
  {const r=await runtime();r.tick();const D=r.g.GAME_DATA,s=r.g.state;s.chapter=4;s.bosses=[...s.bosses,D.chapters[4].boss];s.flags.towerEnded=true;assert.equal(r.g.questStep,'ended');
