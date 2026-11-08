@@ -1151,8 +1151,9 @@ async function browserAdapterChecks() {
 (() => {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
   globalThis.RYW.setMode('adult'); const a = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
-  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ 2倍 残り10秒' && a[1] === '壁が固く、ボスへのダメージは半分' && a[2] === '自分の攻撃力', a);
+  check('R327: おとなモードの上の帯の字は漢字まじり', a[0] === 'ボスへのダメージ2倍、残り10秒' && a[1] === '壁が固く、ボスへのダメージは半分' && a[2] === '自分の攻撃力', a);
   check('R327: おとなの字も画面の中（右端520から左へ500px）と棒の手前（430から左へ）に収まる', wide(a[0]) <= 500 && wide(a[1]) <= 500 && wide(a[2]) <= wide('きみの こうげき'), a.map(wide));
+  check('R461: おとなのひびの帯は空白が無く、結果と残り時間を読点で区切る', !/[ 　]/.test(a[0]) && a[0].split('、').length === 2, a[0]);
   check('R422: おとなの「半分」の帯は、理由と結果を読点で区切った一文', a[1].split('、').length === 2 && a[1].endsWith('は半分') && !/ 半分/.test(a[1]), a[1]);
   globalThis.RYW.setMode('kids'); const k = ['crack', 'half', 'power'].map(k => sim.bandLabel(k, 10));
   check('R327/R390: こどもモードの上の帯の字は今までどおり（はんぶんの時は かたい かべ の理由つき）', k[0] === 'ボスへの ダメージ 2ばい 10' && k[1] === 'かたい かべ ボスへの ダメージ はんぶん' && k[2] === 'きみの こうげき', k);
@@ -1164,7 +1165,8 @@ async function browserAdapterChecks() {
   const old = globalThis.RYW.mode, wide = t => [...t].reduce((n, c) => n + (c.charCodeAt(0) < 128 ? .58 : 1), 0) * 24;
   globalThis.RYW.setMode('adult'); const a = ['crack', 'down', 'pace'].map(k => sim.noticeText(k));
   check('R428: おとなモードの「下がっていない」も漢字まじりで、1行が箱（440px）に収まる', sim.noticeText('paceKeep') === '自分のペースで作った。\n攻撃力は下がっていない' && sim.noticeText('paceKeep').split('\n').every(r => wide(r) <= 440));
-  check('R328: おとなモードのお知らせは漢字まじり', a[0] === 'ひびが入った！\n10秒 ボスへのダメージ 2倍' && a[1] === '数字に当たって攻撃力が下がった' && a[2] === '自分のペースで作った。\n攻撃力が1段戻った！', a);
+  check('R328: おとなモードのお知らせは漢字まじり', a[0] === 'ひびが入った！\n10秒間ボスへのダメージ2倍' && a[1] === '数字に当たって攻撃力が下がった' && a[2] === '自分のペースで作った。\n攻撃力が1段戻った！', a);
+  check('R461: おとなモードのひびのお知らせは、文の中に空白を入れない', !/[ 　]/.test(a[0]), a[0]);
   check('R460: おとなモードの「下がった」「戻った」のお知らせは、文の中に空白を入れない', !/[ 　]/.test(a[1]) && !/[ 　]/.test(a[2]), a);
   check('R328: おとなのお知らせは1行ずつ箱の中（440px）に収まる', a.every(t => t.split('\n').every(l => wide(l) <= 440)), a.map(t => t.split('\n').map(wide)));
   const b = ['immune', 'paceItem', 'makeItem'].map(k => sim.noticeText(k));

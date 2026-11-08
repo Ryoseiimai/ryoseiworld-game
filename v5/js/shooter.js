@@ -425,7 +425,8 @@
   // so adult mode reads them in kanji (攻撃力 as on the status screen, 秒 like cooldownLabel), and so do the pickup names under them.
   function noticeText(k, n) {
     var adult = RYW.mode === 'adult';
-    if (k === 'crack') return adult ? 'ひびが入った！\n' + SHOW_TIME + '秒 ボスへのダメージ 2倍' : 'ひびが はいった！\n' + SHOW_TIME + 'びょう ダメージ 2ばい';
+    // R461: the adult crack notice read as three words (10秒 ボスへのダメージ 2倍); it is one phrase now, like R455's 2ターンの間.
+    if (k === 'crack') return adult ? 'ひびが入った！\n' + SHOW_TIME + '秒間ボスへのダメージ2倍' : 'ひびが はいった！\n' + SHOW_TIME + 'びょう ダメージ 2ばい';
     if (k === 'immune') return adult ? '攻撃が効かない…' : 'こうげきが きかない…';
     if (k === 'paceItem') return adult ? '自分のペース' : 'じぶんの ペース';
     if (k === 'makeItem') return adult ? '作る' : 'つくる';
@@ -2339,7 +2340,8 @@
   // (攻撃力 as on the status screen, and the countdown says 秒 like cooldownLabel).
   function bandLabel(k, sec) {
     var adult = RYW.mode === 'adult';
-    if (k === 'crack') return adult ? 'ボスへのダメージ 2倍 残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
+    // R461: adult mode joins the result and the countdown with 、 like the 半分 band (R422), with no space inside the phrase.
+    if (k === 'crack') return adult ? 'ボスへのダメージ2倍、残り' + sec + '秒' : 'ボスへの ダメージ 2ばい ' + sec;
     // R390: the label also says why the damage is half (the wall is hard, as ソラ's hint says), so it reads as a hint from the start.
     // R422: adult mode reads it as one sentence (壁が固く、…は半分), so the reason and the result do not run together as three words.
     if (k === 'half') return adult ? '壁が固く、ボスへのダメージは半分' : 'かたい かべ ボスへの ダメージ はんぶん';
