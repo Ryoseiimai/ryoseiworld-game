@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-28T23:58:42.346Z",
-  "branch": "claude/autodev-20261029-0822-R315",
-  "task": "R315 町の左下の案内「ドラッグで あるく」がおとなモードでもひらがなだったので、おとなでは「ドラッグで歩く」にした",
-  "summary": "町の左下の歩き方の案内を、おとなモードでは「ドラッグで歩く」にした\nこどもモードは今までどおりで、設定で切りかえるとすぐ変わることをテストで確かめた\n前と後のスクショを v5/verification に入れた",
-  "result": "pass",
-  "shots": [
-   "shots/547/mobile-02-mode-select.jpg",
-   "shots/547/mobile-15-custom-full-run.jpg",
-   "shots/547/mobile-27-chapter-2-play.jpg",
-   "shots/547/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "58f415f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/40790063381"
- },
- {
   "at": "2026-10-29T00:35:21.442Z",
   "branch": "claude/autodev-20261029-0921-R316",
   "task": "R316 町の上の案内「まちの ノイズを しずめよう」がおとなモードでもひらがなだったので、おとなでは「町のノイズを静めよう」にした（ミナモ・ネオン・塔も）",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "3e1b9b8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42495167234"
+ },
+ {
+  "at": "2026-11-08T17:40:35.517Z",
+  "branch": "claude/autodev-20261109-0221-R463",
+  "task": "R463 遊んで一番気になる所を1つ直す",
+  "summary": "カテイノジジョウ戦の始めの吹き出しを、操作の案内より上に通した\n吹き出しどうしの間はそのままにし、重ならないことを調べるテストを足した\n案内の間は下の吹き出しがボスの前を通るが、ボスも低い所にいるので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/805/mobile-02-mode-select.jpg",
+   "shots/805/mobile-19-custom-og-credit-card.jpg",
+   "shots/805/mobile-34-chapter-1-play.jpg",
+   "shots/805/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "fc56a4b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42504974141"
  }
 ]
