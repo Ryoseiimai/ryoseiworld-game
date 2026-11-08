@@ -201,7 +201,7 @@
         // R386: adult mode names the pickup 「自分のペース」 (noticeText paceItem), so Sora's hint quotes that name (R432: the whole adult line is now kanji-kana).
         // R427: the pickup is not on screen yet when the hint shows (paceAt 9 s), so the hint says its colour and what it does (もどる), not just 「とろう」. Two lines, 30 letters at most.
         // R432: the adult hint was kana in front and kanji in the quote, and 「よわる」 did not say what weakens; it now reads like the
-        // adult notices (down: 「数字に当たって 攻撃力が下がった」, pace: 「攻撃力が1段 戻った！」).
+        // adult notices (down: 「数字に当たって攻撃力が下がった」, pace: 「攻撃力が1段戻った！」 since R460).
         // R459: the adult hint alone had a space inside the sentence (数字に当たると 攻撃力), unlike the other adult hints (R454/R455); it is closed up.
         hintAdult: ['ソラ', '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で戻る'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
@@ -433,10 +433,12 @@
     if (k === 'made') return (adult ? 'ジブンに色が戻る (' : 'ジブンに いろが もどる (') + n + ')';
     if (k === 'voice') return (adult ? '守護霊がつながった (' : 'しゅごれいが つながった (') + n + ')';
     if (k === 'ready') return adult ? '特技が「みんなの声」に変わった！' : 'とくぎが「みんなの こえ」に かわった！'; // R330: the ゼロ fight, like the button label
-    if (k === 'down') return adult ? '数字に当たって 攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
+    // R460: the two adult notices of the ヒカクマオウ fight had a space inside the sentence, though the hint they echo
+    // was closed up in R459 (数字に当たると攻撃力が下がる); they are closed up too.
+    if (k === 'down') return adult ? '数字に当たって攻撃力が下がった' : 'すうじに あたって こうげきりょく が さがった';
     // R428: picking up the pace light before any number hit used to say 「1段 戻った」 though nothing had gone down.
     if (k === 'paceKeep') return adult ? '自分のペースで作った。\n攻撃力は下がっていない' : 'じぶんの ペースで つくった。\nこうげきりょく は さがって いない';
-    return adult ? '自分のペースで作った。\n攻撃力が1段 戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
+    return adult ? '自分のペースで作った。\n攻撃力が1段戻った！' : 'じぶんの ペースで つくった。\nこうげきりょく が 1だん もどった！';
   }
   function toast(w, text, dur) { if (text) w.toast = { text: String(text), t: w.t, dur: dur || 2.4 }; }
   function ticker(w, text) {
