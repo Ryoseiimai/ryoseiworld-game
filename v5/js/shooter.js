@@ -202,7 +202,8 @@
         // R427: the pickup is not on screen yet when the hint shows (paceAt 9 s), so the hint says its colour and what it does (もどる), not just 「とろう」. Two lines, 30 letters at most.
         // R432: the adult hint was kana in front and kanji in the quote, and 「よわる」 did not say what weakens; it now reads like the
         // adult notices (down: 「数字に当たって 攻撃力が下がった」, pace: 「攻撃力が1段 戻った！」).
-        hintAdult: ['ソラ', '数字に当たると 攻撃力が下がる。\n緑の「自分のペース」で戻る'],
+        // R459: the adult hint alone had a space inside the sentence (数字に当たると 攻撃力), unlike the other adult hints (R454/R455); it is closed up.
+        hintAdult: ['ソラ', '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で戻る'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
         win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },
