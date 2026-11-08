@@ -74,7 +74,8 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  summons:{owl:{name:'サーチフクロウ',frame:2,cost:10,boost:1.5,turns:2,desc:'よわみを みせる。\n2ターン ダメージ 1.5ばい。',descAdult:'弱みを見せる。\n2ターンの間ダメージ1.5倍。'/* R455: おとなの文に語の間の空白が残っていたので「の間」でつないだ */}},
  // The grandpa is the owl's person (STORY_V4.md, family). Hearts: waking the owl, the returned book, one onigiri.
  bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
- quests:{cleared:{text:'まちに こえが もどった。',adult:'町に声が戻った。'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
+// R463: the goal line ended with 「。」 only after the boss, while every other goal has none; the cleared lines dropped it.
+ quests:{cleared:{text:'まちに こえが もどった',adult:'町に声が戻った'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   zako:{text:'ミナモの ノイズを しずめよう {n}/{goal}',adult:'ミナモのノイズを静めよう {n}/{goal}',dest:'enemy'},
   key:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   battery:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},

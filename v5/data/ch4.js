@@ -50,7 +50,8 @@ RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔
  recruit:'kotoba',
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true,minamoCleared:true,neonVisited:true}},
  // R88: cleared shows during the rooftop scene; after the ending (towerEnded) the field points to what is left to play (チャレンジ opens from chapter 2 on).
- quests:{cleared:{text:'とうの なかが しずかに なった。',adult:'塔の中が静かになった。'},ended:{text:'メニューの チャレンジで あそぼう',adult:'メニューのチャレンジで遊ぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
+// R463: the goal line ended with 「。」 only after the boss, while every other goal has none; the cleared lines dropped it.
+ quests:{cleared:{text:'とうの なかが しずかに なった',adult:'塔の中が静かになった'},ended:{text:'メニューの チャレンジで あそぼう',adult:'メニューのチャレンジで遊ぼう',flag:'towerEnded'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   // R378: the goal points through the light pads to the rooftop gate (after ジブン, to ゼロの もん; see questDest).
   boss:{text:'とうの いちばん うえを めざそう',adult:'塔の一番上を目指そう',dest:{map:'tower_roof',id:'twr_gate'}},
