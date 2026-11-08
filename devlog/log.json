@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T08:09:12.057Z",
-  "branch": "claude/autodev-20261030-1621-R320",
-  "task": "R320 メニューの戻るボタンがおとなモードでも「もどる」だったので、おとなでは「戻る」にした（はじめてのゲームの「遊ぶ」「調べる」も）",
-  "summary": "メニューの戻るボタンを、おとなモードでは「戻る」にした\nはじめてのゲームの「遊ぶ」「調べる」も漢字にした。こどもモードは今までどおり\n手元のテストとスモークは全部通った。前と後のスクショを v5/verification に入れた",
-  "result": "fail",
-  "shots": [
-   "shots/562/mobile-02-mode-select.jpg",
-   "shots/562/mobile-15-custom-full-run.jpg",
-   "shots/562/mobile-27-chapter-2-play.jpg",
-   "shots/562/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "9395280",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41023206223"
- },
- {
   "at": "2026-10-30T08:50:54.109Z",
   "branch": "claude/autodev-20261030-1621-R320",
   "task": "R320 スモークのきずなの確認と test_v5 のボタン探しが「もどる」と「戻る」の両方を読めるようにした（前半。自動確認は main のスモークを使うので、ゲームより先に合流させる）",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "6f00efb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42531510971"
+ },
+ {
+  "at": "2026-11-08T23:50:44.107Z",
+  "branch": "claude/autodev-20261109-0821-R469",
+  "task": "R469 ボス戦の左下の「フク・ショット」に名前が無く、下のビートの印の列の名前にも見えたので、メニューと同じ「武器」を前に付けた",
+  "summary": "ボス戦の左下の武器の名前の前に「武器」（こどもは「ぶき」）を付けた\n確認役が挙げた「ソラの台詞が2つの箱に出る」は、2つまでの決まりどおりなので変えなかった\n武器が2つ以上でアイコンの時はラベルを付けなかった。鍵のブランチは指示で push できず飛ばした",
+  "result": "pass",
+  "shots": [
+   "shots/816/mobile-02-mode-select.jpg",
+   "shots/816/mobile-19-custom-og-credit-card.jpg",
+   "shots/816/mobile-34-chapter-1-play.jpg",
+   "shots/816/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3d9666f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42536173781"
  }
 ]
