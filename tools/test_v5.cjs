@@ -2081,7 +2081,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R128: the summon list in the menu read in hiragana in adult mode; it now reads descAdult there (SPEC_V7_MANABU.md 9), and kids mode keeps desc.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const st=r.g.state,S=r.g.GAME_DATA.summons,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
-  for(const [id,s] of Object.entries(S)){assert(s.descAdult,id+' has descAdult');assert(!/かいふく|なおす|おおダメージ|よわみ|みがわり|こうげき|ほぞん|たおれ|もどれる|てきの|やすませ|こえを|おおきな/.test(s.descAdult),id+': '+s.descAdult);fits(s.descAdult);fits(s.desc);}
+  for(const [id,s] of Object.entries(S)){assert(s.descAdult,id+' has descAdult');assert(!/かいふく|なおす|おおダメージ|よわみ|みがわり|こうげき|ほぞん|たおれ|もどれる|てきの|やすませ|こえを|おおきな/.test(s.descAdult),id+': '+s.descAdult);fits(s.descAdult);fits(s.desc);assert(!/ /.test(s.descAdult),'R455: おとなの説明に語の間の空白を残さない '+s.descAdult);}
+  assert.equal(S.owl.descAdult,'弱みを見せる。\n2ターンの間ダメージ1.5倍。');
   st.summons=Object.keys(S);r.click('menu-btn');r.button('召喚獣');let c=copy();assert(c.includes('弱みを見せる。')&&c.includes('今のHPを保存。')&&c.includes('HPを38回復。')&&!/よわみ|ほぞん|かいふく/.test(c),c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('しょうかんじゅう');c=copy();assert(c.includes('よわみを みせる。')&&c.includes('いまの HPを ほぞん。')&&!/弱み|保存/.test(c),c);}
  result.push('R128: おとなモードのメニューの召喚獣の説明を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
