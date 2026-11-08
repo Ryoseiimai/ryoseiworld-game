@@ -203,11 +203,12 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     r.tick();
     r.g.debugStartChapter(1);
     r.g.state.mode = 'kids';
+    r.RYW.setMode('kids');
     r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
     await r.g.save();
     r.tick(2700);
     const text = toast(r).textContent;
-    assert(text.startsWith('じっせき：ことばを 10こ あつめた') && !/: /.test(text), 'R451: the kids achievement toast reads じっせき：…: ' + text);
+    assert(text.startsWith('じっせき：ことばを 10こ あつめた') && !text.includes(':'), 'R451: the kids achievement toast reads じっせき：…: ' + text);
   }
   result.push('R451: 実績のお知らせが「実績：」「じっせき：」と全角のコロンで出る PASS');
 
