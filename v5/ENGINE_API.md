@@ -55,7 +55,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',/* … */maps
 quests:{
  zako:{text:'まちの ノイズを しずめよう {n}/{goal}',dest:'enemy'},        // {n} 倒した数、{goal} は zakoGoal。dest:'enemy' は今の章の町（town）のザコを指す
  key:{text:'としょかんで カギを もらおう',dest:{map:'minamo',id:'owl'}},   // dest は矢印の行き先（マップと物の id）
- cleared:{text:'まちに こえが もどった。'}
+ cleared:{text:'まちに こえが もどった'}
 }
 ```
 
