@@ -191,11 +191,25 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     const saveText = toast(r).textContent;
     assert(!saveText.startsWith('実績'), 'right after save() the toast is the save message, not the achievement one: ' + saveText);
     r.tick(2700);
-    assert(toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'the achievement toast follows once the save toast would have cleared: ' + toast(r).textContent);
+    assert(toast(r).textContent.startsWith('実績：言葉を10個集めた'), 'the achievement toast follows once the save toast would have cleared: ' + toast(r).textContent);
     r.tick(2700);
     assert(toast(r).hidden, 'the achievement toast clears on its own too');
   }
   result.push('og-achievement: the achievement toast uses #toast and waits for the save toast to clear before showing PASS');
+
+  // R451: the label reads 実績：… with a full-width colon like 今のモード：おとな; kids mode reads じっせき：….
+  {
+    const r = await runtime();
+    r.tick();
+    r.g.debugStartChapter(1);
+    r.g.state.mode = 'kids';
+    r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
+    await r.g.save();
+    r.tick(2700);
+    const text = toast(r).textContent;
+    assert(text.startsWith('じっせき：ことばを 10こ あつめた') && !/: /.test(text), 'R451: the kids achievement toast reads じっせき：…: ' + text);
+  }
+  result.push('R451: 実績のお知らせが「実績：」「じっせき：」と全角のコロンで出る PASS');
 
   // R401: a window open over the field (the challenge record, the menu) sat right under #toast and hid its heading,
   // so the achievement waits for the window to close.
@@ -214,7 +228,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     r.button('戻る');
     assert.equal(r.g.modal, '', 'the menu window closed');
     r.tick(600);
-    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'the achievement shows once the window closes: ' + toast(r).textContent);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績：言葉を10個集めた'), 'the achievement shows once the window closes: ' + toast(r).textContent);
   }
   result.push('og-achievement: the achievement toast waits while a window is open, then shows PASS');
 
@@ -228,7 +242,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     r.g.state.words.push('status', 'item', 'iap', 'wifi', 'hp', 'cast', 'jump', 'run', 'attack', 'save');
     await r.g.save();
     r.tick(2700);
-    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'the achievement is showing: ' + toast(r).textContent);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績：言葉を10個集めた'), 'the achievement is showing: ' + toast(r).textContent);
     r.click('menu-btn');
     assert.equal(r.g.modal, 'menu', 'a window opened while the achievement showed');
     assert(toast(r).hidden, 'the achievement no longer covers the window heading');
@@ -236,7 +250,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert(toast(r).hidden, 'it stays back while the window is open');
     r.button('戻る');
     r.tick(600);
-    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績: 言葉を10個集めた'), 'it shows again once the window closes: ' + toast(r).textContent);
+    assert(!toast(r).hidden && toast(r).textContent.startsWith('実績：言葉を10個集めた'), 'it shows again once the window closes: ' + toast(r).textContent);
     r.tick(2700);
     assert(toast(r).hidden, 'and clears on its own');
   }

@@ -44,7 +44,7 @@ RYW.registerOutGame?.({
  views:{
   about:{title:['このゲームについて','このゲームについて'],body:'credits',slot:'credit-card'},
   // R445: the band read 記録 5/12 while the challenge result also says 記録, so the count is named 実績 like the
-  // earned toast (実績: …); the window keeps both words because it shows the best challenge record above the list.
+  // earned toast (実績：…); the window keeps both words because it shows the best challenge record above the list.
   records:{title:['実績と記録','じっせきと きろく'],body:'records',slot:'records'}
  },
  // og-ending-epilogue: shown on the finale's THE END card and in the settings "このゲームについて" view.
