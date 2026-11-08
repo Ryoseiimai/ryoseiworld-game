@@ -765,11 +765,11 @@
         // faster and centered, so the usual two-bubble pattern gets a periodic accent instead of repeating forever unchanged.
         var chord = (m.waveCycle++ % 3 === 2) && !cracked && cyc >= 4 && cyc < 10;
         var count = chord ? 3 : n, amp = chord ? 30 : 48, lift = 0;
-        // R462: while the move hint is up, the whole wave is lifted so its lowest bubble (and its sway) stays above the hint's plate.
+        // R462: while the move hint is up, the whole wave is lifted so its lowest bubble (and its sway) stays above the hint's plate (26 is the box's half height, 14 its tail).
         // The bubbles keep their spacing, so their words sit neither on the hint's two lines nor on each other.
         if (w.state === 'play' && w.stateT < HINT_T) {
           var lowOff = chord ? 125 : n === 1 ? ((m.k + 1) % 2 ? 125 : -125) : 125;
-          lift = Math.max(0, clamp(b.y + lowOff, g.top + 70, g.bottom - 70) - (HINT_PLATE_T - 6 - 26 - amp));
+          lift = Math.max(0, clamp(b.y + lowOff, g.top + 70, g.bottom - 70) - (HINT_PLATE_T - 6 - 26 - 14 - amp));
         }
         for (var i = 0; i < count; i++) {
           var text = BUBBLE_WORDS[m.k++ % BUBBLE_WORDS.length], hw = (textW(text, 24) + 34) / 2;
