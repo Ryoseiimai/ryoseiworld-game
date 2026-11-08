@@ -1065,10 +1065,13 @@ async function browserAdapterChecks() {
 (() => {
   const old = globalThis.RYW.mode;
   globalThis.RYW.setMode('adult'); const a = sim.moveHintLines();
-  check('R314: おとなモードの移動の案内は漢字まじり', a[0] === '指を滑らせて動く' && a[1] === '矢印・WASDでも動く', a);
+  check('R314: おとなモードの移動の案内は漢字まじり', a[0] === 'ドラッグで動く' && a[1] === '矢印・WASDでも動く', a);
   check('R314: おとなの案内は案内の板（420px）に収まる', a.every(l => [...l].reduce((n, c) => n + (/[ -~]/.test(c) ? 15 : 24), 0) <= 400), a);
   globalThis.RYW.setMode('kids'); const k = sim.moveHintLines();
-  check('R314: こどもモードの移動の案内は今までどおり', k[0] === 'ゆびを すべらせて うごく' && k[1] === 'やじるし・WASD でも うごく', k);
+  check('R314: こどもモードの移動の案内はひらがな（R449 で「ドラッグで」に）', k[0] === 'ドラッグで うごく' && k[1] === 'やじるし・WASD でも うごく', k);
+  // R449: the field's walk help starts with ドラッグで (v5/index.html walk-help); the boss fight says the same, not 「指を滑らせて」.
+  const html = require('node:fs').readFileSync(require('node:path').join(__dirname, '../v5/index.html'), 'utf8');
+  check('R449: ボス戦の移動の案内も町と同じ「ドラッグで」で始まる', /<div id="walk-help" class="walk-help">ドラッグで/.test(html) && a[0].startsWith('ドラッグで') && k[0].startsWith('ドラッグで') && !/指|ゆび/.test(a[0] + k[0]), [a[0], k[0]]);
   globalThis.RYW.setMode(old || 'kids');
 })();
 

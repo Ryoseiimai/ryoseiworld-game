@@ -2554,7 +2554,8 @@
   }
 
   // R314: SPEC_V7_MANABU.md 9: the move hint reads in kanji in adult mode, like the battle and menu lines.
-  function moveHintLines() { return RYW.mode === 'adult' ? ['指を滑らせて動く', '矢印・WASDでも動く'] : ['ゆびを すべらせて うごく', 'やじるし・WASD でも うごく']; }
+  // R449: the field says 「ドラッグで歩く」 for the same move, and 「指を」 is wrong with a mouse, so the boss fight says ドラッグで too.
+  function moveHintLines() { return RYW.mode === 'adult' ? ['ドラッグで動く', '矢印・WASDでも動く'] : ['ドラッグで うごく', 'やじるし・WASD でも うごく']; }
 
   // R426: the band at the start of a boss fight is a screen notice, not a story line, so adult mode reads it in kanji (SPEC_V7_MANABU.md 9).
   function introFloatLines() { return RYW.mode === 'adult' ? ['フクの力で', 'キックボードが浮かんだ！'] : ['フクの ちからで', 'キックボードが うかんだ！']; }
