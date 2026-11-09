@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T13:00:24.834Z",
-  "branch": "claude/autodev-20261030-2126-R326",
-  "task": "R326 おとなモードのセーブがあっても、タイトルの「はじめから」「つづきから」と案内がひらがなだったので、おとなでは「始めから」「続きから」「続きは 第4章」などにした",
-  "summary": "おとなのセーブでタイトルの文字を漢字まじりにした\n消す前の確かめる窓も「始める」「前の記録は消えます」にした\n確認役が挙げた次の候補: ボス戦の上の欄・塔の札・きずなの字",
-  "result": "pass",
-  "shots": [
-   "shots/571/mobile-02-mode-select.jpg",
-   "shots/571/mobile-15-custom-full-run.jpg",
-   "shots/571/mobile-27-chapter-2-play.jpg",
-   "shots/571/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2c85a2c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41058255565"
- },
- {
   "at": "2026-10-30T14:03:44.704Z",
   "branch": "claude/autodev-20261030-2249-R327",
   "task": "R327 ボス戦の上の帯の「ボスへの ダメージ はんぶん」「きみの こうげき」がおとなモードでもひらがなだったので、おとなでは「ボスへのダメージ 半分」「あなたの攻撃」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "958146d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42575504512"
+ },
+ {
+  "at": "2026-11-09T08:03:29.037Z",
+  "branch": "claude/autodev-20261109-1626-R474",
+  "task": "R474 おとなモードの武器の名前が「if バリア」「ホーミング レター」とこども用の空きを残し、同じ画面の「フク・ショット」と食い違っていたので、おとなだけ「ifバリア」の形に詰めた",
+  "summary": "おとなモードの武器の名前の語の間の空きを詰めた（ifバリア・ホーミングレターなど8種）\nこどもモードは空いたままにし、おとなの武器の画面に半角の空きが無いことを確かめるテストを足した\n確認役が挙げた町の呼び方の揺れ（ミナモちょう／ミナモ）は、次の回に回した",
+  "result": "pass",
+  "shots": [
+   "shots/825/mobile-02-mode-select.jpg",
+   "shots/825/mobile-19-custom-og-credit-card.jpg",
+   "shots/825/mobile-34-chapter-1-play.jpg",
+   "shots/825/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b0b9bc7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42582129051"
  }
 ]
