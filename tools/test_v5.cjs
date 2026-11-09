@@ -2085,9 +2085,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R342: the map label above the goal reads 塔1F・図書館・屋上 in adult mode (the goal under it was already kanji); kids keep とう1F, and katakana names stay as they are.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
-  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋の奥','でんきやの おく'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1F','とう1F'],tower2:['塔2F','とう2F'],tower3:['塔3F','とう3F'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオンシティ','ネオンシティ'],minamo:['ミナモちょう','ミナモちょう'],town:['ヒダマリちょう','ヒダマリちょう']}; // R481: the towns read by the same full name as the chapter titles and goals
+  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋の奥','でんきやの おく'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1階','とう 1かい'],tower2:['塔2階','とう 2かい'],tower3:['塔3階','とう 3かい'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオンシティ','ネオンシティ'],minamo:['ミナモちょう','ミナモちょう'],town:['ヒダマリちょう','ヒダマリちょう']}; // R481: the towns read by the same full name as the chapter titles and goals
   for(const [map,[a,k]] of Object.entries(want)){const m=r.g.GAME_DATA.maps[map];r.g.debugWarp(map,m.spawn[0],m.spawn[1]);r.tick(300);while(r.g.dialogue)r.dialogue();r.tick(100);assert.equal(r.g.map,map);assert.equal(r.els.get('map-label').textContent,adult?a:k,mode+' '+map+' label');}}
- result.push('R342: おとなモードで地図名を「塔1F」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS');
+ result.push('R342/R484: おとなモードで地図名を「塔1階」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS');
+ // R484: no map label uses the English floor letter F; each tower floor label carries the same floor number as the map name (ノイズのとう Nかい).
+ {const r=await runtime();const M=r.g.GAME_DATA.maps;
+  for(const id of Object.keys(M)){const m=M[id];for(const l of [m.short,m.shortAdult])if(l)assert(!/[0-9]F$/.test(l),'R484: '+id+' label '+l);}
+  for(const n of [1,2,3]){const m=M['tower'+n];assert(m.name.endsWith(n+'かい'),m.name);assert.equal(m.short,'とう '+n+'かい');assert.equal(m.shortAdult,'塔'+n+'階');}}
+ result.push('R484: 塔の地図の見出しを「塔1F」から「塔1階」（こどもは「とう 1かい」）にし、地図の名前と階の書き方をそろえた PASS');
  // R466: the electric shop label read 電気屋・ジャンク (two words joined by a dot, unclear what place); it names the back room of the shop the town sign calls 電気屋.
  {const m=(await runtime()).g.GAME_DATA.maps.electric;assert.equal(m.shortAdult,'電気屋の奥');assert.equal(m.short,'でんきやの おく');assert(!/・/.test(m.shortAdult+m.short),'R466: no dot in the label');}
  result.push('R466: 電気屋の地図名を「電気屋・ジャンク」から「電気屋の奥」（こどもは「でんきやの おく」）にした PASS');
