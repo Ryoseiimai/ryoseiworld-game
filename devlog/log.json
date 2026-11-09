@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T15:16:53.632Z",
-  "branch": "claude/autodev-20261031-0002-R329",
-  "task": "R329 ジブン戦とゼロ戦のお知らせ「いろが もどる」「しゅごれいが つながった」と帯の「いろ」がおとなモードでもひらがなだったので、おとなでは「ジブンに色が戻る」「守護霊がつながった」「色」にした",
-  "summary": "ジブン戦とゼロ戦のお知らせを、おとなでは「ジブンに色が戻る」「守護霊がつながった」にした\nジブン戦の上の帯の「いろ」も、おとなでは「色」にした\n確認役の指摘で、ボスの名前の「ジブン」はカタカナのまま残した",
-  "result": "pass",
-  "shots": [
-   "shots/575/mobile-02-mode-select.jpg",
-   "shots/575/mobile-15-custom-full-run.jpg",
-   "shots/575/mobile-27-chapter-2-play.jpg",
-   "shots/575/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f45f279",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41077305821"
- },
- {
   "at": "2026-10-30T15:58:30.086Z",
   "branch": "claude/autodev-20261031-0043-R330",
   "task": "R330 ボス戦のとくぎボタンの「みんなの こえ」「こえ 2/6」「フク やすみ」などと、ゼロ戦の「とくぎが「みんなの こえ」に かわった！」がおとなモードでもひらがなだったので、おとなでは「みんなの声」「声 2/6」「フク 休み」「特技が「みんなの声」に変わった！」などにした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "db6a1ad",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601182766"
+ },
+ {
+  "at": "2026-11-09T10:51:02.956Z",
+  "branch": "claude/autodev-20261109-1922-R477",
+  "task": "R477 こどもモードの町の案内だけ「矢印 / WASD でも あるく」と漢字と「/」で、ボス戦の「やじるし・WASD でも うごく」と食い違っていたので、「やじるし・WASDで あるく」にした",
+  "summary": "こどもモードの町の案内を「やじるし・WASDで あるく」にし、ボス戦の書き方にそろえた\n確認役が「はなす」ボタンとの空きが4pxと挙げたので「でも」を外し、空きを26pxにした\n前と後の画面はPCの幅のこどもモードで撮って確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/829/mobile-02-mode-select.jpg",
+   "shots/829/mobile-19-custom-og-credit-card.jpg",
+   "shots/829/mobile-34-chapter-1-play.jpg",
+   "shots/829/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "530b89b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601791226"
  }
 ]
