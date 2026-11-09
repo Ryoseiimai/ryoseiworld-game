@@ -89,7 +89,9 @@ module.exports = async function credit({ runtime, result, assert }) {
     r.g.debugStartChapter(1); // off the title screen, so adult() reads g.mode (adult by default) and not the absent save
     assert(r.g.debugMusic().loaded.includes('town'), 'a track decoded before the credits are read');
     const [noAnime] = OG(r).cards('credits');
-    assert(noAnime.copy.includes('音楽の一部は Google の Lyria で'), 'the Lyria line shows once a recording exists: ' + noAnime.copy);
+    assert(noAnime.copy.includes('音楽の一部はGoogleのLyriaで'), 'the Lyria line shows once a recording exists: ' + noAnime.copy);
+    // R473: the adult Lyria line has no half-width gap between words, like the title's 「AIを学ぶRPG」 (R472).
+    assert(!/ /.test(noAnime.copy.split('\n').find(l => l.includes('Lyria'))), 'R473: the adult Lyria line has no half-width gap: ' + noAnime.copy);
     assert(!noAnime.copy.includes('アニメ第1話もあります'), 'no anime line while links.anime is empty: ' + noAnime.copy);
 
     const restore = OG(r)._sim.setLinks({ anime: STAND_IN_ANIME });

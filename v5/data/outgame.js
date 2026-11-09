@@ -52,7 +52,8 @@ RYW.registerOutGame?.({
  // 390px width (design_final.md 4節7: the old auto-wrap split 作/りました).
  credits:{eyebrow:'THE END',heading:['ありがとう','ありがとう'],lines:[
   {text:['作った人 RYOSEIWORLD','つくった ひと RYOSEIWORLD']},
-  {text:['音楽の一部は Google の Lyria で\n作りました','おんがくの いちぶは Google の Lyria で\nつくりました'],when:{music:true}},
+  // R473: おとなの文だけ「Google の Lyria で」と語の間が空き、R472 で詰めたタイトルの「AIを学ぶRPG」や「Xで投稿」と食い違ったので詰める（こどもは空いたまま）
+  {text:['音楽の一部はGoogleのLyriaで\n作りました','おんがくの いちぶは Google の Lyria で\nつくりました'],when:{music:true}},
   {text:['アニメ第1話もあります','アニメ だい1わも あります'],when:{link:'anime'}}
  ]},
  // 12 rows. `secret` ones show '？？？' until earned (js/outgame.js BODY.records). `when` never uses
