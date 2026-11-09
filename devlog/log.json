@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T20:43:01.788Z",
-  "branch": "claude/autodev-20261031-0521-R336",
-  "task": "R336 町のお知らせ「この たんまつに ほぞんした」「むこうを むいて、もう いちど」「コンビニで じゅうでん できるよ」がおとなモードでもひらがなだったので、おとなでは「この端末に保存した」「向こうを向いて、もう一度」「コンビニで充電できるよ」などにした",
-  "summary": "町の保存のお知らせを、おとなでは「この端末に保存した」などの漢字まじりにした\n「向こうを向いて、もう一度」と「コンビニで充電できるよ」も同じにした\nこどもモードはひらがなのまま残し、両方をテストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/583/mobile-02-mode-select.jpg",
-   "shots/583/mobile-15-custom-full-run.jpg",
-   "shots/583/mobile-27-chapter-2-play.jpg",
-   "shots/583/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "51cdd59",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41123695541"
- },
- {
   "at": "2026-10-30T21:45:21.574Z",
   "branch": "claude/autodev-20261031-0621-R337",
   "task": "R337 バスと電車の行き先の画面「でんしゃ」「どこへ いく？」がおとなモードでもひらがなだったので、おとなでは「電車」「どこへ行く？」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "19cbd3c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42656071603"
+ },
+ {
+  "at": "2026-11-09T17:46:12.563Z",
+  "branch": "claude/autodev-20261110-0221-R484",
+  "task": "R484 塔の地図の見出しだけ「塔1F」と英字のFで、地図の名前「ノイズのとう 1かい」や「屋上」と書き方が違ったので、「塔1階」（こどもは「とう 1かい」）にした",
+  "summary": "塔の見出しが「塔1F」と英字で、地図の名前の「1かい」と違った\n見出しを「塔1階」にし、こどもモードは「とう 1かい」にした\n見出しに英字のFが無いことを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/838/mobile-02-mode-select.jpg",
+   "shots/838/mobile-19-custom-og-credit-card.jpg",
+   "shots/838/mobile-34-chapter-1-play.jpg",
+   "shots/838/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "47c7664",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42665509141"
  }
 ]
