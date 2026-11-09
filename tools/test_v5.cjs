@@ -468,7 +468,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // chapterClear saves at the head of the next chapter and the card button starts it; without a next chapter it goes to the title.
   D.chapters[2]={title:'テスト',town:'store',start:['store',5,10],boss:'none',quests:D.chapters[1].quests,zakoGoal:3,keyFlag:'key',serverItem:'battery',recruit:'code'};
   r.g.debugWarp('town',8,27);r.g.debugEvent([{chapterClear:true},{flag:'ch2go'}]);assert.equal(r.g.screen,'ending');assert(r.els.get('ending-heading').textContent.includes('2しょう'));
-  assert.equal(r.els.get('ending-title').textContent,'つぎの しょうへ');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 01 COMPLETE');await settle();assert.equal(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).chapter,2,'saved at chapter 2');
+  assert.equal(r.els.get('ending-title').textContent,'つぎの しょうへ');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 1 COMPLETE');await settle();assert.equal(JSON.parse(r.saved.get('ryoseiworld-rpg-v5')).chapter,2,'saved at chapter 2');
   r.click('ending-title');assert.equal(r.g.screen,'field');assert.equal(r.g.chapter,2);assert.equal(r.g.map,'store');assert(flags.ch2go);assert.equal(flags.zakoWins,0,'noise count starts over');
   r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');assert.equal(r.els.get('ending-heading').textContent,'おしまい');assert.equal(r.els.get('ending-eyebrow').textContent,'THE END');assert(!r.els.get('ending-copy').textContent.includes('あかりが'));
   assert.equal(r.els.get('ending-title').textContent,'タイトルへ');r.click('ending-title');assert.equal(r.g.screen,'title');}
@@ -696,7 +696,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.screen,'shooter','boss fight starts');const run=r.shooterRuns[r.shooterRuns.length-1].cfg;assert.equal(run.boss,'kateino');assert.equal(run.lines.intro[1],'しょうらい\nどうするの？');run.onWin({boss:'kateino',seconds:150,hearts:2,maxHearts:3,hurts:1});r.tick(2500);const read=[];for(let i=0;i<120;i++){if(r.g.dialogue){const l=r.g.dialogue.lines.map(l=>l[1]).join('/');if(read[read.length-1]!==l)read.push(l);r.click('dialogue');}r.tick(200);}
   assert(r.g.state.bosses.includes('kateino'),'kateino beaten');assert(r.g.state.flags.minamoCleared,'park scene plays');assert(read.join('\n').includes('すごいじゃない'),read.join('|'));assert(read.join('\n').includes('でんしゃに のった'),'RYOSEI rides the train');
   // R37: the park scene ends with the chapter card, and its button starts chapter 3 at the ネオンシティ station.
-  assert.equal(r.g.screen,'ending','chapter card after the park');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 02 COMPLETE');assert(r.els.get('ending-heading').textContent.includes('3しょう')&&r.els.get('ending-heading').textContent.includes('ネオンシティ'),r.els.get('ending-heading').textContent);
+  assert.equal(r.g.screen,'ending','chapter card after the park');assert.equal(r.els.get('ending-eyebrow').textContent,'CHAPTER 2 COMPLETE');assert(r.els.get('ending-heading').textContent.includes('3しょう')&&r.els.get('ending-heading').textContent.includes('ネオンシティ'),r.els.get('ending-heading').textContent);
   await settle();{const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.equal(sv.chapter,3,'saved at chapter 3');assert(sv.flags.minamoCleared&&sv.flags.neonVisited);}
   r.click('ending-title');assert.equal(r.g.screen,'field');assert.equal(r.g.chapter,3);assert.equal(r.g.map,'neon');assert(r.g.state.towns.includes(3));
   assert(talk(r,'neon',11.4,14.7).includes('ネオンシティ'),'station square sign');while(r.g.dialogue)r.dialogue();
@@ -3131,8 +3131,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS');
  // R431: the smoke card for CHAPTER 02 used chapter 3's closing words (雲の門から…); it now reads chapter 2's chapterClear copy from the data.
  {const m=html.match(/'chapter-card':\(\)=>\{[^\n]*?OG\(\)\?\.mount\('chapter-card'/);assert(m,'R431: chapter-card opener found');
-  assert(m[0].includes("'CHAPTER 02 COMPLETE'")&&m[0].includes('GAME_DATA.events.minamoPark')&&!m[0].includes('雲の門')&&!m[0].includes('くもの もん'),'R431: the CHAPTER 02 card takes chapter 2 words: '+m[0]);}
- result.push('R431: 確認用の CHAPTER 02 の札が、2章の終わりの文を出す PASS');
+  assert(m[0].includes("'CHAPTER 2 COMPLETE'")&&m[0].includes('GAME_DATA.events.minamoPark')&&!m[0].includes('雲の門')&&!m[0].includes('くもの もん'),'R431: the CHAPTER 2 card takes chapter 2 words: '+m[0]);}
+ result.push('R431: 確認用の CHAPTER 2 の札が、2章の終わりの文を出す PASS');
+ // R471: the chapter card's eyebrow wrote the number as 「02」 next to 「第3章」; every place now writes it without a leading 0.
+ {assert(!/CHAPTER 0\d COMPLETE['`<]/.test(html),'R471: no CHAPTER 0N left in the page');assert(!/CHAPTER \$\{String\(g\.chapter\)\.padStart/.test(html),'R471: the chapter number is not padded');
+  assert((html.match(/`CHAPTER \$\{g\.chapter\} COMPLETE`/g)||[]).length===2,'R471: both chapter cards write CHAPTER N COMPLETE');}
+ result.push('R471: 章の終わりの札が「CHAPTER 2 COMPLETE」と0を付けずに章の番号を出す PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
