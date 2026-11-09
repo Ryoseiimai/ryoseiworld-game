@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T08:50:54.109Z",
-  "branch": "claude/autodev-20261030-1621-R320",
-  "task": "R320 スモークのきずなの確認と test_v5 のボタン探しが「もどる」と「戻る」の両方を読めるようにした（前半。自動確認は main のスモークを使うので、ゲームより先に合流させる）",
-  "summary": "R320 は自動確認で落ちた。自動確認は main のスモークを使い、そこは「もどる」しか探さないため\n今回は、スモークと test_v5 が「戻る」も読めるようにする変更だけを残し、ゲームの文字は元に戻した\nゲームを「戻る」にする作業は R321 に分けた。test_v5 の button('もどる') がこどもでも「戻る」を通す点は R321 で確かめる",
-  "result": "pass",
-  "shots": [
-   "shots/563/mobile-02-mode-select.jpg",
-   "shots/563/mobile-15-custom-full-run.jpg",
-   "shots/563/mobile-27-chapter-2-play.jpg",
-   "shots/563/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "953680e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41027830402"
- },
- {
   "at": "2026-10-30T09:44:31.210Z",
   "branch": "claude/autodev-20261030-1821-R321",
   "task": "R321 メニューの戻るボタンを、おとなモードでは「戻る」にする（後半。はじめてのゲームの「遊ぶ」「調べる」も。v5/index.html に backLabel() を足し、メニューの text:'もどる' をそれに替える。test_v5 に、おとなは「戻る」、こどもは「もどる」の確認を足す）",
@@ -2998,5 +2983,20 @@
   ],
   "sha": "3d9666f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42536173781"
+ },
+ {
+  "at": "2026-11-09T01:07:46.829Z",
+  "branch": "claude/autodev-20261109-0941-R470",
+  "task": "R470 ボス戦のビートのひとことだけ「たたこう」で、同じ戦いのノーツの「押そう」と食い違っていたので、「押そう」（こどもは「おして」）にそろえた",
+  "summary": "ボス戦のビートのひとことを「「ビート」を押そう」（こどもは「おして」）にした\n同じ戦いのノーツのひとことと同じ動詞かを確かめるテストを足した\n確認役の2〜5番目の候補（町の名前の長さ・電池の％など）は次の回に回した",
+  "result": "pass",
+  "shots": [
+   "shots/817/mobile-02-mode-select.jpg",
+   "shots/817/mobile-19-custom-og-credit-card.jpg",
+   "shots/817/mobile-34-chapter-1-play.jpg",
+   "shots/817/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8fafdd1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42542619056"
  }
 ]
