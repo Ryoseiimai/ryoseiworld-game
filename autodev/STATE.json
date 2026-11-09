@@ -5,7 +5,7 @@
     "branch": "claude/autodev-20261110-0221-R484",
     "attempts": 1,
     "conflicts": 0,
-    "retriggers": 0,
+    "retriggers": 1,
     "started_at": "2026-11-10T02:21:28+09:00"
   },
   "history": [
