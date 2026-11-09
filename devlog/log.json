@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T14:16:41.616Z",
-  "branch": "claude/autodev-20261030-2249-R327",
-  "task": "R327 ボス戦の上の帯の「ボスへの ダメージ はんぶん」「きみの こうげき」がおとなモードでもひらがなだったので、おとなでは「ボスへのダメージ 半分」「攻撃力」にした",
-  "summary": "ボス戦の上の帯の字を、おとなでは「ボスへのダメージ 半分」「2倍 残り10秒」にした\nヒカクマオウ戦の「きみの こうげき」は、おとなではステータスと同じ「攻撃力」にした\n字の収まりの確認を、おとなとこどもの両方の字で測るようにした",
-  "result": "pass",
-  "shots": [
-   "shots/573/mobile-02-mode-select.jpg",
-   "shots/573/mobile-15-custom-full-run.jpg",
-   "shots/573/mobile-27-chapter-2-play.jpg",
-   "shots/573/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2602daa",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41067466194"
- },
- {
   "at": "2026-10-30T15:02:03.187Z",
   "branch": "claude/autodev-20261030-2344-R328",
   "task": "R328 ヒカクマオウ戦などのお知らせ「こうげきりょく が さがった」「ひびが はいった」がおとなモードでもひらがなだったので、おとなでは「攻撃力が下がった」「ひびが入った」などにした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "82b7482",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42587912907"
+ },
+ {
+  "at": "2026-11-09T10:01:54.812Z",
+  "branch": "claude/autodev-20261109-1822-R476",
+  "task": "R476 チャレンジの記録の大人の行が「今回ステージ1」「最高コンボ48」と項目名と数字がくっつき1つの名前にも読めたので、「最高ステージ：12」の形にした",
+  "summary": "おとなモードのチャレンジの記録を「今回ステージ：1」「最高コンボ：48」の形にした\nこどもモードはそのままにし、テストの期待する文を直してR476の確かめを足した\n確認役が挙げた「歩く」と「動く」や括弧の種類の違いは、次の回の候補に残した",
+  "result": "pass",
+  "shots": [
+   "shots/827/mobile-02-mode-select.jpg",
+   "shots/827/mobile-19-custom-og-credit-card.jpg",
+   "shots/827/mobile-34-chapter-1-play.jpg",
+   "shots/827/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "98b7193",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42595816587"
  }
 ]
