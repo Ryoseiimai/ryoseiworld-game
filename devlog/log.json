@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T10:15:34.658Z",
-  "branch": "claude/autodev-20261030-1845-R322",
-  "task": "R322 デバッグモードとチャレンジの「はじめる」がおとなモードでもひらがなだったので、おとなでは「始める」にする",
-  "summary": "おとなモードのデバッグモードとチャレンジの「はじめる」を「始める」にし、こどもは「はじめる」のままにした\ntest_v5 のボタン探しが「はじめる」で「始める」も見つけるようにし、おとなとこどもの確認を足した\n「もっているか たしかめる」はおとなでもひらがなのまま残っている",
-  "result": "pass",
-  "shots": [
-   "shots/567/mobile-02-mode-select.jpg",
-   "shots/567/mobile-15-custom-full-run.jpg",
-   "shots/567/mobile-27-chapter-2-play.jpg",
-   "shots/567/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bc3cca7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41037113878"
- },
- {
   "at": "2026-10-30T10:43:04.522Z",
   "branch": "claude/autodev-20261030-1921-R323",
   "task": "R323 デバッグモードの「ひらく」「もっているか たしかめる」がおとなモードでもひらがなだったので、おとなでは「開く」「持っているか確かめる」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "6932137",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42543025421"
+ },
+ {
+  "at": "2026-11-09T02:55:13.930Z",
+  "branch": "claude/autodev-20261109-1124-R471",
+  "task": "R471 章の終わりの札の小見出しが「CHAPTER 02 COMPLETE」と0付きで、すぐ下の「第3章」と数字の書き方が食い違っていたので、「CHAPTER 2 COMPLETE」にした",
+  "summary": "章の終わりの札の小見出しを「CHAPTER 2 COMPLETE」と0を付けずに出すようにした\n0付きの表記が残っていないかを確かめるテストを足した\n前と後のスクショは手元の smoke で撮り、確認役は大きな問題なしとした",
+  "result": "pass",
+  "shots": [
+   "shots/820/mobile-02-mode-select.jpg",
+   "shots/820/mobile-19-custom-og-credit-card.jpg",
+   "shots/820/mobile-34-chapter-1-play.jpg",
+   "shots/820/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ad785f7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42552269562"
  }
 ]
