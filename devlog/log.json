@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T09:44:31.210Z",
-  "branch": "claude/autodev-20261030-1821-R321",
-  "task": "R321 メニューの戻るボタンを、おとなモードでは「戻る」にする（後半。はじめてのゲームの「遊ぶ」「調べる」も。v5/index.html に backLabel() を足し、メニューの text:'もどる' をそれに替える。test_v5 に、おとなは「戻る」、こどもは「もどる」の確認を足す）",
-  "summary": "おとなモードのメニューの戻るボタンを「戻る」にし、こどもは「もどる」のままにした\nはじめてのゲームの「遊ぶ」「調べる」も、おとなでは漢字にした。テストとスモークは手元で通った\n「はじめる」「やめる」と、はじめてのゲームの中の「もどる」はひらがなのまま残っている",
-  "result": "pass",
-  "shots": [
-   "shots/565/mobile-02-mode-select.jpg",
-   "shots/565/mobile-15-custom-full-run.jpg",
-   "shots/565/mobile-27-chapter-2-play.jpg",
-   "shots/565/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "081d5e0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41034315288"
- },
- {
   "at": "2026-10-30T10:05:40.308Z",
   "branch": "claude/autodev-20261030-1845-R322",
   "task": "R322 デバッグモードとチャレンジの「はじめる」がおとなモードでもひらがなだったので、おとなでは「始める」にする",
@@ -2998,5 +2983,15 @@
   ],
   "sha": "8fafdd1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42542619056"
+ },
+ {
+  "at": "2026-11-09T01:19:49.866Z",
+  "branch": "claude/autodev-20261109-0922-R470",
+  "task": "R470 おとなの武器の画面の名前が「当たり判定 チップ」「if バリア」と子ども用の空きのままで、ことばノートの「ifバリア」と食い違っていたので、空きを外した",
+  "summary": "おとなモードの武器名から子ども用の空きを外した（「ifバリア」「当たり判定チップ」など）\nこどもに切り替えた時、武器の画面で名前だけおとなのまま残る所も直し、テストを足した\n確認役の指摘は重大なものなし。こどもモードの名前は今のまま",
+  "result": "conflict",
+  "shots": [],
+  "sha": "19c9747",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42543025421"
  }
 ]
