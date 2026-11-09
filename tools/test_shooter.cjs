@@ -29,7 +29,7 @@ check('words.jsなしでも旧名で動く', legacyShooter._sim.WEAPONS[0].name 
 check('新しい武器名8種（こどもモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','あたりはんてい チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
 // SPEC_V7_MANABU.md 9・9.1: weapon names follow RYW.mode, so an adult-mode game session shows adult words here too.
 globalThis.RYW.setMode('adult'); Shooter.syncWeaponNames();
-check('新しい武器名8種（おとなモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウン チップ','ベクトル チップ','当たり判定 チップ','if バリア','ライフ+1 おにぎり','ホーミング レター','フクの チャージショット'].join('|'));
+check('新しい武器名8種（おとなモード）', sim.WEAPONS.map(w => w.name).join('|') === ['フク・ショット','クールダウンチップ','ベクトルチップ','当たり判定チップ','ifバリア','ライフ+1おにぎり','ホーミングレター','フクのチャージショット'].join('|'));
 globalThis.RYW.setMode('kids'); Shooter.syncWeaponNames();
 globalThis.RYW.setMode('adult');
 check('R122: おとなモードの待ち時間は「秒」で出す', Shooter.cooldownLabel() === sim.FIRE_INTERVAL.toFixed(2) + '→' + sim.RAPID_INTERVAL.toFixed(2) + '秒');

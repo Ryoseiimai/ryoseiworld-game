@@ -1813,7 +1813,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const mode of ['adult','kids']){const adult=mode==='adult';const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const all=[];r.g.debugEvent([{bond:'mother',n:3}]);while(r.g.dialogue){all.push(...r.g.dialogue.lines.map(l=>l[1]));r.click('dialogue');}const text=all.join('\n');
   // R372: the adult name is お母さん (adultName).
-  const want=adult?['お母さんとの\nきずなが深まった！','お母さんの守護霊が\n力を貸してくれた！\n〔if バリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
+  const want=adult?['お母さんとの\nきずなが深まった！','お母さんの守護霊が\n力を貸してくれた！\n〔ifバリア〕','お小遣いを\n100円もらった。']:['おかあさんとの\nきずなが ふかまった！','おかあさんの 守護霊が\nちからを かしてくれた！\n〔if バリア〕','おこづかいを\n100えん もらった。'];
   for(const w of want)assert(text.includes(w),mode+' R352 '+w+' in '+text);
   if(adult)assert(!/ふかまった|ちからを かして|えん もらった|おこづかい/.test(text),'R352 adult has no kana bond line '+text);else assert(!/深まった|力を貸して|円もらった|お小遣い/.test(text),'R352 kids keep kana '+text);
   for(const row of text.split('\n'))assert(wide(row)<=12,'R352 row fits '+row);
@@ -2118,9 +2118,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R457: おとなの文（menuLabel の1つ目）は、ほかの文（「出どころがない！」など）と同じく「！」「？」の後に空白を入れない
   {const src=require('fs').readFileSync(require('path').join(__dirname,'../v5/index.html'),'utf8'),adult=[...src.matchAll(/menuLabel\((?:'([^'\n]*)'|`([^`]*)`)/g)].map(m=>m[1]??m[2]),bad=adult.filter(a=>/[！？][ 　]/.test(a));assert(src.includes("menuLabel('デバッグ！HPが戻った。\\n表示バグも直った！'")&&src.includes("menuLabel('弱みが見えた！'+s.boost")&&bad.length===0,'R457: おとなの文で「！」「？」の後に空白がある '+bad.join(' / '));}
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('武器');c=copy();assert(c.includes('全部そろった！'),c);
+  // R470: おとなの武器名は語の間に空白を入れない（「ifバリア」「当たり判定チップ」）。ことばノートの RYW.WHERE_ADULT「ボス戦のifバリア」と同じ
+  {const names=Object.values(D.weapons).map(w=>w.name);assert(names.every(n=>!/ /.test(n))&&c.includes('〔ifバリア〕')&&c.includes('〔当たり判定チップ〕')&&c.includes('〔ホーミングレター〕'),'R470: おとなの武器名に空白 '+names.join('/'));}
   for(const w of Object.values(D.weapons)){assert(w.desc&&c.includes(w.desc),w.name+' desc');assert(!/[ぁ-ん]{2,} [ぁ-ん]{2,}/.test(w.desc),'adult desc reads in kanji: '+w.desc);}
   assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で張り直す')&&!D.weapons.barrier.desc.includes('戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
-  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);fits(c);}
+  st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);assert(c.includes('〔if バリア〕')&&c.includes('〔ホーミング レター〕'),'R470: こどもの武器名は空白のまま '+c);fits(c);}
  result.push('R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS');
  // R122: the bonds menu hints read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
