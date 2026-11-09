@@ -3104,9 +3104,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R429: ボス戦のノーツのひとことが、スマホ幅で1行に収まる PASS');
  // R433: the first boss hint (ビート) said 「ビートに合わせて押してみて」 without naming what to press. It now names the 「ビート」 button, keeps the meaning (曲の刻み) and stays within 19 letters like R429.
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/beat:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
-  assert([...m[1]].length<=19,'R433: adult ビート hint fits one line on a phone: '+m[1]);assert(/刻み/.test(m[1])&&/「ビート」をたたこう$/.test(m[1]),'R433: adult ビート hint says 刻み and names the button: '+m[1]);
-  assert(/ビートを たたこう$/.test(m[2])&&!/おそう/.test(m[2]),'R433: kids ビート hint names the button: '+m[2]);}
+  assert([...m[1]].length<=19,'R433: adult ビート hint fits one line on a phone: '+m[1]);assert(/刻み/.test(m[1])&&/「ビート」を押そう$/.test(m[1]),'R433/R470: adult ビート hint says 刻み and names the button: '+m[1]);
+  assert(/ビートを おして$/.test(m[2])&&!/おそう/.test(m[2]),'R433/R470: kids ビート hint names the button: '+m[2]);}
  result.push('R433: ボス戦のビートのひとことが、押すボタン「ビート」を言う PASS');
+ // R470: the ビート hint said たたこう while the ノーツ hint in the same fight said 押そう for the same button. Both now use the same verb in each mode.
+ {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),b=words.match(/beat:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/),n=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
+  const verb=t=>(t.match(/(押そう|おして|たたこう|たたいて)$/)||[])[1];
+  assert.equal(verb(b[1]),verb(n[1]),'R470: adult ビート and ノーツ hints use the same verb: '+b[1]+' / '+n[1]);
+  assert.equal(verb(b[2]),verb(n[2]),'R470: kids ビート and ノーツ hints use the same verb: '+b[2]+' / '+n[2]);
+  assert(!/たた/.test(b[1]+b[2]+n[1]+n[2]),'R470: no たたく for the ビート button');}
+ result.push('R470: ボス戦のビートとノーツのひとことが、同じ「押す」で言う PASS');
  // R467: the first-battle card 「HP / 0になると倒れる」 sat under the enemy HP bar and started with a number, so it was unclear what HP is. It now says 残りの体力 first.
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/hp:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);
   assert(/^残りの体力。/.test(m[1])&&/0になると倒れる$/.test(m[1])&&[...m[1]].length<=19,'R467: adult HP hint says 残りの体力 first and fits one line: '+m[1]);
