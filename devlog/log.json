@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T15:58:30.086Z",
-  "branch": "claude/autodev-20261031-0043-R330",
-  "task": "R330 ボス戦のとくぎボタンの「みんなの こえ」「こえ 2/6」「フク やすみ」などと、ゼロ戦の「とくぎが「みんなの こえ」に かわった！」がおとなモードでもひらがなだったので、おとなでは「みんなの声」「声 2/6」「フク 休み」「特技が「みんなの声」に変わった！」などにした",
-  "summary": "とくぎボタンの字を、おとなでは「みんなの声」「声 2/6」「フク 休み」「切れた！」などにした\nゼロ戦で声が全部そろった時のお知らせも、おとなでは「特技が「みんなの声」に変わった！」にした\n確認役の指摘で「ためる」は常用漢字でない「溜」を使わず、ひらがなのまま残した",
-  "result": "pass",
-  "shots": [
-   "shots/576/mobile-02-mode-select.jpg",
-   "shots/576/mobile-15-custom-full-run.jpg",
-   "shots/576/mobile-27-chapter-2-play.jpg",
-   "shots/576/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "03cdfd1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41084290517"
- },
- {
   "at": "2026-10-30T16:13:55.965Z",
   "branch": "claude/autodev-20261031-0059-R331",
   "task": "R331 ボス戦の一時停止の「ひとやすみ」と負けた後の「すぐ やりなおす」「まちに もどる」がおとなモードでもひらがなだったので、おとなでは「一休み」「すぐやり直す」「町に戻る」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "530b89b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601791226"
+ },
+ {
+  "at": "2026-11-09T12:10:17.607Z",
+  "branch": "claude/autodev-20261109-2023-R478",
+  "task": "R478 カテイノジジョウ戦の大人モードだけソラのヒントが「かべは かたい」とひらがなで、すぐ上の帯「壁が固く、」と食い違っていたので、「壁は固い。右下の…」と漢字かな交じりにした",
+  "summary": "カテイノジジョウ戦の大人モードのソラとフクロウのヒントを漢字かな交じりにした\n確認役が挙げた、比べる相手の無いテストを、ヒントのあるジブン戦と比べる形に直した\nジブン戦とゼロ戦のヒントも大人モードでひらがななので、次の件として足した",
+  "result": "pass",
+  "shots": [
+   "shots/832/mobile-02-mode-select.jpg",
+   "shots/832/mobile-19-custom-og-credit-card.jpg",
+   "shots/832/mobile-34-chapter-1-play.jpg",
+   "shots/832/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ff92295",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42612861143"
  }
 ]
