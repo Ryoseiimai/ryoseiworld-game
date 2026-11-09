@@ -2456,7 +2456,8 @@
     // It stops 4px before the skill button (left 338, top 834), which sits on the same row.
     var lx = ix + (p.barrier && ix < 320 ? 44 : 0), life = word('life', 'ライフ');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-    if (lx + ctx.measureText(life).width + 3 <= 334) outlinedText(ctx, life, lx, y0 + 18, '#ffb3c2');
+    // R480: the label sat at the hearts' top (y0+18) and read like a superscript; heartPath spans y-0.03s..y+0.8s, so its middle is y+0.38s.
+    if (lx + ctx.measureText(life).width + 3 <= 334) outlinedText(ctx, life, lx, y0 + 18 + size * 0.38, '#ffb3c2');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
 
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
