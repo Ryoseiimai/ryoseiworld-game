@@ -109,7 +109,9 @@
   // Weapon names follow RYW.mode (SPEC_V7_MANABU.md 9・9.1), so this recomputes on every syncWeaponNames() call, not just once at load.
   function syncWeaponNames() {
     if (typeof RYW.word !== 'function') return;
-    var names = { fuku: 'フク・' + RYW.word('shot'), rapid: RYW.word('cooldown') + ' チップ', twin: RYW.word('vector') + ' チップ', rainbow: RYW.word('hitbox') + ' チップ', barrier: RYW.word('if') + ' バリア', onigiri: RYW.word('life') + '+1 おにぎり', letter: RYW.word('homing') + ' レター', charge: 'フクの ' + RYW.word('charge') + 'ショット' };
+    // R474: おとなの名前は語の間を詰める（ことばノートの「ボス戦のifバリア」「ボス戦のホーミングレター」と同じ）。こどもは空いたまま
+    var sp = RYW.mode === 'adult' ? '' : ' ';
+    var names = { fuku: 'フク・' + RYW.word('shot'), rapid: RYW.word('cooldown') + sp + 'チップ', twin: RYW.word('vector') + sp + 'チップ', rainbow: RYW.word('hitbox') + sp + 'チップ', barrier: RYW.word('if') + sp + 'バリア', onigiri: RYW.word('life') + '+1' + sp + 'おにぎり', letter: RYW.word('homing') + sp + 'レター', charge: 'フクの' + sp + RYW.word('charge') + 'ショット' };
     WEAPONS.forEach(function (wp) { wp.name = names[wp.id]; if (wp.id === 'rapid') wp.desc = 'つぎに うつまで\n' + cooldownText(); if (wp.id === 'onigiri') wp.desc = 'ライフが 1つ ふえる'; });
   }
   syncWeaponNames();
