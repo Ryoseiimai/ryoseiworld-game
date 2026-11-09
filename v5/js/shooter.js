@@ -222,6 +222,8 @@
       lines: { intro: ['ジブン', 'やめても だれも こまらないよ。'],
         taunts: ['やめても だれも こまらないよ', 'どうせ また とちゅうで やめる'],
         hint: ['ソラ', 'たまは とどかない。「つくる」の ひかりを とろう'],
+        // R479: adult mode read this hint in kana under the kanji pickup name 「作る」 (noticeText makeItem); it is kanji-kana now, like R432/R478. Kids keep the kana.
+        hintAdult: ['ソラ', '弾は届かない。\n「作る」の光を取ろう'],
         steps: [['ソラ', 'わかった。ちょっと まってて'], ['RYOSEI', 'きのうより ひとつ すすんだ'], ['', 'ジブンが おなじ いろに なった。']],
         win: 'ジブンが おなじ いろに なった。' }
     },
@@ -230,6 +232,8 @@
       moveA: 110, moveF: 0.35, color: '#b9a7ff', immune: true,
       lines: { intro: ['ゼロ', '……ザーッ'],
         hint: ['ソラ', 'こうげきが きかない。みんなの「こえ」を あつめよう'],
+        // R479: adult mode says it like the immune notice 「攻撃が効かない…」 and quotes 「声」 as the kids' line quotes 「こえ」. Both adult hints break after 。 like R478, so no line ends on a lone letter or starts with 」.
+        hintAdult: ['ソラ', '攻撃が効かない。\nみんなの「声」を集めよう'],
         ready: 'とくぎが「みんなの こえ」に かわった！', use: ['コトバイルカ', 'みんなの こえを とどけるよ'],
         win: 'ノイズが はれた', voices: DEFAULT_VOICES }
     }

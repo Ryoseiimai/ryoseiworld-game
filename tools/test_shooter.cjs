@@ -1148,7 +1148,13 @@ async function browserAdapterChecks() {
   const a = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386: おとなモードのヒントのかぎかっこの中は拾う物の名前と同じ', a[0] === 'ソラ' && q(a) === sim.noticeText('paceItem') && q(a) === '自分のペース', a);
   check('R386: 上書きの hint があればそれを使う', sim.createWorld({ seed: 7, boss: 'hikaku', lines: { hint: ['ソラ', 'X'] } }).lines.hint[1] === 'X');
-  check('R386: ほかのボスのヒントは今までどおり', sim.createWorld({ seed: 7, boss: 'jibun' }).lines.hint[1] === B.jibun.lines.hint[1] && !!B.jibun.lines.hint[1]);
+  check('R386: ヒントの無いボスにはヒントが足されない', !sim.createWorld({ seed: 7, boss: 'bugking' }).lines.hint && !B.bugking.lines.hint);
+  // R479: the ジブン and ゼロ hints were kana in adult mode; they now read kanji-kana like the pickup name 「作る」 and the notice 「攻撃が効かない…」.
+  const jw = sim.createWorld({ seed: 7, boss: 'jibun' }).lines.hint, zw = sim.createWorld({ seed: 7, boss: 'zero' }).lines.hint;
+  check('R479: おとなモードのジブンのヒントは漢字かな交じり', jw[0] === 'ソラ' && jw[1] === '弾は届かない。\n「作る」の光を取ろう' && q(jw) === sim.noticeText('makeItem') && !/たま|とどか|ひかり|とろう/.test(jw[1]), jw);
+  check('R479: おとなモードのゼロのヒントは漢字かな交じり', zw[0] === 'ソラ' && zw[1] === '攻撃が効かない。\nみんなの「声」を集めよう' && zw[1].startsWith(sim.noticeText('immune').replace('…', '')) && !/こうげき|きかない|こえ|あつめ/.test(zw[1]), zw);
+  check('R479: おとなモードのジブンとゼロのヒントは文の中に空白を入れず、。の後で2行に分け、30字まで', [jw[1], zw[1]].every(t => !/ /.test(t) && t.split('\n').length === 2 && t.split('\n')[0].endsWith('。') && t.replace('\n', '').length <= 30), [jw, zw]);
+  check('R479: 上書きの hint があればジブンでもそれを使う', sim.createWorld({ seed: 7, boss: 'jibun', lines: { hint: ['ソラ', 'Z'] } }).lines.hint[1] === 'Z');
   // R478: the カテイノジジョウ hints were kana in adult mode under the kanji band 「壁が固く、ボスへのダメージは半分」; they now read kanji-kana.
   const kw = sim.createWorld({ seed: 7, boss: 'kateino' }).lines;
   check('R478: おとなモードのカテイノジジョウのヒントは漢字かな交じり', kw.hint[0] === 'ソラ' && kw.hint[1] === '壁は固い。右下の\n「' + globalThis.RYW.word('playtest') + '」でゲームを見せよう' && !/かべ|かたい|みぎした|みせよう/.test(kw.hint[1]), kw.hint);
@@ -1160,6 +1166,7 @@ async function browserAdapterChecks() {
   for (const kh of [sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint, B.kateino.lines.owlHint]) check('R400: カテイノジジョウのヒントはボタンの名前「' + globalThis.RYW.word('playtest') + '」を言う', q(kh) === globalThis.RYW.word('playtest') && !kh[1].includes('とくぎ'), kh);
   globalThis.RYW.setMode('kids');
   const kk = sim.createWorld({ seed: 7, boss: 'kateino' }).lines;
+  for (const id of ['jibun', 'zero']) check('R479: こどもモードの ' + id + ' のヒントはひらがなのまま', sim.createWorld({ seed: 7, boss: id }).lines.hint[1] === B[id].lines.hint[1] && /あつめよう|とろう/.test(B[id].lines.hint[1]), B[id].lines.hint);
   check('R478: こどもモードのカテイノジジョウのヒントはひらがなのまま', kk.hint[1] === B.kateino.lines.hint[1] && kk.hint2[1] === B.kateino.lines.hint2[1] && kk.hint[1].startsWith('かべは かたい。'), [kk.hint, kk.hint2]);
   const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386/R427: こどもモードのヒントはひらがなの名前を引く', k[1] === 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる' && q(k) === sim.noticeText('paceItem'), k);
