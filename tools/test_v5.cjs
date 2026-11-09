@@ -581,9 +581,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
   r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');assert(copy().includes('はなしかけて'),copy());fits(copy());r.button('もどる');assert.equal(r.g.modal,'menu');r.button('もどる');
   r.g.debugWarp('town',4.5,26.3);st.dir=3;r.tick(16);r.click('talk-btn');while(r.g.dialogue)r.dialogue();if(r.g.modal==='event'){r.tick(400);r.button('やめておく');}while(r.g.dialogue)r.dialogue();r.tick(300);assert([...st.met].includes('mother'),'talking to mother meets her');
-  r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('［家］おかあさん　♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
-  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で あたらしい ぶき'),c);assert(c.includes('［家］いもうと　　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),'R376: hearts line up under おかあさん '+c);fits(c);r.button('もどる');
-  D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('［恋］テストの ひと　♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);D.bonds.r106={name:'ながい なまえの ともだち',kind:'friend',spirit:15,rewards:{}};r.g.debugBond('r106',2);r.button('もどる');r.button('きずな');c=copy();assert(c.includes('［友］ながい なまえの ともだち\n♥♥♡♡♡'),'R106: a long name keeps its hearts on the next row '+c);delete D.bonds.r106;delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
+  r.click('menu-btn');r.button('きずな');let c=copy();assert(c.includes('〔家〕おかあさん　♡♡♡♡♡\n守護霊 ナオスライム\nつぎ ♥2で おこづかい'),c);assert(!c.includes('いもうと'),'sister not met yet');fits(c);r.button('もどる');r.button('もどる');
+  r.g.debugBond('mother',3);r.g.debugBond('sister',1);r.click('menu-btn');r.button('きずな');c=copy();assert(c.includes('♥♥♥♡♡\n守護霊 ナオスライム\nつぎ ♥5で あたらしい ぶき'),c);assert(c.includes('〔家〕いもうと　　♥♡♡♡♡\n守護霊 うさぎ\nつぎ ♥2で おこづかい'),'R376: hearts line up under おかあさん '+c);fits(c);r.button('もどる');
+  D.bonds.r36={name:'テストの ひと',kind:'love',spirit:15,rewards:{1:{money:5}}};r.g.debugBond('r36',5);r.button('きずな');c=copy();assert(c.includes('〔恋〕テストの ひと　♥♥♥♥♥\n守護霊 きんぎょ\nごほうびは ぜんぶ もらった'),c);fits(c);D.bonds.r106={name:'ながい なまえの ともだち',kind:'friend',spirit:15,rewards:{}};r.g.debugBond('r106',2);r.button('もどる');r.button('きずな');c=copy();assert(c.includes('〔友〕ながい なまえの ともだち\n♥♥♡♡♡'),'R106: a long name keeps its hearts on the next row '+c);delete D.bonds.r106;delete D.bonds.r36;delete st.bonds.r36;r.button('もどる');
   r.button('ぶき');assert.equal(r.g.modal,'weapons');c=copy();assert(c.startsWith('〔フク・ショット〕\nまっすぐ みぎへ うつ'),c);assert(!c.includes('〔if バリア〕'));assert(c.includes('\n\nもっていない ぶきが あと 7つ。\nきずなで もらえる。'),c);assert(!c.includes('ふえる'),'R436');fits(c);
   for(const w of Object.keys(D.weapons))r.g.debugGiveWeapon(w);r.button('もどる');r.button('ぶき');c=copy();assert(c.includes('ぜんぶ そろった'),c);for(const w of Object.values(D.weapons)){assert(w.desc,w.name+' desc');assert(c.includes(w.name));}fits(c);r.button('もどる');r.button('もどる');
   r.tick(300);r.click('menu-btn');r.button('セーブ');while(r.g.dialogue)r.dialogue();await settle();const sv=JSON.parse(r.saved.get('ryoseiworld-rpg-v5'));assert.deepEqual(sv.met,['mother']);
@@ -1495,7 +1495,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   result.push('R371: おとなの記録があるとき、モードを選ぶ画面を「モードを選ぶ」「後で設定からも変えられる。」にし、記録なしとこどもは かなのまま PASS');}
  // R372: adult mode listed bonds as 「しゅうりやさん」「ゲームの こ」 beside kanji 「守護霊」「お小遣い」. Adult shows adultName in the きずな menu and bond lines; kids keep kana.
  {const read=r=>r.g.dialogue.lines.map(l=>l[1]).join('\n'),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
-  for(const [mode,names,gone,gave,deep] of [['adult',['［家］お母さん','［家］妹','［友］修理屋さん','［友］ゲームの子','［友］店員さん','［友］ハッカーさん','［恋］ミオ'],['しゅうりやさん','ゲームの こ','おかあさん'],'修理屋さんに\n','修理屋さんとの\nきずなが深まった！'],['kids',['［家］おかあさん','［家］いもうと','［友］しゅうりやさん','［友］ゲームの こ','［友］てんいんさん'],['修理屋さん','ゲームの子'],'しゅうりやさんに\n','しゅうりやさんとの\nきずなが ふかまった！']]){
+  for(const [mode,names,gone,gave,deep] of [['adult',['〔家〕お母さん','〔家〕妹','〔友〕修理屋さん','〔友〕ゲームの子','〔友〕店員さん','〔友〕ハッカーさん','〔恋〕ミオ'],['しゅうりやさん','ゲームの こ','おかあさん'],'修理屋さんに\n','修理屋さんとの\nきずなが深まった！'],['kids',['〔家〕おかあさん','〔家〕いもうと','〔友〕しゅうりやさん','〔友〕ゲームの こ','〔友〕てんいんさん'],['修理屋さん','ゲームの子'],'しゅうりやさんに\n','しゅうりやさんとの\nきずなが ふかまった！']]){
    const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
    for(const id of ['mother','sister','repair','kid','hacker','clerk','mio'])r.g.debugBond(id,2);
    r.click('menu-btn');r.button('きずな');assert.equal(r.g.modal,'bonds');const c=r.els.get('modal-copy').textContent;
@@ -1797,7 +1797,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
  for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const id of ['mother','sister','repair','kid','clerk'])r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);
-  r.click('menu-btn');r.tick(400);r.button('きずな');const rows=r.els.get('modal-copy').textContent.split('\n').filter(l=>/^［/.test(l)&&/[♥♡]/.test(l));
+  r.click('menu-btn');r.tick(400);r.button('きずな');const rows=r.els.get('modal-copy').textContent.split('\n').filter(l=>/^〔/.test(l)&&/[♥♡]/.test(l));
   assert(rows.length>=3,mode+' R376 rows '+rows.join('|'));const starts=new Set(rows.map(l=>wide(l.slice(0,l.search(/[♥♡]/)))));
   assert.equal(starts.size,1,mode+' R376 hearts in one column: '+rows.join('|'));for(const l of rows)assert([...l].length<=17,'R376 row fits '+l);}}
  result.push('R376: きずなの一覧で、名前の長さがちがってもハートが同じ列から始まる PASS');
@@ -1950,7 +1950,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/cp\.scrollTo\(\{top:blockEnd\(rows,t,n\)\*lh/.test(fit),'▼ scrolls to the first entry not shown whole');
   const sb={};vm.runInNewContext((html.match(/function blockEnd\([^\n]*/)||[''])[0]+';this.f=blockEnd;',sb);const R=['a','b','c','','d','e','','f','g','h','','i'];
   assert.equal(sb.f(R,0,9),7,'page 1 ends after the blank row under d e');assert.equal(sb.f(R,7,9),11,'page 2 starts at f and ends after its blank row');assert.equal(sb.f(['a','b','c','d'],0,3),3,'no blank row keeps the full page');
-  const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();for(const id of Object.keys(r.g.GAME_DATA.bonds))r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);r.click('menu-btn');r.tick(400);r.button('きずな');assert.equal(r.els.get('modal-title').textContent,'きずな','the list still opens without a real layout');assert(r.els.get('modal-copy').textContent.includes('［家］'),'with its entries');}
+  const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();for(const id of Object.keys(r.g.GAME_DATA.bonds))r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);r.click('menu-btn');r.tick(400);r.button('きずな');assert.equal(r.els.get('modal-title').textContent,'きずな','the list still opens without a real layout');assert(r.els.get('modal-copy').textContent.includes('〔家〕'),'with its entries');}
  result.push('R140: きずなの一覧が長い時、項目の途中ではなく空いた行で切れ、▼ つづきで次の項目から出る PASS');
  // R142: 「押した時間とビートのずれを測ること。」 has no spaces, so keep-all could not break it and it ran past the right edge of the quiz panel.
  // fitModalCopy now lets such a text break by phrase (auto-phrase, else normal) only when it is wider than the box (the browser check is in smoke_v5.cjs).
@@ -2126,6 +2126,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(D.weapons.rapid.desc.includes('秒')&&D.weapons.barrier.desc.includes('15秒で張り直す')&&!D.weapons.barrier.desc.includes('戻る'),D.weapons.rapid.desc);fits(c);r.button('もどる');r.button('もどる');
   st.mode='kids';r.tick(300);r.click('menu-btn');r.button('ぶき');c=copy();assert(c.includes('〔フク・ショット〕\nまっすぐ みぎへ うつ')&&c.includes('ぜんぶ そろった！')&&D.weapons.rapid.desc.includes('びょう'),c);fits(c);}
  result.push('R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS');
+ // R483: the きずな list wrapped 家・友・恋 in ［］ while the 武器 list beside it used 〔〕. Both menus use 〔〕 in both modes now.
+ for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.start(mode);r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  for(const id of ['mother','sister','repair'])r.g.debugBond(id,1);while(r.g.dialogue)r.dialogue();r.tick(300);
+  const copy=()=>r.els.get('modal-copy').textContent,back=mode==='adult'?'戻る':'もどる';
+  r.click('menu-btn');r.button('きずな');let c=copy();assert(/^〔家〕/m.test(c)&&/^〔友〕/m.test(c)&&!/[［］]/.test(c),'R483 '+mode+' bonds use 〔〕: '+c);r.button(back);
+  r.button(mode==='adult'?'武器':'ぶき');c=copy();assert(/^〔[^〕]+〕$/m.test(c)&&!/[［］]/.test(c),'R483 '+mode+' weapons use 〔〕: '+c);}
+ result.push('R483: きずなと武器の画面で、かっこの形を〔〕にそろえた PASS');
  // R122: the bonds menu hints read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
