@@ -1148,10 +1148,19 @@ async function browserAdapterChecks() {
   const a = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386: おとなモードのヒントのかぎかっこの中は拾う物の名前と同じ', a[0] === 'ソラ' && q(a) === sim.noticeText('paceItem') && q(a) === '自分のペース', a);
   check('R386: 上書きの hint があればそれを使う', sim.createWorld({ seed: 7, boss: 'hikaku', lines: { hint: ['ソラ', 'X'] } }).lines.hint[1] === 'X');
-  check('R386: ほかのボスのヒントは今までどおり', sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint[1] === B.kateino.lines.hint[1]);
+  check('R386: ほかのボスのヒントは今までどおり', sim.createWorld({ seed: 7, boss: 'jibun' }).lines.hint[1] === B.jibun.lines.hint[1] && !!B.jibun.lines.hint[1]);
+  // R478: the カテイノジジョウ hints were kana in adult mode under the kanji band 「壁が固く、ボスへのダメージは半分」; they now read kanji-kana.
+  const kw = sim.createWorld({ seed: 7, boss: 'kateino' }).lines;
+  check('R478: おとなモードのカテイノジジョウのヒントは漢字かな交じり', kw.hint[0] === 'ソラ' && kw.hint[1] === '壁は固い。右下の\n「' + globalThis.RYW.word('playtest') + '」でゲームを見せよう' && !/かべ|かたい|みぎした|みせよう/.test(kw.hint[1]), kw.hint);
+  check('R478: おとなモードのカテイノジジョウの2つめのヒントも漢字かな交じり', kw.hint2[0] === 'ソラ' && kw.hint2[1] === '右下の「' + globalThis.RYW.word('playtest') + '」を押してみよう' && !/みぎした|おして/.test(kw.hint2[1]), kw.hint2);
+  check('R478: おとなモードのカテイノジジョウのヒントは文の中に空白を入れない', !/ /.test(kw.hint[1]) && !/ /.test(kw.hint2[1]), [kw.hint, kw.hint2]);
+  check('R478: おとなモードでフクロウがいる時のカテイノジジョウのヒントも漢字かな交じり', B.kateino.lines.owlHintAdult[0] === 'サーチフクロウ' && B.kateino.lines.owlHintAdult[1] === '「' + globalThis.RYW.word('playtest') + '」で見せるといい' && !/ /.test(B.kateino.lines.owlHintAdult[1]), B.kateino.lines.owlHintAdult);
+  check('R478: 上書きの hint2 があればそれを使う', sim.createWorld({ seed: 7, boss: 'kateino', lines: { hint2: ['ソラ', 'Y'] } }).lines.hint2[1] === 'Y');
   // R400: the カテイノジジョウ hints name the button the player presses (its label is word('playtest')), not 「とくぎ」.
   for (const kh of [sim.createWorld({ seed: 7, boss: 'kateino' }).lines.hint, B.kateino.lines.owlHint]) check('R400: カテイノジジョウのヒントはボタンの名前「' + globalThis.RYW.word('playtest') + '」を言う', q(kh) === globalThis.RYW.word('playtest') && !kh[1].includes('とくぎ'), kh);
   globalThis.RYW.setMode('kids');
+  const kk = sim.createWorld({ seed: 7, boss: 'kateino' }).lines;
+  check('R478: こどもモードのカテイノジジョウのヒントはひらがなのまま', kk.hint[1] === B.kateino.lines.hint[1] && kk.hint2[1] === B.kateino.lines.hint2[1] && kk.hint[1].startsWith('かべは かたい。'), [kk.hint, kk.hint2]);
   const k = sim.createWorld({ seed: 7, boss: 'hikaku' }).lines.hint;
   check('R386/R427: こどもモードのヒントはひらがなの名前を引く', k[1] === 'すうじに あたると よわる。\nみどりの「じぶんの ペース」で もどる' && q(k) === sim.noticeText('paceItem'), k);
   // R427: the pickup comes up 9 s after the hint, so the hint says what to look for (みどり, the pickup's colour) and what it does (もどる).

@@ -193,6 +193,11 @@
         hint: ['ソラ', 'かべは かたい。みぎしたの\n「' + word('playtest', 'みせる') + '」で ゲームを みせよう'],
         owlHint: ['サーチフクロウ', '「' + word('playtest', 'みせる') + '」で みせると いい'],
         hint2: ['ソラ', 'みぎしたの「' + word('playtest', 'みせる') + '」を おして みよう'],
+        // R478: adult mode read these two Sora hints in kana (かべは かたい) right under the kanji band 「壁が固く、ボスへのダメージは半分」,
+        // while the other adult hints (ヒカクマオウ R432, the beat hint 「押そう」 R470) are kanji-kana. Kids keep the kana.
+        hintAdult: ['ソラ', '壁は固い。右下の\n「' + word('playtest', 'みせる') + '」でゲームを見せよう'],
+        owlHintAdult: ['サーチフクロウ', '「' + word('playtest', 'みせる') + '」で見せるといい'],
+        hint2Adult: ['ソラ', '右下の「' + word('playtest', 'みせる') + '」を押してみよう'],
         show: ['RYOSEI', 'はじめて つくった ゲーム を みせた！'],
         win: 'カテイノジジョウは おとなしく なった', winAdult: 'カテイノジジョウは\nおとなしくなった' }
     },
@@ -273,7 +278,8 @@
     var lines = mergeLines(def.lines, cfg.lines);
     // R369: the win band and the half-HP notice are system lines like the town battle's 「はおとなしくなった！」 (calmText),
     // so adult mode reads the <key>Adult twin in kanji. Kids keep the kana; story lines (Sora, the boss) stay as they are.
-    if (RYW.mode === 'adult') ['win', 'half', 'hint'].forEach(function (k) { if (def.lines[k + 'Adult'] && !(cfg.lines && cfg.lines[k] != null)) lines[k] = def.lines[k + 'Adult']; });
+    // R432/R478: Sora's and the owl's play hints (hint, hint2, owlHint) are guidance, so they have adult twins too; the boss's own lines stay as they are.
+    if (RYW.mode === 'adult') ['win', 'half', 'hint', 'hint2', 'owlHint'].forEach(function (k) { if (def.lines[k + 'Adult'] && !(cfg.lines && cfg.lines[k] != null)) lines[k] = def.lines[k + 'Adult']; });
     var w = {
       cfg: cfg, settings: settings, cheats: cheats, cheated: ['godmode', 'timescale', 'widejudge', 'showhitbox'].some(function (k) { return !!cheats[k]; }),
       scale: cheats.timescale ? 0.7 : 1, paused: false, mode: cfg.mode || 'story', stage: 0, score: 0,
