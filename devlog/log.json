@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T16:50:45.755Z",
-  "branch": "claude/autodev-20261031-0134-R332",
-  "task": "R332 ボス戦の読み込み中の「ボスせんを じゅんびちゅう…」がおとなモードでもひらがなだったので、おとなでは「ボス戦を準備中…」にした",
-  "summary": "ボス戦の読み込み中の字を、おとなでは「ボス戦を準備中…」にした\nゼロ戦の帯の「つながり」は「繋」が常用漢字でないので、ひらがなのまま残した\n鍵のブランチへの push は許可されず、鍵を取らずに進めた",
-  "result": "pass",
-  "shots": [
-   "shots/579/mobile-02-mode-select.jpg",
-   "shots/579/mobile-15-custom-full-run.jpg",
-   "shots/579/mobile-27-chapter-2-play.jpg",
-   "shots/579/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "bf1cebb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41091697754"
- },
- {
   "at": "2026-10-30T17:36:54.502Z",
   "branch": "claude/autodev-20261031-0221-R333",
   "task": "R333 ボス戦でバリアが弾を防いだ時の「if (バリア) → ふせぐ」がおとなモードでもひらがなだったので、おとなでは「if (バリア) → 防ぐ」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "f0371e5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42619219886"
+ },
+ {
+  "at": "2026-11-09T14:02:38.984Z",
+  "branch": "claude/autodev-20261109-2227-R480",
+  "task": "R480 ボス戦の「ライフ」の字がハートの上の端に浮き、肩に付いた小さな字に見えたので、ハートの真ん中の高さにそろえた",
+  "summary": "全章のスクショを確認役が見て、ボス戦の「ライフ」の字がハートより上に浮いていると挙げた\n「ライフ」の字の高さを、ハートの真ん中にそろえた（前と後のスクショで確かめた）\n字の高さがハートの真ん中から3px以内かを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/834/mobile-02-mode-select.jpg",
+   "shots/834/mobile-19-custom-og-credit-card.jpg",
+   "shots/834/mobile-34-chapter-1-play.jpg",
+   "shots/834/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "168963e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42628679167"
  }
 ]
