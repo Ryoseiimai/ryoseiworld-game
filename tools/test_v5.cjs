@@ -346,10 +346,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(adult)assert(!h.includes('おさらいも遊べる')&&(!h.includes('おさらい')||/おさらいもできるよ$/.test(h)),'R409 hint: '+h);}
   r.click('start-btn');assert.equal(r.g.modal,'confirm');assert(r.els.get('modal-buttons').children.some(b=>b.textContent===(adult?'始める':'はじめる')),'R326 wipe window button '+mode);
   // R347: the genre line under the title follows the save's mode too, and a chapter 4 save names ノイズの塔 in kanji.
-  assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながら ゲーム作りと<br>AIを学ぶ RPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
+  assert.equal(r.els.get('title-genre').innerHTML,adult?'遊びながらゲーム作りと<br>AIを学ぶRPG':'あそびながら ゲームづくりと<br>AIを まなぶ RPG','R347 genre line '+mode);
   const d4={...data,chapter:4},r4=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d4)]])});r4.tick();
   assert.equal(r4.els.get('title-caption').textContent,adult?'続きは第4章　ノイズの塔':'つづきは 4しょう　ノイズのとう','R347 chapter 4 caption '+mode);
   if(adult)assert(!/ 第/.test(r4.els.get('title-caption').textContent),'R468: adult caption has no half-width gap before 第');
+  if(adult)assert(!/ /.test(r.els.get('title-genre').innerHTML),'R472: adult genre line has no half-width gap between words');
   // R387: once the ending has played (flag towerEnded) the caption says the game is cleared, not 「続きは 第4章」.
   const dc={...d4,flags:{...(d4.flags||{}),towerEnded:true}},rc=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(dc)]])});rc.tick();
   assert.equal(rc.els.get('title-caption').textContent,adult?'全章クリア':'ぜんぶの しょう クリア','R387 cleared caption '+mode);assert(rc.els.get('title-hint').textContent.match(adult?/(遊べる|できる)よ$/:/あそべるよ/)&&!rc.els.get('title-hint').textContent.includes('おさらいも遊べる'),'R387 cleared hint '+mode);}
@@ -366,6 +367,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R409: おとなモードのタイトルの案内を「おさらいも遊べるよ」から「おさらいもできるよ」にした（こどもはそのまま） PASS');
  result.push('R387: 全章をクリアしたセーブでは、タイトルが「続きは 第4章」ではなく「全章クリア」になる PASS');
  result.push('R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS');
+ result.push('R472: おとなモードのタイトルの「遊びながらゲーム作りとAIを学ぶRPG」は、語の間に半角の空きを入れない PASS');
  result.push('R468: おとなモードのタイトルの案内は「始まりは第1章」「続きは第4章」と、第の前に半角の空きを入れない PASS');
  result.push('R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS');
  // F07/F16/F17: hand-edited or stale saves never freeze the loop.
@@ -1523,7 +1525,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS');
  // R113: the genre line on the title keeps a margin from the screen edges and wraps after ゲームづくりと, so RPG is not left alone on a line.
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
-  assert(/<p class="genre-tag"[^>]*>遊びながら ゲーム作りと<br>AIを学ぶ RPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
+  assert(/<p class="genre-tag"[^>]*>遊びながらゲーム作りと<br>AIを学ぶRPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
  result.push('R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
  // R407: the settings and the end-screen menu open with an empty copy, and the empty <p> kept its margins, leaving a blank band under the heading. An empty copy is now hidden.
  {assert(/\.panel>#modal-copy:empty\{display:none\}/.test(html),'R407: an empty modal copy is hidden');assert(/function openSettings\(\)\{openModal\('設定',''/.test(html),'R407: settings opens with an empty copy (hidden by the rule)');assert(html.includes("openModal(menuLabel('メニュー','めにゅー'),'',"),'R407: the end-screen menu opens with an empty copy (hidden by the rule)');}
