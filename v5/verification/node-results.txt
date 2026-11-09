@@ -202,6 +202,7 @@ R119: ボスの始めの台詞が言葉の途中で折り返されず、ヒカ�
 R120: 章のデータからボス戦に渡る節目の台詞も、言葉の途中で折り返されない PASS
 R121: おとなモードの武器の画面は漢字かな交じりで出し、こどもモードに戻すと ひらがなに戻る PASS
 R122: おとなモードのきずなの画面のヒントを漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
+R475: おとなモードのきずなの画面は「守護霊：ナオスライム」、こどもは「守護霊 ナオスライム」のまま PASS
 R123: おとなモードのステータスの画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R124: おとなモードの店とアイテムと召喚の画面を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS
 R435: おとなモードのチャレンジの記録で「最高ステージ 12」などの数字の前の空きを取り、「次はステージ13」と揃えた（こどもはそのまま） PASS
@@ -385,5 +386,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 70ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 145ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
