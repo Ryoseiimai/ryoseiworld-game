@@ -2159,21 +2159,24 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const title=r=>r.els.get('modal-title').textContent,copy=r=>r.els.get('modal-copy').textContent,labels=r=>r.els.get('modal-buttons').children.map(b=>b.textContent),wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'row fits '+row);};
   const r=await runtime();r.tick();r.g.debugStartChapter(1);assert.equal(r.g.state.mode,'adult');r.g.state.bosses.push('bugking');r.g.state.flags.gameMade=true;r.click('menu-btn');r.button('チャレンジ');r.button('はじめる');
   r.shooterRuns.at(-1).cfg.onEnd({stage:5,bestCombo:20,score:500,cheated:false});
-  let c=copy(r);assert.equal(title(r),'初めての記録');assert.equal(c,'今回ステージ5\n今回コンボ20\n\n次はステージ6を目指そう','R430: the first record does not repeat this run as 最高');assert(!c.includes('最高'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
+  let c=copy(r);assert.equal(title(r),'初めての記録');assert.equal(c,'今回ステージ：5\n今回コンボ：20\n\n次はステージ6を目指そう','R430: the first record does not repeat this run as 最高');assert(!c.includes('最高'),c);assert(!c.includes('通常'),'R148: no lone 通常 heading without a cheat record');assert(labels(r).includes('もう一度'),labels(r).join('|'));fits(c);
   assert(!/こんかい|さいこう|ふつう|きろく|めざそう/.test(title(r)+c),c);
   r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:3,bestCombo:10,score:200,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの記録');assert(c.endsWith('\n\n次はステージ6を目指そう'),c);fits(c);
   r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:2,bestCombo:4,score:50,cheated:true});
-  c=copy(r);assert.equal(title(r),'初めての記録 チート付き');assert(c.startsWith('今回ステージ2\n今回コンボ4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ2'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'初めての記録 チート付き');assert(c.startsWith('今回ステージ：2\n今回コンボ：4\n（チート付き）\n\n通常\n')&&c.includes('\n\nチート付き\n最高ステージ：2'),c);fits(c);
   r.g.state.cheats.godmode=false;r.tick(300);r.button('もう一度');r.g.state.mode='kids';r.RYW.setMode('kids');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:1,bestCombo:2,score:10,cheated:false});
   c=copy(r);assert.equal(title(r),'チャレンジの きろく');assert(c.startsWith('こんかい ステージ 1\nこんかい コンボ 2\n\nふつう\nさいこう ステージ 5')&&c.endsWith('つぎは ステージ 6 を めざそう'),c);
   // R162: a run that beats an earlier record still reads 記録更新！ without a goal line.
   r.tick(300);r.button('もう いちど');r.g.state.mode='adult';r.RYW.setMode('adult');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:7,bestCombo:3,score:900,cheated:false});
-  c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ7\n今回コンボ3\n\n通常\n最高ステージ7\n最高コンボ20')&&!c.includes('目指そう'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'記録更新！');assert(c.startsWith('今回ステージ：7\n今回コンボ：3\n\n通常\n最高ステージ：7\n最高コンボ：20')&&!c.includes('目指そう'),c);fits(c);
   r.g.state.cheats.godmode=true;r.tick(300);r.button('もう一度');r.button('はじめる');r.shooterRuns.at(-1).cfg.onEnd({stage:4,bestCombo:4,score:90,cheated:true});
-  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.includes('\n\nチート付き\n最高ステージ4')&&!c.includes('目指そう'),c);fits(c);
+  c=copy(r);assert.equal(title(r),'記録更新！ チート付き');assert(c.includes('\n\nチート付き\n最高ステージ：4')&&!c.includes('目指そう'),c);fits(c);
   // R435: adult record lines put the number right after the kanji, as 「次はステージ13を目指そう」 (R420) does.
-  assert(!/(ステージ|コンボ) \d/.test(c),'R435: '+c);}
+  assert(!/(ステージ|コンボ) \d/.test(c),'R435: '+c);
+  // R476: adult record rows put a full-width colon between the label and the number.
+  assert(/^今回ステージ：4\n今回コンボ：4\n/.test(c)&&!/(ステージ|コンボ)\d/.test(c),'R476: '+c);}
+ result.push('R476: おとなモードのチャレンジの記録を「最高ステージ：12」「今回コンボ：0」の形にし、項目名と数字を分けた PASS');
  result.push('R435: おとなモードのチャレンジの記録で「最高ステージ 12」などの数字の前の空きを取り、「次はステージ13」と揃えた（こどもはそのまま） PASS');
  result.push('R125: おとなモードのチャレンジの結果の窓を漢字かな交じりで出し、こどもモードは ひらがなのまま PASS');
  // R149: the number people's art floats a small 1-4 over each head that never matched the sign; the rows above the head are not drawn.
