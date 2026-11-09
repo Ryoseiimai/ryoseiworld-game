@@ -930,13 +930,22 @@ async function browserAdapterChecks() {
     const w = sim.createWorld({ seed: 7, boss }); let worst = Infinity, g = 0, rows = 0;
     while (w.state === 'intro' && g++ < 1000) {
       sim.step(w, DT, IDLE);
-      const s = w.stateT, a = Math.min((s - 0.2) * 4, (I.textEnd - s) * 3);
+      const s = w.stateT, a = sim.introBandAlpha(s); // R482: the band's own alpha
       const top = w.b.y - B[boss].drawH / 2, bottom = w.b.y + B[boss].drawH / 2;
       if (w.state !== 'intro' || a < 0.5 || bottom < I.plateT || top > I.plateT + I.plateH) continue;
       rows++; worst = Math.min(worst, w.b.x - B[boss].drawH / 2 - plateR);
     }
     check('R87: ' + boss + ' は帯がはっきり見えている間、帯の右に離れている', rows > 0 && worst >= 0, [rows, worst]);
   }
+})();
+
+// R482: 始まりの帯は、はっきり（不透明で）読める時間が0.8秒以上あり、ボスが入り始める前まで不透明のまま、帯の時間の終わりには消えている。
+(() => {
+  const I = sim.INTRO; let full = 0, first = null, last = null;
+  for (let s = 0; s < I.end; s += 0.001) { if (sim.introBandAlpha(s) >= 0.999) { full += 0.001; if (first == null) first = s; last = s; } }
+  check('R482: 帯がはっきり読める時間が0.8秒以上', full >= 0.8, [full, first, last]);
+  check('R482: 帯は主人公が浮いてから出て、ボスが入り始める前まで不透明', first > I.linesT && last >= I.bossIn - 0.03, [first, last, I.bossIn]);
+  check('R482: 帯は帯の時間の終わりに消えている', sim.introBandAlpha(I.textEnd) === 0 && sim.introBandAlpha(I.linesT) === 0, I.textEnd);
 })();
 
 // R158: 上にことばカードが出ている間は、ボスの始めの台詞は真ん中の帯が消えてから出る（文字の箱が3つ同時に出ない）。後ろのヒントの長さ（R86）は変えない。
@@ -967,7 +976,7 @@ async function browserAdapterChecks() {
   const w = sim.createWorld({ seed: 7, boss: 'hikaku' }); let worst = Infinity, g = 0;
   while (w.state === 'intro' && g++ < 1000) {
     sim.step(w, DT, IDLE);
-    const s = w.stateT, a = Math.min((s - 0.2) * 4, (I.textEnd - s) * 3);
+    const s = w.stateT, a = sim.introBandAlpha(s); // R482: the band's own alpha
     if (w.state === 'intro' && a > 0) worst = Math.min(worst, w.p.y - I.heroH / 2 - plateB);
   }
   check('R110: 主人公の絵は帯の下に離れている', worst >= 0 && worst < Infinity, worst);

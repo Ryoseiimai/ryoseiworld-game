@@ -78,6 +78,11 @@
   // R290: the hero rises from INTRO_RISE_T over INTRO_RISE_DUR s (it used to start at 0.5 s and take 1.1 s, so on a phone the
   // lines said "it floated" while the hero still stood on the road). The lines come in at INTRO_LINES_T, once it is visibly up.
   var INTRO_RISE_DUR = 0.7, INTRO_LINES_T = INTRO_RISE_T + 0.25;
+  // R482: the band faded in over 0.25 s and out over 0.33 s, so its two lines were fully readable for only 0.57 s
+  // (a phone screenshot caught them half see-through). It now comes in over 1/8 s and leaves over 1/6 s: fully readable
+  // from 0.825 s to 1.683 s, and the fade-out still ends by INTRO_TEXT_END, while the boss has barely started in (INTRO_BOSS_IN).
+  var INTRO_BAND_IN = 8, INTRO_BAND_OUT = 6;
+  function introBandAlpha(s) { return s <= INTRO_LINES_T || s >= INTRO_TEXT_END ? 0 : clamp(Math.min((s - INTRO_LINES_T) * INTRO_BAND_IN, (INTRO_TEXT_END - s) * INTRO_BAND_OUT), 0, 1); }
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -1185,7 +1190,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2608,7 +2613,7 @@
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     // R242/R290: the lines wait until the hero is visibly off the ground (INTRO_LINES_T), so they never say "it floated" while it stands.
     if (w.state === 'intro' && w.stateT > INTRO_LINES_T && w.stateT < INTRO_TEXT_END) {
-      var ia = clamp(Math.min((w.stateT - INTRO_LINES_T) * 4, (INTRO_TEXT_END - w.stateT) * 3), 0, 1);
+      var ia = introBandAlpha(w.stateT);
       ctx.globalAlpha = ia; ctx.font = '800 30px ' + FONT;
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
       var il = introFloatLines();
