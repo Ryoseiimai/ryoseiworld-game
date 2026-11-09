@@ -10,8 +10,8 @@ const makeGame=[{say:'makeGameAsk'},{warp:'room',at:[5,7]},{wait:300},{say:'make
 // Chapter 2 points its own bus stop at the same busStop event, so the stops are written once.
 const busStops=[{text:'ヒダマリちょう',map:'town',at:[11,17.4]},{text:'ミナモちょう',map:'minamo',at:[10.9,31.4],if:'minamoVisited'}];
 const maps={};
-// R368: the label at the top left read 「ヒダマリちょう」 while the other towns read 「ミナモ」「ネオン」, so the first town gets the same short name.
-maps.town={name:'ヒダマリちょう',short:'ヒダマリ',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
+// R368: the label at the top left read 「ヒダマリちょう」 while the other towns read 「ミナモ」「ネオン」. R481: the chapter titles and goals call the towns ヒダマリちょう・ミナモちょう・ネオンシティ, so all three labels now use the full name.
+maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
  object('store','buildings',1,22,24,200,190,{label:'コンビニ',enter:'store',arrival:[5,10]}),
  object('school','buildings',2,7,7,220,192,{label:'がっこう',dialogue:'school'}),

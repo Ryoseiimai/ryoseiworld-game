@@ -1100,7 +1100,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R367: the canvas was read as 「ヒダマリちょうのゲーム画面」 in every chapter, and the battery icon as 「でんち」 in adult mode too. The canvas names the current place; the icon follows the mode.
  {for(const mode of ['adult','kids']){const r=await runtime();r.tick();r.click('start-btn');r.button(mode==='adult'?'おとなモード':'こどもモード');r.dialogue();r.click('naming-confirm');r.dialogue();
    r.g.debugStartChapter(2);r.tick(300);r.dialogue();r.tick(300);assert.equal(r.g.screen,'field','R367 '+mode+' field');const place=r.els.get('map-label').textContent;assert(place&&!/ヒダマリ/.test(place),'R367 '+mode+' in chapter 2: '+place);
-   assert.equal(r.els.get('game').getAttribute('aria-label'),place+'のゲーム画面','R367 '+mode+' canvas names the place');assert.equal(r.els.get('st-batt-icon').getAttribute('aria-label'),mode==='adult'?'電池':'でんち','R367 '+mode+' battery icon');assert.equal(place,'ミナモ','R367 '+mode+' place');
+   assert.equal(r.els.get('game').getAttribute('aria-label'),place+'のゲーム画面','R367 '+mode+' canvas names the place');assert.equal(r.els.get('st-batt-icon').getAttribute('aria-label'),mode==='adult'?'電池':'でんち','R367 '+mode+' battery icon');assert.equal(place,'ミナモちょう','R367 '+mode+' place');
    const other=mode==='adult'?'kids':'adult';r.g.state.mode=other;r.RYW.setMode(other);r.tick(300);assert.equal(r.els.get('st-batt-icon').getAttribute('aria-label'),other==='adult'?'電池':'でんち','R367 mode switch updates the icon');}
   result.push('R367: ゲーム画面の読み上げ名を今いる場所に合わせ、電池の印をおとなモードでは「電池」と読む PASS');}
   const words=[...r.g.debugWords()];r.button('ゴッドモード');r.button('ゴッドモード');assert.deepEqual([...r.g.debugWords()],words,'learning happens once');
@@ -2085,7 +2085,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R341: おとなモードで町の看板（地図・ミナモ・川・ネオン）と貼り紙を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R342: the map label above the goal reads 塔1F・図書館・屋上 in adult mode (the goal under it was already kanji); kids keep とう1F, and katakana names stay as they are.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
-  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋の奥','でんきやの おく'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1F','とう1F'],tower2:['塔2F','とう2F'],tower3:['塔3F','とう3F'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオン','ネオン'],town:['ヒダマリ','ヒダマリ']}; // R368: the first town reads by its short name like ミナモ and ネオン
+  const want={room:['自分の部屋','じぶんの へや'],electric:['電気屋の奥','でんきやの おく'],minamo_library:['図書館','としょかん'],minamo_friend:['友達の家','ともだちの いえ'],tower1:['塔1F','とう1F'],tower2:['塔2F','とう2F'],tower3:['塔3F','とう3F'],tower_roof:['屋上','おくじょう'],store:['コンビニ','コンビニ'],neon:['ネオンシティ','ネオンシティ'],minamo:['ミナモちょう','ミナモちょう'],town:['ヒダマリちょう','ヒダマリちょう']}; // R481: the towns read by the same full name as the chapter titles and goals
   for(const [map,[a,k]] of Object.entries(want)){const m=r.g.GAME_DATA.maps[map];r.g.debugWarp(map,m.spawn[0],m.spawn[1]);r.tick(300);while(r.g.dialogue)r.dialogue();r.tick(100);assert.equal(r.g.map,map);assert.equal(r.els.get('map-label').textContent,adult?a:k,mode+' '+map+' label');}}
  result.push('R342: おとなモードで地図名を「塔1F」「図書館」「屋上」などの漢字で出し、こどもモードは ひらがなのまま PASS');
  // R466: the electric shop label read 電気屋・ジャンク (two words joined by a dot, unclear what place); it names the back room of the shop the town sign calls 電気屋.
