@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T15:02:03.187Z",
-  "branch": "claude/autodev-20261030-2344-R328",
-  "task": "R328 ヒカクマオウ戦などのお知らせ「こうげきりょく が さがった」「ひびが はいった」がおとなモードでもひらがなだったので、おとなでは「攻撃力が下がった」「ひびが入った」などにした",
-  "summary": "ボス戦のお知らせを、おとなでは「数字に当たって 攻撃力が下がった」などの漢字にした\n確認役の指摘で「攻撃が効かない…」と拾う物の名前「自分のペース」「作る」も漢字にした\n「ジブンに いろが もどる」「しゅごれいが つながった」は物語に近いので今回は変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/574/mobile-02-mode-select.jpg",
-   "shots/574/mobile-15-custom-full-run.jpg",
-   "shots/574/mobile-27-chapter-2-play.jpg",
-   "shots/574/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "eacc7a2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41075088821"
- },
- {
   "at": "2026-10-30T15:16:53.632Z",
   "branch": "claude/autodev-20261031-0002-R329",
   "task": "R329 ジブン戦とゼロ戦のお知らせ「いろが もどる」「しゅごれいが つながった」と帯の「いろ」がおとなモードでもひらがなだったので、おとなでは「ジブンに色が戻る」「守護霊がつながった」「色」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "98b7193",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42595816587"
+ },
+ {
+  "at": "2026-11-09T10:40:54.617Z",
+  "branch": "claude/autodev-20261109-1922-R477",
+  "task": "R477 遊んで一番気になる所を1つ直す",
+  "summary": "おとなモードのチャレンジの記録を「今回ステージ：1」「最高コンボ：48」の形にした\nこどもモードはそのままにし、テストの期待する文を直してR476の確かめを足した\n確認役が挙げた「歩く」と「動く」や括弧の種類の違いは、次の回の候補に残した",
+  "result": "pass",
+  "shots": [
+   "shots/828/mobile-02-mode-select.jpg",
+   "shots/828/mobile-19-custom-og-credit-card.jpg",
+   "shots/828/mobile-34-chapter-1-play.jpg",
+   "shots/828/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "db6a1ad",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601182766"
  }
 ]
