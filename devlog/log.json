@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T22:55:53.547Z",
-  "branch": "claude/autodev-20261031-0721-R338",
-  "task": "R338 町の札「バスてい」「えき」がおとなモードでもひらがなだったので、おとなでは「バス停」「駅」にした（ヒダマリ・ミナモ・ネオン）",
-  "summary": "町のバス停と駅の札を、おとなでは「バス停」「駅」にした\nこどもモードは「バスてい」「えき」のまま。絵が無い時の名前も同じにした\n両方のモードをテストで確かめ、前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/586/mobile-02-mode-select.jpg",
-   "shots/586/mobile-15-custom-full-run.jpg",
-   "shots/586/mobile-27-chapter-2-play.jpg",
-   "shots/586/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8a7e7e2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41140279535"
- },
- {
   "at": "2026-10-30T23:46:21.868Z",
   "branch": "claude/autodev-20261031-0821-R339",
   "task": "R339 町の戦いの後の文「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」がおとなモードでもひらがなだったので、おとなでは「修理された」「経験値…円をもらった」「レベル…になった」にした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "616387b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42666907603"
+ },
+ {
+  "at": "2026-11-09T21:56:33.395Z",
+  "branch": "claude/autodev-20261110-0221-R484",
+  "task": "R484 塔の地図の見出しだけ「塔1F」と英字のFで、地図の名前「ノイズのとう 1かい」や「屋上」と書き方が違ったので、「塔1階」（こどもは「とう 1かい」）にした",
+  "summary": "塔の見出しが「塔1F」と英字で、地図の名前の「1かい」と違った\n見出しを「塔1階」にし、こどもモードは「とう 1かい」にした\n見出しに英字のFが無いことを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/841/mobile-02-mode-select.jpg",
+   "shots/841/mobile-19-custom-og-credit-card.jpg",
+   "shots/841/mobile-34-chapter-1-play.jpg",
+   "shots/841/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2d4d70c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42704958351"
  }
 ]
