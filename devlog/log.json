@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T18:09:54.880Z",
-  "branch": "claude/autodev-20261031-0237-R334",
-  "task": "R334 ソラとゲームを作る場面のボタンと案内「▶ じっこう」「さくひんだな へ おくる」「てんじょう」などがおとなモードでもひらがなだったので、おとなでは「▶ 実行」「作品棚へ送る」「天井」などにした",
-  "summary": "ゲームを作る場面のボタンと案内を、おとなでは「▶ 実行」「作品棚へ送る」などにした\n「はじめて つくった ゲーム」は道具の名前なので、ひらがなのまま残した\nwords.js を読まない試験ページでは、今までどおりこどもの字が出る",
-  "result": "pass",
-  "shots": [
-   "shots/581/mobile-02-mode-select.jpg",
-   "shots/581/mobile-15-custom-full-run.jpg",
-   "shots/581/mobile-27-chapter-2-play.jpg",
-   "shots/581/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8e71f5c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41102485914"
- },
- {
   "at": "2026-10-30T18:55:18.014Z",
   "branch": "claude/autodev-20261031-0321-R335",
   "task": "R335 普通の戦いの結果の文「キーボードで カタカタ！」「を つかった。」「にげられない」などがおとなモードでもひらがなだったので、おとなでは「キーボードでカタカタ！」「を使った。」「逃げられない」などにした",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "1c6561b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42639206138"
+ },
+ {
+  "at": "2026-11-09T15:55:52.594Z",
+  "branch": "claude/autodev-20261110-0023-R482",
+  "task": "R482 ボス戦の始めの帯「フクの力で キックボードが浮かんだ！」がはっきり読める時間が0.57秒しかなかったので、出入りを速めて0.86秒にした",
+  "summary": "ボス戦の始めの帯が、はっきり読める時間は0.57秒だけだった\n帯の出入りを速め、読める時間を0.86秒にした。ボスが入る前に消える\n0.1秒ごとの前と後のスクショで、読める枚数が3枚から5枚に増えたのを見た",
+  "result": "pass",
+  "shots": [
+   "shots/836/mobile-02-mode-select.jpg",
+   "shots/836/mobile-19-custom-og-credit-card.jpg",
+   "shots/836/mobile-34-chapter-1-play.jpg",
+   "shots/836/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ca01f92",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42647218529"
  }
 ]
