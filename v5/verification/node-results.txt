@@ -30,6 +30,7 @@ R437: タイトルの案内を「チャレンジやことばノートのおさ�
 R409: おとなモードのタイトルの案内を「おさらいも遊べるよ」から「おさらいもできるよ」にした（こどもはそのまま） PASS
 R387: 全章をクリアしたセーブでは、タイトルが「続きは 第4章」ではなく「全章クリア」になる PASS
 R347: おとなモードのセーブがあるとき、タイトルの「遊びながら ゲーム作りと AIを学ぶ RPG」と「続きは 第4章 ノイズの塔」が漢字まじりになる PASS
+R472: おとなモードのタイトルの「遊びながらゲーム作りとAIを学ぶRPG」は、語の間に半角の空きを入れない PASS
 R468: おとなモードのタイトルの案内は「始まりは第1章」「続きは第4章」と、第の前に半角の空きを入れない PASS
 R326: おとなモードのセーブがあるとき、タイトルのボタン・案内・確かめる窓が漢字まじりになる（こどもはひらがなのまま） PASS
 Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS
@@ -325,7 +326,7 @@ R433: ボス戦のビートのひとことが、押すボタン「ビート」�
 R470: ボス戦のビートとノーツのひとことが、同じ「押す」で言う PASS
 R467: はじめての戦いの HP のひとことが、残りの体力のことだと分かる PASS
 R399: 初めて「実行」を使うまで、戦いの出だしに「「実行」で攻撃しよう。」と出る PASS
-R431: 確認用の CHAPTER 02 の札が、2章の終わりの文を出す PASS
+R431: 確認用の CHAPTER 2 の札が、2章の終わりの文を出す PASS
 R471: 章の終わりの札が「CHAPTER 2 COMPLETE」と0を付けずに章の番号を出す PASS
 og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
 og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
@@ -384,5 +385,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 71ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 82ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
