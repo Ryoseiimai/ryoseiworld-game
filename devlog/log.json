@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T01:59:36.235Z",
-  "branch": "claude/autodev-20261031-1022-R341",
-  "task": "R341 町の看板「ようこそ ミナモちょう。かわと はしの まち。」や地図の看板、川とネオンの看板、電気屋の貼り紙がおとなモードでもひらがなだったので、おとなでは「川と橋の町」「← 家 コンビニ →」「交番に預けた」などにした（ソラの台詞と地の文は物語なのでそのまま）",
-  "summary": "町の看板と貼り紙の文を、おとなでは「川と橋の町」「交番に預けた」など漢字まじりにした\n地図・ミナモ・川・ネオンの看板と電気屋の貼り紙が対象。ソラの台詞と地の文はひらがなのまま\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
-  "result": "pass",
-  "shots": [
-   "shots/592/mobile-02-mode-select.jpg",
-   "shots/592/mobile-15-custom-full-run.jpg",
-   "shots/592/mobile-27-chapter-2-play.jpg",
-   "shots/592/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "9f515eb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41157169860"
- },
- {
   "at": "2026-10-31T02:44:40.557Z",
   "branch": "claude/autodev-20261031-1122-R342",
   "task": "R342 画面上の地図名「とう1F」「としょかん」「おくじょう」がおとなモードでもひらがなで、すぐ下の目標は漢字だったので、おとなでは「塔1F」「図書館」「屋上」「自分の部屋」「友達の家」「電気屋・ジャンク」にした（町の名前はそのまま）",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "6461832",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42772154493"
+ },
+ {
+  "at": "2026-11-10T10:20:22.971Z",
+  "branch": "claude/autodev-20261110-1841-R488",
+  "task": "R488 メニューとタイトルの「実績 7/12」だけ斜線の前後が詰まり、ことばノートの「集めた言葉 12 / 48」やおさらいの「問題 1 / 3」と書き方が違ったので、おとなは「実績 7 / 12」にした（こどもは帯の幅に収まらないので今のまま）",
+  "summary": "おとなの実績のボタンを「実績 7 / 12」にし、ほかの数え方と同じ形にした\nこどもは空けると帯の幅を超えるので「じっせき 7/12」のまま残した\n確認役の上位4つは、R303・R310・R300・R450 で決めた形なので残した",
+  "result": "pass",
+  "shots": [
+   "shots/848/mobile-02-mode-select.jpg",
+   "shots/848/mobile-19-custom-og-credit-card.jpg",
+   "shots/848/mobile-34-chapter-1-play.jpg",
+   "shots/848/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ce11c17",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42796228973"
  }
 ]
