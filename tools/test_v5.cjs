@@ -1479,6 +1479,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!at('room',5,9),'inside a room the HUD stays solid');
   const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0];assert(/background:#16353b[0-9a-f]{2}/.test(css)&&/text-shadow/.test(css),'the see-through HUD keeps an outline on its words: '+css);assert(!/#hud\.over \.quest/.test(html),'the goal line keeps its solid backing (R67)');}
  result.push('R145: ネオンの駅で、くもの もんが上の表示の後ろに来ると、表示の地が薄くなる PASS');
+ // R492: at the start of 2しょう the ミナモ board (a big board sign) sat behind the HUD with only its posts showing; the HUD turns see-through over it, and stays solid when the board is lower on screen.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  const hud=r.els.get('hud'),at=(map,x,y)=>{r.g.debugWarp(map,x,y);r.tick(16);return hud.classes.has('over');};
+  const seen=[];for(const y of [26,27,28,29,30,31])seen.push(y+':'+at('minamo',12.5,y));
+  assert(at('minamo',12.5,30),'with the hero below the ミナモ board, the board is under the HUD, so the HUD turns see-through: '+seen.join(' '));
+  assert(!at('minamo',12.5,26),'with the board in the middle of the screen the HUD stays solid');
+  assert(!at('town',12,28),'by the town ちず board the HUD stays solid');
+  const ch=(html.match(/function coverHud\(m,list\)\{.*/)||[''])[0];assert(/SIGN_BOARD\[/.test(ch),'coverHud counts the big board signs');}
+ result.push('R492: ミナモの看板が上の表示の後ろに来ると、表示の地が薄くなる PASS');
  // R146: the mode choice puts each mode on its own line, so こども＝ is not left at the end of a line apart from ひらがな中心.
  {const r=await runtime();r.tick();r.click('start-btn');assert.equal(r.g.modal,'mode-select');const rows=r.els.get('modal-copy').textContent.split('\n'),wide=s=>[...s].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0);
   assert(rows.includes('おとな＝漢字まじりで学ぶ')&&rows.includes('こども＝ひらがな中心'),'each mode has its own line: '+JSON.stringify(rows));
