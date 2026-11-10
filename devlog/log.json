@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T00:57:36.568Z",
-  "branch": "claude/autodev-20261031-0921-R340",
-  "task": "R340 バス停と駅の看板の案内「つぎの バスは ノイズが はれてから」「でんしゃは とまって います」がおとなモードでもひらがなだったので、おとなでは「バス停」「次のバスは…晴れてから」「駅の看板」「電車は止まっています」にした（ソラの台詞は物語なのでそのまま）",
-  "summary": "バス停と駅の看板が出す案内を、おとなでは「次のバスは…晴れてから」「電車は止まっています」にした\n看板は案内の札（R338 の札と同じ）として扱い、続くソラの台詞は物語なのでひらがなのままにした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
-  "result": "pass",
-  "shots": [
-   "shots/589/mobile-02-mode-select.jpg",
-   "shots/589/mobile-15-custom-full-run.jpg",
-   "shots/589/mobile-27-chapter-2-play.jpg",
-   "shots/589/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4aeb0c3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41152207737"
- },
- {
   "at": "2026-10-31T01:06:15.226Z",
   "branch": "claude/autodev-20261031-0921-R340",
   "task": "R340 バス停と駅の看板の案内「つぎの バスは ノイズが はれてから」「でんしゃは とまって います」がおとなモードでもひらがなだったので、おとなでは「バス停」「次のバスは…晴れてから」「駅の看板」「電車は止まっています」にした（ソラの台詞は物語なのでそのまま）",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "dafaec1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42733344488"
+ },
+ {
+  "at": "2026-11-10T04:23:50.902Z",
+  "branch": "claude/autodev-20261110-1242-R486",
+  "task": "R486 終わりの札の大人の文が「作った人 RYOSEIWORLD」と項目名と名前が空き1つでつながり、R475・R476 の「：」の形と違ったので、「作った人：RYOSEIWORLD」にした",
+  "summary": "終わりの札の大人の文が「作った人 RYOSEIWORLD」と空きでつながっていた\n大人だけ「作った人：RYOSEIWORLD」にし、こどもはそのままにした\n終わりの札の確認を新しい形に合わせ、空きの形に戻らない確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/845/mobile-02-mode-select.jpg",
+   "shots/845/mobile-19-custom-og-credit-card.jpg",
+   "shots/845/mobile-34-chapter-1-play.jpg",
+   "shots/845/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f590df0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42753644573"
  }
 ]
