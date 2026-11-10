@@ -51,7 +51,8 @@ RYW.registerOutGame?.({
  // The Lyria line gets an explicit \n before 作りました/つくりました so it never breaks mid-word at
  // 390px width (design_final.md 4節7: the old auto-wrap split 作/りました).
  credits:{eyebrow:'THE END',heading:['ありがとう','ありがとう'],lines:[
-  {text:['作った人 RYOSEIWORLD','つくった ひと RYOSEIWORLD']},
+  // R486: おとなの文だけ「作った人 RYOSEIWORLD」と項目名と名前が空き1つでつながり、R475「守護霊：ナオスライム」R476「最高ステージ：12」と形が違ったので「：」でつなぐ（こどもは空いたまま）
+  {text:['作った人：RYOSEIWORLD','つくった ひと RYOSEIWORLD']},
   // R473: おとなの文だけ「Google の Lyria で」と語の間が空き、R472 で詰めたタイトルの「AIを学ぶRPG」や「Xで投稿」と食い違ったので詰める（こどもは空いたまま）
   {text:['音楽の一部はGoogleのLyriaで\n作りました','おんがくの いちぶは Google の Lyria で\nつくりました'],when:{music:true}},
   {text:['アニメ第1話もあります','アニメ だい1わも あります'],when:{link:'anime'}}

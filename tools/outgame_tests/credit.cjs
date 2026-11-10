@@ -74,7 +74,7 @@ module.exports = async function credit({ runtime, result, assert }) {
     r.button('このゲームについて');
     assert.equal(r.g.modal, 'og-about');
     assert.equal(r.els.get('modal-title').textContent, 'このゲームについて');
-    assert(r.els.get('modal-copy').textContent.startsWith('作った人 RYOSEIWORLD'), r.els.get('modal-copy').textContent);
+    assert(r.els.get('modal-copy').textContent.startsWith('作った人：RYOSEIWORLD'), r.els.get('modal-copy').textContent);
     r.button('戻る');
     assert.equal(r.g.modal, 'settings', '戻る returns to 設定, not to the field menu it came from');
   }
@@ -106,7 +106,9 @@ module.exports = async function credit({ runtime, result, assert }) {
     assert.equal(r.g.debugMusic().loaded.length, 0, 'no recording decoded');
     const [card] = OG(r).cards('credits');
     assert(!card.copy.includes('Lyria'), 'no Lyria line without a recording: ' + card.copy);
-    assert(card.copy.startsWith('作った人 RYOSEIWORLD'), card.copy);
+    assert(card.copy.startsWith('作った人：RYOSEIWORLD'), card.copy);
+    // R486: おとなの「作った人」は R475・R476 と同じく「：」で名前とつなぐ。空き1つでつながる形に戻らない
+    assert(!/作った人 /.test(card.copy), 'adult credit label is joined by a colon: ' + card.copy);
   }
   result.push('og-ending-epilogue(credit): the Lyria line needs a decoded recording, and the anime line needs links.anime PASS');
 };
