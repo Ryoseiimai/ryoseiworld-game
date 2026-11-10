@@ -28,8 +28,9 @@ RYW.registerOutGame?.({
   {id:'about',do:'view',view:'about',label:['このゲームについて','このゲームについて'],in:['settings']},
   // og-achievement: a view-only window (no `challenge` row, no `do:'start'`: the stadium door stays the
   // only way to start a challenge). `when:{save:true}` keeps this hidden on a brand-new title with no save.
-  // R488: ことばノートの「集めた言葉 12 / 48」やおさらいの「問題 1 / 3」と同じく、斜線の前後を空ける
-  {id:'records',do:'view',view:'records',label:['実績 {earned} / {total}','じっせき {earned} / {total}'],in:['title','menu'],when:{save:true}}
+  // R488: おとなはことばノートの「集めた言葉 12 / 48」やおさらいの「問題 1 / 3」と同じく、斜線の前後を空ける。
+  // こどもは空けると全角7字の幅を超えてタイトルの帯のボタンに収まらないので、今のまま
+  {id:'records',do:'view',view:'records',label:['実績 {earned} / {total}','じっせき {earned}/{total}'],in:['title','menu'],when:{save:true}}
  ],
  // A line whose {var} is empty disappears: the anime line until links.anime is set, the cheat line on a clean run.
  shareTexts:{

@@ -20,7 +20,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
   {
     const row = raw.items.find(it => it.id === 'records');
     assert(row, 'a records row exists');
-    assert.deepEqual(row, { id: 'records', do: 'view', view: 'records', label: ['実績 {earned} / {total}', 'じっせき {earned} / {total}'], in: ['title', 'menu'], when: { save: true } });
+    assert.deepEqual(row, { id: 'records', do: 'view', view: 'records', label: ['実績 {earned} / {total}', 'じっせき {earned}/{total}'], in: ['title', 'menu'], when: { save: true } });
     assert(!raw.items.some(it => it.id === 'challenge' || it.do === 'start'), 'no challenge row, no do:start: the title window is view-only');
     assert.deepEqual(raw.views.records, { title: ['実績と記録', 'じっせきと きろく'], body: 'records', slot: 'records' });
     assert.equal(raw.achievements.length, 12, '12 achievements');
@@ -156,7 +156,7 @@ module.exports = async function achievement({ runtime, result, assert, root }) {
     assert.equal(r.g.screen, 'title', 'still on the title: restore() has not run');
     const band = () => r.els.get('title-links').children;
     assert.equal(band().length, 1, 'the きろく row shows on the title too');
-    assert.equal(band()[0].textContent, 'じっせき 1 / 12', 'kids label (the save is a kids-mode one)');
+    assert.equal(band()[0].textContent, 'じっせき 1/12', 'kids label (R488: kids keep 1/12, the spaced form is wider than the 7 full-width title band) (the save is a kids-mode one)');
     band()[0].click();
     assert.equal(r.g.modal, 'og-records', 'it opens from the title, no つづきから needed');
     const copy = r.els.get('modal-copy').textContent;
