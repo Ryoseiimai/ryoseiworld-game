@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-30T23:57:30.750Z",
-  "branch": "claude/autodev-20261031-0821-R339",
-  "task": "R339 町の戦いの後の文「しゅうりされた」「けいけんち…えんを もらった」「レベル…に なった」がおとなモードでもひらがなだったので、おとなでは「修理された」「経験値…円をもらった」「レベル…になった」にした",
-  "summary": "町の戦いの後の文を、おとなでは「修理された」「経験値…円をもらった」にした\nレベルが上がった時の文も、おとなでは「レベル…になった！ 攻撃力+…」にした\nこどもモードはひらがなのまま。両方をテストで確かめ、前と後のスクショを置いた",
-  "result": "pass",
-  "shots": [
-   "shots/588/mobile-02-mode-select.jpg",
-   "shots/588/mobile-15-custom-full-run.jpg",
-   "shots/588/mobile-27-chapter-2-play.jpg",
-   "shots/588/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5df0ecb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41146673718"
- },
- {
   "at": "2026-10-31T00:57:36.568Z",
   "branch": "claude/autodev-20261031-0921-R340",
   "task": "R340 バス停と駅の看板の案内「つぎの バスは ノイズが はれてから」「でんしゃは とまって います」がおとなモードでもひらがなだったので、おとなでは「バス停」「次のバスは…晴れてから」「駅の看板」「電車は止まっています」にした（ソラの台詞は物語なのでそのまま）",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "7e24988",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42732672848"
+ },
+ {
+  "at": "2026-11-10T01:30:42.956Z",
+  "branch": "claude/autodev-20261110-0941-R485",
+  "task": "R485 タイトルの英字の一行「A SMALL TOWN, A LITTLE LIGHT」が上の「アニメを見る」「実績」のボタンの10px下で窮屈だったので、24px空けた",
+  "summary": "タイトルの英字の一行が上のボタンの10px下にあり、窮屈だった\n英字の一行から下を14px下げ、ボタンとの間を24px空けた\nボタンと英字の一行が20px以上離れていることを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/844/mobile-02-mode-select.jpg",
+   "shots/844/mobile-19-custom-og-credit-card.jpg",
+   "shots/844/mobile-34-chapter-1-play.jpg",
+   "shots/844/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "dafaec1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42733344488"
  }
 ]
