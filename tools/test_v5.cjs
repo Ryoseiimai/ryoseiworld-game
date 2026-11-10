@@ -1380,6 +1380,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
   assert(y+ry<=top-8,'the moon ends above the English line');assert(x+rx<540/2-60,'the moon stays on the left, away from the music hint');assert(x-rx>=8&&y-ry>=8,'the moon stays on screen');}
  result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
+ // R485: the English line sat 10px under 「アニメを見る」「実績」 (top 62 + 54 tall); it now starts at least 20px below them.
+ {const l=html.match(/#title-links\{[^}]*top:(\d+)px/),b=html.match(/#title-links button\{[^}]*min-height:(\d+)px/),c=html.match(/\.title-copy\{[^}]*top:(\d+)px/);assert(l&&b&&c,'title link row and copy have sizes');
+  const gap=Number(c[1])-(Number(l[1])+Number(b[1]));assert(gap>=20,'the English line keeps clear of the title link buttons (gap '+gap+'px)');}
+ result.push('R485: タイトルの英字の一行が上のボタンから20px以上離れている PASS');
  // R292: the title hero rode over the trees' trunks on a strip the title buttons (top 640px) hide; it now rides a visible sidewalk in front of the tree row.
  {const c=html.match(/const TITLE_TREE_FOOT=(\d+),TITLE_WALK_TOP=(\d+),TITLE_RIDE_FOOT=(\d+);/);assert(c,'the title ground has named heights');const [tree,walk,ride]=c.slice(1).map(Number);
   const body=(html.match(/function drawTitle\(\)\{[^\n]*/)||[''])[0];assert(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/.test(body)&&/hero_ride',[^;]*TITLE_RIDE_FOOT/.test(body)&&/rect\(0,TITLE_WALK_TOP,/.test(body),'drawTitle uses the named heights');
