@@ -223,7 +223,9 @@ async function runViewport(browser, url, vp, errors, shots) {
     if (await has('debugStartChapter')) {
       const chapters = await page.evaluate(() => Object.keys((window.__v5.GAME_DATA && window.__v5.GAME_DATA.chapters) || {}));
       for (const c of chapters.slice(0, MAX_CHAPTERS)) {
-        try { await call('debugStartChapter', [isNaN(c) ? c : Number(c)]); await sleep(600); await shot('chapter-' + c); await settle(); await shot('chapter-' + c + '-play'); }
+        try { await call('debugStartChapter', [isNaN(c) ? c : Number(c)]); await sleep(600); await shot('chapter-' + c); await settle();
+          // R491: the -play shot used to repeat the chapter shot (nothing moved), so walk left a step (down hides the hero behind a tree in ch2, up enters the ch4 gate) to show the hero moving.
+          await page.keyboard.down('ArrowLeft'); await sleep(450); await page.keyboard.up('ArrowLeft'); await sleep(200); await settle(); await shot('chapter-' + c + '-play'); }
         catch (e) { errors.push({ kind: 'scene', viewport: vp.name, message: tag(`chapter ${c}: ${e.message}`) }); }
       }
     } else skip('chapters', 'no __v5.debugStartChapter');
