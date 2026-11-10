@@ -1291,7 +1291,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();r.g.debugWarp('room',5,5);r.tick(16);
   ['jikkou','item','cost','prompt'].forEach(id=>r.RYW.learnQuiet(id));r.tick(1000);r.g.debugOpenNote();assert(copy(r).startsWith('集めた言葉 '),copy(r));
   r.setRandom(()=>0);r.button('おさらい');assert(/の意味は？$/.test(copy(r))&&!/いみ/.test(copy(r)),copy(r));
-  for(let i=1;i<=3;i++){r.els.get('modal-buttons').children[0].onclick();assert.equal(title(r),'正解！');assert.deepEqual(labels(r),[i<3?'次へ':'結果']);r.button(i<3?'次へ':'結果');}
+  for(let i=1;i<=3;i++){r.els.get('modal-buttons').children[0].onclick();assert.equal(title(r),'正解！');assert(/^[^\n]+の意味は\n[^\n]+$/.test(copy(r)),'R487: the right answer repeats the question: '+copy(r));assert.deepEqual(labels(r),[i<3?'次へ':'結果']);r.button(i<3?'次へ':'結果');}
   assert(copy(r).startsWith('3問中 3問正解\n'),copy(r));assert(!/もん|せいかい\n/.test(copy(r).split('\n')[0]),copy(r));r.key('Escape');
   r.g.debugOpenNote();r.button('おさらい');r.els.get('modal-buttons').children[1].onclick();assert.equal(title(r),'不正解');assert(copy(r).includes('の意味は\n')&&!/こたえ|いみ|の答えは/.test(copy(r)),'R174: the wrong answer names the meaning, as the question asked '+copy(r));assert.deepEqual(labels(r),['次へ']);r.key('Escape');
   r.g.debugOpenNote();r.button(r.RYW.words.jikkou.adult.word);assert.equal(r.g.modal,'word-detail');assert.equal(r.els.get('modal-copy').children[0].textContent,'種類');r.key('Escape');
