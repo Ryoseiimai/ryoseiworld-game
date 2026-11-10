@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T07:02:26.150Z",
-  "branch": "claude/autodev-20261031-1521-R345",
-  "task": "R345 ネオンのかずの人の札「じゅんい 86」がおとなモードでもひらがなだったので、おとなでは「順位 86」「順位 99」にした",
-  "summary": "ネオンのかずの人の札を、おとなモードでは「順位 86」「順位 99」と描くようにした\n札を見る古いテストを表示の文字でそろえ、両モードの札の字と板を確かめるテストを足した\n前と後のスクショを docs/shots/R345 に置いた（右端の札が切れるのと名札「かずの ひと」は前からのまま）",
-  "result": "pass",
-  "shots": [
-   "shots/598/mobile-02-mode-select.jpg",
-   "shots/598/mobile-15-custom-full-run.jpg",
-   "shots/598/mobile-27-chapter-2-play.jpg",
-   "shots/598/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "fec1413",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41178181297"
- },
- {
   "at": "2026-10-31T07:54:41.798Z",
   "branch": "claude/autodev-20261031-1621-R346",
   "task": "R346 ネオンの右端に立つかずの人の札「いいね 3204」「順位 99」が画面の端で切れて見える所を直す",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "ded597a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42884819763"
+ },
+ {
+  "at": "2026-11-10T22:28:27.857Z",
+  "branch": "claude/autodev-20261111-0641-R494",
+  "task": "R494 確かめ用の塔の場面が4章のままあとの場面に残り、ヒダマリの絵に塔の目標が出ていたので、塔は Lv13 で写し、そのあと章とレベルを元に戻した",
+  "summary": "確認役が全章のスクショから5件を挙げ、確かめ用の絵の章ずれを直した\n塔の場面は Lv13 で写し、次の場面で章とレベルを元に戻すテストを足した\n目標の地名の形は前に決めた形を変えるので、判断の行（R495）にした",
+  "result": "pass",
+  "shots": [
+   "shots/857/mobile-02-mode-select.jpg",
+   "shots/857/mobile-19-custom-og-credit-card.jpg",
+   "shots/857/mobile-34-chapter-1-play.jpg",
+   "shots/857/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f785735",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42912598446"
  }
 ]
