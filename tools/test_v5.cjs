@@ -3172,6 +3172,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {assert(!/CHAPTER 0\d COMPLETE['`<]/.test(html),'R471: no CHAPTER 0N left in the page');assert(!/CHAPTER \$\{String\(g\.chapter\)\.padStart/.test(html),'R471: the chapter number is not padded');
   assert((html.match(/`CHAPTER \$\{g\.chapter\} COMPLETE`/g)||[]).length===2,'R471: both chapter cards write CHAPTER N COMPLETE');}
  result.push('R471: 章の終わりの札が「CHAPTER 2 COMPLETE」と0を付けずに章の番号を出す PASS');
+ // R494: the tower2-floor smoke scene left chapter 4 behind, so later shots showed a Lv1 hero in ヒダマリ with the tower goal. It shoots the tower at Lv13 and the next scene puts chapter, level and HP back.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(32);const ch=r.g.chapter,lv=r.g.level,hp=r.g.hp.maxHp;
+  const sc=n=>r.g.smokeScenes.find(s=>s.name===n);sc('tower2-floor').run();r.tick(32);
+  assert.equal(r.g.map,'tower2','R494: the scene warps to tower2');assert.equal(r.g.chapter,4,'R494: tower shot is chapter 4');assert.equal(r.g.level,13,'R494: tower shot is Lv13');
+  Promise.resolve(sc('summon-cast').run()).catch(()=>{});assert.equal(r.g.chapter,ch,'R494: chapter is back after the tower shot');assert.equal(r.g.level,lv,'R494: level is back');assert.equal(r.g.hp.maxHp,hp,'R494: max HP is back');}
+ result.push('R494: 確かめ用の塔の場面が4章をあとの場面に持ち越さず、塔は Lv13 で写る PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
