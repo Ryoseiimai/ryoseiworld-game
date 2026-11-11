@@ -3198,6 +3198,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const lc=(sh.match(/outlinedText\(ctx, life, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];const wc=(sh.match(/outlinedText\(ctx, wl, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];
   assert(lc&&wc,'R500: both label colours are found');assert.equal(lc,wc,'R500: ライフ and 武器 labels use the same colour');}
  result.push('R500: ボス戦の「ライフ」と「武器」の見出しが同じ金色 PASS');
+ // R501: from the ch1 start the hero walked left a few px under the mother's foot box and slid through her; now the hero stops beside her and can still talk to her.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(16);const m=r.g.GAME_DATA.maps.town,mo=m.objects.find(o=>o.id==='mother'),mx=mo.x*48,my=mo.y*48;
+  const y0=r.g.position.y;assert(Math.abs(y0-my)<30,'R501: the ch1 start row is the mother row ('+y0+' vs '+my+')');
+  r.key('ArrowLeft');r.tick(2500);r.key('ArrowLeft',true);r.tick(16);const p=r.g.position;
+  assert(p.x>mx,'R501: the hero did not pass the mother ('+p.x+' vs '+mx+')');assert(p.x-mx>=34,'R501: the hero stops beside the mother, not on her ('+(p.x-mx)+')');
+  assert(r.g.debugPersonBlocked(p.x-4,p.y),'R501: one more step left is refused');
+  r.g.interact();r.tick(16);assert(r.g.dialogue,'R501: the hero can still talk to the mother from beside her');
+  // A hero dropped on top of a person is never stuck: a step away is allowed.
+  for(const k of ['ArrowRight','ArrowDown']){const q=await runtime();q.tick();q.g.debugStartChapter(1);q.g.debugWarp('town',mo.x+.1,mo.y+.2);q.tick(16);const a=q.g.position;assert(q.g.debugPersonBlocked(a.x-2,a.y-2),'R501: the warp put the hero inside the mother box');q.key(k);q.tick(300);q.key(k,true);const b=q.g.position;assert(b.x!==a.x||b.y!==a.y,'R501: a hero warped onto a person can walk away with '+k);}
+  // Dogs and cats stay walk-past, as in ch1 (R193).
+  const dogs=Object.values(r.g.GAME_DATA.maps).flatMap(mm=>mm.objects.filter(o=>/(^|_)(dog|cat)$/.test(o.id||'')));assert(dogs.length>=2,'R501: the dog list is found');}
+ result.push('R501: 主人公が人の絵を通り抜けず、横で止まって話せる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
