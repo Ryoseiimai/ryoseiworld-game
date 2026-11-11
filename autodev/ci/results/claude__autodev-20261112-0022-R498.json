@@ -1,10 +1,10 @@
 {
   "branch": "claude/autodev-20261112-0022-R498",
-  "sha": "6449f8b24450c5aee2256803f3b688e4f98cd36c",
+  "sha": "1fc49fe48d2a7c459a09d717cbc7ae635e95bccb",
   "result": "error",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
+    "merge": "merge",
     "test_v5": "skipped",
     "smoke": "skipped"
   },
@@ -12,8 +12,8 @@
     "自動確認のテストが途中で止まった（結果が無い）。コードではなく自動確認の側の問題の見込み"
   ],
   "shots": [],
-  "at": "2026-11-11T15:53:18.065Z",
+  "at": "2026-11-11T16:33:03.039Z",
   "merged_sha": null,
   "tested_base": null,
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43051039209"
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43057605661"
 }
