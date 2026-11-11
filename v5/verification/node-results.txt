@@ -337,6 +337,7 @@ R431: 確認用の CHAPTER 2 の札が、2章の終わりの文を出す PASS
 R471: 章の終わりの札が「CHAPTER 2 COMPLETE」と0を付けずに章の番号を出す PASS
 R494: 確かめ用の塔の場面が4章をあとの場面に持ち越さず、塔は Lv13 で写る PASS
 R499: 薄い地のボタンの字は、色が変わる間も縁取りが残る PASS
+R500: ボス戦の「ライフ」と「武器」の見出しが同じ金色 PASS
 og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
 og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
 og-achievement: every row is earned on a save that satisfies its `when`, none on an empty save, and atLeast is a hard floor PASS

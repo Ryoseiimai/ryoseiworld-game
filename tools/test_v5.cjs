@@ -3194,6 +3194,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(/text-shadow 0s \.3s/.test(rule(base)),base+' keeps its outline until the colour fade ends');
    assert(/text-shadow 0s(?! \.)/.test(rule(lit)),lit+' gets its outline at once');}}
  result.push('R499: 薄い地のボタンの字は、色が変わる間も縁取りが残る PASS');
+ // R500: the boss-fight labels ライフ and 武器 sit in the same left column; they share one colour (gold) so they read as the same kind of label.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const lc=(sh.match(/outlinedText\(ctx, life, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];const wc=(sh.match(/outlinedText\(ctx, wl, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];
+  assert(lc&&wc,'R500: both label colours are found');assert.equal(lc,wc,'R500: ライフ and 武器 labels use the same colour');}
+ result.push('R500: ボス戦の「ライフ」と「武器」の見出しが同じ金色 PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

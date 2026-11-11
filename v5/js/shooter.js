@@ -2469,7 +2469,8 @@
     // R497: the label is drawn left of the hearts (x 22, like 武器 below); the hearts, the barrier and the label all stop before the skill button (left 338).
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
     // R480: the label sat at the hearts' top (y0+18) and read like a superscript; heartPath spans y-0.03s..y+0.8s, so its middle is y+0.38s.
-    if (off) outlinedText(ctx, life, 22, y0 + 18 + size * 0.38, '#ffb3c2');
+    // R500: ライフ was pink while the 武器 label below is gold; both labels are the same kind, so both use the label gold.
+    if (off) outlinedText(ctx, life, 22, y0 + 18 + size * 0.38, '#ffd98a');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
 
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
