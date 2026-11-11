@@ -3187,6 +3187,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.map,'tower2','R494: the scene warps to tower2');assert.equal(r.g.chapter,4,'R494: tower shot is chapter 4');assert.equal(r.g.level,13,'R494: tower shot is Lv13');
   Promise.resolve(sc('summon-cast').run()).catch(()=>{});assert.equal(r.g.chapter,ch,'R494: chapter is back after the tower shot');assert.equal(r.g.level,lv,'R494: level is back');assert.equal(r.g.hp.maxHp,hp,'R494: max HP is back');}
  result.push('R494: 確かめ用の塔の場面が4章をあとの場面に持ち越さず、塔は Lv13 で写る PASS');
+ // R499: the light text of the see-through 話す/調べる and メニュー buttons needs its dark outline; the outline used to switch with no fade
+ // while the colour faded .3s, so for that moment the label was pale and unoutlined. Into idle/behind the outline comes at once; back out it waits for the fade.
+ {const rule=sel=>(html.match(new RegExp(sel.replace(/[.#]/g,m=>'\\'+m)+'\\{transition:([^}]*)\\}'))||[])[1]||'';
+  for(const [base,lit] of [['#talk-btn','#talk-btn.idle,#talk-btn.behind'],['#menu-btn','#menu-btn.behind']]){
+   assert(/text-shadow 0s \.3s/.test(rule(base)),base+' keeps its outline until the colour fade ends');
+   assert(/text-shadow 0s(?! \.)/.test(rule(lit)),lit+' gets its outline at once');}}
+ result.push('R499: 薄い地のボタンの字は、色が変わる間も縁取りが残る PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
