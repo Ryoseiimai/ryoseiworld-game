@@ -1609,7 +1609,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const head=(html.match(/\.word-card \.word-head\{([^}]*)\}/)||[])[1]||'';assert(/display:flex/.test(head)&&/space-between/.test(head),'the name is pushed to the right end');
   const who=(html.match(/\.word-card \.word-who\{([^}]*)\}/)||[])[1]||'';assert(who&&!/font-size/.test(who),'the name keeps the 24px card letters');
   // R300: a framed name looked like a button to tap; it is plain text now.
-  assert(!/border/.test(who),'the name on the word card has no frame');}
+  assert(!/border/.test(who),'the name on the word card has no frame');
+  // R498: the name was grey, unlike the gold speaker name in talk; it is gold like the talk name now.
+  assert(/color:#f1cd7c/.test(who),'the name on the word card is gold like the speaker name');}
  result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
  // R99: on とう2F the card no longer covers the stairs signs (うえへ / したへ) at the top of the floor: it moves to the bottom of the map band, clear of the hero.
  // In battle a quiz answer (おさらい) puts the card under the enemy name instead of over it.
