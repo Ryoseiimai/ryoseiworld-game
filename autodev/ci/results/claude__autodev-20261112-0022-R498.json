@@ -1,19 +1,22 @@
 {
   "branch": "claude/autodev-20261112-0022-R498",
-  "sha": "1fc49fe48d2a7c459a09d717cbc7ae635e95bccb",
-  "result": "error",
+  "sha": "bbb1e393db0d8ae9973680a50a2ef0aa2dcca503",
+  "result": "pass",
   "checks": {
     "fence": "pass",
     "merge": "merge",
-    "test_v5": "skipped",
-    "smoke": "skipped"
+    "test_v5": "pass",
+    "smoke": "pass"
   },
-  "errors": [
-    "自動確認のテストが途中で止まった（結果が無い）。コードではなく自動確認の側の問題の見込み"
+  "errors": [],
+  "shots": [
+    "devlog/shots/865/mobile-02-mode-select.jpg",
+    "devlog/shots/865/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/865/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/865/mobile-50-battle-bugking.jpg"
   ],
-  "shots": [],
-  "at": "2026-11-11T16:33:03.039Z",
-  "merged_sha": null,
-  "tested_base": null,
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43057605661"
+  "at": "2026-11-11T17:36:38.219Z",
+  "merged_sha": "1438b672ee4e1d75f76a5f28cce15fc2c407b622",
+  "tested_base": "f1918ae7d1c3bf7810d35ef691182aa089d1b008",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43067479780"
 }
