@@ -2002,8 +2002,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R496: the battle HP showed only the current number, so a player could not tell how hurt the hero was; it now adds 「/ 最大」 like the status menu.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   r.g.debugStartBattle('popup','r496');r.tick(1500);while(r.g.dialogue)r.dialogue();r.tick(300);const st=r.g.state;
-  assert.equal(r.els.get('hp-max').textContent,'/ '+st.hero.maxHp,'R496: battle shows the max HP');
-  st.hero.hp=st.hero.displayHp=st.hero.rollTarget=Math.max(1,st.hero.maxHp-7);r.tick(300);assert.equal(r.els.get('hp-number').textContent,String(st.hero.maxHp-7),'R496: current HP stays a plain number');assert.equal(r.els.get('hp-max').textContent,'/ '+st.hero.maxHp,'R496: max does not follow the hurt HP');
+  assert.equal(r.els.get('hp-max').textContent,' / '+st.hero.maxHp,'R496: battle shows the max HP');
+  st.hero.hp=st.hero.displayHp=st.hero.rollTarget=Math.max(1,st.hero.maxHp-7);r.tick(300);assert.equal(r.els.get('hp-number').textContent,String(st.hero.maxHp-7),'R496: current HP stays a plain number');assert.equal(r.els.get('hp-max').textContent,' / '+st.hero.maxHp,'R496: max does not follow the hurt HP');
   const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),m=html.match(/\.hp-max\{font-size:(\d+)px/);assert(m&&+m[1]>=24,'R496: max HP text is 24px or more');r.g.state.battle=null;}
  result.push('R496: 戦闘のHPを「HP 60 / 60」と最大の値も出し、ステータスと同じ形にした PASS');
  // R127: the battle screen's battery label and the summon result lines read in kanji in adult mode (SPEC_V7_MANABU.md 9); kids mode keeps the hiragana ones.
