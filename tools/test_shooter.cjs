@@ -698,9 +698,9 @@ async function browserAdapterChecks() {
   {const life=drawn.filter(d=>d.text==='ライフ').at(-1),hearts=drawn.filter(d=>(d.fill==='#ff5c7a'||d.fill==='rgba(255,255,255,0.08)')&&d.top>=826&&d.top<860);
    const mid=hearts.length?(Math.min(...hearts.map(d=>d.top))+Math.max(...hearts.map(d=>d.bottom)))/2:NaN;
    check('R480: 「ライフ」の高さがハートの真ん中にそろう',!!life&&hearts.length>0&&Math.abs(life.y-mid)<=3&&life.y>826+24,{y:life&&life.y,mid});}
-  // R453: the boss-fight hearts had no name and read like the きずな ♥; ライフ sits right of them and stops before the skill button (left 338).
-  {const life=drawn.filter(d=>d.text==='ライフ').at(-1),hearts=drawn.filter(d=>(d.fill==='#ff5c7a'||d.fill==='rgba(255,255,255,0.08)')&&d.top>=826&&d.top<860),hr=hearts.length?Math.max(...hearts.map(d=>d.right)):0;
-   check('R453: ボス戦のハートの右に「ライフ」が出て、とくぎのボタンにかからない',!!life&&life.x>hr&&life.x+3*24+3<=334&&/700 24px/.test(life.font),{life,hr});}
+  // R453: the boss-fight hearts had no name and read like the きずな ♥. R497: ライフ now sits left of them at x 22 (like 武器 on the next row), the hearts start after it and stop before the skill button (left 338).
+  {const life=drawn.filter(d=>d.text==='ライフ').at(-1),hearts=drawn.filter(d=>(d.fill==='#ff5c7a'||d.fill==='rgba(255,255,255,0.08)')&&d.top>=826&&d.top<860),hl=hearts.length?Math.min(...hearts.map(d=>d.left)):0,hr=hearts.length?Math.max(...hearts.map(d=>d.right)):999;
+   check('R453・R497: ボス戦の「ライフ」は武器と同じ左の x 22 に出て、ハートはその右から始まり、とくぎのボタンにかからない',!!life&&life.x===22&&hl>=22+3*24&&hr<=334&&/700 24px/.test(life.font),{life,hl,hr});}
   // R298: the row moved up (name 29, bar 50..70, label at 92) so the label keeps 6px from both the bar and the line.
   // R102: the right-hand label (こうげき / ダメージ はんぶん) sat on the band's bottom line (y 113..116); the HP bar moved up to 58..80 so its 24px letters and 5px outline fit between the bar and the line.
   // R327: the label follows RYW.mode (adult here), so the layout checks run in both modes and read the drawn words from bandLabel.

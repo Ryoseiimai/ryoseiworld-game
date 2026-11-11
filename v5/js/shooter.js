@@ -2440,15 +2440,23 @@
     g.addColorStop(0, 'rgba(6,12,28,0.84)'); g.addColorStop(1, 'rgba(6,10,24,0.96)');
     ctx.fillStyle = g; ctx.fillRect(0, y0, W, H - y0);
     ctx.fillStyle = 'rgba(255,255,255,0.25)'; ctx.fillRect(0, y0, W, 2);
-    var size = Math.min(34, 300 / Math.max(1, p.maxHearts) - 6), gapX = size + 8;
+    // R497: ライフ sat right of the hearts while 武器 sat left of its name on the next row, so the two labels faced opposite ways.
+    // ライフ now comes first at x 22 like 武器, and the hearts follow it. If the hearts would get smaller than 22px, the label is left out (as before R497 when it did not fit).
+    var life = word('life', 'ライフ');
+    ctx.font = '700 24px ' + FONT;
+    var off = ctx.measureText(life).width + 10, nH = Math.max(1, p.maxHearts);
+    // The barrier icon (when held) also needs 44px after the hearts, so its ring (ix+18±23.5) stays left of the skill button.
+    var room = 290 - (p.barrier ? 44 : 0);
+    if ((room - off) / nH - 8 < 22) off = 0;
+    var size = off ? Math.min(34, (room - off) / nH - 8) : Math.min(34, 300 / nH - 6), gapX = size + 8;
     for (var i = 0; i < p.maxHearts; i++) {
-      var hx = 22 + size / 2 + i * gapX, hy = y0 + 18;
+      var hx = 22 + off + size / 2 + i * gapX, hy = y0 + 18;
       heartPath(ctx, hx, hy, size);
       if (i < p.hearts) { ctx.fillStyle = '#ff5c7a'; ctx.fill(); ctx.strokeStyle = '#ffe1e8'; }
       else { ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,0.4)'; }
       ctx.lineWidth = 2.5; ctx.stroke();
     }
-    var ix = 22 + p.maxHearts * gapX + 6;
+    var ix = 22 + off + p.maxHearts * gapX + 6;
     if (p.barrier && ix < 320) {
       var up = p.barrier.up, bx = ix + 18, by = y0 + 32;
       ctx.globalAlpha = up ? 1 : 0.35; drawSprite(ctx, S, 'items', 2, 0, bx, by, 36); ctx.globalAlpha = 1;
@@ -2458,11 +2466,10 @@
       }
     }
     // R453: the hearts had no name, so they read like the きずな ♥ or a lost HP. Name them ライフ (words.js life).
-    // It stops 4px before the skill button (left 338, top 834), which sits on the same row.
-    var lx = ix + (p.barrier && ix < 320 ? 44 : 0), life = word('life', 'ライフ');
+    // R497: the label is drawn left of the hearts (x 22, like 武器 below); the hearts, the barrier and the label all stop before the skill button (left 338).
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
     // R480: the label sat at the hearts' top (y0+18) and read like a superscript; heartPath spans y-0.03s..y+0.8s, so its middle is y+0.38s.
-    if (lx + ctx.measureText(life).width + 3 <= 334) outlinedText(ctx, life, lx, y0 + 18 + size * 0.38, '#ffb3c2');
+    if (off) outlinedText(ctx, life, 22, y0 + 18 + size * 0.38, '#ffb3c2');
     ctx.font = '700 24px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
 
     var icons = WEAPONS.filter(function (wp) { return wp.icon && w.weapons[wp.id]; }), xi = 22;
