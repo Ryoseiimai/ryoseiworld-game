@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T07:54:41.798Z",
-  "branch": "claude/autodev-20261031-1621-R346",
-  "task": "R346 ネオンの右端に立つかずの人の札「いいね 3204」「順位 99」が画面の端で切れて見える所を直す",
-  "summary": "かずの人の札が画面の端で全部入らない時は、札を描かないようにした\n端の札を見る古いテストを新しい決まりに合わせ、num2 と num4 を歩いて確かめるテストを足した\n前と後のスクショを docs/shots/R346 に置いた（右端の「いいね 320」「じゅんい」が消えた）",
-  "result": "pass",
-  "shots": [
-   "shots/600/mobile-02-mode-select.jpg",
-   "shots/600/mobile-15-custom-full-run.jpg",
-   "shots/600/mobile-27-chapter-2-play.jpg",
-   "shots/600/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5fe51b0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41181619853"
- },
- {
   "at": "2026-10-31T08:47:25.133Z",
   "branch": "claude/autodev-20261031-1721-R347",
   "task": "R347 タイトルの「あそびながら ゲームづくりと AIを まなぶ RPG」と続きの帯の「ノイズのとう」がおとなモードでもひらがなだったので、おとなでは「遊びながら ゲーム作りと AIを学ぶ RPG」「ノイズの塔」にした（副題「ひかりの なつやすみ」は題名なのでそのまま）",
@@ -2993,5 +2978,20 @@
   ],
   "sha": "f785735",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42912598446"
+ },
+ {
+  "at": "2026-11-11T01:20:48.424Z",
+  "branch": "claude/autodev-20261111-0941-R496",
+  "task": "R496 戦闘のHPが今の値だけで、どれだけ減ったか分からなかったので、ステータスと同じ「HP 60 / 60」の形で最大の値も出した",
+  "summary": "確認役が全章のスクショを見て、戦闘のHPに最大の値が無い所を挙げた\n戦闘のHPを「HP 60 / 60」にし、9999でも重ならないことを確かめた\n最大の値の表示と文字の大きさを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/858/mobile-02-mode-select.jpg",
+   "shots/858/mobile-19-custom-og-credit-card.jpg",
+   "shots/858/mobile-34-chapter-1-play.jpg",
+   "shots/858/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "208690b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42936455722"
  }
 ]
