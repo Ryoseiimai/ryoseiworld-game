@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T00:03:00.867Z",
-  "branch": "claude/autodev-20261101-0821-R364",
-  "task": "R364 読み込み中の一文がおとなモードの記録でも「まちの あかりを つけています…」で、直後のタイトルの「始めから」「続きから」とそろっていなかったので、おとなでは「町の明かりをつけています…」にした（こどもモードと初めての人はそのまま）",
-  "summary": "読み込み中の一文を、おとなの記録では「町の明かりをつけています…」にした\nこどもと初めての人はそのまま。テストと540x960の前後のスクショを足した\n記録にモードが無い古い保存は、タイトルと同じくかなのままにした",
-  "result": "pass",
-  "shots": [
-   "shots/626/mobile-02-mode-select.jpg",
-   "shots/626/mobile-15-custom-full-run.jpg",
-   "shots/626/mobile-27-chapter-2-play.jpg",
-   "shots/626/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e7a7544",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41254156670"
- },
- {
   "at": "2026-11-01T00:52:00.891Z",
   "branch": "claude/autodev-20261101-0921-R365",
   "task": "R365 デバッグモードの切り替え「はんてい ワイド」「あたりはんてい みえる」がおとなモードでもかなで、上の説明「使う道具を選ぼう」とそろっていなかったので、おとなでは「判定ワイド」「当たり判定を表示」にした（こどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "8c60a15",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43184912304"
+ },
+ {
+  "at": "2026-11-12T09:55:52.677Z",
+  "branch": "claude/autodev-20261112-1821-R510",
+  "task": "R510 町の上の札の後ろに建物が来ると、地が薄すぎて「85％」の後ろに植木鉢や段が重なって見えたので、地を半分くらいの濃さにした",
+  "summary": "町の上の札の後ろに建物が来た時、札の地を35%から55%の濃さにした\n建物は透けて見えたまま、字の後ろの植木鉢や段が目立たなくなった\n地の濃さが半分くらいであることを、テストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/885/mobile-02-mode-select.jpg",
+   "shots/885/mobile-19-custom-og-credit-card.jpg",
+   "shots/885/mobile-34-chapter-1-play.jpg",
+   "shots/885/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1664681",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43194031042"
  }
 ]
