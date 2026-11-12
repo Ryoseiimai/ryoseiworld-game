@@ -3246,6 +3246,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // Dogs and cats stay walk-past, as in ch1 (R193).
   const dogs=Object.values(r.g.GAME_DATA.maps).flatMap(mm=>mm.objects.filter(o=>/(^|_)(dog|cat)$/.test(o.id||'')));assert(dogs.length>=2,'R501: the dog list is found');}
  result.push('R501: 主人公が人の絵を通り抜けず、横で止まって話せる PASS');
+ // R508: the last row of a long list sat 5px over the dashed line; the line is now drawn on the panel, 12px under the last whole row, and ▼ 続き and the buttons move down with it.
+ {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
+  assert(/const MODAL_GAP=12;function fitModalCopy/.test(html),'R508: a 12px gap under the last row');
+  assert(/\.modal>\.panel\.more::after\{[^}]*top:var\(--cut,0\);border-top:3px dashed/.test(html),'R508: the dashed line belongs to the panel');
+  assert(!/#modal-copy\.more\{border-bottom/.test(html),'R508: the list itself has no dashed border (its letters showed through the gaps)');
+  assert(fit.includes("cp.style.height=cp.style.minHeight=n*lh+'px'"),'R508: the list shows whole rows only, with no border inside its height');
+  assert(fit.includes('const cut=(cp.offsetTop||0)+(cp.offsetHeight||0)+MODAL_GAP')&&fit.includes("mm.style.top=(cut+6)+'px'"),'R508: ▼ 続き sits under the line');
+  assert(fit.includes("cp.style.marginBottom=46+MODAL_GAP+'px'"),'R508: the buttons stay under ▼ 続き');}
+ result.push('R508: 長い一覧の最後の行と点線の間をあけ、点線に字が透けないようにした PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
