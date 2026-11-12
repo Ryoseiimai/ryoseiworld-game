@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T18:45:12.625Z",
-  "branch": "claude/autodev-20261101-0337-R359",
-  "task": "R359 言葉のページの「出会った場所」が「アイテムの いちらん」「ボスせんの あたりはんてい チップ」とおとなモードでもかなで、上の「実務では」とそろっていなかったので、おとなでは「アイテムの一覧」「ボス戦の当たり判定チップ」などにした（敵と章の名前はそのまま）",
-  "summary": "おとなモードで、言葉のページの「出会った場所」を漢字まじりにした\n「アイテムの一覧」「ボス戦の当たり判定チップ」など27か所。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R359）を足した",
-  "result": "fail",
-  "shots": [
-   "shots/614/mobile-02-mode-select.jpg",
-   "shots/614/mobile-15-custom-full-run.jpg",
-   "shots/614/mobile-27-chapter-2-play.jpg",
-   "shots/614/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3d3c44e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41230429884"
- },
- {
   "at": "2026-10-31T18:58:16.804Z",
   "branch": "claude/autodev-20261101-0337-R359",
   "task": "R359 言葉のページの「出会った場所」が「アイテムの いちらん」「ボスせんの あたりはんてい チップ」とおとなモードでもかなで、上の「実務では」とそろっていなかったので、おとなでは「アイテムの一覧」「ボス戦の当たり判定チップ」などにした（敵と章の名前はそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "28504cd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43150998925"
+ },
+ {
+  "at": "2026-11-12T05:04:31.411Z",
+  "branch": "claude/autodev-20261112-1321-R505",
+  "task": "R505 ミナモに着いた時、ミナモの看板の板が上の場所札と目標の帯の後ろに隠れていたので、看板を3マス下に立てた",
+  "summary": "ミナモに着いた時、ミナモの看板の板が上の札と帯の後ろに隠れていた\n看板を3マス下に立て、そこにあったゴミ箱を看板の元の場所へ移した\n看板が上の札に隠れないかのテストを足し、看板の位置を使う古いテスト2つの座標を合わせた",
+  "result": "pass",
+  "shots": [
+   "shots/876/mobile-02-mode-select.jpg",
+   "shots/876/mobile-19-custom-og-credit-card.jpg",
+   "shots/876/mobile-34-chapter-1-play.jpg",
+   "shots/876/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "aa599fc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43157348450"
  }
 ]
