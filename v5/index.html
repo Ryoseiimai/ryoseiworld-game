@@ -470,7 +470,8 @@ const SORA_BATTLE_X=460,SORA_BATTLE_Y=420;
 const HERO_SHADOW='#0e1c2caa';
 // R234: the battle hero (86x108 box) looked about half the size of the vending machine next to it. The box is now 112x140; the feet stay on HERO_BATTLE_Y, so the hero grows upward and its right edge stays left of the enemy.
 // R167: the name plate sits under the word card, so a tall summon (ナオスライム's antenna) could poke into it. With a card up, the art is shrunk just enough to start under the plate (its top row comes from scanAlpha); without one it keeps its full size.
-function summonFitH(index,nameY){const f=frameFor('summons',index);if(nameY<=185||!f||f.top==null)return 300;const s0=Math.min(285/f.w,300/f.h),visible=f.h*(1-f.top)*s0,room=SUMMON_Y-4-(nameY+12+6);return visible<=room?300:f.h*s0*Math.max(.6,room/visible);}
+// R517: the art started 6px under the plate, so ナオスライム's wrench looked stuck to its name. It now starts 12px under it, the same gap as above the plate (R250).
+function summonFitH(index,nameY){const f=frameFor('summons',index);if(nameY<=185||!f||f.top==null)return 300;const s0=Math.min(285/f.w,300/f.h),visible=f.h*(1-f.top)*s0,room=SUMMON_Y-4-(nameY+12+12);return visible<=room?300:f.h*s0*Math.max(.6,room/visible);}
 function summonEaseH(c,target){const last=c.fitAt??gameTime;c.fitAt=gameTime;c.fitH=c.fitH==null?target:c.fitH+(target-c.fitH)*(1-Math.exp(-Math.max(0,gameTime-last)/120));return c.fitH;}
 // R250: the plate's top (nameY-32) sat 2px under the word card, so ナオスライム's name looked stuck to the card. It now leaves a 12px gap.
 const SUMMON_PLATE_GAP=12;

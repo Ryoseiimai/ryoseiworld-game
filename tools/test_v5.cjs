@@ -2299,7 +2299,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const s0=Math.min(285/339,300/342),tops=[4,25,83,100,140];
   for(const top of tops){frame={w:339,h:342,top:top/342};assert.equal(fn.summonFitH(0,185),300,'no word card: full size (top '+top+')');
    for(const nameY of [230,260,290]){const h=fn.summonFitH(0,nameY),s=Math.min(285/339,h/342),artTop=470-4-342*s*(1-top/342);
-    if(s>s0*.6+1e-9)assert(artTop>=nameY+12+6-0.01,'the art starts under the plate '+[top,nameY,artTop]);else assert.equal(h,342*s0*.6,'never below 60%');}}
+    if(s>s0*.6+1e-9)assert(artTop>=nameY+12+12-0.01,'R517: the art starts 12px under the plate '+[top,nameY,artTop]);else assert.equal(h,342*s0*.6,'never below 60%');}}
   frame={w:339,h:342};assert.equal(fn.summonFitH(0,260),300,'top not measured (file://, not loaded): same as before');frame=undefined;assert.equal(fn.summonFitH(0,260),300,'no frame: same as before');
   const c={};assert.equal(fn.summonEaseH(c,200),200,'starts at the first size');gameTime=16;const h1=fn.summonEaseH(c,300);assert(h1>200&&h1<230,'grows back smoothly, no jump '+h1);gameTime=2000;assert(Math.abs(fn.summonEaseH(c,300)-300)<0.01,'settles at full size');}
  result.push('R167: 召喚の名前の札がナオスライムのアンテナに重ならないよう、札の下に収まる大きさで描くようにした PASS');
@@ -3084,6 +3084,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();const C=r.g.GAME_DATA.chapters;for(const n of [1,2,3,4]){const q=C[n].quests.zako;assert(q.adult.endsWith(' {n} / {goal}'),'R515: adult goal spaces the slash: '+q.adult);assert(q.text.endsWith(' {n}/{goal}'),'R515: kids goal keeps 0/3: '+q.text);}}
  result.push('R515: おとなモードのノイズの目標の数を「0 / 3」と斜線の前後を空けて、実績やおさらいの書き方にそろえる PASS');
  result.push('R516: こどもモードのおさらいの見出しを「おさらい　1 / 3」と斜線の前後を空けて、ふくろうの「もんだい 1 / 3」にそろえる PASS');
+ result.push('R517: 呼び出した仲間の絵は名前の札の下から12px空けて始まり、札に付いて見えない PASS');
  // R317: chapter 1's later goals (交番・コンビニ・でんきや・テレビの王様・バス停) stayed in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
  {const r=await runtime();r.tick();const q=r.g.GAME_DATA.chapters[1].quests,want={key:['こうばんで カギを もらおう','交番でカギをもらおう'],battery:['コンビニで バッテリーを かおう','コンビニでバッテリーを買おう'],recruit:['でんきやの おくを しらべよう','電気屋の奥を調べよう'],boss:['テレビの おうさまに あいに いこう','テレビの王様に会いに行こう'],cleared:['バスていから ミナモちょうへ いこう','バス停からミナモちょうへ行こう']};
   for(const [k,[kid,adult]] of Object.entries(want)){assert.equal(q[k].text,kid,'R317 kids '+k);assert.equal(q[k].adult,adult,'R317 adult '+k);const w=[...adult+' ↑'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R317: '+k+' adult goal fits the HUD ('+w+')');}
