@@ -359,6 +359,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [patch,want] of cases){const d={...base,...patch,mode:'adult'},r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d)]])});r.tick();assert.equal(r.els.get('title-hint').textContent,want,'R409 adult hint for '+JSON.stringify(patch));}}
  // R389: while a window is open, the field's 話す button and walk help under it are hidden (they showed through cut by the window edge as broken letters).
  assert(html.includes('#stage:has(#modal:not([hidden])) #talk-btn,#stage:has(#modal:not([hidden])) #walk-help{visibility:hidden}'),'R389 field controls hidden under a window');
+ assert(html.includes('#stage:has(#modal:not([hidden])) .ending-card{visibility:hidden}'),'R514 ending card hidden under a window so its lines are not cut by the window edge');
  result.push('R389: メニューなどの窓を開いている間は、後ろの「話す」ボタンと歩き方の案内を隠し、窓の縁で切れた字に見えない PASS');
  // R437: with both, the hint names the challenge and the notebook review as two things, not 「チャレンジや〜のおさらい」.
  {const base=JSON.parse(t.saved.get('ryoseiworld-rpg-v5'));for(const mode of ['adult','kids']){const d={...base,chapter:2,words:['jikkou','item','cost','yobidasu'],mode},r=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify(d)]])});r.tick();const h=r.els.get('title-hint').textContent;
