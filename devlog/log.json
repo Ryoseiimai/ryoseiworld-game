@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-10-31T16:49:12.181Z",
-  "branch": "claude/autodev-20261101-0121-R356",
-  "task": "R356 ことばノートのおさらいの結果で、ソラの一言「ぜんぶ せいかい。いいペースだね」「また つぎ やってみよう」がおとなモードでもひらがなで、上の「3問中 3問正解」とそろっていなかったので、おとなでは「全部正解。いいペースだね」「また次やってみよう」にした",
-  "summary": "おとなモードのおさらいの結果で、ソラの一言を「全部正解。いいペースだね」にした\n間違えた時は「また次やってみよう」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R356）を足した。全章のスモークは自動確認に任せた",
-  "result": "pass",
-  "shots": [
-   "shots/611/mobile-02-mode-select.jpg",
-   "shots/611/mobile-15-custom-full-run.jpg",
-   "shots/611/mobile-27-chapter-2-play.jpg",
-   "shots/611/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e1aea0c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41220505492"
- },
- {
-  "at": "2026-10-31T17:54:36.125Z",
-  "branch": "claude/autodev-20261101-0221-R357",
-  "task": "R357 アイテムの大事な物の説明「しかくが ジャンプすると」「へんきゃくびは せんげつ。」がおとなモードでもひらがなで、上の「ポケットは小さな倉庫。」とそろっていなかったので、おとなでは「四角がジャンプすると…二人の作品。」「返却日は先月。」にした（品物の名前と本の題名はそのまま）",
-  "summary": "おとなモードで、はじめて作ったゲームの説明を「四角がジャンプすると…」にした\n返し忘れた本の説明を「返却日は先月。」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R357）を足した。品物の名前は物語に合わせて残した",
-  "result": "pass",
-  "shots": [
-   "shots/612/mobile-02-mode-select.jpg",
-   "shots/612/mobile-15-custom-full-run.jpg",
-   "shots/612/mobile-27-chapter-2-play.jpg",
-   "shots/612/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c9d248b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41225739043"
- },
- {
   "at": "2026-10-31T18:36:43.322Z",
   "branch": "claude/autodev-20261101-0321-R358",
   "task": "R358 ことばノートの種類の見出しと、言葉のページの「種類」が「ゲームづくり」とおとなモードでもかなで、上の「集めた言葉」「種類」とそろっていなかったので、おとなでは「ゲーム作り」にした",
@@ -2983,5 +2953,35 @@
   ],
   "sha": "7659f36",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43139690973"
+ },
+ {
+  "at": "2026-11-12T03:36:33.567Z",
+  "branch": "claude/autodev-20261112-1221-R504",
+  "task": "R504 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンの「ランク 86位」の札の右端が、ミオの頭のすぐ横まで来ていた\n二人は同じ髪形なので、札がミオのものに見えた。ミオを右に約14px動かした\nミオは歩道の上のまま。札とミオが離れているかのテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/872/mobile-02-mode-select.jpg",
+   "shots/872/mobile-19-custom-og-credit-card.jpg",
+   "shots/872/mobile-34-chapter-1-play.jpg",
+   "shots/872/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "734449e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43147724061"
+ },
+ {
+  "at": "2026-11-12T03:48:49.858Z",
+  "branch": "claude/autodev-20261112-1221-R504",
+  "task": "R504 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンの「ランク 86位」の札の右端が、ミオの頭のすぐ横まで来ていた\n二人は同じ髪形なので、札がミオのものに見えた。ミオを右に約14px動かした\nミオは歩道の上のまま。札とミオが離れているかのテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/873/mobile-02-mode-select.jpg",
+   "shots/873/mobile-19-custom-og-credit-card.jpg",
+   "shots/873/mobile-34-chapter-1-play.jpg",
+   "shots/873/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1edec18",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43148822737"
  }
 ]
