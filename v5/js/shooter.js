@@ -68,6 +68,14 @@
   function burstAlpha(o, t) { var bt = t - o.t; return clamp(Math.min(bt * 6, (o.dur - bt) / (o.out || BURST_OUT)), 0, 1); }
   var HINT_IN = 0.25; // fade-in of the move hint
   function hintAlpha(t) { return clamp(Math.min(t / HINT_IN, (HINT_T - t) / HINT_OUT), 0, 1); }
+  // R502: the 「ドラッグで動く」 plate sat over the lane the hero dodges in for the whole 4.5 s even after the player had moved.
+  // Once the hero moves after the plate has been up HINT_SEEN s, it fades out over HINT_OUT s (w.hintCut is that moment).
+  var HINT_SEEN = 1.0, HINT_MOVE = 12;
+  function moveHintAlpha(w) {
+    var a = hintAlpha(w.stateT);
+    if (w.hintCut != null) a = Math.min(a, clamp(1 - (w.stateT - w.hintCut) / HINT_OUT, 0, 1));
+    return a;
+  }
   // R75: the plate behind the entrance lines (INTRO_LINE_Y). R110: raised 40px so the rising hero (its box top stops at 451)
   // and the neon signs (top NEON_SIGN_Y) stay below it instead of touching the second line.
   var INTRO_PLATE_T = 352, INTRO_PLATE_H = 98;
@@ -474,7 +482,7 @@
   // and the bottom one not while the move hint is shown, so the words never sit on top of each other.
   function wallLabels(w) {
     var on = w.bossId === 'kateino' && w.m.wall > 50;
-    return { top: on && !w.burst && !w.toast, bottom: on && !(w.state === 'play' && w.stateT < HINT_T) };
+    return { top: on && !w.burst && !w.toast, bottom: on && !(w.state === 'play' && w.stateT < HINT_T && moveHintAlpha(w) > 0) };
   }
   function gap(w) { var wall = w.bossId === 'kateino' ? w.m.wall : 0; return { top: PLAY_T + wall, bottom: PLAY_B - wall }; }
 
@@ -573,6 +581,11 @@
     if (movingNow && !p.moving) squash(p, 1, 0.12);
     else if (!movingNow && p.moving) squash(p, -1, 0.1);
     p.moving = movingNow;
+    // A tap shakes the finger 1-2 px, so the hint goes only after the hero has moved HINT_MOVE px in all (slow drags add up too).
+    if (w.state === 'play' && w.hintCut == null && w.stateT < HINT_T) {
+      w.hintMoved = (w.hintMoved || 0) + Math.abs(ax * P_SPEED * dt + (inp.dx || 0)) + Math.abs(ay * P_SPEED * dt + (inp.dy || 0));
+      if (w.stateT >= HINT_SEEN && w.hintMoved >= HINT_MOVE) w.hintCut = w.stateT;
+    }
   }
 
   function handleSkill(w, dt, inp) {
@@ -1165,6 +1178,8 @@
     if (w.state === 'play' && w.stateT < HINT_T) {
       if (w.stateT < HINT_IN) w.stateT = HINT_IN;
       else if (w.stateT > HINT_T - HINT_OUT) w.stateT = HINT_T;
+      // R502: the same when the card catches the hint fading after the hero moved: let it go at once.
+      if (w.hintCut != null) w.hintCut = w.stateT - HINT_OUT - 0.01;
     }
   }
 
@@ -1190,7 +1205,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2589,8 +2604,8 @@
       ctx.font = '700 24px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       outlinedText(ctx, word('cooldown', 'れんしゃ') + ' ' + cooldownLabel(), W / 2, y + 18, '#fff5d6');
     }
-    if (w.state === 'play' && w.stateT < HINT_T) {
-      var ha = hintAlpha(w.stateT);
+    if (w.state === 'play' && w.stateT < HINT_T && moveHintAlpha(w) > 0) {
+      var ha = moveHintAlpha(w);
       ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       // R156: on a touch-only device (index.html sets .touch-only) the keyboard line is left out.

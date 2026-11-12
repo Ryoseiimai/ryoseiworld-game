@@ -1035,6 +1035,41 @@ async function browserAdapterChecks() {
   check('R153: 時間が来たら案内は消える', A(I.hintT) === 0);
 })();
 
+// R502: the 「ドラッグで動く」 plate sat over the dodging lane for the whole 4.5 s even after the player had moved.
+// Once the hero moves after the plate has been up 1 s, it fades out; standing still keeps it for the full time.
+(() => {
+  const run = (moveFrom) => {
+    const w = sim.createWorld({ seed: 7, boss: 'kateino', god: true });
+    for (let i = 0; i < 60 * 8 && w.state !== 'play'; i++) sim.step(w, DT, IDLE);
+    const log = [];
+    for (let i = 0; i < 60 * 5 && w.state === 'play'; i++) {
+      sim.step(w, DT, w.stateT >= moveFrom ? { ax: 0, ay: 1, dx: 0, dy: 0 } : IDLE);
+      log.push([w.stateT, sim.moveHintAlpha(w), w.m.wall > 50 ? sim.wallLabels(w).bottom : null]);
+    }
+    return { w, log };
+  };
+  const still = run(99);
+  check('R502: 動かないときは、案内は前と同じ時間まで出ている', still.log.filter(r => r[0] < sim.INTRO.hintT - 0.3 && r[0] > 0.3).every(r => r[1] === 1));
+  const early = run(0.2);
+  check('R502: 遊び始めすぐに動いても、案内は1秒は出ている', early.log.filter(r => r[0] > 0.3 && r[0] < sim.HINT_SEEN).every(r => r[1] === 1) && early.w.hintCut >= sim.HINT_SEEN, early.w.hintCut);
+  const back = early.log.filter(r => r[0] > early.w.hintCut + 0.2 && r[0] < sim.INTRO.hintT && r[2] !== null);
+  check('R502: 案内が消えたら、下の壁の名前が出る', back.length > 0 && back.every(r => r[2] === true), back.length);
+  check('R502: 動かないときは、案内の間は下の壁の名前を出さない', still.log.filter(r => r[0] < sim.INTRO.hintT && r[2] !== null).every(r => r[2] === false));
+  check('R502: 1秒を過ぎて動いたら、案内は0.15秒ほどで消える', early.log.filter(r => r[0] > early.w.hintCut + 0.2).every(r => r[1] === 0), early.w.hintCut);
+})();
+
+// R502: a tap (1-2 px of finger shake) does not take the hint away, and a word card that comes while it fades lets it go at once.
+(() => {
+  const w = sim.createWorld({ seed: 7, boss: 'kateino', god: true });
+  for (let i = 0; i < 60 * 8 && w.state !== 'play'; i++) sim.step(w, DT, IDLE);
+  for (let i = 0; i < 90; i++) sim.step(w, DT, i % 30 === 0 ? { ax: 0, ay: 0, dx: 1.5, dy: 1 } : IDLE);
+  check('R502: 指で軽く叩いたぶれでは、案内は消えない', w.hintCut == null && sim.moveHintAlpha(w) === 1, [w.hintCut, w.hintMoved]);
+  for (let i = 0; i < 20 && w.hintCut == null; i++) sim.step(w, DT, { ax: 0, ay: -1, dx: 0, dy: 0 });
+  const cut = w.hintCut; sim.step(w, DT, IDLE); sim.step(w, DT, IDLE);
+  const mid = sim.moveHintAlpha(w);
+  if (sim.holdTextsForCards) { sim.holdTextsForCards(w); check('R502: 消える途中で言葉のカードが出たら、案内はすぐ消える', cut != null && mid > 0 && mid < 1 && sim.moveHintAlpha(w) === 0, [cut, mid, sim.moveHintAlpha(w)]); }
+})();
+
 // R154: when the move hint queued behind the boss's opening line, the line's time was cut and it dropped from full to about half
 // in one frame (kateino・hikaku・jibun at 2.5 s). Now it fades out smoothly from full and never vanishes while still bright.
 (() => {
