@@ -22,7 +22,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',labelAdult:'駅',event:'trainStop'}),
  // R271: at feet y 21.4 the 136px board (R256) hung over the east-west road (rows 18-19); its feet moved south so the sidewalk shows above the board.
  // R505: on a phone the board stood far above the spawn and hid behind the place box and goal line; its feet moved down to 25.9 so the whole board shows when you arrive.
- prop('minamo_sign',11,12.42,25.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
+ // R522: at x 12.42 the right post (art x 174-194 of 236) stood 18px onto the sidewalk (x 13) while the left post was on the grass, so the board straddled the edge;
+ // it moved 0.35 tiles west so both posts stand on the grass (only the grass tuft at its foot reaches the curb) and it still keeps R505's 12px from the park board.
+ prop('minamo_sign',11,12.07,25.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
  // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).
  // R506: its whole bottom band blocked x 7.3-10.7, and with the ミナモ board (R505) right beside it only about 18px at x 11 was left for the hero to walk north into the park;
  // like the town's こうえん board only its left post blocks now, so the way in between the posts stays open.

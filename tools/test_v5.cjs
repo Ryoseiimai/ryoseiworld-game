@@ -2992,6 +2992,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(open>=15,'R506: at least 1.5 tiles stay open to walk north between the park and ミナモ boards ('+(open/10).toFixed(1)+')');
   const ps=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_parksign');assert(r.g.debugBlocked(ps.x*48-ps.w*.23,ps.y*48-4),'R506: the park board left post still blocks');}
  result.push('R506: ミナモの公園の看板とミナモの看板の間を、北へ歩いて通れる PASS');
+ // R522: the ミナモ board's right post stood on the sidewalk (x 13) while its left post was on the grass, so the board straddled the edge.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,s=m.objects.find(o=>o.id==='minamo_sign');
+  const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,(s.h||1e9)/h);
+  // the post bodies only (above the grass tuft at the foot, which may reach the curb): from 60 to 25 rows above the bottom of the art
+  let lo=w,hi=-1;for(let y=h-60;y<h-25;y++)for(let x=0;x<w;x++)if(data[(y*w+x)*4+3]>128){lo=Math.min(lo,x);hi=Math.max(hi,x);}
+  const left=(s.x*48+(lo-w/2)*k)/48,right=(s.x*48+(hi+1-w/2)*k)/48,row=Math.floor(s.y-.01);
+  for(const x of [left,right-.001])assert.equal(m.tiles[row][Math.floor(x)],'.','R522: the ミナモ board post at x '+x.toFixed(2)+' stands on the grass');}
+ result.push('R522: ミナモの看板の柱が、2本とも芝の上に立つ PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
