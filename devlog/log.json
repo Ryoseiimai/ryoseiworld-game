@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T04:53:26.626Z",
-  "branch": "claude/autodev-20261101-1321-R369",
-  "task": "R369 ボス戦の勝ちの帯「BUG KING は おとなしく なった」と半分の知らせ「こわれかけている」がおとなモードでもかなで、町の戦いの「はおとなしくなった！」とそろっていなかったので、おとなでは「BUG KING はおとなしくなった」「BUG KING は壊れかけている」などにした（ソラの台詞、ジブンとゼロの地の文、こどもモードはそのまま）",
-  "summary": "ボス戦の勝ちの帯を、おとなモードでは漢字まじりにした\n「BUG KING は壊れかけている」も同じにした。ソラのヒントは物語の台詞なのでそのまま\nテストを足し、540x960の前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/632/mobile-02-mode-select.jpg",
-   "shots/632/mobile-15-custom-full-run.jpg",
-   "shots/632/mobile-27-chapter-2-play.jpg",
-   "shots/632/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "2268085",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41273981669"
- },
- {
   "at": "2026-11-01T05:06:20.239Z",
   "branch": "claude/autodev-20261101-1321-R369",
   "task": "R369 ボス戦の勝ちの帯「BUG KING は おとなしく なった」と半分の知らせ「こわれかけている」がおとなモードでもかなで、町の戦いの「はおとなしくなった！」とそろっていなかったので、おとなでは「BUG KING はおとなしくなった」「BUG KING は壊れかけている」などにした（ソラの台詞、ジブンとゼロの地の文、こどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "99787ff",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43230209885"
+ },
+ {
+  "at": "2026-11-12T15:08:12.346Z",
+  "branch": "claude/autodev-20261112-2321-R514",
+  "task": "R514 おしまいの札の上にメニューや窓を開くと、窓の縁で後ろの札の「作った人」や「ありがとう」が上半分だけ見えていたので、窓が開いている間は札を隠した",
+  "summary": "おしまいの札の上で窓を開いた間は、後ろの札を隠すようにした\n窓の縁で札の字が半分に切れなくなったことを、前後のスクショで確かめた\n札が窓の下で隠れることを、テストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/893/mobile-02-mode-select.jpg",
+   "shots/893/mobile-19-custom-og-credit-card.jpg",
+   "shots/893/mobile-34-chapter-1-play.jpg",
+   "shots/893/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2724ab0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43242363466"
  }
 ]
