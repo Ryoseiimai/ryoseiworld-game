@@ -3241,9 +3241,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // while the colour faded .3s, so for that moment the label was pale and unoutlined. Into idle/behind the outline comes at once; back out it waits for the fade.
  {const rule=sel=>(html.match(new RegExp(sel.replace(/[.#]/g,m=>'\\'+m)+'\\{transition:([^}]*)\\}'))||[])[1]||'';
   for(const [base,lit] of [['#talk-btn','#talk-btn.idle,#talk-btn.behind'],['#menu-btn','#menu-btn.behind']]){
-   assert(/text-shadow 0s \.3s/.test(rule(base)),base+' keeps its outline until the colour fade ends');
+   if(base==='#menu-btn')assert(/text-shadow 0s \.3s/.test(rule(base)),base+' keeps its outline until the colour fade ends');
    assert(/text-shadow 0s(?! \.)/.test(rule(lit)),lit+' gets its outline at once');}}
  result.push('R499: 薄い地のボタンの字は、色が変わる間も縁取りが残る PASS');
+ // R513: back out of idle/behind the 調べる/話す text turns dark; a dark outline kept to the end of the fade made it a dark blur, so the outline fades with the colour
+ // (the base rule holds the same shadows with a clear colour, so the fade only changes how dark they are).
+ {const m=html.match(/#talk-btn\{transition:([^;}]*);text-shadow:([^}]*)\}/);assert(m,'R513: #talk-btn has its own transition and clear outline');
+  assert(/text-shadow \.3s(?!\S)/.test(m[1])&&!/text-shadow 0s/.test(m[1]),'R513: the talk outline fades over .3s with the colour, with no wait');
+  const sh=m[2].split(/,(?![^(]*\))/);assert(sh.length>=4&&sh.every(s=>/#173e3c00\s*$/.test(s.trim())),'R513: the base outline is the same dark outline made fully clear');}
+ result.push('R513: 「調べる」「話す」が金色に戻る時、黒い縁取りは字の色と一緒に消える PASS');
  // R500: the boss-fight labels ライフ and 武器 sit in the same left column; they share one colour (gold) so they read as the same kind of label.
  {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const lc=(sh.match(/outlinedText\(ctx, life, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];const wc=(sh.match(/outlinedText\(ctx, wl, 22, [^,]+, '(#[0-9a-f]{6})'\)/)||[])[1];
   assert(lc&&wc,'R500: both label colours are found');assert.equal(lc,wc,'R500: ライフ and 武器 labels use the same colour');}
