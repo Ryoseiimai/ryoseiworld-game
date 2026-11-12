@@ -345,6 +345,7 @@ R431: 確認用の CHAPTER 2 の札が、2章の終わりの文を出す PASS
 R471: 章の終わりの札が「CHAPTER 2 COMPLETE」と0を付けずに章の番号を出す PASS
 R494: 確かめ用の塔の場面が4章をあとの場面に持ち越さず、塔は Lv13 で写る PASS
 R499: 薄い地のボタンの字は、色が変わる間も縁取りが残る PASS
+R513: 「調べる」「話す」が金色に戻る時、黒い縁取りは字の色と一緒に消える PASS
 R500: ボス戦の「ライフ」と「武器」の見出しが同じ金色 PASS
 R501: 主人公が人の絵を通り抜けず、横で止まって話せる PASS
 R508: 長い一覧の最後の行と点線の間をあけ、点線に字が透けないようにした PASS
@@ -405,5 +406,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 96ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 95ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
