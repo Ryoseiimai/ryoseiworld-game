@@ -3085,6 +3085,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R515: おとなモードのノイズの目標の数を「0 / 3」と斜線の前後を空けて、実績やおさらいの書き方にそろえる PASS');
  result.push('R516: こどもモードのおさらいの見出しを「おさらい　1 / 3」と斜線の前後を空けて、ふくろうの「もんだい 1 / 3」にそろえる PASS');
  result.push('R517: 呼び出した仲間の絵は名前の札の下から12px空けて始まり、札に付いて見えない PASS');
+ {const w=+(html.match(/#ending-links\{display:grid;grid-auto-flow:column;grid-auto-columns:minmax\(0,1fr\);gap:\d+px;width:(\d+)px/)||[])[1],t=+(html.match(/#ending-card:has\(#ending-links:not\(:empty\)\) #ending-title\{width:(\d+)px/)||[])[1];
+  assert(w&&t===w,'R518: the main ending button is as wide as the row of share/anime buttons under it ('+t+' vs '+w+')');assert(w<=540-72-6-44,'R518: the row fits inside the ending card ('+w+')');for(const label of ['アニメを見る','アニメを みる','シェアする'])assert((w-10)/2>=[...label].reduce((s,c)=>s+(c===' '?8:24),0)+(+(html.match(/#ending-links button\{margin-top:0;min-height:54px;padding:4px (\d+)px/)||[])[1])*2+4,'R518: '+label+' fits its half of the row');}
+ result.push('R518: 章の札とおしまいの札で、金色の「次へ」「次の章へ」を下の「シェアする」「アニメを見る」の段と同じ幅にする PASS');
  // R317: chapter 1's later goals (交番・コンビニ・でんきや・テレビの王様・バス停) stayed in hiragana in adult mode; they read in kanji there now, and kids mode keeps them.
  {const r=await runtime();r.tick();const q=r.g.GAME_DATA.chapters[1].quests,want={key:['こうばんで カギを もらおう','交番でカギをもらおう'],battery:['コンビニで バッテリーを かおう','コンビニでバッテリーを買おう'],recruit:['でんきやの おくを しらべよう','電気屋の奥を調べよう'],boss:['テレビの おうさまに あいに いこう','テレビの王様に会いに行こう'],cleared:['バスていから ミナモちょうへ いこう','バス停からミナモちょうへ行こう']};
   for(const [k,[kid,adult]] of Object.entries(want)){assert.equal(q[k].text,kid,'R317 kids '+k);assert.equal(q[k].adult,adult,'R317 adult '+k);const w=[...adult+' ↑'].reduce((s,c)=>s+(c===' '?8:28),0);assert(w<=480,'R317: '+k+' adult goal fits the HUD ('+w+')');}
