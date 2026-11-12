@@ -1345,10 +1345,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.state.flags.walkLearned=true;r.g.debugWarp('electric',5,8);r.tick(16);const help=r.els.get('walk-help');assert(help.classes.has('learned')&&!help.classes.has('behind'),'a saved learned flag hides the help without walking');}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.state.level=3;r.g.debugWarp('electric',5,8);r.tick(16);assert(r.els.get('walk-help').classes.has('learned'),'level 3 or more: the help is already gone');}
+ {const idle=html.match(/#talk-btn\.idle\{([^}]*)\}/)[1],panel='#16353b8c';assert(idle.includes('background:'+panel)&&html.includes('#hud.over .panel{background:'+panel),'R520: the idle talk button uses the same dark see-through plate as the top panel when someone is behind it');}
+ result.push('R520: 近くに相手がいない時の「話す」の地を、上の札と同じ濃い透ける地にした PASS');
  result.push('R131: 歩き方を覚えた人（保存に残る）とレベル3以上の人には「ドラッグで あるく」を出さない PASS');
  // R77: with nobody close enough to talk to, the 「はなす」 button's background turns see-through (its letters stay solid) so the people under it stay visible.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
-  assert(/#talk-btn\.idle\{background:#f1cd7c4d/.test(html)&&!/#talk-btn\.idle\{[^}]*opacity/.test(html),'idle talk button: see-through background, solid letters');
+  assert(/#talk-btn\.idle\{background:#[0-9a-f]{6}([4-7][0-9a-f]|8[0-9a-c])[;}]/.test(html)&&!/#talk-btn\.idle\{[^}]*opacity/.test(html),'idle talk button: see-through background, solid letters');
   // R116: the idle letters are light with a hard dark outline, not dark letters blurred by a white glow that read as a disabled button.
   {const idle=html.match(/#talk-btn\.idle\{([^}]*)\}/)[1];assert(/color:#fff5d6/.test(idle),'idle talk letters are light');assert(/text-shadow:-2px -2px #173e3c/.test(idle)&&!/0 0 \d+px #fff5d6/.test(idle),'idle talk letters have a dark outline and no white glow');}
   const btn=r.els.get('talk-btn');assert(btn,'the talk button exists');const town=r.g.GAME_DATA.maps.town;
