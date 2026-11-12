@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T21:58:15.225Z",
-  "branch": "claude/autodev-20261101-0621-R362",
-  "task": "R362 武器の名前「ホーミング レター」「if バリア」がおとなモードでも空白入りだったので、おとなでは「ホーミングレター」「ifバリア」にした（こどもモードはそのまま）",
-  "summary": "おとなモードの武器の名前から空白を取った（ホーミングレター・ifバリア）\nこどもモードの名前はそのまま。テストと前後のスクショを足した\nボス戦の最初の台詞のひらがな分かち書きは、仕様で両モード同じなので残した",
-  "result": "fail",
-  "shots": [
-   "shots/621/mobile-02-mode-select.jpg",
-   "shots/621/mobile-15-custom-full-run.jpg",
-   "shots/621/mobile-27-chapter-2-play.jpg",
-   "shots/621/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "dada776",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245050347"
- },
- {
   "at": "2026-10-31T22:11:26.354Z",
   "branch": "claude/autodev-20261101-0641-R362",
   "task": "R362 エピローグの見出し「THE END のあと」と入力欄の案内「なんでも かいてね」がおとなモードでもかなで、隣の「送る」とそろっていなかったので、おとなでは「THE END の後」「何でも書いてね」にした（ソラの台詞とこどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d7a8708",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43175451803"
+ },
+ {
+  "at": "2026-11-12T08:04:18.587Z",
+  "branch": "claude/autodev-20261112-1622-R508",
+  "task": "R508 実績ときずなの長い一覧で、最後の行の字が下の点線に5pxまで近づいていたので、点線を12px下に引いた",
+  "summary": "実績ときずなの一覧で、最後の行と点線の間を12pxあけた\n点線を一覧の外に引き直し、次の行の字が点線に透けないようにした\n点線の位置を、ブラウザの確認とテストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/882/mobile-02-mode-select.jpg",
+   "shots/882/mobile-19-custom-og-credit-card.jpg",
+   "shots/882/mobile-34-chapter-1-play.jpg",
+   "shots/882/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b7a5791",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43178467687"
  }
 ]
