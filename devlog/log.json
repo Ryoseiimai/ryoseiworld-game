@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T11:53:52.002Z",
-  "branch": "claude/autodev-20261101-2021-R376",
-  "task": "R376 きずなの一覧でハートの始まりが名前の長さでずれ、比べにくかったので、名前の後ろを空白で埋めてハートを同じ列にそろえた",
-  "summary": "全章を通してスクショを撮り、確認役に気になる所を5つ挙げてもらった\nきずなの一覧で名前の後ろを空白で埋め、ハートが同じ列から始まるようにした\nハートの列がそろうかを tools/test_v5.cjs で確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/642/mobile-02-mode-select.jpg",
-   "shots/642/mobile-15-custom-full-run.jpg",
-   "shots/642/mobile-27-chapter-2-play.jpg",
-   "shots/642/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "622987d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41303260938"
- },
- {
   "at": "2026-11-01T12:06:56.595Z",
   "branch": "claude/autodev-20261101-2021-R376",
   "task": "R376 きずなの一覧でハートの始まりが名前の長さでずれ、比べにくかったので、名前の後ろを空白で埋めてハートを同じ列にそろえた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b226e48",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43322684488"
+ },
+ {
+  "at": "2026-11-12T23:33:02.732Z",
+  "branch": "claude/autodev-20261113-0822-R523",
+  "task": "R523 遊んで一番気になる所を1つ直す",
+  "summary": "ミナモの看板を0.35マス左に立て、右の柱も芝の上に載せた\n看板の当たりを少し内側にし、着いた所から北へまっすぐ歩けるままにした\n直す前と後のスクショを撮り、柱と歩く道のテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/903/mobile-02-mode-select.jpg",
+   "shots/903/mobile-19-custom-og-credit-card.jpg",
+   "shots/903/mobile-34-chapter-1-play.jpg",
+   "shots/903/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "589c034",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43328334887"
  }
 ]
