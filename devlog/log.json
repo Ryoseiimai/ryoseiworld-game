@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T12:06:56.595Z",
-  "branch": "claude/autodev-20261101-2021-R376",
-  "task": "R376 きずなの一覧でハートの始まりが名前の長さでずれ、比べにくかったので、名前の後ろを空白で埋めてハートを同じ列にそろえた",
-  "summary": "全章を通してスクショを撮り、確認役に気になる所を5つ挙げてもらった\nきずなの一覧で名前の後ろを空白で埋め、ハートが同じ列から始まるようにした\nハートの列がそろうかを tools/test_v5.cjs で確かめ、17字を超える時は埋めないようにした",
-  "result": "pass",
-  "shots": [
-   "shots/643/mobile-02-mode-select.jpg",
-   "shots/643/mobile-15-custom-full-run.jpg",
-   "shots/643/mobile-27-chapter-2-play.jpg",
-   "shots/643/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a46576f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41303895308"
- },
- {
   "at": "2026-11-01T13:17:05.621Z",
   "branch": "claude/autodev-20261101-2142-R377",
   "task": "R377 4章でヒダマリの自販機に勝つと「塔のノイズを静めよう」が1/3に増えていたので、勝ちはその章のマップの中だけで数えるようにした（ふつうに遊ぶと前の町に敵は出ないので、デバッグで敵を出した時だけ起きていた）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "589c034",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43328334887"
+ },
+ {
+  "at": "2026-11-12T23:55:51.911Z",
+  "branch": "claude/autodev-20261113-0822-R523",
+  "task": "R523 ボス戦でボスの台詞からソラのヒントへ入れ替わる時、札の濃い地が半秒ほど消えて町が透けていたので、続けて出る間は地を濃いまま残し文字だけを入れ替えた",
+  "summary": "ボス戦で台詞が続けて入れ替わる間、札の地を濃いまま残した\n消えかけた後に次の台詞が来ても、地が濃く戻らないようにした\n直す前と後のスクショを docs/shots/R523 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/904/mobile-02-mode-select.jpg",
+   "shots/904/mobile-19-custom-og-credit-card.jpg",
+   "shots/904/mobile-34-chapter-1-play.jpg",
+   "shots/904/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "40ec2a5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43331552960"
  }
 ]
