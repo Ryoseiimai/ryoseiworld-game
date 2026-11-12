@@ -1,20 +1,14 @@
 {
   "version": 1,
   "current": {
-    "id": "R521",
-    "branch": "claude/autodev-20261113-0621-R521",
+    "id": "R522",
+    "branch": "claude/autodev-20261113-0721-R522",
     "attempts": 1,
     "conflicts": 0,
     "retriggers": 0,
-    "started_at": "2026-11-13T06:21:56+09:00"
+    "started_at": "2026-11-13T07:21:29+09:00"
   },
   "history": [
-    {
-      "id": "R468",
-      "branch": "claude/autodev-20261109-0721-R468",
-      "result": "pass",
-      "at": "2026-11-09T08:21:53+09:00"
-    },
     {
       "id": "R469",
       "branch": "claude/autodev-20261109-0821-R469",
@@ -308,6 +302,12 @@
       "branch": "claude/autodev-20261113-0522-R520",
       "result": "pass",
       "at": "2026-11-13T06:21:56+09:00"
+    },
+    {
+      "id": "R521",
+      "branch": "claude/autodev-20261113-0621-R521",
+      "result": "pass",
+      "at": "2026-11-13T07:21:29+09:00"
     }
   ],
   "blocked": []
