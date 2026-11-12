@@ -56,7 +56,7 @@ RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔
   // コトバイルカは入口で自動で仲間になるので、仲間がそろった時点で すぐ 'boss' に進む。
   // R378: the goal points through the light pads to the rooftop gate (after ジブン, to ゼロの もん; see questDest).
   boss:{text:'とうの いちばん うえを めざそう',adult:'塔の一番上を目指そう',dest:{map:'tower_roof',id:'twr_gate'}},
-  zako:{text:'とうの ノイズを しずめよう {n}/{goal}',adult:'塔のノイズを静めよう {n}/{goal}',dest:'enemy'},
+  zako:{text:'とうの ノイズを しずめよう {n}/{goal}',adult:'塔のノイズを静めよう {n} / {goal}',dest:'enemy'},
   key:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'},battery:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'},recruit:{text:'うえの かいへ すすもう',adult:'上の階へ進もう'}},
  events:{
   // R27: 入口の少し奥で、コトバイルカが まだ 仲間でなければ 仲間になる（SPEC_V5_CH234.md「入口で コトバイルカ が仲間になる」）。

@@ -79,7 +79,7 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
  bonds:{minamo_grandpa:{name:'おじいちゃん',kind:'family',spirit:'owl',likes:['rice'],rewards:{2:{money:120},3:{weapon:'onigiri',money:150}}}},
 // R463: the goal line ended with 「。」 only after the boss, while every other goal has none; the cleared lines dropped it.
  quests:{cleared:{text:'まちに こえが もどった',adult:'町に声が戻った'},tutorial:{text:'「{yobidasu}」で ナオスライムを よぶ',adult:'「{yobidasu}」でナオスライムを呼ぶ'},
-  zako:{text:'ミナモの ノイズを しずめよう {n}/{goal}',adult:'ミナモのノイズを静めよう {n}/{goal}',dest:'enemy'},
+  zako:{text:'ミナモの ノイズを しずめよう {n}/{goal}',adult:'ミナモのノイズを静めよう {n} / {goal}',dest:'enemy'},
   key:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   battery:{text:'としょかんの おじいちゃんへ',adult:'図書館のおじいちゃんへ',dest:{map:'minamo_library',id:'minamo_grandpa'}},
   recruit:{text:'けんさくの きかいを しらべよう',adult:'検索の機械を調べよう',dest:{map:'minamo_library',id:'ml_search'}},
