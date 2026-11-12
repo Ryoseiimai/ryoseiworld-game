@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T22:11:26.354Z",
-  "branch": "claude/autodev-20261101-0641-R362",
-  "task": "R362 エピローグの見出し「THE END のあと」と入力欄の案内「なんでも かいてね」がおとなモードでもかなで、隣の「送る」とそろっていなかったので、おとなでは「THE END の後」「何でも書いてね」にした（ソラの台詞とこどもモードはそのまま）",
-  "summary": "エピローグの見出しを、おとなでは「THE END の後」にした\n入力欄の案内も、おとなでは「何でも書いてね」にした。ソラの台詞とこどもはそのまま\nテストと、540x960 の前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/623/mobile-02-mode-select.jpg",
-   "shots/623/mobile-15-custom-full-run.jpg",
-   "shots/623/mobile-27-chapter-2-play.jpg",
-   "shots/623/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "f5bc282",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41245787050"
- },
- {
   "at": "2026-10-31T22:43:04.365Z",
   "branch": "claude/autodev-20261101-0721-R363",
   "task": "R363 一休みの画面がおとなモードでも「ひとやすみ」「つづける」で、直前のメニューの「一休み」とそろっていなかったので、おとなでは「一休み」「続ける」にした（こどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b7a5791",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43178467687"
+ },
+ {
+  "at": "2026-11-12T08:17:27.545Z",
+  "branch": "claude/autodev-20261112-1622-R508",
+  "task": "R508 実績ときずなの長い一覧で、最後の行の字が下の点線に5pxまで近づいていたので、点線を12px下に引いた",
+  "summary": "実績ときずなの一覧で、最後の行と点線の間を12pxあけた\n点線を一覧の外に引き直し、次の行の字が点線に透けないようにした\n点線の位置を、ブラウザの確認とテストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/883/mobile-02-mode-select.jpg",
+   "shots/883/mobile-19-custom-og-credit-card.jpg",
+   "shots/883/mobile-34-chapter-1-play.jpg",
+   "shots/883/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8c3f909",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43179705478"
  }
 ]
