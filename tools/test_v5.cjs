@@ -1685,6 +1685,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));
   assert(x-44>=410&&x+44<=540,'the glow of Sora stays right of a big boss (to x 407) and on screen: '+(x-44)+'..'+(x+44));}
  result.push('R233: 戦闘のソラの光が、RYOSEI と HP の欄で切れない PASS');
+ // R512: the partner name under the battle Sora ended about 10px over the HP card's top line (488) and read as sitting on the frame.
+ {const y=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1]),m=html.match(/function soraTag\(n\)\{[^]*?y=SORA_BATTLE_Y\+(\d+);/),base=y+Number(m&&m[1]);
+  assert(base+6+24<=488,'the partner name (baseline '+base+', 6px under it) keeps a 24px gap above the HP card (top 488)');}
+ result.push('R512: 戦闘のソラの名前と HP の欄の上の線の間に、24px 以上の間がある PASS');
  // R234: the battle hero looked about half the size of the vending machine. It is drawn taller now, still inside the left edge and above the HP card.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   for(const type of Object.entries(r.g.GAME_DATA.enemies).filter(([,e])=>!e.boss).map(([k])=>k)){r.g.debugStartBattle(type,'r233');r.tick(300);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle',type+' battle');

@@ -464,7 +464,8 @@ const SUMMON_Y=470,SUMMON_RING_Y=462,SUMMON_RING_RY=20;
 const HERO_BATTLE_Y=480;
 // R233: Sora's light by the enemy sat at 465 and its glow (twice the 22 radius) ran under the RYOSEI/HP card (top 488px), so the card's frame cut it off. It now ends 4px above the card,
 // and moves right from 415 to 460 so the raised glow stays clear of a big boss's art (it reaches x 407).
-const SORA_BATTLE_X=460,SORA_BATTLE_Y=440;
+// R512: the name 「ソラ」 under the light ended about 10px over the card's top line and read as sitting on the frame; Sora is 20px higher, so the name has a clear gap.
+const SORA_BATTLE_X=460,SORA_BATTLE_Y=420;
 // R221: the enemy had a shadow under it and the hero had none, so the hero seemed to float over the RYOSEI/HP card. A flat shadow, wider than the wheels (ends at 486, above the card at 488), now sits under the wheels.
 const HERO_SHADOW='#0e1c2caa';
 // R234: the battle hero (86x108 box) looked about half the size of the vending machine next to it. The box is now 112x140; the feet stay on HERO_BATTLE_Y, so the hero grows upward and its right edge stays left of the enemy.

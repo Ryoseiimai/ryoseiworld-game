@@ -144,6 +144,7 @@ R101: 戦闘でことばの札が出ている間、敵が札の下へ寄り、�
 R137: 戦闘の主人公の足が、RYOSEI と HP の欄の枠にかからない PASS
 R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS
 R233: 戦闘のソラの光が、RYOSEI と HP の欄で切れない PASS
+R512: 戦闘のソラの名前と HP の欄の上の線の間に、24px 以上の間がある PASS
 R234: 戦闘の主人公が前より大きく、左はしと HP の欄の中に収まる PASS
 R222: ミナモのボス戦で、川の柵が主人公の足とキックボードの上に描かれない PASS
 R223: ミナモのボス戦で、街灯の柱が川の中まで立たない PASS
@@ -404,5 +405,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 83ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 96ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
