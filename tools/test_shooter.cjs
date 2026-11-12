@@ -1099,6 +1099,47 @@ async function browserAdapterChecks() {
   check('R154: 短く切られた台詞は残りの時間で消えていく', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0 && sim.burstAlpha({ t: 0, dur: 2 }, 1.85) < 0.5);
 })();
 
+// R523: when one boss line hands over straight to the next, the dark panel stays up and only the words fade
+// (it went see-through for about half a second between the two). Before the first and after the last line it still fades.
+(() => {
+  if (!sim.burstPanelAlpha) { check('R523: burstPanelAlpha がある', false); return; }
+  for (const boss of ['kateino', 'hikaku']) {
+    const w = world({ boss }); w.burst = null; w.burstQ = [];
+    sim.burst(w, 'ボス', 'いち', 2.4); sim.burst(w, 'ソラ', 'に', 2.4); run(w, DT);
+    const first = w.burst; let panelMin = 1, textMin = 1, second = null, firstIn = sim.burstPanelAlpha(w);
+    for (let i = 0; i < 60 * 8; i++) {
+      sim.step(w, DT, IDLE); if (!w.burst) break;
+      if (w.burst !== first) second = second || w.burst;
+      if (second && w.burst !== second) break;
+      if (w.burst === first && w.t - first.t < 0.3) continue;
+      if (second && w.t - second.t > 0.5) break;
+      panelMin = Math.min(panelMin, sim.burstPanelAlpha(w)); textMin = Math.min(textMin, sim.burstAlpha(w.burst, w.t));
+    }
+    check('R523: ' + boss + ' 続けて出る台詞の間、地は濃いまま', second && second.text === 'に' && panelMin > 0.99, [second && second.text, panelMin]);
+    check('R523: ' + boss + ' 入れ替わる時、文字は消えてから出る', textMin < 0.2, textMin);
+    check('R523: ' + boss + ' 最初の台詞の地は薄い所から出る', firstIn < 0.5, firstIn);
+    let last = 1; for (let i = 0; i < 60 * 8 && w.burst === second; i++) { last = sim.burstPanelAlpha(w); sim.step(w, DT, IDLE); }
+    check('R523: ' + boss + ' 最後の台詞の地は消えていく', last < 0.2, last);
+  }
+  // A line queued after the words began to fade does not pull the half-faded panel back to full.
+  { const w = world({ boss: 'kateino' }); w.burst = null; w.burstQ = [];
+    sim.burst(w, 'ボス', 'いち', 2.4); run(w, DT); const one = w.burst;
+    while (w.burst === one && w.t - one.t < one.dur - 0.15) sim.step(w, DT, IDLE);
+    const before = sim.burstPanelAlpha(w); sim.burst(w, 'ソラ', 'に', 2.4); let up = 0, pa = before;
+    while (w.burst === one) { sim.step(w, DT, IDLE); if (w.burst === one) { const a = sim.burstPanelAlpha(w); up = Math.max(up, a - pa); pa = a; } }
+    check('R523: 消えかけた後に次が来ても、地は濃く戻らない', before < 0.9 && up <= 0, [before, up]); }
+  // In every fight, the panel of one line never jumps up from one frame to the next once it is shown.
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let pb = null, pa = 0, jump = 0;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst, a = b ? sim.burstPanelAlpha(w) : 0;
+      if (b && b === pb && w.t - b.t > 0.2) jump = Math.max(jump, a - pa);
+      pa = a; pb = b;
+    }
+    check('R523: ' + boss + ' の札の地は途中で急に濃くならない', jump <= 0.2, jump);
+  }
+})();
+
 // R179: the first word card comes up on the first frame of play and stops the clock. The move hint was held at
 // about 6% (a ghost of 「ゆびを すべらせて うごく」 over the city) for the whole card. Now it is held full, and a hint
 // caught while fading out is let go instead of staying half see-through.

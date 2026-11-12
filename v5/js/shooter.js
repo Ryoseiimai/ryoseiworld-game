@@ -66,6 +66,24 @@
   // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
   var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
   function burstAlpha(o, t) { var bt = t - o.t; return clamp(Math.min(bt * 6, (o.dur - bt) / (o.out || BURST_OUT)), 0, 1); }
+  // R523: when one line hands over straight to the next (boss line -> Sora's hint), the dark panel faded to nothing and came back
+  // over about half a second, so the city showed through it for a moment. Now only the words fade there; the panel stays dark.
+  // It still fades in before the first line and out after the last one.
+  function burstNextWaits(w) {
+    var o = w.burst; if (!o) return false;
+    // The next line is picked a frame after this one ends, so a margin keeps a line that will be skipped (R86) from counting.
+    return w.burstQ.some(function (q) { return q.until == null || q.until - (o.t + o.dur) >= 1 + 1 / 30; });
+  }
+  // Whether the panel is held is decided once, when the words start to fade out, so a line queued later does not
+  // make a half-faded panel jump back to full (the zero fight's opening line did that).
+  function burstFadeStart(o) { return o.dur - (o.out || BURST_OUT); }
+  function burstPanelAlpha(w) {
+    var o = w.burst; if (!o) return 0;
+    var a = burstAlpha(o, w.t), bt = w.t - o.t;
+    if (o.chainIn && bt <= 1 / 6) a = 1;
+    if (bt >= burstFadeStart(o) && o.holdOut) a = 1;
+    return a;
+  }
   var HINT_IN = 0.25; // fade-in of the move hint
   function hintAlpha(t) { return clamp(Math.min(t / HINT_IN, (HINT_T - t) / HINT_OUT), 0, 1); }
   // R502: the 「ドラッグで動く」 plate sat over the lane the hero dodges in for the whole 4.5 s even after the player had moved.
@@ -445,7 +463,7 @@
     var k = 0;
     while (k < w.burstQ.length && w.burstQ[k].urgent) k++;
     w.burstQ.splice(k, 0, it);
-    if (w.burst && !w.burst.urgent) w.burst = null;
+    if (w.burst && !w.burst.urgent) { w.burstEnd = w.t; w.burstEndA = burstPanelAlpha(w); w.burst = null; }
   }
   // R97: a line stays at least long enough to read: READ_T0 s plus 1/READ_CPS s per letter (spaces not counted), never shorter than asked.
   var READ_T0 = 1.0, READ_CPS = 8;
@@ -1134,12 +1152,16 @@
       w.burst.out = Math.min(BURST_OUT, w.burst.dur - cb);
       w.burst.base = w.burst.dur; // cut only once, so the time does not grow again next frame
     }
-    if (w.burst && w.t - w.burst.t > w.burst.dur) w.burst = null;
+    if (w.burst && w.burst.holdOut == null && w.t - w.burst.t >= burstFadeStart(w.burst)) w.burst.holdOut = burstNextWaits(w);
+    if (w.burst && w.t - w.burst.t > w.burst.dur) { w.burstEnd = w.t; w.burstEndA = w.burst.holdOut ? 1 : 0; w.burst = null; }
     // R86: a line with an end time (the opening hint) that had to wait behind other lines only shows for what is left, or not at all.
     while (!w.burst && w.burstQ.length) {
       var nx = w.burstQ.shift();
       if (nx.until != null) { if (nx.until - w.t < 1) continue; nx.dur = Math.min(nx.dur, nx.until - w.t); }
       if (nx.until == null) { nx.base = nx.dur; nx.dur = readDur(nx.text, nx.dur); }
+      // R523: a line that comes right after another keeps the panel up (see burstPanelAlpha).
+      // Only when the panel was still full as the last line went (not while it was still fading in or already fading out).
+      nx.chainIn = w.burstEnd != null && w.t - w.burstEnd < 0.1 && w.burstEndA > 0.9;
       w.burst = nx; w.burst.t = w.t;
     }
     if (w.toast && w.t - w.toast.t > w.toast.dur) w.toast = null;
@@ -1171,6 +1193,7 @@
       if (!o) return;
       var lo = 0.17, hi = o.dur - (o.out || BURST_OUT) - 0.01; // just inside the 1/6 s fade-in and the fade-out
       if (hi > lo) o.t = w.t - clamp(w.t - o.t, lo, hi);
+      if (o === w.burst && w.t - o.t < burstFadeStart(o)) o.holdOut = null; // R523: decided again when it fades for real
     });
     // R179: the first word card of the fight comes up on the first frame of play, so the move hint
     // (「ゆびを すべらせて うごく」) was held almost see-through for the whole card. Hold it full, or
@@ -1205,7 +1228,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2560,14 +2583,15 @@
 
   // A compact line panel: the speaker's name in front of the first line, on its own gold tag
   // (R311: as plain gold text it read as the first word of the line, e.g. 「カテイノジジョウ しょうらい」).
-  function drawPanelText(ctx, speaker, text, y, alpha) {
+  function drawPanelText(ctx, speaker, text, y, alpha, panelAlpha) {
     var lh = 31, pad = 10, x0 = 16, tx = x0 + 16;
     ctx.font = '700 24px ' + FONT;
     var sw = speaker ? ctx.measureText(speaker).width + 14 : 0;
     var lines = wrapLines(ctx, text, W - 2 * tx, sw), hh = lines.length * lh + pad * 2;
-    ctx.globalAlpha = alpha;
+    ctx.globalAlpha = panelAlpha == null ? alpha : Math.max(alpha, panelAlpha);
     ctx.fillStyle = 'rgba(12,22,44,0.84)'; rr(ctx, x0, y, W - 2 * x0, hh, 12); ctx.fill();
     ctx.strokeStyle = 'rgba(225,216,173,0.75)'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.globalAlpha = alpha;
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     if (speaker) {
       ctx.fillStyle = '#f1cd7c'; rr(ctx, tx - 5, y + pad - 1, sw - 4, 30, 7); ctx.fill();
@@ -2586,7 +2610,7 @@
     var off = wordCardH(S); S.textOff = S.textOff == null ? off : Math.abs(off - S.textOff) < 1 ? off : S.textOff + (off - S.textOff) * 0.2;
     var y = PLAY_T + 8 + S.textOff;
     if (w.burst) {
-      y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, burstAlpha(w.burst, w.t)) + 6;
+      y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, burstAlpha(w.burst, w.t), burstPanelAlpha(w)) + 6;
     }
     if (w.toast) {
       var tt = w.t - w.toast.t, ta = clamp(Math.min(tt * 6, (w.toast.dur - tt) * 3), 0, 1);
