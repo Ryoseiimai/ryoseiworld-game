@@ -2234,7 +2234,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
    const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).at(-1);
    assert(txt&&img,o.id+' and its sign are drawn');const headTop=img[3]+crop[o.frame]*img[5]/452,gap=headTop-(txt[3]+7);
-   assert(gap>=0&&gap<=8,o.id+': the sign plate ends just over the head (gap '+gap.toFixed(1)+'px)');
+   assert(gap>=4&&gap<=8,o.id+': the sign plate ends just over the head, not on the hair (gap '+gap.toFixed(1)+'px, R507)');
    for(const l of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='props'&&/light/.test(x.id)&&Math.abs(x.x-o.x)*48<12+[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2+8&&x.y<o.y))assert(txt[3]-25-(l.y*48+img[3]+img[5]-o.y*48)>=16,o.id+': the sign stays clear of the foot of '+l.id);}}
  result.push('R240: ネオンのかずの人の札を頭のすぐ上に下げ、街灯の札に見えないようにした PASS');
  // R241: BUG KING and カテイノジジョウ stand on legs but hung in the air; a soft shadow now lies under their feet, drawn before the boss picture.
