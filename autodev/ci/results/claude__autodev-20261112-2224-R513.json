@@ -1,35 +1,22 @@
 {
   "branch": "claude/autodev-20261112-2224-R513",
-  "sha": "464d92f03882f52f0894f996726e2da805309743",
-  "result": "fail",
+  "sha": "99787ff195adea579a2fb83c9ac5ddb66c2ac8d2",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
-    "test_v5": "fail",
+    "merge": "merge",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "AssertionError [ERR_ASSERTION]: R513: the talk outline fades over .3s with the colour, with no wait",
-    "    at /tmp/tmp.o4YjIqoklD/tree-claude__autodev-20261112-2224-R513/tools/test_v5.cjs:3250:3 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/890/mobile-02-mode-select.jpg",
-    "devlog/shots/890/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/890/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/890/mobile-50-battle-bugking.jpg"
+    "devlog/shots/892/mobile-02-mode-select.jpg",
+    "devlog/shots/892/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/892/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/892/mobile-50-battle-bugking.jpg"
   ],
-  "at": "2026-11-12T13:47:45.822Z",
-  "merged_sha": null,
-  "tested_base": "944ddf4b032e07a10c9f3b2bd94e87fc1be7af7a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43228728231"
+  "at": "2026-11-12T13:58:06.295Z",
+  "merged_sha": "f353a5d12b2df39ebb42e1f474e362f04a45cd23",
+  "tested_base": "95b8629a78841a0a125cd9b35b8a5e5f8927632a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43230209885"
 }
