@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T08:02:08.006Z",
-  "branch": "claude/autodev-20261101-1621-R372",
-  "task": "R372 おとなモードのきずなの一覧と台詞で、人の名前が「しゅうりやさん」「ゲームの こ」とかなのままで、横の「守護霊」「お小遣い」とそろっていなかったので、おとなでは「修理屋さん」「ゲームの子」などの漢字にした（物語の台詞の話し手とこどもモードはそのまま）",
-  "summary": "おとなモードのきずなの一覧で、人の名前を「修理屋さん」「ゲームの子」などの漢字にした\nきずなの台詞（深まった・あげた など）も同じ名前にした。こどもは かなのまま\n物語の台詞の話し手の名前はかなのまま残した（STORY のトーンのため）。鍵のブランチへの push は許されず、鍵なしで進めた",
-  "result": "pass",
-  "shots": [
-   "shots/637/mobile-02-mode-select.jpg",
-   "shots/637/mobile-15-custom-full-run.jpg",
-   "shots/637/mobile-27-chapter-2-play.jpg",
-   "shots/637/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a9f44dd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41286300400"
- },
- {
   "at": "2026-11-01T09:00:01.991Z",
   "branch": "claude/autodev-20261101-1721-R373",
   "task": "R373 ゲームの子のセーブと Wi-Fi、店員のプリンターの選択肢が、おとなモードでも「セーブは いつ する？」「かみを いれなおす」と分かち書きのかなだったので、おとなでは「セーブはいつする？」「紙を入れ直す」などにした（物語の場面の選択肢とこどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "f81f082",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43284280642"
+ },
+ {
+  "at": "2026-11-12T20:06:17.860Z",
+  "branch": "claude/autodev-20261113-0421-R519",
+  "task": "R519 きずなの一覧で、たまった♥とまだの♡が同じクリーム色で数が読みにくかったので、たまった♥を桃色にした",
+  "summary": "きずなの一覧で、たまった♥だけを桃色の字にし、まだの♡と見分けられるようにした\n「次は♥3で」の♥はまだ届いていない数なので、もとの色のままにした\n同時に2回動かないための鍵は、ルーチンの決まりで push できず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/898/mobile-02-mode-select.jpg",
+   "shots/898/mobile-19-custom-og-credit-card.jpg",
+   "shots/898/mobile-34-chapter-1-play.jpg",
+   "shots/898/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "64ffe32",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43294456070"
  }
 ]
