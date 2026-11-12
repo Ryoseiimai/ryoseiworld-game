@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T19:43:30.419Z",
-  "branch": "claude/autodev-20261101-0421-R360",
-  "task": "R360 タイトルのお知らせ「チャレンジや　ことばノートの　おさらいも　遊べるよ」と、きずなの「次は ♥5で 武器の力」がおとなモードでも分かち書きの空白入りだったので、おとなでは「チャレンジやことばノートのおさらいも遊べるよ」「次は♥5で武器の力」にした（こどもモードはそのまま）",
-  "summary": "おとなモードのタイトルのお知らせから、分かち書きの空白を取った\nきずなの画面の「次は♥5で武器の力」なども空白を詰めた。こどもはそのまま\nテストと前後のスクショを足した。「きずな」の名前は変えない言葉なのでそのまま",
-  "result": "pass",
-  "shots": [
-   "shots/618/mobile-02-mode-select.jpg",
-   "shots/618/mobile-15-custom-full-run.jpg",
-   "shots/618/mobile-27-chapter-2-play.jpg",
-   "shots/618/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "4a119e7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41234871798"
- },
- {
   "at": "2026-10-31T19:52:36.700Z",
   "branch": "claude/autodev-20261101-0421-R360",
   "task": "R360 タイトルのお知らせ「チャレンジや　ことばノートの　おさらいも　遊べるよ」と、きずなの「次は ♥5で 武器の力」がおとなモードでも分かち書きの空白入りだったので、おとなでは「チャレンジやことばノートのおさらいも遊べるよ」「次は♥5で武器の力」にした（こどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "a462a7e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43161970528"
+ },
+ {
+  "at": "2026-11-12T06:01:07.115Z",
+  "branch": "claude/autodev-20261112-1422-R506",
+  "task": "R506 ミナモの公園の看板とミナモの看板の間が細い隙間だけで、道から北の公園へ歩けなかったので、公園の看板は町と同じく左の柱だけで止めるようにした",
+  "summary": "ミナモの公園の看板とミナモの看板の間は主人公が通れる幅が18pxほどしかなく、道から北の公園へ歩けなかった\n公園の看板は町の看板と同じく左の柱だけで止め、柱の間を通れるようにした\n看板の間を北へ1.5マス以上通れるかのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/879/mobile-02-mode-select.jpg",
+   "shots/879/mobile-19-custom-og-credit-card.jpg",
+   "shots/879/mobile-34-chapter-1-play.jpg",
+   "shots/879/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a6e6dfe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43162769532"
  }
 ]
