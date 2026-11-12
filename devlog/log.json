@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T06:53:57.652Z",
-  "branch": "claude/autodev-20261101-1521-R371",
-  "task": "R371 おとなの記録で「始めから？」と漢字で聞いた次のモード選択が「モードを えらぶ」「あとで 設定からも かえられる。」とかなに戻っていたので、おとなの記録では「モードを選ぶ」「後で設定からも変えられる。」にした（記録なしとこどもはそのまま）",
-  "summary": "おとなの記録があるとき、モード選択の画面を「モードを選ぶ」「後で設定からも変えられる。」にした\n記録なしとこどもの記録では、今までのかなのまま。テストと前後のスクショを足した\n確認役の指摘のうち「きずな」の見出しは SPEC_V7 の150のとおりかななので、変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/635/mobile-02-mode-select.jpg",
-   "shots/635/mobile-15-custom-full-run.jpg",
-   "shots/635/mobile-27-chapter-2-play.jpg",
-   "shots/635/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "21af9b5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41281800950"
- },
- {
   "at": "2026-11-01T07:07:01.300Z",
   "branch": "claude/autodev-20261101-1521-R371",
   "task": "R371 おとなの記録で「始めから？」と漢字で聞いた次のモード選択が「モードを えらぶ」「あとで 設定からも かえられる。」とかなに戻っていたので、おとなの記録では「モードを選ぶ」「後で設定からも変えられる。」にした（記録なしとこどもはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "cef4c67",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43261471533"
+ },
+ {
+  "at": "2026-11-12T17:57:47.411Z",
+  "branch": "claude/autodev-20261113-0221-R517",
+  "task": "R517 戦闘で呼び出したナオスライムのスパナが名前の札の下の縁から6pxしか離れず、札に付いて見えたので、絵を札の12px下から始めるようにした",
+  "summary": "呼び出した仲間の絵を、名前の札の下から12px空けて始めた\n前と後のスクショで、ナオスライムのスパナが札から離れたのを確かめた\nビートのボタンが画面の下に6pxまで近づく件は、とくぎとの間16px（R375）とぶつかるので見送った",
+  "result": "pass",
+  "shots": [
+   "shots/896/mobile-02-mode-select.jpg",
+   "shots/896/mobile-19-custom-og-credit-card.jpg",
+   "shots/896/mobile-34-chapter-1-play.jpg",
+   "shots/896/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8e7e8df",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43272391772"
  }
 ]
