@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T09:00:01.991Z",
-  "branch": "claude/autodev-20261101-1721-R373",
-  "task": "R373 ゲームの子のセーブと Wi-Fi、店員のプリンターの選択肢が、おとなモードでも「セーブは いつ する？」「かみを いれなおす」と分かち書きのかなだったので、おとなでは「セーブはいつする？」「紙を入れ直す」などにした（物語の場面の選択肢とこどもモードはそのまま）",
-  "summary": "おとなモードで、セーブ・Wi-Fi・プリンターの選択肢を漢字まじりにした\n選択肢のボタンにも adult の文を足せるようにし、テストを足した\nネットカフェ・壁画・ミオの雨の日の選択肢は、上の台詞がかななので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/638/mobile-02-mode-select.jpg",
-   "shots/638/mobile-15-custom-full-run.jpg",
-   "shots/638/mobile-27-chapter-2-play.jpg",
-   "shots/638/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "27a8996",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41290397321"
- },
- {
   "at": "2026-11-01T09:55:33.035Z",
   "branch": "claude/autodev-20261101-1821-R374",
   "task": "R374 全章を通して確認役に見てもらったが、おとなモードに残るかなは町の名前・ボス戦の始まりの帯・章の札など、前の回で物語や名前として残すと決めた物だけだったので、どれも変えなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "64ffe32",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43294456070"
+ },
+ {
+  "at": "2026-11-12T20:59:27.909Z",
+  "branch": "claude/autodev-20261113-0522-R520",
+  "task": "R520 相手がいない時の「話す」の地が金色の薄い透けで、町では肌色、ネオンでは紫と地図ごとに色が変わって見えたので、上の札と同じ濃い透ける地にした",
+  "summary": "相手がいない時の「話す」の地を、上の札やメニューと同じ濃い透ける地にした\n町でもネオンでも同じ色に見え、下の人もうっすら見えるままにした\n鍵のブランチはルーチンの決まりで push できず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/899/mobile-02-mode-select.jpg",
+   "shots/899/mobile-19-custom-og-credit-card.jpg",
+   "shots/899/mobile-34-chapter-1-play.jpg",
+   "shots/899/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "884756a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43303320636"
  }
 ]
