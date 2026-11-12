@@ -2945,6 +2945,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(mio.x*48-mio.w/2-(plate[1]+plate[3])>=10,'R503: the plate ends clear of ミオ (plate right '+(plate[1]+plate[3])+', ミオ left '+(mio.x*48-mio.w/2)+')');
   const tile=m.tiles[Math.floor(mio.y)][Math.floor(mio.x)];assert.equal(tile,'+','R503: ミオ still stands on the sidewalk');}
  result.push('R503: 「ランク 86い」の札がミオから離れている PASS');
+ // R504: the scooter rider of the title kept crossing the street behind the chapter card and was cut in half by its edge; only the title draws him now.
+ {const r=await runtime();r.tick();assert.equal(r.g.screen,'title');const ride=()=>{r.imageLog.length=0;r.tick(16);return r.imageLog.some(u=>String(u).includes('assets/hero_ride/'));};
+  assert(ride(),'R504: the title still shows the rider');
+  r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('town',8,27);r.g.debugEvent([{chapterClear:true}]);assert.equal(r.g.screen,'ending');
+  assert(!ride(),'R504: no rider behind the chapter card');assert(r.imageLog.some(u=>String(u).includes('assets/props/')),'R504: the card screen still draws its street');}
+ result.push('R504: 章の札の後ろをスクーターの主人公が通らない PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
