@@ -1482,10 +1482,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R492: at the start of 2しょう the ミナモ board (a big board sign) sat behind the HUD with only its posts showing; the HUD turns see-through over it, and stays solid when the board is lower on screen.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const hud=r.els.get('hud'),at=(map,x,y)=>{r.g.debugWarp(map,x,y);r.tick(16);return hud.classes.has('over');};
+  // R505 moved the board's feet south (22.9 -> 25.9) so it no longer goes under the HUD near the spawn (the camera stops at the map's bottom).
+  // The see-through rule is still checked here with the board put back at its old feet in this test's copy of the map.
+  const mb=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_sign');for(const y of [29,30,31,32,33,34])assert(!at('minamo',12.5,y),'R505: at the new board place the HUD stays solid (hero row '+y+')');
+  const keepY=mb.y;mb.y=22.9;
   const seen=[];for(const y of [26,27,28,29,30,31])seen.push(y+':'+at('minamo',12.5,y));
   assert(at('minamo',12.5,30),'with the hero below the ミナモ board, the board is under the HUD, so the HUD turns see-through: '+seen.join(' '));
   assert(!at('minamo',12.5,26),'with the board in the middle of the screen the HUD stays solid');
   assert(!at('town',12,28),'by the town ちず board the HUD stays solid');
+  mb.y=keepY;
   const ch=(html.match(/function coverHud\(m,list\)\{.*/)||[''])[0];assert(/SIGN_BOARD\[/.test(ch),'coverHud counts the big board signs');}
  result.push('R492: ミナモの看板が上の表示の後ろに来ると、表示の地が薄くなる PASS');
  // R146: the mode choice puts each mode on its own line, so こども＝ is not left at the end of a line apart from ひらがな中心.
@@ -2096,7 +2101,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R341: the town signs (地図の看板・貼り紙・ミナモとネオンの看板) speak in kanji in adult mode, like the R340 bus stop; Sora's lines and the narration keep the story kana, and kids keep the hiragana ones.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
   const signs=[['town',12,27.1,adult?['看板','← 家　　コンビニ →\n↑ 電気屋　↓ 公園']:['かんばん','← おうち　　コンビニ →\n↑ でんきや　↓ こうえん']],
-   ['minamo',12.42,24.1,adult?['看板','ようこそ ミナモちょう。\n川と橋の町。']:['かんばん','ようこそ ミナモちょう。\nかわと はしの まち。'],'しずかすぎる。\nそとに だれも いない。'],
+   ['minamo',12.42,27.1,adult?['看板','ようこそ ミナモちょう。\n川と橋の町。']:['かんばん','ようこそ ミナモちょう。\nかわと はしの まち。'],'しずかすぎる。\nそとに だれも いない。'],
    ['minamo',20,8.6,adult?['看板','川で遊ぶときは\n大人と一緒に。']:['かんばん','かわで あそぶ ときは\nおとなと いっしょに。'],null,adult?['看板','（大人は\nスマホと一緒）']:['かんばん','（おとなは\nスマホと いっしょ）']],
    ['neon',11.4,15.4,adult?['看板','ようこそ ネオンシティ。\n光と数の町。']:['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],'みんなの あたまに\nかずが うかんでる…？']];
   for(const [map,x,y,want,sora,second] of signs){r.g.debugWarp(map,x,y);r.tick(300);walkUp(r,60);r.tick(100);if(!r.g.dialogue)r.g.interact();assert(r.g.dialogue,mode+' '+map+' sign speaks at '+x);const l=r.g.dialogue.lines;
@@ -2952,6 +2957,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',8,27);r.g.debugEvent([{chapterClear:true}]);assert.equal(r.g.screen,'ending');
   assert(!ride(),'R504: no rider behind the chapter card');assert(r.imageLog.some(u=>String(u).includes('assets/props/')),'R504: the card screen still draws its street');}
  result.push('R504: 章の札の後ろをスクーターの主人公が通らない PASS');
+ // R505: on a phone the ミナモ welcome board stood about 12 tiles above the town's spawn and its board was under the place box and goal line;
+ // it now stands near the park sign so the whole board shows below them (on a 390x844 phone the HUD bottom is about 8.8 tiles above the hero's feet; the old board top was about 11.3 tiles up).
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),s=f('minamo_sign'),ps=f('minamo_parksign'),bin=f('minamo_bin');
+  const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,(s.h||1e9)/h);
+  let top=0;while(top<h&&![...Array(w).keys()].some(x=>data[(top*w+x)*4+3]>128))top++;
+  const rise=m.spawn[1]-(s.y-(h-top)*k/48);assert(rise<=8.8,'R505: the ミナモ board top is '+rise.toFixed(2)+' tiles above the spawn (at most 8.8)');
+  assert(Math.abs(s.x-m.spawn[0])<=4,'R505: the board stands near the spawn column');
+  assert((s.x-ps.x)*48-(s.w+ps.w)*.75/2>=12,'R505: the ミナモ board keeps clear of the park sign');
+  assert(Math.abs(bin.x-s.x)*48>=(bin.w+s.w*.75)/2||bin.y<=s.y-(h-top)*k/48,'R505: the bin does not stand on the board posts');}
+ result.push('R505: ミナモに着いた時、ミナモの看板が上の札に隠れない PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();

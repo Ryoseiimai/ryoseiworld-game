@@ -21,11 +21,12 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
  object('minamo_station','station_sign',0,17.8,12.4,90,105,{label:'えき',labelAdult:'駅',event:'trainStop'}),
  // R271: at feet y 21.4 the 136px board (R256) hung over the east-west road (rows 18-19); its feet moved south so the sidewalk shows above the board.
- prop('minamo_sign',11,12.42,22.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
+ // R505: on a phone the board stood far above the spawn and hid behind the place box and goal line; its feet moved down to 25.9 so the whole board shows when you arrive.
+ prop('minamo_sign',11,12.42,25.9,136,{dialogue:'minamoSign',sign:'ミナモ'}),
  // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).
  prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん'}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
- prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,11.4,24.8,60),prop('minamo_post',6,17.2,30.6,70),
+ prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,12.4,22.6,60)/* R505: was at 11.4,24.8, where the moved board now stands */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
  ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,22.6,1],[27.6,20.6],[1.2,33.4,1],[10.6,34.4]]),
  // R254: three lamps by the north-south road stood at x 12.5/17.5, on the grass beside the one-tile sidewalks (x 13 and 16) (mobile-20), so they stand on the sidewalk by the curb.

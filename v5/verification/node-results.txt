@@ -305,6 +305,7 @@ R293: ネオンの着いた所で「ランク 86い」の札が人の上にあ�
 R294: ミオの名札と「ランク 86い」の札が重ならない PASS
 R503: 「ランク 86い」の札がミオから離れている PASS
 R504: 章の札の後ろをスクーターの主人公が通らない PASS
+R505: ミナモに着いた時、ミナモの看板が上の札に隠れない PASS
 R295: 砂場の子の足が「はなす」ボタンの上の縁に触れない PASS
 R296: 部屋の出口の札に「そとへ」と書いてある PASS
 R344: おとなとこどもの両方で、店・塔1F・塔2F・町の札の字がその札や板に収まる PASS
@@ -398,5 +399,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 108ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 67ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
