@@ -2967,7 +2967,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert((s.x-ps.x)*48-(s.w+ps.w)*.75/2>=12,'R505: the ミナモ board keeps clear of the park sign');
   assert(Math.abs(bin.x-s.x)*48>=(bin.w+s.w*.75)/2||bin.y<=s.y-(h-top)*k/48,'R505: the bin does not stand on the board posts');}
  result.push('R505: ミナモに着いた時、ミナモの看板が上の札に隠れない PASS');
- // R506: the こうえん board's full bottom band and the moved ミナモ board left only a 12px slit (x 11) between them, so walking north into the park from the road met a wall.
+ // R506: the こうえん board's full bottom band and the moved ミナモ board left only about 18px (x 11) between them, so walking north into the park from the road met a wall.
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);let open=0;
   for(let x=8.5;x<=11.2;x+=.1){let ok=true;for(let y=27.2;y>=24.8;y-=.1)if(r.g.debugBlocked(x*48,y*48)){ok=false;break;}if(ok)open++;}
   assert(open>=15,'R506: at least 1.5 tiles stay open to walk north between the park and ミナモ boards ('+(open/10).toFixed(1)+')');
