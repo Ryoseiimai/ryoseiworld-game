@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T05:06:20.239Z",
-  "branch": "claude/autodev-20261101-1321-R369",
-  "task": "R369 ボス戦の勝ちの帯「BUG KING は おとなしく なった」と半分の知らせ「こわれかけている」がおとなモードでもかなで、町の戦いの「はおとなしくなった！」とそろっていなかったので、おとなでは「BUG KING はおとなしくなった」「BUG KING は壊れかけている」などにした（ソラの台詞、ジブンとゼロの地の文、こどもモードはそのまま）",
-  "summary": "ボス戦の勝ちの帯を、おとなモードでは漢字まじりにした\n「BUG KING は壊れかけている」も同じにした。ソラのヒントは物語の台詞なのでそのまま\nテストを足し、540x960の前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/633/mobile-02-mode-select.jpg",
-   "shots/633/mobile-15-custom-full-run.jpg",
-   "shots/633/mobile-27-chapter-2-play.jpg",
-   "shots/633/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "c40f1ba",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41274393460"
- },
- {
   "at": "2026-11-01T05:39:15.480Z",
   "branch": "claude/autodev-20261101-1421-R370",
   "task": "R370 チャレンジモードの案内「ビートに あわせて おしてみよう」「つぎの ステージ！」をおとなモードでは漢字まじりにする",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "2724ab0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43242363466"
+ },
+ {
+  "at": "2026-11-12T15:46:22.142Z",
+  "branch": "claude/autodev-20261113-0021-R515",
+  "task": "R515 おとなモードのノイズの目標だけ「0/3」と斜線の前後が詰まり、実績の「7 / 12」やおさらいの「1 / 3」と書き方が違ったので、「0 / 3」にした（こどもは帯の幅に収まらないので今のまま）",
+  "summary": "おとなモードのノイズの目標の数を「0 / 3」と空けた\n前と後のスクショで、帯が1行に収まることを確かめた\n小さい画面で一番長い文が480pxの内471pxに収まると測った",
+  "result": "pass",
+  "shots": [
+   "shots/894/mobile-02-mode-select.jpg",
+   "shots/894/mobile-19-custom-og-credit-card.jpg",
+   "shots/894/mobile-34-chapter-1-play.jpg",
+   "shots/894/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "01d9c51",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43249523311"
  }
 ]
