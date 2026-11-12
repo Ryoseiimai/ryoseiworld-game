@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T09:55:33.035Z",
-  "branch": "claude/autodev-20261101-1821-R374",
-  "task": "R374 全章を通して確認役に見てもらったが、おとなモードに残るかなは町の名前・ボス戦の始まりの帯・章の札など、前の回で物語や名前として残すと決めた物だけだったので、どれも変えなかった",
-  "summary": "全章を通してスクショを撮り、確認役に気になる所を5つ挙げてもらった\nボス戦の始まりの帯を漢字にしかけたが、R333で台詞として残すと決めていたので戻した\n町の名前・チャレンジの案内の空白・きずな・守護霊も、前に決めた理由があるので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/640/mobile-02-mode-select.jpg",
-   "shots/640/mobile-15-custom-full-run.jpg",
-   "shots/640/mobile-27-chapter-2-play.jpg",
-   "shots/640/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1179a2d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41294573737"
- },
- {
   "at": "2026-11-01T11:06:21.970Z",
   "branch": "claude/autodev-20261101-1922-R375",
   "task": "R375 ボス戦の「プレイテスト」のボタンが「ビート」のボタンの8px上にあり、拍に合わせて押すと押し間違えそうだったので、間を16pxにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "884756a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43303320636"
+ },
+ {
+  "at": "2026-11-12T21:52:04.245Z",
+  "branch": "claude/autodev-20261113-0621-R521",
+  "task": "R521 相手がいない時に後ろへ人が来ると「話す」の地が金色がかった灰色に変わっていたので、いない時と同じ濃い色のまま薄くした",
+  "summary": "相手がいない時に後ろへ人が来た「話す」の地を、いない時と同じ濃い色で薄くした\n話せる相手がいる時の金色の地と、字の後ろの暗い板はそのまま残した\n町とネオンで直す前と後のスクショを撮り、テストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/901/mobile-02-mode-select.jpg",
+   "shots/901/mobile-19-custom-og-credit-card.jpg",
+   "shots/901/mobile-34-chapter-1-play.jpg",
+   "shots/901/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "aa55414",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43312105258"
  }
 ]
