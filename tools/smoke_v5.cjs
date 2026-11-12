@@ -256,7 +256,7 @@ async function runViewport(browser, url, vp, errors, shots) {
                   if (!(lh > 0) || cp.scrollHeight <= cp.clientHeight + 4 || Math.abs(cp.scrollHeight - rows.length * lh) > 2 || !rows.includes('')) return '';
                   return rows[vis - 1] !== '' && rows[vis] !== '' ? rows[vis] : ''; })(),
                 // R508: the dashed line sits 10px or more under the last whole line, not right on its letters.
-                gap: (() => { if (cp.scrollHeight <= cp.clientHeight + 4) return -1; const t = parseFloat(getComputedStyle(pn, '::after').top), c = cp.getBoundingClientRect(), k = c.height / cp.offsetHeight;
+                gap: (() => { if (cp.scrollHeight - cp.clientHeight - cp.scrollTop <= 4) return -1; if (!pn.classList.contains('more')) return -3; const t = parseFloat(getComputedStyle(pn, '::after').top), c = cp.getBoundingClientRect(), k = c.height / cp.offsetHeight;
                   return Number.isFinite(t) ? Math.round(((p.top + (pn.clientTop + t - pn.scrollTop) * k) - c.bottom) / k) : -2; })(),
                 cut: (() => { const lh = parseFloat(getComputedStyle(cp).lineHeight), ch = cp.clientHeight; if (!(lh > 0) || cp.scrollHeight <= ch + 4) return 0; const r = ch % lh; return Math.min(r, lh - r) > 1 ? Math.round(r) : 0; })() }; });
             await shot('menu-bonds');
@@ -264,7 +264,7 @@ async function runViewport(browser, url, vp, errors, shots) {
             if (!m.back) errors.push({ kind: 'layout', viewport: vp.name, message: tag('きずな menu: もどる is hidden below the list') });
             if (m.more !== 'ok' && m.more !== 'none') errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the "▼ つづき" tag is ${m.more}`) });
             if (m.split) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: an entry is cut in the middle, "${m.split}" is below the dashed line`) });
-            if (m.gap !== -1 && m.gap < 10) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the dashed line is ${m.gap}px under the last line (10px or more)`) });
+            if (m.gap !== -1 && m.gap < 10) errors.push({ kind: 'layout', viewport: vp.name, message: tag(m.gap === -3 ? 'きずな menu: more rows are below, but the dashed line is not drawn' : `きずな menu: the dashed line is ${m.gap}px under the last line (10px or more)`) });
             if (m.cut) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu: the last visible line is cut ${m.cut}px into the line`) });
             if (m.top !== 0) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`きずな menu opened scrolled to ${m.top}px instead of the top`) });
             await page.keyboard.press('Escape').catch(() => {}); await sleep(200);
