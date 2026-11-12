@@ -2995,10 +2995,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R522: the ミナモ board's right post stood on the sidewalk (x 13) while its left post was on the grass, so the board straddled the edge.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,s=m.objects.find(o=>o.id==='minamo_sign');
   const file=path.join(root,'assets','props','props_r'+Math.floor(s.frame/4)+'_c'+s.frame%4+'.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(s.w/w,(s.h||1e9)/h);
-  // the post bodies only (above the grass tuft at the foot, which may reach the curb): from 60 to 25 rows above the bottom of the art
-  let lo=w,hi=-1;for(let y=h-60;y<h-25;y++)for(let x=0;x<w;x++)if(data[(y*w+x)*4+3]>128){lo=Math.min(lo,x);hi=Math.max(hi,x);}
+  // the post bodies only (above the grass tuft at the foot, which may reach the curb): from 60 to 27 rows above the bottom of the art
+  let lo=w,hi=-1;for(let y=h-60;y<h-26;y++)for(let x=0;x<w;x++)if(data[(y*w+x)*4+3]>128){lo=Math.min(lo,x);hi=Math.max(hi,x);}
   const left=(s.x*48+(lo-w/2)*k)/48,right=(s.x*48+(hi+1-w/2)*k)/48,row=Math.floor(s.y-.01);
   for(const x of [left,right-.001])assert.equal(m.tiles[row][Math.floor(x)],'.','R522: the ミナモ board post at x '+x.toFixed(2)+' stands on the grass');}
+ {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);const sx=r.g.GAME_DATA.maps.minamo.spawn[0];
+  for(let y=27.2;y>=24.8;y-=.1)assert(!r.g.debugBlocked(sx*48,y*48),'R522: walking straight north from the ミナモ spawn column (x '+sx+') passes the moved board (blocked at y '+y.toFixed(1)+')');}
  result.push('R522: ミナモの看板の柱が、2本とも芝の上に立つ PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
