@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T05:39:15.480Z",
-  "branch": "claude/autodev-20261101-1421-R370",
-  "task": "R370 チャレンジモードの案内「ビートに あわせて おしてみよう」「つぎの ステージ！」をおとなモードでは漢字まじりにする",
-  "summary": "チャレンジの案内を、おとなモードでは「ビートに合わせて 押してみよう」にした\n確認役の指摘で、狭い帯でも語の切れ目で折れるよう空白を入れた\n「次のステージ！」も直したが、チャレンジでは勝ちの帯が出ないので画面は変わらない",
-  "result": "pass",
-  "shots": [
-   "shots/634/mobile-02-mode-select.jpg",
-   "shots/634/mobile-15-custom-full-run.jpg",
-   "shots/634/mobile-27-chapter-2-play.jpg",
-   "shots/634/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "634bf8f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41276944923"
- },
- {
   "at": "2026-11-01T06:53:57.652Z",
   "branch": "claude/autodev-20261101-1521-R371",
   "task": "R371 おとなの記録で「始めから？」と漢字で聞いた次のモード選択が「モードを えらぶ」「あとで 設定からも かえられる。」とかなに戻っていたので、おとなの記録では「モードを選ぶ」「後で設定からも変えられる。」にした（記録なしとこどもはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "01d9c51",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43249523311"
+ },
+ {
+  "at": "2026-11-12T16:56:40.417Z",
+  "branch": "claude/autodev-20261113-0121-R516",
+  "task": "R516 こどもモードのおさらいの見出しだけ「おさらい　1/3」と斜線の前後が詰まり、ふくろうの「もんだい 1 / 3」と書き方が違ったので、「おさらい　1 / 3」にした",
+  "summary": "こどもモードのおさらいの見出しを「おさらい　1 / 3」と空けた\nおとなとこどもの前と後のスクショで、見出しが1行に収まることを確かめた\n手元のテスト412件が通った",
+  "result": "pass",
+  "shots": [
+   "shots/895/mobile-02-mode-select.jpg",
+   "shots/895/mobile-19-custom-og-credit-card.jpg",
+   "shots/895/mobile-34-chapter-1-play.jpg",
+   "shots/895/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cef4c67",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43261471533"
  }
 ]
