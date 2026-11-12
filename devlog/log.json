@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T01:37:16.661Z",
-  "branch": "claude/autodev-20261101-1021-R366",
-  "task": "R366 名前の画面の「きみを なんて よぼう？」「この なまえに する」がおとなモードでもかなで、直前のタイトルの「始めから」「続きから」とそろっていなかったので、おとなでは「君を何て呼ぼう？」「この名前にする」にした（上の小見出しとこどもモードはそのまま）",
-  "summary": "名前の画面を、おとなでは「君を何て呼ぼう？」「この名前にする」にした\nこどもモードと小見出し「ちいさな あおい ひかり」はかなのまま\nテストと540x960の前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/628/mobile-02-mode-select.jpg",
-   "shots/628/mobile-15-custom-full-run.jpg",
-   "shots/628/mobile-27-chapter-2-play.jpg",
-   "shots/628/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8d8ba3c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41261078094"
- },
- {
   "at": "2026-11-01T02:58:26.346Z",
   "branch": "claude/autodev-20261101-1127-R367",
   "task": "R367 ゲーム画面と電池の印の読み上げ名が、章を移っても「ヒダマリちょう」、おとなモードでも「でんち」のままだったので、今いる場所の名前と「電池」を読むようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "fd8eee5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43211225372"
+ },
+ {
+  "at": "2026-11-12T12:58:12.805Z",
+  "branch": "claude/autodev-20261112-2122-R512",
+  "task": "R512 戦闘でソラの名前がRYOSEIとHPの欄の上の線に乗って見えたので、ソラを20px上に出した",
+  "summary": "戦闘のソラと名前を20px上に出した\n名前とHPの欄の上の線の間が、約10pxから約34pxに広がった\n名前と欄の間が24px以上あることを、テストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/888/mobile-02-mode-select.jpg",
+   "shots/888/mobile-19-custom-og-credit-card.jpg",
+   "shots/888/mobile-34-chapter-1-play.jpg",
+   "shots/888/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9d5fb6f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43220536059"
  }
 ]
