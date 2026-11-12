@@ -2651,6 +2651,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R510: over a building the see-through HUD plate was only 35% dark, so the shop's pots and steps sat right behind 「85％」; it is now about 55% dark (the building still shows, the words sit on a calmer plate).
  {const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0],a=parseInt((css.match(/background:#16353b([0-9a-f]{2})/)||[])[1],16);assert(a>=0x80&&a<=0xa0,'R510: the see-through HUD plate is about half dark (0x80..0xa0): '+css);}
  result.push('R510: 上の表示の後ろに建物が来た時、表示の地を半分くらいの濃さにした PASS');
+ // R511: the chapter and THE END card was 93% dark, so the title's trees and houses showed through behind its lines; it is now a solid plate.
+ {const css=(html.match(/#ending-card\{[^}]*\}/)||[''])[0];assert(/background:#16353b(ff)?[;}]/.test(css),'R511: the ending card plate is solid: '+css);}
+ result.push('R511: 章の終わりとおしまいの札の地を不透明にした PASS');
  // R205: in ミナモ (mobile-20) the tired dad stood at y 18.9, in the middle of the road rows 18-19, so he read as standing in traffic.
  {const r=await runtime();r.tick();let n=0;
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(!m.tiles)continue;for(const o of m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind))){n++;const t=m.tiles[Math.floor(o.y)]&&m.tiles[Math.floor(o.y)][Math.floor(o.x)];assert(t!=='='&&t!=='~',id+': '+o.id+' does not stand on a road or water tile ('+t+')');}}
