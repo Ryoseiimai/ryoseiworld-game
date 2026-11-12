@@ -24,7 +24,8 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R25: ミオの雨の日 (STORY_V4.md 恋愛きずな3). She waits under the sidewalk roof near the crossroad; sharing the umbrella raises her heart to 3 and コトバイルカ joins.
  // R294: at y 21.6 her name tag sat level with num1's じゅんい 86 sign (num1 at 11.3,21.6) and the two touched end to end when she was the talk target;
  // at y 20.8 (0.8 tile up) the tag plate ends 8px above the sign plate. num1 stays put: lower, its feet fell off the bottom of the arrival view.
- object('neon_mio','npc2',0,13.4,20.8,48,65,{label:'ミオ',event:'mioRain'}),
+ // R503: at x 13.4 the rank 86 sign's plate ended 7px from her body and read as her sign; at 13.7 she stands 21px clear, still on the sidewalk tile.
+ object('neon_mio','npc2',0,13.7,20.8,48,65,{label:'ミオ',event:'mioRain'}),
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  // R239: the welcome board was the town's wooden park board, out of place on ネオン's purple paving (mobile-23); it is now the glowing city signboard.
