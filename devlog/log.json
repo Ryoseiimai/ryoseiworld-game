@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T20:57:53.328Z",
-  "branch": "claude/autodev-20261101-0521-R361",
-  "task": "R361 ことばノートのおさらいの見出し「おさらい　1/3」「おさらい　終わり」がおとなモードでも全角の空白入りだったので、おとなでは「おさらい 1 / 3」「おさらい終わり」にした（こどもモードはそのまま）",
-  "summary": "おとなモードのおさらいの見出しを「おさらい 1 / 3」にした\n結果の見出しも「おさらい終わり」にした。こどもはそのまま\nテストと、540x960 の前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/620/mobile-02-mode-select.jpg",
-   "shots/620/mobile-15-custom-full-run.jpg",
-   "shots/620/mobile-27-chapter-2-play.jpg",
-   "shots/620/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8e5f93d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41240318539"
- },
- {
   "at": "2026-10-31T21:58:15.225Z",
   "branch": "claude/autodev-20261101-0621-R362",
   "task": "R362 武器の名前「ホーミング レター」「if バリア」がおとなモードでも空白入りだったので、おとなでは「ホーミングレター」「ifバリア」にした（こどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "ef5c9c3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43170637521"
+ },
+ {
+  "at": "2026-11-12T07:40:54.896Z",
+  "branch": "claude/autodev-20261112-1622-R508",
+  "task": "R508 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンのかずの人の札の下の縁が髪に触れていたので、札を4px上げた\n話す相手の名前の札と、目標の行がよける幅も、同じだけ上げた\n札と頭の間が4px以上あるかを、テストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/881/mobile-02-mode-select.jpg",
+   "shots/881/mobile-19-custom-og-credit-card.jpg",
+   "shots/881/mobile-34-chapter-1-play.jpg",
+   "shots/881/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d7a8708",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43175451803"
  }
 ]
