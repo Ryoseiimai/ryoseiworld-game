@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T18:36:43.322Z",
-  "branch": "claude/autodev-20261101-0321-R358",
-  "task": "R358 ことばノートの種類の見出しと、言葉のページの「種類」が「ゲームづくり」とおとなモードでもかなで、上の「集めた言葉」「種類」とそろっていなかったので、おとなでは「ゲーム作り」にした",
-  "summary": "おとなモードで、ことばノートの種類の見出しを「ゲーム作り」にした\n言葉のページの「種類」も「ゲーム作り」にした。こどもモードはそのまま\nテストと前後のスクショ（docs/shots/R358）を足した",
-  "result": "pass",
-  "shots": [
-   "shots/613/mobile-02-mode-select.jpg",
-   "shots/613/mobile-15-custom-full-run.jpg",
-   "shots/613/mobile-27-chapter-2-play.jpg",
-   "shots/613/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "dfd6852",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41229445798"
- },
- {
   "at": "2026-10-31T18:45:12.625Z",
   "branch": "claude/autodev-20261101-0337-R359",
   "task": "R359 言葉のページの「出会った場所」が「アイテムの いちらん」「ボスせんの あたりはんてい チップ」とおとなモードでもかなで、上の「実務では」とそろっていなかったので、おとなでは「アイテムの一覧」「ボス戦の当たり判定チップ」などにした（敵と章の名前はそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1edec18",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43148822737"
+ },
+ {
+  "at": "2026-11-12T04:06:14.273Z",
+  "branch": "claude/autodev-20261112-1221-R504",
+  "task": "R504 章の札とおしまいの札の後ろを、タイトルのスクーターの主人公が走り続け、札の縁で半分に切れて見えたので、タイトルの時だけ出すようにした",
+  "summary": "章の札の後ろを、タイトルのスクーターの主人公が走り続けていた\n札の縁で体が半分に切れて見えた。主人公はタイトルの時だけ出るようにした\n札の画面で主人公が出ないかのテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/874/mobile-02-mode-select.jpg",
+   "shots/874/mobile-19-custom-og-credit-card.jpg",
+   "shots/874/mobile-34-chapter-1-play.jpg",
+   "shots/874/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "28504cd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43150998925"
  }
 ]
