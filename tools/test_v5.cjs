@@ -2644,6 +2644,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,vis=o.y*48-o.h+o.h*40/170-camY;
   assert(vis>=188,'the TV pile visible top is '+vis.toFixed(0)+'px down the screen by the exit (188 or more)');assert(o.h>=150,'the TV pile stays boss sized ('+o.h+')');}
  result.push('R288: でんきやの入口で、テレビの やま の線が目当ての帯に重ならない PASS');
+ // R509: in the browser the pile's drawn top is about 17px under its box top and the goal bar ends about 173px down the screen, so they touched; the box top now stands 168px or more down by the exit (a 10px gap or more).
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,top=o.y*48-o.h-camY,sv=m.objects.find(x=>x.id==='server');
+  assert(top+17>=173+10,'the TV pile drawn top is '+(top+17).toFixed(0)+'px down by the exit (183 or more, 10px under the goal bar)');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
+ result.push('R509: でんきやの入口で、テレビの やま の線と目当ての帯の間が10pxあく PASS');
  // R205: in ミナモ (mobile-20) the tired dad stood at y 18.9, in the middle of the road rows 18-19, so he read as standing in traffic.
  {const r=await runtime();r.tick();let n=0;
   for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(!m.tiles)continue;for(const o of m.objects.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind))){n++;const t=m.tiles[Math.floor(o.y)]&&m.tiles[Math.floor(o.y)][Math.floor(o.x)];assert(t!=='='&&t!=='~',id+': '+o.id+' does not stand on a road or water tile ('+t+')');}}
