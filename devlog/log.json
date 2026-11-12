@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T00:52:00.891Z",
-  "branch": "claude/autodev-20261101-0921-R365",
-  "task": "R365 デバッグモードの切り替え「はんてい ワイド」「あたりはんてい みえる」がおとなモードでもかなで、上の説明「使う道具を選ぼう」とそろっていなかったので、おとなでは「判定ワイド」「当たり判定を表示」にした（こどもモードはそのまま）",
-  "summary": "デバッグモードの切り替えを、おとなでは「判定ワイド」「当たり判定を表示」にした\nこどもモードはかなのまま。テストと540x960の前後のスクショを足した\nゴッドモードとタイムスケールは言葉の名前なのでそのまま",
-  "result": "pass",
-  "shots": [
-   "shots/627/mobile-02-mode-select.jpg",
-   "shots/627/mobile-15-custom-full-run.jpg",
-   "shots/627/mobile-27-chapter-2-play.jpg",
-   "shots/627/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "a0f136f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41257500238"
- },
- {
   "at": "2026-11-01T01:37:16.661Z",
   "branch": "claude/autodev-20261101-1021-R366",
   "task": "R366 名前の画面の「きみを なんて よぼう？」「この なまえに する」がおとなモードでもかなで、直前のタイトルの「始めから」「続きから」とそろっていなかったので、おとなでは「君を何て呼ぼう？」「この名前にする」にした（上の小見出しとこどもモードはそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1664681",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43194031042"
+ },
+ {
+  "at": "2026-11-12T11:51:18.536Z",
+  "branch": "claude/autodev-20261112-2021-R511",
+  "task": "R511 章の終わりとおしまいの札の地が93%の濃さで、後ろのタイトルの木や家が字の後ろに透けていたので、地を不透明にした",
+  "summary": "章の終わりとおしまいの札の地を、93%の濃さから不透明にした\n札の字の後ろに、タイトルの木や家が透けて見えなくなった\n地が不透明であることを、テストで確かめるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/887/mobile-02-mode-select.jpg",
+   "shots/887/mobile-19-custom-og-credit-card.jpg",
+   "shots/887/mobile-34-chapter-1-play.jpg",
+   "shots/887/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "fd8eee5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43211225372"
  }
 ]
