@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-10-31T15:10:58.254Z",
-  "branch": "claude/autodev-20261031-2346-R354",
-  "task": "R354 贈る前の確認「おにぎりを あげる？」がおとなモードでも空白入りで、直後の「もうあげた。」と書き方がちがったので、おとなでは「おにぎりをあげる？」にした（イベントの選択に adult の文を足せるようにした）",
-  "summary": "おとなモードの贈る前の確認を「おにぎりをあげる？」にした。こどもはそのまま\nイベントの選択に、おとな用の文（adult）を書けるようにし、使い方の説明に足した\nテストと前後のスクショ（docs/shots/R354）を足した",
-  "result": "pass",
-  "shots": [
-   "shots/609/mobile-02-mode-select.jpg",
-   "shots/609/mobile-15-custom-full-run.jpg",
-   "shots/609/mobile-27-chapter-2-play.jpg",
-   "shots/609/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "3e0aed0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41212737078"
- },
- {
   "at": "2026-10-31T16:11:23.023Z",
   "branch": "claude/autodev-20261101-0042-R355",
   "task": "R355 サーチフクロウの問題「もんだい 1 / 3」「つよい パスワードは？」がおとなモードでもひらがなだったので、おとなでは「問題 1 / 3」「強いパスワードは？」「知らない人からのリンクは？」などにした（フクロウの台詞は物語なのでそのまま）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "312fb67",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43111173444"
+ },
+ {
+  "at": "2026-11-12T01:04:46.824Z",
+  "branch": "claude/autodev-20261112-0921-R502",
+  "task": "R502 ボス戦の「ドラッグで動く」の板が、動いた後も4.5秒よける場所に残っていたので、出てから1秒後に主人公が動いたら消えるようにした",
+  "summary": "ボス戦の「ドラッグで動く」の板は、動いた後も4.5秒残り、よける場所を隠していた\n出てから1秒を過ぎて主人公が12px動いたら、板が0.15秒で消えるようにした\n板が消えると、カテイノジジョウの下の壁の名前がすぐ出る。テストを7つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/870/mobile-02-mode-select.jpg",
+   "shots/870/mobile-19-custom-og-credit-card.jpg",
+   "shots/870/mobile-34-chapter-1-play.jpg",
+   "shots/870/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f83bb32",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43130164974"
  }
 ]
