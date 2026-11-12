@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T11:06:21.970Z",
-  "branch": "claude/autodev-20261101-1922-R375",
-  "task": "R375 ボス戦の「プレイテスト」のボタンが「ビート」のボタンの8px上にあり、拍に合わせて押すと押し間違えそうだったので、間を16pxにした",
-  "summary": "全章を通してスクショを撮り、確認役にかな以外の気になる所を挙げてもらった\nボス戦のとくぎのボタンとビートのボタンの間を8pxから16pxにした\n間が16px以上あるかを tools/test_shooter.cjs で確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/641/mobile-02-mode-select.jpg",
-   "shots/641/mobile-15-custom-full-run.jpg",
-   "shots/641/mobile-27-chapter-2-play.jpg",
-   "shots/641/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "85cfd13",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41299663356"
- },
- {
   "at": "2026-11-01T11:53:52.002Z",
   "branch": "claude/autodev-20261101-2021-R376",
   "task": "R376 きずなの一覧でハートの始まりが名前の長さでずれ、比べにくかったので、名前の後ろを空白で埋めてハートを同じ列にそろえた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "aa55414",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43312105258"
+ },
+ {
+  "at": "2026-11-12T22:57:05.335Z",
+  "branch": "claude/autodev-20261113-0721-R522",
+  "task": "R522 ミナモの看板の右の柱だけ歩道に立ち、芝と歩道の境目をまたいでいたので、看板を少し左に立てて柱を2本とも芝に載せた",
+  "summary": "ミナモの看板を0.35マス左に立て、右の柱も芝の上に載せた\n看板の当たりを少し内側にし、着いた所から北へまっすぐ歩けるままにした\n直す前と後のスクショを撮り、柱と歩く道のテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/902/mobile-02-mode-select.jpg",
+   "shots/902/mobile-19-custom-og-credit-card.jpg",
+   "shots/902/mobile-34-chapter-1-play.jpg",
+   "shots/902/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b226e48",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43322684488"
  }
 ]
