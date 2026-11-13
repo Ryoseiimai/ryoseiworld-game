@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T14:52:45.446Z",
-  "branch": "claude/autodev-20261101-2321-R378",
-  "task": "R378 塔の2階と3階で目標の矢印が何も出ず、どの床に乗ればよいか分からなかったので、ひかりの床をたどって敵か屋上の門（ジブンの後はゼロの門）を指すようにした",
-  "summary": "塔の2階と3階で目標の矢印が出なかったので、ひかりの床を指すようにした\n敵が残る階が同じ近さなら上の階を指し、床の上に▼も出す\n屋上ではジブンの門、ジブンに勝った後はゼロの門を指す",
-  "result": "pass",
-  "shots": [
-   "shots/646/mobile-02-mode-select.jpg",
-   "shots/646/mobile-15-custom-full-run.jpg",
-   "shots/646/mobile-27-chapter-2-play.jpg",
-   "shots/646/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "553a9d8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41316361112"
- },
- {
   "at": "2026-11-01T15:51:21.214Z",
   "branch": "claude/autodev-20261102-0021-R379",
   "task": "R379 4章でネオンに戻ると「塔の一番上を目指そう」に矢印が出なかったので、ひかりの床で屋上へつながるくものもんを指すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d627a13",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43339803626"
+ },
+ {
+  "at": "2026-11-13T01:06:11.343Z",
+  "branch": "claude/autodev-20261113-0921-R524",
+  "task": "R524 ミナモの看板で「ミナモ」の字が板からはみ出し、両側の柱にかかっていたので、この看板だけ字の間を4pxつめて板の中に収めた",
+  "summary": "ミナモの看板で、字が両側の柱にかかっていたのを直した\n看板は周りに余地がないので大きさと場所はそのまま、字の間を4pxつめた\n前と後のスクショを docs/shots/R524 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/908/mobile-02-mode-select.jpg",
+   "shots/908/mobile-19-custom-og-credit-card.jpg",
+   "shots/908/mobile-34-chapter-1-play.jpg",
+   "shots/908/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5d57774",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43340216602"
  }
 ]
