@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T19:52:29.696Z",
-  "branch": "claude/autodev-20261102-0421-R383",
-  "task": "R383 全章を通して確認役に見てもらったが、挙がった5件はボスの名前「BUG KING」、ボス戦の登場の途中、押せる「▼続き」など、どれも設計どおりか前の回で残すと決めた物だったので、変えなかった",
-  "summary": "全章のスマホのスクショを確認役が見て、気になる所を5件挙げた\nBUG KING の英語名は物語の名前、ヒカクマオウ戦の最初は登場の途中だった\n「▼続き」は押すと続きが出る。どれも直す所ではないので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/653/mobile-02-mode-select.jpg",
-   "shots/653/mobile-15-custom-full-run.jpg",
-   "shots/653/mobile-27-chapter-2-play.jpg",
-   "shots/653/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "be2b94e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41343183017"
- },
- {
   "at": "2026-11-01T20:56:25.929Z",
   "branch": "claude/autodev-20261102-0522-R384",
   "task": "R384 1章のボスに勝った後「バス停からミナモちょうへ行こう」に矢印が出ず、どこへ行けばよいか分からなかったので、バス停を指すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "dc63f46",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359326851"
+ },
+ {
+  "at": "2026-11-13T03:52:49.465Z",
+  "branch": "claude/autodev-20261113-1222-R527",
+  "task": "R527 タイトルの「遊びながらゲーム作りと AIを学ぶRPG」が後ろの家の屋根とアンテナに重なって読みにくかったので、下の案内と同じ濃い透ける地を付けた",
+  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/918/mobile-02-mode-select.jpg",
+   "shots/918/mobile-19-custom-og-credit-card.jpg",
+   "shots/918/mobile-34-chapter-1-play.jpg",
+   "shots/918/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d3687e7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359826925"
  }
 ]
