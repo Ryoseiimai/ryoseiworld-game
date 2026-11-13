@@ -2800,6 +2800,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.abs(alpha(col(0))-.33)<.005,'during the fight the shadow keeps its old strength: '+col(0));
   assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));}
  result.push('R534: 勝った後、敵の足元の影も敵と同じだけうすくなる PASS');
+ // R535: while a summon is on screen the other battle parts dim, but the log that says what the summon did stays clear.
+ {const css=html.match(/[^}]*\.casting[^{]*\{opacity:\.35[^}]*\}/);assert(css,'the casting dim rule is found');
+  assert(/\.casting \.commands/.test(css[0])&&/\.casting \.hp-card/.test(css[0]),'the commands and HP card still dim: '+css[0]);
+  assert(!/battle-log/.test(css[0])&&!/\.casting [^{]*battle-log[^{]*\{[^}]*opacity/.test(html),'the battle log is not dimmed while casting');}
+ result.push('R535: 呼び出しの間も、戦闘の文はうすくならず読める PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
