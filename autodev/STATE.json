@@ -1,10 +1,10 @@
 {
   "version": 1,
   "current": {
-    "id": "R535",
+    "id": "R536",
     "branch": "claude/autodev-20261113-2141-R535",
     "attempts": 1,
-    "conflicts": 0,
+    "conflicts": 1,
     "retriggers": 0,
     "started_at": "2026-11-13T21:41:30+09:00"
   },
@@ -308,6 +308,12 @@
       "branch": "claude/autodev-20261113-2021-R534",
       "result": "pass",
       "at": "2026-11-13T21:41:30+09:00"
+    },
+    {
+      "id": "R535",
+      "branch": "claude/autodev-20261113-2122-R535",
+      "result": "pass",
+      "at": "2026-11-14T00:20:25+09:00"
     }
   ],
   "blocked": []

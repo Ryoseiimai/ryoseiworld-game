@@ -928,8 +928,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const pi=calls.findLastIndex((c,i)=>i<at&&c[0]==='plate'),pl=calls[pi];
    assert(pl&&pi>lastProp,id+' sign has a plate drawn after the street lamps');
    assert(pl[1]<=txt[2]-half&&pl[1]+pl[3]>=txt[2]+half&&pl[2]<=txt[3]-24&&pl[2]+pl[4]>=txt[3]+6,id+' plate covers the whole sign (plate '+pl.slice(1).join(',')+', text x '+txt[2]+' y '+txt[3]+')');
-   assert(Math.abs(txt[2]-o.x*48)<half,id+' sign slid less than half its width here');assert(txt[2]-half>=camX+28&&txt[2]+half<=camX+540-28,id+' sign keeps 28px from the screen edge (R535) (x '+txt[2]+', half '+half+', screen '+camX+'..'+(camX+540)+')');
-   // R535: its dark plate keeps 20px from the edge, the same as the top panel, so it does not stand further out than the panel above it.
+   assert(Math.abs(txt[2]-o.x*48)<half,id+' sign slid less than half its width here');assert(txt[2]-half>=camX+28&&txt[2]+half<=camX+540-28,id+' sign keeps 28px from the screen edge (R536) (x '+txt[2]+', half '+half+', screen '+camX+'..'+(camX+540)+')');
+   // R536: its dark plate keeps 20px from the edge, the same as the top panel, so it does not stand further out than the panel above it.
    assert(pl[1]>=camX+20&&pl[1]+pl[3]<=camX+540-20,id+' plate keeps 20px from the screen edge like the top panel (plate '+pl[1]+'..'+(pl[1]+pl[3])+', screen '+camX+'..'+(camX+540)+')');}
   // R129: from the street (hero x 13..17), the dark plate of each number never overlaps a street lamp picture (it slid onto the lamp head on a phone).
   for(const id of ['neon_num1','neon_num2'])for(const hx of [13,15,17]){const o=m.objects.find(x=>x.id===id);r.g.debugWarp('neon',hx,o.y+1.6);r.tick(16);r.canvasCalls.length=0;r.tick(16);
@@ -2802,7 +2802,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.abs(alpha(col(0))-.33)<.005,'during the fight the shadow keeps its old strength: '+col(0));
   assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));}
  result.push('R534: 勝った後、敵の足元の影も敵と同じだけうすくなる PASS');
- result.push('R535: 数の人の札の板が、上の札と同じ20pxだけ画面の縁から離れる（ネオンの着いた所） PASS');
+ // R535: while a summon is on screen the other battle parts dim, but the log that says what the summon did stays clear.
+ {const css=html.match(/[^}]*\.casting[^{]*\{opacity:\.35[^}]*\}/);assert(css,'the casting dim rule is found');
+  assert(/\.casting \.commands/.test(css[0])&&/\.casting \.hp-card/.test(css[0]),'the commands and HP card still dim: '+css[0]);
+  assert(!/battle-log/.test(css[0])&&!/\.casting [^{]*battle-log[^{]*\{[^}]*opacity/.test(html),'the battle log is not dimmed while casting');}
+ result.push('R535: 呼び出しの間も、戦闘の文はうすくならず読める PASS');
+ result.push('R536: 数の人の札の板が、上の札と同じ20pxだけ画面の縁から離れる（ネオンの着いた所） PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
