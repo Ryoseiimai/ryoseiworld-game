@@ -3005,7 +3005,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R524: the wood between the posts of props 11 is about half the picture (not the 60% R256 assumed), so the 24px 「ミナモ」 ran onto both posts of the 136px board.
  {const maps=(await runtime()).g.GAME_DATA.maps,tr=/const BOARD_TRACK=\{'props:11':(-?\d+)\}/.exec(html);assert(tr,'R524: the board words have their own spacing');const track=Number(tr[1]);
   assert(track<0&&track>=-3,'R524: the board words are set at most 3px closer ('+track+')');
-  assert(/letterSpacing=track\+'px';const m=ctx\.measureText\(text\);tx\+=\(m\.actualBoundingBoxLeft-m\.actualBoundingBoxRight\)\/2/.test(html),'R524: the board words are centred by their ink');
+  assert(/letterSpacing=track\+'px';const m=ctx\.measureText\(text\);tx\+=\(m\.actualBoundingBoxLeft-m\.actualBoundingBoxRight\)\/2\|\|0;/.test(html),'R524: the board words are centred by their ink');
   assert(/ctx\.letterSpacing='0px'/.test(html),'R524: the spacing is put back after the board words');
   const file=path.join(root,'assets','props','props_r2_c3.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),y=Math.floor(h*.516);
   const dark=x=>{const i=(y*w+x)*4;return data[i+3]>128&&(data[i]+data[i+1]+data[i+2])/3<60;};let l=w>>1,r=w>>1;while(l>0&&!dark(l))l--;while(r<w-1&&!dark(r))r++;const wood=r-l-1;
