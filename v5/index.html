@@ -821,7 +821,8 @@ async function loadAssets(force=false){if(loadingAssets)return;loadingAssets=tru
 function rect(x,y,w,h,color){ctx.fillStyle=color;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));}
 // R85: a numbered person's sign slides inward at the screen edge (by at most half its width, so it stays over the person) instead of being cut off.
 // R89: the sign keeps 16px from the screen edge when it can (it still slides at most half its width, to stay over its person).
-const SIGN_EDGE=16;
+// R535: the dark plate reaches 8px past the words, so the words keep 28px and the plate keeps 20px from the edge, the same as the top panel (it stood 5px further out, at the left edge in ネオン).
+const SIGN_EDGE=28;
 function signHalf(text){return[...text].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2;}
 // R346: a number person's sign may slide up to half its width toward the screen; when even that leaves part of it off screen (the person stands at the edge), the sign is not drawn at all, so 「いいね 320」 never shows cut.
 function signCut(o){if(o.kind!=='numberperson')return false;const x=o.x*TILE,half=signHalf(signOf(o)),fit=Math.max(camera.x+half+2,Math.min(camera.x+W-half-2,x));return Math.abs(fit-x)>half;}

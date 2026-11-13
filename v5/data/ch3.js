@@ -25,7 +25,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R294: at y 21.6 her name tag sat level with num1's じゅんい 86 sign (num1 at 11.3,21.6) and the two touched end to end when she was the talk target;
  // at y 20.8 (0.8 tile up) the tag plate ends 8px above the sign plate. num1 stays put: lower, its feet fell off the bottom of the arrival view.
  // R503: at x 13.4 the rank 86 sign's plate ended 7px from her body and read as her sign; at 13.7 she stands 21px clear, still on the sidewalk tile.
- object('neon_mio','npc2',0,13.7,20.8,48,65,{label:'ミオ',event:'mioRain'}),
+ object('neon_mio','npc2',0,13.8,20.8,48,65,{label:'ミオ',event:'mioRain'}),
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  // R239: the welcome board was the town's wooden park board, out of place on ネオン's purple paving (mobile-23); it is now the glowing city signboard.
@@ -44,7 +44,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
  // R293: at x 10.6 num1 stood 59px from the left edge of the arrival view, so its sign slid 26px right and hung beside it, not over it;
  // at x 11.3 the sign keeps 16px from the edge without sliding and sits over the head.
- object('neon_num1','numberperson',0,11.3,21.6,48,76,{label:'かずの ひと',dialogue:'numberPerson1',sign:'ランク 86い'}),
+ object('neon_num1','numberperson',0,11.45,21.6,48,76,{label:'かずの ひと',dialogue:'numberPerson1',sign:'ランク 86い'}),
  object('neon_num2','numberperson',1,19,25.2,48,76,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,76,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,76,{label:'かずの ひと',dialogue:'numberPerson4',sign:'ランク 99い'})],
