@@ -160,7 +160,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
  const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
  // BUG KING (SPEC_V6.md 4): the talk, the kickboard lifts, then the side-scrolling battle opens with the hero's weapons.
- t.g.debugWarp('electric',5,6.7);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
+ t.g.debugWarp('electric',5,7.2);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
  assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
  {const hero=t.g.lift;t.tick(400);assert(t.g.lift&&t.g.lift.type==='bugking'&&hero);}
  t.key('Escape');assert(!t.g.modal,'the menu stays closed while lifting');
@@ -168,7 +168,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
   // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
   t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどった'));t.dialogue();assert.equal(c.lines.intro[0],'ソラ','no second むりだ line');}
- t.g.debugWarp('electric',5,6.7);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
+ t.g.debugWarp('electric',5,7.2);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
  t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert(!t.g.modal);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
  t.shooterRuns[1].cfg.onLose('retry');assert(!t.g.modal);assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts without the apply-only screen');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
@@ -377,7 +377,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const patch of [{chapter:2},{dir:7},{map:'constructor'},{exp:'10'},{x:288,y:1130,map:'town'},{x:-5000,y:-5000,map:'town'}]){const b=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...base,bosses:[],...patch})]])});b.tick();if(!b.els.get('continue-btn').disabled){b.click('continue-btn');b.tick(100);assert(b.hasFrame(),'loop alive '+JSON.stringify(patch));assert(!b.g.debugBlocked(b.g.position.x,b.g.position.y),'not stuck '+JSON.stringify(patch));let moved=false;for(const k of ['ArrowDown','ArrowUp','ArrowLeft','ArrowRight']){const p=b.g.position;b.key(k);b.tick(300);b.key(k,true);if(b.g.position.x!==p.x||b.g.position.y!==p.y||b.g.screen!=='field')moved=true;}assert(moved,'can move '+JSON.stringify(patch));assert.equal(typeof b.g.state.exp,'number');assert(b.g.level<=base.level+1);}else assert(patch.chapter||patch.dir||patch.map==='constructor','only broken saves are rejected '+JSON.stringify(patch));}
  result.push('Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS');
  // F18: a fast second tap after the boss intro does not hit にげる.
- const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,6.7);tap.tick(16);tap.g.debugEvent([{say:[['BUG KING','どうせ お前には むりだ']]},{battle:'bugking',id:'f18'}]);while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
+ const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,7.2);tap.tick(16);tap.g.debugEvent([{say:[['BUG KING','どうせ お前には むりだ']]},{battle:'bugking',id:'f18'}]);while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
  result.push('Closing tap is ignored for 250 ms by battle and shop buttons PASS');
  // F24: one victory jingle, then one level-up fanfare and the gained numbers.
  const lv=await runtime();lv.tick();lv.start();lv.tick(3000);lv.g.debugWin();lv.tick(2000);lv.dialogue();const count={victory:0,levelup:0};for(const k of Object.keys(count)){const fn=lv.g.sfx[k];lv.g.sfx[k]=(...a)=>{count[k]++;return fn(...a);};}
@@ -2645,7 +2645,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const po=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='police');assert(po&&po.x===9.5&&po.y===19.6,'the police officer stands on the sidewalk across from the police box (R270)');}
  result.push('R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS');
  // R204: the TV pile in でんきや stuck 70px up into the plain back wall (rows 0-1 and the 10px lip), so by the exit it hid under the HUD (mobile-19).
- // It now stands on the floor; the boss talk tests above stand at y 6.7, under its new foot.
+ // It now stands on the floor; the boss talk tests above stand at y 7.2 (R543), under its foot.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss');
   assert(o&&o.enemy==='bugking','the TV pile is still the bug king spot');assert(o.y*48-o.h>=2*48+10,'the TV pile top ('+(o.y*48-o.h)+') stays below the wall lip ('+(2*48+10)+')');
   const sv=m.objects.find(x=>x.id==='server');assert(o.y<sv.y,'the pile still stands behind the server');}
@@ -2664,6 +2664,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,top=o.y*48-o.h-camY,sv=m.objects.find(x=>x.id==='server');
   assert(top+17>=173+10,'the TV pile drawn top is '+(top+17).toFixed(0)+'px down by the exit (183 or more, 10px under the goal bar)');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
  result.push('R509: でんきやの入口で、テレビの やま の線と目当ての帯の間が10pxあく PASS');
+ // R543: R538 covers the strip above the room's top line (hudTop+12, about 196px down in the browser) while this tall room scrolls, so by the exit the pile's drawn top (17px under its box top) must sit 10px or more under that cover, not cut flat by it.
+ {const r=await runtime();r.tick();r.g.debugWarp('electric',5,14);r.tick(400);const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),sv=m.objects.find(x=>x.id==='server'),cover=r.g.roomTopCover,drawn=o.y*48-o.h+17-r.g.camera.y;
+  assert(cover>0,'the room-top cover is drawn by the exit ('+cover+')');assert(drawn>=cover+6,'the TV pile drawn top is '+drawn.toFixed(0)+'px down by the exit, 6px or more under the room-top cover ('+cover+')');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
+ result.push('R543: でんきやの入口で、テレビの やま の上が部屋の上のおおいで切れない PASS');
  // R510: over a building the see-through HUD plate was only 35% dark, so the shop's pots and steps sat right behind 「85％」; it is now about 55% dark (the building still shows, the words sit on a calmer plate).
  {const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0],a=parseInt((css.match(/background:#16353b([0-9a-f]{2})/)||[])[1],16);assert(a>=0x80&&a<=0xa0,'R510: the see-through HUD plate is about half dark (0x80..0xa0): '+css);}
  result.push('R510: 上の表示の後ろに建物が来た時、表示の地を半分くらいの濃さにした PASS');

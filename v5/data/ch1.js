@@ -88,6 +88,8 @@ maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spa
 maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
  object('clerk','npc',3,5.7,3.9,56,75,{event:'clerk',raise:26}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
  object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'})],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
+// R543: R538 then covered the strip above the room's top line (hudTop+12, about 196px down) while the room scrolls, so by the exit that cover cut the pile's drawn top flat (mobile-28, desktop-28).
+// The pile stands half a tile lower (drawn top about 211px, 15px clear of the cover) and the server half a tile lower with it, keeping the 1.5-tile walk between them.
 // R509: once the goal read メニューのチャレンジで遊ぼう, the pile's drawn cable top (about 17px under its box top) sat right on the goal bar's bottom edge (about 173px down the screen by the exit; mobile-28, desktop-28), so it stands 0.3 tile lower, about 14px clear of the bar.
 // R288: its cable top still touched the goal bar by 6px (mobile-19), so the pile is 156px instead of 170 with its feet kept.
 // R286: by the exit its top still sat 8px under the goal bar below the HUD (mobile-19), so it stands 0.4 tile lower.
@@ -96,8 +98,8 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // electric shop (STORY_V3: でんきやのジャンク置き場, the town sign says 電気屋), so the label now reads 電気屋の奥 / でんきやの おく.
 maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:17,spawn:[5,14],objects:[
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
- object('server','interior',10,7,8,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
- object('boss','interior',9,5,6.5,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
+ object('server','interior',10,7,8.5,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
+ object('boss','interior',9,5,7,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:16.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
