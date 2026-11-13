@@ -2808,6 +2808,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/battle-log/.test(css[0])&&!/\.casting [^{]*battle-log[^{]*\{[^}]*opacity/.test(html),'the battle log is not dimmed while casting');}
  result.push('R535: 呼び出しの間も、戦闘の文はうすくならず読める PASS');
  result.push('R536: 数の人の札の板が、上の札と同じ20pxだけ画面の縁から離れる（ネオンの着いた所） PASS');
+ // R537: my room and the library (14 rows) were 26px taller than the band, so they scrolled and the wall's top edge sat right on the goal strip. They now stay still with their top 22px under the strip (hudTop+12), like a short centred room.
+ {const r=await runtime();for(const id of ['room','minamo_library']){const m=r.g.GAME_DATA.maps[id],mh=m.h*48;r.g.debugWarp(id,m.w/2,1.6);r.tick(32);const top=-r.g.camera.y,ht=r.g.hudTop;assert(mh>960-ht-130,id+' is taller than the band');assert.equal(top,ht+12,id+': at the top the room starts 12px under the HUD line');
+  assert(mh<=960-ht-130+48,id+' is at most one tile taller than the band');r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(-r.g.camera.y,ht+12,id+': the room does not scroll, so its top edge never slides up beside the strip');assert(ht+12+mh<=960-80,id+': the last row stays above the lowest 80px');}
+  {const e=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',e.w/2,1.6);r.tick(32);assert.equal(-r.g.camera.y,r.g.hudTop+12,'a tall room (electric) scrolls and stops 12px under the HUD line at its top');}
+  const s=r.g.GAME_DATA.maps.store;r.g.debugWarp('store',s.w/2,s.h/2);r.tick(32);const band=960-r.g.hudTop-130;assert(s.h*48<=band,'the store fits the band');assert.equal(r.g.camera.y,(s.h*48-band)/2-r.g.hudTop,'the short store stays centred');}
+ result.push('R537: 自分の部屋と図書館で、部屋の上の壁が目標の帯から22px離れる PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
