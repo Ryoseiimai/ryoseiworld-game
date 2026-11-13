@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-04T10:09:26.091Z",
-  "branch": "claude/autodev-lead-og-title-brand",
-  "task": "lead-og-title-brand",
-  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/684/mobile-02-mode-select.jpg",
-   "shots/684/mobile-15-custom-full-run.jpg",
-   "shots/684/mobile-27-chapter-2-play.jpg",
-   "shots/684/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "5eb6d81",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41811010694"
- },
- {
   "at": "2026-11-04T10:29:10.015Z",
   "branch": "claude/autodev-lead-og-zero-reload",
   "task": "lead-og-zero-reload",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "cdd5386",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43495399187"
+ },
+ {
+  "at": "2026-11-13T20:53:40.968Z",
+  "branch": "claude/autodev-20261114-0521-R541",
+  "task": "R541 ボス戦の始めの「ドラッグで動く」の板が透けて、ガードレールの柱が字の後ろに見えていたので、板をほぼ透けない色にした",
+  "summary": "ボス戦の始めに「ドラッグで動く」の板が透け、ガードレールの柱が字の後ろに見えていた\n板の地を0.78から0.92の濃さにし、前と後のスクショで柱が消えたのを見た\n確認役は、板の下に入った主人公が見えにくくなると挙げたが、板は主人公の通り道より下で、動けば消えるので残した",
+  "result": "pass",
+  "shots": [
+   "shots/941/mobile-02-mode-select.jpg",
+   "shots/941/mobile-19-custom-og-credit-card.jpg",
+   "shots/941/mobile-34-chapter-1-play.jpg",
+   "shots/941/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "eff0cc5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43504174038"
  }
 ]
