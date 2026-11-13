@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-02T22:26:57.651Z",
-  "branch": "claude/autodev-20261103-0642-R397",
-  "task": "R397 確かめ用のスクショの「きずなが深まった」の場面で、言葉を消してから撮っていたので、ただの町の画面になっていた。言葉が出たまま撮るようにした",
-  "summary": "きずなの場面のスクショが、言葉を消した町の画面だった\n「お母さんとのきずなが深まった！」が出たまま撮るようにした\n言葉が無ければスモークを不合格にする確かめも足した",
-  "result": "pass",
-  "shots": [
-   "shots/674/mobile-02-mode-select.jpg",
-   "shots/674/mobile-15-custom-full-run.jpg",
-   "shots/674/mobile-27-chapter-2-play.jpg",
-   "shots/674/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "91d858a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41535393638"
- },
- {
   "at": "2026-11-03T01:22:46.675Z",
   "branch": "claude/autodev-20261103-0942-R398",
   "task": "R398 3章でネオンに着いた時、左端で半分切れたノイズを道しるべの矢印が指していたので、そのノイズの歩く場所を画面の外へずらした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "456f446",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43452499489"
+ },
+ {
+  "at": "2026-11-13T16:56:20.202Z",
+  "branch": "claude/autodev-20261114-0111-R537",
+  "task": "R537 自分の部屋と図書館で、部屋の上の壁の縁が目標の帯のすぐ下にのぞいていたので、部屋を動かさず帯から22px下に置いた",
+  "summary": "自分の部屋と図書館は帯より26px高く、少しずれて壁の縁が帯に付いて見えていた\n1マス以内だけ高い部屋は動かさず、コンビニと同じく帯の22px下に置いた\n下の「話す」が床の下の縁に12pxかかるが、出口は隠れないので残した",
+  "result": "pass",
+  "shots": [
+   "shots/935/mobile-02-mode-select.jpg",
+   "shots/935/mobile-19-custom-og-credit-card.jpg",
+   "shots/935/mobile-34-chapter-1-play.jpg",
+   "shots/935/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3ae86f1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43465222888"
  }
 ]
