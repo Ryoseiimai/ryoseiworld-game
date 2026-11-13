@@ -1388,6 +1388,15 @@ async function browserAdapterChecks() {
   check('R469: 武器の名前の前にラベルを描く', /outlinedText\(ctx, wl, 22,[^\n]*\n[^\n]*WEAPONS\[0\]\.name, 22 \+ ctx\.measureText\(wl\)/.test(src));
 })();
 
+// R526: on a phone the move hint's plate held one line in a box made for two, so it read as an empty dark board.
+(() => {
+  const ph = sim.moveHintPlate(true, 168), pc = sim.moveHintPlate(false, 168);
+  check('R526: スマホの案内の板は1行に合う高さ', ph.h === 54 && ph.y === sim.INTRO.hintPlateT, JSON.stringify(ph));
+  check('R526: スマホの案内の板は字の幅＋左右32px で真ん中', ph.w === 232 && ph.x === (540 - 232) / 2, JSON.stringify(ph));
+  check('R526: 長い字でも画面の左右60pxの内に収まる', sim.moveHintPlate(true, 900).w === 420);
+  check('R526: キーボードのある所は2行の板のまま', pc.x === 60 && pc.w === 420 && pc.h === 82 && pc.y === sim.INTRO.hintPlateT, JSON.stringify(pc));
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

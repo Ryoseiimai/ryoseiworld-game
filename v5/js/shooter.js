@@ -1228,7 +1228,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2630,11 +2630,11 @@
     }
     if (w.state === 'play' && w.stateT < HINT_T && moveHintAlpha(w) > 0) {
       var ha = moveHintAlpha(w);
-      ctx.globalAlpha = ha; ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, 60, HINT_PLATE_T, W - 120, 82, 14); ctx.fill();
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
+      ctx.globalAlpha = ha; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       // R156: on a touch-only device (index.html sets .touch-only) the keyboard line is left out.
-      var mh = moveHintLines();
-      if (touchOnly()) outlinedText(ctx, mh[0], W / 2, PLAY_B - 119, '#fff5d6');
+      var mh = moveHintLines(), hp = moveHintPlate(touchOnly(), ctx.measureText(mh[0]).width);
+      ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, hp.x, hp.y, hp.w, hp.h, 14); ctx.fill();
+      if (touchOnly()) outlinedText(ctx, mh[0], W / 2, hp.y + hp.h / 2, '#fff5d6');
       else {
         outlinedText(ctx, mh[0], W / 2, PLAY_B - 136, '#fff5d6');
         outlinedText(ctx, mh[1], W / 2, PLAY_B - 102, '#c9e8f2');
@@ -2645,6 +2645,13 @@
 
   // R314: SPEC_V7_MANABU.md 9: the move hint reads in kanji in adult mode, like the battle and menu lines.
   // R449: the field says 「ドラッグで歩く」 for the same move, and 「指を」 is wrong with a mouse, so the boss fight says ドラッグで too.
+  // R526: on a phone the plate held one short line in a box made for two (420x82), so it read as an empty dark board
+  // over the road. There it now fits the one line (32px of room on each side, 54px tall), keeping the same top edge.
+  function moveHintPlate(touch, textW) {
+    if (!touch) return { x: 60, y: HINT_PLATE_T, w: W - 120, h: 82 };
+    var w = Math.min(W - 120, Math.ceil(textW) + 64);
+    return { x: (W - w) / 2, y: HINT_PLATE_T, w: w, h: 54 };
+  }
   function moveHintLines() { return RYW.mode === 'adult' ? ['ドラッグで動く', '矢印・WASDでも動く'] : ['ドラッグで うごく', 'やじるし・WASD でも うごく']; }
 
   // R426: the band at the start of a boss fight is a screen notice, not a story line, so adult mode reads it in kanji (SPEC_V7_MANABU.md 9).
