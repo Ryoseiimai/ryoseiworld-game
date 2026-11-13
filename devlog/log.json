@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T19:00:39.347Z",
-  "branch": "claude/autodev-20261102-0321-R382",
-  "task": "R382 確かめ用のスクショで、Lv13の戦闘にも最初の戦闘の「HP 0になると倒れる」のカードが出て、本当の表示と違っていたので、スモークでチュートリアルの言葉を覚えた状態にし、出たら不合格にした",
-  "summary": "全章のスクショを確認役が見たが、文字の重なりや切れは無かった\nLv13の戦闘に最初の戦闘のHPのカードが出て本物と違ったので、スモークを直した\n前と後は docs/shots/R382。勝った後の進み方などは自動で進むので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/652/mobile-02-mode-select.jpg",
-   "shots/652/mobile-15-custom-full-run.jpg",
-   "shots/652/mobile-27-chapter-2-play.jpg",
-   "shots/652/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "54b6209",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41337791166"
- },
- {
   "at": "2026-11-01T19:52:29.696Z",
   "branch": "claude/autodev-20261102-0421-R383",
   "task": "R383 全章を通して確認役に見てもらったが、挙がった5件はボスの名前「BUG KING」、ボス戦の登場の途中、押せる「▼続き」など、どれも設計どおりか前の回で残すと決めた物だったので、変えなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "7255d33",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43353473024"
+ },
+ {
+  "at": "2026-11-13T03:41:12.707Z",
+  "branch": "claude/autodev-20261113-1222-R527",
+  "task": "R527 遊んで一番気になる所を1つ直す",
+  "summary": "スマホのボス戦で「ドラッグで動く」の板が2行分の大きさで、中ががらんとしていた\nスマホでは板を字の幅と1行の高さに合わせた（キーボードの所は2行のまま）\n前と後のスクショを docs/shots/R526 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/915/mobile-02-mode-select.jpg",
+   "shots/915/mobile-19-custom-og-credit-card.jpg",
+   "shots/915/mobile-34-chapter-1-play.jpg",
+   "shots/915/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "dc63f46",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359326851"
  }
 ]
