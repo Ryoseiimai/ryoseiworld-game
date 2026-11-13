@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-04T10:43:47.336Z",
-  "branch": "claude/autodev-lead-og-ogp",
-  "task": "lead-og-ogp",
-  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/687/mobile-02-mode-select.jpg",
-   "shots/687/mobile-15-custom-full-run.jpg",
-   "shots/687/mobile-27-chapter-2-play.jpg",
-   "shots/687/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e27b123",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41812510348"
- },
- {
   "at": "2026-11-04T13:34:09.234Z",
   "branch": "claude/autodev-lead-og-share",
   "task": "lead-og-share",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d27cf78",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43515481198"
+ },
+ {
+  "at": "2026-11-13T23:05:51.801Z",
+  "branch": "claude/autodev-20261114-0721-R543",
+  "task": "R543 電気屋の奥に入った時、テレビの山の上が部屋の上のおおいでまっすぐ切れていたので、山とサーバーを半マス下げた",
+  "summary": "電気屋の奥に入ると、テレビの山の上が部屋の上のおおいで切れていた\n山とサーバーを半マス下げ、前と後のスクショで山が全部見えるのを見た\nテストは実際のおおいの位置で、山の上が6px以上下にあるかを見る",
+  "result": "pass",
+  "shots": [
+   "shots/944/mobile-02-mode-select.jpg",
+   "shots/944/mobile-19-custom-og-credit-card.jpg",
+   "shots/944/mobile-34-chapter-1-play.jpg",
+   "shots/944/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c336392",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43522694995"
  }
 ]
