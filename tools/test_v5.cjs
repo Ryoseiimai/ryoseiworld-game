@@ -2771,6 +2771,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(rules.length>=2,'the talk box rules are found');for(const m of rules){const bg=m[3].match(/background(?:-color)?:\s*(#[0-9a-f]+)/i);if(bg)assert(bg[1].length===7||bg[1].length===4,'the talk box background is solid: '+m[2]+' '+bg[1]);}
   assert(rules.some(m=>/^\.dialogue$/.test(m[2].trim())&&/background:#16353b(;|$)/.test(m[3])),'the .dialogue rule sets a solid background');}
  result.push('R529: 会話の窓が透けず、後ろの町が見えない PASS');
+ // R530: the battery nub (.batt::after, right:-8px) sticks out 5px past the 32px box, so the 7px right margin left 2px before 100%. The gap after the nub now matches the 10px before the icon. In compact (scale 1.25, 31px letters) both gaps are about 6px so the row grows by only 1px, since the 31px row already runs past the card at high levels.
+ {const css=html.match(/<style>([\s\S]*?)<\/style>/)[1],px=v=>parseFloat(v);const base=css.match(/(?:^|}|\*\/)\.batt\{([^}]*)\}/),nub=css.match(/\.batt::after\{([^}]*)\}/),cmp=css.match(/#stage\.compact \.batt\{([^}]*)\}/);
+  assert(base&&nub&&cmp,'the battery icon rules are found');const w=px(base[1].match(/width:(\d+)px/)[1]),bd=px(base[1].match(/border:(\d+)px/)[1]),mg=base[1].match(/margin:0 (\d+)px 0 (\d+)px/).slice(1).map(px),r=-px(nub[1].match(/right:(-?\d+)px/)[1]);
+  const out=w-bd+r-w,gap=mg[0]-out;assert(gap>=8&&Math.abs(gap-mg[1])<=2,'gap after the nub '+gap+' vs before the icon '+mg[1]);
+  const sc=px(cmp[1].match(/scale\(([\d.]+)\)/)[1]),cm=cmp[1].match(/margin:0 (\d+)px 0 (\d+)px/).slice(1).map(px),half=w/2,cGap=cm[0]-((half-bd+r)*sc-half),cLeft=cm[1]-(half*sc-half);assert(cGap>=6&&Math.abs(cGap-cLeft)<=2&&cm[0]+cm[1]<=27,'compact gap after the nub '+cGap+' vs before '+cLeft);}
+ result.push('R530: 電池の絵と「100％」の間が、絵の前と同じくらい空く PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
