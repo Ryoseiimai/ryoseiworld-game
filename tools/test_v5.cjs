@@ -2766,6 +2766,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(r.canvasCalls.some(c=>c[0]==='fillText'&&c[1]==='↓'),'the same frame check sees the ↓ plate in the shop');}
  result.push('R226: 自分の部屋の階段に「↓」の札が重ならない PASS');
  result.push('R528: 自分の部屋の階段の横に「← 外へ」の札が立つ PASS');
+ // R529: the talk box was the panel color at 93% (#16353bee), so over the bright town the park board and the cherry tree showed through the words. The talk box is solid now, also while it has focus.
+ {const css=html.match(/<style>([\s\S]*?)<\/style>/)[1],rules=[...css.matchAll(/(^|})([^{}]*\bdialogue\b[^{}]*)\{([^}]*)\}/g)].filter(m=>/(^|,)\s*[.#]dialogue(:focus|:focus-visible)?\s*(,|$)/.test(m[2]));
+  assert(rules.length>=2,'the talk box rules are found');for(const m of rules){const bg=m[3].match(/background(?:-color)?:\s*(#[0-9a-f]+)/i);if(bg)assert(bg[1].length===7||bg[1].length===4,'the talk box background is solid: '+m[2]+' '+bg[1]);}
+  assert(rules.some(m=>/^\.dialogue$/.test(m[2].trim())&&/background:#16353b(;|$)/.test(m[3])),'the .dialogue rule sets a solid background');}
+ result.push('R529: 会話の窓が透けず、後ろの町が見えない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
