@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T18:01:18.687Z",
-  "branch": "claude/autodev-20261102-0221-R381",
-  "task": "R381 確かめ用のスクショで、後の章の地図にもチュートリアルの目標「呼び出すでナオスライムを呼ぶ」が出て、本当の表示と違っていたので、スモークで先にチュートリアルを済ませ、残っていたら不合格にした",
-  "summary": "全章のスクショを確認役が見たが、文字の重なりや切れは無かった\n地図のスクショにチュートリアルの目標が残り、本物と違っていたので直した\n前と後は docs/shots/R381。鍵のブランチへの push は許されず取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/650/mobile-02-mode-select.jpg",
-   "shots/650/mobile-15-custom-full-run.jpg",
-   "shots/650/mobile-27-chapter-2-play.jpg",
-   "shots/650/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "e0cd4c2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41333649743"
- },
- {
   "at": "2026-11-01T18:51:34.103Z",
   "branch": "claude/autodev-20261102-0321-R382",
   "task": "R382 確かめ用のスクショで、Lv13の戦闘にも最初の戦闘の「HP 0になると倒れる」のカードが出て、本当の表示と違っていたので、スモークでチュートリアルの言葉を覚えた状態にし、出たら不合格にした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "413a9a9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345051992"
+ },
+ {
+  "at": "2026-11-13T01:54:43.273Z",
+  "branch": "claude/autodev-20261113-1021-R525",
+  "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
+  "summary": "後ろに人がいる時の「話す」で、真ん中の暗い楕円がしみに見えていた\n暗い地を角の外まで広げ、相手がいない時は薄くして人が透けるようにした\n前と後のスクショを docs/shots/R525 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/912/mobile-02-mode-select.jpg",
+   "shots/912/mobile-19-custom-og-credit-card.jpg",
+   "shots/912/mobile-34-chapter-1-play.jpg",
+   "shots/912/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e2b4421",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345965734"
  }
 ]
