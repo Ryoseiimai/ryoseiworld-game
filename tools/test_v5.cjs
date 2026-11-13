@@ -2814,6 +2814,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   {const e=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',e.w/2,1.6);r.tick(32);assert.equal(-r.g.camera.y,r.g.hudTop+12,'a tall room (electric) scrolls and stops 12px under the HUD line at its top');}
   const s=r.g.GAME_DATA.maps.store;r.g.debugWarp('store',s.w/2,s.h/2);r.tick(32);const band=960-r.g.hudTop-130;assert(s.h*48<=band,'the store fits the band');assert.equal(r.g.camera.y,(s.h*48-band)/2-r.g.hudTop,'the short store stays centred');}
  result.push('R537: 自分の部屋と図書館で、部屋の上の壁が目標の帯から22px離れる PASS');
+ // R538: the back of the electric shop scrolls; scrolled down, its floor ran up under the HUD and the goal strip sat on the floor. Above the room's top line (hudTop+12) the surround colour now covers it.
+ {const r=await runtime(),e=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',e.w/2,e.h-1.5);r.tick(32);const cap=r.g.hudTop+12;assert(r.g.roomFill.top<cap,'scrolled down, the electric room top is above the line');assert.equal(r.g.roomTopCover,cap,'the part above the line is covered');
+  r.g.debugWarp('electric',e.w/2,1.6);r.tick(32);assert.equal(r.g.roomTopCover,0,'at its top the wall shows and nothing is covered');
+  for(const id of ['room','store','minamo_library']){const m=r.g.GAME_DATA.maps[id];r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(r.g.roomTopCover,0,id+' does not scroll, so nothing is covered');}
+  r.g.debugWarp('town',2,2);r.tick(32);assert.equal(r.g.roomTopCover,0,'outside nothing is covered');}
+ result.push('R538: 電気屋の奥を下へ進んでも、床が上の帯の下に入らない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
