@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-04T10:29:10.015Z",
-  "branch": "claude/autodev-lead-og-zero-reload",
-  "task": "lead-og-zero-reload",
-  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/685/mobile-02-mode-select.jpg",
-   "shots/685/mobile-15-custom-full-run.jpg",
-   "shots/685/mobile-27-chapter-2-play.jpg",
-   "shots/685/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "10200a9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41812463237"
- },
- {
   "at": "2026-11-04T10:29:31.377Z",
   "branch": "claude/autodev-lead-og-challenge-door",
   "task": "lead-og-challenge-door",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "eff0cc5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43504174038"
+ },
+ {
+  "at": "2026-11-13T21:58:05.478Z",
+  "branch": "claude/autodev-20261114-0621-R542",
+  "task": "R542 塔の雲の床の「上へ」「下へ」の札が雲の下の縁にくっついて見えたので、札を6px下げて雲から離した",
+  "summary": "塔の雲の床の「上へ」「下へ」の札の上の縁が、雲の下の縁にくっついていた\n札を6px下げ、前と後のスクショで雲との間があいたのを見た\n確認役が挙げたボス戦の始めの台詞と帯の重なりは、R173 の判断待ちなので残した",
+  "result": "pass",
+  "shots": [
+   "shots/942/mobile-02-mode-select.jpg",
+   "shots/942/mobile-19-custom-og-credit-card.jpg",
+   "shots/942/mobile-34-chapter-1-play.jpg",
+   "shots/942/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2a6e41b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43513586037"
  }
 ]
