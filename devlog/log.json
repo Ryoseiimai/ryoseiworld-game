@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T18:51:34.103Z",
-  "branch": "claude/autodev-20261102-0321-R382",
-  "task": "R382 確かめ用のスクショで、Lv13の戦闘にも最初の戦闘の「HP 0になると倒れる」のカードが出て、本当の表示と違っていたので、スモークでチュートリアルの言葉を覚えた状態にし、出たら不合格にした",
-  "summary": "全章のスクショを確認役が見たが、文字の重なりや切れは無かった\nLv13の戦闘に最初の戦闘のHPのカードが出て本物と違ったので、スモークを直した\n前と後は docs/shots/R382。勝った後の進み方などは自動で進むので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/651/mobile-02-mode-select.jpg",
-   "shots/651/mobile-15-custom-full-run.jpg",
-   "shots/651/mobile-27-chapter-2-play.jpg",
-   "shots/651/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "88d01cc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41337677731"
- },
- {
   "at": "2026-11-01T19:00:39.347Z",
   "branch": "claude/autodev-20261102-0321-R382",
   "task": "R382 確かめ用のスクショで、Lv13の戦闘にも最初の戦闘の「HP 0になると倒れる」のカードが出て、本当の表示と違っていたので、スモークでチュートリアルの言葉を覚えた状態にし、出たら不合格にした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e2b4421",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345965734"
+ },
+ {
+  "at": "2026-11-13T02:50:03.057Z",
+  "branch": "claude/autodev-20261113-1121-R526",
+  "task": "R526 ボス戦の始めの「ドラッグで動く」の板が、スマホでは1行なのに2行分の大きさで、道の上の空の暗い箱に見えたので、字に合う大きさにした",
+  "summary": "スマホのボス戦で「ドラッグで動く」の板が2行分の大きさで、中ががらんとしていた\nスマホでは板を字の幅と1行の高さに合わせた（キーボードの所は2行のまま）\n前と後のスクショを docs/shots/R526 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/914/mobile-02-mode-select.jpg",
+   "shots/914/mobile-19-custom-og-credit-card.jpg",
+   "shots/914/mobile-34-chapter-1-play.jpg",
+   "shots/914/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7255d33",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43353473024"
  }
 ]
