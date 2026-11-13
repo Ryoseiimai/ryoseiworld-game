@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-03T07:08:36.760Z",
-  "branch": "claude/autodev-20261103-1542-R400",
-  "task": "R400 カテイノジジョウ戦でソラの最初のひとことが「とくぎで」とだけ言い、押すボタンが分からなかったので、「右下の「プレイテスト」で」と言うようにした",
-  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/679/mobile-02-mode-select.jpg",
-   "shots/679/mobile-15-custom-full-run.jpg",
-   "shots/679/mobile-27-chapter-2-play.jpg",
-   "shots/679/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1b7ebdd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41593340474"
- },
- {
   "at": "2026-11-04T10:09:26.091Z",
   "branch": "claude/autodev-lead-og-title-brand",
   "task": "lead-og-title-brand",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "71f609f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43494028385"
+ },
+ {
+  "at": "2026-11-13T20:07:09.788Z",
+  "branch": "claude/autodev-20261114-0421-R540",
+  "task": "R540 ミナモに着いた時、公園の木の根元だけが上の目標の帯のすぐ下に細くのぞいていたので、木を北へ動かして根元を上の札の後ろに入れた",
+  "summary": "ミナモに着くと、公園の木の根元が目標の帯のすぐ下に細く出ていた\n木を北へ1.3マス動かし、根元を上の札の後ろに入れた。前と後のスクショを見た\n木の頭が上の札のさらに上にうすく出るが、地図の続きなので残した",
+  "result": "pass",
+  "shots": [
+   "shots/940/mobile-02-mode-select.jpg",
+   "shots/940/mobile-19-custom-og-credit-card.jpg",
+   "shots/940/mobile-34-chapter-1-play.jpg",
+   "shots/940/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cdd5386",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43495399187"
  }
 ]
