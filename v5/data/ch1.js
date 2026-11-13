@@ -82,7 +82,7 @@ maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spa
  object('clock','interior',14,2.6,1.9,70,70,{collider:false}),object('pc','interior',1,5,4.2,130,130,{label:'パソコン',dialogue:'pc',action:'save'}),object('shelf','interior',2,8.5,4.2,110,130),object('plant','interior',13,1.6,4.3,75,80),
  object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear'}),
  object('cushion','spot',0,9.3,11.2,60,40,{hidden:true,label:'ざぶとん',event:'cushion',collider:false})],enemies:[],portals:[{x:5,y:12,to:'town',at:[6,25.5],sign:'そとへ',plate:[7,12.6]}]};
-// R528: the room's stairs got the 「↓ そとへ」 plate too, standing right of the stairs picture (plate) so the stairwell stays in view (R226).
+// R528: the room's stairs got a 「← そとへ」 plate too, standing right of the stairs picture (plate) and pointing at them, so the stairwell stays in view (R226).
 // R296: the exits showed a bare ↓ plate (mobile-18/19/21/22), so each exit without stairs says 「↓ そとへ」 like the tower's.
 // R261: the ↓ plate of the indoor exits stood 1.5 to 2 tiles above the front wall, a mat in the middle of the floor (mobile-18/19/21/22), so every exit without stairs or a sign now sits 0.8 tile above the wall, at the bottom of the walkable floor.
 maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
