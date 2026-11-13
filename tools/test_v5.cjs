@@ -2782,6 +2782,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const fit=html.match(/function fitStatus\(\)\{([^\n]*?)\}\n/);assert(fit&&/scrollWidth>s\.clientWidth/.test(fit[1])&&/classList\.remove\('tight'\)/.test(fit[1]),'fitStatus measures the line and clears tight first');
   assert(/function updateHud\([^\n]*fitStatus\(\);\}\n/.test(html),'updateHud fits the status line');assert(/function measureHud\(\)\{fitStatus\(\);/.test(html),'measureHud fits the status line');}
  result.push('R531: 小さい画面で Lv が2けたでも、上の札の字が枠を越えない PASS');
+ // R532: on a phone the noise band touched the goal strip under the top card; it now starts below the HUD line (hudTop) whatever its height.
+ {const src=html.match(/function noiseRow\([^\n]*/)[0];
+  for(const hud of [150,190,215,260])for(let k=0;k<300;k++){const f=new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,hud,[]);const y=f(null);
+   assert(y!==-999,'a free row is found');assert(y-22>=hud+8,'the band starts under the HUD line '+[hud,y]);assert(y>=180&&y<=720,'still inside the field '+y);}}
+ result.push('R532: 町のノイズの帯が、上の目標の帯に付かない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
