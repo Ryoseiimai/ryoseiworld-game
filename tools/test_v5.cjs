@@ -2787,6 +2787,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const hud of [150,190,215,260])for(let k=0;k<300;k++){const f=new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,hud,[]);const y=f(null);
    assert(y!==-999,'a free row is found');assert(y-22>=hud+8,'the band starts under the HUD line '+[hud,y]);assert(y>=180&&y<=720,'still inside the field '+y);}}
  result.push('R532: 町のノイズの帯が、上の目標の帯に付かない PASS');
+ // R533: outside, a grey spirit by a head near the top sat in the row of the goal strip; it now starts under the HUD line (hudTop) but never below the feet, and indoors keeps the floor rule.
+ {const src=html.match(/function spiritBase\([^\n]*/)[0],mk=(outside,camY,hud)=>new Function('g','GAME_DATA','camera','hudTop','SPIRIT_FLOOR_TOP',src+'\nreturn spiritBase;')({map:'m'},{maps:{m:{outside}}},{y:camY},hud,154);
+  for(const hud of [190,215,260])for(const side of [-1,0,1])for(let foot=hud-40;foot<hud+400;foot+=7){const o={foot:1000+foot,h:80},b=mk(true,1000,hud)(o,side),plain=side?o.foot-62:o.foot-o.h-2;
+   assert(b>=plain,'never lifted '+[hud,side,foot]);assert(b<=Math.max(plain,o.foot),'never below the feet '+[hud,side,foot,b]);if(o.foot>=1000+hud+60)assert(b-54-6>=1000+hud,'the halo starts under the HUD line '+[hud,side,foot,b]);if(plain-60>=1000+hud)assert(b===plain,'untouched lower down '+[hud,side,foot]);}
+  assert(mk(false,0,215)({foot:120,h:80},1)===154,'indoors the floor rule stays');}
+ result.push('R533: 外の灰色の守護霊が、上の目標の帯の列に浮かない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}

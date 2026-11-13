@@ -985,7 +985,9 @@ function drawSpirits(list){spiritsDrawn=[];if(!g.summons.length)return;for(const
 // R244: in the store the clerk stands just under the back wall, so the grey spirit by the head floated on the wallpaper and looked pinned to the wall (desktop-18).
 // Indoors a spirit now stays on the floor: its picture (44px, bobbing 6px) starts under the skirting line at 2 tiles + 10px.
 const SPIRIT_FLOOR_TOP=2*TILE+10+44+6;
-function spiritBase(o,side){const f=o.foot-(o.raise||0),b=side?f-62:f-o.h-2,m=GAME_DATA.maps[g.map];return m&&!m.outside?Math.max(b,SPIRIT_FLOOR_TOP):b;}
+// R533: outside, the policeman's grey spirit by the head sat in the row of the goal strip, right at its 「0/3 ↑」 end, and read as part of the strip (mobile-34).
+// Outside, the spirit (halo 54px over its base, bobbing 6px) now starts under the HUD line (hudTop), sliding down beside the person, but never lower than the feet.
+function spiritBase(o,side){const f=o.foot-(o.raise||0),b=side?f-62:f-o.h-2,m=GAME_DATA.maps[g.map];if(m&&!m.outside)return Math.max(b,SPIRIT_FLOOR_TOP);return Math.min(Math.max(b,camera.y+hudTop+60),Math.max(b,f));}
 // R245: after R244 the store clerk's side spirit came down onto the right end of the counter in front of the clerk and read as a thing standing on it (mobile-18).
 // Indoors a side spirit that would sit on a thing standing in front of the person slides sideways past that thing's drawn edge.
 // spiritSide weighs each side where it ends up after the slide, and a side that slides more than 72px from the person (far from whose spirit it is) is not used while the other side stays near.
