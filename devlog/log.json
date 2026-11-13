@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-02T09:54:08.114Z",
-  "branch": "claude/autodev-20261102-1842-R394",
-  "task": "R394 遊んで一番気になる所を1つ直す",
-  "summary": "武器の画面の最後を「持っていない武器は あと5つ。」にした\nこどもモードも「もっていない ぶきは あと 5つ。」にし、1行17字幅に収めた\n手元のテストの文言も合わせた。スクショは390x844で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/666/mobile-02-mode-select.jpg",
-   "shots/666/mobile-15-custom-full-run.jpg",
-   "shots/666/mobile-27-chapter-2-play.jpg",
-   "shots/666/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d573550",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41423177199"
- },
- {
   "at": "2026-11-02T10:07:37.841Z",
   "branch": "claude/autodev-20261102-1842-R394",
   "task": "R394 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "644489b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43403218134"
+ },
+ {
+  "at": "2026-11-13T11:45:55.170Z",
+  "branch": "claude/autodev-20261113-2021-R534",
+  "task": "R534 戦闘で勝った後、うすくなった敵の体越しに足元の影が濃いまま見えて暗いしみに見えたので、影も敵と同じだけうすくした",
+  "summary": "戦闘で勝った後、うすい敵の体越しに足元の影が濃く見えていた\n影の濃さを敵と同じ割合でうすくし、テストを足した\n前と後のスクショを docs/shots/R534 に置いた（鍵ブランチへの push は許可が無く、鍵を取らずに動いた）",
+  "result": "pass",
+  "shots": [
+   "shots/930/mobile-02-mode-select.jpg",
+   "shots/930/mobile-19-custom-og-credit-card.jpg",
+   "shots/930/mobile-34-chapter-1-play.jpg",
+   "shots/930/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6c864c1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43418155868"
  }
 ]
