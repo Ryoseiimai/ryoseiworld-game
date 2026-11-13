@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T17:05:27.417Z",
-  "branch": "claude/autodev-20261102-0121-R380",
-  "task": "R380 チュートリアル戦で「呼び出す」と言われても、スマホではどのボタンにも枠が出ず押す所が分からなかったので、使うまで「呼び出す」に金色の点線の枠を付けた",
-  "summary": "チュートリアル戦で、スマホでは「呼び出す」に枠が出ず押す所が分からなかった\n使うまで「呼び出す」に金色の点線の枠を付け、押せない間は消すようにした\n前と後のスクショは docs/shots/R380。鍵のブランチへの push は許されず、鍵は取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/649/mobile-02-mode-select.jpg",
-   "shots/649/mobile-15-custom-full-run.jpg",
-   "shots/649/mobile-27-chapter-2-play.jpg",
-   "shots/649/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "8fe1304",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41328522667"
- },
- {
   "at": "2026-11-01T18:01:18.687Z",
   "branch": "claude/autodev-20261102-0221-R381",
   "task": "R381 確かめ用のスクショで、後の章の地図にもチュートリアルの目標「呼び出すでナオスライムを呼ぶ」が出て、本当の表示と違っていたので、スモークで先にチュートリアルを済ませ、残っていたら不合格にした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1a26580",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43341359280"
+ },
+ {
+  "at": "2026-11-13T01:40:07.632Z",
+  "branch": "claude/autodev-20261113-1021-R525",
+  "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
+  "summary": "後ろに人がいる時の「話す」で、真ん中の暗い楕円がしみに見えていた\n暗い地をボタンの角まで広げ、むらのない地にした。字の後ろは暗いまま\n前と後のスクショを docs/shots/R525 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/910/mobile-02-mode-select.jpg",
+   "shots/910/mobile-19-custom-og-credit-card.jpg",
+   "shots/910/mobile-34-chapter-1-play.jpg",
+   "shots/910/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "413a9a9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345051992"
  }
 ]
