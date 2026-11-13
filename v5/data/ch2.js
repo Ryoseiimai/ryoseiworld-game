@@ -33,7 +33,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // like the town's こうえん board only its left post blocks now, so the way in between the posts stays open.
  prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
- prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,12.4,22.6,60)/* R505: was at 11.4,24.8, where the moved board now stands */,prop('minamo_post',6,17.2,30.6,70),
+ prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
  ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,22.6,1],[27.6,20.6],[1.2,33.4,1],[10.6,34.4]]),
  // R254: three lamps by the north-south road stood at x 12.5/17.5, on the grass beside the one-tile sidewalks (x 13 and 16) (mobile-20), so they stand on the sidewalk by the curb.

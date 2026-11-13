@@ -3049,6 +3049,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert((s.x-ps.x)*48-(s.w+ps.w)*.75/2>=12,'R505: the ミナモ board keeps clear of the park sign');
   assert(Math.abs(bin.x-s.x)*48>=(bin.w+s.w*.75)/2||bin.y<=s.y-(h-top)*k/48,'R505: the bin does not stand on the board posts');}
  result.push('R505: ミナモに着いた時、ミナモの看板が上の札に隠れない PASS');
+ // R539: at 12.4,22.6 the bin's feet were about 8.8 tiles above the spawn, so on arrival it stood right after the arrow at the end of the goal line and read as part of it.
+ // It now stands in the park between the bench and the park board's left post, low enough to show whole under the HUD, on the grass and clear of both.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),bin=f('minamo_bin'),b=f('minamo_bench'),ps=f('minamo_parksign'),d=f('minamo_dog');
+  const binTop=bin.y-63/48;assert(m.spawn[1]-binTop<=7.6,'R539: the whole bin (63px tall) shows under the goal line on arrival (top '+(m.spawn[1]-binTop).toFixed(2)+' tiles above the spawn; the old place was 10.8)');
+  assert(m.tiles[Math.floor(bin.y)][Math.floor(bin.x)]==='.','R539: the bin stands on the park grass');
+  assert((bin.x-b.x)*48-(bin.w+b.w)/2>=0||(bin.y-b.y)*48>=40,'R539: the bin keeps off the bench');
+  assert((ps.x*48-ps.w*.22)-(bin.x*48+bin.w/2)>=16,'R539: the bin keeps 16px from the park board left post (its blocking band starts at .22)');
+  assert(Math.ceil(bin.y)*48-bin.y*48>=12,'R539: the bin feet keep off the sidewalk row');
+  assert(Math.abs(bin.x-d.x)*48>=(bin.w+d.w)/2,'R539: the bin does not stand on the dog');}
+ result.push('R539: ミナモに着いた時、ゴミ箱が上の目標の帯の端に付いて見えない PASS');
  // R506: the こうえん board's full bottom band and the moved ミナモ board left only about 18px (x 11) between them, so walking north into the park from the road met a wall.
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);let open=0;
   for(let x=8.5;x<=11.2;x+=.1){let ok=true;for(let y=27.2;y>=24.8;y-=.1)if(r.g.debugBlocked(x*48,y*48)){ok=false;break;}if(ok)open++;}
