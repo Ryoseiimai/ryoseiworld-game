@@ -25,7 +25,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // R522: at x 12.42 the right post (art x 174-194 of 236) stood about 16px onto the sidewalk (x 13) while the left post was on the grass, so the board straddled the edge;
  // it moved 0.35 tiles west so both posts stand on the grass (only the grass tuft at its foot reaches the curb) and it still keeps R505's 12px from the park board.
  // Its blocking band starts a little further in (left .24, the default is .15), so walking straight north from the spawn (x 10.9) still passes it as before.
- prop('minamo_sign',11,12.07,25.9,136,{dialogue:'minamoSign',sign:'ミナモ',collider:{left:.24,right:.85,top:.78,bottom:1}}),
+ // R524: at 136px the wood between the posts was only about 65px wide and the 24px 「ミナモ」 ran onto both posts. It is 148px now and its words are set
+ // 2px closer (BOARD_TRACK). It grew to the west only (x 12.07 -> 11.99), so the right post stays on the grass; the blocking band starts at .29 so the spawn column still passes.
+ prop('minamo_sign',11,11.99,25.9,148,{dialogue:'minamoSign',sign:'ミナモ',collider:{left:.29,right:.85,top:.78,bottom:1}}),
  // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).
  // R506: its whole bottom band blocked x 7.3-10.7, and with the ミナモ board (R505) right beside it only about 18px at x 11 was left for the hero to walk north into the park;
  // like the town's こうえん board only its left post blocks now, so the way in between the posts stays open.
