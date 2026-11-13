@@ -1228,7 +1228,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2633,7 +2633,7 @@
       ctx.globalAlpha = ha; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 24px ' + FONT;
       // R156: on a touch-only device (index.html sets .touch-only) the keyboard line is left out.
       var mh = moveHintLines(), hp = moveHintPlate(touchOnly(), ctx.measureText(mh[0]).width);
-      ctx.fillStyle = 'rgba(10,20,40,0.78)'; rr(ctx, hp.x, hp.y, hp.w, hp.h, 14); ctx.fill();
+      ctx.fillStyle = moveHintFill(); rr(ctx, hp.x, hp.y, hp.w, hp.h, 14); ctx.fill();
       if (touchOnly()) outlinedText(ctx, mh[0], W / 2, hp.y + hp.h / 2, '#fff5d6');
       else {
         outlinedText(ctx, mh[0], W / 2, PLAY_B - 136, '#fff5d6');
@@ -2652,6 +2652,9 @@
     var w = Math.min(W - 120, Math.ceil(textW) + 64);
     return { x: (W - w) / 2, y: HINT_PLATE_T, w: w, h: 54 };
   }
+  // R541: at 0.78 the guardrail and its posts showed through the plate right behind the words (the plate's top sits on the rail).
+  // The plate is now nearly solid, so only the words read on it. Its size and place stay as before, and it still fades once the hero moves (R502).
+  function moveHintFill() { return 'rgba(10,20,40,0.92)'; }
   function moveHintLines() { return RYW.mode === 'adult' ? ['ドラッグで動く', '矢印・WASDでも動く'] : ['ドラッグで うごく', 'やじるし・WASD でも うごく']; }
 
   // R426: the band at the start of a boss fight is a screen notice, not a story line, so adult mode reads it in kanji (SPEC_V7_MANABU.md 9).

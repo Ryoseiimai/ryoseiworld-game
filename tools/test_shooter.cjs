@@ -1397,6 +1397,14 @@ async function browserAdapterChecks() {
   check('R526: キーボードのある所は2行の板のまま', pc.x === 60 && pc.w === 420 && pc.h === 82 && pc.y === sim.INTRO.hintPlateT, JSON.stringify(pc));
 })();
 
+// R541: the guardrail and its posts showed through the move hint's plate behind the words.
+(() => {
+  const m = /rgba\((\d+),(\d+),(\d+),([\d.]+)\)/.exec(sim.moveHintFill ? sim.moveHintFill() : '');
+  check('R541: 案内の板はほぼ透けない（0.9以上）', !!m && Number(m[4]) >= 0.9, m && m[0]);
+  const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../v5/js/shooter.js'), 'utf8');
+  check('R541: 案内の板はこの色で塗る', /ctx\.fillStyle = moveHintFill\(\); rr\(ctx, hp\.x, hp\.y, hp\.w, hp\.h, 14\)/.test(src));
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
