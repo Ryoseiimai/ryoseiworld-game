@@ -3059,6 +3059,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.ceil(bin.y)*48-bin.y*48>=12,'R539: the bin feet keep off the sidewalk row');
   assert(Math.abs(bin.x-d.x)*48>=(bin.w+d.w)/2,'R539: the bin does not stand on the dog');}
  result.push('R539: ミナモに着いた時、ゴミ箱が上の目標の帯の端に付いて見えない PASS');
+ // R540: at 10,22.6 the park tree's feet were 8.8 tiles above the spawn, so on arrival only its trunk foot showed as a thin strip right under the goal line.
+ // It moved north to 21.3, so on a phone its foot is behind the place box. No tree in view of the spawn may stand with its feet in that band again.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,[sx,sy]=m.spawn;
+  for(const t of m.objects.filter(o=>o.id.startsWith('minamo_tree')&&Math.abs(o.x-sx)*48<270+o.w/2)){const d=sy-t.y;
+   assert(!(d>8&&d<9.9),'R540: '+t.id+' feet are not just under the goal line on arrival ('+d.toFixed(2)+' tiles above the spawn)');}
+  const t=m.objects.find(o=>o.id==='minamo_tree5');assert.equal(t.y,21.3,'R540: the park tree moved north');
+  assert.equal(m.tiles[Math.floor(t.y)][Math.floor(t.x)],'.','R540: the park tree stands on the grass');
+  assert((t.y-Math.floor(t.y))*48>=12,'R540: the park tree feet keep off the sidewalk row');}
+ result.push('R540: ミナモに着いた時、公園の木の根元が上の目標の帯のすぐ下にのぞかない PASS');
  // R506: the こうえん board's full bottom band and the moved ミナモ board left only about 18px (x 11) between them, so walking north into the park from the road met a wall.
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);let open=0;
   for(let x=8.5;x<=11.2;x+=.1){let ok=true;for(let y=27.2;y>=24.8;y-=.1)if(r.g.debugBlocked(x*48,y*48)){ok=false;break;}if(ok)open++;}
