@@ -3393,6 +3393,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(fit.includes('const cut=(cp.offsetTop||0)+(cp.offsetHeight||0)+MODAL_GAP')&&fit.includes("mm.style.top=(cut+6)+'px'"),'R508: ▼ 続き sits under the line');
   assert(fit.includes("cp.style.marginBottom=46+MODAL_GAP+'px'"),'R508: the buttons stay under ▼ 続き');}
  result.push('R508: 長い一覧の最後の行と点線の間をあけ、点線に字が透けないようにした PASS');
+ // R542: the tower pad's 「↑ 上へ」「↓ 下へ」 plate (top = sign y - 30) touched the cloud's lower edge; it keeps at least 6px below the pad's foot.
+ {const m=html.match(/o\.kind==='tower'\?o\.foot\+(\d+):/);assert(m,'tower sign y found');assert(Number(m[1])-30>=8,'R542 the tower plate sits below the cloud, not on its edge');}
+ result.push('R542: 塔の雲の床の「上へ」「下へ」の札を雲の下の縁から離した PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
