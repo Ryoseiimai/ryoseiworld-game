@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T23:48:51.323Z",
-  "branch": "claude/autodev-20261102-0822-R387",
-  "task": "R387 全章をクリアした後もタイトルが「続きは 第4章 ノイズの塔」のままで、まだ終わっていないように読めたので、「全章クリア」と出すようにした",
-  "summary": "全章クリア後のタイトルを「続きは 第4章」から「全章クリア」に変えた\n確認役が一番大きいと挙げた「灰色の守護霊がノイズに見える」は見た目の判断なので R388 で人の番にした\n部屋の階段に出口の札が無い点と、歩く操作の言い方の違いは次の回に回した",
-  "result": "pass",
-  "shots": [
-   "shots/658/mobile-02-mode-select.jpg",
-   "shots/658/mobile-15-custom-full-run.jpg",
-   "shots/658/mobile-27-chapter-2-play.jpg",
-   "shots/658/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "10fab1a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41362843941"
- },
- {
   "at": "2026-11-02T01:12:18.168Z",
   "branch": "claude/autodev-20261102-0921-R389",
   "task": "R389 メニューなどの窓を開くと、後ろの「話す」ボタンと歩き方の案内が窓の下の縁で切れ、崩れた字に見えたので、窓を開いている間は隠すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "ac324c4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43367790129"
+ },
+ {
+  "at": "2026-11-13T05:20:41.656Z",
+  "branch": "claude/autodev-20261113-1321-R528",
+  "task": "R528 自分の部屋だけ出口に「外へ」の札が無かったので、階段の絵の横に「← 外へ」の札を立てた",
+  "summary": "自分の部屋だけ、出口の階段に「外へ」の札が無かった\n階段の絵の右横に、階段を指す「← 外へ」の札を立てた\n前と後のスクショを docs/shots/R528 に置き、テストを直した",
+  "result": "pass",
+  "shots": [
+   "shots/922/mobile-02-mode-select.jpg",
+   "shots/922/mobile-19-custom-og-credit-card.jpg",
+   "shots/922/mobile-34-chapter-1-play.jpg",
+   "shots/922/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "40ce4be",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43369263992"
  }
 ]
