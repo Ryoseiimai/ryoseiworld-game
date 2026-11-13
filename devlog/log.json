@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T22:45:02.093Z",
-  "branch": "claude/autodev-20261102-0722-R386",
-  "task": "R386 ヒカクマオウ戦のソラのヒント「じぶんの ペース」が、おとなモードの拾う物の名前「自分のペース」と違うので、かぎかっこの中をそろえる",
-  "summary": "おとなモードのヒカクマオウ戦で、ソラのヒントを「自分のペース」にそろえた\nこどもモードは「じぶんの ペース」のまま。ほかのボスのヒントも変えていない\n確かめはボス戦の確かめの置き場 tools/test_shooter.cjs に足した（test_v5.cjs はボス戦を代役で動かすため）",
-  "result": "pass",
-  "shots": [
-   "shots/657/mobile-02-mode-select.jpg",
-   "shots/657/mobile-15-custom-full-run.jpg",
-   "shots/657/mobile-27-chapter-2-play.jpg",
-   "shots/657/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1e0f125",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41357711849"
- },
- {
   "at": "2026-11-01T23:48:51.323Z",
   "branch": "claude/autodev-20261102-0822-R387",
   "task": "R387 全章をクリアした後もタイトルが「続きは 第4章 ノイズの塔」のままで、まだ終わっていないように読めたので、「全章クリア」と出すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b6b060e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43367509943"
+ },
+ {
+  "at": "2026-11-13T05:06:18.937Z",
+  "branch": "claude/autodev-20261113-1321-R528",
+  "task": "R528 遊んで一番気になる所を1つ直す",
+  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/921/mobile-02-mode-select.jpg",
+   "shots/921/mobile-19-custom-og-credit-card.jpg",
+   "shots/921/mobile-34-chapter-1-play.jpg",
+   "shots/921/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ac324c4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43367790129"
  }
 ]
