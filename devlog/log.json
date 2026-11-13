@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-02T03:00:23.784Z",
-  "branch": "claude/autodev-20261102-1121-R391",
-  "task": "R391 パソコンで町を歩く時の案内の2行目が「矢印・WASDでも」で切れて見えたので、「矢印・WASDでも歩く」と最後まで書いた",
-  "summary": "町を歩く案内の2行目を「矢印・WASDでも歩く」と最後まで書いた（こどもは「でも あるく」）\n前回の「次」の件は、ボスが板より上にいて重なっていなかったので変えなかった\n確認役が挙げたおとなモードのせりふがひらがなの件などは、次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/662/mobile-02-mode-select.jpg",
-   "shots/662/mobile-15-custom-full-run.jpg",
-   "shots/662/mobile-27-chapter-2-play.jpg",
-   "shots/662/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "d379e5d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41379554821"
- },
- {
   "at": "2026-11-02T04:10:30.516Z",
   "branch": "claude/autodev-20261102-1242-R392",
   "task": "R392 ヒカクマオウ戦の上の帯「攻撃力」がボスのHPの下にあり、ボスの力に読めたので、おとなモードでは「自分の攻撃力」とした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "f7febbe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43380473109"
+ },
+ {
+  "at": "2026-11-13T07:46:18.278Z",
+  "branch": "claude/autodev-20261113-1622-R531",
+  "task": "R531 小さい画面で Lv が2けたになると、上の札の「100％」が枠を越えていたので、はみ出す時だけ字を27pxにして枠に収めた",
+  "summary": "小さい画面で Lv が2けただと、上の札の「100％」が枠を越えていた\nはみ出す時だけ、その行の字を31pxから27pxにして枠に収めた\n前と後のスクショを docs/shots/R531 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/925/mobile-02-mode-select.jpg",
+   "shots/925/mobile-19-custom-og-credit-card.jpg",
+   "shots/925/mobile-34-chapter-1-play.jpg",
+   "shots/925/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3f1442b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43386703205"
  }
 ]
