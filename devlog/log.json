@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-02T04:10:30.516Z",
-  "branch": "claude/autodev-20261102-1242-R392",
-  "task": "R392 ヒカクマオウ戦の上の帯「攻撃力」がボスのHPの下にあり、ボスの力に読めたので、おとなモードでは「自分の攻撃力」とした",
-  "summary": "ヒカクマオウ戦の上の帯を、おとなモードで「自分の攻撃力」にした\nこどもモードは「きみの こうげき」のままで、字は棒の手前に収まる\n確認役が挙げた4章ヒダマリの確かめ用スクショに矢印が無い件は次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/663/mobile-02-mode-select.jpg",
-   "shots/663/mobile-15-custom-full-run.jpg",
-   "shots/663/mobile-27-chapter-2-play.jpg",
-   "shots/663/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "ff642ab",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41385815607"
- },
- {
   "at": "2026-11-02T07:33:36.168Z",
   "branch": "claude/autodev-20261102-1542-R393",
   "task": "R393 武器の画面の最後が「あと5つ。」だけで何の数か分からなかったので、「持っていない武器は あと5つ。」とした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "3f1442b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43386703205"
+ },
+ {
+  "at": "2026-11-13T08:51:17.819Z",
+  "branch": "claude/autodev-20261113-1721-R532",
+  "task": "R532 スマホで町のノイズの砂嵐の帯が、上の目標の帯の下の縁に付いて表示が壊れて見えたので、帯を目標の帯から離して出した",
+  "summary": "スマホで町のノイズの帯が、上の目標の帯の下の縁に付いていた\n帯を出す高さの下限を、上の表示の下から18px離した\n前と後のスクショを docs/shots/R532 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/927/mobile-02-mode-select.jpg",
+   "shots/927/mobile-19-custom-og-credit-card.jpg",
+   "shots/927/mobile-34-chapter-1-play.jpg",
+   "shots/927/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d1eff3d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43394829944"
  }
 ]
