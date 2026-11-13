@@ -3002,6 +3002,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);const sx=r.g.GAME_DATA.maps.minamo.spawn[0];
   for(let y=27.2;y>=24.8;y-=.1)assert(!r.g.debugBlocked(sx*48,y*48),'R522: walking straight north from the ミナモ spawn column (x '+sx+') passes the moved board (blocked at y '+y.toFixed(1)+')');}
  result.push('R522: ミナモの看板の柱が、2本とも芝の上に立つ PASS');
+ // R524: the wood between the posts of props 11 is about half the picture (not the 60% R256 assumed), so the 24px 「ミナモ」 ran onto both posts of the 136px board.
+ // The board cannot grow there (spawn column on the west, sidewalk on the east), so that board sets its words closer and centres them by their ink.
+ {const maps=(await runtime()).g.GAME_DATA.maps;
+  assert(/track=o\.signTrack\|\|0;/.test(html)&&/letterSpacing=track\+'px';const m=ctx\.measureText\(text\);tx\+=\(m\.actualBoundingBoxLeft-m\.actualBoundingBoxRight\)\/2\|\|0;/.test(html),'R524: a board sign can set its words closer, centred by their ink');
+  assert(/ctx\.letterSpacing='0px'/.test(html),'R524: the spacing is put back after the board words');
+  const file=path.join(root,'assets','props','props_r2_c3.png'),hd=fs.readFileSync(file),w=hd.readUInt32BE(16),h=hd.readUInt32BE(20),{data}=pngPixels(file),y=Math.floor(h*.516);
+  const dark=x=>{const i=(y*w+x)*4;return data[i+3]>128&&(data[i]+data[i+1]+data[i+2])/3<60;};let l=w>>1,r=w>>1;while(l>0&&!dark(l))l--;while(r<w-1&&!dark(r))r++;const wood=r-l-1;
+  assert(wood>90&&wood<140,'R524: the wood between the posts is found ('+wood+' of '+w+')');
+  for(const [map,id] of [['town','sign'],['minamo','minamo_sign']]){const o=maps[map].objects.find(x=>x.id===id),k=Math.min(o.w/w,Math.round(o.w*1.05)/h),n=[...o.sign].length,track=o.signTrack||0,need=n*24+(n-1)*track;
+   assert(track<=0&&track>=-4,'R524: the '+id+' letters keep their gaps ('+track+')');
+   assert(wood*k>=need+2,'R524: the '+id+' word 「'+o.sign+'」 fits on the wood between the posts ('+(wood*k).toFixed(1)+'px wood, '+need+'px words)');}
+  assert(!maps.town.objects.find(x=>x.id==='parksign').signTrack&&!maps.minamo.objects.find(x=>x.id==='minamo_parksign').signTrack,'R524: the park boards keep their usual spacing');}
+ result.push('R524: ミナモの看板の字が、柱の間の板に収まる PASS');
  // R295: at the town spawn the sandbox kid's feet touched the top edge of the talk button (mobile-09, mobile-25); they keep a gap above it now.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
