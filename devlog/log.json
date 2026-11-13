@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-01T20:56:25.929Z",
-  "branch": "claude/autodev-20261102-0522-R384",
-  "task": "R384 1章のボスに勝った後「バス停からミナモちょうへ行こう」に矢印が出ず、どこへ行けばよいか分からなかったので、バス停を指すようにした",
-  "summary": "確認役が全章のスマホのスクショを見て、気になる所を5件挙げた\n1章のボスの後「バス停からミナモちょうへ行こう」に矢印が出なかったので、バス停を指すようにした\n4章のヒダマリの矢印と、ヒカクマオウ戦のヒントの書き方を R385・R386 として足した",
-  "result": "pass",
-  "shots": [
-   "shots/654/mobile-02-mode-select.jpg",
-   "shots/654/mobile-15-custom-full-run.jpg",
-   "shots/654/mobile-27-chapter-2-play.jpg",
-   "shots/654/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "7bdb380",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41348485978"
- },
- {
   "at": "2026-11-01T22:03:08.506Z",
   "branch": "claude/autodev-20261102-0642-R385",
   "task": "R385 4章でヒダマリに戻ると「塔のノイズを静めよう」に矢印が出ないので、目的の地図が別の町にある時は今の町のバス停を指す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d3687e7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359826925"
+ },
+ {
+  "at": "2026-11-13T04:34:08.589Z",
+  "branch": "claude/autodev-20261113-1321-R528",
+  "task": "R528 遊んで一番気になる所を1つ直す",
+  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/919/mobile-02-mode-select.jpg",
+   "shots/919/mobile-19-custom-og-credit-card.jpg",
+   "shots/919/mobile-34-chapter-1-play.jpg",
+   "shots/919/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5686dd9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43365032118"
  }
 ]
