@@ -38,7 +38,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // R540: the park tree at 10,22.6 showed only its foot as a thin strip right under the goal line on arrival; it moved north to 21.3 so the place box hides its foot on a phone.
  ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,21.3,1],[27.6,20.6],[1.2,33.4,1],[10.6,34.4]]),
  // R254: three lamps by the north-south road stood at x 12.5/17.5, on the grass beside the one-tile sidewalks (x 13 and 16) (mobile-20), so they stand on the sidewalk by the curb.
- ...props('minamo_light',5,120,[[13.6,12.6],[16.4,22.6],[13.6,34.2],[17.5,6.2],[6,6.2],[25,6.2]]),
+ // R544: at 16.4,22.6 the east lamp stood at the right edge on arrival, its head squeezed between the menu button and the screen edge (mobile-29, mobile-35).
+ // Further south it would show half cut by the screen edge, so it stands north at the corner of the cross street (sidewalk row 17), out of the arrival view.
+ ...props('minamo_light',5,120,[[13.6,12.6],[16.4,17.6],[13.6,34.2],[17.5,6.2],[6,6.2],[25,6.2]]),
  ...props('minamo_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // Worry walls on the riverside path, at the park and on the east street. They go away after the boss (R22).
  wall('minamo_wall1',14.5,8.2),wall('minamo_wall2',7.4,20.6),wall('minamo_wall3',26,18.8),

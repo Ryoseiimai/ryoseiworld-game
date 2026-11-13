@@ -3072,6 +3072,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(m.tiles[Math.floor(t.y)][Math.floor(t.x)],'.','R540: the park tree stands on the grass');
   assert((t.y-Math.floor(t.y))*48>=12,'R540: the park tree feet keep off the sidewalk row');}
  result.push('R540: ミナモに着いた時、公園の木の根元が上の目標の帯のすぐ下にのぞかない PASS');
+ // R544: the east lamp at 16.4,22.6 stood at the right screen edge on arrival, its head squeezed between the menu button and the edge.
+ // No lamp may stand cut by a side edge of the arrival view (about 270px each side of the spawn, 561px above it on a phone).
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,[sx,sy]=m.spawn,lights=m.objects.filter(o=>o.id.startsWith('minamo_light'));
+  for(const l of lights){const dx=Math.abs(l.x-sx)*48,above=(sy-l.y)*48,w=l.w||48;
+   assert(Number.isFinite(dx)&&Number.isFinite(above),'R544: '+l.id+' has a place');
+   const cut=dx>270-w/2&&dx<270+w/2,inView=above<561&&above>-400;
+   assert(!(cut&&inView),'R544: '+l.id+' is not cut by the side edge on arrival (dx '+Math.round(dx)+'px, '+Math.round(above)+'px above the spawn)');}
+  const l=lights.find(o=>o.x===16.4);assert(l&&l.y===17.6,'R544: the east lamp stands at the cross street');
+  assert.equal(m.tiles[Math.floor(l.y)][Math.floor(l.x)],'+','R544: the east lamp stands on the sidewalk');}
+ result.push('R544: ミナモに着いた時、右の街灯がメニューのボタンと画面の端の間にはさまれない PASS');
  // R506: the こうえん board's full bottom band and the moved ミナモ board left only about 18px (x 11) between them, so walking north into the park from the road met a wall.
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);let open=0;
   for(let x=8.5;x<=11.2;x+=.1){let ok=true;for(let y=27.2;y>=24.8;y-=.1)if(r.g.debugBlocked(x*48,y*48)){ok=false;break;}if(ok)open++;}
