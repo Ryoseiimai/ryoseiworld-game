@@ -2794,6 +2794,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(mk(false,0,215)({foot:120,h:80},1)===154,'indoors the floor rule stays');
   assert(/function spiritSide\([^\n]*spiritBase\(o,-1,1\)[^\n]*spiritBase\(o,1,1\)[^\n]*spiritBase\(o,0,1\)/.test(html),'spiritSide weighs the unmoved place');}
  result.push('R533: 外の灰色の守護霊が、上の目標の帯の列に浮かない PASS');
+ // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
+ {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=1-\.6\*calm;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
+  const col=calm=>new Function('calm','return '+m[1])(calm),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
+  assert(Math.abs(alpha(col(0))-.33)<.005,'during the fight the shadow keeps its old strength: '+col(0));
+  assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));}
+ result.push('R534: 勝った後、敵の足元の影も敵と同じだけうすくなる PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
