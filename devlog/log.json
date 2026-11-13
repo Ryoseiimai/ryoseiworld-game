@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-02T07:33:36.168Z",
-  "branch": "claude/autodev-20261102-1542-R393",
-  "task": "R393 武器の画面の最後が「あと5つ。」だけで何の数か分からなかったので、「持っていない武器は あと5つ。」とした",
-  "summary": "武器の画面の最後を「持っていない武器は あと5つ。」にした\nこどもモードも「もっていない ぶきは あと 5つ。」にし、1行17字幅に収めた\n手元のテストの文言も合わせた。スクショは390x844で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/664/mobile-02-mode-select.jpg",
-   "shots/664/mobile-15-custom-full-run.jpg",
-   "shots/664/mobile-27-chapter-2-play.jpg",
-   "shots/664/mobile-41-battle-bugking.jpg"
-  ],
-  "sha": "1717cea",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41406073800"
- },
- {
   "at": "2026-11-02T09:54:08.114Z",
   "branch": "claude/autodev-20261102-1842-R394",
   "task": "R394 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d1eff3d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43394829944"
+ },
+ {
+  "at": "2026-11-13T10:00:00.786Z",
+  "branch": "claude/autodev-20261113-1821-R533",
+  "task": "R533 1章の町で、おまわりさんの灰色の守護霊が上の目標の帯の右端に並んで帯の一部に見えたので、外の守護霊を帯より下に出した",
+  "summary": "1章の町で、灰色の守護霊が上の目標の帯の右端に並んでいた\n外の守護霊を、上の表示の線より下に出すようにした（足元より下へは下げない）\n前と後のスクショを docs/shots/R533 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/928/mobile-02-mode-select.jpg",
+   "shots/928/mobile-19-custom-og-credit-card.jpg",
+   "shots/928/mobile-34-chapter-1-play.jpg",
+   "shots/928/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "644489b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43403218134"
  }
 ]
