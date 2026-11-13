@@ -2777,6 +2777,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const out=w-bd+r-w,gap=mg[0]-out;assert(gap>=8&&Math.abs(gap-mg[1])<=2,'gap after the nub '+gap+' vs before the icon '+mg[1]);
   const sc=px(cmp[1].match(/scale\(([\d.]+)\)/)[1]),cm=cmp[1].match(/margin:0 (\d+)px 0 (\d+)px/).slice(1).map(px),half=w/2,cGap=cm[0]-((half-bd+r)*sc-half),cLeft=cm[1]-(half*sc-half);assert(cGap>=6&&Math.abs(cGap-cLeft)<=2&&cm[0]+cm[1]<=27,'compact gap after the nub '+cGap+' vs before '+cLeft);}
  result.push('R530: 電池の絵と「100％」の間が、絵の前と同じくらい空く PASS');
+ // R531: in compact (31px) 「Lv 10　HP 168」 plus the battery ran past the top card; the line steps down to a 24px-or-more size only when it overflows, checked on every HUD update and measure.
+ {const css=html.match(/<style>([\s\S]*?)<\/style>/)[1],tight=css.match(/#stage\.compact #field-status\.tight\{font-size:(\d+)px\}/);assert(tight&&+tight[1]>=24&&+tight[1]<31,'the tight status size is 24px or more and smaller than 31px');
+  const fit=html.match(/function fitStatus\(\)\{([^\n]*?)\}\n/);assert(fit&&/scrollWidth>s\.clientWidth/.test(fit[1])&&/classList\.remove\('tight'\)/.test(fit[1]),'fitStatus measures the line and clears tight first');
+  assert(/function updateHud\([^\n]*fitStatus\(\);\}\n/.test(html),'updateHud fits the status line');assert(/function measureHud\(\)\{fitStatus\(\);/.test(html),'measureHud fits the status line');}
+ result.push('R531: 小さい画面で Lv が2けたでも、上の札の字が枠を越えない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}
