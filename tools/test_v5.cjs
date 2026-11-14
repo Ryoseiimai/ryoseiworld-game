@@ -1984,6 +1984,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/rr\(ctx, tx - 5, y \+ pad - 1, sw - 4, 30, 7\); ctx\.fill\(\)/.test(f),'R311: a filled tag behind the name ends 9px before the line text');
   assert(/fillStyle = '#1b2440'; ctx\.fillText\(speaker/.test(f),'R311: the name is dark text on the gold tag');}
  result.push('R311: ボス戦の台詞で、話し手の名前を金色の札に入れ、台詞の始めの言葉に見えないようにした PASS');
+ // R547: the line panel under the word card was 3px wider on each side (path at 16 with a 2px edge vs the card's 18px), so the stacked boxes did not line up.
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');const x0=Number((src.match(/var PANEL_X0 = (\d+), PANEL_TX = (\d+);/)||[])[1]),tx=Number((src.match(/PANEL_TX = (\d+);/)||[])[1]);
+  const card=src.match(/\.rs-word\{[^}]*left:(\d+)px;right:(\d+)px/);assert(x0&&tx&&card,'R547: panel and card sizes found');
+  const lw=Number((src.match(/function drawPanelText[\s\S]*?ctx\.lineWidth = (\d+)/)||[])[1]);assert(lw>0,'R547: panel edge width found');
+  assert.equal(x0-lw/2,Number(card[1]),'R547: the panel outer edge meets the word card left edge');assert.equal(Number(card[1]),Number(card[2]),'R547: the card is centred');
+  assert.equal(tx,32,'R547: the line text keeps its old x, so wraps do not change');
+  assert(/x0 = PANEL_X0, tx = PANEL_TX/.test(src),'R547: drawPanelText uses the named x');}
+ result.push('R547: ボス戦で、ことばの札の下に出る台詞の枠を札と同じ左右の端にそろえた PASS');
  // R140: the きずな list was cut after the first row of an entry (［友］ゲームの こ showed, its 守護霊 and 次は rows were under the dashed line).
  // A scrolling list of blocks parted by blank lines now ends on a blank line, and ▼ つづき scrolls by that many whole rows (the browser check is in smoke_v5.cjs).
  {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];

@@ -2588,8 +2588,12 @@
 
   // A compact line panel: the speaker's name in front of the first line, on its own gold tag
   // (R311: as plain gold text it read as the first word of the line, e.g. 「カテイノジジョウ しょうらい」).
+  // R547: the panel's 2px edge is drawn on the path, so at x0 = 16 it reached 15px from the screen edge while the word card above
+  // (.rs-word, left/right 18px) starts at 18px: the two stacked boxes did not line up. The path is now at 19, so the outer edge
+  // meets the card's at 18px. The text keeps its old x (32) so every line wraps at the same width as before.
+  var PANEL_X0 = 19, PANEL_TX = 32;
   function drawPanelText(ctx, speaker, text, y, alpha, panelAlpha) {
-    var lh = 31, pad = 10, x0 = 16, tx = x0 + 16;
+    var lh = 31, pad = 10, x0 = PANEL_X0, tx = PANEL_TX;
     ctx.font = '700 24px ' + FONT;
     var sw = speaker ? ctx.measureText(speaker).width + 14 : 0;
     var lines = wrapLines(ctx, text, W - 2 * tx, sw), hh = lines.length * lh + pad * 2;
