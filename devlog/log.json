@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-05T22:01:42.461Z",
-  "branch": "claude/autodev-20261106-0641-R404",
-  "task": "R404 遊んで一番気になる所を1つ直す",
-  "summary": "確かめ用のメニューの窓の見出しが、おとなモードでも「めにゅー」だった\nおとなモードでは「メニュー」、こどもモードでは「めにゅー」と出すようにした\n両方のモードで見出しを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/701/mobile-02-mode-select.jpg",
-   "shots/701/mobile-19-custom-og-credit-card.jpg",
-   "shots/701/mobile-34-chapter-1-play.jpg",
-   "shots/701/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a7574db",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42115947569"
- },
- {
   "at": "2026-11-05T22:25:57.359Z",
   "branch": "claude/autodev-20261106-0641-R404",
   "task": "R404 記録の窓で、取った実績が白い星「☆」、まだの実績が「・」で、どちらが取った物か分からなかったので、取った物を「★」、まだの物を「☆ …（まだ）」とした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "bf26eab",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43565291829"
+ },
+ {
+  "at": "2026-11-14T07:04:51.237Z",
+  "branch": "claude/autodev-20261114-1541-R549",
+  "task": "R549 ゼロ戦の始めに、ゼロの台詞の地がソラのヒントの前に薄れて塔が透けていたので、ヒントまで地を濃く保った",
+  "summary": "ゼロ戦の始めに、ゼロの短い台詞の地がソラのヒントの前に薄れ、後ろの塔が透けていた\n始めの台詞の後にヒントが来る戦いでは、台詞の地を最初から濃いまま保つようにした\n前と後のスクショを v5/verification に置き、全部のボスで地が薄れないかのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/954/mobile-02-mode-select.jpg",
+   "shots/954/mobile-19-custom-og-credit-card.jpg",
+   "shots/954/mobile-34-chapter-1-play.jpg",
+   "shots/954/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d0de3ca",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43568406542"
  }
 ]
