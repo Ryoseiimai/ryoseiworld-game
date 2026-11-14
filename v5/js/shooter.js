@@ -65,7 +65,15 @@
   var HINT_OUT = 0.15;
   // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
   var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
-  function burstAlpha(o, t) { var bt = t - o.t; return clamp(Math.min(bt * 6, (o.dur - bt) / (o.out || BURST_OUT)), 0, 1); }
+  // R565: when the panel is held for the next line (holdOut, R523/R549), the words faded over the last 1/3 s and then the next
+  // line faded in, so an empty dark board sat at the top of the fight for about 0.4 s (caught on a phone between ヒカクマオウ's
+  // opening line and Sora's hint). The words now stay until just before the hand-over and go in the last BURST_SWAP_OUT s.
+  var BURST_SWAP_OUT = 0.1;
+  function burstAlpha(o, t) {
+    var bt = t - o.t, out = o.out || BURST_OUT;
+    if (o.holdOut) out = Math.min(out, BURST_SWAP_OUT);
+    return clamp(Math.min(bt * 6, (o.dur - bt) / out), 0, 1);
+  }
   // R523: when one line hands over straight to the next (boss line -> Sora's hint), the dark panel faded to nothing and came back
   // over about half a second, so the city showed through it for a moment. Now only the words fade there; the panel stays dark.
   // It still fades in before the first line and out after the last one.
@@ -1249,7 +1257,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha; SIM.BURST_SWAP_OUT = BURST_SWAP_OUT;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;

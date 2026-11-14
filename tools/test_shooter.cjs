@@ -1188,6 +1188,26 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R565: between the opening line and Sora's hint the held panel stood empty for about 0.4 s (the words faded over 1/3 s,
+// then the hint faded in). Measured as panel strength minus word strength over time, the empty board stays short now.
+(() => {
+  check('R565: BURST_SWAP_OUT がある', sim.BURST_SWAP_OUT > 0 && sim.BURST_SWAP_OUT <= 0.12, sim.BURST_SWAP_OUT);
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let intro = null, hint = null, empty = 0;
+    for (let i = 0; i < 60 * 6; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst;
+      if (b && !intro) intro = b;
+      if (b && intro && b !== intro) { hint = hint || b; if (b !== hint || w.t - b.t > 0.5) break; }
+      if (b && intro && w.t - intro.t > 0.3) empty += Math.max(0, sim.burstPanelAlpha(w) - sim.burstAlpha(b, w.t)) * DT;
+    }
+    if (!w.lines.hint || !hint) continue;
+    check('R565: ' + boss + ' 始めの台詞からヒントへ渡る間、空の地が長く残らない', empty < 0.17, Math.round(empty * 1000) / 1000);
+  }
+  const o = { t: 0, dur: 2, holdOut: true };
+  check('R565: 次が待つ台詞は終わりの直前まで文字が濃い', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0);
+  check('R565: 次が無い台詞はこれまでどおり1/3秒で消える', sim.burstAlpha({ t: 0, dur: 2, holdOut: false }, 1.85) < 0.5);
+})();
+
 // R179: the first word card comes up on the first frame of play and stops the clock. The move hint was held at
 // about 6% (a ghost of 「ゆびを すべらせて うごく」 over the city) for the whole card. Now it is held full, and a hint
 // caught while fading out is let go instead of staying half see-through.
