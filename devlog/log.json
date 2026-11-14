@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-05T16:21:17.154Z",
-  "branch": "claude/autodev-20261106-0042-R402",
-  "task": "R402 エンディングの画面に、前の画面で出た実績の知らせが残り「THE END」に重なる",
-  "summary": "エンディングの画面に、前の画面の知らせが残って THE END に重なっていた\nタイトル・エンディング・エピローグに変わる時に、知らせを消すようにした\nエンディングで知らせが消える確かめを足した（タイトルとエピローグの確かめは次の件）",
-  "result": "pass",
-  "shots": [
-   "shots/697/mobile-02-mode-select.jpg",
-   "shots/697/mobile-19-custom-og-credit-card.jpg",
-   "shots/697/mobile-34-chapter-1-play.jpg",
-   "shots/697/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "82d071a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42062001022"
- },
- {
   "at": "2026-11-05T19:09:03.161Z",
   "branch": "claude/autodev-20261106-0341-R403",
   "task": "R403 おとなモードで、エンディングの上のメニューの見出しが「めにゅー」のまま",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e4b2683",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43552525394"
+ },
+ {
+  "at": "2026-11-14T04:55:33.738Z",
+  "branch": "claude/autodev-20261114-1322-R547",
+  "task": "R547 ボス戦で、ことばの札の下に出る台詞の枠が札より左右に3pxずつはみ出してそろっていなかったので、枠の端を札と同じ18pxにそろえた",
+  "summary": "ボス戦で、ことばの札の下に出る台詞の枠が札より左右に3pxずつ広かった\n枠の端を札と同じ画面の端から18pxにそろえ、字の位置と折り返しは前のままにした\n前と後のスクショを v5/verification に置き、そろっているかのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/951/mobile-02-mode-select.jpg",
+   "shots/951/mobile-19-custom-og-credit-card.jpg",
+   "shots/951/mobile-34-chapter-1-play.jpg",
+   "shots/951/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ce7780b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43558117345"
  }
 ]
