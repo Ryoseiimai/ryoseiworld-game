@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T04:11:51.880Z",
-  "branch": "claude/autodev-20261106-1221-R406",
-  "task": "R406 遊んで一番気になる所を1つ直す",
-  "summary": "チャレンジ中に取った実績の知らせが、記録の窓の見出しを隠していた\n窓が開くと知らせを引っ込め、窓を閉じた後に先に出し直すようにした\n確かめるテストを足し、前と後のスクショを docs/shots/R405 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/708/mobile-02-mode-select.jpg",
-   "shots/708/mobile-19-custom-og-credit-card.jpg",
-   "shots/708/mobile-34-chapter-1-play.jpg",
-   "shots/708/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c0f4d6e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42158665986"
- },
- {
   "at": "2026-11-06T04:26:26.144Z",
   "branch": "claude/autodev-20261106-1221-R406",
   "task": "R406 記録が無い時のタイトルとモード選択が、こども向けのひらがなだったので、最初は おとな という決まりどおり漢字まじりにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "8d6ff0e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43581050373"
+ },
+ {
+  "at": "2026-11-14T09:57:33.706Z",
+  "branch": "claude/autodev-20261114-1821-R552",
+  "task": "R552 縦長のスマホで、ステージの上の帯に後ろのぼかしの月がにじんで出ていたので、帯をステージの上と下の色でうめた",
+  "summary": "縦長のスマホで、ステージの上の帯に月がオレンジのにじみとして出ていた\n後ろのぼかしは、ステージの位置をそのままにし、上下の帯をステージの端の色でうめた\n前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/959/mobile-02-mode-select.jpg",
+   "shots/959/mobile-19-custom-og-credit-card.jpg",
+   "shots/959/mobile-34-chapter-1-play.jpg",
+   "shots/959/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ab70362",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43582046692"
  }
 ]
