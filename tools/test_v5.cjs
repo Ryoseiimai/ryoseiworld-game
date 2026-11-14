@@ -3381,7 +3381,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.deepEqual(on(),['summon'],'R380: only 呼び出す is ringed in the tutorial: '+on());
   r.cmd('attack');assert.deepEqual(on(),['summon'],'R380: the ring stays after a wrong command');
   r.cmd('summon');r.button('ナオスライム');assert.deepEqual(on(),[],'R380: the ring goes once the summon is used');r.tick(2400);assert.deepEqual(on(),[],'R380: and stays off on the next turn');
-  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/#commands button\.nudge:not\(:disabled\)\{outline:3px dashed #f5cf78/.test(html),'R380: the nudge ring is gold, dashed (the focus ring is solid) and off while the button is disabled');}
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/#commands button\.nudge:not\(:disabled\)\{outline:3px dashed #f5cf78/.test(html),'R380: the nudge ring is gold, dashed (the focus ring is solid) and off while the button is disabled');
+  // R562: the summon list (a modal) opens over the battle; the ring rests under it instead of blinking behind the dim cover.
+  assert(/#stage:has\(#modal:not\(\[hidden\]\)\) #commands button\.nudge\{outline:none;animation:none\}/.test(html),'R562: the nudge ring rests while a window is open');}
  result.push('R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS');
  // R395: the ノーツ hint said 「流れてくる印に合わせよう」 but the boss screen shows no 印 near it; the marks run along the bottom line into the ring at its left end (shooter.js drawRhythm), so the hint says where to look.
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);assert(m,'R395: notes entry');
