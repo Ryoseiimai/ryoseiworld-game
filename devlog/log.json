@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T15:39:44.052Z",
-  "branch": "claude/autodev-20261107-0022-R417",
-  "task": "R417 2章の終わりの札も「ポケットに はじめての ゲーム」で、1章と同じ文になっている",
-  "summary": "2章の終わりの札の本文を「こうえんで みんな わらってた。」にした\nおとなモードは「公園でみんな笑っていた。」。1章の文と重ならない\n章の札の本文が章ごとにちがうかの確認を tools/test_v5.cjs に足した",
-  "result": "pass",
-  "shots": [
-   "shots/726/mobile-02-mode-select.jpg",
-   "shots/726/mobile-19-custom-og-credit-card.jpg",
-   "shots/726/mobile-34-chapter-1-play.jpg",
-   "shots/726/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "96e1f95",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42243606681"
- },
- {
   "at": "2026-11-06T15:53:52.109Z",
   "branch": "claude/autodev-20261107-0022-R417",
   "task": "R417 2章の終わりの札も「ポケットに はじめての ゲーム」で、1章と同じ文になっている",
@@ -2973,5 +2958,15 @@
   ],
   "sha": "2a22abd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43628123063"
+ },
+ {
+  "at": "2026-11-14T18:56:51.694Z",
+  "branch": "claude/autodev-20261115-0341-R562",
+  "task": "R562 戦いの始めに「呼び出す」の窓を開いても、後ろのボタンの金色の点線の枠が点滅していたので、窓が開いている間は枠を止めた",
+  "summary": "呼び出すの窓が開いている間も、後ろのボタンの点線の枠が点滅していた\n窓が開いている間は枠を止め、閉じたら戻るようにした。前と後の画像を置いた\n窓が開いている間に枠が止まるかを調べるテストを足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "c51a31f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43628968940"
  }
 ]
