@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T13:56:55.537Z",
-  "branch": "claude/autodev-20261106-2223-R415",
-  "task": "R415 武器の画面のバリアの説明「15秒で戻る」が、何が戻るのか分からず下の「戻る」ボタンとも紛れたので、「1回だけ攻撃を防ぐ。消えても15秒で張り直す」とした",
-  "summary": "武器の画面のバリアの説明「15秒で戻る」を「消えても15秒で張り直す」にした\nこどもは「きえても 15びょうで はりなおす」。戦闘の中の説明もそろえた\n前と後のスクショを docs/shots/R415 に置いた。手元のテストは全部通った",
-  "result": "pass",
-  "shots": [
-   "shots/722/mobile-02-mode-select.jpg",
-   "shots/722/mobile-19-custom-og-credit-card.jpg",
-   "shots/722/mobile-34-chapter-1-play.jpg",
-   "shots/722/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5cb7664",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42227737383"
- },
- {
   "at": "2026-11-06T14:50:28.009Z",
   "branch": "claude/autodev-20261106-2323-R416",
   "task": "R416 おとなモードの章の終わりの札で、本文「くもの もんから…」だけがひらがなのまま",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "cef95f6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43617503535"
+ },
+ {
+  "at": "2026-11-14T18:02:20.985Z",
+  "branch": "claude/autodev-20261115-0221-R561",
+  "task": "R561 召喚の間、ソラの光の玉が呼んだ仲間の頭の後ろから半分のぞいて汚れに見えたので、玉を仲間の右に出した",
+  "summary": "召喚の間、ソラの光の玉がナオスライムの頭の後ろから半分のぞいていた\n玉を呼んだ仲間の右に出し、少し小さくした。前と後の画像を置いた\n召喚の間に玉が仲間の右にあるかを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/973/mobile-02-mode-select.jpg",
+   "shots/973/mobile-19-custom-og-credit-card.jpg",
+   "shots/973/mobile-34-chapter-1-play.jpg",
+   "shots/973/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5f8016a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43623009772"
  }
 ]
