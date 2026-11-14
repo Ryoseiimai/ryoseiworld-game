@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T05:44:45.328Z",
-  "branch": "claude/autodev-20261106-1421-R407",
-  "task": "R407 遊んで一番気になる所を1つ直す",
-  "summary": "記録が無い時のタイトルとモード選択が、ひらがなのこども表記だった\n最初は おとな という決まりどおり、「始めから」「モードを選ぶ」など漢字まじりにした\n確かめるテストを足し、前と後のスクショを docs/shots/R406 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/711/mobile-02-mode-select.jpg",
-   "shots/711/mobile-19-custom-og-credit-card.jpg",
-   "shots/711/mobile-34-chapter-1-play.jpg",
-   "shots/711/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d26ee5f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42169261119"
- },
- {
   "at": "2026-11-06T05:54:51.712Z",
   "branch": "claude/autodev-20261106-1421-R407",
   "task": "R407 終わりの画面の「設定」と「メニュー」の窓で、空の本文が見出しの下に大きな空きを作っていたので、本文が空の時は出さないようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e365513",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43587039473"
+ },
+ {
+  "at": "2026-11-14T11:49:11.561Z",
+  "branch": "claude/autodev-20261114-2021-R554",
+  "task": "R554 ボス戦の始めの「キックボードが浮かんだ」の帯が消える途中、薄い板に灰色の字が出て読みにくかったので、字を先に消して板を後から消した",
+  "summary": "ボス戦の始めの帯が消える途中、薄い板に灰色の字が出ていた\n字は板が濃いうちに消し、板は前と同じ時間で消えるようにした\n板と字の濃さと、ボスが板にかからないことをテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/961/mobile-02-mode-select.jpg",
+   "shots/961/mobile-19-custom-og-credit-card.jpg",
+   "shots/961/mobile-34-chapter-1-play.jpg",
+   "shots/961/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5c1b13c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43590680926"
  }
 ]
