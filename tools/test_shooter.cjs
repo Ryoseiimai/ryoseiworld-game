@@ -1188,7 +1188,7 @@ async function browserAdapterChecks() {
   }
 })();
 
-// R565: between the opening line and Sora's hint the held panel stood empty for about 0.4 s (the words faded over 1/3 s,
+// R565: between the opening line and Sora's hint the held panel stood nearly empty for about 0.2 s (the words faded over 1/3 s,
 // then the hint faded in). Measured as panel strength minus word strength over time, the empty board stays short now.
 (() => {
   check('R565: BURST_SWAP_OUT がある', sim.BURST_SWAP_OUT > 0 && sim.BURST_SWAP_OUT <= 0.12, sim.BURST_SWAP_OUT);
@@ -1201,7 +1201,7 @@ async function browserAdapterChecks() {
       if (b && intro && w.t - intro.t > 0.3) empty += Math.max(0, sim.burstPanelAlpha(w) - sim.burstAlpha(b, w.t)) * DT;
     }
     if (!w.lines.hint || !hint) continue;
-    check('R565: ' + boss + ' 始めの台詞からヒントへ渡る間、空の地が長く残らない', empty < 0.17, Math.round(empty * 1000) / 1000);
+    check('R565: ' + boss + ' 始めの台詞からヒントへ渡る間、空の地が長く残らない', empty < 0.16, Math.round(empty * 1000) / 1000);
   }
   const o = { t: 0, dur: 2, holdOut: true };
   check('R565: 次が待つ台詞は終わりの直前まで文字が濃い', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0);
