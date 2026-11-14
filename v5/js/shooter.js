@@ -113,7 +113,17 @@
   // sat on the houses with almost nothing behind them. The plate is now 0.88 at full, and the words wait until the plate is
   // 40% in (and leave before it goes), so they never show without the dark plate behind them. Full strength stays the same span.
   var INTRO_PLATE_FILL = 0.88, INTRO_WORDS_FROM = 0.4;
-  function introWordsAlpha(s) { return clamp((introBandAlpha(s) - INTRO_WORDS_FROM) / (1 - INTRO_WORDS_FROM), 0, 1); }
+  // R554: on a phone the band was caught going out: plate and words faded together, so half-faded grey words sat on a
+  // half-see-through plate over the stone wall. Coming in, the plate is at full strength by the time the words start.
+  // Going out, the words leave while the band is still 85% up (in 1/40 s), then the plate fades on its old timing, so the
+  // boss riding in still clears it. The words therefore always stand on a nearly full dark plate.
+  var INTRO_WORDS_OUT_FROM = 0.85;
+  function introLeaving(s) { return (INTRO_TEXT_END - s) * INTRO_BAND_OUT < (s - INTRO_LINES_T) * INTRO_BAND_IN; }
+  function introPlateAlpha(s) { var b = introBandAlpha(s); return introLeaving(s) ? b : clamp(b / INTRO_WORDS_FROM, 0, 1); }
+  function introWordsAlpha(s) {
+    var b = introBandAlpha(s), from = introLeaving(s) ? INTRO_WORDS_OUT_FROM : INTRO_WORDS_FROM;
+    return clamp((b - from) / (1 - from), 0, 1);
+  }
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
@@ -1239,7 +1249,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2696,6 +2706,7 @@
       // R75: a dark plate behind the two lines, so they stay readable over a bright city background.
       var il = introFloatLines();
       var iw = Math.max(ctx.measureText(il[0]).width, ctx.measureText(il[1]).width) + 48;
+      ctx.globalAlpha = introPlateAlpha(w.stateT);
       ctx.fillStyle = 'rgba(8,14,34,' + INTRO_PLATE_FILL + ')'; rr(ctx, (W - iw) / 2, INTRO_PLATE_T, iw, INTRO_PLATE_H, 14); ctx.fill();
       ctx.globalAlpha = introWordsAlpha(w.stateT);
       outlinedText(ctx, il[0], W / 2, INTRO_LINE_Y[0], '#bff6ff');

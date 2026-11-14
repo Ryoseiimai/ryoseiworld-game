@@ -1451,6 +1451,34 @@ async function browserAdapterChecks() {
   check('R546: 帯の字がはっきり読める時間は0.8秒以上のまま', full >= 0.8, full);
 })();
 
+// R554: on a phone the band was caught going out with grey words on a half-faded plate. While the words show, the plate is at full strength.
+(() => {
+  const I = sim.INTRO, plateR = (540 + 12 * 31 + 10 + 48) / 2;
+  const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '../v5/js/shooter.js'), 'utf8');
+  let bad = null, plateOn = 0;
+  for (let s = 0; s < I.end; s += 0.001) {
+    const p = sim.introPlateAlpha(s), wds = sim.introWordsAlpha(s), b = sim.introBandAlpha(s);
+    if (wds > 0 && p < 0.85) bad = bad || [s, p, wds];
+    if (p < b - 1e-9) bad = bad || ['plate', s, p, b];
+    if (p > 0) plateOn += 0.001;
+  }
+  check('R554: 帯の字が出ている間、板はいつも85%以上の濃さ', !bad, bad);
+  check('R554: 帯の板は帯の時間の外では出ない', sim.introPlateAlpha(I.textEnd) === 0 && sim.introPlateAlpha(I.linesT) === 0, plateOn);
+  check('R554: 板を塗る前に板の濃さを使う', /ctx\.globalAlpha = introPlateAlpha\(w\.stateT\);\s*ctx\.fillStyle = 'rgba\(8,14,34,' \+ INTRO_PLATE_FILL/.test(src));
+  // the plate comes in ahead of the words; the boss riding in must still keep clear of it while it is half up or more
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss }); let worst = Infinity, g = 0, rows = 0;
+    while (w.state === 'intro' && g++ < 1000) {
+      sim.step(w, DT, IDLE);
+      const a = sim.introPlateAlpha(w.stateT);
+      const top = w.b.y - B[boss].drawH / 2, bottom = w.b.y + B[boss].drawH / 2;
+      if (w.state !== 'intro' || a < 0.5 || bottom < I.plateT || top > I.plateT + I.plateH) continue;
+      rows++; worst = Math.min(worst, w.b.x - B[boss].drawH / 2 - plateR);
+    }
+    check('R554: ' + boss + ' は板が見えている間、板の右に離れている', rows > 0 && worst >= 0, [rows, worst]);
+  }
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
