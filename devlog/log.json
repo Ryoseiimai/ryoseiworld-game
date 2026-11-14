@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T04:26:26.144Z",
-  "branch": "claude/autodev-20261106-1221-R406",
-  "task": "R406 記録が無い時のタイトルとモード選択が、こども向けのひらがなだったので、最初は おとな という決まりどおり漢字まじりにした",
-  "summary": "記録が無い時のタイトルとモード選択が、ひらがなのこども表記だった\n最初は おとな という決まりどおり、「始めから」「モードを選ぶ」など漢字まじりにした\n確かめるテストを足し、前と後のスクショを docs/shots/R406 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/710/mobile-02-mode-select.jpg",
-   "shots/710/mobile-19-custom-og-credit-card.jpg",
-   "shots/710/mobile-34-chapter-1-play.jpg",
-   "shots/710/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fdcca25",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42160439466"
- },
- {
   "at": "2026-11-06T05:44:45.328Z",
   "branch": "claude/autodev-20261106-1421-R407",
   "task": "R407 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ab70362",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43582046692"
+ },
+ {
+  "at": "2026-11-14T11:02:07.485Z",
+  "branch": "claude/autodev-20261114-1921-R553",
+  "task": "R553 ボス戦で、ことばの札の右の「ソラ」とすぐ下の台詞の「ソラ」が2つ並んで見えたので、同じ人の台詞が出ている間は札の名前を隠した",
+  "summary": "ボス戦で、ことばの札の右とすぐ下の台詞に「ソラ」が2回並んでいた\n同じ人の台詞が札の下に出ている間は、札の右の名前を隠すようにした（場所は残す）\n名前を変えた時も効くことをテストで確かめ、前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/960/mobile-02-mode-select.jpg",
+   "shots/960/mobile-19-custom-og-credit-card.jpg",
+   "shots/960/mobile-34-chapter-1-play.jpg",
+   "shots/960/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e365513",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43587039473"
  }
 ]
