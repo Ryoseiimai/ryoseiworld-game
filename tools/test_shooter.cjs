@@ -1405,6 +1405,21 @@ async function browserAdapterChecks() {
   check('R541: 案内の板はこの色で塗る', /ctx\.fillStyle = moveHintFill\(\); rr\(ctx, hp\.x, hp\.y, hp\.w, hp\.h, 14\)/.test(src));
 })();
 
+// R546: on a phone the entrance band's words showed over the houses while its plate was still faint.
+(() => {
+  const I = sim.INTRO;
+  check('R546: 始まりの帯の板は0.85以上の濃さ', sim.INTRO_PLATE_FILL >= 0.85, sim.INTRO_PLATE_FILL);
+  let bad = null, full = 0;
+  for (let s = 0; s < I.end; s += 0.001) {
+    const b = sim.introBandAlpha(s), wds = sim.introWordsAlpha(s);
+    if (wds > 0 && b * sim.INTRO_PLATE_FILL < 0.35) bad = bad || [s, b, wds];
+    if (wds > b + 1e-9) bad = bad || [s, b, wds];
+    if (wds >= 0.999) full += 0.001;
+  }
+  check('R546: 帯の字は板が出てから出て、板より先に消える', !bad, bad);
+  check('R546: 帯の字がはっきり読める時間は0.8秒以上のまま', full >= 0.8, full);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
