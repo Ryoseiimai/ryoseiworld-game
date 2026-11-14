@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-05T22:25:57.359Z",
-  "branch": "claude/autodev-20261106-0641-R404",
-  "task": "R404 記録の窓で、取った実績が白い星「☆」、まだの実績が「・」で、どちらが取った物か分からなかったので、取った物を「★」、まだの物を「☆ …（まだ）」とした",
-  "summary": "記録の窓で、取った実績とまだの実績の見分けが付かなかった\n取った実績は「★」、まだの実績は「☆」と「（まだ）」で出すようにした\n印と「まだ」を確かめるテストを足し、前と後のスクショを docs/shots/R404 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/702/mobile-02-mode-select.jpg",
-   "shots/702/mobile-19-custom-og-credit-card.jpg",
-   "shots/702/mobile-34-chapter-1-play.jpg",
-   "shots/702/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c8c01ea",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42119433681"
- },
- {
   "at": "2026-11-06T00:56:16.296Z",
   "branch": "claude/autodev-20261106-0941-R405",
   "task": "R405 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "d0de3ca",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43568406542"
+ },
+ {
+  "at": "2026-11-14T07:45:49.547Z",
+  "branch": "claude/autodev-20261114-1621-R550",
+  "task": "R550 タイトルの「遊びながらゲーム作りと AIを学ぶRPG」の板に後ろの家の屋根が透けていたので、板の地を濃くした",
+  "summary": "タイトルの「AIを学ぶRPG」の板に、後ろの家の屋根とアンテナが透けていた\n板の地の濃さを .74 から .92 に上げ、テストで .9 以上を確かめるようにした\n前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/955/mobile-02-mode-select.jpg",
+   "shots/955/mobile-19-custom-og-credit-card.jpg",
+   "shots/955/mobile-34-chapter-1-play.jpg",
+   "shots/955/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a62a715",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43571761958"
  }
 ]
