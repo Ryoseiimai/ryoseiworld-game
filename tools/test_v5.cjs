@@ -3089,7 +3089,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R548: at size 130 the park tree's crown (137px tall) still peeked out above the place box on arrival. Row 20 is sidewalk and the park board is south of it,
  // so it keeps its feet at 21.3 and is smaller: its top must be at least 25px lower than before, and it keeps the same frame and place.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,ids=m.objects.filter(o=>o.id.startsWith('minamo_tree')).map(o=>o.id).sort();
-  assert.deepEqual(ids,Array.from({length:9},(_,i)=>'minamo_tree'+i).sort(),'R548: the minamo trees keep their ids '+JSON.stringify(ids));
+  assert.equal(JSON.stringify(ids),JSON.stringify(Array.from({length:9},(_,i)=>'minamo_tree'+i).sort()),'R548: the minamo trees keep their ids '+JSON.stringify(ids));
   const t=m.objects.find(o=>o.id==='minamo_tree5');assert.equal(t.x,10);assert.equal(t.y,21.3);assert.equal(t.frame,1);
   assert(137-t.h>=25,'R548: the park tree crown starts at least 25px lower than at 130 ('+t.h+'px tall)');
   assert(t.h>=100,'R548: the park tree is still a tree, not a bush ('+t.h+'px)');
