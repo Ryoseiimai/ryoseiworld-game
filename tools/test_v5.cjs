@@ -3487,6 +3487,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R542: the tower pad's 「↑ 上へ」「↓ 下へ」 plate (hit box top = sign y - 30, drawn plate top = sign y - 27) touched the cloud's lower edge; it keeps at least 6px below the pad's foot.
  {const m=html.match(/o\.kind==='tower'\?o\.foot\+(\d+):/);assert(m,'tower sign y found');assert(Number(m[1])-30>=8,'R542 the tower plate sits below the cloud, not on its edge');}
  result.push('R542: 塔の雲の床の「上へ」「下へ」の札を雲の下の縁から離した PASS');
+ // R566: the bands above and below the stage on a tall phone are one flat average colour, not the edge rows stretched into vertical streaks.
+ {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],band=(html.match(/function backdropBand\([^\n]*/)||[''])[0];
+  assert(bd.includes('backdropBand(0,0,top)')&&bd.includes('backdropBand(H-6,bot,bh-bot)'),'R566: both bands use the flat band');
+  assert(!/bctx\.drawImage\(canvas,0,H-6,W,6,0,bot,bw,bh-bot\)/.test(bd),'R566: the bottom rows are no longer stretched down the band');
+  assert(/getImageData\(0,y,bw,1\)/.test(band)&&/fillRect\(0,y,bw,h\)/.test(band),'R566: the band is filled with the average of the edge row');}
+ result.push('R566: 縦長のスマホで画面の上下の帯を、端の行の平均の1色でうめた PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
