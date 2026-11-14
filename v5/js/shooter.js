@@ -66,8 +66,10 @@
   // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
   var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
   // R565: when the panel is held for the next line (holdOut, R523/R549), the words faded over the last 1/3 s and then the next
-  // line faded in, so an empty dark board sat at the top of the fight for about 0.4 s (caught on a phone between ヒカクマオウ's
+  // line faded in, so a nearly empty dark board sat at the top of the fight for about 0.2 s (caught on a phone between ヒカクマオウ's
   // opening line and Sora's hint). The words now stay until just before the hand-over and go in the last BURST_SWAP_OUT s.
+  // This is shorter than BURST_MIN_OUT on purpose: the panel stays dark here, so only the words swap, like a page turning.
+  // When the panel is held is still decided at burstFadeStart (o.out or BURST_OUT before the end), which is earlier than this.
   var BURST_SWAP_OUT = 0.1;
   function burstAlpha(o, t) {
     var bt = t - o.t, out = o.out || BURST_OUT;
