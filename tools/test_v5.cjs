@@ -1651,7 +1651,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const enemyAlpha=()=>{r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const art=r.g.GAME_DATA.enemies[r.g.battle.type].art||'enemies';const i=r.imageLog.findIndex(s=>String(s).includes(art));assert(i>=0,'the enemy is drawn: '+art+' '+r.imageLog.slice(0,8));return r.imageAlpha[i];};
   assert.equal(enemyAlpha(),1,'during the fight the enemy is solid');r.g.debugWin();assert(r.g.battle&&r.g.battle.over,'the battle shows its result');
   r.tick(1000);const a=enemyAlpha();assert(a<=0.5&&a>=0.3,'after the win the enemy fades: '+a);
-  assert(/b\.wonAt=gameTime/.test(html)&&/ctx\.globalAlpha=1-\.6\*calm;sprite\([^;]*\);ctx\.globalAlpha=1;/.test(html),'the fade is put back to 1 right after the enemy');
+  assert(/b\.wonAt=gameTime/.test(html)&&/seen=\(1-\.6\*calm\)\*\(1-hide\)/.test(html)&&/ctx\.globalAlpha=seen;sprite\([^;]*\);ctx\.globalAlpha=1;/.test(html),'the fade is put back to 1 right after the enemy');
   assert(/def\.animCols\?Math\.floor\(\(calm\?b\.wonAt:gameTime\)\/200\)%def\.animCols:def\.frame/.test(html),'bosses with animCols keep the frame they had at the win (they have no frame of their own)');}
  result.push('R92: 勝った後、敵がゆれを止めて少し沈み、うすくなる PASS');
  // R93: the card's first line read 「● HP　ソラ」 as if ソラ were part of the word (SPEC_V7 4.1: line 1 is the dot and the word).
@@ -2856,10 +2856,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/function spiritSide\([^\n]*spiritBase\(o,-1,1\)[^\n]*spiritBase\(o,1,1\)[^\n]*spiritBase\(o,0,1\)/.test(html),'spiritSide weighs the unmoved place');}
  result.push('R533: 外の灰色の守護霊が、上の目標の帯の列に浮かない PASS');
  // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
- {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=1-\.6\*calm;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
-  const col=calm=>new Function('calm','return '+m[1])(calm),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
+ {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
+  const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
   assert(Math.abs(alpha(col(0))-.33)<.005,'during the fight the shadow keeps its old strength: '+col(0));
-  assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));}
+  assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));
+  assert(alpha(col(0,1))===0,'R564: during a summon the shadow goes with the enemy: '+col(0,1));}
  result.push('R534: 勝った後、敵の足元の影も敵と同じだけうすくなる PASS');
  // R535: while a summon is on screen the other battle parts dim, but the log that says what the summon did stays clear.
  {const css=html.match(/[^}]*\.casting[^{]*\{opacity:\.35[^}]*\}/);assert(css,'the casting dim rule is found');
@@ -3387,6 +3388,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R380: チュートリアル戦の「呼び出す」に、使うまで金色の枠が付く PASS');
   // R563: a greyed command button keeps a solid plate (no opacity), so the battle background does not show through its words.
   {const html=fs.readFileSync(path.join(root,'index.html'),'utf8'),m=/#commands button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R563: greyed command buttons keep an opaque plate: '+(m&&m[1]));}
+  // R564: while a summon is on screen the enemy fades out (castHide), so it does not show through behind the summoned friend.
+  {const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(/function castHide\(b\)\{if\(!b\|\|!b\.cast\)return 0;/.test(html)&&/hide=castHide\(b\),seen=\(1-\.6\*calm\)\*\(1-hide\)/.test(html)&&/ctx\.globalAlpha=seen;sprite\(def\.art/.test(html),'R564: the enemy fades out during a summon');}
  // R395: the ノーツ hint said 「流れてくる印に合わせよう」 but the boss screen shows no 印 near it; the marks run along the bottom line into the ring at its left end (shooter.js drawRhythm), so the hint says where to look.
  {const words=fs.readFileSync(path.join(root,'data','words.js'),'utf8'),m=words.match(/notes:\{[\s\S]*?one:'([^']*)'[\s\S]*?sora:'([^']*)'/);assert(m,'R395: notes entry');
   assert(/下/.test(m[1])&&/輪/.test(m[1])&&/押/.test(m[1]),'R395: adult hint names the bottom line, the ring and the press: '+m[1]);assert(/しるし/.test(m[2])&&/わ/.test(m[2])&&/おして/.test(m[2]),'R395: kids hint too: '+m[2]);
