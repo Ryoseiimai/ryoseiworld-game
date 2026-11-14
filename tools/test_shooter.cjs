@@ -850,6 +850,16 @@ async function browserAdapterChecks() {
    check('R553: ソラの台詞が札の下に出ている間、札の右のソラの名前は隠れる（名前を変えても）',same&&vSame==='hidden',{same,vSame});
    check('R553: ボスの台詞のときは札の右の名前はそのまま見える',other&&vOther==='',{other,vOther});
    R.prepareBossWords=keep;}
+  // R557: a line by the boss itself does not repeat the boss name on its gold tag (the top band already shows it); ソラ's lines keep the tag.
+  {handle=R.Shooter.start({boss:'kateino',platform});await ready();let got=null;
+   for(let i=0;i<60&&!got;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='カテイノジジョウ'&&drawn.some(d=>d.text&&/しょうらい|将来/.test(d.text)))got=drawn.slice();}
+   // The top band's name sits at y 29; the line panel starts under the field top (116). Far below, a sprite without art writes its name as a stand-in.
+   const names=got?got.filter(d=>d.text==='カテイノジジョウ'):[];
+   check('R557: ボスの台詞では、上の見出しのボス名だけが出て、台詞の札に同じ名前を重ねない',!!got&&names.some(d=>d.y<60)&&!names.some(d=>d.y>116&&d.y<116+200),names.map(d=>d.y));
+   handle.stop();
+   handle=R.Shooter.start({boss:'bugking',platform,lines:{intro:['ソラ','いっしょに なおそう！']}});await ready();let sora=null;
+   for(let i=0;i<60&&!sora;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='ソラ'&&drawn.some(d=>d.text==='ソラ'))sora=true;}
+   check('R557: ソラの台詞の札には、ソラの名前がそのまま出る',!!sora);handle.stop();}
   R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
 }
 
