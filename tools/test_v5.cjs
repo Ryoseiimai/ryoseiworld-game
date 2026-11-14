@@ -1493,7 +1493,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(at('neon',15,13.6),'at the neon station the cloud gate is under the HUD, so the HUD turns see-through');
   assert(!at('neon',15,30),'far below the gate the HUD stays solid');
   assert(!at('room',5,9),'inside a room the HUD stays solid');
-  const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0];assert(/background:#16353b[0-9a-f]{2}/.test(css)&&/text-shadow/.test(css),'the see-through HUD keeps an outline on its words: '+css);assert(!/#hud\.over \.quest/.test(html),'the goal line keeps its solid backing (R67)');}
+  const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0];assert(/background:#16353b[0-9a-f]{2}/.test(css)&&/text-shadow/.test(css),'the see-through HUD keeps an outline on its words: '+css);assert(!/#hud\.over \.quest/.test(html),'the goal line keeps its solid backing (R67)');
+  assert(/(^|;)backdrop-filter:blur\([2-8]px\)/.test(css.replace(/^[^{]*\{/,''))&&/-webkit-backdrop-filter:blur\([2-8]px\)/.test(css),'R555: the see-through HUD blurs the building under it so the place name does not sit on its lines: '+css);
+  assert(!/#hud\{[^}]*backdrop-filter/.test(html)&&!/\.hud\{[^}]*backdrop-filter/.test(html),'R555: only the see-through panel blurs, not the whole HUD');}
+ result.push('R555: 上の表示の地が薄い間は、後ろの建物をぼかして場所の名前を読みやすくする PASS');
  result.push('R145: ネオンの駅で、くもの もんが上の表示の後ろに来ると、表示の地が薄くなる PASS');
  // R492: at the start of 2しょう the ミナモ board (a big board sign) sat behind the HUD with only its posts showing; the HUD turns see-through over it, and stays solid when the board is lower on screen.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
