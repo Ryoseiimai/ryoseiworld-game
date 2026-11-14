@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T15:53:52.109Z",
-  "branch": "claude/autodev-20261107-0022-R417",
-  "task": "R417 2章の終わりの札も「ポケットに はじめての ゲーム」で、1章と同じ文になっている",
-  "summary": "2章の終わりの札の本文を「こうえんで みんな わらってた。」にした\nおとなモードは「公園でみんな笑っていた。」。1章の文と重ならない\n章の札の本文が章ごとにちがうかの確認を tools/test_v5.cjs に足した",
-  "result": "pass",
-  "shots": [
-   "shots/727/mobile-02-mode-select.jpg",
-   "shots/727/mobile-19-custom-og-credit-card.jpg",
-   "shots/727/mobile-34-chapter-1-play.jpg",
-   "shots/727/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3795878",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42244311712"
- },
- {
   "at": "2026-11-06T16:42:19.673Z",
   "branch": "claude/autodev-20261107-0121-R418",
   "task": "R418 遊んで一番気になる所を1つ直す",
@@ -2968,5 +2953,20 @@
   "shots": [],
   "sha": "c51a31f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43628968940"
+ },
+ {
+  "at": "2026-11-14T19:34:45.651Z",
+  "branch": "claude/autodev-20261115-0341-R562",
+  "task": "R562 チュートリアル戦で、呼び出しの窓や会話の箱が開いている間も「呼び出す」の金色の点線の枠が後ろで点滅していたので、窓が開いている間は枠を消した",
+  "summary": "03時41分の枝は、合流済みの R562 と同じ件を作っていて main と衝突した\n衝突は main の側を残して直した。main の方が会話の箱まで扱っていて広い\n重なった前後の画像はこの枝から外した。中身の変更は無い",
+  "result": "pass",
+  "shots": [
+   "shots/979/mobile-02-mode-select.jpg",
+   "shots/979/mobile-19-custom-og-credit-card.jpg",
+   "shots/979/mobile-34-chapter-1-play.jpg",
+   "shots/979/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3facdaa",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43631867584"
  }
 ]
