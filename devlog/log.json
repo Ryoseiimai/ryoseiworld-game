@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T05:54:51.712Z",
-  "branch": "claude/autodev-20261106-1421-R407",
-  "task": "R407 終わりの画面の「設定」と「メニュー」の窓で、空の本文が見出しの下に大きな空きを作っていたので、本文が空の時は出さないようにした",
-  "summary": "終わりの画面の設定とメニューの窓で、見出しの下が空いていた\n本文が空の時は段落を出さないようにし、空きを無くした\n確かめるテストを足し、前と後のスクショを docs/shots/R407 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/713/mobile-02-mode-select.jpg",
-   "shots/713/mobile-19-custom-og-credit-card.jpg",
-   "shots/713/mobile-34-chapter-1-play.jpg",
-   "shots/713/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1fe5298",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42169692019"
- },
- {
   "at": "2026-11-06T07:24:09.756Z",
   "branch": "claude/autodev-20261106-1541-R408",
   "task": "R408 記録の窓で実績「ゼロと作る」だけが現在形で、取った物か目標か分かりにくかったので、ほかとそろえて「ゼロと作った」にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "5c1b13c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43590680926"
+ },
+ {
+  "at": "2026-11-14T12:47:32.304Z",
+  "branch": "claude/autodev-20261114-2121-R555",
+  "task": "R555 上の場所の名前の板が薄くなる時、後ろの塔や家の線が字の真後ろに見えて読みにくかったので、板の後ろをぼかした",
+  "summary": "上の場所の名前の板が薄い時、後ろの塔や家の線が字の真後ろに見えていた\n板が薄い間だけ、板の後ろの絵を4pxぼかし、建物は色だけ見えるようにした\nぼかしが上の板だけに付くことをテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/962/mobile-02-mode-select.jpg",
+   "shots/962/mobile-19-custom-og-credit-card.jpg",
+   "shots/962/mobile-34-chapter-1-play.jpg",
+   "shots/962/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e310586",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43595582398"
  }
 ]
