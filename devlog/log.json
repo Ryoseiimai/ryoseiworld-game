@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T17:04:04.738Z",
-  "branch": "claude/autodev-20261107-0121-R418",
-  "task": "R418 モードを選ぶ画面が「おとな＝漢字まじりで学ぶ」だけで、物語の台詞も漢字になると読めたので、「物語の台詞はどちらも同じ。」と足した",
-  "summary": "モードを選ぶ画面に「物語の台詞はどちらも同じ。」の1行を足した\nこどもモードの記録では「おはなしは どちらも おなじ。」と出す\n新しい1行の確認を tools/test_v5.cjs に足し、前と後のスクショを docs/shots/R418 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/730/mobile-02-mode-select.jpg",
-   "shots/730/mobile-19-custom-og-credit-card.jpg",
-   "shots/730/mobile-34-chapter-1-play.jpg",
-   "shots/730/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6f5aba2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42253136403"
- },
- {
   "at": "2026-11-06T17:23:13.208Z",
   "branch": "claude/autodev-20261107-0121-R418",
   "task": "R418 モードを選ぶ画面が「おとな＝漢字まじりで学ぶ」だけで、物語の台詞も漢字になると読めたので、「物語の台詞はどちらも同じ。」と足した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "af50366",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43633621255"
+ },
+ {
+  "at": "2026-11-14T20:07:24.784Z",
+  "branch": "claude/autodev-20261115-0436-R563",
+  "task": "R563 戦いに勝った後、灰色になったコマンドのボタンが透けて後ろの波の模様が字の後ろに見えていたので、ボタンの地を透けない濃い色にした",
+  "summary": "03時41分の R562 の枝の衝突を、main の側を残して直した。自動確認に通った\nR563: 勝った後の灰色のボタンが透けていたので、地を透けない濃い色にした\nボタンの地が透けないかを調べるテストを足し、前と後の画像を置いた",
+  "result": "pass",
+  "shots": [
+   "shots/981/mobile-02-mode-select.jpg",
+   "shots/981/mobile-19-custom-og-credit-card.jpg",
+   "shots/981/mobile-34-chapter-1-play.jpg",
+   "shots/981/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3f413fc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43634691882"
  }
 ]
