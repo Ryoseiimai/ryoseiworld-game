@@ -1640,6 +1640,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R498: the name was grey, unlike the gold speaker name in talk; it is gold like the talk name now.
   assert(/color:#f1cd7c/.test(who),'the name on the word card is gold like the speaker name');}
  result.push('R93: ことばの札の1行目で、ソラの名前をことばから離して右端の札に出す PASS');
+ // R556: in a battle ソラ glows under the enemy with its own name tag, so the card's name (ソラ again) steps back there; on the field it stays.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(2);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugLearn('temperature'),'a word not met yet');r.tick(16);assert(!r.els.get('word-card').hidden,'the card shows on the field');
+  assert.equal(r.els.get('word-who').style.visibility,'','on the field the card names its speaker');
+  r.g.debugStartBattle('crow','tutorial',true);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'battle');
+  assert(r.g.debugLearn('hp')||r.g.debugLearn('jikkou'),'a word to show in the battle');r.tick(16);
+  assert(!r.els.get('word-card').hidden,'the card shows in the battle');assert(!r.g.battle.cast,'ソラ is drawn under the enemy');
+  assert.equal(r.els.get('word-who').style.visibility,'hidden','in the battle the card does not write ソラ a second time');
+  if(!r.g.state.summons.includes('nao'))r.g.state.summons.push('nao');r.g.command('cast','nao');r.tick(16);assert(r.g.battle.cast,'ナオスライム is called');assert.equal(r.els.get('word-who').style.visibility,'','while ソラ is away (a summon) the card names its speaker again');}
+ result.push('R556: 戦いの中では、ことばの札の右のソラの名前を隠し、ソラの名前が2つ並ばない PASS');
  // R99: on とう2F the card no longer covers the stairs signs (うえへ / したへ) at the top of the floor: it moves to the bottom of the map band, clear of the hero.
  // In battle a quiz answer (おさらい) puts the card under the enemy name instead of over it.
  // R344: the card checks run in both modes (おとな draws 上へ / 下へ, a shorter plate); the battle quiz part runs once, in こども mode.
