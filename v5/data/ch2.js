@@ -36,7 +36,10 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
  // R540: the park tree at 10,22.6 showed only its foot as a thin strip right under the goal line on arrival; it moved north to 21.3 so the place box hides its foot on a phone.
- ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6],[10,21.3,1],[27.6,20.6],[1.2,33.4,1],[10.6,34.4]]),
+ // R548: at 130 its crown still peeked out as a dark tuft between the top of the screen and the place box on arrival (mobile-29).
+ // It cannot move north (row 20 is sidewalk) or south (the park board), so this one park tree is smaller (104): its crown now starts under the place box, its foot stays behind the goal line.
+ ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6]]),prop('minamo_tree5',1,10,21.3,104),
+ ...[[27.6,20.6],[1.2,33.4,1],[10.6,34.4]].map(([x,y,f],i)=>prop('minamo_tree'+(6+i),f??0,x,y,130)),
  // R254: three lamps by the north-south road stood at x 12.5/17.5, on the grass beside the one-tile sidewalks (x 13 and 16) (mobile-20), so they stand on the sidewalk by the curb.
  // R544: at 16.4,22.6 the east lamp stood at the right edge on arrival, its head squeezed between the menu button and the screen edge (mobile-29, mobile-35).
  // Further south it would show half cut by the screen edge, so it stands north at the corner of the cross street (sidewalk row 17), out of the arrival view.

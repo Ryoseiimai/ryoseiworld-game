@@ -3086,6 +3086,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(m.tiles[Math.floor(t.y)][Math.floor(t.x)],'.','R540: the park tree stands on the grass');
   assert((t.y-Math.floor(t.y))*48>=12,'R540: the park tree feet keep off the sidewalk row');}
  result.push('R540: ミナモに着いた時、公園の木の根元が上の目標の帯のすぐ下にのぞかない PASS');
+ // R548: at size 130 the park tree's crown (137px tall) still peeked out above the place box on arrival. Row 20 is sidewalk and the park board is south of it,
+ // so it keeps its feet at 21.3 and is smaller: its top must be at least 25px lower than before, and it keeps the same frame and place.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,ids=m.objects.filter(o=>o.id.startsWith('minamo_tree')).map(o=>o.id);
+  assert.deepEqual(ids,Array.from({length:9},(_,i)=>'minamo_tree'+i),'R548: the minamo trees keep their ids in order');
+  const t=m.objects.find(o=>o.id==='minamo_tree5');assert.equal(t.x,10);assert.equal(t.y,21.3);assert.equal(t.frame,1);
+  assert(137-t.h>=25,'R548: the park tree crown starts at least 25px lower than at 130 ('+t.h+'px tall)');
+  assert(t.h>=100,'R548: the park tree is still a tree, not a bush ('+t.h+'px)');
+  for(const o of m.objects.filter(o=>o.id.startsWith('minamo_tree')&&o.id!=='minamo_tree5'))assert.equal(o.w,130,'R548: '+o.id+' keeps its size');}
+ result.push('R548: ミナモに着いた時、公園の木の頭が上の札の上にのぞかない PASS');
  // R544: the east lamp at 16.4,22.6 stood at the right screen edge on arrival, its head squeezed between the menu button and the edge.
  // No lamp may stand cut by a side edge of the arrival view (about 270px each side of the spawn, 561px above it on a phone).
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,[sx,sy]=m.spawn,lights=m.objects.filter(o=>o.id.startsWith('minamo_light'));
