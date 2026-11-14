@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T19:01:22.258Z",
-  "branch": "claude/autodev-20261107-0321-R419",
-  "task": "R419 記録の窓で、まだ取っていない実績が「言葉を10個集めた（まだ）」と、終わった形と「まだ」が並んでいたので、おとなモードでは「（未達成）」とした",
-  "summary": "記録の窓で、まだの実績の後ろを、おとなモードでは「（未達成）」にした\nこどもモードは短い「（まだ）」のままにし、両方の確認を tools/outgame_tests に足した\n全章のテストを通し、前と後のスクショを docs/shots/R419 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/732/mobile-02-mode-select.jpg",
-   "shots/732/mobile-19-custom-og-credit-card.jpg",
-   "shots/732/mobile-34-chapter-1-play.jpg",
-   "shots/732/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8e2663f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42273524245"
- },
- {
   "at": "2026-11-06T19:57:25.984Z",
   "branch": "claude/autodev-20261107-0422-R420",
   "task": "R420 チャレンジの記録の「次はステージ 13 を目指そう」が、数字の前後だけ空いていたので、おとなモードでは「次はステージ13を目指そう」とした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "6012b37",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43639573144"
+ },
+ {
+  "at": "2026-11-14T21:49:54.968Z",
+  "branch": "claude/autodev-20261115-0621-R565",
+  "task": "R565 ボス戦の始めの台詞からソラのヒントへ渡る間、字だけ先に消えて空の枠が残っていたので、次の台詞が続く時は字を渡す直前まで出すようにした",
+  "summary": "R565: ボス戦の始めの台詞の後、字だけ消えた空の枠が約0.4秒残っていた\n次の台詞が続く時は、字を渡す直前の0.1秒まで出すようにした\n空の枠の長さを4体のボスで測るテストを足し、前と後の画像を置いた",
+  "result": "pass",
+  "shots": [
+   "shots/983/mobile-02-mode-select.jpg",
+   "shots/983/mobile-19-custom-og-credit-card.jpg",
+   "shots/983/mobile-34-chapter-1-play.jpg",
+   "shots/983/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2c1f57f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43643617477"
  }
 ]
