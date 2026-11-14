@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T01:17:58.509Z",
-  "branch": "claude/autodev-20261106-0941-R405",
-  "task": "R405 チャレンジ中に取った実績の知らせが、終わって開く記録の窓の見出しに重なっていたので、窓を開く時に知らせを引っ込め、閉じた後に出し直した",
-  "summary": "チャレンジ中に取った実績の知らせが、記録の窓の見出しを隠していた\n窓が開くと知らせを引っ込め、窓を閉じた後に先に出し直すようにした\n確かめるテストを足し、前と後のスクショを docs/shots/R405 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/705/mobile-02-mode-select.jpg",
-   "shots/705/mobile-19-custom-og-credit-card.jpg",
-   "shots/705/mobile-34-chapter-1-play.jpg",
-   "shots/705/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c12f413",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42141474364"
- },
- {
   "at": "2026-11-06T03:49:17.148Z",
   "branch": "claude/autodev-20261106-1221-R406",
   "task": "R406 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "bf844ce",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43576025835"
+ },
+ {
+  "at": "2026-11-14T08:54:53.087Z",
+  "branch": "claude/autodev-20261114-1721-R551",
+  "task": "R551 モードを選ぶ窓の下から「続きから」のボタンの縁が帯のようにのぞいていたので、窓が開いている間はタイトルのボタンを隠した",
+  "summary": "モードを選ぶ窓の下に、タイトルの「続きから」の縁と案内の札がのぞいていた\n窓が開いている間は、タイトルのボタンと案内を隠すようにし、テストを足した\n前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/957/mobile-02-mode-select.jpg",
+   "shots/957/mobile-19-custom-og-credit-card.jpg",
+   "shots/957/mobile-34-chapter-1-play.jpg",
+   "shots/957/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ec2fcbb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43576755271"
  }
 ]
