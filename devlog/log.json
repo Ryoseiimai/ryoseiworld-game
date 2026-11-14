@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T17:23:13.208Z",
-  "branch": "claude/autodev-20261107-0121-R418",
-  "task": "R418 モードを選ぶ画面が「おとな＝漢字まじりで学ぶ」だけで、物語の台詞も漢字になると読めたので、「物語の台詞はどちらも同じ。」と足した",
-  "summary": "モードを選ぶ画面に「物語の台詞はどちらも同じ。」の1行を足した\nこどもモードの記録では「おはなしは どちらも おなじ。」と出す\n新しい1行の確認を tools/test_v5.cjs に足し、前と後のスクショを docs/shots/R418 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/731/mobile-02-mode-select.jpg",
-   "shots/731/mobile-19-custom-og-credit-card.jpg",
-   "shots/731/mobile-34-chapter-1-play.jpg",
-   "shots/731/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "38eabd7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42255000445"
- },
- {
   "at": "2026-11-06T19:01:22.258Z",
   "branch": "claude/autodev-20261107-0321-R419",
   "task": "R419 記録の窓で、まだ取っていない実績が「言葉を10個集めた（まだ）」と、終わった形と「まだ」が並んでいたので、おとなモードでは「（未達成）」とした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "3f413fc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43634691882"
+ },
+ {
+  "at": "2026-11-14T21:02:19.731Z",
+  "branch": "claude/autodev-20261115-0521-R564",
+  "task": "R564 召喚の間、呼んだ仲間の後ろに敵の黒い影が透けて汚れに見えていたので、召喚の間は敵と足元の影を消した",
+  "summary": "R564: 召喚の間、呼んだ仲間の後ろに敵の影が透けていたので、敵と足元の影を消した\n召喚の間に敵が消えるかを調べるテストを足し、前と後の画像を置いた\n前のテスト2つは敵の濃さの式の形を見ていたので、新しい式に合わせた（調べる中身は同じ）",
+  "result": "pass",
+  "shots": [
+   "shots/982/mobile-02-mode-select.jpg",
+   "shots/982/mobile-19-custom-og-credit-card.jpg",
+   "shots/982/mobile-34-chapter-1-play.jpg",
+   "shots/982/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6012b37",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43639573144"
  }
 ]
