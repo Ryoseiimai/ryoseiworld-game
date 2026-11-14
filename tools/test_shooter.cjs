@@ -835,7 +835,22 @@ async function browserAdapterChecks() {
    check('R155: 押せない時のビートのボタンは全体を薄くせず、字が読める',/opacity:1/.test(off)&&/color:#e6dfc4/.test(off)&&/background:#0f2030/.test(off)&&css.indexOf('.rs-beat:disabled')>css.indexOf('.rs-beat.rs-lit'),off);}
   {handle=R.Shooter.start({boss:'hikaku',platform});await ready();let lit=0,off=0;for(let i=0;i<20;i++){await advance(.1);const b=doc.querySelector('.rs-beat');if(b.disabled){off++;if(b.className.includes('rs-lit'))lit++;}}
    check('R155: 始めの間（押せない間）のビートのボタンは金色に光らない',off>0&&lit===0,{off,lit});handle.stop();}
-  resumed.forEach(f=>f());handle.stop();R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
+  resumed.forEach(f=>f());handle.stop();
+  // R553: while a line by the card's speaker shows under the word card, the card's name tag is not drawn (ソラ was written twice);
+  // a line by someone else (the boss) leaves the tag as it is.
+  {const keep=R.prepareBossWords;R.prepareBossWords=ids=>ids.slice(0,2).map(id=>({id,kind:'game',word:id,sora:'ビートに合わせて押してみて',speaker:'ミナ'}));
+   const tag=()=>{const c=doc.querySelector('.rs-word'),h=c&&!c.hidden&&c.children[0];return h&&h.children[1];};
+   const seen=async who=>{for(let i=0;i<60;i++){const l=win.__shooter.line;if(l&&l.speaker===who&&tag())return true;await advance(.1);}return false;};
+   // The partner is renamed ミナ: the line's 'ソラ' becomes ミナ like the card's name, so the two still match.
+   handle=R.Shooter.start({boss:'bugking',platform,aiName:'ミナ',lines:{intro:['ソラ','いっしょに なおそう！']}});await ready();
+   const same=await seen('ミナ'),vSame=tag()&&tag().style.visibility;
+   handle.stop();
+   handle=R.Shooter.start({boss:'bugking',platform,aiName:'ミナ'});await ready();
+   const other=await seen('BUG KING'),vOther=tag()&&tag().style.visibility;handle.stop();
+   check('R553: ソラの台詞が札の下に出ている間、札の右のソラの名前は隠れる（名前を変えても）',same&&vSame==='hidden',{same,vSame});
+   check('R553: ボスの台詞のときは札の右の名前はそのまま見える',other&&vOther==='',{other,vOther});
+   R.prepareBossWords=keep;}
+  R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
 }
 
 // R72: while a word card stops the fight, a boss line or notice caught mid-fade is held at full strength (not left see-through).

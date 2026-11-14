@@ -434,5 +434,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 70ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 110ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

@@ -1649,14 +1649,14 @@
   }
 
   function showWord(S) {
-    var w = S.wordCards[0]; S.wordEl.hidden = !w; S.wordEl.replaceChildren();
+    var w = S.wordCards[0]; S.wordEl.hidden = !w; S.wordEl.replaceChildren(); S.wordWho = null;
     if (!w) return;
     // R94: like the town and battle cards (R93), line 1 is the dot and the word, with the speaker in its own tag at the right end.
     var head = document.createElement('span'), title = document.createElement('span'), who = document.createElement('span'), copy = document.createElement('span');
     head.className = 'rs-word-head'; title.className = 'rs-word-title'; who.className = 'rs-word-who';
     title.style.color = { code: '#8de2ff', game: '#f1cd7c', ai: '#d9b5ff', net: '#a1edb0' }[w.kind];
     title.textContent = '● ' + w.word; who.textContent = w.speaker; copy.textContent = w.sora;
-    head.appendChild(title); head.appendChild(who);
+    head.appendChild(title); head.appendChild(who); S.wordWho = who;
     S.wordEl.appendChild(head); S.wordEl.appendChild(copy);
   }
   // R307: the speech panel keeps a 12px gap under the word card (was 8, about 6px on a phone, so the two read as one box).
@@ -2624,6 +2624,12 @@
     // Slide toward the new start instead of jumping when a card appears or goes away.
     var off = wordCardH(S); S.textOff = S.textOff == null ? off : Math.abs(off - S.textOff) < 1 ? off : S.textOff + (off - S.textOff) * 0.2;
     var y = PLAY_T + 8 + S.textOff;
+    // R553: when the line under the card is said by the same person as the card, the card's name tag steps back
+    // (kept in place, only not drawn), so ソラ is not written twice in a row at the top of the field.
+    if (S.wordWho) {
+      var vis = w.burst && S.wordCards.length && w.burst.speaker === S.wordCards[0].speaker ? 'hidden' : '';
+      if (S.wordWho.style.visibility !== vis) S.wordWho.style.visibility = vis;
+    }
     if (w.burst) {
       y += drawPanelText(ctx, w.burst.speaker, w.burst.text, y, burstAlpha(w.burst, w.t), burstPanelAlpha(w)) + 6;
     }
