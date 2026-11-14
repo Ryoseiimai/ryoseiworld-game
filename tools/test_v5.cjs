@@ -1562,6 +1562,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/<p class="genre-tag"[^>]*>遊びながらゲーム作りと<br>AIを学ぶRPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
  // R527: the genre line sits on the houses behind the title, so it takes the caption's dark plate, sized to its letters and centred.
  {const css=(html.match(/#title-genre\{[^}]*\}/)||[''])[0];assert(/display:table/.test(css)&&/margin:10px auto 0/.test(css)&&Number((css.match(/background:rgba\(16,30,36,([\d.]+)\)/)||[])[1])>=.9,'R527/R550: the genre line has a dark plate the houses do not show through: '+css);}
+ {const m=html.match(/#stage:has\(#modal:not\(\[hidden\]\)\) #title-actions,#stage:has\(#modal:not\(\[hidden\]\)\) #title-hint\{visibility:hidden\}/);assert(m,'R551: the title buttons hide while a window (mode select) is open, so no band of 続きから peeks out under it');}
  result.push('R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
  // R407: the settings and the end-screen menu open with an empty copy, and the empty <p> kept its margins, leaving a blank band under the heading. An empty copy is now hidden.
  {assert(/\.panel>#modal-copy:empty\{display:none\}/.test(html),'R407: an empty modal copy is hidden');assert(/function openSettings\(\)\{openModal\('設定',''/.test(html),'R407: settings opens with an empty copy (hidden by the rule)');assert(html.includes("openModal(menuLabel('メニュー','めにゅー'),'',"),'R407: the end-screen menu opens with an empty copy (hidden by the rule)');}
