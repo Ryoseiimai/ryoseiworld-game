@@ -1435,7 +1435,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const help=r.els.get('walk-help');help.offsetWidth=226;help.offsetHeight=46;
   const sign=r.g.GAME_DATA.maps.town.objects.find(o=>o.sign==='こうえん');assert(sign&&sign.kind==='props'&&sign.frame===11,'town has the big こうえん board');
   r.g.debugWarp('town',6,23.6);r.tick(16);assert(help.classes.has('behind'),'at the start of town the board behind the walk help box turns it see-through');
-  delete sign.sign;try{r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(!help.classes.has('behind'),'nothing else sits behind the box there');}finally{sign.sign='こうえん';}
+  // R545: grandpa now stands whole beside the pond (feet y 32.8), so on the wide desktop box (226px) he too sits behind it and turns it see-through, as a person should.
+  // With the sign words and grandpa both taken away nothing else sits there; on the phone's narrow two-line box (143x82) grandpa stays right of it.
+  const gp=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='grandpa'),gpx=gp.x;
+  delete sign.sign;try{r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(help.classes.has('behind'),'R545: grandpa behind the wide box turns it see-through');
+   gp.x=-20;r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(!help.classes.has('behind'),'nothing else sits behind the box there');gp.x=gpx;
+   help.offsetWidth=143;help.offsetHeight=82;r.g.debugWarp('town',6,23.2);r.tick(16);r.g.debugWarp('town',6,23.6);r.tick(16);assert(!help.classes.has('behind'),'R545: grandpa stays right of the phone box');
+   r.g.debugWarp('town',...r.g.GAME_DATA.maps.town.spawn);r.tick(16);assert(!help.classes.has('behind'),'R545: at the spawn grandpa stays right of the phone box');}finally{sign.sign='こうえん';gp.x=gpx;help.offsetWidth=226;help.offsetHeight=46;}
   r.g.debugWarp('town',6,12);r.tick(16);assert(!help.classes.has('behind'),'far from the board the box stays solid');}
  result.push('R275: 町の始めで、公園の看板の柱が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
  // R303: on a phone (touch-only) the walk help is two lines, ドラッグで / あるく, so the box (140 wide, 83 high, sizes given by hand) ends left of the park board's posts at the start of town; smoke mobile-10 shows the real layout.
@@ -3082,6 +3088,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const l=lights.find(o=>o.x===16.4);assert(l&&l.y===17.6,'R544: the east lamp stands at the cross street');
   assert.equal(m.tiles[Math.floor(l.y)][Math.floor(l.x)],'+','R544: the east lamp stands on the sidewalk');}
  result.push('R544: ミナモに着いた時、右の街灯がメニューのボタンと画面の端の間にはさまれない PASS');
+ // R545: at feet y 34.6 the park grandpa stood across the bottom edge of the town's arrival view, so only his head and chest showed.
+ // The arrival view ends about 34.26 tiles down (camera from the HUD line 184px), so his whole body (65px) stands at least 8px over it, on grass beside the pond.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,gp=m.objects.find(o=>o.id==='grandpa'),bottom=m.spawn[1]*48-184-(960-184-130)*.55+960;
+  assert(gp.y*48<=bottom-8,'R545: grandpa\'s feet show over the bottom edge on arrival ('+Math.round(bottom-gp.y*48)+'px)');
+  for(const dx of [-.4,0,.4])assert.equal(m.tiles[Math.floor(gp.y)][Math.floor(gp.x+dx)],'.','R545: grandpa stands on grass');}
+ result.push('R545: 1しょうの始めに、公園のおじいさんが画面の下の縁で切れない PASS');
  // R506: the こうえん board's full bottom band and the moved ミナモ board left only about 18px (x 11) between them, so walking north into the park from the road met a wall.
  {const r=await runtime();r.tick();r.g.debugWarp('minamo',10.9,27.5);r.tick(16);let open=0;
   for(let x=8.5;x<=11.2;x+=.1){let ok=true;for(let y=27.2;y>=24.8;y-=.1)if(r.g.debugBlocked(x*48,y*48)){ok=false;break;}if(ok)open++;}

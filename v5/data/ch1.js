@@ -35,6 +35,8 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // R238: grandpa's spirit floated over the pond (mobile-25); spirits now keep off water and he stands a little east, so it floats over the bench side, clear of the pond's edge.
  // R263: on the bench side his spirit then floated on the sign's left post (mobile-25), so he stands a quarter tile west and it floats over his head, between the pond's rim and the post.
  // R207: after R206 the sign's right post stood right behind the bench (mobile-25), so the bench sits lower, between the pond and the sandbox, next to grandpa.
+ // R545: at feet y 34.6 grandpa stood across the bottom edge of the arrival view (about y 34.26), so only his head and chest showed under the park sign.
+ // He stands at the pond's east rim (y 32.8, on grass), whole on arrival and right of the phone's ドラッグで あるく box; his spirit floats over his head.
  // Mio (npc2 frame 0) waits by the school; her lost dolphin hairclip is in the park sandbox (STORY_V4.md chapter 1).
  object('mio','npc2',0,10.4,8.2,48,65,{event:'mio'}),object('hairclip','spot',0,8.3,31.4,60,40,{hidden:true,label:'すなば',event:'hairclip',collider:false}),
  object('pond','spot',0,2.5,33.6,60,40,{hidden:true,label:'いけ',dialogue:'pond',collider:false}),
@@ -65,7 +67,7 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // R230: mother stood under the home's gate, so Nao (her grey spirit) floated on the gate wall and read as a town noise (mobile-25).
  // She stands a little west, past the gate, and the bike parks further west so Nao has clear air above her head.
  // R231: the student's grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16), so she stands half a tile east, still clear of the store's corner.
- ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',4.45,34.6],['worker',19.4,34.6],['student',20.5,25.4],['police',9.5,19.6,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.9,31.25,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',12.5,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
+ ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',4.45,32.8],['worker',19.4,34.6],['student',20.5,25.4],['police',9.5,19.6,{event:'police'}],['dog',11,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.9,31.25,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',12.5,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
  enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.
