@@ -4,7 +4,7 @@
     "id": "R562",
     "branch": "claude/autodev-20261115-0341-R562",
     "attempts": 1,
-    "conflicts": 0,
+    "conflicts": 1,
     "retriggers": 0,
     "started_at": "2026-11-15T03:41:28+09:00"
   },
