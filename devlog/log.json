@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-04T13:34:09.234Z",
-  "branch": "claude/autodev-lead-og-share",
-  "task": "lead-og-share",
-  "summary": "カテイノジジョウ戦で、ソラが「とくぎで見せよう」とだけ言い、押すボタンが分からなかった\nソラとフクロウのひとことで、右下の「プレイテスト」ボタンの名前を言うようにした\n2行に収まるよう改行を入れ、前と後のスクショで確かめた。鍵のブランチは今回の指示で push できないので取らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/688/mobile-02-mode-select.jpg",
-   "shots/688/mobile-16-custom-og-chapter-card.jpg",
-   "shots/688/mobile-30-chapter-2.jpg",
-   "shots/688/mobile-45-battle-bugking.jpg"
-  ],
-  "sha": "6f23104",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/41837149925"
- },
- {
   "at": "2026-11-04T14:04:30.638Z",
   "branch": "claude/autodev-lead-og-anime-cta",
   "task": "lead-og-anime-cta",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "c336392",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43522694995"
+ },
+ {
+  "at": "2026-11-14T00:02:02.929Z",
+  "branch": "claude/autodev-20261114-0821-R544",
+  "task": "R544 ミナモに着いた時、右の街灯がメニューのボタンと画面の右の縁の間にはさまって上が欠けていたので、北の交差点の角へ移した",
+  "summary": "ミナモに着いた時、右の街灯がメニューのボタンと画面の縁の間で欠けていた\n街灯を北の交差点の角へ移し、前と後のスクショで欠けが消えたのを見た\n着いた時の画面の左右の縁で切れる街灯が無いかを見るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/946/mobile-02-mode-select.jpg",
+   "shots/946/mobile-19-custom-og-credit-card.jpg",
+   "shots/946/mobile-34-chapter-1-play.jpg",
+   "shots/946/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f9f0366",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43530111198"
  }
 ]
