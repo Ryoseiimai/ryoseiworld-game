@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-05T10:25:26.281Z",
-  "branch": "claude/autodev-20261105-1841-R401",
-  "task": "R401 チャレンジの記録の窓を開くと、実績の知らせが見出し「初めての記録」に重なっていたので、窓を閉じるまで知らせを待たせた",
-  "summary": "チャレンジの記録の窓で、実績の知らせが見出しに重なっていた\n窓を開いている間は知らせを待たせ、閉じた後に出すようにした\n確かめを1つ足し、前と後のスクショで見出しが見えることを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/695/mobile-02-mode-select.jpg",
-   "shots/695/mobile-19-custom-og-credit-card.jpg",
-   "shots/695/mobile-34-chapter-1-play.jpg",
-   "shots/695/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d6fa075",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42008596349"
- },
- {
   "at": "2026-11-05T16:21:17.154Z",
   "branch": "claude/autodev-20261106-0042-R402",
   "task": "R402 エンディングの画面に、前の画面で出た実績の知らせが残り「THE END」に重なる",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ded182b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43540268251"
+ },
+ {
+  "at": "2026-11-14T03:51:32.155Z",
+  "branch": "claude/autodev-20261114-1221-R546",
+  "task": "R546 ボス戦の始めに、板がまだ薄いうちに「キックボードが浮かんだ」の字が家の上に出て読みにくかったので、板を濃くし、字を板の後から出した",
+  "summary": "ボス戦の始めの帯で、板が薄いうちに水色の字だけが家の上に出ていた\n板の濃さを0.74から0.88にし、字は板が4割出てから出すようにした\n字がはっきり読める0.86秒は前と同じ。前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/950/mobile-02-mode-select.jpg",
+   "shots/950/mobile-19-custom-og-credit-card.jpg",
+   "shots/950/mobile-34-chapter-1-play.jpg",
+   "shots/950/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e4b2683",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43552525394"
  }
 ]
