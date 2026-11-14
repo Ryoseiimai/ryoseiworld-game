@@ -2643,7 +2643,8 @@
     if (w.burst) {
       // R557: a line by the boss itself left the boss name twice in a row (the top band's name, then the same name on the line's
       // gold tag about 40px below). The top band already says who speaks, so the line drops its tag then; other speakers keep theirs.
-      var who = w.burst.speaker && w.burst.speaker !== w.def.name ? w.burst.speaker : null;
+      // While a word card (ソラ's name on its right) sits between the band and the line, the tag stays, or the line would read as ソラ's.
+      var who = w.burst.speaker && (w.burst.speaker !== w.def.name || S.wordCards.length) ? w.burst.speaker : null;
       y += drawPanelText(ctx, who, w.burst.text, y, burstAlpha(w.burst, w.t), burstPanelAlpha(w)) + 6;
     }
     if (w.toast) {

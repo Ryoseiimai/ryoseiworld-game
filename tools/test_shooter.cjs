@@ -851,7 +851,8 @@ async function browserAdapterChecks() {
    check('R553: ボスの台詞のときは札の右の名前はそのまま見える',other&&vOther==='',{other,vOther});
    R.prepareBossWords=keep;}
   // R557: a line by the boss itself does not repeat the boss name on its gold tag (the top band already shows it); ソラ's lines keep the tag.
-  {handle=R.Shooter.start({boss:'kateino',platform});await ready();let got=null;
+  {const keep0=R.prepareBossWords;R.prepareBossWords=()=>[];
+   handle=R.Shooter.start({boss:'kateino',platform});await ready();let got=null;
    for(let i=0;i<60&&!got;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='カテイノジジョウ'&&drawn.some(d=>d.text&&/しょうらい|将来/.test(d.text)))got=drawn.slice();}
    // The top band's name sits at y 29; the line panel starts under the field top (116). Far below, a sprite without art writes its name as a stand-in.
    const names=got?got.filter(d=>d.text==='カテイノジジョウ'):[];
@@ -859,7 +860,13 @@ async function browserAdapterChecks() {
    handle.stop();
    handle=R.Shooter.start({boss:'bugking',platform,lines:{intro:['ソラ','いっしょに なおそう！']}});await ready();let sora=null;
    for(let i=0;i<60&&!sora;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='ソラ'&&drawn.some(d=>d.text==='ソラ'))sora=true;}
-   check('R557: ソラの台詞の札には、ソラの名前がそのまま出る',!!sora);handle.stop();}
+   check('R557: ソラの台詞の札には、ソラの名前がそのまま出る',!!sora);handle.stop();R.prepareBossWords=keep0;
+   // With a word card (ソラ's name on its right) between the band and the line, the boss line keeps its tag so it does not read as ソラ's.
+   const keep=R.prepareBossWords;R.prepareBossWords=ids=>ids.slice(0,2).map(id=>({id,kind:'game',word:id,sora:'ビートに合わせて押してみて',speaker:'ソラ'}));
+   handle=R.Shooter.start({boss:'kateino',platform});await ready();let withCard=null;
+   for(let i=0;i<60&&!withCard;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line,c=doc.querySelector('.rs-word');if(l&&l.speaker==='カテイノジジョウ'&&c&&!c.hidden&&drawn.some(d=>d.text&&/しょうらい|将来/.test(d.text)))withCard=drawn.slice();}
+   check('R557: ことばの札が間にある時は、ボスの台詞にボスの名札が残る',!!withCard&&withCard.some(d=>d.text==='カテイノジジョウ'&&d.y>116&&d.y<116+400),withCard&&withCard.filter(d=>d.text==='カテイノジジョウ').map(d=>d.y));
+   handle.stop();R.prepareBossWords=keep;}
   R.prepareBossWords=ids=>{cards.push(ids.slice());return [];};
 }
 
