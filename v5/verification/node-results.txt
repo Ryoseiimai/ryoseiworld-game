@@ -96,6 +96,7 @@ R73: ノイズのとうの「うえへ」は下じきの上に出る PASS
 R302: 塔の「うえへ」「したへ」の札に、出口の札と同じく ↑ ↓ を付けた PASS
 R304: 塔の「↑ うえへ」の札を、出口の「↓ そとへ」と同じ黄色の札にした PASS
 R558: 出口の黄色い札の字と矢印を太字にした PASS
+R560: 木の看板（こうえん・ミナモ）の字を太字にして明るくした PASS
 R76: 2.5秒ほど歩くと「ドラッグで あるく」が消える PASS
 R520: 近くに相手がいない時の「話す」の地を、上の札と同じ濃い透ける地にした PASS
 R131: 歩き方を覚えた人（保存に残る）とレベル3以上の人には「ドラッグで あるく」を出さない PASS
@@ -103,6 +104,7 @@ R324: はなすボタンは、おとなでは「話す」「調べる」、こ�
 R77: 近くに誰もいない時、「はなす」ボタンが透けて下の人が見える PASS
 R78: タイトルの章の名前と「つづきから」の案内が、暗い帯の上に出る PASS
 R309: タイトルの「つづきから」の案内が短い行に分かれ、ボタンと同じ幅にならない PASS
+R559: タイトルの章の行と案内が、1枚の同じ幅の板になった PASS
 R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS
 R485: タイトルの英字の一行が上のボタンから20px以上離れている PASS
 R292: タイトルの主人公が木の上でなく、ボタンの上に見える歩道を走る PASS
@@ -437,5 +439,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 97ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 88ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
