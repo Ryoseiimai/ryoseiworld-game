@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-05T19:09:03.161Z",
-  "branch": "claude/autodev-20261106-0341-R403",
-  "task": "R403 おとなモードで、エンディングの上のメニューの見出しが「めにゅー」のまま",
-  "summary": "確かめ用のメニューの窓の見出しが、おとなモードでも「めにゅー」だった\nおとなモードでは「メニュー」、こどもモードでは「めにゅー」と出すようにした\n両方のモードで見出しを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/700/mobile-02-mode-select.jpg",
-   "shots/700/mobile-19-custom-og-credit-card.jpg",
-   "shots/700/mobile-34-chapter-1-play.jpg",
-   "shots/700/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d1fa651",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42089240560"
- },
- {
   "at": "2026-11-05T22:01:42.461Z",
   "branch": "claude/autodev-20261106-0641-R404",
   "task": "R404 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ce7780b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43558117345"
+ },
+ {
+  "at": "2026-11-14T06:23:27.901Z",
+  "branch": "claude/autodev-20261114-1421-R548",
+  "task": "R548 ミナモに着いた時、公園の木の頭が上の場所の札の上の縁から黒くのぞいていたので、その木だけ少し小さくした",
+  "summary": "ミナモに着いた時、公園の木の頭が画面の上の縁と場所の札の間にのぞいていた\n木の上は歩道、下は公園の看板で動かせないので、その木だけ130から104に小さくした\n前と後のスクショを v5/verification に置き、木の頭が出ないかのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/952/mobile-02-mode-select.jpg",
+   "shots/952/mobile-19-custom-og-credit-card.jpg",
+   "shots/952/mobile-34-chapter-1-play.jpg",
+   "shots/952/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bf26eab",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43565291829"
  }
 ]
