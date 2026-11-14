@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T12:45:12.616Z",
-  "branch": "claude/autodev-20261106-2121-R413",
-  "task": "R413 ネオンの札「順位 86」が何の順位か分からなかったので、アプリの言葉にそろえて「ランク 86位」とした（こどもは「ランク 86い」）",
-  "summary": "ネオンの札「順位 86」を「ランク 86位」にした（こどもは「ランク 86い」）\n「ランキング」は札が長く、ミオの体に重なったので短い「ランク」にした\n前と後のスクショを docs/shots/R413 に置いた。手元のテストは全部通った",
-  "result": "pass",
-  "shots": [
-   "shots/721/mobile-02-mode-select.jpg",
-   "shots/721/mobile-19-custom-og-credit-card.jpg",
-   "shots/721/mobile-34-chapter-1-play.jpg",
-   "shots/721/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c44ec0a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42218502108"
- },
- {
   "at": "2026-11-06T13:56:55.537Z",
   "branch": "claude/autodev-20261106-2223-R415",
   "task": "R415 武器の画面のバリアの説明「15秒で戻る」が、何が戻るのか分からず下の「戻る」ボタンとも紛れたので、「1回だけ攻撃を防ぐ。消えても15秒で張り直す」とした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "bd91fde",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43613844592"
+ },
+ {
+  "at": "2026-11-14T17:01:58.247Z",
+  "branch": "claude/autodev-20261115-0121-R560",
+  "task": "R560 公園とミナモの木の看板の字が細くて読みにくかったので、字を太字にして明るいクリーム色にした",
+  "summary": "公園とミナモの木の看板の字が細く、茶色の板の上で読みにくかった\n看板の字を太字にし、色を明るいクリーム色にした。前と後の画像を置いた\n看板の字が太字で明るい色かを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/972/mobile-02-mode-select.jpg",
+   "shots/972/mobile-19-custom-og-credit-card.jpg",
+   "shots/972/mobile-34-chapter-1-play.jpg",
+   "shots/972/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cef95f6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43617503535"
  }
 ]
