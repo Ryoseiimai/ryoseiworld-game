@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T00:56:16.296Z",
-  "branch": "claude/autodev-20261106-0941-R405",
-  "task": "R405 遊んで一番気になる所を1つ直す",
-  "summary": "記録の窓で、取った実績とまだの実績の見分けが付かなかった\n取った実績は「★」、まだの実績は「☆」と「（まだ）」で出すようにした\n印と「まだ」を確かめるテストを足し、前と後のスクショを docs/shots/R404 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/704/mobile-02-mode-select.jpg",
-   "shots/704/mobile-19-custom-og-credit-card.jpg",
-   "shots/704/mobile-34-chapter-1-play.jpg",
-   "shots/704/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "971c54d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42139016747"
- },
- {
   "at": "2026-11-06T01:17:58.509Z",
   "branch": "claude/autodev-20261106-0941-R405",
   "task": "R405 チャレンジ中に取った実績の知らせが、終わって開く記録の窓の見出しに重なっていたので、窓を開く時に知らせを引っ込め、閉じた後に出し直した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a62a715",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43571761958"
+ },
+ {
+  "at": "2026-11-14T08:40:07.256Z",
+  "branch": "claude/autodev-20261114-1721-R551",
+  "task": "R551 遊んで一番気になる所を1つ直す",
+  "summary": "タイトルの「AIを学ぶRPG」の板に、後ろの家の屋根とアンテナが透けていた\n板の地の濃さを .74 から .92 に上げ、テストで .9 以上を確かめるようにした\n前と後のスクショを v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/956/mobile-02-mode-select.jpg",
+   "shots/956/mobile-19-custom-og-credit-card.jpg",
+   "shots/956/mobile-34-chapter-1-play.jpg",
+   "shots/956/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bf844ce",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43576025835"
  }
 ]
