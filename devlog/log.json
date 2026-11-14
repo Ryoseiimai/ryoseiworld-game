@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T14:50:28.009Z",
-  "branch": "claude/autodev-20261106-2323-R416",
-  "task": "R416 おとなモードの章の終わりの札で、本文「くもの もんから…」だけがひらがなのまま",
-  "summary": "おとなモードの章の終わりの札の本文を、1章から3章まで漢字まじりにした\n例: 「雲の門から 光のエレベーターが 上っていく。」。こどもモードはひらがなのまま\n札の本文がおとなモードで漢字になるかの確認を tools/test_v5.cjs に足した",
-  "result": "pass",
-  "shots": [
-   "shots/723/mobile-02-mode-select.jpg",
-   "shots/723/mobile-19-custom-og-credit-card.jpg",
-   "shots/723/mobile-34-chapter-1-play.jpg",
-   "shots/723/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "53b2578",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42234675007"
- },
- {
   "at": "2026-11-06T15:04:48.262Z",
   "branch": "claude/autodev-20261106-2323-R416",
   "task": "R416 おとなモードの章の終わりの札で、本文「くもの もんから…」だけがひらがなのまま",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "5f8016a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43623009772"
+ },
+ {
+  "at": "2026-11-14T18:33:57.445Z",
+  "branch": "claude/autodev-20261115-0321-R562",
+  "task": "R562 遊んで一番気になる所を1つ直す",
+  "summary": "召喚の間、ソラの光の玉がナオスライムの頭の後ろから半分のぞいていた\n玉を呼んだ仲間の右に出し、少し小さくした。前と後の画像を置いた\n召喚の間に玉が仲間の右にあるかを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/974/mobile-02-mode-select.jpg",
+   "shots/974/mobile-19-custom-og-credit-card.jpg",
+   "shots/974/mobile-34-chapter-1-play.jpg",
+   "shots/974/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "946a3ec",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43626173800"
  }
 ]
