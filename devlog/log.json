@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T10:09:38.964Z",
-  "branch": "claude/autodev-20261106-1841-R410",
-  "task": "R410 おとなモードの章の終わりの札が「ネオンシティ へ」と、名前と「へ」の間が空いていたので、「ネオンシティへ」とつなげた",
-  "summary": "おとなモードの章の終わりの札を「ネオンシティへ」と、空けずに書くようにした\n3つの章の札の文を確かめるテストにした（こどもモードは「ネオンシティ へ」のまま）\n1章と2章の名前の「ちょう」は、おとなの目標の文でも使う町の名前なので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/717/mobile-02-mode-select.jpg",
-   "shots/717/mobile-19-custom-og-credit-card.jpg",
-   "shots/717/mobile-34-chapter-1-play.jpg",
-   "shots/717/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8befd19",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42198704592"
- },
- {
   "at": "2026-11-06T10:49:13.321Z",
   "branch": "claude/autodev-20261106-1921-R411",
   "task": "R411 おとなモードで店の窓の見出しが「コンビニ・よるの かわ」とひらがなのままだったので、「コンビニ・夜の川」とした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ce6ba1e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43602039812"
+ },
+ {
+  "at": "2026-11-14T14:54:31.669Z",
+  "branch": "claude/autodev-20261114-2321-R557",
+  "task": "R557 ボス戦で、上の見出しのボス名と、すぐ下のボスの台詞の名札に同じ名前が2つ並んでいたので、ボス本人の台詞では名札を出さないようにした",
+  "summary": "ボス戦で、見出しと台詞の札に同じボスの名前が2つ並んでいた\nボス本人の台詞では、札の名札を出さないようにした\nソラの台詞は名札を残すことをテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/967/mobile-02-mode-select.jpg",
+   "shots/967/mobile-19-custom-og-credit-card.jpg",
+   "shots/967/mobile-34-chapter-1-play.jpg",
+   "shots/967/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "be269b8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43606033012"
  }
 ]
