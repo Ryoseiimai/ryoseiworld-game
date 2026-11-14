@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T09:04:50.552Z",
-  "branch": "claude/autodev-20261106-1722-R409",
-  "task": "R409 おとなモードのタイトルの案内「おさらいも遊べるよ」が言い方として不自然だったので、「おさらいもできるよ」とした",
-  "summary": "タイトルの案内「おさらいも遊べるよ」を、おとなでは「おさらいもできるよ」にした\n3通りの案内の文をそれぞれ確かめるテストを足した\n最初の戦闘の案内を2行にする案は、1行が17字で枠に入らないのでやめた",
-  "result": "pass",
-  "shots": [
-   "shots/716/mobile-02-mode-select.jpg",
-   "shots/716/mobile-19-custom-og-credit-card.jpg",
-   "shots/716/mobile-34-chapter-1-play.jpg",
-   "shots/716/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5ee9901",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42190627737"
- },
- {
   "at": "2026-11-06T10:09:38.964Z",
   "branch": "claude/autodev-20261106-1841-R410",
   "task": "R410 おとなモードの章の終わりの札が「ネオンシティ へ」と、名前と「へ」の間が空いていたので、「ネオンシティへ」とつなげた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ba2223f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43596115277"
+ },
+ {
+  "at": "2026-11-14T14:08:22.855Z",
+  "branch": "claude/autodev-20261114-2221-R556",
+  "task": "R556 戦いの画面で、ことばの札の右の「ソラ」と敵の右下の「ソラ」が2つ並んで見えたので、ソラの名前札が出ている間は札の名前を隠した",
+  "summary": "戦いの画面で、札の右と敵の右下に「ソラ」が2つ並んでいた\nソラの名前札が出ている間は、札の右の名前を隠した\n窓が開いた時と呼び出し中は名前を出すことをテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/965/mobile-02-mode-select.jpg",
+   "shots/965/mobile-19-custom-og-credit-card.jpg",
+   "shots/965/mobile-34-chapter-1-play.jpg",
+   "shots/965/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ce6ba1e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43602039812"
  }
 ]
