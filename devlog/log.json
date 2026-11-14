@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T21:44:32.737Z",
-  "branch": "claude/autodev-20261107-0622-R422",
-  "task": "R422 カテイノジジョウ戦の上の帯「壁が固い ボスへのダメージ 半分」が3つの語の並びで読みにくかったので、おとなモードでは「壁が固く、ボスへのダメージは半分」とした",
-  "summary": "おとなモードのカテイノジジョウ戦の帯を「壁が固く、ボスへのダメージは半分」とした\n理由と結果が読点で区切られた一文になる確認を足し、ほかの戦いに出ない確認も広げた\n前と後のスクショを docs/shots/R422 に置いた。こどもモードは幅が足りず今までどおり",
-  "result": "pass",
-  "shots": [
-   "shots/735/mobile-02-mode-select.jpg",
-   "shots/735/mobile-19-custom-og-credit-card.jpg",
-   "shots/735/mobile-34-chapter-1-play.jpg",
-   "shots/735/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2900848",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42297277674"
- },
- {
   "at": "2026-11-06T22:47:29.454Z",
   "branch": "claude/autodev-20261107-0721-R423",
   "task": "R423 BUG KING の体力が半分の時の帯が「壊れかけている」と、敵に壊すと言っていたので、「焦りだした」とした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "9187390",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43649063136"
+ },
+ {
+  "at": "2026-11-14T23:44:32.913Z",
+  "branch": "claude/autodev-20261115-0820-R567",
+  "task": "R567 新しく始める人のタイトル画面で、押せない「続きから」が半分透けて字が薄かったので、透けない濃い地にした",
+  "summary": "R567: 新しく始める人のタイトルで、押せない「続きから」が半分透けて字が薄く見えていた\nそのボタンを透けない濃い地にし、字は薄い灰色で読めるようにした\n見た目を調べるテストを足し、前と後の画像を v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/988/mobile-02-mode-select.jpg",
+   "shots/988/mobile-19-custom-og-credit-card.jpg",
+   "shots/988/mobile-34-chapter-1-play.jpg",
+   "shots/988/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8ad1c22",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43653515813"
  }
 ]
