@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T20:54:23.017Z",
-  "branch": "claude/autodev-20261107-0521-R421",
-  "task": "R421 記録の窓で、取った実績の間に未達成の行が挟まり、取った物が「▼続き」の下に隠れていたので、取った実績を先に並べた",
-  "summary": "記録の窓で、取った実績（★）を先に、未達成（☆）を後に並べた\nそれぞれの中はデータの順のまま。ステージ5の行が BUG KING のすぐ下に来る確認を足した\n全章の見回りを通し、前と後のスクショを docs/shots/R421 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/734/mobile-02-mode-select.jpg",
-   "shots/734/mobile-19-custom-og-credit-card.jpg",
-   "shots/734/mobile-34-chapter-1-play.jpg",
-   "shots/734/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ab877db",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42290956031"
- },
- {
   "at": "2026-11-06T21:44:32.737Z",
   "branch": "claude/autodev-20261107-0622-R422",
   "task": "R422 カテイノジジョウ戦の上の帯「壁が固い ボスへのダメージ 半分」が3つの語の並びで読みにくかったので、おとなモードでは「壁が固く、ボスへのダメージは半分」とした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "abaef90",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43643994378"
+ },
+ {
+  "at": "2026-11-14T22:52:14.755Z",
+  "branch": "claude/autodev-20261115-0721-R566",
+  "task": "R566 縦長のスマホで、画面の下の帯に木や人の色が縦のすじになってにじんでいたので、帯を端の行の平均の1色でうめた",
+  "summary": "R566: 縦長のスマホで、画面の下の帯に木や人の色が縦のすじになって出ていた\n上と下の帯を、ゲーム画面の端の行の平均の1色でうめるようにした\n帯の描き方を調べるテストを足し、前と後の画像を置いた",
+  "result": "pass",
+  "shots": [
+   "shots/986/mobile-02-mode-select.jpg",
+   "shots/986/mobile-19-custom-og-credit-card.jpg",
+   "shots/986/mobile-34-chapter-1-play.jpg",
+   "shots/986/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9187390",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43649063136"
  }
 ]
