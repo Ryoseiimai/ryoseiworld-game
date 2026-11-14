@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T11:53:47.945Z",
-  "branch": "claude/autodev-20261106-2022-R412",
-  "task": "R412 きずなの画面の次のごほうびが「次は♥3で武器の力」で、武器がもらえると分かりにくかったので、「次は♥3で新しい武器」とした",
-  "summary": "きずなの画面の次のごほうびを「次は♥3で新しい武器」にした（こどもは「つぎ ♥3で あたらしい ぶき」）\n前の「武器の力」では、武器がもらえると分かりにくかった\n両方のモードで新しい言い方を確かめるテストを足し、前のテストの期待も合わせた",
-  "result": "pass",
-  "shots": [
-   "shots/719/mobile-02-mode-select.jpg",
-   "shots/719/mobile-19-custom-og-credit-card.jpg",
-   "shots/719/mobile-34-chapter-1-play.jpg",
-   "shots/719/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3bb19f8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42211899939"
- },
- {
   "at": "2026-11-06T12:05:32.725Z",
   "branch": "claude/autodev-20261106-2022-R412",
   "task": "R412 きずなの画面の次のごほうびが「次は♥3で武器の力」で、武器がもらえると分かりにくかったので、「次は♥3で新しい武器」とした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a1c7ed8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43606756718"
+ },
+ {
+  "at": "2026-11-14T16:03:37.458Z",
+  "branch": "claude/autodev-20261115-0021-R558",
+  "task": "R558 マップの黄色い出口の札（↓ 外へ・↑ 上へ）の字が細く薄くてスマホで読みにくかったので、字と矢印を太字にして色を濃くした",
+  "summary": "マップの出口の札の字が細く薄く、スマホで読みにくかった\n札の字と矢印を太字にし、字の色を濃くした\n前と後の画像を v5/verification の R558 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/970/mobile-02-mode-select.jpg",
+   "shots/970/mobile-19-custom-og-credit-card.jpg",
+   "shots/970/mobile-34-chapter-1-play.jpg",
+   "shots/970/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c2ed88b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43612401555"
  }
 ]
