@@ -577,7 +577,13 @@
     if (!w.introRise && s >= INTRO_RISE_T) { w.introRise = true; emit(w, 'rise'); sparks(w, p.x, p.y + 56, 18, '#8ff8ff', 220); }
     // R158: while a word card is up at the top (w.cardUp, set by the session), the opening line waits until the band in the middle
     // is gone, so no more than two text boxes are up at once. The hint behind it keeps its R86 length (introLate below).
-    if (!w.introSaid && s >= (w.cardUp ? INTRO_TEXT_END : 0.7)) { w.introSaid = true; w.introLate = Math.max(0, s - 0.7); burst(w, w.lines.intro[0], w.lines.intro[1], 2.0); }
+    if (!w.introSaid && s >= (w.cardUp ? INTRO_TEXT_END : 0.7)) {
+      w.introSaid = true; w.introLate = Math.max(0, s - 0.7); burst(w, w.lines.intro[0], w.lines.intro[1], 2.0);
+      // R549: a short opening line (ゼロ's 「……ザーッ」) began to fade before Sora's hint was queued at INTRO_END, so the panel
+      // went see-through over the tower for a moment and came back. The hint always follows it, so the panel is held from the start.
+      var iq = w.burstQ[w.burstQ.length - 1];
+      if (iq && iq.text === String(w.lines.intro[1]) && (w.hasOwl && w.lines.owlHint ? w.lines.owlHint : w.lines.hint)) iq.holdOut = true;
+    }
     if (s >= INTRO_END) {
       w.state = 'play'; w.stateT = 0; emit(w, 'start');
       var L = w.lines, hint = w.hasOwl && L.owlHint ? L.owlHint : L.hint;

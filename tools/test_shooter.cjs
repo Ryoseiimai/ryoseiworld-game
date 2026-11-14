@@ -1140,6 +1140,22 @@ async function browserAdapterChecks() {
   }
 })();
 
+// R549: ゼロ's short opening line began to fade before Sora's hint was queued, so the panel went see-through
+// between the two. In every fight with an opening hint, the panel stays dark from the opening line to the hint.
+(() => {
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let intro = null, hint = null, low = 1;
+    for (let i = 0; i < 60 * 6; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst;
+      if (b && !intro) intro = b;
+      if (b && intro && b !== intro) { hint = hint || b; if (b !== hint || w.t - b.t > 0.5) break; }
+      if (intro && w.t - intro.t > 0.3) low = Math.min(low, b ? sim.burstPanelAlpha(w) : 0);
+    }
+    if (!w.lines.hint) continue;
+    check('R549: ' + boss + ' 始めの台詞からソラのヒントまで、地は濃いまま', hint && low > 0.99, [hint && hint.speaker, low]);
+  }
+})();
+
 // R179: the first word card comes up on the first frame of play and stops the clock. The move hint was held at
 // about 6% (a ghost of 「ゆびを すべらせて うごく」 over the city) for the whole card. Now it is held full, and a hint
 // caught while fading out is let go instead of staying half see-through.
