@@ -1388,6 +1388,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(texts.length>=3,'one hint text for each mix of challenge and notebook');
   for(const t of texts)for(const line of t.split('\n'))assert([...line].length<=14,'each hint line is short ('+line+'), well inside the 480px buttons');}
  result.push('R309: タイトルの「つづきから」の案内が短い行に分かれ、ボタンと同じ幅にならない PASS');
+ // R559: with a save, the chapter line and the hint were two plates of different widths stacked with a gap; they now join as one plate.
+ {const w=html.match(/#title-actions\.with-hint>#title-caption,#title-actions\.with-hint>#title-hint\{width:(\d+)px;max-width:100%\}/);assert(w,'R559: both lines take one width when the hint shows');
+  const col=Number((html.match(/\.title-actions\{position:absolute;left:(\d+)px;/)||[])[1]);assert(Number(w[1])<540-2*col,'R559: the joined plate stays narrower than the buttons (R299)');
+  const gap=Number((html.match(/\.title-actions\.with-hint\{top:\d+px;bottom:auto;gap:(\d+)px\}/)||[])[1]);assert(new RegExp('#title-actions\\.with-hint>#title-hint\\{margin-top:-'+gap+'px;border-radius:0 0 10px 10px\\}').test(html),'R559: the hint sits right under the chapter line with no gap');
+  assert(/#title-actions\.with-hint>#title-caption\{border-radius:10px 10px 0 0\}/.test(html),'R559: the chapter line is the top of the plate');}
+ result.push('R559: タイトルの章の行と案内が、1枚の同じ幅の板になった PASS');
  // R79: the title moon sat on 「A LITTLE LIGHT」 (top 110px) on the right; it now hangs in the top left, clear of that line and of 「♪ タップで音楽」 (top right).
  {const m=html.match(/function drawTitle\(\)\{[^]*?ellipse\((\d+),(\d+),(\d+),(\d+),'#f6dda2'\)/);assert(m,'the title draws a moon');const [x,y,rx,ry]=m.slice(1).map(Number);
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
