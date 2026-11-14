@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T07:24:09.756Z",
-  "branch": "claude/autodev-20261106-1541-R408",
-  "task": "R408 記録の窓で実績「ゼロと作る」だけが現在形で、取った物か目標か分かりにくかったので、ほかとそろえて「ゼロと作った」にした",
-  "summary": "記録の窓で、実績「ゼロと作る」だけが現在形だった\nほかの実績とそろえて「ゼロと作った」にし、テストを足した\n前と後のスクショを docs/shots/R408 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/714/mobile-02-mode-select.jpg",
-   "shots/714/mobile-19-custom-og-credit-card.jpg",
-   "shots/714/mobile-34-chapter-1-play.jpg",
-   "shots/714/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "292a5c4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42179529458"
- },
- {
   "at": "2026-11-06T09:04:50.552Z",
   "branch": "claude/autodev-20261106-1722-R409",
   "task": "R409 おとなモードのタイトルの案内「おさらいも遊べるよ」が言い方として不自然だったので、「おさらいもできるよ」とした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e310586",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43595582398"
+ },
+ {
+  "at": "2026-11-14T12:59:45.404Z",
+  "branch": "claude/autodev-20261114-2121-R555",
+  "task": "R555 上の場所の名前の板が薄くなる時、後ろの塔や家の線が字の真後ろに見えて読みにくかったので、板の後ろをぼかした",
+  "summary": "上の場所の名前の板が薄い時、後ろの塔や家の線が字の真後ろに見えていた\n板が薄い間だけ、板の後ろの絵を4pxぼかし、建物は色だけ見えるようにした\nぼかしが上の板だけに付くことをテストで確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/964/mobile-02-mode-select.jpg",
+   "shots/964/mobile-19-custom-og-credit-card.jpg",
+   "shots/964/mobile-34-chapter-1-play.jpg",
+   "shots/964/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ba2223f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43596115277"
  }
 ]
