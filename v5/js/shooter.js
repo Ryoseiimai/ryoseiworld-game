@@ -99,7 +99,7 @@
   // Like the entrance band (R554), the words and tag now leave while the panel is still 85% up, then the panel fades alone.
   // With the normal 1/3 s fade the words go in the first 0.05 s; the panel then fades on its old timing.
   var BURST_WORDS_OUT_FROM = 0.85;
-  // R571: the way in had the same look. A phone caught ヒカクマオウ's opening line in its 1/6 s fade-in: grey words on a panel the
+  // R572: the way in had the same look. A phone caught ヒカクマオウ's opening line in its 1/6 s fade-in: grey words on a panel the
   // city showed through. Now the panel comes in first and the words only once it is 85% up (a line that takes over a held panel,
   // chainIn, keeps its own timing: its panel is already dark).
   function burstWordsAlpha(w) {

@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T01:15:46.398Z",
-  "branch": "claude/autodev-20261107-0922-R425",
-  "task": "R425 ネオンに着いた時、掃除機のノイズが画面の下で切れて「話す」ボタンの横に隠れ、矢印も → に変わったので、少し上を歩かせた",
-  "summary": "ネオンの掃除機のノイズを1.4マス上に動かし、着いた画面に全部見えるようにした\n下で切れている間に矢印が → を指していたのが、ずっと ↓ になった\n確認を足し、前と後のスクショを docs/shots/R425 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/740/mobile-02-mode-select.jpg",
-   "shots/740/mobile-19-custom-og-credit-card.jpg",
-   "shots/740/mobile-34-chapter-1-play.jpg",
-   "shots/740/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2323526",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42321348817"
- },
- {
   "at": "2026-11-07T01:47:00.355Z",
   "branch": "claude/autodev-20261107-1021-R426",
   "task": "R426 おとなモードでも、ボス戦の出だしの帯が「フクの ちからで キックボードが うかんだ！」とひらがなだったので、「フクの力で キックボードが浮かんだ！」とした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "c17cadf",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43668846061"
+ },
+ {
+  "at": "2026-11-15T03:58:51.681Z",
+  "branch": "claude/autodev-20261115-1221-R571",
+  "task": "R571 章の終わりの札の両はしに、後ろの薄い家の切れはしが緑と灰色の汚れのように残っていたので、札の画面では家を札の真後ろへ寄せた",
+  "summary": "R571: 章の終わりの札の両はしに、後ろの薄い家の切れはしが残っていた\n札の画面では家2つを札の真後ろへ寄せ、タイトルでは元の場所のままにした\n家が札の外にはみ出さないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/993/mobile-02-mode-select.jpg",
+   "shots/993/mobile-19-custom-og-credit-card.jpg",
+   "shots/993/mobile-34-chapter-1-play.jpg",
+   "shots/993/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "85f1eab",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43673673322"
  }
 ]

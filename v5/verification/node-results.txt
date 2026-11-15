@@ -387,6 +387,7 @@ R566: 縦長のスマホで画面の上下の帯を、端の行の平均の1色�
 R567: タイトルの押せない「続きから」を透けない濃い地にした PASS
 R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS
 R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞかない PASS
+R571: 章の終わりの札の両はしから、後ろの薄い家の切れはしがのぞかない PASS
 og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
 og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
 og-achievement: every row is earned on a save that satisfies its `when`, none on an empty save, and atLeast is a hard floor PASS
