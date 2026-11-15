@@ -3111,6 +3111,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const a=Number((html.match(/SORA_TAG_PLATE='rgba\(\d+,\d+,\d+,(\.?\d+)\)'/)||[])[1]);assert(a>=.7,'the plate is dark enough that the stripes do not show through ('+a+')');
   assert(/SORA_TAG_PLATE\);[^}]*?ctx\.fillStyle='#d8f5ef';ctx\.fillText\(n,x,y\)/.test(html),'the letters get their own colour back after the plate');}
  result.push('R584: 戦闘のソラの名前が濃い札の上に出て、後ろの縞が字にかからない PASS');
+ // R585: outside, the strip above the place card showed the roof and tree tops of the row above as loose bits; the top shade is solid there and eases back to the old shade just under the card's top.
+ {const m=html.match(/const shade=ctx\.createLinearGradient\(0,0,0,230\);shade\.addColorStop\(0,m\.outside\?'#173739':'#173739d9'\);if\(m\.outside\)\{const t=Number\.isFinite\(hudPanel\.t\)\?Math\.max\((\d+),Math\.min\((\d+),hudPanel\.t\)\):24;shade\.addColorStop\(\(t-(\d+)\)\/230,'#173739'\);shade\.addColorStop\(\(t\+(\d+)\)\/230,'#173739d9'\);\}shade\.addColorStop\(1,'#17373900'\);/);
+  assert(m,'outside, the top shade is solid down to just above the place card and then goes back to the old shade');
+  const lo=Number(m[1]),hi=Number(m[2]),a=Number(m[3]),b=Number(m[4]);
+  for(const pt of [0,4,24,60,100,400]){const t=Math.max(lo,Math.min(hi,pt)),s1=(t-a)/230,s2=(t+b)/230;assert(s1>=0&&s1<s2&&s2<1,'the shade stops stay in order inside 0..1 for a card top of '+pt+': '+s1+' '+s2);}
+  assert(a<=8&&b<=16,'the solid part ends at the card top and the old shade is back within 16px under it');}
+ result.push('R585: 屋外で、上の地名の札より上の細い帯に、屋根や木の切れはしが見えない PASS');
  // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
  {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
