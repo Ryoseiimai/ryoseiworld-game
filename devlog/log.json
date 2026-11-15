@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T06:51:01.802Z",
-  "branch": "claude/autodev-20261107-1521-R432",
-  "task": "R432 おとなモードのヒカクマオウ戦のソラのヒントが前半ひらがな・後半漢字で、何が弱るかも言わなかったので、「数字に当たると 攻撃力が下がる」と漢字の文にした",
-  "summary": "おとなモードのヒカクマオウ戦のヒントを、漢字の文に直した\nヒントで、数字に当たると攻撃力が下がると言うようにし、テストを足した\n確認役の挙げた記録の窓の数字の前の空白などは、小さいので次に回した",
-  "result": "pass",
-  "shots": [
-   "shots/754/mobile-02-mode-select.jpg",
-   "shots/754/mobile-19-custom-og-credit-card.jpg",
-   "shots/754/mobile-34-chapter-1-play.jpg",
-   "shots/754/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "18ab9f3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42347604531"
- },
- {
   "at": "2026-11-07T07:57:20.236Z",
   "branch": "claude/autodev-20261107-1621-R433",
   "task": "R433 ボス戦の最初のソラのひとことが「ビートに合わせて押してみて」で押すボタンを言わなかったので、「曲の刻みに合わせて「ビート」をたたこう」にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "ef97d42",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43697022940"
+ },
+ {
+  "at": "2026-11-15T09:49:01.459Z",
+  "branch": "claude/autodev-20261115-1821-R578",
+  "task": "R578 町で、ときどき横切るノイズの帯が、ほかの人の顔に重なって汚れに見えていたので、画面にいる人の顔の高さをよけるようにした",
+  "summary": "町のノイズの帯が、おまわりさんたちの顔の上を横切っていたのを直した\n画面にいる人の頭の高さを毎コマ測り、帯がそこをよけるようにした\n帯が人の顔をよけることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1004/mobile-02-mode-select.jpg",
+   "shots/1004/mobile-19-custom-og-credit-card.jpg",
+   "shots/1004/mobile-34-chapter-1-play.jpg",
+   "shots/1004/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "33c00f3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43699888407"
  }
 ]
