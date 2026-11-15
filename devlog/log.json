@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T09:46:21.233Z",
-  "branch": "claude/autodev-20261107-1822-R436",
-  "task": "R436 遊んで一番気になる所を1つ直す",
-  "summary": "おとなモードのチャレンジの記録で、数字の前の空きを取って行を揃えた\n「今回ステージ1」「最高コンボ48」などにし、こどもモードはそのまま\n前と後のスクショ（mobile-14）で揃ったことを確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/759/mobile-02-mode-select.jpg",
-   "shots/759/mobile-19-custom-og-credit-card.jpg",
-   "shots/759/mobile-34-chapter-1-play.jpg",
-   "shots/759/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1876c8d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42360123065"
- },
- {
   "at": "2026-11-07T10:04:56.056Z",
   "branch": "claude/autodev-20261107-1822-R436",
   "task": "R436 武器の画面の「持っていない武器は あと5つ。きずなが深まると増える。」が、持っていない武器が増えると読めたので、「持っていない武器が あと5つ。きずなが深まると もらえる。」にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "ee322f6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43706270391"
+ },
+ {
+  "at": "2026-11-15T11:56:31.474Z",
+  "branch": "claude/autodev-20261115-2021-R580",
+  "task": "R580 設定やメニューの窓を開くと、縦長のスマホで画面の下の帯だけがタイトルの明るい地面の色のまま残っていたので、帯にも窓と同じ暗い色をかぶせた",
+  "summary": "設定やメニューの窓を開くと、縦長のスマホで画面の下の帯が明るい黄緑のまま残っていた\n窓が開いている間は、上下の帯と横のぼかしにも窓と同じ暗い色をかぶせた\n色が窓と同じで、帯を描いた後にかぶせていることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1008/mobile-02-mode-select.jpg",
+   "shots/1008/mobile-19-custom-og-credit-card.jpg",
+   "shots/1008/mobile-34-chapter-1-play.jpg",
+   "shots/1008/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a8b8b2b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43710498828"
  }
 ]
