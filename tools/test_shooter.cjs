@@ -1589,7 +1589,7 @@ async function browserAdapterChecks() {
   check('R573: 帯の字は入ってくる時に半分の薄さで出ない', !bad && sawOn, bad);
 })();
 
-// R575: coming in, the band's dark plate never shows without its words (a phone caught an empty plate over the stone wall).
+// R576: coming in, the band's dark plate never shows without its words (a phone caught an empty plate over the stone wall).
 (() => {
   const I = sim.INTRO; let bad = null, sawOn = false;
   // from one 1/60 s frame after the band's start (the band is fully in within that first frame)
@@ -1599,7 +1599,7 @@ async function browserAdapterChecks() {
     if (p > 0.02 && wds < 1) bad = bad || [s, p, wds];
     if (p >= 0.999 && wds === 1) sawOn = true;
   }
-  check('R575: 帯の板は入ってくる時に字のない空の板で出ない', !bad && sawOn, bad);
+  check('R576: 帯の板は入ってくる時に字のない空の板で出ない', !bad && sawOn, bad);
   // in the game loop (1/60 s frames), the first frame with the band already shows plate and words together
   for (const boss of Object.keys(B)) {
     const w = sim.createWorld({ seed: 7, boss }); let empty = 0, g = 0;
@@ -1608,7 +1608,7 @@ async function browserAdapterChecks() {
       if (s <= I.linesT || s >= I.textEnd || (I.textEnd - s) * 6 < 1) continue; // going out keeps R554
       if (sim.introPlateAlpha(s) > 0.02 && sim.introWordsAlpha(s) === 0) empty++;
     }
-    check('R575: ' + boss + ' 始まりの帯に空の板のコマが無い', empty === 0, empty);
+    check('R576: ' + boss + ' 始まりの帯に空の板のコマが無い', empty === 0, empty);
   }
 })();
 
@@ -1623,6 +1623,14 @@ async function browserAdapterChecks() {
   check('R574: 地が出ている間、名前の札は半分の薄さで出ない', !bad && sawOn && sim.panelTagAlpha(0.2, 1) === 0 && sim.panelTagAlpha(1, 1) === 1, bad);
   // When the panel itself is fading (not held), the tag goes with the panel, never brighter than it.
   check('R574: 地が薄い時、札は地より濃くならない', sim.panelTagAlpha(0.9, 0.6) === 0.6 && sim.panelTagAlpha(0.3, 0.3) === 0);
+})();
+
+// R575: on a tall phone the bands above and below the boss stage are plain dark, not the blurred background picture.
+(() => {
+  const src = require('fs').readFileSync(shooterPath, 'utf8');
+  check('R575: 縦長のスマホでは、上下の帯にぼかした背景の絵を出さない',
+    /\.ryw-shooter\.rs-tall \.rs-backdrop\{background-image:none!important\}/.test(src) &&
+    /classList\.toggle\('rs-tall', ih \/ iw > H \/ W \+ \.02\)/.test(src));
 })();
 
 browserAdapterChecks().then(()=>{

@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-11-07T03:37:49.973Z",
-  "branch": "claude/autodev-20261107-1222-R428",
-  "task": "R428 ヒカクマオウ戦で、攻撃力が下がっていない時に「自分のペース」を拾っても「1段 戻った」と出ていたので、「攻撃力は下がっていない」と出すようにした",
-  "summary": "攻撃力が下がっていない時に「自分のペース」を拾うと「下がっていない」と出るようにした\n下がっている時は今までどおり「1段 戻った」と出る。テストを足し、箱に収まるのも確かめた\n前と後のスクショを docs/shots/R428 に置いた。全章の通しは自動確認に任せた",
-  "result": "pass",
-  "shots": [
-   "shots/747/mobile-02-mode-select.jpg",
-   "shots/747/mobile-19-custom-og-credit-card.jpg",
-   "shots/747/mobile-34-chapter-1-play.jpg",
-   "shots/747/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2a1a475",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42333986810"
- },
- {
-  "at": "2026-11-07T04:06:21.114Z",
-  "branch": "claude/autodev-20261107-1241-R429",
-  "task": "R429 ボス戦のノーツのひとことがスマホ幅で折り返し、2行目が「を押そう」だけになっていたので、「下の印が輪に来たら「ビート」を押そう」と短くした",
-  "summary": "ノーツのひとことを「下の印が輪に来たら「ビート」を押そう」と短くし、スマホ幅で1行に収めた\n1行に収まるかを見るテストを足した。手元のテストと全章の通しは通った\n前と後のスクショを docs/shots/R429 に置いた。ソラのヒントのひらがなは仕様どおりなので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/748/mobile-02-mode-select.jpg",
-   "shots/748/mobile-19-custom-og-credit-card.jpg",
-   "shots/748/mobile-34-chapter-1-play.jpg",
-   "shots/748/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a391877",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42336215517"
- },
- {
   "at": "2026-11-07T05:00:38.626Z",
   "branch": "claude/autodev-20261107-1321-R430",
   "task": "R430 チャレンジの初めての記録で今回と最高が同じ数を2回並べていたので、比べる記録が無い初回は今回と次の目標だけを出すようにした",
@@ -2968,5 +2938,30 @@
   ],
   "sha": "5d790d3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43681962639"
+ },
+ {
+  "at": "2026-11-15T07:01:05.549Z",
+  "branch": "claude/autodev-20261115-1521-R575",
+  "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
+  "summary": "縦長のスマホのカテイノジジョウ戦で、上の帯に夕焼けが赤茶色ににじんでいた\n縦長の画面の時だけ、上下の帯をぼかした絵でなく暗い1色にした\nR575 のテストと、前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/999/mobile-02-mode-select.jpg",
+   "shots/999/mobile-19-custom-og-credit-card.jpg",
+   "shots/999/mobile-34-chapter-1-play.jpg",
+   "shots/999/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cc0117c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687203348"
+ },
+ {
+  "at": "2026-11-15T07:02:17.718Z",
+  "branch": "claude/autodev-20261115-1541-R575",
+  "task": "R575 ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていたので、板と字を同じコマで出すようにした",
+  "summary": "R575: ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていた\n板と字を、薄い途中なしで同じコマに出すようにした\nR575 のテストと、前と後のスクショを足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "8321ae1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687985156"
  }
 ]

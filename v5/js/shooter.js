@@ -133,8 +133,8 @@
   // R482: the band faded in over 0.25 s and out over 0.33 s, so its two lines were fully readable for only 0.57 s
   // (a phone screenshot caught them half see-through). It now comes in over 1/8 s and leaves over 1/6 s: fully readable
   // from 0.825 s to 1.683 s, and the fade-out still ends by INTRO_TEXT_END, while the boss has barely started in (INTRO_BOSS_IN).
-  // (R575: it now comes in within one frame and reads fully from about 0.70 s; INTRO_WORDS_FROM below only matters for the old ramp.)
-  // R575: after R573 the plate was full from 40% of the way in but the words waited for 100%, so for about 0.075 s a phone
+  // (R576: it now comes in within one frame and reads fully from about 0.70 s; INTRO_WORDS_FROM below only matters for the old ramp.)
+  // R576: after R573 the plate was full from 40% of the way in but the words waited for 100%, so for about 0.075 s a phone
   // caught an empty dark plate in the middle of the stone wall (カテイノジジョウ). The band now comes in within one frame:
   // plate and words show up together at full strength, so there is neither an empty plate nor half-faded words. Going out is unchanged.
   var INTRO_BAND_IN = 1000, INTRO_BAND_OUT = 6;
@@ -149,7 +149,7 @@
   // Going out, the words leave while the band is still 85% up (in 1/40 s), then the plate fades on its old timing, so the
   // boss riding in still clears it. The words therefore always stand on a nearly full dark plate.
   var INTRO_WORDS_OUT_FROM = 0.85;
-  // R575: "going out" is when the fade-out has begun (with the instant way in, comparing the two ramps called the whole band "going out").
+  // R576: "going out" is when the fade-out has begun (with the instant way in, comparing the two ramps called the whole band "going out").
   function introLeaving(s) { return (INTRO_TEXT_END - s) * INTRO_BAND_OUT < 1; }
   function introPlateAlpha(s) { var b = introBandAlpha(s); return introLeaving(s) ? b : clamp(b / INTRO_WORDS_FROM, 0, 1); }
   // R573: coming in, the words still faded up over 0.075 s on the full plate, and a phone caught BUG KING's band there:
@@ -1566,6 +1566,9 @@
     if (styleDone) return; styleDone = true;
     var css = '.ryw-shooter{position:fixed;left:0;top:0;width:100vw;height:100vh;height:100dvh;z-index:2147483000;background:#050912;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;font-family:' + FONT + '}' +
       '.ryw-shooter .rs-backdrop{position:absolute;left:-60px;top:-60px;right:-60px;bottom:-60px;background:#050912 center/cover no-repeat;filter:blur(18px) brightness(.32)}' +
+      // R575: on a phone taller than the stage, the blurred picture filled the bands above and below it, so the カテイノジジョウ sunset
+      // showed as a red-brown smear over the dark boss plate. There the bands are the plain dark colour; wide screens keep the picture.
+      '.ryw-shooter.rs-tall .rs-backdrop{background-image:none!important}' +
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{box-sizing:border-box;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
@@ -1760,6 +1763,7 @@
     var de = document.documentElement || {}, iw = de.clientWidth || window.innerWidth || 540, ih = de.clientHeight || window.innerHeight || 960;
     var s = Math.min(iw / W, ih / H);
     S.scale = s;
+    if (S.root && S.root.classList) S.root.classList.toggle('rs-tall', ih / iw > H / W + .02);
     S.stage.style.transform = 'translate(' + ((iw - W * s) / 2) + 'px,' + ((ih - H * s) / 2) + 'px) scale(' + s + ')';
     layoutPlaytest(S);
     var rs = (window.devicePixelRatio || 1) * s > 1.2 ? 2 : 1;
