@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T10:58:43.228Z",
-  "branch": "claude/autodev-20261107-1921-R437",
-  "task": "R437 タイトルの案内「チャレンジやことばノートのおさらいもできるよ」が、チャレンジもおさらいするように読めたので、「チャレンジも、ことばノートのおさらいもできるよ」にした",
-  "summary": "タイトルの案内を「チャレンジも、ことばノートのおさらいもできるよ」に直した\n前はチャレンジもおさらいするように読めた。こどもモードも同じに直した\n前と後のスクショ（mobile-06）で確かめ、「チャレンジや」が出ないテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/761/mobile-02-mode-select.jpg",
-   "shots/761/mobile-19-custom-og-credit-card.jpg",
-   "shots/761/mobile-34-chapter-1-play.jpg",
-   "shots/761/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1f48ed9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42365222995"
- },
- {
   "at": "2026-11-07T11:55:53.095Z",
   "branch": "claude/autodev-20261107-2021-R438",
   "task": "R438 記録の実績「ゼロと作った」が、何を作ったのか言わず「ゼロから作った」とも読めたので、「ゼロと分かり合えた」にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "4a7da1d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43714417500"
+ },
+ {
+  "at": "2026-11-15T12:57:51.278Z",
+  "branch": "claude/autodev-20261115-2121-R581",
+  "task": "R581 遊んで一番気になる所を1つ直す",
+  "summary": "設定やメニューの窓を開くと、縦長のスマホで画面の下の帯が明るい黄緑のまま残っていた\n窓が開いている間は、上下の帯と横のぼかしにも窓と同じ暗い色をかぶせた\n色が窓と同じで、帯を描いた後にかぶせていることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1010/mobile-02-mode-select.jpg",
+   "shots/1010/mobile-19-custom-og-credit-card.jpg",
+   "shots/1010/mobile-34-chapter-1-play.jpg",
+   "shots/1010/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "24bd1ad",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43715188771"
  }
 ]
