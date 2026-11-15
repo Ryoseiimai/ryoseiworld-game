@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T08:55:28.684Z",
-  "branch": "claude/autodev-20261107-1721-R435",
-  "task": "R435 チャレンジの記録で「最高ステージ 12」と「次はステージ13」の空き方が行ごとに違っていたので、おとなモードでは数字の前の空きを取った",
-  "summary": "おとなモードのチャレンジの記録で、数字の前の空きを取って行を揃えた\n「今回ステージ1」「最高コンボ48」などにし、こどもモードはそのまま\n前と後のスクショ（mobile-14）で揃ったことを確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/757/mobile-02-mode-select.jpg",
-   "shots/757/mobile-19-custom-og-credit-card.jpg",
-   "shots/757/mobile-34-chapter-1-play.jpg",
-   "shots/757/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "09f37f6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42356695536"
- },
- {
   "at": "2026-11-07T09:46:21.233Z",
   "branch": "claude/autodev-20261107-1822-R436",
   "task": "R436 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "9e7aff7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43705177651"
+ },
+ {
+  "at": "2026-11-15T11:06:51.971Z",
+  "branch": "claude/autodev-20261115-1921-R579",
+  "task": "R579 ネオンシティで一歩左へ歩くと、掃除機のノイズの足が「調べる」ボタンに隠れていたので、歩く範囲を少し上へずらした",
+  "summary": "ネオンシティで掃除機のノイズの足が「調べる」ボタンに隠れていたのを直した\nノイズの歩く範囲を1タイル上へずらし、足がボタンの上に残るようにした\n一歩左へ歩いても足がボタンに入らないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1006/mobile-02-mode-select.jpg",
+   "shots/1006/mobile-19-custom-og-credit-card.jpg",
+   "shots/1006/mobile-34-chapter-1-play.jpg",
+   "shots/1006/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ee322f6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43706270391"
  }
 ]
