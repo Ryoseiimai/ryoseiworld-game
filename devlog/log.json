@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T06:36:21.326Z",
-  "branch": "claude/autodev-20261107-1521-R432",
-  "task": "R432 遊んで一番気になる所を1つ直す",
-  "summary": "確認用の CHAPTER 02 の札に、3章の終わりの文が出ていたのを直した\n2章の終わりの文を章のデータから出すようにし、テストを足した\n確認役の挙げた「4章の町で矢印が出ない」は、遊ぶ時は矢印が出るので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/751/mobile-02-mode-select.jpg",
-   "shots/751/mobile-19-custom-og-credit-card.jpg",
-   "shots/751/mobile-34-chapter-1-play.jpg",
-   "shots/751/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "55bdcf8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42346864079"
- },
- {
   "at": "2026-11-07T06:51:01.802Z",
   "branch": "claude/autodev-20261107-1521-R432",
   "task": "R432 おとなモードのヒカクマオウ戦のソラのヒントが前半ひらがな・後半漢字で、何が弱るかも言わなかったので、「数字に当たると 攻撃力が下がる」と漢字の文にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "245584b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43690222314"
+ },
+ {
+  "at": "2026-11-15T09:10:19.734Z",
+  "branch": "claude/autodev-20261115-1721-R577",
+  "task": "R577 町で、おまわりさんの横の灰色の守護霊が肩に重なって汚れに見えていたので、下へずれた守護霊を横へ離した",
+  "summary": "町で、おまわりさんの横の守護霊が肩に重なっていたので横へ離した\n頭の横から下へずれた守護霊だけを、最大14px外へ出すようにした\n画面の端で切れない確認は、実際に描く位置で行うようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1003/mobile-02-mode-select.jpg",
+   "shots/1003/mobile-19-custom-og-credit-card.jpg",
+   "shots/1003/mobile-34-chapter-1-play.jpg",
+   "shots/1003/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ef97d42",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43697022940"
  }
 ]
