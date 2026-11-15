@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T17:55:59.130Z",
-  "branch": "claude/autodev-20261108-0221-R442",
-  "task": "R442 きずなの画面のヒント「次は♥2でお礼」が何をもらえるか言わなかったので、「次は♥2でお礼のお金」とした",
-  "summary": "きずなの画面の友だちのヒントを「次は♥2でお礼のお金」にした\n直す前と後のスクショで、行が枠に収まるのを確かめた\n「4章の矢印」の件は、R385 で直っていたので手を付けなかった",
-  "result": "pass",
-  "shots": [
-   "shots/769/mobile-02-mode-select.jpg",
-   "shots/769/mobile-19-custom-og-credit-card.jpg",
-   "shots/769/mobile-34-chapter-1-play.jpg",
-   "shots/769/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ea395e4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42397580286"
- },
- {
   "at": "2026-11-07T19:04:42.023Z",
   "branch": "claude/autodev-20261108-0341-R443",
   "task": "R443 2章の終わりの札が「電車は光る町へ。」の後に「公園でみんな笑っていた。」と起きた順が逆だったので、公園の行を先にした",
@@ -2958,5 +2943,20 @@
   "shots": [],
   "sha": "40fdfd6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43735592516"
+ },
+ {
+  "at": "2026-11-15T16:49:26.179Z",
+  "branch": "claude/autodev-20261116-0041-R584",
+  "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
+  "summary": "確認役がクイズの窓の上に主人公の頭だけ出ていると挙げた\n窓の縁が主人公やソラを横切る間は、その絵を描かないようにした\n窓の位置で消えるかどうかを調べる確認を手元のテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1017/mobile-02-mode-select.jpg",
+   "shots/1017/mobile-19-custom-og-credit-card.jpg",
+   "shots/1017/mobile-34-chapter-1-play.jpg",
+   "shots/1017/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4c6d190",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43736571091"
  }
 ]
