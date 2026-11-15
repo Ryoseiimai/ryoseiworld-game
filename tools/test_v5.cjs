@@ -3570,6 +3570,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const c of e)assert(c[3]>0&&c[4]>0&&c[1]>=0&&c[1]+c[3]<=540&&c[2]>=598&&c[2]+c[4]<=952,'R581: a paving line leaves the sidewalk: '+JSON.stringify(c));
   r.click('ending-title');assert.equal(r.g.screen,'title');assert.equal(pave().length,0,'R581: back on the title the joints are gone');}
  result.push('R581: THE END などの札の後ろの歩道に、うすい敷石の目地を描き、画面の下の端には線を引かない PASS');
+ // R582: the word card keeps more side room than before (17px, not 14px), so its line does not start right at the frame; 17px is the most that still keeps a six-letter AI name and コンテキストウィンドウ on one line.
+ {const css=(html.match(/\.word-card\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R582: the word card states its padding: '+css);
+  assert(Number(m[2])>=17,'R582: the word card keeps at least 17px at its sides: '+css);}
+ result.push('R582: ことばカードの字が、左右の枠から前より離れている PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
