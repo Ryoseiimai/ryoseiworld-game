@@ -1602,6 +1602,14 @@ async function browserAdapterChecks() {
   check('R574: 地が薄い時、札は地より濃くならない', sim.panelTagAlpha(0.9, 0.6) === 0.6 && sim.panelTagAlpha(0.3, 0.3) === 0);
 })();
 
+// R575: on a tall phone the bands above and below the boss stage are plain dark, not the blurred background picture.
+(() => {
+  const src = require('fs').readFileSync(shooterPath, 'utf8');
+  check('R575: 縦長のスマホでは、上下の帯にぼかした背景の絵を出さない',
+    /\.ryw-shooter\.rs-tall \.rs-backdrop\{background-image:none!important\}/.test(src) &&
+    /classList\.toggle\('rs-tall', ih \/ iw > H \/ W \+ \.02\)/.test(src));
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

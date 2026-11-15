@@ -1561,6 +1561,9 @@
     if (styleDone) return; styleDone = true;
     var css = '.ryw-shooter{position:fixed;left:0;top:0;width:100vw;height:100vh;height:100dvh;z-index:2147483000;background:#050912;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;font-family:' + FONT + '}' +
       '.ryw-shooter .rs-backdrop{position:absolute;left:-60px;top:-60px;right:-60px;bottom:-60px;background:#050912 center/cover no-repeat;filter:blur(18px) brightness(.32)}' +
+      // R575: on a phone taller than the stage, the blurred picture filled the bands above and below it, so the カテイノジジョウ sunset
+      // showed as a red-brown smear over the dark boss plate. There the bands are the plain dark colour; wide screens keep the picture.
+      '.ryw-shooter.rs-tall .rs-backdrop{background-image:none!important}' +
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{box-sizing:border-box;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
@@ -1755,6 +1758,7 @@
     var de = document.documentElement || {}, iw = de.clientWidth || window.innerWidth || 540, ih = de.clientHeight || window.innerHeight || 960;
     var s = Math.min(iw / W, ih / H);
     S.scale = s;
+    if (S.root && S.root.classList) S.root.classList.toggle('rs-tall', ih / iw > H / W + .02);
     S.stage.style.transform = 'translate(' + ((iw - W * s) / 2) + 'px,' + ((ih - H * s) / 2) + 'px) scale(' + s + ')';
     layoutPlaytest(S);
     var rs = (window.devicePixelRatio || 1) * s > 1.2 ? 2 : 1;
