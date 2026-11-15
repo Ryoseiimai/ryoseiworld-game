@@ -3524,6 +3524,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/bctx\.drawImage\(canvas,0,H-6,W,6,0,bot,bw,bh-bot\)/.test(bd),'R566: the bottom rows are no longer stretched down the band');
   assert(/getImageData\(0,y,bw,1\)/.test(band)&&/fillRect\(0,y,bw,h\)/.test(band),'R566: the band is filled with the average of the edge row');}
  result.push('R566: 縦長のスマホで画面の上下の帯を、端の行の平均の1色でうめた PASS');
+ // R580: while a window is open, the backdrop (bands and side blur) gets the same dark cover as the stage, so the bands do not stay bright khaki.
+ {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],dim=(html.match(/const MODAL_DIM='(#[0-9a-f]{8})'/)||[])[1],css=(html.match(/\.modal\{[^}]*background:(#[0-9a-f]{8})/)||[])[1];
+  assert(dim&&dim===css,'R580: the backdrop cover is the same colour as the window cover '+dim+' '+css);
+  const i=bd.indexOf("if(!$('modal').hidden){bctx.fillStyle=MODAL_DIM;bctx.fillRect(0,0,bw,backdrop.height);}");
+  assert(i>bd.lastIndexOf('backdropBand(H-6,bot,bh-bot)')&&i>bd.lastIndexOf('bctx.drawImage(canvas,0,0,bw,backdrop.height)'),'R580: the cover goes on after the bands and the side blur are drawn');}
+ result.push('R580: 窓を開いている間、画面の上下の帯にも窓と同じ暗い色をかぶせた PASS');
  // R567: the greyed 「続きから」 on the title keeps a solid plate (no 45% opacity), so the ground does not show through its faint words.
  {const m=/#title-actions button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R567: greyed title buttons keep an opaque plate: '+(m&&m[1]));
   assert(html.indexOf(m[0])>html.indexOf('button:disabled{opacity:.45'),'R567: the title rule comes after the generic see-through rule');}
