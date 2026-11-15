@@ -4,7 +4,7 @@
     "id": "R588",
     "branch": "claude/autodev-20261116-0341-R588",
     "attempts": 1,
-    "conflicts": 0,
+    "conflicts": 1,
     "retriggers": 0,
     "started_at": "2026-11-16T03:41:53+09:00"
   },
@@ -307,7 +307,13 @@
       "id": "R587",
       "branch": "claude/autodev-20261116-0221-R587",
       "result": "pass",
-      "at": "2026-11-16T03:41:53+09:00"
+      "at": "2026-11-16T03:21:14+09:00"
+    },
+    {
+      "id": "R588",
+      "branch": "claude/autodev-20261116-0321-R588",
+      "result": "pass",
+      "at": "2026-11-16T04:20:00+09:00"
     }
   ],
   "blocked": []

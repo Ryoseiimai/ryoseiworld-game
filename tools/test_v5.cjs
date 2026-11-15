@@ -3118,6 +3118,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const pt of [0,4,24,60,100,400]){const t=Math.max(lo,Math.min(hi,pt)),s1=(t-a)/230,s2=(t+b)/230;assert(s1>=0&&s1<s2&&s2<1,'the shade stops stay in order inside 0..1 for a card top of '+pt+': '+s1+' '+s2);}
   assert(a<=8&&b<=16,'the solid part ends at the card top and the old shade is back within 16px under it');}
  result.push('R586: 屋外で、上の地名の札より上の細い帯に、屋根や木の切れはしが見えない PASS');
+ // R588: the battle waves ran straight through the enemy, so BUG KING was hard to pick out on its purple stripes. A soft patch of the ground colour now lies behind the enemy.
+ {assert(/ctx\.stroke\(\);\}ctx\.globalAlpha=1;battleHalo\(b,def\);const calm=/.test(html),'the patch is drawn after the waves and before the enemy');
+  const m=html.match(/function battleHalo\(b,def\)\{const ep=enemyPlace\(b,def\.boss\?260:190\),cx=(\d+),cy=ep\.bot-ep\.h\*\.5,rx=def\.boss\?(\d+):(\d+),ry=ep\.h\*\.5\+(\d+);/);
+  assert(m,'the patch is centred on the enemy (enemyPlace)');assert(Number(m[1])===270,'the patch has the enemy x (270)');
+  assert(Number(m[3])>=190/2+40&&Number(m[2])>=275/2+40,'the patch is wider than the enemy');
+  const core=Number((html.match(/const HALO_CORE=(\.?\d+)[,;]/)||[])[1]);assert(core>=.6&&core<1,'the patch hides most of the waves but not all ('+core+')');
+  assert(/const gr=ctx\.createRadialGradient\(0,0,rx\*HALO_SOLID,0,0,rx\),c=def\.color\[0\];gr\.addColorStop\(0,c\);gr\.addColorStop\(1,c\+'00'\)/.test(html),'the patch is solid in the middle and fades out to the edge in the ground colour');
+  const solid=Number((html.match(/HALO_SOLID=(\.?\d+);/)||[])[1]);assert(solid>0&&solid<.8,'the solid middle is part of the patch ('+solid+')');
+  const grounds=[];for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))for(const c of fs.readFileSync(path.join(root,'data',f),'utf8').matchAll(/\bcolor:\['([^']*)'/g))grounds.push(c[1]);
+  assert(grounds.length>=5,'enemy ground colours were found ('+grounds.length+')');for(const c of grounds)assert(/^#[0-9a-f]{6}$/i.test(c),'the ground colour is #rrggbb so +00 makes it see-through: '+c);}
+ result.push('R588: 戦闘で敵の後ろに地の色のぼかしが敷かれ、波の線が敵にかからない PASS');
  // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
  {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
