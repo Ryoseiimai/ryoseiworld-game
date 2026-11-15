@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T23:58:48.097Z",
-  "branch": "claude/autodev-20261108-0821-R447",
-  "task": "R447 戦闘のHPが「HP 060」と頭に0を付けて出て、町やステータスの「HP 60」と食い違っていたので、0を付けずに出すようにした",
-  "summary": "戦闘のHPが「HP 060」と出ていたのを、町やステータスと同じ「HP 60」にした\n頭に0が付かないことを見るテストを足し、手元の全テストとスクショ確認が通った\n確認役は他に、ボス戦の「ドラッグ」と「指を滑らせて」の言い方のゆれなどを挙げた",
-  "result": "pass",
-  "shots": [
-   "shots/778/mobile-02-mode-select.jpg",
-   "shots/778/mobile-19-custom-og-credit-card.jpg",
-   "shots/778/mobile-34-chapter-1-play.jpg",
-   "shots/778/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7f2a345",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42426617910"
- },
- {
   "at": "2026-11-08T00:49:50.264Z",
   "branch": "claude/autodev-20261108-0922-R448",
   "task": "R448 店の手持ちが「お小遣い 30円」と出て、ステータスや戦闘の勝ちの行の「お金 30円」と食い違っていたので、店も「お金」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "798c9ee",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43752091914"
+ },
+ {
+  "at": "2026-11-15T19:46:06.403Z",
+  "branch": "claude/autodev-20261116-0341-R588",
+  "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
+  "summary": "台詞を1コマで入れ替える枝が main と台帳でぶつかったので、両方の記録を残して直した\n同じ R588 の番号の枝が2本あったので、こちらを R589 に付け直した\ntools/test_shooter.cjs の609件と smoke_v5 が手元で通った",
+  "result": "pass",
+  "shots": [
+   "shots/1025/mobile-02-mode-select.jpg",
+   "shots/1025/mobile-19-custom-og-credit-card.jpg",
+   "shots/1025/mobile-34-chapter-1-play.jpg",
+   "shots/1025/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7abf31c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43753127205"
  }
 ]
