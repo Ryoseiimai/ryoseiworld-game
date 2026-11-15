@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T02:49:13.266Z",
-  "branch": "claude/autodev-20261108-1121-R450",
-  "task": "R450 設定のモードの切り替えが「モード: おとな」と半角のコロンで、今の値なのか押すと何になるのか分かりにくかったので、「今のモード：おとな」にした",
-  "summary": "設定のモードの切り替えを「モード: おとな」から「今のモード：おとな」にした\n確認役が「モード おとな」では押すと何になるか読み違えると挙げたので、今の値と分かる形にした\nこどもモードは「いまの モード：こども」。押すと切り替わるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/781/mobile-02-mode-select.jpg",
-   "shots/781/mobile-19-custom-og-credit-card.jpg",
-   "shots/781/mobile-34-chapter-1-play.jpg",
-   "shots/781/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1cf5b06",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42439157240"
- },
- {
   "at": "2026-11-08T04:03:25.727Z",
   "branch": "claude/autodev-20261108-1221-R451",
   "task": "R451 実績のお知らせが「実績: 」と半角のコロンで、設定の「今のモード：おとな」やクイズの「選んだ答え：」と食い違っていたので、「実績：」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "915d8a2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43760015204"
+ },
+ {
+  "at": "2026-11-15T22:19:59.212Z",
+  "branch": "claude/autodev-20261116-0641-R591",
+  "task": "R591 タイトルで説明の箱が左の家の屋根に重なっていたので、タイトルでだけ家を下げ、箱を少し上に寄せた",
+  "summary": "タイトルの説明の箱が左の家の屋根に重なっていたので、家を26px下げた\n箱の上の余白を12px詰め、箱の下の端が屋根より上に来るようにした\n前と後のスクショを v5/verification/R591_title_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1028/mobile-02-mode-select.jpg",
+   "shots/1028/mobile-19-custom-og-credit-card.jpg",
+   "shots/1028/mobile-34-chapter-1-play.jpg",
+   "shots/1028/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "178e29a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43767641897"
  }
 ]
