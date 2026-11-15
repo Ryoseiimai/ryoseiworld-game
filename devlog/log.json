@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T01:01:18.270Z",
-  "branch": "claude/autodev-20261107-0922-R425",
-  "task": "R425 ネオンに着いた時、掃除機のノイズが画面の下で切れて「話す」ボタンの横に隠れ、矢印も → に変わったので、少し上を歩かせた",
-  "summary": "ネオンの掃除機のノイズを1.4マス上に動かし、着いた画面に全部見えるようにした\n下で切れている間に矢印が → を指していたのが、ずっと ↓ になった\n確認を足し、前と後のスクショを docs/shots/R425 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/739/mobile-02-mode-select.jpg",
-   "shots/739/mobile-19-custom-og-credit-card.jpg",
-   "shots/739/mobile-34-chapter-1-play.jpg",
-   "shots/739/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5cb4f7e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42320377325"
- },
- {
   "at": "2026-11-07T01:15:46.398Z",
   "branch": "claude/autodev-20261107-0922-R425",
   "task": "R425 ネオンに着いた時、掃除機のノイズが画面の下で切れて「話す」ボタンの横に隠れ、矢印も → に変わったので、少し上を歩かせた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "f84bbd9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43661860952"
+ },
+ {
+  "at": "2026-11-15T02:52:04.931Z",
+  "branch": "claude/autodev-20261115-1121-R570",
+  "task": "R570 章の終わりの札の両はしから、後ろの木と街灯の切れはしが汚れのようにのぞいていたので、札の画面では木と街灯を描かないようにした",
+  "summary": "R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞいていた\n札の画面では木と街灯を描かず、タイトルだけで描くようにした\nR504 のテストを家の絵で確かめる形に直し、R570 のテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/991/mobile-02-mode-select.jpg",
+   "shots/991/mobile-19-custom-og-credit-card.jpg",
+   "shots/991/mobile-34-chapter-1-play.jpg",
+   "shots/991/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c17cadf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43668846061"
  }
 ]
