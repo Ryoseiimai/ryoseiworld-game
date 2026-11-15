@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T02:01:23.001Z",
-  "branch": "claude/autodev-20261107-1021-R426",
-  "task": "R426 おとなモードでも、ボス戦の出だしの帯が「フクの ちからで キックボードが うかんだ！」とひらがなだったので、「フクの力で キックボードが浮かんだ！」とした",
-  "summary": "おとなモードのボス戦の出だしの帯を、漢字まじりの「フクの力で／キックボードが浮かんだ！」にした\nこどもモードは今のひらがなのまま。確認を足し、前と後のスクショを docs/shots/R426 に置いた\n灰色の守護霊がノイズに見える件は R388 で判断待ちなので、今回は選ばなかった",
-  "result": "pass",
-  "shots": [
-   "shots/743/mobile-02-mode-select.jpg",
-   "shots/743/mobile-19-custom-og-credit-card.jpg",
-   "shots/743/mobile-34-chapter-1-play.jpg",
-   "shots/743/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2ca3ea2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42325449365"
- },
- {
   "at": "2026-11-07T02:43:55.783Z",
   "branch": "claude/autodev-20261107-1121-R427",
   "task": "R427 ヒカクマオウ戦のソラのヒントが、まだ画面に無い物を「とろう」と言っていたので、「みどりの「自分のペース」で もどる」と色と働きを言うようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "59e8a5d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43675391327"
+ },
+ {
+  "at": "2026-11-15T04:43:25.230Z",
+  "branch": "claude/autodev-20261115-1321-R573",
+  "task": "R573 ボス戦の始めの「キックボードが浮かんだ」の帯で、濃い板の上に薄い灰色の字が見えていたので、字を薄い途中なしで一度に出すようにした",
+  "summary": "R573: ボス戦の始めの帯で、濃い板の上に薄い灰色の字が見えていた\n帯が出きってから、字を薄い途中なしで一度に出すようにした\nR573 のテストと、前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/995/mobile-02-mode-select.jpg",
+   "shots/995/mobile-19-custom-og-credit-card.jpg",
+   "shots/995/mobile-34-chapter-1-play.jpg",
+   "shots/995/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "98d174c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43676937767"
  }
 ]
