@@ -94,6 +94,18 @@
     if (bt >= burstFadeStart(o) && o.holdOut) a = 1;
     return a;
   }
+  // R569: the last line of a run (no next line, so the panel is not held) faded panel, words and the gold name tag together.
+  // On a phone it was caught half-way: grey words, a dark lump where the ソラ tag was, and the city lines through the panel.
+  // Like the entrance band (R554), the words and tag now leave while the panel is still 85% up, then the panel fades alone.
+  // With the normal 1/3 s fade the words go in the first 0.05 s; the panel then fades on its old timing.
+  var BURST_WORDS_OUT_FROM = 0.85;
+  function burstWordsAlpha(w) {
+    var o = w.burst; if (!o) return 0;
+    var a = burstAlpha(o, w.t);
+    if (o.holdOut || w.t - o.t < burstFadeStart(o)) return a;
+    // min: a line cut short while still coming in (o.out, R154) or held dark by chainIn never jumps up here.
+    return Math.min(a, clamp((burstPanelAlpha(w) - BURST_WORDS_OUT_FROM) / (1 - BURST_WORDS_OUT_FROM), 0, 1));
+  }
   var HINT_IN = 0.25; // fade-in of the move hint
   function hintAlpha(t) { return clamp(Math.min(t / HINT_IN, (HINT_T - t) / HINT_OUT), 0, 1); }
   // R502: the 「ドラッグで動く」 plate sat over the lane the hero dodges in for the whole 4.5 s even after the player had moved.
@@ -1259,7 +1271,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha; SIM.BURST_SWAP_OUT = BURST_SWAP_OUT;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha; SIM.burstWordsAlpha = burstWordsAlpha; SIM.BURST_SWAP_OUT = BURST_SWAP_OUT;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2655,7 +2667,7 @@
       // gold tag about 40px below). The top band already says who speaks, so the line drops its tag then; other speakers keep theirs.
       // While a word card (ソラ's name on its right) sits between the band and the line, the tag stays, or the line would read as ソラ's.
       var who = w.burst.speaker && (w.burst.speaker !== w.def.name || S.wordCards.length) ? w.burst.speaker : null;
-      y += drawPanelText(ctx, who, w.burst.text, y, burstAlpha(w.burst, w.t), burstPanelAlpha(w)) + 6;
+      y += drawPanelText(ctx, who, w.burst.text, y, burstWordsAlpha(w), burstPanelAlpha(w)) + 6;
     }
     if (w.toast) {
       var tt = w.t - w.toast.t, ta = clamp(Math.min(tt * 6, (w.toast.dur - tt) * 3), 0, 1);

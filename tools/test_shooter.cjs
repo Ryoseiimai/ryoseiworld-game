@@ -1205,6 +1205,7 @@ async function browserAdapterChecks() {
   }
   const o = { t: 0, dur: 2, holdOut: true };
   check('R565: 次が待つ台詞は終わりの直前まで文字が濃い', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0);
+  // burstAlpha is the panel's timing; since R569 the words of such a line leave earlier (burstWordsAlpha, tested below).
   check('R565: 次が無い台詞はこれまでどおり1/3秒で消える', sim.burstAlpha({ t: 0, dur: 2, holdOut: false }, 1.85) < 0.5);
 })();
 
@@ -1514,6 +1515,41 @@ async function browserAdapterChecks() {
     }
     check('R554: ' + boss + ' は板が見えている間、板の右に離れている', rows > 0 && worst >= 0, [rows, worst]);
   }
+})();
+
+// R569: the last line (nothing queued after it) faded words, gold tag and panel together, so a phone caught grey words and a
+// dark lump of a tag on a see-through panel. Now the words leave while the panel is still 85% up, then the panel fades alone.
+(() => {
+  if (!sim.burstWordsAlpha) { check('R569: burstWordsAlpha がある', false); return; }
+  for (const boss of ['kateino', 'hikaku']) {
+    const w = world({ boss }); w.burst = null; w.burstQ = [];
+    sim.burst(w, 'ソラ', 'さいごの ヒント', 2.4); run(w, DT); const o = w.burst;
+    let thin = 0, seen = 0, panelLow = 1, wordsFull = 1;
+    while (w.burst === o) {
+      sim.step(w, DT, IDLE); if (w.burst !== o) break;
+      const pa = sim.burstPanelAlpha(w), wa = sim.burstWordsAlpha(w), bt = w.t - o.t;
+      if (bt > 0.3 && bt < o.dur - 0.4) wordsFull = Math.min(wordsFull, wa);
+      if (bt > o.dur / 2 && wa > 0.02) { seen++; panelLow = Math.min(panelLow, pa); if (pa < 0.85) thin++; }
+    }
+    check('R569: ' + boss + ' 最後の台詞は、文字が出ている間は地が85%より濃い', seen > 0 && thin === 0 && panelLow >= 0.85, [seen, thin, panelLow]);
+    check('R569: ' + boss + ' 最後の台詞も読む間は文字が濃い', wordsFull > 0.99, wordsFull);
+  }
+  // In every fight, the words of one line never jump up from one frame to the next once shown (o.out cuts, chainIn).
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let pb = null, pa = 0, jump = 0;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst, a = b ? sim.burstWordsAlpha(w) : 0;
+      if (b && b === pb && w.t - b.t > 0.2) jump = Math.max(jump, a - pa);
+      pa = a; pb = b;
+    }
+    check('R569: ' + boss + ' の台詞の文字は途中で急に濃くならない', jump <= 0.2, jump);
+  }
+  // A line cut short while coming in never shows its words brighter than its own fade allows.
+  { const o = { t: 0, dur: 0.3, out: 0.15, chainIn: true }; const w = { t: 0.16, burst: o };
+    check('R569: 短く切られた台詞の文字は burstAlpha より濃くならない', sim.burstWordsAlpha(w) <= sim.burstAlpha(o, 0.16) + 1e-9, [sim.burstWordsAlpha(w), sim.burstAlpha(o, 0.16)]); }
+  // A line handed over to the next keeps R565's timing: the words stay up until just before the swap.
+  { const o = { t: 0, dur: 2, holdOut: true }; const w = { t: 1.85, burst: o };
+    check('R569: 次が待つ台詞の文字は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 1.85) && sim.burstWordsAlpha(w) > 0.99); }
 })();
 
 browserAdapterChecks().then(()=>{
