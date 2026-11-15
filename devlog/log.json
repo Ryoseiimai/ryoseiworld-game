@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T04:06:21.114Z",
-  "branch": "claude/autodev-20261107-1241-R429",
-  "task": "R429 ボス戦のノーツのひとことがスマホ幅で折り返し、2行目が「を押そう」だけになっていたので、「下の印が輪に来たら「ビート」を押そう」と短くした",
-  "summary": "ノーツのひとことを「下の印が輪に来たら「ビート」を押そう」と短くし、スマホ幅で1行に収めた\n1行に収まるかを見るテストを足した。手元のテストと全章の通しは通った\n前と後のスクショを docs/shots/R429 に置いた。ソラのヒントのひらがなは仕様どおりなので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/748/mobile-02-mode-select.jpg",
-   "shots/748/mobile-19-custom-og-credit-card.jpg",
-   "shots/748/mobile-34-chapter-1-play.jpg",
-   "shots/748/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a391877",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42336215517"
- },
- {
   "at": "2026-11-07T05:00:38.626Z",
   "branch": "claude/autodev-20261107-1321-R430",
   "task": "R430 チャレンジの初めての記録で今回と最高が同じ数を2回並べていたので、比べる記録が無い初回は今回と次の目標だけを出すようにした",
@@ -2968,5 +2953,15 @@
   ],
   "sha": "cc0117c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687203348"
+ },
+ {
+  "at": "2026-11-15T07:02:17.718Z",
+  "branch": "claude/autodev-20261115-1541-R575",
+  "task": "R575 ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていたので、板と字を同じコマで出すようにした",
+  "summary": "R575: ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていた\n板と字を、薄い途中なしで同じコマに出すようにした\nR575 のテストと、前と後のスクショを足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "8321ae1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687985156"
  }
 ]
