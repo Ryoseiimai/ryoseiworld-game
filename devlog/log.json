@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T19:04:42.023Z",
-  "branch": "claude/autodev-20261108-0341-R443",
-  "task": "R443 2章の終わりの札が「電車は光る町へ。」の後に「公園でみんな笑っていた。」と起きた順が逆だったので、公園の行を先にした",
-  "summary": "2章の終わりの札の2行を、公園の行が先・電車の行が後になるよう入れ替えた\n起きた順になっているかを調べる確認を tools/test_v5.cjs に足した\n確認役の「きずなを漢字に」は、設計書でメニューの言葉と決まっているので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/770/mobile-02-mode-select.jpg",
-   "shots/770/mobile-19-custom-og-credit-card.jpg",
-   "shots/770/mobile-34-chapter-1-play.jpg",
-   "shots/770/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e0ce5d6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42403276086"
- },
- {
   "at": "2026-11-07T20:02:48.972Z",
   "branch": "claude/autodev-20261108-0421-R444",
   "task": "R444 1章のノイズの目標だけが「町のノイズを静めよう」で町の名前を言わなかったので、おとなモードでは「ヒダマリのノイズを静めよう」にした",
@@ -2958,5 +2943,15 @@
   ],
   "sha": "4c6d190",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43736571091"
+ },
+ {
+  "at": "2026-11-15T16:52:12.188Z",
+  "branch": "claude/autodev-20261116-0121-R585",
+  "task": "R585 町やネオンシティで、上の地名の札より上の細い帯に屋根や木の切れはしが見えていたので、その帯を濃い色でふさいだ",
+  "summary": "町とネオンで、地名の札より上の帯に屋根や木の切れはしが見えていた\n外のマップだけ、札の上の帯を濃い色でふさぎ、札の下で前の影に戻した\n影の段の順が画面の大きさで崩れないことを確かめるテストを足した",
+  "result": "conflict",
+  "shots": [],
+  "sha": "5a0126d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43737776900"
  }
 ]
