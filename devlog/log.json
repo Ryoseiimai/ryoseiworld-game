@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T20:53:49.569Z",
-  "branch": "claude/autodev-20261108-0521-R445",
-  "task": "R445 タイトルとメニューのボタン「記録 5/12」が何の数か分からず、チャレンジの記録とも混ざったので、「実績 5/12」にし、開く画面の見出しを「実績と記録」にした",
-  "summary": "タイトルとメニューの「記録 5/12」を「実績 5/12」にした（こどもは「じっせき」）\n開く画面は最高ステージも出すので、見出しを「実績と記録」にした\n確認役の残り（召喚獣と守護霊の呼び名、町と戦闘の操作案内の違い）は次の候補にした",
-  "result": "pass",
-  "shots": [
-   "shots/773/mobile-02-mode-select.jpg",
-   "shots/773/mobile-19-custom-og-credit-card.jpg",
-   "shots/773/mobile-34-chapter-1-play.jpg",
-   "shots/773/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ed73aea",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42412307409"
- },
- {
   "at": "2026-11-07T21:43:33.221Z",
   "branch": "claude/autodev-20261108-0621-R446",
   "task": "R446 遊んで一番気になる所を1つ直す",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "9c46d5b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43738386301"
+ },
+ {
+  "at": "2026-11-15T17:44:51.024Z",
+  "branch": "claude/autodev-20261116-0221-R587",
+  "task": "R587 ヒカクマオウ戦の始めに、字のない暗い枠だけが一瞬見えていたので、台詞の枠と字を同じコマで出すようにした",
+  "summary": "ヒカクマオウ戦の始めに、字のない暗い枠だけが一瞬見えていた\nボスの台詞の枠と字を、入場の帯と同じく1コマで一緒に出すようにした\n全部のボスで空の枠のコマが無いことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1020/mobile-02-mode-select.jpg",
+   "shots/1020/mobile-19-custom-og-credit-card.jpg",
+   "shots/1020/mobile-34-chapter-1-play.jpg",
+   "shots/1020/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5271c3a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43741676997"
  }
 ]
