@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T22:47:29.454Z",
-  "branch": "claude/autodev-20261107-0721-R423",
-  "task": "R423 BUG KING の体力が半分の時の帯が「壊れかけている」と、敵に壊すと言っていたので、「焦りだした」とした",
-  "summary": "BUG KING の体力半分の帯を「こわれかけている」から「あせりだした」に変えた\nボスの台詞に壊す・殺すの言葉が無い確認を、両モードの全ボスに足した\n前と後のスクショを docs/shots/R423 に置いた。SPEC_RPG.md の古い文は柵の外なので残した",
-  "result": "pass",
-  "shots": [
-   "shots/737/mobile-02-mode-select.jpg",
-   "shots/737/mobile-19-custom-og-credit-card.jpg",
-   "shots/737/mobile-34-chapter-1-play.jpg",
-   "shots/737/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2085dbb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42305902566"
- },
- {
   "at": "2026-11-06T23:57:42.899Z",
   "branch": "claude/autodev-20261107-0821-R424",
   "task": "R424 ボス戦のノーツのひとことが押すボタンを言わず、こどもモードの「おそう」は「襲う」とも読めたので、「ビート」を押す・おすと言うようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "8ad1c22",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43653515813"
+ },
+ {
+  "at": "2026-11-15T00:52:49.779Z",
+  "branch": "claude/autodev-20261115-0921-R568",
+  "task": "R568 戦いに勝った後、薄くなった敵の体に後ろの波の線が透けて汚れに見えていたので、敵の形を地の色で塗った影を下に敷いた",
+  "summary": "R568: 戦いに勝った後、薄くなった敵の体の上を後ろの波の線が通り、汚れに見えていた\n敵の形を戦いの地の色で塗った影を先に敷き、その上に薄い敵を描くようにした\nテストを足し、前と後の画像を v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/989/mobile-02-mode-select.jpg",
+   "shots/989/mobile-19-custom-og-credit-card.jpg",
+   "shots/989/mobile-34-chapter-1-play.jpg",
+   "shots/989/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9ca8001",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43659538235"
  }
 ]
