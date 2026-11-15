@@ -1,22 +1,22 @@
 {
   "branch": "claude/autodev-20261115-1541-R575",
-  "sha": "fe0b396f5b45669fb1fe71f01b04385bc3a6297d",
+  "sha": "245584b6511fe405ba8f796ef805d99f22a995e0",
   "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
+    "merge": "merge",
     "test_v5": "pass",
     "smoke": "pass"
   },
   "errors": [],
   "shots": [
-    "devlog/shots/1001/mobile-02-mode-select.jpg",
-    "devlog/shots/1001/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/1001/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/1001/mobile-50-battle-bugking.jpg"
+    "devlog/shots/1002/mobile-02-mode-select.jpg",
+    "devlog/shots/1002/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1002/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1002/mobile-50-battle-bugking.jpg"
   ],
-  "at": "2026-11-15T07:38:06.827Z",
-  "merged_sha": "fe0b396f5b45669fb1fe71f01b04385bc3a6297d",
-  "tested_base": "5bd517adee49c2afb9fc58fb5510e8eb99d33f4b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43689861475"
+  "at": "2026-11-15T07:53:00.646Z",
+  "merged_sha": "109bbb92481e8b5be1dde443ef115d275fc1c7e6",
+  "tested_base": "7b3d1e0bdbbad363554df5e743827a3da0270d41",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43690222314"
 }
