@@ -1589,6 +1589,29 @@ async function browserAdapterChecks() {
   check('R573: 帯の字は入ってくる時に半分の薄さで出ない', !bad && sawOn, bad);
 })();
 
+// R575: coming in, the band's dark plate never shows without its words (a phone caught an empty plate over the stone wall).
+(() => {
+  const I = sim.INTRO; let bad = null, sawOn = false;
+  // from one 1/60 s frame after the band's start (the band is fully in within that first frame)
+  for (let s = I.linesT + 1 / 60; s < I.textEnd; s += 0.0005) {
+    const wds = sim.introWordsAlpha(s), p = sim.introPlateAlpha(s);
+    if ((I.textEnd - s) * 6 < 1) break;
+    if (p > 0.02 && wds < 1) bad = bad || [s, p, wds];
+    if (p >= 0.999 && wds === 1) sawOn = true;
+  }
+  check('R575: 帯の板は入ってくる時に字のない空の板で出ない', !bad && sawOn, bad);
+  // in the game loop (1/60 s frames), the first frame with the band already shows plate and words together
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss }); let empty = 0, g = 0;
+    while (w.state === 'intro' && g++ < 1000) {
+      sim.step(w, DT, IDLE); const s = w.stateT;
+      if (s <= I.linesT || s >= I.textEnd || (I.textEnd - s) * 6 < 1) continue; // going out keeps R554
+      if (sim.introPlateAlpha(s) > 0.02 && sim.introWordsAlpha(s) === 0) empty++;
+    }
+    check('R575: ' + boss + ' 始まりの帯に空の板のコマが無い', empty === 0, empty);
+  }
+})();
+
 // R574: ソラ's gold name tag never shows half-faded (brown) while the hint's words fade in on a held, dark panel.
 (() => {
   let bad = null, sawOn = false;

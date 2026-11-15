@@ -133,7 +133,11 @@
   // R482: the band faded in over 0.25 s and out over 0.33 s, so its two lines were fully readable for only 0.57 s
   // (a phone screenshot caught them half see-through). It now comes in over 1/8 s and leaves over 1/6 s: fully readable
   // from 0.825 s to 1.683 s, and the fade-out still ends by INTRO_TEXT_END, while the boss has barely started in (INTRO_BOSS_IN).
-  var INTRO_BAND_IN = 8, INTRO_BAND_OUT = 6;
+  // (R575: it now comes in within one frame and reads fully from about 0.70 s; INTRO_WORDS_FROM below only matters for the old ramp.)
+  // R575: after R573 the plate was full from 40% of the way in but the words waited for 100%, so for about 0.075 s a phone
+  // caught an empty dark plate in the middle of the stone wall (カテイノジジョウ). The band now comes in within one frame:
+  // plate and words show up together at full strength, so there is neither an empty plate nor half-faded words. Going out is unchanged.
+  var INTRO_BAND_IN = 1000, INTRO_BAND_OUT = 6;
   function introBandAlpha(s) { return s <= INTRO_LINES_T || s >= INTRO_TEXT_END ? 0 : clamp(Math.min((s - INTRO_LINES_T) * INTRO_BAND_IN, (INTRO_TEXT_END - s) * INTRO_BAND_OUT), 0, 1); }
   // R546: on a phone the band was caught while coming in: its plate (0.74 at full) was still faint, so the light blue words
   // sat on the houses with almost nothing behind them. The plate is now 0.88 at full, and the words wait until the plate is
@@ -145,7 +149,8 @@
   // Going out, the words leave while the band is still 85% up (in 1/40 s), then the plate fades on its old timing, so the
   // boss riding in still clears it. The words therefore always stand on a nearly full dark plate.
   var INTRO_WORDS_OUT_FROM = 0.85;
-  function introLeaving(s) { return (INTRO_TEXT_END - s) * INTRO_BAND_OUT < (s - INTRO_LINES_T) * INTRO_BAND_IN; }
+  // R575: "going out" is when the fade-out has begun (with the instant way in, comparing the two ramps called the whole band "going out").
+  function introLeaving(s) { return (INTRO_TEXT_END - s) * INTRO_BAND_OUT < 1; }
   function introPlateAlpha(s) { var b = introBandAlpha(s); return introLeaving(s) ? b : clamp(b / INTRO_WORDS_FROM, 0, 1); }
   // R573: coming in, the words still faded up over 0.075 s on the full plate, and a phone caught BUG KING's band there:
   // half-strength grey words on the dark plate. Now the words come in at full strength once the band is fully in
