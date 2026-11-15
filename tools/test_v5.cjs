@@ -3097,7 +3097,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ride(),'R504: the title still shows the rider');
   r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('town',8,27);r.g.debugEvent([{chapterClear:true}]);assert.equal(r.g.screen,'ending');
-  assert(!ride(),'R504: no rider behind the chapter card');assert(r.imageLog.some(u=>String(u).includes('assets/props/')),'R504: the card screen still draws its street');}
+  assert(!ride(),'R504: no rider behind the chapter card');assert(r.imageLog.some(u=>String(u).includes('assets/buildings/')),'R504: the card screen still draws its street (the houses behind it; R570 leaves out the trees)');assert(!r.imageLog.some(u=>String(u).includes('assets/props/')),'R570: no tree or lamp slices beside the chapter card');}
  result.push('R504: 章の札の後ろをスクーターの主人公が通らない PASS');
  // R505: on a phone the ミナモ welcome board stood about 12 tiles above the town's spawn and its board was under the place box and goal line;
  // it now stands near the park sign so the whole board shows below them (on a 390x844 phone the HUD bottom is about 8.8 tiles above the hero's feet; the old board top was about 11.3 tiles up).
@@ -3511,6 +3511,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/eArt=def\.art\|\|'enemies'/.test(d)&&/ctx\.globalAlpha=seen;sprite\(def\.art\|\|'enemies',eFrame,270,eY,eW,ep\.h,enemyName\(def\)\);/.test(d),'R568: the enemy is drawn at the same spot and size as its backing');
   assert(/function sprite\(kind,index,x,y,w,h,name,flip,alt\)\{const f=alt\|\|\(flip\?mirrorFrame\(kind,index\):frameFor\(kind,index\)\);/.test(html),'R568: sprite can place another image on a frame');}
  result.push('R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS');
+ // R570: the chapter card and THE END card leave out the title's tree row and lamp, which only peeked out as slices at the card's edges.
+ {const r=await runtime();r.tick();const props=()=>{r.canvasCalls.length=0;r.tick(16);return r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('/props/')).length;};
+  assert(props()>=8,'R570: the title still draws its trees and lamp');
+  r.start();r.tick(1000);r.g.debugWarp('town',8,27);r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');
+  assert.equal(props(),0,'R570: no tree or lamp slices beside the ending card');
+  r.click('ending-title');assert.equal(r.g.screen,'title');assert(props()>=8,'R570: back on the title the trees come back');}
+ result.push('R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞかない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
