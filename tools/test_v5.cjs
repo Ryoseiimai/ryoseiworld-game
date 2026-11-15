@@ -3561,15 +3561,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.start();r.tick(1000);r.g.debugWarp('town',8,27);r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');
   const e=xs();assert(e.length>=2,'R571: the ending still draws the houses');for(const [a,b] of e)assert(a>=36&&b<=504,'R571: a house peeks past the card edge: '+JSON.stringify(e));}
  result.push('R571: 章の終わりの札の両はしから、後ろの薄い家の切れはしがのぞかない PASS');
- // R581: the chapter card and THE END card draw faint paving joints on the sidewalk behind them; the title keeps its plain sidewalk under the buttons.
+ // R581: the end cards (chapter card / THE END, both g.screen 'ending') and the epilogue draw faint paving joints on the sidewalk behind them; the title keeps its plain sidewalk under the buttons.
  {const r=await runtime();r.tick();const pave=()=>{r.canvasCalls.length=0;r.tick(16);return r.canvasCalls.filter(c=>c[0]==='paving');};
   assert.equal(pave().length,0,'R581: the title draws no paving joints under its buttons');
   r.start();r.tick(1000);r.g.debugWarp('town',8,27);r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');
   const e=pave();const rows=e.filter(c=>c[3]===540&&c[4]===2),cols=e.filter(c=>c[3]===2);
   assert(rows.length>=4&&cols.length>=20,'R581: the ending card has paving rows and joints behind it: '+rows.length+' / '+cols.length);
-  for(const c of e)assert(c[1]>=0&&c[1]+c[3]<=540&&c[2]>=598&&c[2]+c[4]<=960,'R581: a paving line leaves the sidewalk: '+JSON.stringify(c));
+  for(const c of e)assert(c[3]>0&&c[4]>0&&c[1]>=0&&c[1]+c[3]<=540&&c[2]>=598&&c[2]+c[4]<=952,'R581: a paving line leaves the sidewalk: '+JSON.stringify(c));
   r.click('ending-title');assert.equal(r.g.screen,'title');assert.equal(pave().length,0,'R581: back on the title the joints are gone');}
- result.push('R581: 章の終わりの札の後ろの歩道に、うすい敷石の目地を描いた PASS');
+ result.push('R581: THE END などの札の後ろの歩道に、うすい敷石の目地を描き、画面の下の端には線を引かない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
