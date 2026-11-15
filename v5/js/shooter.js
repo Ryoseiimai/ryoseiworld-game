@@ -71,9 +71,13 @@
   // This is shorter than BURST_MIN_OUT on purpose: the panel stays dark here, so only the words swap, like a page turning.
   // When the panel is held is still decided at burstFadeStart (o.out or BURST_OUT before the end), which is earlier than this.
   var BURST_SWAP_OUT = 0.1;
+  // R588: a phone still caught that swap: for about 0.25 s (0.1 s out, then the next line's 1/6 s in) the words were grey on the
+  // dark panel, and over the bright neon city of the ヒカクマオウ fight the boss's line could hardly be read. Like R576/R587, the
+  // words now turn over within one frame: a held line keeps its words full to its last frame, and the next one (chainIn) shows its
+  // words full from its first frame (burstInstantIn). BURST_SWAP_OUT is kept for the timing tests; it no longer dims the words.
   function burstAlpha(o, t) {
     var bt = t - o.t, out = o.out || BURST_OUT;
-    if (o.holdOut) out = Math.min(out, BURST_SWAP_OUT);
+    if (o.holdOut) return bt <= o.dur ? clamp(bt * 6, 0, 1) : 0; // the line is dropped once bt > dur (stepTexts)
     return clamp(Math.min(bt * 6, (o.dur - bt) / out), 0, 1);
   }
   // R523: when one line hands over straight to the next (boss line -> Sora's hint), the dark panel faded to nothing and came back
@@ -91,10 +95,10 @@
   // box at the top of the ヒカクマオウ fight (its opening line, 0.1 s in). Like the entrance band (R576), a line that does not
   // take over a held panel now comes in within one frame: panel and words show up together at full strength.
   // Going out is unchanged; a line cut short (o.out) still fades on its own timing.
-  function burstInstantIn(o, bt) { return !o.chainIn && bt >= 0 && bt < 1 / 6; }
+  function burstInstantIn(o, bt) { return bt >= 0 && bt < 1 / 6; }
   function burstOutAlpha(o, t) {
     var bt = t - o.t, out = o.out || BURST_OUT;
-    if (o.holdOut) out = Math.min(out, BURST_SWAP_OUT);
+    if (o.holdOut) return bt <= o.dur ? 1 : 0;
     return clamp((o.dur - bt) / out, 0, 1);
   }
   function burstPanelAlpha(w) {
@@ -112,7 +116,7 @@
   var BURST_WORDS_OUT_FROM = 0.85;
   // R572: the way in had the same look. A phone caught ヒカクマオウ's opening line in its 1/6 s fade-in: grey words on a panel the
   // city showed through. Now the panel comes in first and the words only once it is 85% up (a line that takes over a held panel,
-  // chainIn, keeps its own timing: its panel is already dark). R587: panel and words now come in together within one frame (burstInstantIn).
+  // chainIn, kept its own timing until R588, when its words also came in at once). R587: panel and words now come in together within one frame (burstInstantIn).
   function burstWordsAlpha(w) {
     var o = w.burst; if (!o) return 0;
     var a = burstAlpha(o, w.t), bt = w.t - o.t;

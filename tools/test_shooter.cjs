@@ -1110,7 +1110,8 @@ async function browserAdapterChecks() {
     for (let i = 0; i < 60 * 20; i++) {
       sim.step(w, DT, IDLE); const b = w.burst, a = b ? sim.burstAlpha(b, w.t) : null;
       if (b && b === pb) worst = Math.max(worst, pa - a);
-      if (pb && b !== pb && pa > 0.1 && !(b && b.urgent)) pop = Math.max(pop, pa);
+      // R588: a held line hands its full panel and words straight to the next line (chainIn) in one frame, like a page turning.
+      if (pb && b !== pb && pa > 0.1 && !(b && b.urgent) && !(b && b.chainIn && pb.holdOut)) pop = Math.max(pop, pa);
       pa = a; pb = b;
     }
     check('R154: ' + boss + ' の台詞は1コマで薄くならない', worst <= 0.2, worst);
@@ -1205,7 +1206,8 @@ async function browserAdapterChecks() {
     check('R565: ' + boss + ' 始めの台詞からヒントへ渡る間、空の地が長く残らない', empty < 0.16, Math.round(empty * 1000) / 1000);
   }
   const o = { t: 0, dur: 2, holdOut: true };
-  check('R565: 次が待つ台詞は終わりの直前まで文字が濃い', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 0);
+  // R588: the held line keeps its words through its last frame (bt == dur) and is dropped after it, so no empty box is drawn.
+  check('R565: 次が待つ台詞は終わりの直前まで文字が濃い', sim.burstAlpha(o, 1.85) > 0.99 && sim.burstAlpha(o, 2) === 1 && sim.burstAlpha(o, 2.01) === 0);
   // burstAlpha is the panel's timing; since R569 the words of such a line leave earlier (burstWordsAlpha, tested below).
   check('R565: 次が無い台詞はこれまでどおり1/3秒で消える', sim.burstAlpha({ t: 0, dur: 2, holdOut: false }, 1.85) < 0.5);
 })();
@@ -1575,7 +1577,8 @@ async function browserAdapterChecks() {
   { const o = { t: 0, dur: 2 }; const w = { t: 0.1, burst: o };
     check('R572/R587: 出始めの台詞は、地と文字が一緒に濃く出る', sim.burstPanelAlpha(w) === 1 && sim.burstWordsAlpha(w) === 1, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
   { const o = { t: 0, dur: 2, chainIn: true }; const w = { t: 0.1, burst: o };
-    check('R572: 前の地を引きつぐ台詞は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 0.1)); }
+    // R588: the line that takes over a held panel no longer fades its words in (grey words over the neon city); they are full at once.
+    check('R572/R588: 前の地を引きつぐ台詞も、出始めから字が濃い', sim.burstPanelAlpha(w) === 1 && sim.burstWordsAlpha(w) === 1, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
 })();
 
 // R587: a phone caught an empty dark box at the top of the ヒカクマオウ fight (its opening line coming in). A line that does not take
@@ -1657,6 +1660,28 @@ async function browserAdapterChecks() {
   check('R575: 縦長のスマホでは、上下の帯にぼかした背景の絵を出さない',
     /\.ryw-shooter\.rs-tall \.rs-backdrop\{background-image:none!important\}/.test(src) &&
     /classList\.toggle\('rs-tall', ih \/ iw > H \/ W \+ \.02\)/.test(src));
+})();
+
+// R588: a phone caught ヒカクマオウ's opening line in its hand-over to the hint: grey words on the panel over the bright neon city.
+// When one line hands the panel to the next, the words now turn over in one frame: never dim words on a held or taken-over panel.
+(() => {
+  let swapBosses = 0;
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let seen = 0, dim = 0, swaps = 0, prev = null;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst;
+      if (b && prev && b !== prev && b.chainIn) swaps++;
+      prev = b; if (!b || !(b.holdOut || b.chainIn)) continue;
+      if (!b.holdOut && w.t - b.t >= b.dur - (b.out || 1 / 3)) continue; // the last line going out keeps R569
+      const pa = sim.burstPanelAlpha(w), wa = sim.burstWordsAlpha(w);
+      if (pa > 0.02) { seen++; if (wa < 0.99) dim++; }
+    }
+    check('R588: ' + boss + ' 台詞が次へ渡る間、薄い字のコマが無い', dim === 0 && (seen === 0 || swaps > 0), [seen, dim, swaps]);
+    if (swaps > 0) swapBosses++;
+  }
+  check('R588: 台詞が渡るボス戦が3つ以上あり、上の確かめに中身がある', swapBosses >= 3, swapBosses);
+  const o = { t: 0, dur: 2, holdOut: true };
+  check('R588: 次が待つ台詞は最後のコマまで字が濃く、終わると消える', sim.burstWordsAlpha({ t: 2, burst: o }) === 1 && sim.burstAlpha(o, 2.01) === 0);
 })();
 
 browserAdapterChecks().then(()=>{
