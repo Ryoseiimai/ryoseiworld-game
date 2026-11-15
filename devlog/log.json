@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T14:47:07.046Z",
-  "branch": "claude/autodev-20261107-2321-R441",
-  "task": "R441 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\nどれも不具合と言い切れず、迷ったのでコードは変えなかった\n迷った点: 1章の記録「BUG KING を修理した」と2・3章の「静めた」をそろえるか",
-  "result": "pass",
-  "shots": [
-   "shots/765/mobile-02-mode-select.jpg",
-   "shots/765/mobile-19-custom-og-credit-card.jpg",
-   "shots/765/mobile-34-chapter-1-play.jpg",
-   "shots/765/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b235b67",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382111193"
- },
- {
   "at": "2026-11-07T14:59:07.795Z",
   "branch": "claude/autodev-20261107-2321-R441",
   "task": "R441 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "205fd04",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43720140744"
+ },
+ {
+  "at": "2026-11-15T14:47:34.503Z",
+  "branch": "claude/autodev-20261115-2321-R583",
+  "task": "R583 ボス戦のことばカードだけ字が枠の左はしに近いままだったので、ふつうの戦いのカードと同じ余白にした",
+  "summary": "ボス戦のことばカードの左右の余白が14ドットのままだった\n余白を17ドットにして、ふつうの戦いのカードとそろえた\n全65語の2つのモードで、カードの高さが変わらないことを測った",
+  "result": "pass",
+  "shots": [
+   "shots/1014/mobile-02-mode-select.jpg",
+   "shots/1014/mobile-19-custom-og-credit-card.jpg",
+   "shots/1014/mobile-34-chapter-1-play.jpg",
+   "shots/1014/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1249620",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43725237367"
  }
 ]
