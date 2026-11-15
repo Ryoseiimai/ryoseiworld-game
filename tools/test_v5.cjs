@@ -3574,6 +3574,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/\.word-card\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R582: the word card states its padding: '+css);
   assert(Number(m[2])>=17,'R582: the word card keeps at least 17px at its sides: '+css);}
  result.push('R582: ことばカードの字が、左右の枠から前より離れている PASS');
+ // R583: the boss word card (shooter.js .rs-word) kept 14px at its sides while the battle card got 17px in R582; it now keeps the same 17px (measured: no card in either mode, with a two- or six-letter AI name, changes its height).
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),css=(src.match(/\.ryw-shooter \.rs-word\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R583: the boss word card states its padding: '+css);
+  assert(Number(m[2])>=17,'R583: the boss word card keeps at least 17px at its sides: '+css);}
+ result.push('R583: ボス戦のことばカードの字も、左右の枠から前より離れている PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

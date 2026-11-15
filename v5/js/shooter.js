@@ -1590,7 +1590,8 @@
       '.ryw-shooter .rs-panel button.rs-primary{background:#f1cd7c;color:#213f42;border-color:#fff0c1;font-weight:700}' +
       '.ryw-shooter .rs-panel button:focus-visible{outline:4px solid #fff5d6;outline-offset:3px}' +
       '.ryw-shooter .rs-pause{position:absolute;inset:0;background:#0a1626d9;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff5d6}' +
-      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 14px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-word .rs-word-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.ryw-shooter .rs-word .rs-word-head span{display:inline}.ryw-shooter .rs-word .rs-word-who{flex:none;color:#f1cd7c;line-height:1.2}' +
+      // R583: like the battle word card (R582), the boss word card keeps 17px at its sides (was 14px); no card changes its lines at 17px.
+      '.ryw-shooter .rs-word{position:absolute;left:18px;right:18px;top:124px;padding:12px 17px;border:2px solid #e1d8ad;border-radius:12px;background:#10233a;color:#fff5d6;font-size:24px;line-height:1.3;text-align:left;word-break:keep-all;overflow-wrap:normal;z-index:2}.ryw-shooter .rs-word span{display:block}.ryw-shooter .rs-word .rs-word-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.ryw-shooter .rs-word .rs-word-head span{display:inline}.ryw-shooter .rs-word .rs-word-who{flex:none;color:#f1cd7c;line-height:1.2}' +
       '.ryw-shooter [hidden]{display:none!important}';
     var st = document.createElement('style');
     st.textContent = css;
