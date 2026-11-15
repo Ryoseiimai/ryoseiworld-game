@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T00:49:50.264Z",
-  "branch": "claude/autodev-20261108-0922-R448",
-  "task": "R448 店の手持ちが「お小遣い 30円」と出て、ステータスや戦闘の勝ちの行の「お金 30円」と食い違っていたので、店も「お金」にした",
-  "summary": "店の手持ちの「お小遣い 30円」を、ステータスと同じ「お金 30円」にした\nこどもモードは「おかね 30えん」にし、家族からのお小遣いの言い方は残した\n店のテストを新しい言い方に直し、手元の全テストとスクショ確認が通った",
-  "result": "pass",
-  "shots": [
-   "shots/779/mobile-02-mode-select.jpg",
-   "shots/779/mobile-19-custom-og-credit-card.jpg",
-   "shots/779/mobile-34-chapter-1-play.jpg",
-   "shots/779/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2d9a2ef",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42430811524"
- },
- {
   "at": "2026-11-08T01:57:18.280Z",
   "branch": "claude/autodev-20261108-1021-R449",
   "task": "R449 ボス戦の移動の案内が「指を滑らせて動く」で、町の「ドラッグで歩く」と同じ操作を別の言葉で言っていたので、ボス戦も「ドラッグで動く」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "7abf31c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43753127205"
+ },
+ {
+  "at": "2026-11-15T20:57:54.063Z",
+  "branch": "claude/autodev-20261116-0522-R590",
+  "task": "R590 道の真ん中の白い線が交差点の中まで続き、ミナモの下の道には線が無かったので、線を交差点で止め、どの横の道にも引くようにした",
+  "summary": "縦の道の白い線が交差点の中を通っていたので、交差点では引かないようにした\nミナモの下の横の道に線が無かったので、どの横の道にも線を引くようにした\n前と後のスクショを v5/verification/R590_road_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1026/mobile-02-mode-select.jpg",
+   "shots/1026/mobile-19-custom-og-credit-card.jpg",
+   "shots/1026/mobile-34-chapter-1-play.jpg",
+   "shots/1026/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7f8fdbe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43759940384"
  }
 ]
