@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T07:57:20.236Z",
-  "branch": "claude/autodev-20261107-1621-R433",
-  "task": "R433 ボス戦の最初のソラのひとことが「ビートに合わせて押してみて」で押すボタンを言わなかったので、「曲の刻みに合わせて「ビート」をたたこう」にした",
-  "summary": "ボス戦の最初のひとことを、押すボタン「ビート」を言う文に直した\n次のノーツのひとことと文末が重ならないよう「たたこう」で終えた\nこどもの文が SPEC_V8_RHYTHM.md の表と変わったので、表の直しは司令塔に任せる",
-  "result": "pass",
-  "shots": [
-   "shots/755/mobile-02-mode-select.jpg",
-   "shots/755/mobile-19-custom-og-credit-card.jpg",
-   "shots/755/mobile-34-chapter-1-play.jpg",
-   "shots/755/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9df0423",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42352731001"
- },
- {
   "at": "2026-11-07T08:55:28.684Z",
   "branch": "claude/autodev-20261107-1721-R435",
   "task": "R435 チャレンジの記録で「最高ステージ 12」と「次はステージ13」の空き方が行ごとに違っていたので、おとなモードでは数字の前の空きを取った",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "33c00f3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43699888407"
+ },
+ {
+  "at": "2026-11-15T10:50:57.044Z",
+  "branch": "claude/autodev-20261115-1921-R579",
+  "task": "R579 ネオンシティで一歩左へ歩くと、掃除機のノイズの足が「調べる」ボタンに隠れていたので、歩く範囲を少し上へずらした",
+  "summary": "ネオンシティで掃除機のノイズの足が「調べる」ボタンに隠れていたのを直した\nノイズの歩く範囲を1タイル上へずらし、足がボタンの上に残るようにした\n一歩左へ歩いても足がボタンに入らないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1005/mobile-02-mode-select.jpg",
+   "shots/1005/mobile-19-custom-og-credit-card.jpg",
+   "shots/1005/mobile-34-chapter-1-play.jpg",
+   "shots/1005/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9e7aff7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43705177651"
  }
 ]
