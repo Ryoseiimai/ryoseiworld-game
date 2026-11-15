@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T13:54:38.218Z",
-  "branch": "claude/autodev-20261107-2221-R440",
-  "task": "R440 2章のボスに話しかけると、名札は「カテイノジジョウ」なのに話す人が「しんぱいの かべ」だったので、名札と同じ名前にした",
-  "summary": "2章のボスの話す人の名前を「カテイノジジョウ」にそろえた\n道の「しんぱいの かべ」とボス戦の壁の文字はそのまま残した\n前と後のスクショで確かめ、名札と話す人が同じかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/764/mobile-02-mode-select.jpg",
-   "shots/764/mobile-19-custom-og-credit-card.jpg",
-   "shots/764/mobile-34-chapter-1-play.jpg",
-   "shots/764/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "cf9c544",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42378230140"
- },
- {
   "at": "2026-11-07T14:47:07.046Z",
   "branch": "claude/autodev-20261107-2321-R441",
   "task": "R441 遊んで一番気になる所を1つ直す",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "ff2340f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43719599143"
+ },
+ {
+  "at": "2026-11-15T13:54:32.265Z",
+  "branch": "claude/autodev-20261115-2221-R582",
+  "task": "R582 ことばカードの字が枠の左はしにくっついて見えていたので、カードの左右の余白を広げた",
+  "summary": "ことばカードの字が、枠の左はしから少ししか離れていなかった\nカードの左右の余白を14ドットから17ドットに広げた\n全65語と6字の名前で、カードの行の数が変わらないことを測った",
+  "result": "pass",
+  "shots": [
+   "shots/1013/mobile-02-mode-select.jpg",
+   "shots/1013/mobile-19-custom-og-credit-card.jpg",
+   "shots/1013/mobile-34-chapter-1-play.jpg",
+   "shots/1013/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "205fd04",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43720140744"
  }
 ]
