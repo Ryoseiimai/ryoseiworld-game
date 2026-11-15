@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T01:57:18.280Z",
-  "branch": "claude/autodev-20261108-1021-R449",
-  "task": "R449 ボス戦の移動の案内が「指を滑らせて動く」で、町の「ドラッグで歩く」と同じ操作を別の言葉で言っていたので、ボス戦も「ドラッグで動く」にした",
-  "summary": "ボス戦の移動の案内「指を滑らせて動く」を、町と同じ「ドラッグで動く」にした\nこどもモードも「ドラッグで うごく」にし、マウスでも合う言い方にした\n町とボス戦の言い方がそろうかのテストを足し、手元の全テストが通った",
-  "result": "pass",
-  "shots": [
-   "shots/780/mobile-02-mode-select.jpg",
-   "shots/780/mobile-19-custom-og-credit-card.jpg",
-   "shots/780/mobile-34-chapter-1-play.jpg",
-   "shots/780/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f86612a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42435459851"
- },
- {
   "at": "2026-11-08T02:49:13.266Z",
   "branch": "claude/autodev-20261108-1121-R450",
   "task": "R450 設定のモードの切り替えが「モード: おとな」と半角のコロンで、今の値なのか押すと何になるのか分かりにくかったので、「今のモード：おとな」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "7f8fdbe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43759940384"
+ },
+ {
+  "at": "2026-11-15T21:10:04.259Z",
+  "branch": "claude/autodev-20261116-0522-R590",
+  "task": "R590 道の真ん中の白い線が交差点の中まで続き、ミナモの下の道には線が無かったので、線を交差点で止め、どの横の道にも引くようにした",
+  "summary": "縦の道の白い線が交差点の中を通っていたので、交差点では引かないようにした\nミナモの下の横の道に線が無かったので、どの横の道にも線を引くようにした\n前と後のスクショを v5/verification/R590_road_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1027/mobile-02-mode-select.jpg",
+   "shots/1027/mobile-19-custom-og-credit-card.jpg",
+   "shots/1027/mobile-34-chapter-1-play.jpg",
+   "shots/1027/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "915d8a2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43760015204"
  }
 ]
