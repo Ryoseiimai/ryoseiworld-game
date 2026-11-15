@@ -3497,6 +3497,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const m=/#title-actions button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R567: greyed title buttons keep an opaque plate: '+(m&&m[1]));
   assert(html.indexOf(m[0])>html.indexOf('button:disabled{opacity:.45'),'R567: the title rule comes after the generic see-through rule');}
  result.push('R567: タイトルの押せない「続きから」を透けない濃い地にした PASS');
+ // R568: after a win a solid copy of the enemy's shape in the ground colour goes under the 40% enemy, so the wavy lines do not run across its body.
+ {const src=html.match(/const calmBackings=\{\};function calmBacking\([^\n]*/);assert(src,'R568: calmBacking is found');
+  const log=[],x={globalCompositeOperation:'source-over',fillStyle:'',drawImage(){log.push(['draw',x.globalCompositeOperation]);},fillRect(...a){log.push(['fill',x.globalCompositeOperation,x.fillStyle,...a]);}};
+  const doc={createElement:()=>({getContext:()=>x})},frames={'enemies:3':{img:'IMG',w:40,h:60}};
+  const cb=new Function('document','frameFor',src[0]+'\nreturn calmBacking;')(doc,(k,i)=>frames[k+':'+i]);
+  const a=cb('enemies',3,'#2a4b5c');assert(a&&a.w===40&&a.h===60,'R568: the backing keeps the frame size, so sprite places it on the enemy');
+  assert.deepEqual(log,[['draw','source-over'],['fill','source-in','#2a4b5c',0,0,40,60]],'R568: the shape is filled solid with the ground colour: '+JSON.stringify(log));
+  assert(x.globalCompositeOperation==='source-over','R568: blend mode is put back');
+  assert(cb('enemies',3,'#2a4b5c')===a&&log.length===2,'R568: the backing is made once and reused');assert(cb('enemies',9,'#000')===null,'R568: no frame, no backing');
+  const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
+  assert(/back=calm>0&&hide<1\?calmBacking\(eArt,eFrame,def\.color\[0\]\):null;if\(back\)\{ctx\.globalAlpha=1-hide;sprite\(eArt,eFrame,270,eY,eW,ep\.h,'',false,back\);ctx\.globalAlpha=1;\}ellipse\(270,ep\.bot-5,/.test(d),'R568: the backing goes down solid (only a summon hides it) under the shadow and the enemy, and only after the win');
+  assert(/eArt=def\.art\|\|'enemies'/.test(d)&&/ctx\.globalAlpha=seen;sprite\(def\.art\|\|'enemies',eFrame,270,eY,eW,ep\.h,enemyName\(def\)\);/.test(d),'R568: the enemy is drawn at the same spot and size as its backing');
+  assert(/function sprite\(kind,index,x,y,w,h,name,flip,alt\)\{const f=alt\|\|\(flip\?mirrorFrame\(kind,index\):frameFor\(kind,index\)\);/.test(html),'R568: sprite can place another image on a frame');}
+ result.push('R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
