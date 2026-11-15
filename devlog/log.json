@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T10:04:56.056Z",
-  "branch": "claude/autodev-20261107-1822-R436",
-  "task": "R436 武器の画面の「持っていない武器は あと5つ。きずなが深まると増える。」が、持っていない武器が増えると読めたので、「持っていない武器が あと5つ。きずなが深まると もらえる。」にした",
-  "summary": "武器の画面の「きずなが深まると増える」を「もらえる」に直した\n持っていない武器が増えると読めていた。こどもモードも同じに直した\n前と後のスクショ（mobile-12）で確かめ、「増える」が出ないテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/760/mobile-02-mode-select.jpg",
-   "shots/760/mobile-19-custom-og-credit-card.jpg",
-   "shots/760/mobile-34-chapter-1-play.jpg",
-   "shots/760/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "048a0ec",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42361451679"
- },
- {
   "at": "2026-11-07T10:58:43.228Z",
   "branch": "claude/autodev-20261107-1921-R437",
   "task": "R437 タイトルの案内「チャレンジやことばノートのおさらいもできるよ」が、チャレンジもおさらいするように読めたので、「チャレンジも、ことばノートのおさらいもできるよ」にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "a8b8b2b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43710498828"
+ },
+ {
+  "at": "2026-11-15T12:45:22.151Z",
+  "branch": "claude/autodev-20261115-2121-R581",
+  "task": "R581 遊んで一番気になる所を1つ直す",
+  "summary": "設定やメニューの窓を開くと、縦長のスマホで画面の下の帯が明るい黄緑のまま残っていた\n窓が開いている間は、上下の帯と横のぼかしにも窓と同じ暗い色をかぶせた\n色が窓と同じで、帯を描いた後にかぶせていることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1009/mobile-02-mode-select.jpg",
+   "shots/1009/mobile-19-custom-og-credit-card.jpg",
+   "shots/1009/mobile-34-chapter-1-play.jpg",
+   "shots/1009/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4a7da1d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43714417500"
  }
 ]
