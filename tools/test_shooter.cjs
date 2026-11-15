@@ -1589,6 +1589,19 @@ async function browserAdapterChecks() {
   check('R573: 帯の字は入ってくる時に半分の薄さで出ない', !bad && sawOn, bad);
 })();
 
+// R574: ソラ's gold name tag never shows half-faded (brown) while the hint's words fade in on a held, dark panel.
+(() => {
+  let bad = null, sawOn = false;
+  for (let a = 0; a <= 1.0001; a += 0.01) {
+    const v = sim.panelTagAlpha(Math.min(1, a), 1);
+    if (v > 0 && v < 1) bad = bad || [a, v];
+    if (v === 1) sawOn = true;
+  }
+  check('R574: 地が出ている間、名前の札は半分の薄さで出ない', !bad && sawOn && sim.panelTagAlpha(0.2, 1) === 0 && sim.panelTagAlpha(1, 1) === 1, bad);
+  // When the panel itself is fading (not held), the tag goes with the panel, never brighter than it.
+  check('R574: 地が薄い時、札は地より濃くならない', sim.panelTagAlpha(0.9, 0.6) === 0.6 && sim.panelTagAlpha(0.3, 0.3) === 0);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

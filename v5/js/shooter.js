@@ -1280,7 +1280,7 @@
 
   SIM.wordCardsFreezeStep = wordCardsFreezeStep;
   SIM.INTRO = { textEnd: INTRO_TEXT_END, riseT: INTRO_RISE_T, riseDur: INTRO_RISE_DUR, linesT: INTRO_LINES_T, bossIn: INTRO_BOSS_IN, end: INTRO_END, plateT: INTRO_PLATE_T, plateH: INTRO_PLATE_H, signY: NEON_SIGN_Y, heroH: P_DRAW_H, hintT: HINT_T, hintPlateT: HINT_PLATE_T, hintOut: HINT_OUT };
-  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha; SIM.burstWordsAlpha = burstWordsAlpha; SIM.BURST_SWAP_OUT = BURST_SWAP_OUT;
+  SIM.hintAlpha = hintAlpha; SIM.moveHintAlpha = moveHintAlpha; SIM.HINT_SEEN = HINT_SEEN; SIM.introBandAlpha = introBandAlpha; SIM.introWordsAlpha = introWordsAlpha; SIM.introPlateAlpha = introPlateAlpha; SIM.INTRO_PLATE_FILL = INTRO_PLATE_FILL; SIM.moveHintLines = moveHintLines; SIM.moveHintPlate = moveHintPlate; SIM.moveHintFill = moveHintFill; SIM.bandLabel = bandLabel; SIM.noticeText = noticeText; SIM.skillLabel = skillLabel; SIM.panelLabel = panelLabel; SIM.burstAlpha = burstAlpha; SIM.burstPanelAlpha = burstPanelAlpha; SIM.burstWordsAlpha = burstWordsAlpha; SIM.panelTagAlpha = panelTagAlpha; SIM.BURST_SWAP_OUT = BURST_SWAP_OUT;
   RYW.Shooter = { start: hasDOM ? start : function () { throw new Error('RYW.Shooter.start needs a browser'); }, version: '1', cooldownText: cooldownText, cooldownLabel: cooldownLabel, syncWeaponNames: syncWeaponNames, _sim: SIM };
   if (typeof module === 'object' && module && module.exports) module.exports = RYW.Shooter;
   if (!hasDOM) return;
@@ -2639,20 +2639,26 @@
   // (.rs-word, left/right 18px) starts at 18px: the two stacked boxes did not line up. The path is now at 19, so the outer edge
   // meets the card's at 18px. The text keeps its old x (32) so every line wraps at the same width as before.
   var PANEL_X0 = 19, PANEL_TX = 32;
+  // R574: when ソラ's hint takes over a held panel (chainIn), its words fade in over 1/6 s on the dark panel. The gold name tag faded
+  // with them, and a phone caught it half-way as a brown tag with pale letters (ヒカクマオウ). The tag now has no half-way look:
+  // it shows at the panel's strength once the words are half in, and not before.
+  function panelTagAlpha(wordsAlpha, panelAlpha) { return wordsAlpha >= 0.5 ? panelAlpha : 0; }
   function drawPanelText(ctx, speaker, text, y, alpha, panelAlpha) {
     var lh = 31, pad = 10, x0 = PANEL_X0, tx = PANEL_TX;
     ctx.font = '700 24px ' + FONT;
     var sw = speaker ? ctx.measureText(speaker).width + 14 : 0;
     var lines = wrapLines(ctx, text, W - 2 * tx, sw), hh = lines.length * lh + pad * 2;
-    ctx.globalAlpha = panelAlpha == null ? alpha : Math.max(alpha, panelAlpha);
+    var pa = panelAlpha == null ? alpha : Math.max(alpha, panelAlpha);
+    ctx.globalAlpha = pa;
     ctx.fillStyle = 'rgba(12,22,44,0.84)'; rr(ctx, x0, y, W - 2 * x0, hh, 12); ctx.fill();
     ctx.strokeStyle = 'rgba(225,216,173,0.75)'; ctx.lineWidth = 2; ctx.stroke();
-    ctx.globalAlpha = alpha;
     ctx.textAlign = 'left'; ctx.textBaseline = 'top';
     if (speaker) {
+      ctx.globalAlpha = panelTagAlpha(alpha, pa);
       ctx.fillStyle = '#f1cd7c'; rr(ctx, tx - 5, y + pad - 1, sw - 4, 30, 7); ctx.fill();
       ctx.fillStyle = '#1b2440'; ctx.fillText(speaker, tx, y + pad + 2);
     }
+    ctx.globalAlpha = alpha;
     ctx.fillStyle = '#fff5d6';
     lines.forEach(function (ln, i) { ctx.fillText(ln, i ? tx : tx + sw, y + pad + 2 + i * lh); });
     ctx.globalAlpha = 1;
