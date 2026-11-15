@@ -3101,6 +3101,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
   const top=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1])+Number(m[2]);assert(top>0&&top<=480,'the partner name sits above the HP card');}
  result.push('R276: 戦闘の光の玉の下にAIの相棒の名前が出る PASS');
+ // R585: the partner name had only an outline, so BUG KING's purple stripes ran through it. It now sits on a dark plate that stays on screen and above the HP card.
+ {const m=html.match(/function soraTag\(n\)\{[^]*?const tw=ctx\.measureText\(n\)\.width,x=Math\.min\(SORA_BATTLE_X,540-tw\/2-10\),y=SORA_BATTLE_Y\+(\d+);rect\(x-tw\/2-(\d+),y-(\d+),tw\+(\d+),(\d+),SORA_TAG_PLATE\)/);
+  assert(m,'the partner name is drawn on a plate (rect with SORA_TAG_PLATE) before its letters');
+  const y=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1])+Number(m[1]),pad=Number(m[2]),top=y-Number(m[3]),h=Number(m[5]);
+  assert(Number(m[4])===pad*2,'the plate has the same margin on both sides');assert(pad>=6,'the plate leaves at least 6px beside the letters');
+  assert(top<=y-24&&top+h>=y+4,'the plate covers the 24px letters from top to bottom');assert(top+h<=488-12,'the plate ends 12px or more above the HP card (top 488)');
+  assert(10>=pad,'the plate stays inside the right edge (x is clamped 10px from it)');
+  const a=Number((html.match(/SORA_TAG_PLATE='rgba\(\d+,\d+,\d+,(\.?\d+)\)'/)||[])[1]);assert(a>=.7,'the plate is dark enough that the stripes do not show through ('+a+')');
+  assert(/SORA_TAG_PLATE\);[^}]*?ctx\.fillStyle='#d8f5ef';ctx\.fillText\(n,x,y\)/.test(html),'the letters get their own colour back after the plate');}
+ result.push('R585: 戦闘のソラの名前が濃い札の上に出て、後ろの縞が字にかからない PASS');
  // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
  {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');
@@ -3578,17 +3588,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),css=(src.match(/\.ryw-shooter \.rs-word\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R583: the boss word card states its padding: '+css);
   assert(Number(m[2])>=17,'R583: the boss word card keeps at least 17px at its sides: '+css);}
  result.push('R583: ボス戦のことばカードの字も、左右の枠から前より離れている PASS');
- // R584: a window whose top or bottom edge crosses a battle figure (the hero y 340..486, Sora's light and name) hides that figure while it is open, so no cut-off head shows above the quiz 「正解！」 card.
- {const src=(html.match(/function modalEdges\(\)\{[^\n]*/)||[''])[0];assert(src.includes('function modalCuts(e,top,bot)'),'R584: modalEdges and modalCuts are found');
+ // R585: a window whose top or bottom edge crosses a battle figure (the hero y 340..486, Sora's light and name) hides that figure while it is open, so no cut-off head shows above the quiz 「正解！」 card.
+ {const src=(html.match(/function modalEdges\(\)\{[^\n]*/)||[''])[0];assert(src.includes('function modalCuts(e,top,bot)'),'R585: modalEdges and modalCuts are found');
   const mk=(hidden,pt,pb)=>{const modal={hidden,firstElementChild:{getBoundingClientRect:()=>({top:pt,bottom:pb,height:pb-pt})}};const f=new Function('$','stage','H',src+'\nreturn [modalEdges,modalCuts];')(()=>modal,{getBoundingClientRect:()=>({top:0,height:480})},960);return(t,b)=>f[1](f[0](),t,b);};
-  assert(mk(false,195,295)(340,486),'R584: a window starting at y 390 cuts the hero (340..486)');
-  assert(!mk(true,195,295)(340,486),'R584: with no window open the hero is drawn');
-  assert(!mk(false,100,400)(340,486),'R584: a window that covers the hero wholly does not count as a cut');
-  assert(!mk(false,250,400)(340,486),'R584: a window wholly below the hero leaves it drawn');
+  assert(mk(false,195,295)(340,486),'R585: a window starting at y 390 cuts the hero (340..486)');
+  assert(!mk(true,195,295)(340,486),'R585: with no window open the hero is drawn');
+  assert(!mk(false,100,400)(340,486),'R585: a window that covers the hero wholly does not count as a cut');
+  assert(!mk(false,250,400)(340,486),'R585: a window wholly below the hero leaves it drawn');
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
-  assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+6)){ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'R584: the hero and its shadow are skipped when cut');
-  assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+64))if(!b.cast)drawSora("),'R584: Sora is skipped when cut');}
- result.push('R584: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS');
+  assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+6)){ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'R585: the hero and its shadow are skipped when cut');
+  assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+64))if(!b.cast)drawSora("),'R585: Sora is skipped when cut');}
+ result.push('R585: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

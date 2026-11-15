@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T14:59:07.795Z",
-  "branch": "claude/autodev-20261107-2321-R441",
-  "task": "R441 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\nどれも不具合と言い切れず、迷ったのでコードは変えなかった\n迷った点: 1章の記録「BUG KING を修理した」と2・3章の「静めた」をそろえるか",
-  "result": "pass",
-  "shots": [
-   "shots/766/mobile-02-mode-select.jpg",
-   "shots/766/mobile-19-custom-og-credit-card.jpg",
-   "shots/766/mobile-34-chapter-1-play.jpg",
-   "shots/766/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "57b08b1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42382451680"
- },
- {
   "at": "2026-11-07T16:06:54.456Z",
   "branch": "claude/autodev-20261108-0022-R441",
   "task": "R441 記録の実績「守護霊が一緒に飛んだ」が何をすれば取れるか分からなかったので、条件どおり「ハート3になった」とした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "1249620",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43725237367"
+ },
+ {
+  "at": "2026-11-15T15:57:05.932Z",
+  "branch": "claude/autodev-20261116-0021-R584",
+  "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
+  "summary": "戦闘のソラの名前に、ボスの紫の縞が字にかかっていた\n名前の下に濃い札を敷き、字の色は前のままにした\n札がHPの欄にかからず、右の端からはみ出さないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1015/mobile-02-mode-select.jpg",
+   "shots/1015/mobile-19-custom-og-credit-card.jpg",
+   "shots/1015/mobile-34-chapter-1-play.jpg",
+   "shots/1015/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ca05dac",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43731739864"
  }
 ]

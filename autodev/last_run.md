@@ -5,4 +5,6 @@
 時刻: 2026-11-16 01:27
 迷った点: 鍵の枝 claude/ryw-lock への push はルーチンの決まりで止められるので、鍵なしで進めた
 直さなかった点: 背の高い「不正解」の窓では縁が敵の足を横切るが、敵は戦いの主役なので消さずに残した
-前と後のスクショ: v5/verification/R584_quiz-answer_before.png と R584_quiz-answer_after.png
+前と後のスクショ: v5/verification/R585_quiz-answer_before.png と R585_quiz-answer_after.png
+迷った点: 同じ時刻に別の回が R584 を作って合流していたので、こちらを R585 に付け替えた
+手元のテスト: R の確認は全部通ったが、終わりの共有の確認（outgame_tests/share.cjs）が main を取りこんだ後に落ちたので、自動確認に任せた
