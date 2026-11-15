@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T22:43:52.960Z",
-  "branch": "claude/autodev-20261108-0621-R446",
-  "task": "R446 実績「ハート3になった」が、ボス戦の体力のハート3つと食い違って見えたので、「きずなが♥3になった」にした",
-  "summary": "実績「ハート5になった」も「きずなが♥5になった」にして、♥3の行と形をそろえた\n前の回は ♥3 だけを変えたので、2つの行の形が同じかを見る確認に落ちていた\nその確認を「きずなが♥N」の形で見るように直し、「ハート」で始まる実績が無いことも確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/776/mobile-02-mode-select.jpg",
-   "shots/776/mobile-19-custom-og-credit-card.jpg",
-   "shots/776/mobile-34-chapter-1-play.jpg",
-   "shots/776/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "79674dd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42421224231"
- },
- {
   "at": "2026-11-07T23:58:48.097Z",
   "branch": "claude/autodev-20261108-0821-R447",
   "task": "R447 戦闘のHPが「HP 060」と頭に0を付けて出て、町やステータスの「HP 60」と食い違っていたので、0を付けずに出すようにした",
@@ -2948,5 +2933,20 @@
   "shots": [],
   "sha": "9fac6dd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43750000231"
+ },
+ {
+  "at": "2026-11-15T19:34:24.302Z",
+  "branch": "claude/autodev-20261116-0341-R588",
+  "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
+  "summary": "台詞を1コマで入れ替える枝が main と台帳でぶつかったので、両方の記録を残して直した\n同じ R588 の番号で2本の枝があったので、ROADMAP に2行とも残した\ntools/test_shooter.cjs は 609 件すべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1024/mobile-02-mode-select.jpg",
+   "shots/1024/mobile-19-custom-og-credit-card.jpg",
+   "shots/1024/mobile-34-chapter-1-play.jpg",
+   "shots/1024/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "798c9ee",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43752091914"
  }
 ]
