@@ -138,6 +138,7 @@
   // R546: on a phone the band was caught while coming in: its plate (0.74 at full) was still faint, so the light blue words
   // sat on the houses with almost nothing behind them. The plate is now 0.88 at full, and the words wait until the plate is
   // 40% in (and leave before it goes), so they never show without the dark plate behind them. Full strength stays the same span.
+  // (R573: the plate is still full from 40%, but the words now wait until the band is fully in; see introWordsAlpha.)
   var INTRO_PLATE_FILL = 0.88, INTRO_WORDS_FROM = 0.4;
   // R554: on a phone the band was caught going out: plate and words faded together, so half-faded grey words sat on a
   // half-see-through plate over the stone wall. Coming in, the plate is at full strength by the time the words start.
