@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T02:58:09.151Z",
-  "branch": "claude/autodev-20261107-1121-R427",
-  "task": "R427 ヒカクマオウ戦のソラのヒントが、まだ画面に無い物を「とろう」と言っていたので、「みどりの「自分のペース」で もどる」と色と働きを言うようにした",
-  "summary": "ヒカクマオウ戦の最初のソラのヒントを「すうじに あたると よわる。／みどりの「じぶんの ペース」で もどる」にした\n拾う物が出る前でも、緑の光を拾うと攻撃力が戻ると分かる。2行・30字までに収め、確認を足した\n前と後のスクショを docs/shots/R427 に置いた。一度も当たらずに拾っても「1だん もどった」と出る件は今回は直さない",
-  "result": "pass",
-  "shots": [
-   "shots/746/mobile-02-mode-select.jpg",
-   "shots/746/mobile-19-custom-og-credit-card.jpg",
-   "shots/746/mobile-34-chapter-1-play.jpg",
-   "shots/746/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a2cfde8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42330246073"
- },
- {
   "at": "2026-11-07T03:37:49.973Z",
   "branch": "claude/autodev-20261107-1222-R428",
   "task": "R428 ヒカクマオウ戦で、攻撃力が下がっていない時に「自分のペース」を拾っても「1段 戻った」と出ていたので、「攻撃力は下がっていない」と出すようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "7a0e38a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43677240803"
+ },
+ {
+  "at": "2026-11-15T05:50:09.351Z",
+  "branch": "claude/autodev-20261115-1421-R574",
+  "task": "R574 ボス戦でソラのヒントが出る一瞬、金色の名前札が茶色く薄く見えていたので、字が半分出てから札を地と同じ濃さで出すようにした",
+  "summary": "R574: ボス戦でソラのヒントが出る一瞬、名前札が茶色く薄く見えていた\n字が半分出てから、札を地と同じ濃さで出すようにした\nR574 のテストと、前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/998/mobile-02-mode-select.jpg",
+   "shots/998/mobile-19-custom-og-credit-card.jpg",
+   "shots/998/mobile-34-chapter-1-play.jpg",
+   "shots/998/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5d790d3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43681962639"
  }
 ]
