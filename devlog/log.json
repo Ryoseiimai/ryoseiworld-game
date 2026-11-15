@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T04:23:44.527Z",
-  "branch": "claude/autodev-20261108-1240-R451",
-  "task": "R451 実績のお知らせが「実績: 」と半角のコロンで、設定の「今のモード：おとな」やクイズの「選んだ答え：」と食い違っていたので、「実績：」にした",
-  "summary": "同じ R451 を、12:21 に始まった別の回が先に仕上げて main に合流していた\n今回の枝は同じ直しの重ねだったので、main の中身にそろえて何も足さないようにした\n迷った点: 12:40 に鍵を見た時は「返した」のままで、別の回が鍵を取らずに動いていた見込み",
-  "result": "pass",
-  "shots": [
-   "shots/783/mobile-02-mode-select.jpg",
-   "shots/783/mobile-19-custom-og-credit-card.jpg",
-   "shots/783/mobile-34-chapter-1-play.jpg",
-   "shots/783/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3873615",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42445638742"
- },
- {
   "at": "2026-11-08T05:51:14.464Z",
   "branch": "claude/autodev-20261108-1421-R452",
   "task": "R452 戦闘でサーチフクロウが弱みを見せた時の「検索・出どころ: 動き」「次: 」が半角のコロンで、実績や設定の「：」と食い違っていたので、全角の「：」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "a0acf37",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43772262971"
+ },
+ {
+  "at": "2026-11-15T23:28:29.625Z",
+  "branch": "claude/autodev-20261116-0721-R592",
+  "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
+  "summary": "ネオンシティの「ランク 86位」の札が、横のミオの札にも見えていた\n数字の人の札の下に、その人の頭を指す小さなしっぽを付けた\n前と後の拡大スクショを v5/verification/R592_neon_*.png に置いた",
+  "result": "fail",
+  "shots": [
+   "shots/1031/mobile-02-mode-select.jpg",
+   "shots/1031/mobile-19-custom-og-credit-card.jpg",
+   "shots/1031/mobile-34-chapter-1-play.jpg",
+   "shots/1031/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f0b3e50",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43772351121"
  }
 ]
