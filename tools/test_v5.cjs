@@ -2503,6 +2503,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);right=Math.max(right,p.x+28-r.g.camera.x);arrows.add((r.els.get('quest').textContent.match(/[←→↑↓]/)||[''])[0]);}
   assert(low<=960-40,'the vacuum feet stay well inside the bottom of the arrival view: '+low.toFixed(1));assert(right<540-22-142,'the vacuum never walks behind the talk button: '+right.toFixed(1));assert.deepEqual([...arrows],['↓'],'the arrow keeps pointing down at the vacuum: '+[...arrows]);}
  result.push('R425: ネオンに着いた時、掃除機のノイズが画面の下で切れず、矢印は下を指したまま PASS');
+ // R579: after a step left the camera moved with the hero, the vacuum stood right above the 調べる button and its feet sank into it (mobile-38).
+ // The button's top is about 856px down the 960px stage (390x844 phone), so the feet must stay above that line wherever the camera is sideways.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;r.g.debugWarp('neon',m.spawn[0]-2,m.spawn[1]);r.tick(16);
+  let low=-1e9;for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);}
+  assert(low<=856-6,'the vacuum feet stay above the talk button top: '+low.toFixed(1));
+  const nz3=m.enemies.find(e=>e.id==='nz3');for(const y of [nz3.y-1.5,nz3.y+1.5])assert.equal(m.tiles[Math.floor(y)][Math.floor(nz3.x)],'+','the vacuum swing stays on the sidewalk at y '+y);}
+ result.push('R579: ネオンで一歩左へ歩いても、掃除機のノイズの足が「調べる」ボタンに入らない PASS');
  // R185: ミナモの友だちの子（赤い帽子・黄色の服）が、ほかのゲームの主人公に似ないよう、新しい絵が届くまで帽子と服の色を変えて描く（RULES 4）。
  {const src=html.match(/const RECOLOR=[^\n]*\nfunction hueOf[^\n]*\nfunction fromHsl[^\n]*\n/);assert(src,'RECOLOR and the colour helpers are in index.html');
   const {RECOLOR,hueOf,fromHsl}=new Function(src[0]+'return {RECOLOR,hueOf,fromHsl};')();
