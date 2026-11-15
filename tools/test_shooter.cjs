@@ -1575,6 +1575,20 @@ async function browserAdapterChecks() {
     check('R572: 前の地を引きつぐ台詞は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 0.1)); }
 })();
 
+// R573: coming in, the band's words never show half-faded: they are off until the plate is full, then fully on.
+(() => {
+  const I = sim.INTRO; let bad = null, sawOn = false;
+  for (let s = I.linesT; s < I.textEnd; s += 0.0005) {
+    const b = sim.introBandAlpha(s), wds = sim.introWordsAlpha(s), p = sim.introPlateAlpha(s);
+    const leaving = (I.textEnd - s) * 6 < (s - I.linesT) * 8;
+    if (leaving) break;
+    if (wds > 0 && wds < 1) bad = bad || ['half', s, wds];
+    if (wds > 0 && p < 0.999) bad = bad || ['plate', s, p];
+    if (wds === 1) sawOn = true;
+  }
+  check('R573: 帯の字は入ってくる時に半分の薄さで出ない', !bad && sawOn, bad);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

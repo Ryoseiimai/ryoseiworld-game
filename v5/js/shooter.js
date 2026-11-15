@@ -146,9 +146,13 @@
   var INTRO_WORDS_OUT_FROM = 0.85;
   function introLeaving(s) { return (INTRO_TEXT_END - s) * INTRO_BAND_OUT < (s - INTRO_LINES_T) * INTRO_BAND_IN; }
   function introPlateAlpha(s) { var b = introBandAlpha(s); return introLeaving(s) ? b : clamp(b / INTRO_WORDS_FROM, 0, 1); }
+  // R573: coming in, the words still faded up over 0.075 s on the full plate, and a phone caught BUG KING's band there:
+  // half-strength grey words on the dark plate. Now the words come in at full strength once the band is fully in
+  // (the plate is already full from 40%). The span they read fully is unchanged. Going out keeps the R554 timing.
   function introWordsAlpha(s) {
-    var b = introBandAlpha(s), from = introLeaving(s) ? INTRO_WORDS_OUT_FROM : INTRO_WORDS_FROM;
-    return clamp((b - from) / (1 - from), 0, 1);
+    var b = introBandAlpha(s);
+    if (!introLeaving(s)) return b >= 1 ? 1 : 0;
+    return clamp((b - INTRO_WORDS_OUT_FROM) / (1 - INTRO_WORDS_OUT_FROM), 0, 1);
   }
   var FONT = "'Hiragino Maru Gothic ProN','Hiragino Sans','Noto Sans JP','Yu Gothic',system-ui,sans-serif";
 
