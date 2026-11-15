@@ -1591,7 +1591,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/\.title-copy \.genre-tag\{[^}]*\}/)||[''])[0];assert(/padding:0 32px/.test(css)&&/word-break:keep-all/.test(css),'the genre line keeps off the edges: '+css);
   assert(/<p class="genre-tag"[^>]*>遊びながらゲーム作りと<br>AIを学ぶRPG<\/p>/.test(html),'the genre line wraps after ゲーム作りと (R406: the static default is the adult line)');}
  // R527: the genre line sits on the houses behind the title, so it takes the caption's dark plate, sized to its letters and centred.
- {const css=(html.match(/#title-genre\{[^}]*\}/)||[''])[0];assert(/display:table/.test(css)&&/margin:10px auto 0/.test(css)&&Number((css.match(/background:rgba\(16,30,36,([\d.]+)\)/)||[])[1])>=.9,'R527/R550: the genre line has a dark plate the houses do not show through: '+css);}
+ {const css=(html.match(/#title-genre\{[^}]*\}/)||[''])[0];assert(/display:table/.test(css)&&/margin:-12px auto 0/.test(css)&&Number((css.match(/background:rgba\(16,30,36,([\d.]+)\)/)||[])[1])>=.9,'R527/R550: the genre line has a dark plate the houses do not show through: '+css);}
  {const m=html.match(/#stage:has\(#modal:not\(\[hidden\]\)\) #title-actions,#stage:has\(#modal:not\(\[hidden\]\)\) #title-hint\{visibility:hidden\}/);assert(m,'R551: the title buttons hide while a window (mode select) is open, so no band of 続きから peeks out under it');}
  result.push('R113: タイトルの「遊びながら …」の行が画面の端に着かず、ゲームづくりと の後で折り返す PASS');
  // R407: the settings and the end-screen menu open with an empty copy, and the empty <p> kept its margins, leaving a blank band under the heading. An empty copy is now hidden.
@@ -3147,6 +3147,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const grounds=[];for(const f of fs.readdirSync(path.join(root,'data')).filter(f=>f.endsWith('.js')))for(const c of fs.readFileSync(path.join(root,'data',f),'utf8').matchAll(/\bcolor:\['([^']*)'/g))grounds.push(c[1]);
   assert(grounds.length>=5,'enemy ground colours were found ('+grounds.length+')');for(const c of grounds)assert(/^#[0-9a-f]{6}$/i.test(c),'the ground colour is #rrggbb so +00 makes it see-through: '+c);}
  result.push('R588: 戦闘で敵の後ろに地の色のぼかしが敷かれ、波の線が敵にかからない PASS');
+ // R591: on the title the genre box (遊びながら…) sat over the left house's roof (mobile-01). The houses stand lower on the title only, and the box sits closer to the line above it.
+ {const drop=Number((html.match(/const TITLE_HOUSE_DROP=(\d+);/)||[])[1]);assert(drop>=20&&drop<=40,'R591: the title houses stand 20 to 40px lower ('+drop+')');
+  const body=(html.match(/function drawTitle\(\)\{[^\n]*/)||[''])[0];
+  assert(/sprite\('buildings',0,trees\?105:150,585\+\(trees\?TITLE_HOUSE_DROP:0\),/.test(body)&&/sprite\('buildings',1,trees\?425:390,588\+\(trees\?TITLE_HOUSE_DROP:0\),/.test(body),'R591: only the title (trees) moves the houses down; the chapter card keeps them');
+  const mt=Number((html.match(/#title-genre\{display:table;margin:(-?\d+)px auto 0;/)||[])[1]);assert(mt<=-8&&mt>=-16,'R591: the genre box pulls up 8 to 16px into the margin above ('+mt+')');}
+ result.push('R591: タイトルの説明の箱が家の屋根に重ならない PASS');
  // R291: the quiz answer box opened over a battle let the big HP digits show through its text; the modal box has no see-through background.
  {const bg=(html.match(/\.modal>\.panel\{[^}]*background:(#[0-9a-f]+)/)||[])[1];assert(bg&&(bg.length===4||bg.length===7),'R291: the modal box background is opaque: '+bg);}
  result.push('R291: 答え合わせの箱の後ろの字が透けない PASS');

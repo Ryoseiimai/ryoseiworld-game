@@ -333,6 +333,7 @@ R276: 戦闘の光の玉の下にAIの相棒の名前が出る PASS
 R585: 戦闘のソラの名前が濃い札の上に出て、後ろの縞が字にかからない PASS
 R586: 屋外で、上の地名の札より上の細い帯に、屋根や木の切れはしが見えない PASS
 R588: 戦闘で敵の後ろに地の色のぼかしが敷かれ、波の線が敵にかからない PASS
+R591: タイトルの説明の箱が家の屋根に重ならない PASS
 R291: 答え合わせの箱の後ろの字が透けない PASS
 R293: ネオンの着いた所で「ランク 86い」の札が人の上にある PASS
 R294: ミオの名札と「ランク 86い」の札が重ならない PASS
@@ -457,5 +458,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 93ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 83ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
