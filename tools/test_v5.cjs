@@ -2506,8 +2506,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R579: after a step left the camera moved with the hero, the vacuum stood right above the 調べる button and its feet sank into it (mobile-38).
  // The button's top is about 856px down the 960px stage (390x844 phone), so the feet must stay above that line wherever the camera is sideways.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;r.g.debugWarp('neon',m.spawn[0]-2,m.spawn[1]);r.tick(16);
-  let low=-1e9;for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);}
+  assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;r.g.debugWarp('neon',m.spawn[0]-1,m.spawn[1]);r.tick(16);
+  let low=-1e9,arrows=new Set();for(let i=0;i<300;i++){r.tick(50);const p=r.g.enemyPos('nz3');low=Math.max(low,p.y-r.g.camera.y);arrows.add((r.els.get('quest').textContent.match(/[←→↑↓]/)||[''])[0]);}
+  assert.deepEqual([...arrows],['↓'],'one step left, the arrow keeps pointing down at the vacuum: '+[...arrows]);
   assert(low<=856-6,'the vacuum feet stay above the talk button top: '+low.toFixed(1));
   const nz3=m.enemies.find(e=>e.id==='nz3');for(const y of [nz3.y-1.5,nz3.y+1.5])assert.equal(m.tiles[Math.floor(y)][Math.floor(nz3.x)],'+','the vacuum swing stays on the sidewalk at y '+y);}
  result.push('R579: ネオンで一歩左へ歩いても、掃除機のノイズの足が「調べる」ボタンに入らない PASS');

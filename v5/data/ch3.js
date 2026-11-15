@@ -56,8 +56,8 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // At x 7 it walks 5.5 to 8.5, outside the view from the station, so the arrow points ↓ at the vacuum in full view.
  // R425: at y 21 the vacuum swung down to y 22.5, its feet past the bottom of the arrival view right beside the 話す button, and while it was low
  // the quest arrow turned → to nz2 off screen (mobile-38). At y 19.6 it walks 18.1 to 21.1, feet 60px above the view bottom and left of the button (about 11px clear), so the arrow stays ↓.
- // R579: after a step left the camera follows the hero, the vacuum stands right above the 調べる button, and at y 19.6 its feet sank 20px into the button (mobile-38).
- // At y 18.5 it walks 17 to 20 (sidewalk rows only), feet about 10px above the button top.
+ // R579: after a step left the camera follows the hero, the vacuum stands right above the 調べる button, and at y 19.6 its feet sank into the button (mobile-38).
+ // At y 18.5 it walks 17 to 20 (sidewalk rows only), feet about 8px above the button top. (The R425 note above gives the old y 19.6 range.)
  enemies:[{id:'nz1',type:'popup',x:7,y:17.4,axis:'x'},{id:'nz2',type:'infload',x:21,y:17.4,axis:'x'},{id:'nz3',type:'vacuum',x:16.4,y:18.5,axis:'y'},{id:'nz4',type:'hallucination',x:9,y:25.4,axis:'x'}],portals:[]};
 // Terrain: # city tiles, = road, + sidewalk. Two streets cross the town and one road joins the station and the stadium.
 maps.neon.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
