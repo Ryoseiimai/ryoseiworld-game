@@ -2426,7 +2426,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R247: 「はなす」ボタンが、上へずれても1段（96px）までで、画面の真ん中に浮かない PASS');
  // R248: outdoors the map ends above the bottom bar, so the ミナモ road stopped in a flat band behind the はなす button (mobile-26). ground() now repeats the edge rows past the map.
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(src,'ground() is in index.html');const rects=[];
-  const tallSrc=(html.match(/function roadWide\(T,x,y\)\{.*/)||[''])[0];assert(tallSrc,'roadWide() is in index.html');
+  const tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n');assert(['roadWide','roadUp','roadTall'].every(f=>tallSrc.includes('function '+f+'(')),'roadWide(), roadUp() and roadTall() are in index.html');
   const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime(),m=rt.g.GAME_DATA.maps.minamo,road='#5e7275',col=14*48,bottom=m.h*48;ground(m);
   for(let y=bottom;y<bottom+130;y+=48)assert(rects.some(r=>r[0]===col&&r[1]===y&&r[4]===road),'the road at x 14 goes on below the map bottom (y '+y+')');
@@ -2435,16 +2435,34 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');}
  result.push('R248: 外の地図で、道や地面が下のボタンの帯の手前で途切れない PASS');
  // R249: the inner column of the 4-wide town road got an east-west dash every third row too, crossing the north-south dash into a "+" (mobile-16).
- {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],tallSrc=(html.match(/function roadWide\(T,x,y\)\{.*/)||[''])[0];const rects=[];
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n');const rects=[];
   const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime();
   for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];if(!m||!m.outside)continue;rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');
    const plus=dash.filter(v=>v[2]===4&&dash.some(h=>h[3]===4&&h[0]===v[0]-22+6&&h[1]===v[1]-6+22));assert.deepEqual(plus.slice(0,3),[],name+': no "+" where the two dashes cross in one tile');
    assert(dash.some(r=>r[3]===4),name+': east-west roads keep their centre dashes');
-   const T=(x,y)=>m.tiles[y]?.[x];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){if(T(x,y)!=='='||y%3||x%2||T(x-1,y)!=='='||T(x+1,y)!=='=')continue;let w=1;for(let d=1;T(x-d,y)==='=';d++)w++;for(let d=1;T(x+d,y)==='=';d++)w++;
-    const has=dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===y*48+22),vert=dash.some(r=>r[2]===4&&r[0]===x*48+22&&r[1]===y*48+6);
-    if(w<=4)assert(!has,name+': no east-west dash inside the narrow north-south road ('+x+','+y+')');else if(!vert)assert(has,name+': the east-west road keeps its dash at ('+x+','+y+')');}}}
+   // R590: east-west dashes moved from rows divisible by 3 to each east-west road's middle row, so this checks every row, not only y%3===0.
+   const T=(x,y)=>m.tiles[y]?.[x];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){if(T(x,y)!=='='||x%2||T(x-1,y)!=='='||T(x+1,y)!=='=')continue;let w=1;for(let d=1;T(x-d,y)==='=';d++)w++;for(let d=1;T(x+d,y)==='=';d++)w++;
+    const has=dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===y*48+22);
+    if(w<=4)assert(!has,name+': no east-west dash inside the narrow north-south road ('+x+','+y+')');}
+   for(let y=0;y<m.h;y++)if(m.tiles[y]&&/^=+$/.test(m.tiles[y])&&T(0,y-1)!=='=')assert(dash.some(r=>r[3]===4&&r[1]>=y*48&&r[1]<(y+4)*48),name+': the east-west road from row '+y+' keeps its centre dashes');}}
  result.push('R249: 町の太い道の真ん中に「＋」の印が出ない PASS');
+ // R590: the north-south centre dashes ran on through the crossings, and the lower road of ミナモ (rows 28-29) had no centre line.
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],helpers=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n');const rects=[];
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const rt=await runtime();
+  for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');const T=(x,y)=>m.tiles[y]?.[x];
+   const full=y=>/^=+$/.test(m.tiles[y]||'');
+   for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){if(T(x,y)!=='=')continue;let up=0,down=0;while(T(x,y-up-1)==='=')up++;while(T(x,y+down+1)==='=')down++;
+    const crossing=full(y)&&up+down+1>4,at=dash.filter(r=>r[0]>=x*48&&r[0]<(x+1)*48&&r[1]>=y*48&&r[1]<(y+1)*48);
+    if(crossing)assert.deepEqual(at,[],name+': no centre dash inside the crossing at ('+x+','+y+')');}
+   for(let y=0;y<m.h;y++)if(full(y)&&!full(y-1)){let v=1;while(full(y+v))v++;const row=y+Math.floor((v-1)/2);
+    for(let x=1;x<m.w-1;x++){if(x%2)continue;let up=0,down=0;while(T(x,row-up-1)==='=')up++;while(T(x,row+down+1)==='=')down++;if(up+down+1>4)continue;
+     assert(dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===row*48+22),name+': the east-west road at rows '+y+'-'+(y+v-1)+' has its centre dash at ('+x+','+row+')');}}
+   // the north-south dashes stay everywhere outside the crossings
+   for(let y=1;y<m.h-1;y++)for(let x=0;x<m.w;x++){if(x%3!==2||y%2||T(x,y)!=='='||T(x,y-1)!=='='||T(x,y+1)!=='='||full(y))continue;
+    assert(dash.some(r=>r[2]===4&&r[0]===x*48+22&&r[1]===y*48+6),name+': the north-south road keeps its centre dash at ('+x+','+y+')');}}}
+ result.push('R590: 道の真ん中の白い線が交差点の中を通らず、どの横の道にも真ん中の線がある PASS');
  // R250: the summon's name plate (top at nameY-32) leaves a 12px gap under the word card instead of 2px; with no card it stays at 185.
  {const m=html.match(/function summonNameY\(\)\{[^\n]*/);assert(m,'summonNameY exists');assert(/const SUMMON_PLATE_GAP=12;/.test(html),'the gap is named');
   const mk=(hidden,top,hgt,cur)=>new Function('$','wordCurrent','SUMMON_PLATE_GAP',m[0]+'\nreturn summonNameY();')(()=>({hidden,style:{top:top+'px'},offsetHeight:hgt}),cur,12);
