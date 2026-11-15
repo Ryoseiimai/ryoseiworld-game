@@ -1552,6 +1552,29 @@ async function browserAdapterChecks() {
     check('R569: 次が待つ台詞の文字は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 1.85) && sim.burstWordsAlpha(w) > 0.99); }
 })();
 
+// R571: a phone caught ヒカクマオウ's opening line in its fade-in: grey words on a see-through panel. The words now come in
+// only once the panel is 85% up; a line that takes over a held panel (chainIn) keeps its timing.
+(() => {
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let seen = 0, thin = 0, panelLow = 1, full = 0, pb = null;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst; if (!b) { pb = null; continue; }
+      const bt = w.t - b.t, wa = sim.burstWordsAlpha(w), pa = sim.burstPanelAlpha(w);
+      if (b !== pb && b.chainIn) { pb = b; continue; }
+      if (b.chainIn) continue;
+      pb = b;
+      if (bt < 1 / 6 && wa > 0.02) { seen++; panelLow = Math.min(panelLow, pa); if (pa < 0.85) thin++; }
+      if (bt > 0.2 && bt < b.dur - 0.4 && wa > 0.99) full++;
+    }
+    check('R571: ' + boss + ' 出てくる台詞は、文字が出る時は地が85%より濃い', seen > 0 && thin === 0 && panelLow >= 0.85, [seen, thin, panelLow]);
+    check('R571: ' + boss + ' 出た後の台詞の文字は濃い', full > 0, full);
+  }
+  { const o = { t: 0, dur: 2 }; const w = { t: 0.1, burst: o };
+    check('R571: 出始め（地60%）の文字は見えない', sim.burstPanelAlpha(w) > 0.5 && sim.burstWordsAlpha(w) === 0, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
+  { const o = { t: 0, dur: 2, chainIn: true }; const w = { t: 0.1, burst: o };
+    check('R571: 前の地を引きつぐ台詞は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 0.1)); }
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
