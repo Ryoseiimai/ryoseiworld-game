@@ -2855,6 +2855,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(mk(false,0,215)({foot:120,h:80},1)===154,'indoors the floor rule stays');
   assert(/function spiritSide\([^\n]*spiritBase\(o,-1,1\)[^\n]*spiritBase\(o,1,1\)[^\n]*spiritBase\(o,0,1\)/.test(html),'spiritSide weighs the unmoved place');}
  result.push('R533: 外の灰色の守護霊が、上の目標の帯の列に浮かない PASS');
+ // R577: outside, a side spirit slid down by R533 came level with the shoulder and its picture sat on the body; while slid it now moves out past the 50px body, raw keeps 34px.
+ {const bsrc=html.match(/function spiritBase\([^\n]*/)[0],xsrc=html.match(/function spiritX\([^\n]*/)[0]+'return x;}',out=Number(html.match(/const SPIRIT_SLID_OUT=(\d+);/)[1]);
+  const mk=(camY,hud)=>new Function('g','GAME_DATA','camera','hudTop','SPIRIT_FLOOR_TOP','TILE','SPIRIT_SLID_OUT',bsrc+'\n'+xsrc+'\nreturn [spiritBase,spiritX];')({map:'m'},{maps:{m:{outside:true}}},{y:camY},hud,154,48,out);
+  for(const hud of [190,215,260])for(const side of [-1,1])for(let foot=hud-40;foot<hud+400;foot+=7){const[sb,sx]=mk(1000,hud),o={x:5,foot:1000+foot,h:80},px=5*48,x=sx(o,side,[]),d=sb(o,side)-sb(o,side,1);
+   assert.equal(sx(o,side,[],1),px+34*side,'raw stays 34px '+[hud,side,foot]);
+   if(d===0)assert.equal(x,px+34*side,'not slid, not moved '+[hud,side,foot]);
+   if(d>=20)assert(Math.abs(x-px)-22>=25,'slid: picture starts past the body '+[hud,side,foot,x]);
+   assert(Math.abs(x-px)<=34+out,'never far from its person '+[hud,side,foot,x]);}
+  assert(/spiritX\(o,-1,list,1\)[^\n]*spiritX\(o,1,list,1\)/.test(html),'spiritSide weighs the raw x');assert(/const dl=spiritX\(o,-1,list\),dr=spiritX\(o,1,list\);if\(off\(dl\)!==off\(dr\)\)/.test(html),'the screen edge test (R279) uses the drawn x');}
+ result.push('R577: 外で下にずれた守護霊が、人の体に重ならない PASS');
  // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
  {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
   const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
