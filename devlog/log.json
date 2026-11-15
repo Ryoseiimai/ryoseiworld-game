@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T13:18:38.791Z",
-  "branch": "claude/autodev-20261107-2122-R439",
-  "task": "R439 戦闘に勝った時の行が「経験値 12　30円」で円の数に名前が無かったので、ステータス画面と同じ「お金 30円」にした",
-  "summary": "戦闘に勝った時の行を「経験値 12　お金 30円」に直した\nこどもモードは「けいけんち 12　おかね 30えん」。ステータス画面と同じ言葉にした\n前と後のスクショ（mobile-49）で確かめ、テストの結果行を足した",
-  "result": "pass",
-  "shots": [
-   "shots/763/mobile-02-mode-select.jpg",
-   "shots/763/mobile-19-custom-og-credit-card.jpg",
-   "shots/763/mobile-34-chapter-1-play.jpg",
-   "shots/763/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9876103",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42375266558"
- },
- {
   "at": "2026-11-07T13:54:38.218Z",
   "branch": "claude/autodev-20261107-2221-R440",
   "task": "R440 2章のボスに話しかけると、名札は「カテイノジジョウ」なのに話す人が「しんぱいの かべ」だったので、名札と同じ名前にした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "03b15f0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43717067282"
+ },
+ {
+  "at": "2026-11-15T13:43:49.447Z",
+  "branch": "claude/autodev-20261115-2221-R582",
+  "task": "R582 ことばカードの字が枠の左はしにくっついて見えていたので、カードの左右の余白を広げた",
+  "summary": "ことばカードの字が、枠の左はしから少ししか離れていなかった\nカードの左右の余白を14ドットから17ドットに広げた\n全65語と6字の名前で、カードの行の数が変わらないことを測った",
+  "result": "pass",
+  "shots": [
+   "shots/1012/mobile-02-mode-select.jpg",
+   "shots/1012/mobile-19-custom-og-credit-card.jpg",
+   "shots/1012/mobile-34-chapter-1-play.jpg",
+   "shots/1012/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ff2340f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43719599143"
  }
 ]
