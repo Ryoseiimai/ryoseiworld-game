@@ -2373,7 +2373,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
   assert(/noiseBandY=noiseRow\(target\);/.test(html),'the band row comes from noiseRow');assert(/if\(m\.outside\)drawNoise\(target\);/.test(html),'the field passes the talk target');
   assert(/gameTime<noiseUntil&&noiseBandY>0/.test(html),'no band is drawn when no row was free');
-  const mk=(g,camera,signs=[])=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
+  const mk=(g,camera,signs=[])=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
   for(let k=0;k<300;k++){const g={y:300+Math.random()*900},camera={y:Math.random()*400},t={x:5,y:(g.y+Math.random()*200-100)/48,w:60,h:90,kind:'npc'};
    const y=mk(g,camera)(t);if(y===-999)continue;assert(y>=180&&y<=540+180,'still inside the field '+y);
    const hy=g.y-camera.y,ty=t.y*48-camera.y;assert(y+22<hy-100||y-22>hy+30,'not across the hero '+[y,hy]);const top=ty-90-72;assert(y+22<top||y-22>(top<234?Math.max(ty+30,274):ty+30),'not across the target, its tag or the ▼ '+[y,ty]);}
@@ -2383,7 +2383,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R175: the band also keeps clear of the words on signs (こうえん etc.) and the name tags drawn this frame (fieldSignRects).
  {assert(/function noiseRow\(target\)\{const keep=\[[^\n]*\.\.\.fieldSignRects\]/.test(html),'noiseRow keeps the sign rows clear');
   const src=n=>html.match(new RegExp('function '+n+'\\([^\\n]*'))[0];
-  const mk=(g,camera,signs)=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
+  const mk=(g,camera,signs)=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
   let shown=0;for(let k=0;k<300;k++){const a=180+Math.random()*500,signs=[[a,a+40],[a+200,a+230]];const y=mk({y:1400},{y:0},signs)(null);if(y===-999)continue;shown++;
    for(const [t,b] of signs)assert(y+22<t||y-22>b,'not across a sign '+[y,t,b]);}
   assert(shown>200,'the band still shows when signs leave free rows '+shown);
@@ -2845,7 +2845,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R531: 小さい画面で Lv が2けたでも、上の札の字が枠を越えない PASS');
  // R532: on a phone the noise band touched the goal strip under the top card; it now starts below the HUD line (hudTop) whatever its height.
  {const src=html.match(/function noiseRow\([^\n]*/)[0];
-  for(const hud of [150,190,215,260])for(let k=0;k<300;k++){const f=new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects',src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,hud,[]);const y=f(null);
+  for(const hud of [150,190,215,260])for(let k=0;k<300;k++){const f=new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,hud,[]);const y=f(null);
    assert(y!==-999,'a free row is found');assert(y-22>=hud+8,'the band starts under the HUD line '+[hud,y]);assert(y>=180&&y<=720,'still inside the field '+y);}}
  result.push('R532: 町のノイズの帯が、上の目標の帯に付かない PASS');
  // R533: outside, a grey spirit by a head near the top sat in the row of the goal strip; it now starts under the HUD line (hudTop) but never below the feet, and indoors keeps the floor rule.
@@ -2865,6 +2865,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(Math.abs(x-px)<=34+out,'never far from its person '+[hud,side,foot,x]);}
   assert(/spiritX\(o,-1,list,1\)[^\n]*spiritX\(o,1,list,1\)/.test(html),'spiritSide weighs the raw x');assert(/const dl=spiritX\(o,-1,list\),dr=spiritX\(o,1,list\);if\(off\(dl\)!==off\(dr\)\)/.test(html),'the screen edge test (R279) uses the drawn x');}
  result.push('R577: 外で下にずれた守護霊が、人の体に重ならない PASS');
+ // R578: the town band crossed the faces of other people on screen; their head rows (fieldFaceRows from faceRows) are kept clear like the signs.
+ {assert(/function noiseRow\(target\)\{const keep=\[[^\n]*\.\.\.fieldFaceRows,/.test(html),'noiseRow keeps the face rows clear');
+  assert(/drawables\.sort\(\(a,b\)=>a\.foot-b\.foot\);fieldFaceRows=faceRows\(drawables\);/.test(html),'the field measures the faces each frame');
+  const src=n=>html.match(new RegExp('function '+n+'\\([^\\n]*'))[0];
+  const faces=new Function('camera','TILE','W','dimensions','frameFor','isPerson',src('faceRows')+'\nreturn faceRows;')({x:0,y:100},48,540,o=>({w:o.w,h:o.h}),()=>({top:0}),k=>k==='npc'||k==='npc2');
+  const rows=faces([{kind:'npc',x:3,foot:500,w:50,h:70},{kind:'numberperson',x:6,foot:700,w:50,h:70},{kind:'buildings',x:5,foot:600,w:200,h:200},{kind:'npc',x:30,foot:400,w:50,h:70},{kind:'hero',x:4,foot:450,w:50,h:70}]);
+  assert.equal(rows.length,2,'only people on screen count '+JSON.stringify(rows));
+  assert(rows[0][0]<=330-6&&rows[0][1]>=330+30,'the face of a person (top 330) is inside its row '+rows[0]);
+  const mk=faceRows=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','fieldFaceRows',src('noiseRow')+'\nreturn noiseRow;')({y:1400},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,190,[],faceRows);
+  let shown=0;for(let k=0;k<300;k++){const a=240+Math.random()*400,fr=[[a,a+41]];const y=mk(fr)(null);if(y===-999)continue;shown++;assert(y+22<a||y-22>a+41,'not across a face '+[y,a]);}
+  assert(shown>200,'the band still shows beside the faces '+shown);}
+ result.push('R578: 町のノイズの帯が、画面にいる人の顔の上を横切らない PASS');
  // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
  {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
   const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
