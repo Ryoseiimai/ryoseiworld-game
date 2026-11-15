@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-07T02:43:55.783Z",
-  "branch": "claude/autodev-20261107-1121-R427",
-  "task": "R427 ヒカクマオウ戦のソラのヒントが、まだ画面に無い物を「とろう」と言っていたので、「みどりの「自分のペース」で もどる」と色と働きを言うようにした",
-  "summary": "ヒカクマオウ戦の最初のソラのヒントを「すうじに あたると よわる。／みどりの「じぶんの ペース」で もどる」にした\n拾う物が出る前でも、緑の光を拾うと攻撃力が戻ると分かる。2行・30字までに収め、確認を足した\n前と後のスクショを docs/shots/R427 に置いた。一度も当たらずに拾っても「1だん もどった」と出る件は今回は直さない",
-  "result": "pass",
-  "shots": [
-   "shots/745/mobile-02-mode-select.jpg",
-   "shots/745/mobile-19-custom-og-credit-card.jpg",
-   "shots/745/mobile-34-chapter-1-play.jpg",
-   "shots/745/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7270e24",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42329914848"
- },
- {
   "at": "2026-11-07T02:58:09.151Z",
   "branch": "claude/autodev-20261107-1121-R427",
   "task": "R427 ヒカクマオウ戦のソラのヒントが、まだ画面に無い物を「とろう」と言っていたので、「みどりの「自分のペース」で もどる」と色と働きを言うようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "98d174c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43676937767"
+ },
+ {
+  "at": "2026-11-15T04:56:43.123Z",
+  "branch": "claude/autodev-20261115-1321-R573",
+  "task": "R573 ボス戦の始めの「キックボードが浮かんだ」の帯で、濃い板の上に薄い灰色の字が見えていたので、字を薄い途中なしで一度に出すようにした",
+  "summary": "R573: ボス戦の始めの帯で、濃い板の上に薄い灰色の字が見えていた\n帯が出きってから、字を薄い途中なしで一度に出すようにした\nR573 のテストと、前と後のスクショを足した",
+  "result": "pass",
+  "shots": [
+   "shots/997/mobile-02-mode-select.jpg",
+   "shots/997/mobile-19-custom-og-credit-card.jpg",
+   "shots/997/mobile-34-chapter-1-play.jpg",
+   "shots/997/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7a0e38a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43677240803"
  }
 ]
