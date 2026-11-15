@@ -1138,7 +1138,7 @@ async function browserAdapterChecks() {
   for (const boss of ['kateino', 'hikaku']) {
     const w = world({ boss }); w.burst = null; w.burstQ = [];
     sim.burst(w, 'ボス', 'いち', 2.4); sim.burst(w, 'ソラ', 'に', 2.4); run(w, DT);
-    const first = w.burst; let panelMin = 1, textMin = 1, second = null, firstIn = sim.burstPanelAlpha(w);
+    const first = w.burst; let panelMin = 1, textMin = 1, second = null, firstIn = sim.burstPanelAlpha(w), firstWords = sim.burstWordsAlpha ? sim.burstWordsAlpha(w) : 0;
     for (let i = 0; i < 60 * 8; i++) {
       sim.step(w, DT, IDLE); if (!w.burst) break;
       if (w.burst !== first) second = second || w.burst;
@@ -1149,7 +1149,8 @@ async function browserAdapterChecks() {
     }
     check('R523: ' + boss + ' 続けて出る台詞の間、地は濃いまま', second && second.text === 'に' && panelMin > 0.99, [second && second.text, panelMin]);
     check('R523: ' + boss + ' 入れ替わる時、文字は消えてから出る', textMin < 0.2, textMin);
-    check('R523: ' + boss + ' 最初の台詞の地は薄い所から出る', firstIn < 0.5, firstIn);
+    // R587: the first line no longer fades its panel in ahead of its words (that left an empty dark box); both come in together.
+    check('R523/R587: ' + boss + ' 最初の台詞は、地と文字が同じコマで出る', firstIn === 1 && firstWords === 1, [firstIn, firstWords]);
     let last = 1; for (let i = 0; i < 60 * 8 && w.burst === second; i++) { last = sim.burstPanelAlpha(w); sim.step(w, DT, IDLE); }
     check('R523: ' + boss + ' 最後の台詞の地は消えていく', last < 0.2, last);
   }
@@ -1569,10 +1570,35 @@ async function browserAdapterChecks() {
     check('R572: ' + boss + ' 出てくる台詞は、文字が出る時は地が85%より濃い', seen > 0 && thin === 0 && panelLow >= 0.85, [seen, thin, panelLow]);
     check('R572: ' + boss + ' 出た後の台詞の文字は濃い', full > 0, full);
   }
+  // R587: the R572 rule (no words on a thin panel) still holds above; since R587 the panel and the words come in together,
+  // so 0.1 s in there is neither a thin panel nor an empty one (the old check asserted that empty panel).
   { const o = { t: 0, dur: 2 }; const w = { t: 0.1, burst: o };
-    check('R572: 出始め（地60%）の文字は見えない', sim.burstPanelAlpha(w) > 0.5 && sim.burstWordsAlpha(w) === 0, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
+    check('R572/R587: 出始めの台詞は、地と文字が一緒に濃く出る', sim.burstPanelAlpha(w) === 1 && sim.burstWordsAlpha(w) === 1, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
   { const o = { t: 0, dur: 2, chainIn: true }; const w = { t: 0.1, burst: o };
     check('R572: 前の地を引きつぐ台詞は R565 のまま', sim.burstWordsAlpha(w) === sim.burstAlpha(o, 0.1)); }
+})();
+
+// R587: a phone caught an empty dark box at the top of the ヒカクマオウ fight (its opening line coming in). A line that does not take
+// over a held panel now shows its panel and words in the same frame, in every boss fight, and a line cut short never jumps up.
+(() => {
+  for (const boss of Object.keys(B)) {
+    const w = sim.createWorld({ seed: 7, boss, god: true }); let empty = 0, seen = 0;
+    for (let i = 0; i < 60 * 20; i++) {
+      sim.step(w, DT, IDLE); const b = w.burst; if (!b || b.chainIn) continue;
+      const bt = w.t - b.t; if (bt >= b.dur - (b.out || 1 / 3)) continue; // going out keeps R569
+      const pa = sim.burstPanelAlpha(w), wa = sim.burstWordsAlpha(w);
+      if (pa > 0.02) { seen++; if (wa < 0.99) empty++; }
+    }
+    check('R587: ' + boss + ' 出てくる台詞に、字のない空の地のコマが無い', seen > 0 && empty === 0, [seen, empty]);
+  }
+  // 0.05 s in (inside the old 1/6 s fade-in, before the fade-out starts) a long-enough line is fully up, panel and words.
+  { const o = { t: 0, dur: 0.5, out: 0.15 }; const w = { t: 0.05, burst: o };
+    check('R587: 出始め0.05秒の台詞は、地も字も濃い', sim.burstPanelAlpha(w) === 1 && sim.burstWordsAlpha(w) === 1, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w)]); }
+  // A line cut so short that it is already leaving inside the first 1/6 s follows its fade-out, never above it, and frame by frame never rises.
+  { const o = { t: 0, dur: 0.2, out: 0.15 }; let prev = 2, rose = false;
+    for (let s = 0.06; s < 0.2; s += 0.005) { const a = sim.burstPanelAlpha({ t: s, burst: o }); if (a > prev + 1e-9) rose = true; prev = a; }
+    const w = { t: 0.1, burst: o };
+    check('R587: 短く切られた台詞は、出始めでも消えていく時間に合わせて薄くなり、上に跳ねない', Math.abs(sim.burstPanelAlpha(w) - 0.1 / 0.15) < 1e-9 && sim.burstWordsAlpha(w) <= sim.burstPanelAlpha(w) + 1e-9 && !rose, [sim.burstPanelAlpha(w), sim.burstWordsAlpha(w), rose]); }
 })();
 
 // R573: coming in, the band's words never show half-faded: they are off until the plate is full, then fully on.

@@ -63,7 +63,7 @@
   // R153: the move hint fades out over HINT_OUT s. A half-faded hint over a bright city could not be read,
   // so it leaves quickly instead of lingering see-through.
   var HINT_OUT = 0.15;
-  // Boss lines fade in over 1/6 s and out over BURST_OUT s (or over o.out when their time was cut short, R154).
+  // Boss lines fade in over 1/6 s (R587: unless they take over a held panel, they now come in within one frame) and out over BURST_OUT s (or over o.out when their time was cut short, R154).
   var BURST_OUT = 1 / 3, BURST_MIN_OUT = 0.15;
   // R565: when the panel is held for the next line (holdOut, R523/R549), the words faded over the last 1/3 s and then the next
   // line faded in, so a nearly empty dark board sat at the top of the fight for about 0.2 s (caught on a phone between ヒカクマオウ's
@@ -78,7 +78,7 @@
   }
   // R523: when one line hands over straight to the next (boss line -> Sora's hint), the dark panel faded to nothing and came back
   // over about half a second, so the city showed through it for a moment. Now only the words fade there; the panel stays dark.
-  // It still fades in before the first line and out after the last one.
+  // It still fades out after the last one (R587: before the first line it now comes in within one frame, words and all).
   function burstNextWaits(w) {
     var o = w.burst; if (!o) return false;
     // The next line is picked a frame after this one ends, so a margin keeps a line that will be skipped (R86) from counting.
@@ -87,9 +87,20 @@
   // Whether the panel is held is decided once, when the words start to fade out, so a line queued later does not
   // make a half-faded panel jump back to full (the zero fight's opening line did that).
   function burstFadeStart(o) { return o.dur - (o.out || BURST_OUT); }
+  // R587: after R572 the panel faded in over 1/6 s and the words waited until it was 85% up, so a phone caught an empty dark
+  // box at the top of the ヒカクマオウ fight (its opening line, 0.1 s in). Like the entrance band (R576), a line that does not
+  // take over a held panel now comes in within one frame: panel and words show up together at full strength.
+  // Going out is unchanged; a line cut short (o.out) still fades on its own timing.
+  function burstInstantIn(o, bt) { return !o.chainIn && bt >= 0 && bt < 1 / 6; }
+  function burstOutAlpha(o, t) {
+    var bt = t - o.t, out = o.out || BURST_OUT;
+    if (o.holdOut) out = Math.min(out, BURST_SWAP_OUT);
+    return clamp((o.dur - bt) / out, 0, 1);
+  }
   function burstPanelAlpha(w) {
     var o = w.burst; if (!o) return 0;
     var a = burstAlpha(o, w.t), bt = w.t - o.t;
+    if (burstInstantIn(o, bt)) a = burstOutAlpha(o, w.t);
     if (o.chainIn && bt <= 1 / 6) a = 1;
     if (bt >= burstFadeStart(o) && o.holdOut) a = 1;
     return a;
@@ -101,11 +112,11 @@
   var BURST_WORDS_OUT_FROM = 0.85;
   // R572: the way in had the same look. A phone caught ヒカクマオウ's opening line in its 1/6 s fade-in: grey words on a panel the
   // city showed through. Now the panel comes in first and the words only once it is 85% up (a line that takes over a held panel,
-  // chainIn, keeps its own timing: its panel is already dark).
+  // chainIn, keeps its own timing: its panel is already dark). R587: panel and words now come in together within one frame (burstInstantIn).
   function burstWordsAlpha(w) {
     var o = w.burst; if (!o) return 0;
     var a = burstAlpha(o, w.t), bt = w.t - o.t;
-    if (!o.chainIn && bt < 1 / 6) a = Math.min(a, clamp((burstPanelAlpha(w) - BURST_WORDS_OUT_FROM) / (1 - BURST_WORDS_OUT_FROM), 0, 1));
+    if (burstInstantIn(o, bt)) a = Math.min(burstOutAlpha(o, w.t), clamp((burstPanelAlpha(w) - BURST_WORDS_OUT_FROM) / (1 - BURST_WORDS_OUT_FROM), 0, 1));
     if (o.holdOut || bt < burstFadeStart(o)) return a;
     // min: a line cut short while still coming in (o.out, R154) or held dark by chainIn never jumps up here.
     return Math.min(a, clamp((burstPanelAlpha(w) - BURST_WORDS_OUT_FROM) / (1 - BURST_WORDS_OUT_FROM), 0, 1));
