@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-06T23:57:42.899Z",
-  "branch": "claude/autodev-20261107-0821-R424",
-  "task": "R424 ボス戦のノーツのひとことが押すボタンを言わず、こどもモードの「おそう」は「襲う」とも読めたので、「ビート」を押す・おすと言うようにした",
-  "summary": "ノーツのひとことを「下の印が左の輪に来たら「ビート」を押そう」にした\nこどもモードは「しるしが わに きたら ビートを おして」にした\nボタン名を言う確認を足し、前と後のスクショを docs/shots/R424 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/738/mobile-02-mode-select.jpg",
-   "shots/738/mobile-19-custom-og-credit-card.jpg",
-   "shots/738/mobile-34-chapter-1-play.jpg",
-   "shots/738/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "59bfc95",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42313806116"
- },
- {
   "at": "2026-11-07T01:01:18.270Z",
   "branch": "claude/autodev-20261107-0922-R425",
   "task": "R425 ネオンに着いた時、掃除機のノイズが画面の下で切れて「話す」ボタンの横に隠れ、矢印も → に変わったので、少し上を歩かせた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "9ca8001",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43659538235"
+ },
+ {
+  "at": "2026-11-15T01:22:22.164Z",
+  "branch": "claude/autodev-20261115-0941-R569",
+  "task": "R569 ボス戦で最後のソラのヒントが消える途中、透けた地に薄い字と暗い名札が残っていたので、字と名札を先に消し、地を後から消した",
+  "summary": "R569: ボス戦で最後のヒントが消える途中、透けた地に薄い字と暗い名札が残っていた\n字と名札を地が濃いうちに先に消し、地は後から消えるようにした\nテストを足し、前と後の画像を v5/verification に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/990/mobile-02-mode-select.jpg",
+   "shots/990/mobile-19-custom-og-credit-card.jpg",
+   "shots/990/mobile-34-chapter-1-play.jpg",
+   "shots/990/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f84bbd9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43661860952"
  }
 ]
