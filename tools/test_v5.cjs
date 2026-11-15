@@ -3578,6 +3578,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),css=(src.match(/\.ryw-shooter \.rs-word\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R583: the boss word card states its padding: '+css);
   assert(Number(m[2])>=17,'R583: the boss word card keeps at least 17px at its sides: '+css);}
  result.push('R583: ボス戦のことばカードの字も、左右の枠から前より離れている PASS');
+ // R584: a window whose top or bottom edge crosses a battle figure (the hero y 340..486, Sora's light and name) hides that figure while it is open, so no cut-off head shows above the quiz 「正解！」 card.
+ {const src=(html.match(/function modalEdges\(\)\{[^\n]*/)||[''])[0];assert(src.includes('function modalCuts(e,top,bot)'),'R584: modalEdges and modalCuts are found');
+  const mk=(hidden,pt,pb)=>{const modal={hidden,firstElementChild:{getBoundingClientRect:()=>({top:pt,bottom:pb,height:pb-pt})}};const f=new Function('$','stage','H',src+'\nreturn [modalEdges,modalCuts];')(()=>modal,{getBoundingClientRect:()=>({top:0,height:480})},960);return(t,b)=>f[1](f[0](),t,b);};
+  assert(mk(false,195,295)(340,486),'R584: a window starting at y 390 cuts the hero (340..486)');
+  assert(!mk(true,195,295)(340,486),'R584: with no window open the hero is drawn');
+  assert(!mk(false,100,400)(340,486),'R584: a window that covers the hero wholly does not count as a cut');
+  assert(!mk(false,250,400)(340,486),'R584: a window wholly below the hero leaves it drawn');
+  const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
+  assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+6)){ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'R584: the hero and its shadow are skipped when cut');
+  assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+64))if(!b.cast)drawSora("),'R584: Sora is skipped when cut');}
+ result.push('R584: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
