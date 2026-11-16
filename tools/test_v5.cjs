@@ -3144,10 +3144,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R607: 1しょうの始めで、おまわりさんの守護霊が犬の頭に重ならない PASS');
  // R608: the cloud gate's feet sat behind the HUD but showed as a dark scrap between the place card and the メニュー button (mobile-38). A thing whose feet are above the HUD's lower edge is drawn only inside the place card.
  {const src=(html.match(/function hudClip\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'hudClip is there');
-  const df=(html.match(/const heads=\[\];for\(const o of drawables\)\{[^\n]*/)||[''])[0];assert(/continue;const clip=hudClip\(m,o\);if\(clip\)\{ctx\.save\(\);ctx\.beginPath\(\);if\(clip\[4\]==='cut'\)\{[^}]*ctx\.clip\('evenodd'\);\}else\{ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\(\);\}\}/.test(df)&&/if\(clip\)ctx\.restore\(\);\}$/.test(df),'drawField clips each thing behind the HUD and restores after it');
+  const df=(html.match(/const heads=\[\];for\(const o of drawables\)\{[^\n]*/)||[''])[0];assert(/continue;const clip=hudClip\(m,o\);if\(clip\)\{ctx\.save\(\);ctx\.beginPath\(\);if\(clip\[4\]==='cut'\)\{ctx\.rect\(camera\.x-W,camera\.y-H,W\*3,H\*3\);ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\('evenodd'\);\}else\{ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\(\);\}\}/.test(df)&&/if\(clip\)ctx\.restore\(\);\}$/.test(df),'drawField clips each thing behind the HUD and restores after it');
   const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('neon',15,13.6);r.tick(16);r.tick(16);const cam=r.g.camera,hudTop=r.g.hudTop,gate=r.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_cloudgate');
-  const clipOf=(outside,o,panel)=>new Function('camera','hudTop','hudPanel','isPerson','questGapCut',src+';return hudClip;')({x:Math.round(cam.x),y:Math.round(cam.y)},hudTop,panel,k=>k==='hero'||/^npc/.test(k),()=>null)({outside},{kind:'buildings',...o});
+  const clipOf=(outside,o,panel)=>new Function('camera','hudTop','hudPanel','isPerson','questRect',(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0]+';'+src+';return hudClip;')({x:Math.round(cam.x),y:Math.round(cam.y)},hudTop,panel,k=>k==='hero'||/^npc/.test(k),null)({outside},{kind:'buildings',...o});
   const panel={l:20,t:24,r:380,b:hudTop-60},foot=gate.y*48,c=clipOf(true,{id:gate.id,foot},panel);
   assert(foot+8-cam.y<=hudTop-10,'at the station the gate stands behind the HUD: '+[foot-cam.y,hudTop]);
   const rx=Math.round(cam.x),ry=Math.round(cam.y);assert(c&&c[0]+c[2]===rx+380&&c[1]===ry+24&&c[1]+c[3]===ry+panel.b,'the gate is drawn only inside the place card, not under the メニュー button: '+JSON.stringify(c));
@@ -3162,14 +3162,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'questGapCut is there');
   const hc=(html.match(/function hudClip\(m,o\)\{[^\n]*\}/)||[''])[0];assert(/if\(o\.foot\+8-camera\.y>hudTop-10\)return questGapCut\(m,o\);/.test(hc),'a thing below the HUD goes through questGapCut');
   assert(/questRect=q\.width>0&&q\.height>0\?\{l:/.test(html),'measureHud measures the goal tag');
-  const cut=(o,qr,panel)=>new Function('questRect','hudPanel','camera','dimensions','frameFor','TILE',src+';return questGapCut;')(qr,panel,{x:0,y:0},x=>({w:x.w,h:x.h}),()=>({top:0}),48)({outside:true},o);
+  const hudEl={classList:{over:false,contains(){return this.over;}}},cut=(o,qr,panel)=>new Function('questRect','hudPanel','camera','dimensions','frameFor','TILE','$',src+';return questGapCut;')(qr,panel,{x:0,y:0},x=>({w:x.w,h:x.h}),()=>({top:0}),48,()=>hudEl)({outside:true},o);
   const panel={l:20,t:24,r:380,b:226},qr={l:20,t:240,r:380};
-  const pole={x:3,foot:360,w:40,h:180};const c=cut(pole,qr,panel);
+  const pole={kind:'props',x:3,foot:360,w:124,h:180};const c=cut(pole,qr,panel);
   assert(c&&c[4]==='cut'&&c[0]===20&&c[1]===226&&c[2]===360&&c[3]===14,'a pole rising behind the goal tag is not drawn in the gap above it: '+JSON.stringify(c));
-  assert(cut({x:3,foot:360,w:40,h:100},qr,panel)===null,'a thing whose top is below the goal tag is drawn whole');
-  assert(cut({x:9,foot:360,w:40,h:180},qr,panel)===null,'a thing right of the goal tag is drawn whole');
+  assert(cut({kind:'props',x:3,foot:360,w:124,h:100},qr,panel)===null,'a thing whose top is below the goal tag is drawn whole');
+  assert(cut({kind:'props',x:9,foot:360,w:124,h:180},qr,panel)===null,'a thing right of the goal tag is drawn whole');
   assert(cut(pole,null,panel)===null,'without a goal tag nothing is cut');
-  assert(cut(pole,{l:20,t:300,r:380},panel)===null,'a wide gap (no tag right under the card) is not cut');}
+  assert(cut(pole,{l:20,t:300,r:380},panel)===null,'a wide gap (no tag right under the card) is not cut');
+  assert(cut({kind:'buildings',x:3,foot:360,w:200,h:180},qr,panel)===null&&cut({kind:'trees',x:3,foot:360,w:124,h:180},qr,panel)===null,'a building or tree gets no band cut across it');
+  assert(cut({kind:'props',x:3,foot:360,w:124,h:180},{l:20,t:240,r:160},panel)===null,'a pole on the end of the tag is not cut in half');
+  assert(cut({kind:'props',x:3,foot:360,w:124,h:100,lift:60},qr,panel),'a lifted thing counts its lift');
+  hudEl.classList.over=true;assert(cut(pole,qr,panel),'the pole is cut even while the place card is see-through');hudEl.classList.over=false;
+ }
  result.push('R610: ヒダマリの電柱の上の端が、場所の札と目標の札のすき間にのぞかない PASS');
  {assert(html.includes("if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22),soraTag(g.aiName||'ソラ');"),'the battle orb shows the AI partner name');
   const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
