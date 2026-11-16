@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-09T01:19:49.866Z",
-  "branch": "claude/autodev-20261109-0922-R470",
-  "task": "R470 おとなの武器の画面の名前が「当たり判定 チップ」「if バリア」と子ども用の空きのままで、ことばノートの「ifバリア」と食い違っていたので、空きを外した",
-  "summary": "おとなモードの武器名から子ども用の空きを外した（「ifバリア」「当たり判定チップ」など）\nこどもに切り替えた時、武器の画面で名前だけおとなのまま残る所も直し、テストを足した\n確認役の指摘は重大なものなし。こどもモードの名前は今のまま",
-  "result": "conflict",
-  "shots": [],
-  "sha": "19c9747",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42543025421"
- },
- {
   "at": "2026-11-09T01:19:51.592Z",
   "branch": "claude/autodev-20261109-0941-R470",
   "task": "R470 ボス戦のビートのひとことだけ「たたこう」で、同じ戦いのノーツの「押そう」と食い違っていたので、「押そう」（こどもは「おして」）にそろえた",
@@ -2948,5 +2938,20 @@
   ],
   "sha": "d0b88cf",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43932264386"
+ },
+ {
+  "at": "2026-11-16T19:47:40.218Z",
+  "branch": "claude/autodev-20261117-0421-R609",
+  "task": "R609 塔2階に入った時、レベル3以上でも「ドラッグで歩く」が0.6秒かけて薄く消えていたので、すぐ消すようにした",
+  "summary": "塔2階のスクショで「ドラッグで歩く」が薄く残っていたので、原因を調べた\n歩き方を知っている人が入った時は、0.6秒かけず、すぐ消すようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R609",
+  "result": "pass",
+  "shots": [
+   "shots/1062/mobile-02-mode-select.jpg",
+   "shots/1062/mobile-19-custom-og-credit-card.jpg",
+   "shots/1062/mobile-34-chapter-1-play.jpg",
+   "shots/1062/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "60e247f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43941093184"
  }
 ]
