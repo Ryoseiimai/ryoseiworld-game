@@ -3145,13 +3145,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const df=(html.match(/const heads=\[\];for\(const o of drawables\)\{[^\n]*/)||[''])[0];assert(/continue;const clip=hudClip\(m,o\);if\(clip\)\{ctx\.save\(\);ctx\.beginPath\(\);ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\(\);\}/.test(df)&&/if\(clip\)ctx\.restore\(\);\}$/.test(df),'drawField clips each thing behind the HUD and restores after it');
   const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('neon',15,13.6);r.tick(16);r.tick(16);const cam=r.g.camera,hudTop=r.g.hudTop,gate=r.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_cloudgate');
-  const clipOf=(outside,o,panel)=>new Function('camera','hudTop','hudPanel',src+';return hudClip;')(cam,hudTop,panel)({outside},o);
+  const clipOf=(outside,o,panel)=>new Function('camera','hudTop','hudPanel','isPerson',src+';return hudClip;')({x:Math.round(cam.x),y:Math.round(cam.y)},hudTop,panel,k=>k==='hero'||/^npc/.test(k))({outside},{kind:'buildings',...o});
   const panel={l:20,t:24,r:380,b:hudTop-60},foot=gate.y*48,c=clipOf(true,{id:gate.id,foot},panel);
   assert(foot+8-cam.y<=hudTop-10,'at the station the gate stands behind the HUD: '+[foot-cam.y,hudTop]);
-  assert(c&&c[0]+c[2]===cam.x+380&&c[1]===cam.y+24&&c[1]+c[3]===cam.y+panel.b,'the gate is drawn only inside the place card, not under the メニュー button: '+JSON.stringify(c));
+  const rx=Math.round(cam.x),ry=Math.round(cam.y);assert(c&&c[0]+c[2]===rx+380&&c[1]===ry+24&&c[1]+c[3]===ry+panel.b,'the gate is drawn only inside the place card, not under the メニュー button: '+JSON.stringify(c));
   assert(clipOf(true,{id:'hero',foot},panel)===null,'the hero is never cut');assert(clipOf(false,{id:'x',foot},panel)===null,'inside a room nothing is cut');
   assert(clipOf(true,{id:'x',foot:cam.y+hudTop+40},panel)===null,'a thing standing below the HUD is drawn whole');
-  const c2=clipOf(true,{id:'x',foot},{l:20,t:24,r:380});assert(c2&&c2[1]+c2[3]===cam.y+hudTop-10,'without a measured card bottom the HUD edge is used');}
+  for(const kind of ['enemies','numberperson','npc'])assert(clipOf(true,{id:'x',kind,foot},panel)===null,'a walking '+kind+' is not cut at the line');
+  assert(/hudPanel=\{l:[^}]*,b:Math\.round\(\(p\.bottom-s\.top\)\*H\/s\.height\)\}/.test(html),'measureHud measures the place card bottom');
+  const c2=clipOf(true,{id:'x',foot},{l:20,t:24,r:380});assert(c2&&c2[1]+c2[3]===Math.round(cam.y)+hudTop-10,'without a measured card bottom the HUD edge is used');}
  result.push('R608: ネオンの駅で、くもの もんの足が上の表示とメニューのすき間からのぞかない PASS');
  {assert(html.includes("if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22),soraTag(g.aiName||'ソラ');"),'the battle orb shows the AI partner name');
   const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
