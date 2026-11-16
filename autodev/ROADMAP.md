@@ -6,6 +6,7 @@
 
 ## つぎにやること
 
+- [!] R593 | 自動確認の test_v5 が600秒の打ち切りに近い（手元で499秒）ので、打ち切りを延ばすか、テストを2つに分ける | 司令塔が .github/autodev/gate.sh の timeout 600 を延ばすか、開発係が分ける件を ROADMAP に足して、この行を [x] にする
 - [!] R493 | 鍵のブランチ claude/ryw-lock への push が、ルーチンの決まり（push は claude/autodev- の枝だけ）で止められた | 司令塔が鍵の枝の名前を claude/autodev- で始まる名前に変えるか、ルーチンの決まりを直し、この行を [x] にする
 - [x] R65 | スマホ幅でボス戦の画面がはみ出す所を直す | 390x844・isMobile・hasTouch で #stage がページ幅を540に広げない。html・body か外側で横のはみ出しを切り、拡大率は visualViewport か documentElement.clientWidth で出す。町とボス戦の両方で画面が収まり、ビートのボタンが画面の中に見える。直す前と後のスクショで確かめる
 - [x] R62 | タイトル画面に専用の曲（title）を付ける | 台帳に title があれば、タイトルとプロローグの間は title を鳴らし、フィールドに出たら town に切り替える。無ければ今のまま town。タイトルのどこを押しても鳴り始め、鳴らせない間は隅に小さく「♪ タップで音楽」と出す。SPEC_V9_MUSIC.md の key の一覧に title を足す。テストで確かめる
