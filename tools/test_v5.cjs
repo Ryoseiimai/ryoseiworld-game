@@ -1575,6 +1575,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/color:#f1cd7c;/.test(css),'the hint is solid gold, not see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);assert(/font-size:24px/.test(css),'the hint stays at 24px: '+css);}
  result.push('R147: タイトルの「♪ タップで音楽」が透けない金色になり、ふちも付いて夜空に沈まない PASS');
+ // R600: a star of the title sky showed between the letters of the hint, so it sits on a dark plate like the title captions.
+ {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/background:rgba\(16,30,36,\.74\)/.test(css),'the hint has the captions\' dark plate: '+css);
+  assert(/padding:2px 10px/.test(css)&&/right:12px/.test(css)&&/top:20px/.test(css),'the plate grows outward, so the words stay at right 22px / top 22px: '+css);}
+ result.push('R600: タイトルの「♪ タップで音楽」に暗い札を敷き、夜空の星が字の間に見えない PASS');
  // R112: while the talk button is see-through, its word turns light with a dark outline on all four sides, so a person behind it does not hide はなす.
  {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/color:#fff5d6/.test(css),'the word is light while the plate is see-through: '+css);
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);}
