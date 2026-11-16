@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T02:55:13.930Z",
-  "branch": "claude/autodev-20261109-1124-R471",
-  "task": "R471 章の終わりの札の小見出しが「CHAPTER 02 COMPLETE」と0付きで、すぐ下の「第3章」と数字の書き方が食い違っていたので、「CHAPTER 2 COMPLETE」にした",
-  "summary": "章の終わりの札の小見出しを「CHAPTER 2 COMPLETE」と0を付けずに出すようにした\n0付きの表記が残っていないかを確かめるテストを足した\n前と後のスクショは手元の smoke で撮り、確認役は大きな問題なしとした",
-  "result": "pass",
-  "shots": [
-   "shots/820/mobile-02-mode-select.jpg",
-   "shots/820/mobile-19-custom-og-credit-card.jpg",
-   "shots/820/mobile-34-chapter-1-play.jpg",
-   "shots/820/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ad785f7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42552269562"
- },
- {
   "at": "2026-11-09T03:46:02.221Z",
   "branch": "claude/autodev-20261109-1221-R472",
   "task": "R472 タイトルの大人の説明行が「遊びながら ゲーム作りと AIを学ぶ RPG」と語の間が空き、すぐ下の「続きは第4章」と食い違っていたので、「遊びながらゲーム作りとAIを学ぶRPG」に詰めた",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "9b70ef3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43951790590"
+ },
+ {
+  "at": "2026-11-16T21:03:43.807Z",
+  "branch": "claude/autodev-20261117-0520-R610",
+  "task": "R610 ヒダマリの電柱の上の端が、場所の札と目標の札のすき間に欠片としてのぞいていたので、そのすき間だけ描かないようにした",
+  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
+  "result": "pass",
+  "shots": [
+   "shots/1064/mobile-02-mode-select.jpg",
+   "shots/1064/mobile-19-custom-og-credit-card.jpg",
+   "shots/1064/mobile-34-chapter-1-play.jpg",
+   "shots/1064/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "fb36e73",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43954475677"
  }
 ]
