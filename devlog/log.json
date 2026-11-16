@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T08:52:49.878Z",
-  "branch": "claude/autodev-20261109-1722-R475",
-  "task": "R475 きずなの画面の「守護霊 ナオスライム」が半角の空きで1つの名前にも読めたので、おとなだけ「守護霊：ナオスライム」にした",
-  "summary": "おとなモードのきずなの画面を「守護霊：ナオスライム」の形にした\nこどもモードは「守護霊 ナオスライム」のままにし、両方を確かめるテストを足した\n確認役が挙げたBUG KINGの英字と「きずな」の見出しは、設計書どおりなので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/826/mobile-02-mode-select.jpg",
-   "shots/826/mobile-19-custom-og-credit-card.jpg",
-   "shots/826/mobile-34-chapter-1-play.jpg",
-   "shots/826/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "82b7482",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42587912907"
- },
- {
   "at": "2026-11-09T10:01:54.812Z",
   "branch": "claude/autodev-20261109-1822-R476",
   "task": "R476 チャレンジの記録の大人の行が「今回ステージ1」「最高コンボ48」と項目名と数字がくっつき1つの名前にも読めたので、「最高ステージ：12」の形にした",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "98593d9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43969168551"
+ },
+ {
+  "at": "2026-11-16T23:42:45.627Z",
+  "branch": "claude/autodev-20261117-0821-R613",
+  "task": "R613 全章のスクショから確認役が3つ挙げたので確かめた。メニューの窓の上の家のアンテナは確かめ用に作った場面だけで出る、ネオンの「86位」の札は R592〜R604 で直し済み、ボスの台詞に名札が無いのは R557 の作りどおりなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせて確かめた\nメニューの窓の上の欠片は確かめ用の場面だけで出るので、遊ぶ人には見えない\n札とミオ、ボスの名札は前の件どおりなので、今回はどれも直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1070/mobile-02-mode-select.jpg",
+   "shots/1070/mobile-19-custom-og-credit-card.jpg",
+   "shots/1070/mobile-34-chapter-1-play.jpg",
+   "shots/1070/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "38ded65",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43980065345"
  }
 ]
