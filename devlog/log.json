@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T19:43:36.885Z",
-  "branch": "claude/autodev-20261109-0421-R465",
-  "task": "R465 ボス戦の相棒の台詞の名前が「ソラ」のままで、名前を変えると同じ画面のことばカードと食い違っていたので、付けた名前にそろえた",
-  "summary": "ボス戦の相棒の台詞と負けた時の札を、付けた名前で出すようにした\nおとなモードの「ソラに頼む」も付けた名前にした\n名前を変えた時のテストと、前と後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/811/mobile-02-mode-select.jpg",
-   "shots/811/mobile-19-custom-og-credit-card.jpg",
-   "shots/811/mobile-34-chapter-1-play.jpg",
-   "shots/811/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9b096ce",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42515501370"
- },
- {
   "at": "2026-11-08T20:55:58.318Z",
   "branch": "claude/autodev-20261109-0522-R466",
   "task": "R466 電気屋の地図名が「電気屋・ジャンク」で、2つの場所か店の名前か分かりにくかったので、町の看板に合わせて「電気屋の奥」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "0d66caf",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43889144998"
+ },
+ {
+  "at": "2026-11-16T15:38:08.896Z",
+  "branch": "claude/autodev-20261117-0021-R604",
+  "task": "R604 ネオンのミオの名札と街灯を画素で測ると16px離れていて重なっていなかったので、離れたままかを見る確かめを足した",
+  "summary": "ネオンでミオの名札と街灯を画素で測ると16px離れ、重なっていなかった\n重なっていたのは街灯の絵の透明な余白を含む箱だけだったので、コードは変えなかった\n名札と街灯の画素が8px以上離れているかを見る確かめを足した（468件すべて通過）",
+  "result": "pass",
+  "shots": [
+   "shots/1056/mobile-02-mode-select.jpg",
+   "shots/1056/mobile-19-custom-og-credit-card.jpg",
+   "shots/1056/mobile-34-chapter-1-play.jpg",
+   "shots/1056/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "aa64929",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43896760532"
  }
 ]
