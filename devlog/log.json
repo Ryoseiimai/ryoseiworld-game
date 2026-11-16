@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T08:55:32.080Z",
-  "branch": "claude/autodev-20261108-1723-R455",
-  "task": "R455 召喚獣サーチフクロウのおとなの説明が「2ターン ダメージ1.5倍」と語の間が空いていたので、「2ターンの間ダメージ1.5倍」にした",
-  "summary": "サーチフクロウのおとなの説明を「2ターンの間ダメージ1.5倍」にした\n召喚獣のおとなの説明に語の間の空白が無いか調べるテストを足した\n確認役の指摘で、テストは説明の中のどの空白も見つけるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/789/mobile-02-mode-select.jpg",
-   "shots/789/mobile-19-custom-og-credit-card.jpg",
-   "shots/789/mobile-34-chapter-1-play.jpg",
-   "shots/789/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f704830",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42463963112"
- },
- {
   "at": "2026-11-08T10:13:11.564Z",
   "branch": "claude/autodev-20261108-1841-R456",
   "task": "R456 武器の説明でifバリアのおとなの文だけ1行目に「。」が付き、ほかの武器と食い違っていたので外した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "8472671",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43792444538"
+ },
+ {
+  "at": "2026-11-16T02:57:24.709Z",
+  "branch": "claude/autodev-20261116-1121-R594",
+  "task": "R594 召喚の効き目の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
+  "summary": "召喚の効き目の光が、戦闘画面を一瞬白く覆っていた\n召喚の光だけ4割の濃さにし、ほかの光は元のままにした\n手元のテスト463件と画面の確認がすべて通った",
+  "result": "fail",
+  "shots": [
+   "shots/1035/mobile-02-mode-select.jpg",
+   "shots/1035/mobile-19-custom-og-credit-card.jpg",
+   "shots/1035/mobile-34-chapter-1-play.jpg",
+   "shots/1035/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0a7ea62",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43793711319"
  }
 ]
