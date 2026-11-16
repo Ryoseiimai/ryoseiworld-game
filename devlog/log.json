@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T11:59:09.189Z",
-  "branch": "claude/autodev-20261108-2021-R458",
-  "task": "R458 実績の一覧で1章だけ「BUG KING を修理した」と動詞が違い、2章と3章の「静めた」とそろっていなかったので、「BUG KING を静めた」にした",
-  "summary": "実績の「BUG KING を修理した」を「BUG KING を静めた」にした\nボスの実績の動詞がそろっていることを調べるテストを足した\n武器名の区切りの不揃いは設計書の名前どおりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/793/mobile-02-mode-select.jpg",
-   "shots/793/mobile-19-custom-og-credit-card.jpg",
-   "shots/793/mobile-34-chapter-1-play.jpg",
-   "shots/793/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f579029",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42477251836"
- },
- {
   "at": "2026-11-08T12:44:49.751Z",
   "branch": "claude/autodev-20261108-2121-R459",
   "task": "R459 遊んで一番気になる所を1つ直す",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "b88c27c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43800561951"
+ },
+ {
+  "at": "2026-11-16T04:57:15.879Z",
+  "branch": "claude/autodev-20261116-1321-R596",
+  "task": "R596 戦闘でソラの名前の札が、ソラの光の下半分に重なって光を切っていたので、ソラを40px上げて光と札の間を5px空けた（後半）",
+  "summary": "戦闘のソラを40px上げ、光の下の端と名前の札の間を5px空けた\n名前の札の位置は変えず、HP の欄の上の24px の間を残した\n光と札が重ならないことを確かめるテストを足した。手元のテストとスクショの確認は全部通った",
+  "result": "pass",
+  "shots": [
+   "shots/1040/mobile-02-mode-select.jpg",
+   "shots/1040/mobile-19-custom-og-credit-card.jpg",
+   "shots/1040/mobile-34-chapter-1-play.jpg",
+   "shots/1040/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "66917e8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43805900127"
  }
 ]
