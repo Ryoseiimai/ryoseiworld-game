@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T01:07:46.829Z",
-  "branch": "claude/autodev-20261109-0941-R470",
-  "task": "R470 ボス戦のビートのひとことだけ「たたこう」で、同じ戦いのノーツの「押そう」と食い違っていたので、「押そう」（こどもは「おして」）にそろえた",
-  "summary": "ボス戦のビートのひとことを「「ビート」を押そう」（こどもは「おして」）にした\n同じ戦いのノーツのひとことと同じ動詞かを確かめるテストを足した\n確認役の2〜5番目の候補（町の名前の長さ・電池の％など）は次の回に回した",
-  "result": "pass",
-  "shots": [
-   "shots/817/mobile-02-mode-select.jpg",
-   "shots/817/mobile-19-custom-og-credit-card.jpg",
-   "shots/817/mobile-34-chapter-1-play.jpg",
-   "shots/817/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8fafdd1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42542619056"
- },
- {
   "at": "2026-11-09T01:19:49.866Z",
   "branch": "claude/autodev-20261109-0922-R470",
   "task": "R470 おとなの武器の画面の名前が「当たり判定 チップ」「if バリア」と子ども用の空きのままで、ことばノートの「ifバリア」と食い違っていたので、空きを外した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "56e5dc6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43930396070"
+ },
+ {
+  "at": "2026-11-16T18:55:54.433Z",
+  "branch": "claude/autodev-20261117-0321-R608",
+  "task": "R608 ネオンの駅で、くもの もんの足が上の表示とメニューのすき間に黒い欠片として見えていたので、上の表示の後ろの建物を場所の札の内側だけに描いた",
+  "summary": "確認役が全章のスクショから5つ挙げ、ネオンの駅でくものもんの足が札とメニューのすき間に見える所を直した\n上の表示の後ろにある建物を、場所の札の内側だけに描くようにした。人と敵は切らない\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R608",
+  "result": "pass",
+  "shots": [
+   "shots/1061/mobile-02-mode-select.jpg",
+   "shots/1061/mobile-19-custom-og-credit-card.jpg",
+   "shots/1061/mobile-34-chapter-1-play.jpg",
+   "shots/1061/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d0b88cf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43932264386"
  }
 ]
