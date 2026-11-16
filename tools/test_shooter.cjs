@@ -820,6 +820,10 @@ async function browserAdapterChecks() {
    {const pb=+((win.__shooter&&win.__shooter.PLAY_B)||826);check('R135: とくぎのボタンは戦う場所の下の線から8px以上はなれ、ビートは画面の中',n(sk,'top')>=pb+8&&n(bt,'top')+n(bt,'height')<=960-6&&n(bt,'height')>=56,{sk,bt});}
    // R375: the skill button keeps at least 16px from the beat button, so tapping the beat in rhythm does not hit the skill.
    check('R375: とくぎのボタンとビートのボタンの間は16px以上',n(bt,'top')-(n(sk,'top')+n(sk,'height'))>=16,{sk,bt});
+   // R598: プレイテスト ran into the 20px corners and the gold bar lay on the bottom border; the corner is 14px or less, the bar stays 3px+ above the edge and 8px+ in from each side.
+   {const gi=(css.match(/\.rs-skill i\{([^}]*)\}/)||[])[1]||'',rad=n(sk,'border-radius');
+    check('R598: とくぎのボタンの角は14px以下で、金色の棒は縁から離れる',rad>0&&rad<=14&&n(gi,'left')>=8&&n(gi,'bottom')>=3&&/max-width:calc\(100% - (\d+)px\)/.test(gi)&&+gi.match(/max-width:calc\(100% - (\d+)px\)/)[1]>=2*n(gi,'left'),{rad,gi});}
+   {const src=require('fs').readFileSync(require('path').join(__dirname,'../v5/js/shooter.js'),'utf8');check('R598: ゲージの幅は内側の溝（100% - 24px）に合わせて伸びる',/btnGauge\.style\.width = 'calc\(\(100% - 24px\) \* '/.test(src));}
    // R132: a skill button that cannot be used yet (こえ 2/5, フク やすみ) keeps its words readable: no fading of the whole button, only a dark plate.
    {const off=(css.match(/\.rs-skill\.rs-off\{([^}]*)\}/)||[])[1]||'';check('R132: 押せない時のとくぎのボタンは全体を薄くせず、字が読める',off&&!/opacity/.test(off)&&/color:#e6dfc4/.test(off)&&/background:#0f2030/.test(off),off);}}
   const beatBtn=doc.querySelector('.rs-beat'),combo0=win.__shooter.debugBeat().combo;

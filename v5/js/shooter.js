@@ -1588,12 +1588,15 @@
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{box-sizing:border-box;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
       // R375: the skill button sat 8px above the beat button, so a fast tap on the beat's top edge could hit the skill; now 16px apart.
-      '.ryw-shooter .rs-skill{position:absolute;left:338px;top:834px;width:180px;height:46px;min-height:0;border-radius:20px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.1;padding:1px 3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
+      // R598: with a 20px corner the ends of プレイテスト ran into the curve, so the corner is 14px now (the words keep 8px+ from it).
+      '.ryw-shooter .rs-skill{position:absolute;left:338px;top:834px;width:180px;height:46px;min-height:0;border-radius:14px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.1;padding:1px 3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
       // R155: index.html fades every disabled button to .45, so in the boss intro the beat button looked broken; it keeps its word on a dark plate (like R132).
       '.ryw-shooter .rs-beat{position:absolute;left:338px;top:896px;width:180px;height:58px;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none}.ryw-shooter .rs-beat.rs-lit{background:#65511f;border-color:#fff0b0;box-shadow:0 0 18px #ffd76b}.ryw-shooter .rs-beat:disabled{opacity:1;background:#0f2030;border-color:#4f6f7c;color:#e6dfc4;box-shadow:0 5px 0 #08121b}' +
-      '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;z-index:1}' +
+      // R598: the words go 4px up, so the gold bar under them reads as a gauge, not an underline.
+      '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;top:-4px;z-index:1}' +
       '.ryw-shooter .rs-skill .rs-top{display:none}' +
-      '.ryw-shooter .rs-skill i{position:absolute;left:0;bottom:0;height:5px;width:0;background:#ffd76b;z-index:0}' +
+      // R598: the gold bar ran along the bottom edge and cut the gold border of a ready button; it now sits 3px up and 12px in from each side.
+      '.ryw-shooter .rs-skill i{position:absolute;left:12px;bottom:3px;height:3px;width:0;max-width:calc(100% - 24px);border-radius:2px;background:#ffd76b;z-index:0}' +
       '.ryw-shooter .rs-skill.rs-off{background:#0f2030;border-color:#4f6f7c;color:#e6dfc4;box-shadow:0 5px 0 #08121b}' +
       '.ryw-shooter .rs-skill.rs-ready{border-color:#ffe08a;background:#3a3216;animation:rs-pulse .9s ease-in-out infinite}' +
       '.ryw-shooter .rs-skill.rs-hold{transform:translateY(3px);box-shadow:0 2px 0 #0b1a27}' +
@@ -2844,7 +2847,7 @@
     S.btn.hidden = none;
     S.btnMain.textContent = label;
     S.btn.className = 'rs-skill ' + cls;
-    S.btnGauge.style.width = Math.round(gauge * 100) + '%';
+    S.btnGauge.style.width = 'calc((100% - 24px) * ' + (Math.round(gauge * 100) / 100) + ')'; // R598: the bar fills the inset track
     S.btn.setAttribute('aria-label', skillLabel('top') + ' ' + label);
   }
 
