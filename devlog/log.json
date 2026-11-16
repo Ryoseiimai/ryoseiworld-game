@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T14:52:24.673Z",
-  "branch": "claude/autodev-20261108-2321-R461",
-  "task": "R461 カテイノジジョウ戦のおとなのひびのお知らせ「10秒 ボスへのダメージ 2倍」と上の帯だけ文の中が空いていたので、「10秒間ボスへのダメージ2倍」「ボスへのダメージ2倍、残り10秒」にした",
-  "summary": "カテイノジジョウ戦のおとなのひびのお知らせと上の帯の文の中の空白を詰めた\n空白が無いことを調べるテストを足し、前と後のスクショを v5/verification に置いた\n確認役が、吹き出し「しょうらい」が操作の説明に重なると挙げた（前からある）",
-  "result": "pass",
-  "shots": [
-   "shots/801/mobile-02-mode-select.jpg",
-   "shots/801/mobile-19-custom-og-credit-card.jpg",
-   "shots/801/mobile-34-chapter-1-play.jpg",
-   "shots/801/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1946f29",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42490258770"
- },
- {
   "at": "2026-11-08T15:41:48.756Z",
   "branch": "claude/autodev-20261109-0021-R462",
   "task": "R462 カテイノジジョウ戦の始めに吹き出し「しょうらい」が操作の案内の上を通り字が重なっていたので、案内の間は吹き出しを案内より上に通した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "b8d527a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43831573217"
+ },
+ {
+  "at": "2026-11-16T10:03:17.748Z",
+  "branch": "claude/autodev-20261116-1821-R600",
+  "task": "R600 タイトルの「♪ タップで音楽」の字の間に夜空の星が見えていたので、説明の札と同じ暗い札を敷いた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を4つ挙げさせた\nタイトルの「♪ タップで音楽」に暗い札を敷き、字の間の星を隠した。札は下のボタンの6px上で終わる\n橋を抜けて浮く主人公と名前の無い台詞は R290・R557 の作りどおりで直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1046/mobile-02-mode-select.jpg",
+   "shots/1046/mobile-19-custom-og-credit-card.jpg",
+   "shots/1046/mobile-34-chapter-1-play.jpg",
+   "shots/1046/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b682af6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43843429435"
  }
 ]
