@@ -1,0 +1,26 @@
+{
+  "branch": "claude/autodev-20261116-0721-R592",
+  "sha": "f0b3e50e6182307a406c9194555a38b1004c5aba",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "merge",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody"
+  ],
+  "shots": [
+    "devlog/shots/1031/mobile-02-mode-select.jpg",
+    "devlog/shots/1031/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1031/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1031/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-15T23:28:29.625Z",
+  "merged_sha": null,
+  "tested_base": "720d40730027e0c9d161b32fe6682867bb4ca373",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43772351121"
+}
