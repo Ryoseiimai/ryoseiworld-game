@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T15:41:48.756Z",
-  "branch": "claude/autodev-20261109-0021-R462",
-  "task": "R462 カテイノジジョウ戦の始めに吹き出し「しょうらい」が操作の案内の上を通り字が重なっていたので、案内の間は吹き出しを案内より上に通した",
-  "summary": "カテイノジジョウ戦の始めの吹き出しを、操作の案内より上に通した\n吹き出しどうしの間はそのままにし、重ならないことを調べるテストを足した\n前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/802/mobile-02-mode-select.jpg",
-   "shots/802/mobile-19-custom-og-credit-card.jpg",
-   "shots/802/mobile-34-chapter-1-play.jpg",
-   "shots/802/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "cd9825d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42494902533"
- },
- {
   "at": "2026-11-08T15:53:46.007Z",
   "branch": "claude/autodev-20261109-0021-R462",
   "task": "R462 カテイノジジョウ戦の始めに吹き出し「しょうらい」が操作の案内の上を通り字が重なっていたので、案内の間は吹き出しを案内より上に通した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "b682af6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43843429435"
+ },
+ {
+  "at": "2026-11-16T11:00:36.795Z",
+  "branch": "claude/autodev-20261116-1921-R601",
+  "task": "R601 ミナモに着いた時、2章のボスの右腕だけが画面の左端にのぞいていたので、ボスを砂場の上で0.8マス西へ動かした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\nミナモに着いた時、2章のボスの右腕だけが左端にのぞいていた。ボスを砂場の上で0.8マス西へ動かし、着いた画面から外した\n町の電柱の頭が札のすき間に出る所と、ヒカクマオウ戦で弾が顔に重なる一瞬は、次の回にまわした",
+  "result": "pass",
+  "shots": [
+   "shots/1047/mobile-02-mode-select.jpg",
+   "shots/1047/mobile-19-custom-og-credit-card.jpg",
+   "shots/1047/mobile-34-chapter-1-play.jpg",
+   "shots/1047/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "39c684a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43852050049"
  }
 ]
