@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T22:53:48.822Z",
-  "branch": "claude/autodev-20261109-0721-R468",
-  "task": "R468 タイトルの案内が「始まりは 第1章　ヒダマリちょう」と半角と全角の空きが混ざっていたので、大人モードは「始まりは第1章」「続きは第N章」と詰めた",
-  "summary": "タイトルの案内を「始まりは第1章　ヒダマリちょう」と詰めた（大人モード）\n「続きは第N章」も同じく詰めた。こどもモードは今のまま\n武器名の空きは仕様書の表どおりなので変えなかった。テストと前後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/814/mobile-02-mode-select.jpg",
-   "shots/814/mobile-19-custom-og-credit-card.jpg",
-   "shots/814/mobile-34-chapter-1-play.jpg",
-   "shots/814/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6f00efb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42531510971"
- },
- {
   "at": "2026-11-08T23:50:44.107Z",
   "branch": "claude/autodev-20261109-0821-R469",
   "task": "R469 ボス戦の左下の「フク・ショット」に名前が無く、下のビートの印の列の名前にも見えたので、メニューと同じ「武器」を前に付けた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "c86f260",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43910001139"
+ },
+ {
+  "at": "2026-11-16T17:50:05.872Z",
+  "branch": "claude/autodev-20261117-0221-R607",
+  "task": "R607 1章の始めで、おまわりさんの灰色の守護霊が柴犬の頭に重なっていたので、犬をおまわりさんの左へ動かした",
+  "summary": "確認役が全章のスクショから5つ挙げ、おまわりさんの守護霊が犬の頭に重なる所を直した\n柴犬をおまわりさんの右から左へ動かし、守護霊と犬が離れているかを見る確かめを足した\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R607",
+  "result": "pass",
+  "shots": [
+   "shots/1059/mobile-02-mode-select.jpg",
+   "shots/1059/mobile-19-custom-og-credit-card.jpg",
+   "shots/1059/mobile-34-chapter-1-play.jpg",
+   "shots/1059/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7692ddc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43920834435"
  }
 ]
