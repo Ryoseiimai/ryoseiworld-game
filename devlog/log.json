@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T11:45:33.823Z",
-  "branch": "claude/autodev-20261108-2021-R458",
-  "task": "R458 実績の一覧で1章だけ「BUG KING を修理した」と動詞が違い、2章と3章の「静めた」とそろっていなかったので、「BUG KING を静めた」にした",
-  "summary": "実績の「BUG KING を修理した」を「BUG KING を静めた」にした\nボスの実績の動詞がそろっていることを調べるテストを足した\n武器名の区切りの不揃いは設計書の名前どおりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/792/mobile-02-mode-select.jpg",
-   "shots/792/mobile-19-custom-og-credit-card.jpg",
-   "shots/792/mobile-34-chapter-1-play.jpg",
-   "shots/792/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "21e331e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42476287626"
- },
- {
   "at": "2026-11-08T11:59:09.189Z",
   "branch": "claude/autodev-20261108-2021-R458",
   "task": "R458 実績の一覧で1章だけ「BUG KING を修理した」と動詞が違い、2章と3章の「静めた」とそろっていなかったので、「BUG KING を静めた」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "cbb9603",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43800410371"
+ },
+ {
+  "at": "2026-11-16T04:14:22.825Z",
+  "branch": "claude/autodev-20261116-1242-R595",
+  "task": "R595 全章のスクショを確認役に見せ、気になる所を3つ挙げさせた（前半）",
+  "summary": "確認役が R594 の枝を見て、台帳の題の言い方を1か所直した。自動確認に合格した\n全章のスクショ51枚を確認役に見せ、気になる所を3つ挙げさせた\n1番は、戦闘でソラの名前の札が光の下半分に重なる所。後半の件として台帳に書いた",
+  "result": "pass",
+  "shots": [
+   "shots/1039/mobile-02-mode-select.jpg",
+   "shots/1039/mobile-19-custom-og-credit-card.jpg",
+   "shots/1039/mobile-34-chapter-1-play.jpg",
+   "shots/1039/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b88c27c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43800561951"
  }
 ]
