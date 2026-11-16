@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T10:01:54.812Z",
-  "branch": "claude/autodev-20261109-1822-R476",
-  "task": "R476 チャレンジの記録の大人の行が「今回ステージ1」「最高コンボ48」と項目名と数字がくっつき1つの名前にも読めたので、「最高ステージ：12」の形にした",
-  "summary": "おとなモードのチャレンジの記録を「今回ステージ：1」「最高コンボ：48」の形にした\nこどもモードはそのままにし、テストの期待する文を直してR476の確かめを足した\n確認役が挙げた「歩く」と「動く」や括弧の種類の違いは、次の回の候補に残した",
-  "result": "pass",
-  "shots": [
-   "shots/827/mobile-02-mode-select.jpg",
-   "shots/827/mobile-19-custom-og-credit-card.jpg",
-   "shots/827/mobile-34-chapter-1-play.jpg",
-   "shots/827/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "98b7193",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42595816587"
- },
- {
   "at": "2026-11-09T10:40:54.617Z",
   "branch": "claude/autodev-20261109-1922-R477",
   "task": "R477 遊んで一番気になる所を1つ直す",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "38ded65",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43980065345"
+ },
+ {
+  "at": "2026-11-16T23:54:40.275Z",
+  "branch": "claude/autodev-20261117-0843-R614",
+  "task": "R614 同じスクショから確認役がさらに4つ挙げたので確かめた。ボス戦のボタンの金色の線は R598 のゲージ、マップの端で切れる物はスクロール、1章の主人公と女の人は話せる距離、章の終わりの札の背景は R570 の作りどおりなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役にもう一度見せ、さらに4つ挙げさせて確かめた\n4つともわざとの作りか前の件で直し済みで、遊ぶ人が困る所は無かった\n今回はゲームを変えず、確かめた結果だけを ROADMAP に残した",
+  "result": "pass",
+  "shots": [
+   "shots/1071/mobile-02-mode-select.jpg",
+   "shots/1071/mobile-19-custom-og-credit-card.jpg",
+   "shots/1071/mobile-34-chapter-1-play.jpg",
+   "shots/1071/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cfc5997",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43981758333"
  }
 ]
