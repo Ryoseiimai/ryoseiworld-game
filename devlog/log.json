@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T17:40:35.517Z",
-  "branch": "claude/autodev-20261109-0221-R463",
-  "task": "R463 遊んで一番気になる所を1つ直す",
-  "summary": "カテイノジジョウ戦の始めの吹き出しを、操作の案内より上に通した\n吹き出しどうしの間はそのままにし、重ならないことを調べるテストを足した\n案内の間は下の吹き出しがボスの前を通るが、ボスも低い所にいるので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/805/mobile-02-mode-select.jpg",
-   "shots/805/mobile-19-custom-og-credit-card.jpg",
-   "shots/805/mobile-34-chapter-1-play.jpg",
-   "shots/805/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fc56a4b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42504974141"
- },
- {
   "at": "2026-11-08T17:52:40.517Z",
   "branch": "claude/autodev-20261109-0221-R463",
   "task": "R463 2〜4章のボスの後の目標の帯だけ「町に声が戻った。」と「。」で終わり、ほかの目標と食い違っていたので「。」を外した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "2badc9d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43862559861"
+ },
+ {
+  "at": "2026-11-16T12:31:18.097Z",
+  "branch": "claude/autodev-20261116-2122-R603",
+  "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
+  "summary": "ネオンの「ランク 86位」の札のしっぽを15pxから12pxに短くし、札を10px上げた\nしっぽの先が頭の2〜6px上で止まり、髪に隠れなくなった（前と後を手元で撮った）\n札に名札が近づかないよう、ミオを12px上げた。R507 の確かめを、しっぽの先と頭の間に変えた",
+  "result": "fail",
+  "shots": [
+   "shots/1050/mobile-02-mode-select.jpg",
+   "shots/1050/mobile-19-custom-og-credit-card.jpg",
+   "shots/1050/mobile-34-chapter-1-play.jpg",
+   "shots/1050/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d9d2d9b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43866327809"
  }
 ]

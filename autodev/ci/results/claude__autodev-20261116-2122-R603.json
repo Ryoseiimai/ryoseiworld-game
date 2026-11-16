@@ -1,0 +1,35 @@
+{
+  "branch": "claude/autodev-20261116-2122-R603",
+  "sha": "d9d2d9b202956d4d005bb3d3eed03afc2a39d4bc",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: name tag does not touch the dark plate (plate top 924, tag bottom 929)",
+    "    at /tmp/tmp.8izXIg3pjR/tree-claude__autodev-20261116-2122-R603/tools/test_v5.cjs:908:93 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/1050/mobile-02-mode-select.jpg",
+    "devlog/shots/1050/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1050/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1050/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-16T12:31:18.097Z",
+  "merged_sha": null,
+  "tested_base": "63e4ec1cac683f2a7391fc431eb26699de54209a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43866327809"
+}
