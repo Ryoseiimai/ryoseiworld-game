@@ -181,6 +181,9 @@ async function runViewport(browser, url, vp, errors, shots) {
         if (!keep) await settle(); await shot('custom-' + name);
         const tut = await page.evaluate(() => { const q = document.querySelector('#quest'), s = window.__v5; return s.screen === 'field' && q && q.offsetParent && /ナオスライム/.test(q.textContent) ? q.textContent.trim() : ''; });
         if (tut) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene ${name}: the goal line still asks for the tutorial after it was done: ${tut}`) });
+        // R606: the word note (and its quiz) opens only from the field menu; the quiz shot once sat on top of the tutorial battle.
+        if (name === 'quiz-answer') { const at = await page.evaluate(() => ({ screen: window.__v5.screen, battle: !!window.__v5.battle, modal: window.__v5.modal }));
+          if (at.screen !== 'field' || at.battle || at.modal !== 'quiz-feedback') errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene quiz-answer: the quiz answer must show on the field, not in a battle: ${JSON.stringify(at)}`) }); }
         // R397: the bond scene used to hide the message before the shot, so it showed a plain town map.
         if (name === 'bond-reward') { const said = await page.evaluate(() => { const d = document.getElementById('dialogue'); return d && !d.hidden ? d.textContent : ''; });
           if (!/きずなが ?(深|ふか)まった/.test(said)) errors.push({ kind: 'scene', viewport: vp.name, message: tag(`custom scene bond-reward: the bond message is not on screen: ${said.slice(0, 40)}`) }); }
