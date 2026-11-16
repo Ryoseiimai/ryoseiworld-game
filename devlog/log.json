@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T03:46:02.221Z",
-  "branch": "claude/autodev-20261109-1221-R472",
-  "task": "R472 タイトルの大人の説明行が「遊びながら ゲーム作りと AIを学ぶ RPG」と語の間が空き、すぐ下の「続きは第4章」と食い違っていたので、「遊びながらゲーム作りとAIを学ぶRPG」に詰めた",
-  "summary": "タイトルの大人の説明行を「遊びながらゲーム作りとAIを学ぶRPG」と詰めた\n大人の説明行に半角の空きが無いことを確かめるテストを足した\nソラの台詞のかな表記は STORY のトーンどおりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/822/mobile-02-mode-select.jpg",
-   "shots/822/mobile-19-custom-og-credit-card.jpg",
-   "shots/822/mobile-34-chapter-1-play.jpg",
-   "shots/822/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6da7134",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42556913757"
- },
- {
   "at": "2026-11-09T04:00:32.301Z",
   "branch": "claude/autodev-20261109-1221-R472",
   "task": "R472 タイトルの大人の説明行が「遊びながら ゲーム作りと AIを学ぶ RPG」と語の間が空き、すぐ下の「続きは第4章」と食い違っていたので、「遊びながらゲーム作りとAIを学ぶRPG」に詰めた",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "fb36e73",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43954475677"
+ },
+ {
+  "at": "2026-11-16T21:38:08.166Z",
+  "branch": "claude/autodev-20261117-0621-R611",
+  "task": "R611 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
+  "result": "pass",
+  "shots": [
+   "shots/1065/mobile-02-mode-select.jpg",
+   "shots/1065/mobile-19-custom-og-credit-card.jpg",
+   "shots/1065/mobile-34-chapter-1-play.jpg",
+   "shots/1065/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "66f50cb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43960446028"
  }
 ]
