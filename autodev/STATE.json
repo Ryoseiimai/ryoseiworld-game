@@ -3,7 +3,7 @@
   "current": {
     "id": "R599",
     "branch": "claude/autodev-20261116-1621-R599",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-11-16T16:21:06+09:00"
