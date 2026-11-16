@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T04:00:32.301Z",
-  "branch": "claude/autodev-20261109-1221-R472",
-  "task": "R472 タイトルの大人の説明行が「遊びながら ゲーム作りと AIを学ぶ RPG」と語の間が空き、すぐ下の「続きは第4章」と食い違っていたので、「遊びながらゲーム作りとAIを学ぶRPG」に詰めた",
-  "summary": "タイトルの大人の説明行を「遊びながらゲーム作りとAIを学ぶRPG」と詰めた\n大人の説明行に半角の空きが無いことを確かめるテストを足した\nソラの台詞のかな表記は STORY のトーンどおりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/823/mobile-02-mode-select.jpg",
-   "shots/823/mobile-19-custom-og-credit-card.jpg",
-   "shots/823/mobile-34-chapter-1-play.jpg",
-   "shots/823/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "96f5a9b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42557593187"
- },
- {
   "at": "2026-11-09T07:00:24.317Z",
   "branch": "claude/autodev-20261109-1524-R473",
   "task": "R473 終わりの札の大人の文が「音楽の一部は Google の Lyria で」と語の間が空き、タイトルの「AIを学ぶRPG」や「Xで投稿」と食い違っていたので、「音楽の一部はGoogleのLyriaで」に詰めた",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "66f50cb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43960446028"
+ },
+ {
+  "at": "2026-11-16T21:53:53.120Z",
+  "branch": "claude/autodev-20261117-0621-R611",
+  "task": "R611 町の公園で、丸い木の葉が池の左下の角に重なり、花の鉢が池の縁に乗っていたので、その木を外し、鉢を半マス下げた",
+  "summary": "全章のスクショを確認役に見せ、公園の池の角に木が重なる所を直した\n池の左下の木を外し、花の鉢を池の縁から半マス下げた。鉢は今も通れない\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R611",
+  "result": "pass",
+  "shots": [
+   "shots/1066/mobile-02-mode-select.jpg",
+   "shots/1066/mobile-19-custom-og-credit-card.jpg",
+   "shots/1066/mobile-34-chapter-1-play.jpg",
+   "shots/1066/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6f93f19",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43962689034"
  }
 ]
