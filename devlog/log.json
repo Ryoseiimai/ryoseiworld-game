@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T10:13:11.564Z",
-  "branch": "claude/autodev-20261108-1841-R456",
-  "task": "R456 武器の説明でifバリアのおとなの文だけ1行目に「。」が付き、ほかの武器と食い違っていたので外した",
-  "summary": "ifバリアのおとなの説明から1行目の「。」を外した\nほかの武器と同じく句点を付けないことを調べるテストを足した\n確認役が挙げた「ビートをたたこう」と「押そう」の食い違いは、R434で司令塔待ちのため触らなかった",
-  "result": "pass",
-  "shots": [
-   "shots/790/mobile-02-mode-select.jpg",
-   "shots/790/mobile-19-custom-og-credit-card.jpg",
-   "shots/790/mobile-34-chapter-1-play.jpg",
-   "shots/790/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2b75846",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42469622897"
- },
- {
   "at": "2026-11-08T10:52:43.116Z",
   "branch": "claude/autodev-20261108-1921-R457",
   "task": "R457 召喚の文でナオスライムとサーチフクロウのおとなの文だけ「！」の後に空白があり、ほかの召喚の文と食い違っていたので詰めた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "0a7ea62",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43793711319"
+ },
+ {
+  "at": "2026-11-16T03:41:22.637Z",
+  "branch": "claude/autodev-20261116-1121-R594",
+  "task": "R594 召喚が届いた時の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
+  "summary": "自動確認で落ちた R594 の枝を、手元で全部のテストにかけ直した\n手元では 463 件すべて通り、7分11秒で最後まで終わった\n確認役の指摘で、台帳の題の「効き目」を「召喚が届いた時の光」に直した",
+  "result": "pass",
+  "shots": [
+   "shots/1037/mobile-02-mode-select.jpg",
+   "shots/1037/mobile-19-custom-og-credit-card.jpg",
+   "shots/1037/mobile-34-chapter-1-play.jpg",
+   "shots/1037/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a84335a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43798456253"
  }
 ]
