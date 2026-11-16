@@ -1181,7 +1181,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugStartBattle('vending','fun21-summon');r.tick(300);Object.assign(r.g.battle.enemy,{hp:900,maxHp:900,displayHp:900});r.g.hp.hp=10;
   assert.equal(r.g.fx.flashUntil,0,'no flash before the summon is cast');
   r.cmd('summon');r.button('ナオスライム');r.tick(900);
-  assert(r.g.fx.flashUntil>0,'the heal effect lands with a screen flash, not just a sound');assert.notEqual(r.g.fx.flash,'#fff','the heal flash uses its own colour');}
+  assert(r.g.fx.flashUntil>0,'the heal effect lands with a screen flash, not just a sound');assert.notEqual(r.g.fx.flash,'#fff','the heal flash uses its own colour');
+  assert.equal(r.g.fx.softUntil,r.g.fx.flashUntil,'R594: the summon flash is the soft one, so it never washes the battle out');}
  result.push('FUN21: しょうかんの こうかが とどいた しゅんかんに がめんが フラッシュする PASS');
  // SPEC_V9_MUSIC 3: recorded town/battle/boss/victory tracks loop from data/music.json; missing, broken or invalid entries keep the synth.
  {const T=(file,extra={})=>({file:'assets/music/'+file,bpm:120,loopStart:2,loopEnd:18,gain:.8,once:false,...extra});
