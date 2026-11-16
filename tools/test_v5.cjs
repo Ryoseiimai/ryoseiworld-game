@@ -3109,6 +3109,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('minamo',b.x,b.y+2);r.tick(16);r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/kateino/kateino_r0_c0.png')),'the boss picture is drawn');
   {const k=Math.min(b.w/349,b.h/281),w=349*k*(b.collider.right-b.collider.left),h=281*k*(b.collider.bottom-b.collider.top);assert(Math.abs(w-170*.7)<=1&&Math.abs(h-128*.22)<=1,'the footprint keeps the old 119x28 size: '+w+'x'+h);}
   r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y>b.y*48-4,'the drawn boss still blocks the way');}
+ // R601: on arriving in ミナモ the boss stood just past the left edge of the view, so only its right arm showed beside the place-name card. It now stays wholly out of the arrival view.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(2));r.tick(16);r.tick(16);const b=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_boss'),k=Math.min(b.w/349,b.h/281),right=b.x*48+(316-349/2)*k,cam=r.g.camera;/* kateino_r0_c0.png is 349 wide and its last opaque column is 315 */
+  console.log('R601 boss right edge',right.toFixed(1),'camera left',cam.x);assert(right<=cam.x,'the kateino boss is wholly left of the arrival view: '+right+' > '+cam.x);
+  const sand=r.g.GAME_DATA.maps.minamo.tiles[22][Math.floor(b.x)];assert.equal(sand,':','the boss still stands on the park sand');}
+ result.push('R601: ミナモに着いた時、2章のボスの腕が左端にのぞかない PASS');
  // While the art is missing, the stand-in box still shows its name.
  {const r=await runtime({missingFiles:['kateino_r0_c0.png']});r.tick();assert(r.g.debugStartChapter(2));const b=r.g.GAME_DATA.maps.minamo.objects.find(o=>o.id==='minamo_boss');r.g.debugWarp('minamo',b.x,b.y+3);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='fillText'&&String(c[1]).includes('カテイノジジョウ')),'the stand-in boss keeps its name');}
  result.push('R268: ミナモの公園のカテイノジジョウが、届いた絵で描かれる PASS');

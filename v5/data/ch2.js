@@ -49,7 +49,8 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  wall('minamo_wall1',14.5,8.2),wall('minamo_wall2',7.4,20.6),wall('minamo_wall3',26,18.8),
  // The biggest wall stands in the park sand. With Search Owl it speaks, and the kickboard lifts into the shooter (SPEC_V6.md 4).
  // R268: the boss uses the kateino art (frame 0: the angry house standing). The art is a little narrower than the 170x128 box, so the collider band is widened to keep the old 119px-wide footprint.
- object('minamo_boss','kateino',0,4.6,22.4,170,128,{label:'カテイノジジョウ',collider:{left:.126,right:.874,top:.78,bottom:1},action:'boss',enemy:'kateino',requires:'owl',dialogue:'kateinoTalk',lockedDialogue:'worryWall',goneWhenCleared:true}),
+ // R601: at 4.6 its right arm peeked out at the left edge of the arrival view beside the place-name card, so it stands 0.8 tiles further west, still on the sand.
+ object('minamo_boss','kateino',0,3.8,22.4,170,128,{label:'カテイノジジョウ',collider:{left:.126,right:.874,top:.78,bottom:1},action:'boss',enemy:'kateino',requires:'owl',dialogue:'kateinoTalk',lockedDialogue:'worryWall',goneWhenCleared:true}),
  // People: a tired father at the park, a mother who keeps her son in, the dog, the grandpa is in the library.
  object('minamo_dad','npc2',6,11,17.6,48,65,{dialogue:'minamoDad',clearedDialogue:'dadAfter'}),
  object('minamo_mom','npc2',8,9.3,34.7,48,65,{dialogue:'minamoMom',clearedDialogue:'momAfter'}),

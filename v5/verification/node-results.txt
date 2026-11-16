@@ -132,6 +132,7 @@ R371: おとなの記録があるとき、モードを選ぶ画面を「モー�
 R372: おとなモードのきずなの一覧と、きずなの台詞で、人の名前を「修理屋さん」「ゲームの子」などの漢字にし、こどもは かなのまま PASS
 R146: モードを えらぶ窓で、おとなと こどもの説明が1行ずつに分かれ、「こども＝」が行の終わりで切れない PASS
 R147: タイトルの「♪ タップで音楽」が透けない金色になり、ふちも付いて夜空に沈まない PASS
+R600: タイトルの「♪ タップで音楽」に暗い札を敷き、夜空の星が字の間に見えない PASS
 R112: 「はなす」の地が薄い間は、字が明るい色と濃いふちになり、後ろの人に溶けない PASS
 R114: 「ドラッグで あるく」の箱が薄い間も、字は濃いふちで読める PASS
 R81: タイトルの案内が「ことばノー」「トの」のように言葉の途中で折り返さない PASS
@@ -327,6 +328,7 @@ R264: 画面の外にいる相手の名前の札が、画面の端からのぞ�
 R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS
 R267: 看板の字が画面の端で切れて1文字だけ見えることがない PASS
 R266: ミナモの「しんぱいの かべ」が、届いた絵で描かれる PASS
+R601: ミナモに着いた時、2章のボスの腕が左端にのぞかない PASS
 R268: ミナモの公園のカテイノジジョウが、届いた絵で描かれる PASS
 R270: 1しょうの始めで、おまわりさんがメニューのボタンの下に隠れない PASS
 R276: 戦闘の光の玉の下にAIの相棒の名前が出る PASS
@@ -460,5 +462,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 88ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 93ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
