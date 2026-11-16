@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T14:42:14.623Z",
-  "branch": "claude/autodev-20261108-2321-R461",
-  "task": "R461 カテイノジジョウ戦のおとなのひびのお知らせ「10秒 ボスへのダメージ 2倍」と上の帯だけ文の中が空いていたので、「10秒間ボスへのダメージ2倍」「ボスへのダメージ2倍、残り10秒」にした",
-  "summary": "カテイノジジョウ戦のおとなのひびのお知らせと上の帯の文の中の空白を詰めた\n空白が無いことを調べるテストを足し、前と後のスクショを v5/verification に置いた\n確認役が、吹き出し「しょうらい」が操作の説明に重なると挙げた（前からある）",
-  "result": "pass",
-  "shots": [
-   "shots/800/mobile-02-mode-select.jpg",
-   "shots/800/mobile-19-custom-og-credit-card.jpg",
-   "shots/800/mobile-34-chapter-1-play.jpg",
-   "shots/800/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "899f02b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42489926950"
- },
- {
   "at": "2026-11-08T14:52:24.673Z",
   "branch": "claude/autodev-20261108-2321-R461",
   "task": "R461 カテイノジジョウ戦のおとなのひびのお知らせ「10秒 ボスへのダメージ 2倍」と上の帯だけ文の中が空いていたので、「10秒間ボスへのダメージ2倍」「ボスへのダメージ2倍、残り10秒」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "1dcbefa",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43824837245"
+ },
+ {
+  "at": "2026-11-16T08:41:52.391Z",
+  "branch": "claude/autodev-20261116-1621-R599",
+  "task": "R599 全章のスクショから確認役が3つ挙げたので確かめた。ボス戦の始めの札と板は R158 の作りどおり、情報欄の下の2章のボスは歩けば見える、勝った後の空の窓は字が出る前の0.1秒だったので、どれも直さなかった",
+  "summary": "前の枝は自動確認で test_v5 だけ落ちた。ログは警告2行で切れていた\n手元で main を取りこんで test_v5 を流すと、464件すべて通り、4分半で終わった\n時間切れか一時的な落ちと見て、コードは変えずに確認へ出し直した",
+  "result": "pass",
+  "shots": [
+   "shots/1045/mobile-02-mode-select.jpg",
+   "shots/1045/mobile-19-custom-og-credit-card.jpg",
+   "shots/1045/mobile-34-chapter-1-play.jpg",
+   "shots/1045/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b8d527a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43831573217"
  }
 ]
