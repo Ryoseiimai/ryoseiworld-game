@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T12:57:41.278Z",
-  "branch": "claude/autodev-20261108-2121-R459",
-  "task": "R459 ヒカクマオウ戦のおとなのヒントだけ「数字に当たると 攻撃力が下がる」と文の中が空いていて、ほかのおとなの文と食い違っていたので詰めた",
-  "summary": "ヒカクマオウ戦のおとなのヒントの文の中の空白を詰めた\n空白が無いことを調べるテストを足し、前と後のスクショを v5/verification に置いた\nノーツの「押そう」と章の札の「02」は今のテストが決めているので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/796/mobile-02-mode-select.jpg",
-   "shots/796/mobile-19-custom-og-credit-card.jpg",
-   "shots/796/mobile-34-chapter-1-play.jpg",
-   "shots/796/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e03bd13",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42481045316"
- },
- {
   "at": "2026-11-08T13:40:58.701Z",
   "branch": "claude/autodev-20261108-2221-R460",
   "task": "R460 ヒカクマオウ戦のおとなのお知らせ「数字に当たって 攻撃力が下がった」「攻撃力が1段 戻った！」だけ文の中が空いていて、R459で詰めたヒントと食い違っていたので詰めた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "04faff6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43812020523"
+ },
+ {
+  "at": "2026-11-16T06:13:02.195Z",
+  "branch": "claude/autodev-20261116-1421-R597",
+  "task": "R597 R595 で残った2つを確かめた。電気屋の奥の壁は R538 の作りどおり、砂場の上の「話す」ボタンは看板のためすでに薄くなっていたので、どちらも直さなかった",
+  "summary": "R595 で残った2つの所を、手元のスクショとテストで確かめた\n電気屋の奥は高い部屋なので、下では上の壁が見えない。R538 の作りどおりなので変えなかった\n町の砂場の上の「話す」ボタンは、公園の看板のためにすでに薄くなっていた。直す所が無かった",
+  "result": "pass",
+  "shots": [
+   "shots/1042/mobile-02-mode-select.jpg",
+   "shots/1042/mobile-19-custom-og-credit-card.jpg",
+   "shots/1042/mobile-34-chapter-1-play.jpg",
+   "shots/1042/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7b86d8b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43812087569"
  }
 ]
