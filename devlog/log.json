@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T21:52:44.000Z",
-  "branch": "claude/autodev-20261109-0622-R467",
-  "task": "R467 はじめての戦いのHPのひとこと「0になると倒れる」が敵のHPの下に出て何のことか分かりにくかったので、「残りの体力。0になると倒れる」にした",
-  "summary": "はじめての戦いのHPのひとことを「残りの体力。0になると倒れる」にした\nこどもモードは「のこりの たいりょく。0で たおれちゃう」にした\nひとことのテストと、前と後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/813/mobile-02-mode-select.jpg",
-   "shots/813/mobile-19-custom-og-credit-card.jpg",
-   "shots/813/mobile-34-chapter-1-play.jpg",
-   "shots/813/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6f2054a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42526593284"
- },
- {
   "at": "2026-11-08T22:53:48.822Z",
   "branch": "claude/autodev-20261109-0721-R468",
   "task": "R468 タイトルの案内が「始まりは 第1章　ヒダマリちょう」と半角と全角の空きが混ざっていたので、大人モードは「始まりは第1章」「続きは第N章」と詰めた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "eb6aea4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43897129762"
+ },
+ {
+  "at": "2026-11-16T16:49:48.161Z",
+  "branch": "claude/autodev-20261117-0121-R606",
+  "task": "R606 ことばノートのおさらいの答えの窓の下に、戦闘の文がはみ出して見えていた。確かめの場面が戦闘中に窓を開いていたので、町に戻ってから開くようにし、戦闘中でないかを見る確かめを足した",
+  "summary": "確認役が全章のスクショから3つ挙げ、おさらいの答えの窓の下に戦闘の文が見える所を直した\n確かめの場面が戦闘中にことばノートを開いていたので、町に戻ってから開くようにした\nおさらいの答えが町で出ているかを見る確かめを足した（手元の確かめはすべて通過）",
+  "result": "pass",
+  "shots": [
+   "shots/1058/mobile-02-mode-select.jpg",
+   "shots/1058/mobile-19-custom-og-credit-card.jpg",
+   "shots/1058/mobile-34-chapter-1-play.jpg",
+   "shots/1058/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c86f260",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43910001139"
  }
 ]
