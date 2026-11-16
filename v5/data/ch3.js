@@ -26,7 +26,8 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // at y 20.8 (0.8 tile up) the tag plate ends 8px above the sign plate. num1 stays put: lower, its feet fell off the bottom of the arrival view.
  // R503: at x 13.4 the rank 86 sign's plate ended 7px from her body and read as her sign; at 13.7 she stands 21px clear, still on the sidewalk tile.
  // R536: num1 moved to 11.45 so its sign stays over its head with the wider 28px edge, and she moved to 13.8 to keep the same gap from it.
- object('neon_mio','npc2',0,13.8,20.8,48,65,{label:'ミオ',event:'mioRain'}),
+ // R603: num1's sign went 10px up to show its tail over the head; she stands 12px higher to keep her tag clear of it.
+ object('neon_mio','npc2',0,13.8,20.55,48,65,{label:'ミオ',event:'mioRain'}),
  // R27: the cloud gate at the edge of town, the way up to 4章 ノイズのとう (light elevator). Locked until ヒカクマオウ is beaten.
  city('neon_cloudgate',8,15,4.6,190,190,{label:'くもの もん',enter:'tower1',arrival:[5,10],lock:'neonCleared',lockedDialogue:'cloudGateLocked'}),
  // R239: the welcome board was the town's wooden park board, out of place on ネオン's purple paving (mobile-23); it is now the glowing city signboard.
