@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T10:52:43.116Z",
-  "branch": "claude/autodev-20261108-1921-R457",
-  "task": "R457 召喚の文でナオスライムとサーチフクロウのおとなの文だけ「！」の後に空白があり、ほかの召喚の文と食い違っていたので詰めた",
-  "summary": "ナオスライムの「デバッグ！ HPが戻った。」の空白を詰めた\n確認役が挙げたサーチフクロウの「弱みが見えた！ 」も詰めた\nおとなの文で「！」「？」の後に空白が無いことを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/791/mobile-02-mode-select.jpg",
-   "shots/791/mobile-19-custom-og-credit-card.jpg",
-   "shots/791/mobile-34-chapter-1-play.jpg",
-   "shots/791/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c5e459b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42472279816"
- },
- {
   "at": "2026-11-08T11:45:33.823Z",
   "branch": "claude/autodev-20261108-2021-R458",
   "task": "R458 実績の一覧で1章だけ「BUG KING を修理した」と動詞が違い、2章と3章の「静めた」とそろっていなかったので、「BUG KING を静めた」にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "a84335a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43798456253"
+ },
+ {
+  "at": "2026-11-16T04:01:58.920Z",
+  "branch": "claude/autodev-20261116-1242-R595",
+  "task": "R595 遊んで一番気になる所を1つ直す",
+  "summary": "自動確認で落ちた R594 の枝を、手元で全部のテストにかけ直した\n手元では 463 件すべて通り、7分11秒で最後まで終わった\n確認役の指摘で、台帳の題の「効き目」を「召喚が届いた時の光」に直した",
+  "result": "pass",
+  "shots": [
+   "shots/1038/mobile-02-mode-select.jpg",
+   "shots/1038/mobile-19-custom-og-credit-card.jpg",
+   "shots/1038/mobile-34-chapter-1-play.jpg",
+   "shots/1038/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cbb9603",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43800410371"
  }
 ]
