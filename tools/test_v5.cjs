@@ -10,6 +10,9 @@ const html = fs.readFileSync(documentPath,'utf8');
 const scripts = [...html.matchAll(/<script(?: src="([^"]+)")?>([\s\S]*?)<\/script>/g)].map(m=>m[1]?{file:'v5/'+m[1],code:fs.readFileSync(path.join(root,m[1]),'utf8')}:{file:'v5/index.html',code:m[2]});
 assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html loads data/ch1.js');
 const result=[];
+// R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
+const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate']]);
+// R605: each script is compiled once (vm.Script) and run in every runtime's new context, instead of compiling 600KB again for each of the ~340 runtimes.
 // Decode the shipped RGBA PNGs so collision tests use actual alpha, not rectangles.
 const decoded=new Map();
 function pngPixels(file){
@@ -29,7 +32,8 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
   const loadPromise=new Promise((resolve,reject)=>{resolveLoad=resolve;rejectLoad=reject});
   // Draw calls are not recorded: a long simulated walk issues millions of them.
   const noop=()=>{};
-  const context2d = new Proxy({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient(...a){canvasCalls.push(['radial',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);return {addColorStop(){}};},createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){if(this.fillStyle==='#0b1f3ce0')canvasCalls.push(['summonplate',...a]);if(this.fillStyle==='#1f2a44e6'){canvasCalls.push(['plate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#244b49ee'){canvasCalls.push(['tag',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#98a27f'){canvasCalls.push(['paving',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}if(this.fillStyle==='#e7d29f'){canvasCalls.push(['exitplate',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(/^[↑↓]$|^(うえへ|したへ|そとへ)$/.test(a[0]))canvasCalls.push(['signcolor',a[0],this.fillStyle]);if(/^[↑↓←→]$|^(うえへ|したへ|そとへ|上へ|下へ|外へ|こうえん|公園|ミナモ)$/.test(a[0]))canvasCalls.push(['signfont',a[0],this.font,this.fillStyle]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\/|\/buildings\/|\/enemies\/|\/bugking\/|\/ryosei\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);},moveTo(...a){if(this.fillStyle==='#1f2a44e6')canvasCalls.push(['platemove',...a]);},lineTo(...a){if(this.fillStyle==='#1f2a44e6')canvasCalls.push(['plateline',...a]);}}, {get(o,p){return p in o ? o[p] : noop},set(o,p,v){o[p]=v;return true;}});
+  // R605: the context is a plain object (fast own-property reads and writes); any other name falls through to a Proxy prototype that answers noop, as the old Proxy did.
+  const context2d = Object.setPrototypeOf({getImageData:()=>pngPixels(root+'/'+draws[draws.length-1][0].src),createRadialGradient(...a){canvasCalls.push(['radial',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);return {addColorStop(){}};},createLinearGradient:()=>({addColorStop(){}}),measureText(t){return {width:String(t).length*(parseFloat(this.font)||10)};},fillRect(...a){const k=FILL_TAGS.get(this.fillStyle);if(k){canvasCalls.push([k,...a]);if(k!=='summonplate'&&canvasCalls.length>4000)canvasCalls.splice(0,2000);}},strokeText(...a){canvasCalls.push(['strokeText',...a]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},fillText(...a){canvasCalls.push(['fillText',...a]);if(/^[↑↓]$|^(うえへ|したへ|そとへ)$/.test(a[0]))canvasCalls.push(['signcolor',a[0],this.fillStyle]);if(/^[↑↓←→]$|^(うえへ|したへ|そとへ|上へ|下へ|外へ|こうえん|公園|ミナモ)$/.test(a[0]))canvasCalls.push(['signfont',a[0],this.font,this.fillStyle]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);},drawImage(...a){draws[0]=a;if(/numberperson|\/props\/|\/buildings\/|\/enemies\/|\/bugking\/|\/ryosei\//.test(String(a[0]?.src))){canvasCalls.push(['drawImage',a[0].src,...a.slice(1)]);if(canvasCalls.length>4000)canvasCalls.splice(0,2000);}imageLog.push(a[0].src);imageAlpha.push(this.globalAlpha??1);if(imageAlpha.length>4000)imageAlpha.splice(0,2000);imageX.push(a[1]);if(imageX.length>4000)imageX.splice(0,2000);if(imageLog.length>4000)imageLog.splice(0,2000);},moveTo(...a){if(this.fillStyle==='#1f2a44e6')canvasCalls.push(['platemove',...a]);},lineTo(...a){if(this.fillStyle==='#1f2a44e6')canvasCalls.push(['plateline',...a]);}}, new Proxy({}, {get(){return noop}}));
   class El {
     constructor(id=''){this.id=id;this.style={};this.dataset={};this.listeners={};this.hidden=false;this.disabled=false;this.textContent='';this.children=[];this.tagName='DIV';this.value=id==='name-input'?'ソラ':'';this.classes=new Set();this.classList={add:x=>this.classes.add(x),remove:x=>this.classes.delete(x),toggle:(x,on)=>on?this.classes.add(x):this.classes.delete(x)};}
     addEventListener(n,f){(this.listeners[n]??=[]).push(f)}
@@ -88,7 +92,7 @@ async function runtime({saved=new Map(),missing=false,brokenStorage=false,seed=7
     system:{onPause(cb){host.pause=cb;if(initialPause)cb()},onResume(cb){host.resume=cb},
       isAudioEnabled(){return host.enabled},onAudioEnabledChange(cb){host.audio=cb}}
   };
-  for(const s of scripts){if((omitWords&&s.file==='v5/data/words.js')||(omitProto&&s.file==='v5/js/proto.js')||(omitOutGame&&s.file==='v5/js/outgame.js'))continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;vm.runInNewContext(s.code,sandbox,{filename:s.file});}
+  for(const s of scripts){if((omitWords&&s.file==='v5/data/words.js')||(omitProto&&s.file==='v5/js/proto.js')||(omitOutGame&&s.file==='v5/js/outgame.js'))continue;if(sandbox.window.RYW)sandbox.RYW=sandbox.window.RYW;(s.script??=new vm.Script(s.code,{filename:s.file})).runInNewContext(sandbox);}
   // The side-scrolling boss battle needs a real browser (tools/test_shooter.cjs and the smoke cover it); here a double records each start.
   const shooterRuns=[];assert(sandbox.window.RYW.Shooter,'index.html loads js/shooter.js after the engine');
   sandbox.window.RYW.Shooter.start=cfg=>{const h={cfg,stopped:false,stop(){h.stopped=true;}};shooterRuns.push(h);return h;};
@@ -3672,6 +3676,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0],c=d.match(/modalCuts\(edges,SORA_BATTLE_Y-(\d+),SORA_BATTLE_Y\+(\d+)\)\)if\(!b\.cast\)drawSora/);
   assert(c&&y-Number(c[1])<=y-44&&y+Number(c[2])>=bot,'R596: the window-cut check covers the glow and the whole name plate');}
  result.push('R596: 戦闘のソラの光と名前の札が重ならない PASS');
+ // R605: drawField hands ground() the tiles the camera can see; inside that view it draws exactly what the whole-map draw draws, and nothing outside it (one tile of margin).
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],helpers=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n');const rects=[];
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c].join()),()=>{},()=>({wall:'w',paper:'p',paperLine:'l',rail:'r',skirt:'s'}),48,190,130,0);
+  assert(/roomSurround\(m\);ground\(m,\{x0:Math\.floor\(camera\.x\/TILE\)-1,x1:Math\.ceil\(\(camera\.x\+W\)\/TILE\)\+1,y0:Math\.floor\(camera\.y\/TILE\)-1,y1:Math\.ceil\(\(camera\.y\+H\)\/TILE\)\+1\}\)/.test(html),'R605: drawField passes the camera view to ground()');
+  const rt=await runtime();
+  for(const name of ['town','minamo','neon','room']){const m=rt.g.GAME_DATA.maps[name];assert(m,'R605: map '+name+' exists');const v={x0:2,x1:13,y0:-2,y1:21};
+   rects.length=0;ground(m);const all=rects.slice();rects.length=0;ground(m,v);const part=rects.slice();
+   const inView=r=>{const [x,y]=r.split(',').map(Number),tx=Math.floor(x/48),ty=Math.floor(y/48);return tx>=v.x0&&tx<v.x1&&ty>=v.y0&&ty<v.y1;};
+   assert(part.length<all.length,name+': the view draws fewer rectangles ('+part.length+' / '+all.length+')');
+   const missing=all.filter(r=>inView(r)&&!part.includes(r));assert.deepEqual(missing.slice(0,3),[],name+': every rectangle of the whole-map draw inside the view is drawn');
+   const extra=part.filter(r=>!all.includes(r));assert.deepEqual(extra,[],name+': the view draws nothing the whole-map draw does not');}}
+ result.push('R605: 町の地面は、画面に映るマスだけを描く（映る所の絵は前と同じ） PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
