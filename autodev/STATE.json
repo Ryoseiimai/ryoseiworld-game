@@ -3,7 +3,7 @@
   "current": {
     "id": "R603",
     "branch": "claude/autodev-20261116-2122-R603",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-11-16T21:22:18+09:00"
