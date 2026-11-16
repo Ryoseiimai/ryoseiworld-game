@@ -3649,8 +3649,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!mk(false,250,400)(340,486),'R585: a window wholly below the hero leaves it drawn');
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
   assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+6)){ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'R585: the hero and its shadow are skipped when cut');
-  assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+64))if(!b.cast)drawSora("),'R585: Sora is skipped when cut');}
+  assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+82))if(!b.cast)drawSora("),'R585: Sora is skipped when cut');}
  result.push('R585: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS');
+ // R596: the partner name plate (top SORA_BATTLE_Y+tag-25) sat over the lower half of Sora's glow (to SORA_BATTLE_Y+44), so the plate cut the light.
+ {const y=Number((html.match(/const SORA_BATTLE_X=\d+,SORA_BATTLE_Y=(\d+);/)||[])[1]),m=html.match(/function soraTag\(n\)\{[^]*?y=SORA_BATTLE_Y\+(\d+);rect\(x-tw\/2-\d+,y-(\d+),tw\+\d+,(\d+),SORA_TAG_PLATE\)/);
+  assert(m,'R596: the partner name plate is found');const base=y+Number(m[1]),top=base-Number(m[2]),bot=top+Number(m[3]);
+  assert(y+44+4<=top,'R596: Sora glow (ends '+(y+44)+') ends 4px or more above the name plate (starts '+top+')');
+  assert(base+6+24<=488,'R596: the name still keeps the R512 gap above the HP card');
+  const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0],c=d.match(/modalCuts\(edges,SORA_BATTLE_Y-(\d+),SORA_BATTLE_Y\+(\d+)\)\)if\(!b\.cast\)drawSora/);
+  assert(c&&y-Number(c[1])<=y-44&&y+Number(c[2])>=bot,'R596: the window-cut check covers the glow and the whole name plate');}
+ result.push('R596: 戦闘のソラの光と名前の札が重ならない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
