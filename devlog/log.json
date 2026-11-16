@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T07:00:24.317Z",
-  "branch": "claude/autodev-20261109-1524-R473",
-  "task": "R473 終わりの札の大人の文が「音楽の一部は Google の Lyria で」と語の間が空き、タイトルの「AIを学ぶRPG」や「Xで投稿」と食い違っていたので、「音楽の一部はGoogleのLyriaで」に詰めた",
-  "summary": "終わりの札の大人の文の語の間の空きを詰めた\n大人のLyriaの行に半角の空きが無いことを確かめるテストを足した\nきずなのひらがなは設計書で変えない言葉なので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/824/mobile-02-mode-select.jpg",
-   "shots/824/mobile-19-custom-og-credit-card.jpg",
-   "shots/824/mobile-34-chapter-1-play.jpg",
-   "shots/824/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "958146d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42575504512"
- },
- {
   "at": "2026-11-09T08:03:29.037Z",
   "branch": "claude/autodev-20261109-1626-R474",
   "task": "R474 おとなモードの武器の名前が「if バリア」「ホーミング レター」とこども用の空きを残し、同じ画面の「フク・ショット」と食い違っていたので、おとなだけ「ifバリア」の形に詰めた",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "6f93f19",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43962689034"
+ },
+ {
+  "at": "2026-11-16T22:02:52.766Z",
+  "branch": "claude/autodev-20261117-0641-R611",
+  "task": "R611 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
+  "result": "pass",
+  "shots": [
+   "shots/1067/mobile-02-mode-select.jpg",
+   "shots/1067/mobile-19-custom-og-credit-card.jpg",
+   "shots/1067/mobile-34-chapter-1-play.jpg",
+   "shots/1067/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "87d8cc5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43964728933"
  }
 ]
