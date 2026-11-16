@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T18:05:32.500Z",
-  "branch": "claude/autodev-20261109-0221-R463",
-  "task": "R463 2〜4章のボスの後の目標の帯だけ「町に声が戻った。」と「。」で終わり、ほかの目標と食い違っていたので「。」を外した",
-  "summary": "2〜4章のボスの後の目標の帯から「。」を外し、ほかの目標とそろえた\n全章の目標の文が「。」で終わらないことを調べるテストを足した\n確認役が挙げた町の名前の短い札と正式な名前の違いは、作りの決まりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/807/mobile-02-mode-select.jpg",
-   "shots/807/mobile-19-custom-og-credit-card.jpg",
-   "shots/807/mobile-34-chapter-1-play.jpg",
-   "shots/807/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c933aef",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42506179995"
- },
- {
   "at": "2026-11-08T18:48:39.504Z",
   "branch": "claude/autodev-20261109-0321-R464",
   "task": "R464 遊んで一番気になる所を1つ直す",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "ab6b5d2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43866456025"
+ },
+ {
+  "at": "2026-11-16T13:00:38.340Z",
+  "branch": "claude/autodev-20261116-2122-R603",
+  "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
+  "summary": "ネオンのかずの人の札のしっぽを12pxに短くし、札と名札を10px上げた\nしっぽの先が頭の2〜6px上に見えるようにした。ミオも12px上げた\nR507 の確かめを、札と頭の間4〜8pxから、しっぽの先と頭の間2〜6pxに変えた",
+  "result": "fail",
+  "shots": [
+   "shots/1053/mobile-02-mode-select.jpg",
+   "shots/1053/mobile-19-custom-og-credit-card.jpg",
+   "shots/1053/mobile-34-chapter-1-play.jpg",
+   "shots/1053/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f9b3d62",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43869357285"
  }
 ]
