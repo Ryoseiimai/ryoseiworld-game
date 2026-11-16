@@ -3133,6 +3133,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sx0=sp.x-34-cam.x,sy0=sp.y-54-6-cam.y;assert(sy0>84,'the spirit is under the メニュー button: '+sy0);assert(sx0>424||sy0>172,'the spirit clears the quest line: '+[sx0,sy0]);
   assert(talk(r,'town',po.x,po.y+0.9).includes('カギ'),'talking to him opens his words');}
  result.push('R270: 1しょうの始めで、おまわりさんがメニューのボタンの下に隠れない PASS');
+ // R607: after R577 slid the officer's grey spirit 14px further out, it sat on the shiba dog's head beside him (mobile-33). The dog sits on his left now, clear of the spirit and its halo.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.tick(16);r.tick(16);
+  const m=r.g.GAME_DATA.maps.town,d=m.objects.find(o=>o.id==='dog'),sp=r.g.spirits.find(s=>s.id==='police');assert(sp&&d,'the spirit and the dog are there');
+  const dl=d.x*48-d.w/2,dr=d.x*48+d.w/2,dt=d.y*48-d.h,db=d.y*48,gap=Math.max(dl-(sp.x+34),sp.x-34-dr,dt-(sp.y+6),sp.y-60-db);
+  assert(gap>=4,'the police spirit and its halo stay off the dog, gap '+gap.toFixed(1)+'px '+JSON.stringify({sp,d:[d.x,d.y,d.w,d.h]}));
+  const crow=m.enemies.find(e=>e.id==='c1');assert(Math.abs(d.x-crow.x)*48>=(d.w+40)/2,'the dog stays off the crow lane under it');}
+ result.push('R607: 1しょうの始めで、おまわりさんの守護霊が犬の頭に重ならない PASS');
  {assert(html.includes("if(!b.cast)drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22),soraTag(g.aiName||'ソラ');"),'the battle orb shows the AI partner name');
   const m=html.match(/function soraTag\(n\)\{ctx\.font="(\d+)px[^]*?y=SORA_BATTLE_Y\+(\d+);/);assert(m&&Number(m[1])>=24,'the partner name is 24px or larger');
   const top=Number((html.match(/SORA_BATTLE_Y=(\d+)/)||[])[1])+Number(m[2]);assert(top>0&&top<=480,'the partner name sits above the HP card');}
