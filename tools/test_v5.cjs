@@ -1368,11 +1368,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R131: once learned, the walk help stays gone after a reload (the flag is saved), and a player at level 3 or more never sees it covering exits.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('town',5,32);r.tick(16);const help=r.els.get('walk-help');assert(!help.classes.has('learned'),'a new player sees the help');assert(!r.g.state.flags.walkLearned,'not learned yet');
-  for(let i=0;i<6;i++){const k=i%2?'ArrowLeft':'ArrowRight';r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(help.classes.has('learned')&&r.g.state.flags.walkLearned===true,'walking 3 s saves the learned flag');}
+  for(let i=0;i<6;i++){const k=i%2?'ArrowLeft':'ArrowRight';r.key(k);r.tick(500);r.key(k,true);}r.tick(16);assert(!help.classes.has('at-once'),'R609: walking out the help still fades it');assert(help.classes.has('learned')&&r.g.state.flags.walkLearned===true,'walking 3 s saves the learned flag');}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
-  r.g.state.flags.walkLearned=true;r.g.debugWarp('electric',5,8);r.tick(16);const help=r.els.get('walk-help');assert(help.classes.has('learned')&&!help.classes.has('behind'),'a saved learned flag hides the help without walking');}
+  r.g.state.flags.walkLearned=true;r.g.debugWarp('electric',5,8);r.tick(16);const help=r.els.get('walk-help');assert(help.classes.has('at-once'),'R609: a saved learned flag hides the help at once, without the 0.6 s fade');assert(help.classes.has('learned')&&!help.classes.has('behind'),'a saved learned flag hides the help without walking');}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
-  r.g.state.level=3;r.g.debugWarp('electric',5,8);r.tick(16);assert(r.els.get('walk-help').classes.has('learned'),'level 3 or more: the help is already gone');}
+  r.g.state.level=3;r.g.debugWarp('electric',5,8);r.tick(16);assert(r.els.get('walk-help').classes.has('learned'),'level 3 or more: the help is already gone');assert(r.els.get('walk-help').classes.has('at-once'),'R609: level 3 or more: no fade either');
+  assert(/\.walk-help\.learned\{opacity:0\}\.walk-help\.learned\.at-once\{transition:none\}/.test(html),'R609: the at-once rule turns off the fade');}
+ result.push('R609: 歩き方を知っている人（保存の印かレベル3以上）がフィールドに入っても、「ドラッグで歩く」が0.6秒かけて消える所を見せず、すぐ消す PASS');
  {const idle=html.match(/#talk-btn\.idle\{([^}]*)\}/)[1],panel='#16353b8c';assert(idle.includes('background:'+panel)&&html.includes('#hud.over .panel{background:'+panel),'R520: the idle talk button uses the same dark see-through plate as the top panel when someone is behind it');}
  result.push('R520: 近くに相手がいない時の「話す」の地を、上の札と同じ濃い透ける地にした PASS');
  result.push('R131: 歩き方を覚えた人（保存に残る）とレベル3以上の人には「ドラッグで あるく」を出さない PASS');
