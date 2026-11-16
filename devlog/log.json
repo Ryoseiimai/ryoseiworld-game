@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-08T19:07:56.606Z",
-  "branch": "claude/autodev-20261109-0321-R464",
-  "task": "R464 町の上の帯が「Lv 13 HP 204」と半角の空き1つで「13 HP」がひと続きに読めたので、ステータス画面と同じ全角の空きで「Lv 13　HP 204」にした",
-  "summary": "町の上の帯の Lv と HP の間を、ステータス画面と同じ全角の空きにした\n帯とステータス画面の分け方がそろうことを調べるテストに直した\n確認役が挙げたボス戦のソラの名前の2つの出し方などは、次の回に回した",
-  "result": "pass",
-  "shots": [
-   "shots/809/mobile-02-mode-select.jpg",
-   "shots/809/mobile-19-custom-og-credit-card.jpg",
-   "shots/809/mobile-34-chapter-1-play.jpg",
-   "shots/809/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3cc1c02",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42512250231"
- },
- {
   "at": "2026-11-08T19:43:36.885Z",
   "branch": "claude/autodev-20261109-0421-R465",
   "task": "R465 ボス戦の相棒の台詞の名前が「ソラ」のままで、名前を変えると同じ画面のことばカードと食い違っていたので、付けた名前にそろえた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "7607b6b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43878031680"
+ },
+ {
+  "at": "2026-11-16T14:55:38.727Z",
+  "branch": "claude/autodev-20261116-2321-R605",
+  "task": "R605 手元の確かめ（tools/test_v5.cjs）が443秒かかり、自動確認の600秒の上限に近いので、遅い所を見つけて速くする",
+  "summary": "遅かったのは「はなす」ボタンの4つの確かめで、全体の半分の約290秒だった\n原因はエンジンが毎フレーム地図の全マスを描くことだったので、画面に映るマスだけ描くようにした\nテストの偽の画面と読み込みも軽くし、手元の確かめは443秒から278秒になった（467件すべて通過）",
+  "result": "pass",
+  "shots": [
+   "shots/1055/mobile-02-mode-select.jpg",
+   "shots/1055/mobile-19-custom-og-credit-card.jpg",
+   "shots/1055/mobile-34-chapter-1-play.jpg",
+   "shots/1055/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0d66caf",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43889144998"
  }
 ]
