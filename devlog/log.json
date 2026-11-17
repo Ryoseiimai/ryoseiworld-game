@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T19:38:12.011Z",
-  "branch": "claude/autodev-20261111-0341-R492",
-  "task": "R492 2章の始めにミナモの看板が上の表示の裏に隠れ、柱だけが見えていたので、看板が裏に来たら表示の地を薄くした",
-  "summary": "確認役が全章のスクショから5件を挙げ、一番大きいミナモの看板の件を直した\n看板が上の表示の裏に来たら、建物と同じく表示の地を薄くするようにした\n字の大きさ・目標の地名・PCの案内の区切り・確かめ用の絵の章ずれは次の候補に残した",
-  "result": "pass",
-  "shots": [
-   "shots/855/mobile-02-mode-select.jpg",
-   "shots/855/mobile-19-custom-og-credit-card.jpg",
-   "shots/855/mobile-34-chapter-1-play.jpg",
-   "shots/855/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ded597a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42884819763"
- },
- {
   "at": "2026-11-10T22:28:27.857Z",
   "branch": "claude/autodev-20261111-0641-R494",
   "task": "R494 確かめ用の塔の場面が4章のままあとの場面に残り、ヒダマリの絵に塔の目標が出ていたので、塔は Lv13 で写し、そのあと章とレベルを元に戻した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "89bf25e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44161380280"
+ },
+ {
+  "at": "2026-11-17T20:00:50.251Z",
+  "branch": "claude/autodev-20261118-0424-R628",
+  "task": "R628 ことばノートのおさらいで、BPMの問題のハズレに「音楽の刻み」（ビートの意味）が出て、合っていそうな答えが不正解になっていたので、互いの説明に名前が出る言葉はハズレに出さないようにした",
+  "summary": "全章のスクショを確認役と見て、おさらいの問題を一番に選んだ\nBPMの問題のハズレに、ビートの意味「音楽の刻み」が出ていた\n互いの説明に名前が出る言葉は、ハズレに出さないようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1094/mobile-02-mode-select.jpg",
+   "shots/1094/mobile-19-custom-og-credit-card.jpg",
+   "shots/1094/mobile-34-chapter-1-play.jpg",
+   "shots/1094/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ac2ebf4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44161650795"
  }
 ]
