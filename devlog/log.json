@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T22:28:27.857Z",
-  "branch": "claude/autodev-20261111-0641-R494",
-  "task": "R494 確かめ用の塔の場面が4章のままあとの場面に残り、ヒダマリの絵に塔の目標が出ていたので、塔は Lv13 で写し、そのあと章とレベルを元に戻した",
-  "summary": "確認役が全章のスクショから5件を挙げ、確かめ用の絵の章ずれを直した\n塔の場面は Lv13 で写し、次の場面で章とレベルを元に戻すテストを足した\n目標の地名の形は前に決めた形を変えるので、判断の行（R495）にした",
-  "result": "pass",
-  "shots": [
-   "shots/857/mobile-02-mode-select.jpg",
-   "shots/857/mobile-19-custom-og-credit-card.jpg",
-   "shots/857/mobile-34-chapter-1-play.jpg",
-   "shots/857/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f785735",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42912598446"
- },
- {
   "at": "2026-11-11T01:20:48.424Z",
   "branch": "claude/autodev-20261111-0941-R496",
   "task": "R496 戦闘のHPが今の値だけで、どれだけ減ったか分からなかったので、ステータスと同じ「HP 60 / 60」の形で最大の値も出した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "ac2ebf4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44161650795"
+ },
+ {
+  "at": "2026-11-17T20:42:23.627Z",
+  "branch": "claude/autodev-20261118-0521-R629",
+  "task": "R629 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役と見て、おさらいの問題を一番に選んだ\nBPMの問題のハズレに、ビートの意味「音楽の刻み」が出ていた\n互いの説明に名前が出る言葉は、ハズレに出さないようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1095/mobile-02-mode-select.jpg",
+   "shots/1095/mobile-19-custom-og-credit-card.jpg",
+   "shots/1095/mobile-34-chapter-1-play.jpg",
+   "shots/1095/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "13d3812",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44170413397"
  }
 ]
