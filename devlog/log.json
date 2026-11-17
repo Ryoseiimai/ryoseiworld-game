@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T10:20:22.971Z",
-  "branch": "claude/autodev-20261110-1841-R488",
-  "task": "R488 メニューとタイトルの「実績 7/12」だけ斜線の前後が詰まり、ことばノートの「集めた言葉 12 / 48」やおさらいの「問題 1 / 3」と書き方が違ったので、おとなは「実績 7 / 12」にした（こどもは帯の幅に収まらないので今のまま）",
-  "summary": "おとなの実績のボタンを「実績 7 / 12」にし、ほかの数え方と同じ形にした\nこどもは空けると帯の幅を超えるので「じっせき 7/12」のまま残した\n確認役の上位4つは、R303・R310・R300・R450 で決めた形なので残した",
-  "result": "pass",
-  "shots": [
-   "shots/848/mobile-02-mode-select.jpg",
-   "shots/848/mobile-19-custom-og-credit-card.jpg",
-   "shots/848/mobile-34-chapter-1-play.jpg",
-   "shots/848/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ce11c17",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42796228973"
- },
- {
   "at": "2026-11-10T13:03:12.746Z",
   "branch": "claude/autodev-20261110-2141-R489",
   "task": "R489 遊んで一番気になる所を1つ直す",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "63d1b51",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44128551905"
+ },
+ {
+  "at": "2026-11-17T17:42:22.848Z",
+  "branch": "claude/autodev-20261118-0221-R625",
+  "task": "R625 プロローグの1行目は「せんぷうきだけが はたらいていた」なのに、部屋に扇風機が無かったので、テレビの下に羽根の回る扇風機を描いた",
+  "summary": "プロローグの部屋に、文に出てくる扇風機が無かった\nテレビの下に、コードで羽根の回る扇風機を描いた\n絵係に扇風機の絵を頼んだ（届くまではコードの絵）",
+  "result": "pass",
+  "shots": [
+   "shots/1089/mobile-02-mode-select.jpg",
+   "shots/1089/mobile-19-custom-og-credit-card.jpg",
+   "shots/1089/mobile-34-chapter-1-play.jpg",
+   "shots/1089/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "697e9b8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44137836235"
  }
 ]
