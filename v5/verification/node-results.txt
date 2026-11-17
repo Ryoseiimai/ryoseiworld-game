@@ -69,6 +69,7 @@ R325: ネオンのかずの人の前では、ボタンが「調べる」では�
 R24: 壁画のペイントキメラ（いっしょに かく・スプライトせいせい＝みがわり）とハッカーのお姉さんのサーバークジラ（また会う・きずな3・バックアップ）PASS
 R25: ミオの雨の日（かさに いれる で きずな3・コトバイルカが 仲間に なる）とほんやく（てきが 1かい やすむ）PASS
 Prototype: lesson/play events, input lock, completion ordering, chapter 1 scene, local/cloud/old saves, item play/inspect/back, debug hooks, missing script fallback PASS
+R628: the review quiz does not offer a word its own card names (BPM vs ビート) as a wrong answer PASS
 Words: 65 unique ids (49 kids + 16 adult-only AI/dev terms), adult/kids fields/limits/kinds/references; first-time cards, queue cap, click/timeout/pause, menu visibility, notebook, old/cloud saves, missing script fallback, boss batch PASS
 Prompts: cancel uses no turn; for loop two numbered hits and original total; generation three variants heal 8; one enemy move each; skills/status/enemy word triggers PASS
 R365: おとなモードのデバッグモードの切り替えを「判定ワイド」「当たり判定を表示」にし、こどもモードは かなのまま PASS
@@ -473,5 +474,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 86ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 91ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
