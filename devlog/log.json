@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T16:19:31.156Z",
-  "branch": "claude/autodev-20261111-0041-R491",
-  "task": "R491 確認役が挙げた5件はどれも前に決めた形だったので、ゲームは変えず、全章の通しの「-play」の絵が前の絵と同じだったのを、主人公が一歩歩いた絵にした",
-  "summary": "確認役が全章のスクショ50枚から5件を挙げたが、どれも前に決めた形だった\n歩く案内を薄くする形は R275、2行に分ける形は R303、BUG KING の後の空きは R310 で決めたので、変えなかった\n全章の通しで「-play」の絵が前の絵と同じだったので、左へ一歩歩いてから撮るようにした",
-  "result": "pass",
-  "shots": [
-   "shots/854/mobile-02-mode-select.jpg",
-   "shots/854/mobile-19-custom-og-credit-card.jpg",
-   "shots/854/mobile-34-chapter-1-play.jpg",
-   "shots/854/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b148d5a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42851604720"
- },
- {
   "at": "2026-11-10T19:38:12.011Z",
   "branch": "claude/autodev-20261111-0341-R492",
   "task": "R492 2章の始めにミナモの看板が上の表示の裏に隠れ、柱だけが見えていたので、看板が裏に来たら表示の地を薄くした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "1679abc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44150457312"
+ },
+ {
+  "at": "2026-11-17T19:50:52.842Z",
+  "branch": "claude/autodev-20261118-0424-R628",
+  "task": "R628 遊んで一番気になる所を1つ直す",
+  "summary": "R627 で、スマホ縦の全章スクショを確認役と見た\nプロローグの部屋には扇風機があり、歩ける自分の部屋には無かった\n自分の部屋のテレビの右下に、同じ扇風機を置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1093/mobile-02-mode-select.jpg",
+   "shots/1093/mobile-19-custom-og-credit-card.jpg",
+   "shots/1093/mobile-34-chapter-1-play.jpg",
+   "shots/1093/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "89bf25e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44161380280"
  }
 ]
