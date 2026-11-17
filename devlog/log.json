@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T15:08:28.369Z",
-  "branch": "claude/autodev-20261109-2325-R481",
-  "task": "R481 地図の左上の見出しが町だけ「ヒダマリ」「ミナモ」「ネオン」と略され、章の名前や目標と呼び名が違ったので、正式な名前にした",
-  "summary": "全章のスクショを確認役が見て、町の見出しだけが略されていると挙げた\n町の見出しを「ヒダマリちょう」「ミナモちょう」「ネオンシティ」にした\n見出しが正式な名前になったことをテストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/835/mobile-02-mode-select.jpg",
-   "shots/835/mobile-19-custom-og-credit-card.jpg",
-   "shots/835/mobile-34-chapter-1-play.jpg",
-   "shots/835/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1c6561b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42639206138"
- },
- {
   "at": "2026-11-09T15:55:52.594Z",
   "branch": "claude/autodev-20261110-0023-R482",
   "task": "R482 ボス戦の始めの帯「フクの力で キックボードが浮かんだ！」がはっきり読める時間が0.57秒しかなかったので、出入りを速めて0.86秒にした",
@@ -2953,5 +2938,15 @@
   ],
   "sha": "46e26fd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44085210698"
+ },
+ {
+  "at": "2026-11-17T13:06:11.703Z",
+  "branch": "claude/autodev-20261117-2142-R619",
+  "task": "R619 プロローグなどで文がまだ出ている途中から「タップ ▾」が見え、文が切れたように見えていたので、文が出きってから出すようにした",
+  "summary": "会話の「タップ ▾」が文の途中から見えていたので、文が出きってから出した\n「タップ」は場所を残して隠すので、窓の大きさと字の位置は変わらない\n手元のテストと全章の通しは通った。確認役の他の2つ（家の前の主人公、終わりのメニュー）は作りどおりなので直さなかった",
+  "result": "conflict",
+  "shots": [],
+  "sha": "23ffcbd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44089083690"
  }
 ]
