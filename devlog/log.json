@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T15:55:52.594Z",
-  "branch": "claude/autodev-20261110-0023-R482",
-  "task": "R482 ボス戦の始めの帯「フクの力で キックボードが浮かんだ！」がはっきり読める時間が0.57秒しかなかったので、出入りを速めて0.86秒にした",
-  "summary": "ボス戦の始めの帯が、はっきり読める時間は0.57秒だけだった\n帯の出入りを速め、読める時間を0.86秒にした。ボスが入る前に消える\n0.1秒ごとの前と後のスクショで、読める枚数が3枚から5枚に増えたのを見た",
-  "result": "pass",
-  "shots": [
-   "shots/836/mobile-02-mode-select.jpg",
-   "shots/836/mobile-19-custom-og-credit-card.jpg",
-   "shots/836/mobile-34-chapter-1-play.jpg",
-   "shots/836/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ca01f92",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42647218529"
- },
- {
   "at": "2026-11-09T16:48:32.974Z",
   "branch": "claude/autodev-20261110-0121-R483",
   "task": "R483 きずなの画面だけ「［家］」と角かっこで、隣の武器の画面の「〔フク・ショット〕」と形が違ったので、きずなも「〔家〕」にそろえた",
@@ -2948,5 +2933,20 @@
   "shots": [],
   "sha": "23ffcbd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44089083690"
+ },
+ {
+  "at": "2026-11-17T13:18:55.250Z",
+  "branch": "claude/autodev-20261117-2142-R619",
+  "task": "R619 タイトルの「♪ タップで音楽」の札が画面の右端から12pxしか離れず、スマホで枠に押しつけられて見えたので、ほかの角のボタンと同じ24pxあけた",
+  "summary": "会話の「タップ ▾」が文の途中から見えていたので、文が出きってから出した\n「タップ」は場所を残して隠すので、窓の大きさと字の位置は変わらない\n手元のテストと全章の通しは通った。確認役の他の2つ（家の前の主人公、終わりのメニュー）は作りどおりなので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1079/mobile-02-mode-select.jpg",
+   "shots/1079/mobile-19-custom-og-credit-card.jpg",
+   "shots/1079/mobile-34-chapter-1-play.jpg",
+   "shots/1079/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c591833",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44089874805"
  }
 ]
