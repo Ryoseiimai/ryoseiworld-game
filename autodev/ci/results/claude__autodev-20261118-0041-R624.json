@@ -1,22 +1,30 @@
 {
   "branch": "claude/autodev-20261118-0041-R624",
-  "sha": "6ad8b55ba1b4dd5d10b5f7e51c2c05c2007f1d78",
-  "result": "pass",
+  "sha": "fbc959b4dc660c3dee7da52e41f1eba018f9017b",
+  "result": "fail",
   "checks": {
     "fence": "pass",
     "merge": "ff",
-    "test_v5": "pass",
+    "test_v5": "fail",
     "smoke": "pass"
   },
-  "errors": [],
-  "shots": [
-    "devlog/shots/1085/mobile-02-mode-select.jpg",
-    "devlog/shots/1085/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/1085/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/1085/mobile-50-battle-bugking.jpg"
+  "errors": [
+    "test_shooter: 失敗（最後の15行）",
+    "ゆっくりめの人のボット（きずな0）: bugking 144秒(当たり0回) / kateino 156秒(当たり0回) / hikaku 130秒(当たり0回) / jibun 128秒(当たり0回) / zero 126秒(当たり0回)",
+    "きずな0（武器なし・おとも0）のボット: bugking 127秒(当たり0回) / kateino 134秒(当たり0回) / hikaku 128秒(当たり0回) / jibun 130秒(当たり0回) / zero 126秒(当たり0回)",
+    "武器ぜんぶ＋おとも3のボット: bugking 33秒(当たり0回) / kateino 36秒(当たり0回) / hikaku 18秒(当たり0回) / jibun 130秒(当たり0回) / zero 126秒(当たり0回)",
+    "ビートを押すボット: bugking 29秒 / kateino 41秒 / hikaku 27秒",
+    "FAIL R135: とくぎのボタンは戦う場所の下の線から8px以上はなれ、ビートは画面の中  {\"sk\":\"position:absolute;left:338px;top:832px;width:180px;height:40px;min-height:0;border-radius:14px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.1;padding:1px 3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none\",\"bt\":\"position:absolute;left:338px;top:888px;width:180px;height:48px;min-height:0;padding:0;line-height:1;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none\"}",
+    "test_shooter: 610 ok, 1 failed"
   ],
-  "at": "2026-11-17T15:58:33.562Z",
-  "merged_sha": "6ad8b55ba1b4dd5d10b5f7e51c2c05c2007f1d78",
-  "tested_base": "8ae51867c714774891cb2d7a0425ced13c7399e3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44118643101"
+  "shots": [
+    "devlog/shots/1086/mobile-02-mode-select.jpg",
+    "devlog/shots/1086/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1086/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1086/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-17T16:10:13.974Z",
+  "merged_sha": null,
+  "tested_base": "5fc10584827d83969dda306b71958e9ce24222a1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44120725999"
 }
