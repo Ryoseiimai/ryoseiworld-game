@@ -1752,6 +1752,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,38,6,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
   assert(y+6<=486,'the hero shadow ends above the HP card (top 488): '+(y+6));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
+ // R618: the shadow ended 2px above the card, so on a phone the feet looked pressed onto its frame. It now leaves at least 12px.
+ {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y>0&&y+6<=488-12,'the hero shadow leaves 12px above the HP card (top 488): '+(y+6));}
+ result.push('R618: 戦闘の主人公の影と HP の欄の間に12px以上のすき間がある PASS');
  // R233: Sora's light by the enemy (glow radius twice 22) ran under the RYOSEI/HP card (top 488), so the card's frame cut it off.
  {const m=html.match(/const SORA_BATTLE_X=(\d+),SORA_BATTLE_Y=(\d+);/)||[],x=Number(m[1]),y=Number(m[2]);assert(y&&html.includes('drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'Sora in battle is drawn at SORA_BATTLE_Y');
   assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));

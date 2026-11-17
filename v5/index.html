@@ -468,7 +468,8 @@ function showWordCard(){wordCurrent=wordQueue.shift()||null;const el=$('word-car
 // R262: the ring ran 155px left of the summon's center and crossed the hero's legs (right edge 152, 156 while it shakes), and the small Sora by the enemy
 // stayed on screen next to the big Sora above the summon. The ring is now 104px wide on each side (its 3px shake included), and the small Sora hides while a summon is called.
 const SUMMON_Y=470,SUMMON_RING_Y=462,SUMMON_RING_RY=20;
-const HERO_BATTLE_Y=480;
+// R618: the shadow under the wheels ended 2px above the RYOSEI/HP card (top 488), so on a phone the feet looked pressed onto its frame and stood far below the enemy. The hero stands 14px higher (shadow ends at 472).
+const HERO_BATTLE_Y=466;
 // R233: Sora's light by the enemy sat at 465 and its glow (twice the 22 radius) ran under the RYOSEI/HP card (top 488px), so the card's frame cut it off. It now ends 4px above the card,
 // and moves right from 415 to 460 so the raised glow stays clear of a big boss's art (it reaches x 407).
 // R512: the name 「ソラ」 under the light ended about 10px over the card's top line and read as sitting on the frame; Sora is 20px higher, so the name has a clear gap.
