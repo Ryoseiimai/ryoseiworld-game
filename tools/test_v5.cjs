@@ -1756,6 +1756,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R618: the shadow ended 2px above the card, so on a phone the feet looked pressed onto its frame. It now leaves at least 12px.
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y>0&&y+6<=488-12,'the hero shadow leaves 12px above the HP card (top 488): '+(y+6));}
  result.push('R618: 戦闘の主人公の影と HP の欄の間に12px以上のすき間がある PASS');
+ // R620: 「タップ ▾」 showed while the prologue line was still typing, so the line looked cut off. It now waits for the line to finish.
+ {assert(/\.dialogue\.typing \.next\{visibility:hidden\}/.test(html),'the hint hides (keeping its place) while the dialogue is typing');
+  const st=(html.match(/function startTypewriter\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/typingMark\(true\)/.test(st),'starting a line marks the box as typing: '+st);
+  assert((html.match(/typewriter\.done = true; typingMark\(false\);/g)||[]).length===2,'both the natural end and the skip show the hint again');
+  const tm=(html.match(/function typingMark\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/'dialogue-text'/.test(tm),'only the dialogue box is marked, not other typed text: '+tm);}
+ result.push('R620: 会話の「タップ ▾」は文が出きってから出る PASS');
  // R233: Sora's light by the enemy (glow radius twice 22) ran under the RYOSEI/HP card (top 488), so the card's frame cut it off.
  {const m=html.match(/const SORA_BATTLE_X=(\d+),SORA_BATTLE_Y=(\d+);/)||[],x=Number(m[1]),y=Number(m[2]);assert(y&&html.includes('drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'Sora in battle is drawn at SORA_BATTLE_Y');
   assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));
