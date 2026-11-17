@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-11T01:20:48.424Z",
-  "branch": "claude/autodev-20261111-0941-R496",
-  "task": "R496 戦闘のHPが今の値だけで、どれだけ減ったか分からなかったので、ステータスと同じ「HP 60 / 60」の形で最大の値も出した",
-  "summary": "確認役が全章のスクショを見て、戦闘のHPに最大の値が無い所を挙げた\n戦闘のHPを「HP 60 / 60」にし、9999でも重ならないことを確かめた\n最大の値の表示と文字の大きさを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/858/mobile-02-mode-select.jpg",
-   "shots/858/mobile-19-custom-og-credit-card.jpg",
-   "shots/858/mobile-34-chapter-1-play.jpg",
-   "shots/858/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "208690b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42936455722"
- },
- {
   "at": "2026-11-11T04:31:44.063Z",
   "branch": "claude/autodev-20261111-1241-R497",
   "task": "R497 ボス戦の下の段で「ライフ」はハートの右、「武器」は名前の左と向きが逆だったので、ライフも左に出してハートをその右に並べた",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "13d3812",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44170413397"
+ },
+ {
+  "at": "2026-11-17T20:52:23.459Z",
+  "branch": "claude/autodev-20261118-0521-R629",
+  "task": "R629 全章のスクショを確認役に見せたが、目立つ所は無かった。挙がったミナモの看板2枚は町の名と公園の札でわざと並べた物、最初の戦いの背景は戦いで共通、ネオンの着いた直後の少なさは軽いので、どれも直さなかった",
+  "summary": "全章のスクショを確認役と見たが、目立つ所は無かった\nミナモの看板2枚は町の名と公園の札で、わざと並べた物だった\n最初の戦いの背景とネオンの人の少なさは軽いので、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1097/mobile-02-mode-select.jpg",
+   "shots/1097/mobile-19-custom-og-credit-card.jpg",
+   "shots/1097/mobile-34-chapter-1-play.jpg",
+   "shots/1097/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "afcadfa",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44170808720"
  }
 ]
