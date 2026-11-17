@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T16:09:27.884Z",
-  "branch": "claude/autodev-20261111-0041-R491",
-  "task": "R491 遊んで一番気になる所を1つ直す",
-  "summary": "確認役が全章のスクショから5件を挙げたが、どれも前に決めた形か判断待ちだった\n灰色の守護霊は R388、目標の町の名前は R444、ビートのボタンの位置は R135・R375、お小遣いは SPEC_V6 で決めた形なので、どれも変えなかった\nタイトルの案内にどこから遊ぶかを足す件は、R409・R437 の文を変えるので R490 として判断を待つ",
-  "result": "pass",
-  "shots": [
-   "shots/853/mobile-02-mode-select.jpg",
-   "shots/853/mobile-19-custom-og-credit-card.jpg",
-   "shots/853/mobile-34-chapter-1-play.jpg",
-   "shots/853/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "cade27e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42849621587"
- },
- {
   "at": "2026-11-10T16:19:31.156Z",
   "branch": "claude/autodev-20261111-0041-R491",
   "task": "R491 確認役が挙げた5件はどれも前に決めた形だったので、ゲームは変えず、全章の通しの「-play」の絵が前の絵と同じだったのを、主人公が一歩歩いた絵にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "fd8403e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44140911568"
+ },
+ {
+  "at": "2026-11-17T18:50:20.576Z",
+  "branch": "claude/autodev-20261118-0322-R627",
+  "task": "R627 プロローグの部屋には扇風機があるのに、歩ける自分の部屋には無く、別の部屋に見えていたので、テレビの右下に同じ扇風機を置いた",
+  "summary": "R627 で、スマホ縦の全章スクショを確認役と見た\nプロローグの部屋には扇風機があり、歩ける自分の部屋には無かった\n自分の部屋のテレビの右下に、同じ扇風機を置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1092/mobile-02-mode-select.jpg",
+   "shots/1092/mobile-19-custom-og-credit-card.jpg",
+   "shots/1092/mobile-34-chapter-1-play.jpg",
+   "shots/1092/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1679abc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44150457312"
  }
 ]
