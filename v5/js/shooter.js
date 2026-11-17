@@ -1587,13 +1587,13 @@
       '.ryw-shooter .rs-stage{position:absolute;left:0;top:0;width:540px;height:960px;transform-origin:0 0;overflow:hidden;background:#0a1220}' +
       '.ryw-shooter canvas{position:absolute;left:0;top:0;width:540px;height:960px;display:block}' +
       '.ryw-shooter button{box-sizing:border-box;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}' +
-      // R624: the beat button ended 6px above the bottom edge (22px from the right), so the skill button is shorter and the beat ends 18px up.
-      // R135 still holds: the skill starts 8px under the play area (834) and the beat stays 56px tall for a thumb.
+      // R624: the beat button ended 6px above the bottom edge (22px from the right), so the beat moves up and ends 10px up.
+      // That is as far as it can go: the skill starts 8px under the play area (R135, 834) and keeps 44px for its words and gauge (R95), 16px gap (R375), and the beat stays 56px tall for a thumb (R135).
       // R375: the skill button sat 8px above the beat button, so a fast tap on the beat's top edge could hit the skill; now 16px apart.
       // R598: with a 20px corner the ends of プレイテスト ran into the curve, so the corner is 14px now (the words keep 8px+ from it).
-      '.ryw-shooter .rs-skill{position:absolute;left:338px;top:834px;width:180px;height:36px;min-height:0;border-radius:14px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.1;padding:1px 3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
+      '.ryw-shooter .rs-skill{position:absolute;left:338px;top:834px;width:180px;height:44px;min-height:0;border-radius:14px;border:3px solid #9fd8e6;background:#17324a;color:#fff6d8;font-size:24px;font-weight:700;line-height:1.1;padding:1px 3px;box-shadow:0 5px 0 #0b1a27;overflow:hidden;touch-action:none}' +
       // R155: index.html fades every disabled button to .45, so in the boss intro the beat button looked broken; it keeps its word on a dark plate (like R132).
-      '.ryw-shooter .rs-beat{position:absolute;left:338px;top:886px;width:180px;height:56px;min-height:0;padding:0;line-height:1;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none}.ryw-shooter .rs-beat.rs-lit{background:#65511f;border-color:#fff0b0;box-shadow:0 0 18px #ffd76b}.ryw-shooter .rs-beat:disabled{opacity:1;background:#0f2030;border-color:#4f6f7c;color:#e6dfc4;box-shadow:0 5px 0 #08121b}' +
+      '.ryw-shooter .rs-beat{position:absolute;left:338px;top:894px;width:180px;height:56px;min-height:0;padding:0;line-height:1;border:3px solid #9fd8e6;border-radius:20px;background:#17324a;color:#fff6d8;font-size:32px;font-weight:700;touch-action:none}.ryw-shooter .rs-beat.rs-lit{background:#65511f;border-color:#fff0b0;box-shadow:0 0 18px #ffd76b}.ryw-shooter .rs-beat:disabled{opacity:1;background:#0f2030;border-color:#4f6f7c;color:#e6dfc4;box-shadow:0 5px 0 #08121b}' +
       // R598: the words go 4px up, so the gold bar under them reads as a gauge, not an underline.
       '.ryw-shooter .rs-skill span{display:block;white-space:nowrap;position:relative;top:-4px;z-index:1}' +
       '.ryw-shooter .rs-skill .rs-top{display:none}' +
