@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T10:51:02.956Z",
-  "branch": "claude/autodev-20261109-1922-R477",
-  "task": "R477 こどもモードの町の案内だけ「矢印 / WASD でも あるく」と漢字と「/」で、ボス戦の「やじるし・WASD でも うごく」と食い違っていたので、「やじるし・WASDで あるく」にした",
-  "summary": "こどもモードの町の案内を「やじるし・WASDで あるく」にし、ボス戦の書き方にそろえた\n確認役が「はなす」ボタンとの空きが4pxと挙げたので「でも」を外し、空きを26pxにした\n前と後の画面はPCの幅のこどもモードで撮って確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/829/mobile-02-mode-select.jpg",
-   "shots/829/mobile-19-custom-og-credit-card.jpg",
-   "shots/829/mobile-34-chapter-1-play.jpg",
-   "shots/829/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "530b89b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601791226"
- },
- {
   "at": "2026-11-09T12:10:17.607Z",
   "branch": "claude/autodev-20261109-2023-R478",
   "task": "R478 カテイノジジョウ戦の大人モードだけソラのヒントが「かべは かたい」とひらがなで、すぐ上の帯「壁が固く、」と食い違っていたので、「壁は固い。右下の…」と漢字かな交じりにした",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "df57785",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43987965934"
+ },
+ {
+  "at": "2026-11-17T10:55:31.332Z",
+  "branch": "claude/autodev-20261117-1926-R617",
+  "task": "R617 横長や正方形の画面で、左右のぼかしに塔の「下へ」「上へ」の札が空のボタンのような四角に見えていたので、その画面でだけぼかしを強めた",
+  "summary": "横長と正方形の画面のスクショを、確認役に初めて重点的に見せた\n左右のぼかしに塔の札が四角く浮き、空のボタンに見えたので、その画面だけぼかしを強めた\n確認役が挙げた左の縁の細い線と、曲の画面のボタンの下の狭さは、軽いので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1074/mobile-02-mode-select.jpg",
+   "shots/1074/mobile-19-custom-og-credit-card.jpg",
+   "shots/1074/mobile-34-chapter-1-play.jpg",
+   "shots/1074/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "59e8a55",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44067550521"
  }
 ]
