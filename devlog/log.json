@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T12:56:40.494Z",
-  "branch": "claude/autodev-20261109-2126-R479",
-  "task": "R479 ジブン戦とゼロ戦の大人モードのソラのヒントがひらがなのままだったので、「弾は届かない。」「攻撃が効かない。」の形の漢字かな交じりにした",
-  "summary": "ジブン戦の大人のヒントを「弾は届かない。／「作る」の光を取ろう」にした\nゼロ戦の大人のヒントを「攻撃が効かない。／みんなの「声」を集めよう」にした\n2つとも「。」の後で改行し、こどもモードはひらがなのままと確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/833/mobile-02-mode-select.jpg",
-   "shots/833/mobile-19-custom-og-credit-card.jpg",
-   "shots/833/mobile-34-chapter-1-play.jpg",
-   "shots/833/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f0371e5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42619219886"
- },
- {
   "at": "2026-11-09T14:02:38.984Z",
   "branch": "claude/autodev-20261109-2227-R480",
   "task": "R480 ボス戦の「ライフ」の字がハートの上の端に浮き、肩に付いた小さな字に見えたので、ハートの真ん中の高さにそろえた",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "704c04c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44075367157"
+ },
+ {
+  "at": "2026-11-17T12:38:32.582Z",
+  "branch": "claude/autodev-20261117-2121-R619",
+  "task": "R619 遊んで一番気になる所を1つ直す",
+  "summary": "戦闘の主人公の影が下の欄に2pxまで迫っていたので、14px上に立たせた\n影と欄の間に12px以上あるかを見るテストを足し、手元のテストは全部通った\n確認役の他の指摘（文字の小ささ、町のノイズの帯）は、縮小表示と演出なので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1076/mobile-02-mode-select.jpg",
+   "shots/1076/mobile-19-custom-og-credit-card.jpg",
+   "shots/1076/mobile-34-chapter-1-play.jpg",
+   "shots/1076/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ad29df5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44083541729"
  }
 ]
