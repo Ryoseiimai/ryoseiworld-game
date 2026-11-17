@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T17:46:12.563Z",
-  "branch": "claude/autodev-20261110-0221-R484",
-  "task": "R484 塔の地図の見出しだけ「塔1F」と英字のFで、地図の名前「ノイズのとう 1かい」や「屋上」と書き方が違ったので、「塔1階」（こどもは「とう 1かい」）にした",
-  "summary": "塔の見出しが「塔1F」と英字で、地図の名前の「1かい」と違った\n見出しを「塔1階」にし、こどもモードは「とう 1かい」にした\n見出しに英字のFが無いことを調べる確認を足した",
-  "result": "pass",
-  "shots": [
-   "shots/838/mobile-02-mode-select.jpg",
-   "shots/838/mobile-19-custom-og-credit-card.jpg",
-   "shots/838/mobile-34-chapter-1-play.jpg",
-   "shots/838/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "47c7664",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42665509141"
- },
- {
   "at": "2026-11-09T18:00:34.535Z",
   "branch": "claude/autodev-20261110-0221-R484",
   "task": "R484 塔の地図の見出しだけ「塔1F」と英字のFで、地図の名前「ノイズのとう 1かい」や「屋上」と書き方が違ったので、「塔1階」（こどもは「とう 1かい」）にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "c87d99c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44093131258"
+ },
+ {
+  "at": "2026-11-17T13:48:03.073Z",
+  "branch": "claude/autodev-20261117-2221-R621",
+  "task": "R621 全章のスクショから確認役が4つ挙げたので確かめた。町の道の砂嵐の帯はノイズの演出、ボス戦の「ドラッグで動く」の札は R502 の作りどおり動くと消える、白いボスは当たった時の光、主人公と女の子は R614 で見た話せる距離なので、どれも直さなかった",
+  "summary": "全章を通してスクショ154枚を撮り、確認役に見てもらった\n挙がった4つはどれも作りどおりの演出か直し済みの所だったので、直さなかった\nコードは変えていないので、手元のテストは流さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1081/mobile-02-mode-select.jpg",
+   "shots/1081/mobile-19-custom-og-credit-card.jpg",
+   "shots/1081/mobile-34-chapter-1-play.jpg",
+   "shots/1081/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0cfb6ed",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44093453879"
  }
 ]
