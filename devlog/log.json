@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-10T13:03:12.746Z",
-  "branch": "claude/autodev-20261110-2141-R489",
-  "task": "R489 遊んで一番気になる所を1つ直す",
-  "summary": "おとなの実績のボタンを「実績 7 / 12」にし、ほかの数え方と同じ形にした\nこどもは空けると帯の幅を超えるので「じっせき 7/12」のまま残した\n確認役の上位4つは、R303・R310・R300・R450 で決めた形なので残した",
-  "result": "pass",
-  "shots": [
-   "shots/849/mobile-02-mode-select.jpg",
-   "shots/849/mobile-19-custom-og-credit-card.jpg",
-   "shots/849/mobile-34-chapter-1-play.jpg",
-   "shots/849/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ab774dd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42818921243"
- },
- {
   "at": "2026-11-10T13:18:07.336Z",
   "branch": "claude/autodev-20261110-2141-R489",
   "task": "R489 確認役が挙げた5件はどれも前に決めた形か人の判断待ち（R388）だったので、コードは変えずに判断の行を1つ足した",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "697e9b8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44137836235"
+ },
+ {
+  "at": "2026-11-17T17:54:50.197Z",
+  "branch": "claude/autodev-20261118-0242-R626",
+  "task": "R626 正方形と横長のスクショから確認役が4つ挙げたので確かめた。タイトルの端で切れた主人公は走って横切る途中、呼び出しで暗くなる所は召喚獣を目立たせる作り、ヒカクマオウ戦の灰色のビートは始まる前で押せない作り、ボスの横の白い丸は照準なので、どれも直さなかった",
+  "summary": "R625 で、プロローグの部屋に扇風機を描いた（自動確認に合格）\nR626 で、正方形と横長のスクショを確認役と4つ確かめた\n4つとも作りどおりだったので、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1090/mobile-02-mode-select.jpg",
+   "shots/1090/mobile-19-custom-og-credit-card.jpg",
+   "shots/1090/mobile-34-chapter-1-play.jpg",
+   "shots/1090/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9eb05f4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44140431867"
  }
 ]
