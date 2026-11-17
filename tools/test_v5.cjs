@@ -3674,6 +3674,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const i=bd.indexOf("if(!$('modal').hidden){bctx.fillStyle=MODAL_DIM;bctx.fillRect(0,0,bw,backdrop.height);}");
   assert(i>bd.lastIndexOf('backdropBand(H-6,bot,bh-bot)')&&i>bd.lastIndexOf('bctx.drawImage(canvas,0,0,bw,backdrop.height)'),'R580: the cover goes on after the bands and the side blur are drawn');}
  result.push('R580: 窓を開いている間、画面の上下の帯にも窓と同じ暗い色をかぶせた PASS');
+ // R617: on a wide or square screen the side margins blur much more, so the tower's bright signs do not show as sharp tan boxes beside the stage.
+ {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],base=(html.match(/#backdrop\{[^}]*\}/)||[''])[0],wide=(html.match(/#backdrop\.wide\{([^}]*)\}/)||['',''])[1];
+  const px=r=>+((r.match(/blur\((\d+)px\)/)||[0,0])[1]);
+  assert(wide&&px(wide)>=px(base)*3&&px(base)>0,'R617: the wide-screen backdrop blur is at least 3 times the tall one: '+px(wide)+' vs '+px(base));
+  assert(/brightness\(\.([0-4])\d*\)/.test(wide),'R617: the wide-screen margin is no brighter than .49');
+  const e=bd.indexOf("bctx.drawImage(canvas,0,0,bw,backdrop.height);backdrop.classList.add('wide')"),t=bd.indexOf("backdrop.classList.remove('wide')");
+  assert(e>0&&t>0&&t<bd.indexOf('}else{'),'R617: only the side-margin branch adds .wide, the tall-phone band branch removes it');}
+ result.push('R617: 横長や正方形の画面の左右のぼかしを強め、塔の札が四角く浮かないようにした PASS');
  // R567: the greyed 「続きから」 on the title keeps a solid plate (no 45% opacity), so the ground does not show through its faint words.
  {const m=/#title-actions button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R567: greyed title buttons keep an opaque plate: '+(m&&m[1]));
   assert(html.indexOf(m[0])>html.indexOf('button:disabled{opacity:.45'),'R567: the title rule comes after the generic see-through rule');}
