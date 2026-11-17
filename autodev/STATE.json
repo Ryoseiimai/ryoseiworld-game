@@ -3,7 +3,7 @@
   "current": {
     "id": "R624",
     "branch": "claude/autodev-20261118-0041-R624",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-11-18T00:41:33+09:00"
