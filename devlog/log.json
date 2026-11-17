@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-09T10:40:54.617Z",
-  "branch": "claude/autodev-20261109-1922-R477",
-  "task": "R477 遊んで一番気になる所を1つ直す",
-  "summary": "おとなモードのチャレンジの記録を「今回ステージ：1」「最高コンボ：48」の形にした\nこどもモードはそのままにし、テストの期待する文を直してR476の確かめを足した\n確認役が挙げた「歩く」と「動く」や括弧の種類の違いは、次の回の候補に残した",
-  "result": "pass",
-  "shots": [
-   "shots/828/mobile-02-mode-select.jpg",
-   "shots/828/mobile-19-custom-og-credit-card.jpg",
-   "shots/828/mobile-34-chapter-1-play.jpg",
-   "shots/828/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "db6a1ad",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42601182766"
- },
- {
   "at": "2026-11-09T10:51:02.956Z",
   "branch": "claude/autodev-20261109-1922-R477",
   "task": "R477 こどもモードの町の案内だけ「矢印 / WASD でも あるく」と漢字と「/」で、ボス戦の「やじるし・WASD でも うごく」と食い違っていたので、「やじるし・WASDで あるく」にした",
@@ -2953,5 +2938,20 @@
   ],
   "sha": "cfc5997",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43981758333"
+ },
+ {
+  "at": "2026-11-17T00:38:12.159Z",
+  "branch": "claude/autodev-20261117-0922-R615",
+  "task": "R615 全章のスクショを確認役に見せたが、目立つ所は無かった。挙がったヒカクマオウ戦の始めにボスがいない絵は、撮った時がボスの出る前の0.0秒だったので直さなかった",
+  "summary": "全章のスクショ51枚を確認役に見せ、文字の重なりや切れた絵を探させた\n目立つ所は無く、挙がった1つもボスが出る前に撮った絵だったので直さなかった\n3回続けて直す所が無いので、次の大きな件を決めてもらう行を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1072/mobile-02-mode-select.jpg",
+   "shots/1072/mobile-19-custom-og-credit-card.jpg",
+   "shots/1072/mobile-34-chapter-1-play.jpg",
+   "shots/1072/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "df57785",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43987965934"
  }
 ]
