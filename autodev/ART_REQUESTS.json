@@ -101,5 +101,18 @@
     "status": "pending",
     "task": "R185",
     "requested_at": "2026-10-23T17:45:00+09:00"
+  },
+  {
+    "id": "art-20261118-room_fan",
+    "file": "v5/assets/room_fan_sheet.png",
+    "size": "1024x1024",
+    "grid": "1x1",
+    "out": "v5/assets/room_fan",
+    "name": "room_fan",
+    "prompt": "Pixel art game prop, single sprite centered: a white electric stand fan for a 12-year-old's bedroom on a summer night, round wire guard with three light blue blades, short pole and round base, seen from a slight top-down angle like a JRPG interior prop, same style as the reference interior sheet, transparent background, no text",
+    "ref": "v5/assets/interior_sheet.png",
+    "status": "pending",
+    "task": "R625",
+    "requested_at": "2026-11-18T02:40:00+09:00"
   }
 ]
