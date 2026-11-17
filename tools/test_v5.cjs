@@ -9,6 +9,8 @@ const html = fs.readFileSync(documentPath,'utf8');
 // index.html runs the engine, then each data/chN.js, then the inline RYW.start(); the VM runs them in the same order.
 const scripts = [...html.matchAll(/<script(?: src="([^"]+)")?>([\s\S]*?)<\/script>/g)].map(m=>m[1]?{file:'v5/'+m[1],code:fs.readFileSync(path.join(root,m[1]),'utf8')}:{file:'v5/index.html',code:m[2]});
 assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html loads data/ch1.js');
+// R627: the prologue room shows a fan (R625), so the walkable own room has the same drawn fan.
+{const ch1=scripts.find(s=>s.file==='v5/data/ch1.js').code,room=ch1.slice(ch1.indexOf('maps.room='),ch1.indexOf('maps.room=')+1500);assert(/object\('fan','fan'/.test(room),'the own room has a fan');assert(html.includes("if(o.kind==='fan')drawRoomFan(o.x*TILE,o.foot)"),'a fan object is drawn with drawRoomFan');}
 const result=[];
 // R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
 const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate']]);
