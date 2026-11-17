@@ -182,7 +182,9 @@ const OG=()=>window.RYW?.OutGame;
   function startTypewriter(el, text, onDone) {
     typewriter.el = el; typewriter.text = text; typewriter.idx = 0; typewriter.timer = 0;
     typewriter.active = true; typewriter.done = false; typewriter.onDone = onDone || null;
-    el.textContent = '';
+    // R622: the first letter shows at once, so a new line never opens as an empty box (the win line was caught blank).
+    typewriter.idx = Math.min(1, typewriter.text.length);
+    el.textContent = typewriter.text.slice(0, typewriter.idx);
     typingMark(true);
   }
   // R620: the dialogue's 「タップ ▾」 waits until the line has finished typing, so a half-typed line does not look cut off.

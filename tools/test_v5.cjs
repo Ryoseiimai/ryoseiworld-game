@@ -1762,6 +1762,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert((html.match(/typewriter\.done = true; typingMark\(false\);/g)||[]).length===2,'both the natural end and the skip show the hint again');
   const tm=(html.match(/function typingMark\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/'dialogue-text'/.test(tm),'only the dialogue box is marked, not other typed text: '+tm);}
  result.push('R620: 会話の「タップ ▾」は文が出きってから出る PASS');
+ // R622: after the vending machine win the dialogue box was caught with no letter in it (mobile-49), because a line opened empty for one typing step.
+ {const st=(html.match(/function startTypewriter\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/typewriter\.idx = Math\.min\(1, typewriter\.text\.length\);/.test(st)&&/el\.textContent = typewriter\.text\.slice\(0, typewriter\.idx\);/.test(st),'a new line shows its first letter at once: '+st);
+  const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  r.g.debugStartBattle('vending','r622');r.tick(300);while(r.g.dialogue)r.dialogue();r.g.debugWin();let seen=false;for(let i=0;i<300&&!seen;i++){r.tick(16);if(!r.els.get('dialogue').hidden){seen=true;assert(r.els.get('dialogue-text').textContent.length>0,'the win line is not an empty box when the dialogue opens');}}
+  assert(seen,'the win line opens the dialogue');while(r.g.dialogue)r.dialogue();}
+ result.push('R622: 会話の窓が文字の無い空の箱で開かない PASS');
  // R233: Sora's light by the enemy (glow radius twice 22) ran under the RYOSEI/HP card (top 488), so the card's frame cut it off.
  {const m=html.match(/const SORA_BATTLE_X=(\d+),SORA_BATTLE_Y=(\d+);/)||[],x=Number(m[1]),y=Number(m[2]);assert(y&&html.includes('drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'Sora in battle is drawn at SORA_BATTLE_Y');
   assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));
