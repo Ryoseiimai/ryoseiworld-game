@@ -1582,8 +1582,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const d of ['-2px -2px','2px -2px','-2px 2px','2px 2px'])assert(css.includes(d+' #173e3c'),'dark outline at '+d+': '+css);assert(/font-size:24px/.test(css),'the hint stays at 24px: '+css);}
  result.push('R147: タイトルの「♪ タップで音楽」が透けない金色になり、ふちも付いて夜空に沈まない PASS');
  // R600: a star of the title sky showed between the letters of the hint, so it sits on a dark plate like the title captions.
+ {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/right:24px;/.test(css),'R619: the music hint keeps 24px from the right edge, like the other corner buttons: '+css);}
  {const css=(html.match(/#music-hint\{[^}]*\}/)||[''])[0];assert(/background:rgba\(16,30,36,\.74\)/.test(css),'the hint has the captions\' dark plate: '+css);
-  assert(/padding:0 10px/.test(css)&&/right:12px/.test(css)&&/top:22px/.test(css),'the plate grows only sideways, so the words stay at right 22px / top 22px: '+css);
+  assert(/padding:0 10px/.test(css)&&/right:24px/.test(css)&&/top:22px/.test(css),'the plate grows only sideways, so the words stay at right 34px / top 22px (R619 moved the plate to 24px from the edge): '+css);
   const lh=Number((css.match(/line-height:([\d.]+)/)||[])[1]);const links=Number(((html.match(/#title-links\{[^}]*\}/)||[''])[0].match(/top:(\d+)px/)||[])[1]);
   assert(lh>0&&22+24*lh+4<=links,'the plate ends at least 4px above the title links: line-height '+lh+', links top '+links);}
  result.push('R600: タイトルの「♪ タップで音楽」に暗い札を敷き、夜空の星が字の間に見えない PASS');
@@ -1755,12 +1756,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R618: the shadow ended 2px above the card, so on a phone the feet looked pressed onto its frame. It now leaves at least 12px.
  {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y>0&&y+6<=488-12,'the hero shadow leaves 12px above the HP card (top 488): '+(y+6));}
  result.push('R618: 戦闘の主人公の影と HP の欄の間に12px以上のすき間がある PASS');
- // R619: 「タップ ▾」 showed while the prologue line was still typing, so the line looked cut off. It now waits for the line to finish.
+ // R620: 「タップ ▾」 showed while the prologue line was still typing, so the line looked cut off. It now waits for the line to finish.
  {assert(/\.dialogue\.typing \.next\{visibility:hidden\}/.test(html),'the hint hides (keeping its place) while the dialogue is typing');
   const st=(html.match(/function startTypewriter\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/typingMark\(true\)/.test(st),'starting a line marks the box as typing: '+st);
   assert((html.match(/typewriter\.done = true; typingMark\(false\);/g)||[]).length===2,'both the natural end and the skip show the hint again');
   const tm=(html.match(/function typingMark\([^)]*\) \{[\s\S]*?\n  \}/)||[''])[0];assert(/'dialogue-text'/.test(tm),'only the dialogue box is marked, not other typed text: '+tm);}
- result.push('R619: 会話の「タップ ▾」は文が出きってから出る PASS');
+ result.push('R620: 会話の「タップ ▾」は文が出きってから出る PASS');
  // R233: Sora's light by the enemy (glow radius twice 22) ran under the RYOSEI/HP card (top 488), so the card's frame cut it off.
  {const m=html.match(/const SORA_BATTLE_X=(\d+),SORA_BATTLE_Y=(\d+);/)||[],x=Number(m[1]),y=Number(m[2]);assert(y&&html.includes('drawSora(SORA_BATTLE_X,SORA_BATTLE_Y,22)'),'Sora in battle is drawn at SORA_BATTLE_Y');
   assert(y+44<=486,'the glow of Sora ends above the HP card (top 488): '+(y+44));
