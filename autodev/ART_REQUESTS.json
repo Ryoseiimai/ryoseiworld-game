@@ -126,8 +126,10 @@
     "name": "room_window",
     "prompt": "Pixel art sprite sheet, 2x2 grid, a small square bedroom wall window with a cross-shaped wooden frame, seen straight on. Night sky in deep navy blue with a pale yellow full moon in the upper left pane. All four cells show the same window (cell 2-4 may have a few faint stars for a subtle twinkle). Transparent background, no text",
     "ref": "v5/assets/interior_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R634",
-    "requested_at": "2026-11-20T07:10:00+09:00"
+    "requested_at": "2026-11-20T07:10:00+09:00",
+    "done_at": "2026-11-20T07:19:58+09:00",
+    "actual_size": "1024x1024"
   }
 ]
