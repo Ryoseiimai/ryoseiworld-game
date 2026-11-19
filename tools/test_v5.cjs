@@ -11,6 +11,10 @@ const scripts = [...html.matchAll(/<script(?: src="([^"]+)")?>([\s\S]*?)<\/scrip
 assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html loads data/ch1.js');
 // R627: the prologue room shows a fan (R625), so the walkable own room has the same drawn fan.
 {const ch1=scripts.find(s=>s.file==='v5/data/ch1.js').code,room=ch1.slice(ch1.indexOf('maps.room='),ch1.indexOf('maps.room=')+1500);assert(/object\('fan','fan'/.test(room),'the own room has a fan');assert(html.includes("if(o.kind==='fan')drawRoomFan(o.x*TILE,o.foot)"),'a fan object is drawn with drawRoomFan');}
+// R634: the prologue room has a cross window, so the walkable own room has one on its wall too (only that room), with the same night sky (#152e46) and moon.
+{assert(/function drawRoomWindow\(x,y\)\{/.test(html),'the room window is drawn by drawRoomWindow');assert(html.includes('if(m.window)drawRoomWindow(m.window[0],m.window[1]);'),'a map with window draws it');{const c=scripts.find(s=>s.file==='v5/data/ch1.js').code;assert(/maps\.room=\{[^\n]*window:\[334,16\]/.test(c),'the own room has the window');assert((c.match(/window:\[/g)||[]).length===1,'only the own room has a window');}assert(/function drawRoomWindow\(x,y\)\{[^}]*'#152e46'[^}]*'#efdcae'/.test(html),'the room window shows the prologue night sky and moon');}
+// R634: ground() draws the room window, so the tests that lift ground() out of index.html bring drawRoomWindow() along (its moon goes through rect()).
+function roomWindowSrc(){const s=(html.match(/function drawRoomWindow\(x,y\)\{.*/)||[''])[0];assert(s,'drawRoomWindow() is in index.html');return 'function ellipse(x,y,rx,ry,c){rect(x-rx,y-ry,rx*2,ry*2,c);}\n'+s+'\n';}
 const result=[];
 // R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
 const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate']]);
@@ -2469,16 +2473,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R248: outdoors the map ends above the bottom bar, so the ミナモ road stopped in a flat band behind the はなす button (mobile-26). ground() now repeats the edge rows past the map.
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(src,'ground() is in index.html');const rects=[];
   const tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';assert(['roadWide','roadUp','roadTall'].every(f=>tallSrc.includes('function '+f+'(')),'roadWide(), roadUp() and roadTall() are in index.html');
-  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime(),m=rt.g.GAME_DATA.maps.minamo,road='#5e7275',col=14*48,bottom=m.h*48;ground(m);
   for(let y=bottom;y<bottom+130;y+=48)assert(rects.some(r=>r[0]===col&&r[1]===y&&r[4]===road),'the road at x 14 goes on below the map bottom (y '+y+')');
   assert(rects.some(r=>r[0]===col+22&&r[1]>=bottom&&r[4]==='#d8d6af'),'its centre dashes go on too');
   assert(rects.some(r=>r[1]<0&&r[1]>-48&&r[4]==='#6d9c7e')&&rects.some(r=>r[1]<-144&&r[4]==='#6d9c7e'),'the grass tufts of the first row go on above it, up to under the top HUD');
-  rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');}
+  rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');assert(rects.some(r=>r[4]==='#152e46'&&r[1]>=0&&r[1]+r[3]<=96),'the own room window sits on the wall (above y 96)');}
  result.push('R248: 外の地図で、道や地面が下のボタンの帯の手前で途切れない PASS');
  // R249: the inner column of the 4-wide town road got an east-west dash every third row too, crossing the north-south dash into a "+" (mobile-16).
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';const rects=[];
-  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime();
   for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];if(!m||!m.outside)continue;rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');
    const plus=dash.filter(v=>v[2]===4&&dash.some(h=>h[3]===4&&h[0]===v[0]-22+6&&h[1]===v[1]-6+22));assert.deepEqual(plus.slice(0,3),[],name+': no "+" where the two dashes cross in one tile');
@@ -2491,7 +2495,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R249: 町の太い道の真ん中に「＋」の印が出ない PASS');
  // R590: the north-south centre dashes ran on through the crossings, and the lower road of ミナモ (rows 28-29) had no centre line.
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],helpers=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';const rects=[];
-  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime();
   for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');const T=(x,y)=>m.tiles[y]?.[x];
    const full=y=>/^=+$/.test(m.tiles[y]||'');
@@ -3778,7 +3782,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R596: 戦闘のソラの光と名前の札が重ならない PASS');
  // R605: drawField hands ground() the tiles the camera can see; inside that view it draws exactly what the whole-map draw draws, and nothing outside it (one tile of margin).
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],helpers=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';const rects=[];
-  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c].join()),()=>{},()=>({wall:'w',paper:'p',paperLine:'l',rail:'r',skirt:'s'}),48,190,130,0);
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c].join()),()=>{},()=>({wall:'w',paper:'p',paperLine:'l',rail:'r',skirt:'s'}),48,190,130,0);
   assert(/roomSurround\(m\);ground\(m,\{x0:Math\.floor\(camera\.x\/TILE\)-1,x1:Math\.ceil\(\(camera\.x\+W\)\/TILE\)\+1,y0:Math\.floor\(camera\.y\/TILE\)-1,y1:Math\.ceil\(\(camera\.y\+H\)\/TILE\)\+1\}\)/.test(html),'R605: drawField passes the camera view to ground()');
   const rt=await runtime();
   for(const name of ['town','minamo','neon','room']){const m=rt.g.GAME_DATA.maps[name];assert(m,'R605: map '+name+' exists');const v={x0:2,x1:13,y0:-2,y1:21};
