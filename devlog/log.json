@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T01:04:46.824Z",
-  "branch": "claude/autodev-20261112-0921-R502",
-  "task": "R502 ボス戦の「ドラッグで動く」の板が、動いた後も4.5秒よける場所に残っていたので、出てから1秒後に主人公が動いたら消えるようにした",
-  "summary": "ボス戦の「ドラッグで動く」の板は、動いた後も4.5秒残り、よける場所を隠していた\n出てから1秒を過ぎて主人公が12px動いたら、板が0.15秒で消えるようにした\n板が消えると、カテイノジジョウの下の壁の名前がすぐ出る。テストを7つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/870/mobile-02-mode-select.jpg",
-   "shots/870/mobile-19-custom-og-credit-card.jpg",
-   "shots/870/mobile-34-chapter-1-play.jpg",
-   "shots/870/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f83bb32",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43130164974"
- },
- {
   "at": "2026-11-12T02:27:15.472Z",
   "branch": "claude/autodev-20261112-1023-R503",
   "task": "R503 ネオンの「ランク 86位」の札の右端がミオの頭の横に来て、ミオの札に見えたので、ミオを少し右に立たせた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "5853dea",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44591885448"
+ },
+ {
+  "at": "2026-11-19T22:00:47.901Z",
+  "branch": "claude/autodev-20261120-0641-R634",
+  "task": "R634 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役が見たが、直す所は無かった\n部屋の下の暗い帯は R248 の「話す」ボタンの帯なので変えなかった\n台詞の字はコードで調べ、どれも24px以上だった",
+  "result": "pass",
+  "shots": [
+   "shots/1111/mobile-02-mode-select.jpg",
+   "shots/1111/mobile-19-custom-og-credit-card.jpg",
+   "shots/1111/mobile-34-chapter-1-play.jpg",
+   "shots/1111/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "182fea0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44622475348"
  }
 ]
