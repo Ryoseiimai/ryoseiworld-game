@@ -11,8 +11,8 @@ const scripts = [...html.matchAll(/<script(?: src="([^"]+)")?>([\s\S]*?)<\/scrip
 assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html loads data/ch1.js');
 // R627: the prologue room shows a fan (R625), so the walkable own room has the same drawn fan.
 {const ch1=scripts.find(s=>s.file==='v5/data/ch1.js').code,room=ch1.slice(ch1.indexOf('maps.room='),ch1.indexOf('maps.room=')+1500);assert(/object\('fan','fan'/.test(room),'the own room has a fan');assert(html.includes("if(o.kind==='fan')drawRoomFan(o.x*TILE,o.foot)"),'a fan object is drawn with drawRoomFan');}
-// R634: the prologue room has a cross window, so the walkable own room has one on its wall too (only that room).
-{assert(/function drawRoomWindow\(x,y\)\{/.test(html),'the room window is drawn by drawRoomWindow');assert(html.includes('if(m===GAME_DATA.maps.room)drawRoomWindow('),'only the own room draws the window');}
+// R634: the prologue room has a cross window, so the walkable own room has one on its wall too (only that room), with the same night sky (#152e46) and moon.
+{assert(/function drawRoomWindow\(x,y\)\{/.test(html),'the room window is drawn by drawRoomWindow');assert(html.includes('if(m===GAME_DATA.maps.room)drawRoomWindow('),'only the own room draws the window');assert(/function drawRoomWindow\(x,y\)\{[^}]*'#152e46'[^}]*'#efdcae'/.test(html),'the room window shows the prologue night sky and moon');}
 const result=[];
 // R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
 const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate']]);
