@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-11T16:33:03.039Z",
-  "branch": "claude/autodev-20261112-0022-R498",
-  "task": "R498 ことばの札の右の「ソラ」だけ灰色で、すぐ下の台詞の金色の名前の札と形が違ったので、名前の字を金色にした",
-  "summary": "確認役が全章のスクショから4件を挙げ、ことばの札の名前の色を直した\n町とボス戦のことばの札の「ソラ」を灰色から台詞の名前と同じ金色にした\n名前の色を調べる確認を2つのテストに足した",
-  "result": "error",
-  "shots": [],
-  "sha": "1fc49fe",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43057605661"
- },
- {
   "at": "2026-11-11T17:36:38.219Z",
   "branch": "claude/autodev-20261112-0022-R498",
   "task": "R498 ことばの札の右の「ソラ」だけ灰色で、すぐ下の台詞の金色の名前の札と形が違ったので、名前の字を金色にした",
@@ -2953,5 +2943,20 @@
   ],
   "sha": "1f292a1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44500266493"
+ },
+ {
+  "at": "2026-11-19T13:00:30.569Z",
+  "branch": "claude/autodev-20261119-2141-R631",
+  "task": "R631 全章のスクショから確認役が5つ挙げたので確かめた。ボスごとの「キックボードが浮かんだ」は STORY_V4 と SPEC_V6 の毎回の演出、BUG KING は SPEC_V5 の名前、右上の「ソラ」はことばカードで台詞の札とは別の物、「ドラッグで動く」は R502 の作り、きずなの知らせは確かめ用に作った場面なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n右上の「ソラ」はことばカードの札で、台詞の札とは別の物と確かめた\nボスごとの浮かぶ演出の文は設計書どおり毎回出る作りにした",
+  "result": "pass",
+  "shots": [
+   "shots/1105/mobile-02-mode-select.jpg",
+   "shots/1105/mobile-19-custom-og-credit-card.jpg",
+   "shots/1105/mobile-34-chapter-1-play.jpg",
+   "shots/1105/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "328a50a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44527395590"
  }
 ]
