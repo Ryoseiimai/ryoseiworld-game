@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-11T04:31:44.063Z",
-  "branch": "claude/autodev-20261111-1241-R497",
-  "task": "R497 ボス戦の下の段で「ライフ」はハートの右、「武器」は名前の左と向きが逆だったので、ライフも左に出してハートをその右に並べた",
-  "summary": "確認役が全章のスクショから3件を挙げ、ボス戦の下の段の名前の向きを直した\n「ライフ」を「武器」と同じ左に出し、ハートとバリアがボタンにかからない幅にした\nライフの字の位置とハートの左右の端を調べるテストに書き換えた",
-  "result": "pass",
-  "shots": [
-   "shots/860/mobile-02-mode-select.jpg",
-   "shots/860/mobile-19-custom-og-credit-card.jpg",
-   "shots/860/mobile-34-chapter-1-play.jpg",
-   "shots/860/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5325584",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/42958478070"
- },
- {
   "at": "2026-11-11T15:53:18.065Z",
   "branch": "claude/autodev-20261112-0022-R498",
   "task": "R498 ことばの札の右の「ソラ」だけ灰色で、すぐ下の台詞の金色の名前の札と形が違ったので、名前の字を金色にした",
@@ -2948,5 +2933,20 @@
   ],
   "sha": "afcadfa",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44170808720"
+ },
+ {
+  "at": "2026-11-19T10:06:45.728Z",
+  "branch": "claude/autodev-20261119-1841-R630",
+  "task": "R630 全章のスクショから確認役が5つ挙げたので確かめた。「話す」ボタンの上の人はボタンに重なっていない、章の終わりの「続く」の行は R350 の作りどおり、「86位」の札のしっぽは髪から離れている、タイトルの月とボタンの間はあいている、ミナモの老人の上の灰色は守護霊（R388 で判断待ち）なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n章の終わりの「続く」の行は R350 の作りどおりと確かめた\n老人の上の灰色は守護霊で、R388 の判断待ちのままにした",
+  "result": "pass",
+  "shots": [
+   "shots/1103/mobile-02-mode-select.jpg",
+   "shots/1103/mobile-19-custom-og-credit-card.jpg",
+   "shots/1103/mobile-34-chapter-1-play.jpg",
+   "shots/1103/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c948acc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44499925360"
  }
 ]
