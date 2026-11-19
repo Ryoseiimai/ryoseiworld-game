@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T02:27:15.472Z",
-  "branch": "claude/autodev-20261112-1023-R503",
-  "task": "R503 ネオンの「ランク 86位」の札の右端がミオの頭の横に来て、ミオの札に見えたので、ミオを少し右に立たせた",
-  "summary": "ネオンの「ランク 86位」の札の右端が、ミオの頭のすぐ横まで来ていた\n二人は同じ髪形なので、札がミオのものに見えた。ミオを右に約14px動かした\nミオは歩道の上のまま。札とミオが離れているかのテストを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/871/mobile-02-mode-select.jpg",
-   "shots/871/mobile-19-custom-og-credit-card.jpg",
-   "shots/871/mobile-34-chapter-1-play.jpg",
-   "shots/871/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7659f36",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43139690973"
- },
- {
   "at": "2026-11-12T03:36:33.567Z",
   "branch": "claude/autodev-20261112-1221-R504",
   "task": "R504 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "182fea0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44622475348"
+ },
+ {
+  "at": "2026-11-19T22:15:40.368Z",
+  "branch": "claude/autodev-20261120-0641-R634",
+  "task": "R634 プロローグの部屋には月の見える十字の窓があるのに、歩ける自分の部屋の壁には窓が無く、別の部屋に見えていたので、机と本だなの間の壁に同じ夜の窓を描いた",
+  "summary": "確認役が全章のスクショから、自分の部屋とプロローグの部屋のちがいを挙げた\n自分の部屋の壁に、プロローグと同じ月の見える十字の窓を描いた\n窓の絵を絵係に頼み、届くまではコードで描いた窓で動かす",
+  "result": "pass",
+  "shots": [
+   "shots/1115/mobile-02-mode-select.jpg",
+   "shots/1115/mobile-19-custom-og-credit-card.jpg",
+   "shots/1115/mobile-34-chapter-1-play.jpg",
+   "shots/1115/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9d9a7c4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44624122820"
  }
 ]
