@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-11T17:36:38.219Z",
-  "branch": "claude/autodev-20261112-0022-R498",
-  "task": "R498 ことばの札の右の「ソラ」だけ灰色で、すぐ下の台詞の金色の名前の札と形が違ったので、名前の字を金色にした",
-  "summary": "確認役が全章のスクショから4件を挙げ、ことばの札の名前の色を直した\n町とボス戦のことばの札の「ソラ」を灰色から台詞の名前と同じ金色にした\n名前の色を調べる確認を2つのテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/865/mobile-02-mode-select.jpg",
-   "shots/865/mobile-19-custom-og-credit-card.jpg",
-   "shots/865/mobile-34-chapter-1-play.jpg",
-   "shots/865/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "bbb1e39",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43067479780"
- },
- {
   "at": "2026-11-11T19:01:21.379Z",
   "branch": "claude/autodev-20261112-0321-R499",
   "task": "R499 敵が近づいて「調べる」のボタンが薄い地に変わる0.3秒の間、字の縁取りが先に消えて読めなかったので、縁取りは字の色が変わり終わるまで残した",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "328a50a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44527395590"
+ },
+ {
+  "at": "2026-11-19T16:02:38.005Z",
+  "branch": "claude/autodev-20261120-0041-R632",
+  "task": "R632 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n右上の「ソラ」はことばカードの札で、台詞の札とは別の物と確かめた\nボスごとの浮かぶ演出の文は設計書どおり毎回出る作りにした",
+  "result": "pass",
+  "shots": [
+   "shots/1107/mobile-02-mode-select.jpg",
+   "shots/1107/mobile-19-custom-og-credit-card.jpg",
+   "shots/1107/mobile-34-chapter-1-play.jpg",
+   "shots/1107/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9d91447",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44559427756"
  }
 ]
