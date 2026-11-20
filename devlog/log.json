@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T01:40:07.632Z",
-  "branch": "claude/autodev-20261113-1021-R525",
-  "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
-  "summary": "後ろに人がいる時の「話す」で、真ん中の暗い楕円がしみに見えていた\n暗い地をボタンの角まで広げ、むらのない地にした。字の後ろは暗いまま\n前と後のスクショを docs/shots/R525 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/910/mobile-02-mode-select.jpg",
-   "shots/910/mobile-19-custom-og-credit-card.jpg",
-   "shots/910/mobile-34-chapter-1-play.jpg",
-   "shots/910/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "413a9a9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345051992"
- },
- {
   "at": "2026-11-13T01:54:43.273Z",
   "branch": "claude/autodev-20261113-1021-R525",
   "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "45db399",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44804774771"
+ },
+ {
+  "at": "2026-11-20T20:58:41.237Z",
+  "branch": "claude/autodev-20261121-0521-R654",
+  "task": "R654 ネオンのかずの人が、町を直した後も灰色ののっぺらぼうの顔のままだったので、直した後は肌の色の顔に目と口を描いた",
+  "summary": "ネオンのかずの人が町を直した後も灰色の顔だったので、肌の色の顔に目と口を描いた\n灰色の顔の所だけを写しの絵で塗り、目は顔の幅が広い行に3pxで置いた\n全章の通しで、直った後の顔が塗られているかを確かめる項目を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1152/mobile-02-mode-select.jpg",
+   "shots/1152/mobile-19-custom-og-credit-card.jpg",
+   "shots/1152/mobile-34-chapter-1-play.jpg",
+   "shots/1152/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7351621",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44814044007"
  }
 ]
