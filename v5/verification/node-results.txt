@@ -284,6 +284,7 @@ R227: ネオンの えきの下に出ていた紫の線を消した PASS
 R643: キックボードの主人公の右向きの絵の下に出ていた黒い欠片を消した PASS
 R644: 右向きのキックボードの車輪が影より上に浮かない PASS
 R645: タイトルで主人公がソラの光の前を走り、体が透けて見えない PASS
+R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS
 R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS
 R204: でんきやの テレビの やま が、奥の壁にかからず床の上に立つ PASS
 R286: でんきやの入口で、テレビの やま の上が上の帯に隠れない PASS
@@ -480,5 +481,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 77ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 72ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

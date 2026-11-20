@@ -2801,7 +2801,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R645: タイトルで主人公がソラの光の前を走り、体が透けて見えない PASS');
  // R647: after a town win the enemy kept its angry, red-eyed face and only faded; it now loses its colour and shows rising z marks.
  {const body=(html.match(/function drawBattle\(\)\{[^\n]*/)||[''])[0];assert(/if\(calm>0\)ctx\.filter=`saturate\(/.test(body),'drawBattle drains the beaten enemy colour');
-  assert(body.includes("ctx.filter='none'"),'drawBattle resets the canvas filter after the enemy');assert(/if\(calm>=1&&hide<1\)calmZs\(/.test(body),'drawBattle shows z marks once the enemy is calm');
+  assert(/enemyName\(def\)\);ctx\.globalAlpha=1;ctx\.filter='none';/.test(body),'drawBattle resets the canvas filter right after the enemy');assert(/if\(calm>=1&&hide<1\)calmZs\(/.test(body),'drawBattle shows z marks once the enemy is calm');
   assert(/function calmZs\(/.test(html),'calmZs is defined');}
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
@@ -3766,7 +3766,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(x.globalCompositeOperation==='source-over','R568: blend mode is put back');
   assert(cb('enemies',3,'#2a4b5c')===a&&log.length===2,'R568: the backing is made once and reused');assert(cb('enemies',9,'#000')===null,'R568: no frame, no backing');
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
-  assert(/back=calm>0&&hide<1\?calmBacking\(eArt,eFrame,def\.color\[0\]\):null;if\(back\)\{ctx\.globalAlpha=1-hide;sprite\(eArt,eFrame,270,eY,eW,ep\.h,'',false,back\);ctx\.globalAlpha=1;\}ellipse\(270,ep\.bot-5,/.test(d),'R568: the backing goes down solid (only a summon hides it) under the shadow and the enemy, and only after the win');
+  assert(/back=calm>0&&hide<1\?calmBacking\(eArt,eFrame,def\.color\[0\]\):null;if\(back\)\{ctx\.globalAlpha=1-hide;sprite\(eArt,eFrame,270,eY,eW,ep\.h,'',false,back\);ctx\.globalAlpha=1;\}(?:if\(calm>0\)ctx\.filter=`[^`]*`;)?ellipse\(270,ep\.bot-5,/.test(d),'R568: the backing goes down solid (only a summon hides it) under the shadow and the enemy, and only after the win');
   assert(/eArt=def\.art\|\|'enemies'/.test(d)&&/ctx\.globalAlpha=seen;sprite\(def\.art\|\|'enemies',eFrame,270,eY,eW,ep\.h,enemyName\(def\)\);/.test(d),'R568: the enemy is drawn at the same spot and size as its backing');
   assert(/function sprite\(kind,index,x,y,w,h,name,flip,alt\)\{const f=alt\|\|\(flip\?mirrorFrame\(kind,index\):frameFor\(kind,index\)\);/.test(html),'R568: sprite can place another image on a frame');}
  result.push('R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS');
