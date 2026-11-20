@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T01:17:15.745Z",
-  "branch": "claude/autodev-20261113-0921-R524",
-  "task": "R524 ミナモの看板で「ミナモ」の字が板からはみ出し、両側の柱にかかっていたので、この看板だけ字の間を4pxつめて板の中に収めた",
-  "summary": "ミナモの看板で、字が両側の柱にかかっていたのを直した\n看板は周りに余地がないので大きさと場所はそのまま、字の間を4pxつめた\n前と後のスクショを docs/shots/R524 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/909/mobile-02-mode-select.jpg",
-   "shots/909/mobile-19-custom-og-credit-card.jpg",
-   "shots/909/mobile-34-chapter-1-play.jpg",
-   "shots/909/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1a26580",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43341359280"
- },
- {
   "at": "2026-11-13T01:40:07.632Z",
   "branch": "claude/autodev-20261113-1021-R525",
   "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "bb39ba7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44803216561"
+ },
+ {
+  "at": "2026-11-20T20:02:05.896Z",
+  "branch": "claude/autodev-20261121-0422-R653",
+  "task": "R653 町を直した後のテレビのねこの目が約1pxで見えず、顔の無い塊に見えていたので、目と鼻を3px以上で描いた",
+  "summary": "町を直した後のテレビのねこに、見える大きさの目と鼻を描いた\nねこの目と鼻が3px以上で画面の中にあることを確かめるテストを足した\n確認役が挙げた、勝った敵の怒った顔は絵の差し替えが要るので今回は直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1151/mobile-02-mode-select.jpg",
+   "shots/1151/mobile-19-custom-og-credit-card.jpg",
+   "shots/1151/mobile-34-chapter-1-play.jpg",
+   "shots/1151/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "45db399",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44804774771"
  }
 ]
