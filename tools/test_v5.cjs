@@ -23,7 +23,7 @@ assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html
 function roomWindowSrc(){const s=(html.match(/function drawRoomWindow\(x,y\)\{.*/)||[''])[0];assert(s,'drawRoomWindow() is in index.html');return 'function ellipse(x,y,rx,ry,c){rect(x-rx,y-ry,rx*2,ry*2,c);}\n'+s+'\n';}
 const result=[];
 // R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
-const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate'],['#4f7fa6','calmtv']]);
+const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate'],['#4f7fa6','calmtv'],['#2b2a2a','calmeye'],['#d9837a','calmnose']]);
 // R605: each script is compiled once (vm.Script) and run in every runtime's new context, instead of compiling 600KB again for each of the ~340 runtimes.
 // Decode the shipped RGBA PNGs so collision tests use actual alpha, not rectangles.
 const decoded=new Map();
@@ -726,7 +726,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('minamo',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='しんぱいの かべ'),'the park wall is gone too');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_friend',4.6,7.7).includes('あした'),'the friend changes after the boss');while(r.g.dialogue)r.dialogue();
   // R642: after the boss the friend's TV shows a picture (drawCalmTv), matching its line about a programme.
-  {const tv=D.maps.minamo_friend.objects.find(o=>o.id==='mf_tv');r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='calmtv'),'the friend TV shows a picture after the boss');assert(talk(r,'minamo_friend',tv.x,tv.y+1.2).includes('ランキング'),'the friend TV talks about the programme after the boss');while(r.g.dialogue)r.dialogue();}
+  {const tv=D.maps.minamo_friend.objects.find(o=>o.id==='mf_tv');r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='calmtv'),'the friend TV shows a picture after the boss');
+   // R653: the cat on the calm TV has eyes and a nose at least 3px wide inside the screen (at 2px*k they were about 1px and the cat had no face).
+   {const sc=r.canvasCalls.find(c=>c[0]==='calmtv'),eyes=r.canvasCalls.filter(c=>c[0]==='calmeye'&&c[1]>=sc[1]&&c[1]+c[3]<=sc[1]+sc[3]&&c[2]>=sc[2]&&c[2]+c[4]<=sc[2]+sc[4]),nose=r.canvasCalls.filter(c=>c[0]==='calmnose'&&c[1]>=sc[1]&&c[1]<=sc[1]+sc[3]);assert(eyes.length>=2&&eyes.every(c=>c[3]>=3&&c[4]>=3),'the TV cat has two eyes of 3px or more '+JSON.stringify(eyes));assert(nose.length>=1&&nose[0][3]>=3,'the TV cat has a nose');assert(Math.abs((eyes[1][1]-eyes[0][1]))>=eyes[0][3]+2,'the two eyes do not touch');}assert(talk(r,'minamo_friend',tv.x,tv.y+1.2).includes('ランキング'),'the friend TV talks about the programme after the boss');while(r.g.dialogue)r.dialogue();}
   for(const k of ['kateinoTalk','kateinoClear','minamoPark','dadAfter','momAfter','boyAfter','friendTvNoise','friendTv'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
   // R440: the boss speaks under the same name its map label shows.
   {const b=D.maps.minamo.objects.find(o=>o.id==='minamo_boss');assert.equal(D.dialogue[b.dialogue][0][0],b.label,'the boss talks under its own name');}}
