@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T04:06:14.273Z",
-  "branch": "claude/autodev-20261112-1221-R504",
-  "task": "R504 章の札とおしまいの札の後ろを、タイトルのスクーターの主人公が走り続け、札の縁で半分に切れて見えたので、タイトルの時だけ出すようにした",
-  "summary": "章の札の後ろを、タイトルのスクーターの主人公が走り続けていた\n札の縁で体が半分に切れて見えた。主人公はタイトルの時だけ出るようにした\n札の画面で主人公が出ないかのテストを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/874/mobile-02-mode-select.jpg",
-   "shots/874/mobile-19-custom-og-credit-card.jpg",
-   "shots/874/mobile-34-chapter-1-play.jpg",
-   "shots/874/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "28504cd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43150998925"
- },
- {
   "at": "2026-11-12T05:04:31.411Z",
   "branch": "claude/autodev-20261112-1321-R505",
   "task": "R505 ミナモに着いた時、ミナモの看板の板が上の場所札と目標の帯の後ろに隠れていたので、看板を3マス下に立てた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "bfe1bf4",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44627634108"
+ },
+ {
+  "at": "2026-11-20T01:11:47.221Z",
+  "branch": "claude/autodev-20261120-0941-R635",
+  "task": "R635 町を直した後も自分の部屋のテレビが砂嵐のままで、話すと「ノイズは もう ない」と言う食いちがいがあったので、直した後は青い画面にねこを映すようにした",
+  "summary": "確認役が全章のスクショを見て5つ挙げ、部屋のテレビも確かめた\n町を直した後は、部屋のテレビに青い画面とねこを映すようにした\n前と後のスクショで、テレビの枠からはみ出さないことを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1120/mobile-02-mode-select.jpg",
+   "shots/1120/mobile-19-custom-og-credit-card.jpg",
+   "shots/1120/mobile-34-chapter-1-play.jpg",
+   "shots/1120/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7890645",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44650215415"
  }
 ]
