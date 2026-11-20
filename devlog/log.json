@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T07:40:54.896Z",
-  "branch": "claude/autodev-20261112-1622-R508",
-  "task": "R508 遊んで一番気になる所を1つ直す",
-  "summary": "ネオンのかずの人の札の下の縁が髪に触れていたので、札を4px上げた\n話す相手の名前の札と、目標の行がよける幅も、同じだけ上げた\n札と頭の間が4px以上あるかを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/881/mobile-02-mode-select.jpg",
-   "shots/881/mobile-19-custom-og-credit-card.jpg",
-   "shots/881/mobile-34-chapter-1-play.jpg",
-   "shots/881/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d7a8708",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43175451803"
- },
- {
   "at": "2026-11-12T08:04:18.587Z",
   "branch": "claude/autodev-20261112-1622-R508",
   "task": "R508 実績ときずなの長い一覧で、最後の行の字が下の点線に5pxまで近づいていたので、点線を12px下に引いた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "7521ffe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44677453482"
+ },
+ {
+  "at": "2026-11-20T05:51:18.766Z",
+  "branch": "claude/autodev-20261120-1421-R638",
+  "task": "R638 塔の2階と3階で「うえへ」の床の名前が tw2_down のように逆になっていたので、名前を入れ替え、名前と行き先が合うかの確かめを足した。確認役が挙げた画面の端で切れる看板・電柱・花と、最初の戦いの背景は、R614 と R629 で直さないと決めた物なので直さなかった",
+  "summary": "塔の2階と3階で、上へ行く床の名前が「下へ」と逆になっていた\n床の名前を入れ替え、名前と札と行き先が合うかの確かめを足した\n端で切れる看板・電柱・花と最初の戦いの背景は、前に決めたとおり直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1127/mobile-02-mode-select.jpg",
+   "shots/1127/mobile-19-custom-og-credit-card.jpg",
+   "shots/1127/mobile-34-chapter-1-play.jpg",
+   "shots/1127/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "dd90294",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44682539253"
  }
 ]
