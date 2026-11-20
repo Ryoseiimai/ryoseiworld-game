@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T08:53:08.252Z",
-  "branch": "claude/autodev-20261112-1721-R509",
-  "task": "R509 電気屋の奥でテレビの山のいちばん上が目標の帯の下の縁に触れていたので、山を0.3マス下に置いた",
-  "summary": "電気屋の奥で、テレビの山の上が目標の帯に触れていたので、山を0.3マス下げた\n山の上と帯の間が10px以上あくことを、テストで確かめるようにした\n前回の「話す」ボタンが桜を隠す件は、重なりがボタンの約5%だけだったので変えなかった",
-  "result": "pass",
-  "shots": [
-   "shots/884/mobile-02-mode-select.jpg",
-   "shots/884/mobile-19-custom-og-credit-card.jpg",
-   "shots/884/mobile-34-chapter-1-play.jpg",
-   "shots/884/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8c60a15",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43184912304"
- },
- {
   "at": "2026-11-12T09:55:52.677Z",
   "branch": "claude/autodev-20261112-1821-R510",
   "task": "R510 町の上の札の後ろに建物が来ると、地が薄すぎて「85％」の後ろに植木鉢や段が重なって見えたので、地を半分くらいの濃さにした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "f00ad40",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44689812056"
+ },
+ {
+  "at": "2026-11-20T07:38:49.097Z",
+  "branch": "claude/autodev-20261120-1621-R641",
+  "task": "R641 遊んで一番気になる所を1つ直す",
+  "summary": "設定のモードのボタンが、押すと切り替わると分からなかった\n今のモードを上の文に出し、ボタンを「こどもモードにする」にした\nスマホで文字が約17pxに縮む件は方針が要るので R640 の判断待ちにした",
+  "result": "pass",
+  "shots": [
+   "shots/1130/mobile-02-mode-select.jpg",
+   "shots/1130/mobile-19-custom-og-credit-card.jpg",
+   "shots/1130/mobile-34-chapter-1-play.jpg",
+   "shots/1130/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ea002eb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44695307979"
  }
 ]
