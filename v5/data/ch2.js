@@ -12,10 +12,10 @@ const maps={};
 // Worry walls use the worry_wall art (frame 0: the wall standing); until it loads the engine draws a grey block with eyes and its name.
 const wall=(id,x,y)=>object(id,'worry_wall',0,x,y,110,84,{label:'しんぱいの かべ',dialogue:'worryWall',goneWhenCleared:true});
 maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outside:true,spawn:[10.9,31.4],objects:[
- object('minamo_house1','buildings',0,6,15.4,194,194),
- object('minamo_house2','buildings',0,22,15.4,194,194),
+ object('minamo_house1','buildings',0,6,15.4,194,194,{roof:8}),
+ object('minamo_house2','buildings',0,22,15.4,194,194,{roof:150,flip:true}),
  object('minamo_library','buildings',5,22,26.2,210,188,{label:'としょかん',enter:'minamo_library',arrival:[5,11]}),
- object('minamo_friend','buildings',0,6,34,194,194,{label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
+ object('minamo_friend','buildings',0,6,34,194,194,{roof:28,flip:true,label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
  object('minamo_apartment','buildings',6,23,34,190,190),
  prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.

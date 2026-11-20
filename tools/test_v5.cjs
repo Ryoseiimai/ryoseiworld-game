@@ -3867,6 +3867,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const all=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='interior'&&o.frame===12);assert(all.length>=3,'R657: the sofas are found');
   for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the sofa shadow');}
  result.push('R657: ソファの影が、足元に沿って床に落ちる PASS');
+ // R658: ミナモ had three plain copies of the hero's house (buildings 0); each now has its own roof colour, and no two share the same look as the home.
+ {const maps=(await runtime()).g.GAME_DATA.maps,houses=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='buildings'&&o.frame===0);
+  const home=maps.town.objects.find(o=>o.id==='home');assert(home&&home.roof==null,'R658: the home keeps its own blue roof');
+  const looks=houses.map(o=>(o.roof??'none')+'/'+!!o.flip);assert(new Set(looks).size===looks.length,'R658: every buildings 0 house looks different: '+looks);
+  for(const id of ['minamo_house1','minamo_house2','minamo_friend'])assert(Number.isFinite(maps.minamo.objects.find(o=>o.id===id)?.roof),'R658: '+id+' has a roof colour');
+  assert(/\|\|o\.roof!=null&&roofFrame\(o\.kind,o\.frame,o\.roof,o\.flip\)\|\|undefined/.test(html),'R658: the field draws the roof copy');
+  assert(/function roofFrame\(kind,frame,hue,flip\)\{[^\n]*h<205\|\|h>260/.test(html),'R658: only the dark blue roof tiles change');}
+ result.push('R658: ミナモの家3軒が、自分の家と違う屋根の色で描かれる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
