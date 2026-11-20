@@ -2795,6 +2795,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let c=0;c<4;c++){const o=last(0,c),rt=last(2,c);
    const low=rt.y+pad[8+c]*rt.h/248;assert(Math.abs(low-o.y)<=2,'hero_ride r2_c'+c+': the wheels end on the same row as the down-facing frame: '+low.toFixed(1)+' / '+o.y);}}
  result.push('R644: 右向きのキックボードの車輪が影より上に浮かない PASS');
+ // R645: on the title Sora's glow was drawn over the rider, so he looked see-through each lap; Sora is drawn first now and the rider passes in front.
+ {const body=(html.match(/function drawTitle\(\)\{[^\n]*/)||[''])[0];const so=body.indexOf('drawSora('),he=body.indexOf("sprite('hero_ride'");
+  assert(so>=0&&he>=0,'drawTitle draws Sora and the rider');assert(so<he,'Sora is drawn before the title rider, so his body is not washed out by the glow');}
+ result.push('R645: タイトルで主人公がソラの光の前を走り、体が透けて見えない PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
   for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole)\d*$/.test(o.id));nPeople+=people.length;nPosts+=posts.length;
