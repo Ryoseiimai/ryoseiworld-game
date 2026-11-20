@@ -1830,7 +1830,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/PLAY_B - top/.test(back),'the town pole no longer reaches the bottom of the play area');}
  result.push('R229: BUG KING 戦で、町の電柱がガードレールと石垣の前まで立たない PASS');
  // R224: the bicycle and car frames end far above the bottom of their cells, so they floated over their shadows. sprite() draws them lower by the extra empty rows.
- {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};'),'the bicycle and the car have a foot pad');
+ {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};'),'the bicycle, the car and the right-facing ride frames have a foot pad');
   assert(html.includes('y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;'),'sprite() lowers a padded frame onto its foot');
   assert(html.includes('y:o.y*TILE-d.h+d.h*band.top+pad,'),'the collider moves down with the drawn frame');
   const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(300);while(r.g.dialogue)r.dialogue();
