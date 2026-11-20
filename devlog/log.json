@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T02:50:03.057Z",
-  "branch": "claude/autodev-20261113-1121-R526",
-  "task": "R526 ボス戦の始めの「ドラッグで動く」の板が、スマホでは1行なのに2行分の大きさで、道の上の空の暗い箱に見えたので、字に合う大きさにした",
-  "summary": "スマホのボス戦で「ドラッグで動く」の板が2行分の大きさで、中ががらんとしていた\nスマホでは板を字の幅と1行の高さに合わせた（キーボードの所は2行のまま）\n前と後のスクショを docs/shots/R526 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/914/mobile-02-mode-select.jpg",
-   "shots/914/mobile-19-custom-og-credit-card.jpg",
-   "shots/914/mobile-34-chapter-1-play.jpg",
-   "shots/914/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7255d33",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43353473024"
- },
- {
   "at": "2026-11-13T03:41:12.707Z",
   "branch": "claude/autodev-20261113-1222-R527",
   "task": "R527 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "2d6881e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44820849492"
+ },
+ {
+  "at": "2026-11-20T22:13:33.197Z",
+  "branch": "claude/autodev-20261121-0641-R656",
+  "task": "R656 最初のカラス戦では表示バグが無いのに、デバッグで「表示バグも直った！」と出ていたので、表示バグがあった時だけその行を出すようにした",
+  "summary": "全章のスクショ154枚を撮り、確認役がパソコンの51枚から1つ挙げた\n表示バグが無い時は、デバッグで「表示バグも直った」と言わないようにした\n前と後のスクショで最初のカラス戦の文が1行になったのを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1155/mobile-02-mode-select.jpg",
+   "shots/1155/mobile-19-custom-og-credit-card.jpg",
+   "shots/1155/mobile-34-chapter-1-play.jpg",
+   "shots/1155/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "75d5935",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44824893852"
  }
 ]
