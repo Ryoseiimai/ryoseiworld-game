@@ -2347,6 +2347,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.g.debugStartChapter(3);const o=r.g.GAME_DATA.maps.neon.objects.find(x=>x.id==='neon_num1');r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
   assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),'the sign still tells the number');}
  result.push('R149: ネオンのかずの人の頭の上の、札と合わない小さな数字を描かないようにした PASS');
+ // R641: after ヒカクマオウ the dialogue says the numbers over the heads vanished (hikakuClear), so the signs are gone and the people talk about what they like.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(3);r.g.state.bosses.push('hikaku');r.g.state.flags.neonCleared=true;
+  for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
+   assert(!r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)),o.id+': no number sign after the boss');
+   assert(r.canvasCalls.some(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson')),o.id+' still stands there');
+   const said=talk(r,'neon',o.x,o.y+1.1);assert(!/[0-9]/.test(said),o.id+' no longer talks about a number: '+said);r.dialogue();}}
+ result.push('R641: ヒカクマオウの後、かずの人の頭の上の数字の札を消し、好きな物の話をするようにした PASS');
  // R240: the number sign floated 18px over the head, right under the street lamp's foot, so it read as the lamp's sign; its plate now ends just over the head.
  {const r=await runtime();r.tick();r.g.debugStartChapter(3);const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]),files=['r0_c0','r0_c1','r1_c0','r1_c1'];
   for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);

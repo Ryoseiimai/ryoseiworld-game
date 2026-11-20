@@ -46,10 +46,10 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
  // R293: at x 10.6 num1 stood 59px from the left edge of the arrival view, so its sign slid 26px right and hung beside it, not over it;
  // at x 11.3 the sign keeps 16px from the edge without sliding and sits over the head.
- object('neon_num1','numberperson',0,11.45,21.6,48,76,{label:'かずの ひと',dialogue:'numberPerson1',sign:'ランク 86い'}),
- object('neon_num2','numberperson',1,19,25.2,48,76,{label:'かずの ひと',dialogue:'numberPerson2',sign:'いいね 3204'}),
- object('neon_num3','numberperson',2,9.4,30.4,48,76,{label:'かずの ひと',dialogue:'numberPerson3',sign:'フォロワー 12,840'}),
- object('neon_num4','numberperson',3,20,30.6,48,76,{label:'かずの ひと',dialogue:'numberPerson4',sign:'ランク 99い'})],
+ object('neon_num1','numberperson',0,11.45,21.6,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson1',clearedDialogue:'numberCalm1',sign:'ランク 86い'}),
+ object('neon_num2','numberperson',1,19,25.2,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson2',clearedDialogue:'numberCalm2',sign:'いいね 3204'}),
+ object('neon_num3','numberperson',2,9.4,30.4,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson3',clearedDialogue:'numberCalm3',sign:'フォロワー 12,840'}),
+ object('neon_num4','numberperson',3,20,30.6,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson4',clearedDialogue:'numberCalm4',sign:'ランク 99い'})],
  // R193: the vacuum walks the right sidewalk (x 16.4): at x 14.5 it stood on the road, which noises never move on, right beside ミオ (then at x 13.4).
  // R38: three street zako (popup, infinite loading, a rampaging vacuum) plus R46's ハルシネーション, patrolling beside the two cross roads (R195: on the sidewalks, not the road).
  // R195: nz1, nz2 and nz4 stood on the road rows (y 15.5 and 26.5), where noises never step, so they never moved; they now walk the sidewalks beside those roads.
@@ -144,6 +144,11 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   numberPerson1:[['かずの ひと','きょうは 86い。\nきのうより 2つ さがった。'],['ソラ','ずっと その かずの\nことばかり いってる。']],
   numberPerson2:[['かずの ひと','3204… 3204…\nふえろ、ふえろ。']],
   numberPerson3:[['かずの ひと','12,840。\nあしたには もっと。'],['ソラ','かおより さきに\nかずが みえる。']],
+  // R641: after ヒカクマオウ the numbers are gone (hikakuClear) and each person talks about what they like instead.
+  numberCalm1:[['まちの ひと','…あれ、なんいだっけ。\nまあ いいや。\nパンが おいしい。']],
+  numberCalm2:[['まちの ひと','いいねを かぞえるより\nねこの しゃしんを\nとりに いこう。']],
+  numberCalm3:[['まちの ひと','あしたは つりに いく。\nだれにも\nみせないけどね。'],['ソラ','かおが ちゃんと\nみえる。']],
+  numberCalm4:[['まちの ひと','あと ひとつ…\nじゃなくて アイスが\nもう ひとつ たべたい。']],
   numberPerson4:[['かずの ひと','99い。\nあと1い…\nあと1い…']],
   cafeAsk:[['てんいん','いらっしゃいませ。\nネットカフェ ルミナです。'],['てんいん','いすで ねられます。\nじゅうでんも むりょう。']],
   cafeSleep:[['','いすを たおして\nすこし ねむった。']],
