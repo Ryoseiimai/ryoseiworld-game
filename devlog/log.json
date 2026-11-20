@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T05:04:31.411Z",
-  "branch": "claude/autodev-20261112-1321-R505",
-  "task": "R505 ミナモに着いた時、ミナモの看板の板が上の場所札と目標の帯の後ろに隠れていたので、看板を3マス下に立てた",
-  "summary": "ミナモに着いた時、ミナモの看板の板が上の札と帯の後ろに隠れていた\n看板を3マス下に立て、そこにあったゴミ箱を看板の元の場所へ移した\n看板が上の札に隠れないかのテストを足し、看板の位置を使う古いテスト2つの座標を合わせた",
-  "result": "pass",
-  "shots": [
-   "shots/876/mobile-02-mode-select.jpg",
-   "shots/876/mobile-19-custom-og-credit-card.jpg",
-   "shots/876/mobile-34-chapter-1-play.jpg",
-   "shots/876/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "aa599fc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43157348450"
- },
- {
   "at": "2026-11-12T05:46:17.673Z",
   "branch": "claude/autodev-20261112-1422-R506",
   "task": "R506 ミナモの公園の看板とミナモの看板の間が細い隙間だけで、道から北の公園へ歩けなかったので、公園の看板は町と同じく左の柱だけで止めるようにした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "7890645",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44650215415"
+ },
+ {
+  "at": "2026-11-20T03:44:05.377Z",
+  "branch": "claude/autodev-20261120-1221-R636",
+  "task": "R636 町の公園の池で、波の白い線がどのマスも同じ所にあり、道路の中央線のように並んで見えたので、マスごとに置き場所を変えた小さな波にした",
+  "summary": "町の公園の池で、波の白い線が道路の中央線のように並んで見えた\n池の波を、マスごとに置き場所を変えた小さな3段の波にした\n前と後のスクショで、線が並ばなくなったことを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1122/mobile-02-mode-select.jpg",
+   "shots/1122/mobile-19-custom-og-credit-card.jpg",
+   "shots/1122/mobile-34-chapter-1-play.jpg",
+   "shots/1122/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "16cce1a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44668657533"
  }
 ]
