@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T00:07:54.593Z",
-  "branch": "claude/autodev-20261113-0822-R523",
-  "task": "R523 ボス戦でボスの台詞からソラのヒントへ入れ替わる時、札の濃い地が半秒ほど消えて町が透けていたので、続けて出る間は地を濃いまま残し文字だけを入れ替えた",
-  "summary": "ボス戦で台詞が続けて入れ替わる間、札の地を濃いまま残した\n消えかけた後に次の台詞が来ても、地が濃く戻らないようにした\n直す前と後のスクショを docs/shots/R523 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/905/mobile-02-mode-select.jpg",
-   "shots/905/mobile-19-custom-og-credit-card.jpg",
-   "shots/905/mobile-34-chapter-1-play.jpg",
-   "shots/905/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "82fe483",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43332017701"
- },
- {
   "at": "2026-11-13T00:53:33.904Z",
   "branch": "claude/autodev-20261113-0921-R524",
   "task": "R524 ミナモの看板で「ミナモ」の字が板からはみ出し、両側の柱にかかっていたので、看板を少し大きくし字の間を2pxつめて板の中に収めた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "e08a0e3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44786108391"
+ },
+ {
+  "at": "2026-11-20T18:46:53.763Z",
+  "branch": "claude/autodev-20261121-0321-R652",
+  "task": "R652 プロローグの部屋に、歩ける自分の部屋にある本だなが無く、別の部屋に見えていたので、右の壁に同じ本だなを描き、窓を机の上へ、テレビと扇風機を少し下へ動かした",
+  "summary": "プロローグの部屋の右の壁に、自分の部屋と同じ本だなを描いた\n窓を机の上へ、テレビと扇風機を少し下へ動かし、本だなと重ならないようにした\n本だなが窓・机・テレビと重ならないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1148/mobile-02-mode-select.jpg",
+   "shots/1148/mobile-19-custom-og-credit-card.jpg",
+   "shots/1148/mobile-34-chapter-1-play.jpg",
+   "shots/1148/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "970ad7f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44793035390"
  }
 ]
