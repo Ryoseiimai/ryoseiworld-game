@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T06:01:07.115Z",
-  "branch": "claude/autodev-20261112-1422-R506",
-  "task": "R506 ミナモの公園の看板とミナモの看板の間が細い隙間だけで、道から北の公園へ歩けなかったので、公園の看板は町と同じく左の柱だけで止めるようにした",
-  "summary": "ミナモの公園の看板とミナモの看板の間は主人公が通れる幅が18pxほどしかなく、道から北の公園へ歩けなかった\n公園の看板は町の看板と同じく左の柱だけで止め、柱の間を通れるようにした\n看板の間を北へ1.5マス以上通れるかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/879/mobile-02-mode-select.jpg",
-   "shots/879/mobile-19-custom-og-credit-card.jpg",
-   "shots/879/mobile-34-chapter-1-play.jpg",
-   "shots/879/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a6e6dfe",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43162769532"
- },
- {
   "at": "2026-11-12T07:02:15.314Z",
   "branch": "claude/autodev-20261112-1522-R507",
   "task": "R507 ネオンのかずの人の「ランク 86位」などの札の下の縁が髪に触れ、頭に載って見えたので、札を4px上げた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "75d0fc5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44669094724"
+ },
+ {
+  "at": "2026-11-20T04:42:04.126Z",
+  "branch": "claude/autodev-20261120-1322-R637",
+  "task": "R637 遊んで一番気になる所を1つ直す",
+  "summary": "町の公園の池で、波の白い線が道路の中央線のように並んで見えた\n池の波を、マスごとに置き場所を変えた小さな3段の波にした\n前と後のスクショで、線が並ばなくなったことを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1124/mobile-02-mode-select.jpg",
+   "shots/1124/mobile-19-custom-og-credit-card.jpg",
+   "shots/1124/mobile-34-chapter-1-play.jpg",
+   "shots/1124/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "363e5f9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44675145431"
  }
 ]
