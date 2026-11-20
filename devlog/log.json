@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T09:55:52.677Z",
-  "branch": "claude/autodev-20261112-1821-R510",
-  "task": "R510 町の上の札の後ろに建物が来ると、地が薄すぎて「85％」の後ろに植木鉢や段が重なって見えたので、地を半分くらいの濃さにした",
-  "summary": "町の上の札の後ろに建物が来た時、札の地を35%から55%の濃さにした\n建物は透けて見えたまま、字の後ろの植木鉢や段が目立たなくなった\n地の濃さが半分くらいであることを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/885/mobile-02-mode-select.jpg",
-   "shots/885/mobile-19-custom-og-credit-card.jpg",
-   "shots/885/mobile-34-chapter-1-play.jpg",
-   "shots/885/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1664681",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43194031042"
- },
- {
   "at": "2026-11-12T11:51:18.536Z",
   "branch": "claude/autodev-20261112-2021-R511",
   "task": "R511 章の終わりとおしまいの札の地が93%の濃さで、後ろのタイトルの木や家が字の後ろに透けていたので、地を不透明にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "ea002eb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44695307979"
+ },
+ {
+  "at": "2026-11-20T08:00:00.876Z",
+  "branch": "claude/autodev-20261120-1621-R641",
+  "task": "R641 ヒカクマオウに勝つと「あたまの うえの すうじが きえた」と言うのに、ネオンの人の頭に数字の札が残っていたので、勝った後は札を消し、好きな物の話をするようにした",
+  "summary": "ネオンの人の頭の数字の札が、ボスに勝った後も残っていた\n勝った後は札を消し、話すと好きな物の話をするようにした\n確認役が挙げた友だちの家のテレビと主人公の下の欠片を R642・R643 にした",
+  "result": "pass",
+  "shots": [
+   "shots/1131/mobile-02-mode-select.jpg",
+   "shots/1131/mobile-19-custom-og-credit-card.jpg",
+   "shots/1131/mobile-34-chapter-1-play.jpg",
+   "shots/1131/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "88fbece",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44698057936"
  }
 ]
