@@ -2363,7 +2363,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R240: the number sign floated 18px over the head, right under the street lamp's foot, so it read as the lamp's sign; its plate now ends just over the head.
  {const r=await runtime();r.tick();r.g.debugStartChapter(3);const crop=JSON.parse(html.match(/SPRITE_CROP_TOP=\{numberperson:(\[[0-9,]+\])\}/)[1]),files=['r0_c0','r0_c1','r1_c0','r1_c1'];
   for(const o of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.6);r.canvasCalls.length=0;r.tick(16);
-   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).at(-1);
+   const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).sort((p,q)=>Math.abs(p[2]+p[4]/2-txt?.[2])-Math.abs(q[2]+q[4]/2-txt?.[2]))[0];/* R651: two people share each frame now, so take the picture under this sign */
    assert(txt&&img,o.id+' and its sign are drawn');const headTop=img[3]+crop[o.frame]*img[5]/452,gap=headTop-(txt[3]+7);
    assert(gap>=4,o.id+': the sign plate ends over the head, not on the hair (gap '+gap.toFixed(1)+'px, R507)');
    // R603: the R592 tail (plate bottom to tip) hangs in that gap and its tip stops 2 to 6px over the head, so the tail is not hidden by the hair and the plate still sits on its person.
@@ -3840,6 +3840,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     assert.equal(o.sign,up?'うえへ':'したへ',name+' '+o.id+' says '+(up?'うえへ':'したへ'));
     assert(cell,name+' '+o.id+' stands on a warp cell');assert.equal(cell.warp,order[i+(up?1:-1)],name+' '+o.id+' leads '+(up?'up':'down'));}}}
  result.push('R638: 塔の「うえへ」「したへ」の床の名前と行き先が合っている PASS');
+ // R651: numberperson frames 0 and 1 are ミオ's and the painter boy's looks, so the ネオン number people use only the adult frames (2 and 3), and no two of the same look stand close.
+ {const r=await runtime();r.tick();const o=r.g.GAME_DATA.maps.neon.objects,nums=o.filter(x=>x.kind==='numberperson');assert.equal(nums.length,4);
+  for(const n of nums)assert([2,3].includes(n.frame),n.id+' uses an adult frame, not ミオ/the painter: '+n.frame);
+  assert(o.some(x=>x.id==='neon_mio'&&x.kind==='npc2'),'ミオ is still in ネオン');
+  for(const a of nums)for(const b of nums)if(a!==b&&a.frame===b.frame)assert(Math.hypot(a.x-b.x,a.y-b.y)>=8,a.id+' and '+b.id+' share a look and stand '+Math.hypot(a.x-b.x,a.y-b.y).toFixed(1)+' tiles apart');}
+ result.push('R651: ネオンの「かずの ひと」はミオや絵をかく子と同じ絵を使わず、同じ絵の人は離れて立つ PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

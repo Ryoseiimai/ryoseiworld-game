@@ -46,8 +46,11 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R38: people with grey faces and a number floating over their head (art-20261010-1240-numberperson, 4 frames).
  // R293: at x 10.6 num1 stood 59px from the left edge of the arrival view, so its sign slid 26px right and hung beside it, not over it;
  // at x 11.3 the sign keeps 16px from the edge without sliding and sits over the head.
- object('neon_num1','numberperson',0,11.45,21.6,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson1',clearedDialogue:'numberCalm1',sign:'ランク 86い'}),
- object('neon_num2','numberperson',1,19,25.2,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson2',clearedDialogue:'numberCalm2',sign:'いいね 3204'}),
+ // R651: frame 0 of numberperson is ミオ's own look (dolphin clip, brown ponytail, striped sweater) and frame 1 is the painter boy's (beret, paint overalls),
+ // so the ランク 86い person read as a second ミオ standing beside her, and after the boss (no sign) as two identical girls. The request asked for ordinary adults,
+ // so the four now use only the two adult frames (2 and 3), alternated so the same look never stands near itself: num1/num4 the woman, num2/num3 the man.
+ object('neon_num1','numberperson',3,11.45,21.6,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson1',clearedDialogue:'numberCalm1',sign:'ランク 86い'}),
+ object('neon_num2','numberperson',2,19,25.2,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson2',clearedDialogue:'numberCalm2',sign:'いいね 3204'}),
  object('neon_num3','numberperson',2,9.4,30.4,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson3',clearedDialogue:'numberCalm3',sign:'フォロワー 12,840'}),
  object('neon_num4','numberperson',3,20,30.6,48,76,{label:'かずの ひと',labelCleared:'まちの ひと',dialogue:'numberPerson4',clearedDialogue:'numberCalm4',sign:'ランク 99い'})],
  // R193: the vacuum walks the right sidewalk (x 16.4): at x 14.5 it stood on the road, which noises never move on, right beside ミオ (then at x 13.4).
