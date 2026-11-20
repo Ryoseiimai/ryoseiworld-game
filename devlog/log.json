@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T15:08:12.346Z",
-  "branch": "claude/autodev-20261112-2321-R514",
-  "task": "R514 おしまいの札の上にメニューや窓を開くと、窓の縁で後ろの札の「作った人」や「ありがとう」が上半分だけ見えていたので、窓が開いている間は札を隠した",
-  "summary": "おしまいの札の上で窓を開いた間は、後ろの札を隠すようにした\n窓の縁で札の字が半分に切れなくなったことを、前後のスクショで確かめた\n札が窓の下で隠れることを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/893/mobile-02-mode-select.jpg",
-   "shots/893/mobile-19-custom-og-credit-card.jpg",
-   "shots/893/mobile-34-chapter-1-play.jpg",
-   "shots/893/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2724ab0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43242363466"
- },
- {
   "at": "2026-11-12T15:46:22.142Z",
   "branch": "claude/autodev-20261113-0021-R515",
   "task": "R515 おとなモードのノイズの目標だけ「0/3」と斜線の前後が詰まり、実績の「7 / 12」やおさらいの「1 / 3」と書き方が違ったので、「0 / 3」にした（こどもは帯の幅に収まらないので今のまま）",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "cd93564",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44710927166"
+ },
+ {
+  "at": "2026-11-20T10:43:29.717Z",
+  "branch": "claude/autodev-20261120-1922-R644",
+  "task": "R644 町やタイトルを右向きに走る時、キックボードの車輪が影より約18px上に浮いていたので、右向きの4コマだけ下にずらした",
+  "summary": "右向きに走る時だけ、車輪が影より約18px上に浮いていた\n右向きの4コマを他の向きと同じ高さまで下にずらした\n町とタイトルの前と後のスクショと、確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1136/mobile-02-mode-select.jpg",
+   "shots/1136/mobile-19-custom-og-credit-card.jpg",
+   "shots/1136/mobile-34-chapter-1-play.jpg",
+   "shots/1136/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c166f07",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44719310832"
  }
 ]
