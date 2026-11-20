@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T21:52:04.245Z",
-  "branch": "claude/autodev-20261113-0621-R521",
-  "task": "R521 相手がいない時に後ろへ人が来ると「話す」の地が金色がかった灰色に変わっていたので、いない時と同じ濃い色のまま薄くした",
-  "summary": "相手がいない時に後ろへ人が来た「話す」の地を、いない時と同じ濃い色で薄くした\n話せる相手がいる時の金色の地と、字の後ろの暗い板はそのまま残した\n町とネオンで直す前と後のスクショを撮り、テストを1つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/901/mobile-02-mode-select.jpg",
-   "shots/901/mobile-19-custom-og-credit-card.jpg",
-   "shots/901/mobile-34-chapter-1-play.jpg",
-   "shots/901/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "aa55414",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43312105258"
- },
- {
   "at": "2026-11-12T22:57:05.335Z",
   "branch": "claude/autodev-20261113-0721-R522",
   "task": "R522 ミナモの看板の右の柱だけ歩道に立ち、芝と歩道の境目をまたいでいたので、看板を少し左に立てて柱を2本とも芝に載せた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "8bc78eb",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44758712425"
+ },
+ {
+  "at": "2026-11-20T15:39:15.099Z",
+  "branch": "claude/autodev-20261121-0021-R648",
+  "task": "R648 全章のスクショから確認役が5つ挙げたので確かめた。ヒカクマオウの最初の台詞に名札が無いのは R557 の決まり、ボスが入る前に声が先に出るのは R87 の作り、動き方の札とボスの足は R111 で離してある、地図の文字の大きさは R640 で人が決める件、呼び出しの間に主人公が薄くなるのは R535 の作りなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも前の件で決めた作りか、人が決める件だったので直さなかった\nBUG KING の立つ高さも、R241 と R283 で影と光を足した作りのままにした",
+  "result": "pass",
+  "shots": [
+   "shots/1144/mobile-02-mode-select.jpg",
+   "shots/1144/mobile-19-custom-og-credit-card.jpg",
+   "shots/1144/mobile-34-chapter-1-play.jpg",
+   "shots/1144/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "de8ba9a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44763841432"
  }
 ]
