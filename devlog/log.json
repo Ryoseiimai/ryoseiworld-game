@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T22:57:05.335Z",
-  "branch": "claude/autodev-20261113-0721-R522",
-  "task": "R522 ミナモの看板の右の柱だけ歩道に立ち、芝と歩道の境目をまたいでいたので、看板を少し左に立てて柱を2本とも芝に載せた",
-  "summary": "ミナモの看板を0.35マス左に立て、右の柱も芝の上に載せた\n看板の当たりを少し内側にし、着いた所から北へまっすぐ歩けるままにした\n直す前と後のスクショを撮り、柱と歩く道のテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/902/mobile-02-mode-select.jpg",
-   "shots/902/mobile-19-custom-og-credit-card.jpg",
-   "shots/902/mobile-34-chapter-1-play.jpg",
-   "shots/902/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b226e48",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43322684488"
- },
- {
   "at": "2026-11-12T23:33:02.732Z",
   "branch": "claude/autodev-20261113-0822-R523",
   "task": "R523 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "de8ba9a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44763841432"
+ },
+ {
+  "at": "2026-11-20T16:01:10.507Z",
+  "branch": "claude/autodev-20261121-0041-R649",
+  "task": "R649 全章のスクショを確認役が40枚見て、新しい問題は無いと答えた。自分の部屋と図書館の床の下の縁が「話す」ボタンに少し重なる件は、R537 で部屋を動かさず下の余白に少し入れると決めた作りなので、直さなかった",
+  "summary": "全章のスクショを確認役に40枚見せ、新しい問題は無いという答えを受けた\n部屋の床が「話す」ボタンに少し重なる件は、R537 で決めた作りなので直さなかった\n手元の test_v5 と smoke_v5 は両方とも通った",
+  "result": "pass",
+  "shots": [
+   "shots/1145/mobile-02-mode-select.jpg",
+   "shots/1145/mobile-19-custom-og-credit-card.jpg",
+   "shots/1145/mobile-34-chapter-1-play.jpg",
+   "shots/1145/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b05f8ed",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44767468414"
  }
 ]
