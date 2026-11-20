@@ -884,6 +884,9 @@ function ellipse(x,y,rx,ry,color){ctx.fillStyle=color;ctx.beginPath();ctx.ellips
 // R149: the number people's art has a small 1-4 floating over each head that never matched the sign (じゅんい 86 ...); the rows above the head (out of 452) are not drawn, so only the sign tells the number.
 // Frame 0 has no empty row between its 1 and the hair; 62 also drops the top 5 hair rows (about 1 screen px).
 const SPRITE_CROP_TOP={numberperson:[62,63,61,63]};
+// SPRITE_CROP_BOTTOM is the part of the height below which a frame is not drawn: the right-facing ride frames (hero_ride 8-11) end at row 195
+// and carry the top of the next row's cap in rows 238-248, a small black piece under the wheels (R643); .85 is row 215.
+const SPRITE_CROP_BOTTOM={hero_ride:{8:.85,9:.85,10:.85,11:.85}};
 // R224: the bicycle (props 8) and the car (props 9) end 52 and 46 empty rows above the bottom of their 248-row cell, while the other props end 4 rows above it.
 // They floated about 18px over their shadows, so they are drawn lower by the extra rows, and bounds() moves their collider down with them.
 const SPRITE_FOOT_PAD={props:{8:48,9:42}};
@@ -892,7 +895,7 @@ const SPRITE_FOOT_PAD={props:{8:48,9:42}};
 // R273: the ちず (w 104) and ミナモ (w 136) boards stand on the same two posts, and their small round shadow lay between and below the feet too, so boards w 100 and up use it.
 // Only the tiny river board (w 80) keeps the round shadow.
 const FOOT_SHADOW={props:{11:[86,14,8,.14]}};
-function sprite(kind,index,x,y,w,h,name,flip,alt){const f=alt||(flip?mirrorFrame(kind,index):frameFor(kind,index));if(f){const s=Math.min(w/f.w,h/f.h);y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;const cut=Math.min(f.h-1,(SPRITE_CROP_TOP[kind]?.[index]||0)*f.h/452);if(cut>0){const top=Math.round(y-f.h*s)+Math.round(cut*s);ctx.save();ctx.beginPath();ctx.rect(Math.round(x-f.w*s/2),top,Math.round(f.w*s)+1,Math.round(y)-top+1);ctx.clip();}ctx.drawImage(f.img,Math.round(x-f.w*s/2),Math.round(y-f.h*s),Math.round(f.w*s),Math.round(f.h*s));if(cut>0)ctx.restore();return true;}fallback(kind,index,x,y,w,h,name);return false;}
+function sprite(kind,index,x,y,w,h,name,flip,alt){const f=alt||(flip?mirrorFrame(kind,index):frameFor(kind,index));if(f){const s=Math.min(w/f.w,h/f.h);y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;const cut=Math.min(f.h-1,(SPRITE_CROP_TOP[kind]?.[index]||0)*f.h/452),low=SPRITE_CROP_BOTTOM[kind]?.[index]||0,clip=cut>0||low>0;if(clip){const top=Math.round(y-f.h*s)+Math.round(cut*s),end=low>0?Math.round(y-f.h*s+Math.floor(f.h*low)*s):Math.round(y)+1;ctx.save();ctx.beginPath();ctx.rect(Math.round(x-f.w*s/2),top,Math.round(f.w*s)+1,end-top);ctx.clip();}ctx.drawImage(f.img,Math.round(x-f.w*s/2),Math.round(y-f.h*s),Math.round(f.w*s),Math.round(f.h*s));if(clip)ctx.restore();return true;}fallback(kind,index,x,y,w,h,name);return false;}
 // People use the npc sheet (4x4) or npc2 (3x3: Mio, the painter, station staff... SPEC_V6.md 6).
 function isPerson(kind){return kind==='npc'||kind==='npc2';}
 // R265: like drawTags (R264), the name drawn on a thing with no art yet (カテイノジジョウ and しんぱいの かべ in ミナモ while their art is loading): off-screen it is not drawn (one cut letter showed at the left edge in 2しょう), near the edge it slides inside.

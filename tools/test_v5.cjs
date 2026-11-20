@@ -2779,6 +2779,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(rows(from,h)>=40,'the sliver sits in the cleared rows: '+rows(from,h));assert.equal(rows(Math.floor(h*.83),from),0,'the station art ends well above them, so nothing of it is cut');
   assert(rows(85,87)>0,'the lower window lamp (rows 85-86) is part of the picture and is not touched');}
  result.push('R227: ネオンの えきの下に出ていた紫の線を消した PASS');
+ // R643: the right-facing ride frames (hero_ride row 2) carry the top of the next row's cap under the wheels, drawn as a small black piece about 20px under the hero on the title and outside.
+ {assert(html.includes('const SPRITE_CROP_BOTTOM={hero_ride:{8:.85,9:.85,10:.85,11:.85}};'),'only the right-facing ride frames are cut at the bottom');
+  for(let c=0;c<4;c++){const key='hero_ride r2_c'+c;
+   const file=path.join(root,'assets','hero_ride','hero_ride_r2_c'+c+'.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
+   const rows=(a,z)=>{let n=0;for(let y=a;y<z;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>16)n++;return n;},from=Math.floor(h*.85);
+   assert(rows(from,h)>=200,key+': the cap piece sits in the cut rows: '+rows(from,h));assert.equal(rows(Math.floor(h*.78),from),0,key+': the hero and the wheels end above them, so nothing of the hero is cut');
+   assert(rows(Math.floor(h*.7),Math.floor(h*.78))>0,key+': the wheels are drawn just above the gap');}
+  const src=html.slice(html.indexOf('function sprite('),html.indexOf('function sprite(')+900);assert(/low=SPRITE_CROP_BOTTOM\[kind\]\?\.\[index\]\|\|0/.test(src)&&src.includes('Math.floor(f.h*low)*s'),'sprite() ends its clip at that part of the frame');}
+ result.push('R643: キックボードの主人公の右向きの絵の下に出ていた黒い欠片を消した PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
   for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole)\d*$/.test(o.id));nPeople+=people.length;nPosts+=posts.length;
