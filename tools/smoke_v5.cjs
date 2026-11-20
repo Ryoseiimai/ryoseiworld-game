@@ -214,6 +214,13 @@ async function runViewport(browser, url, vp, errors, shots) {
           const s = await state();
           if (s.map !== m.id) { skip('map-' + m.id, `debugWarp did not move (map=${s.map}, screen=${s.screen})`); continue; }
           await shot('map-' + m.id);
+          // R654: after the chapter 3 boss the number people get a skin-coloured face (a filled copy of the grey face) with eyes, not the blank grey of R38.
+          if (m.id === 'neon') {
+            const face = await page.evaluate(() => { try { const v = window.__v5; if (!v.debugCalmFace) return 'before'; const probe = v.debugCalmFace(2); if (probe && !probe.cleared) return 'before';
+              return [2, 3].map(i => { const c = v.debugCalmFace(i); if (!c) return 'none ' + i;
+                return c.x1 - c.x0 >= 40 && c.y1 - c.y0 >= 40 && c.rx1 - c.rx0 >= 40 && c.rgb[0] - c.rgb[2] >= 40 ? 'ok' : `frame ${i} face ${JSON.stringify(c)}`; }).filter(s => s !== 'ok').join('; ') || 'ok'; } catch (e) { return 'error ' + e.message; } });
+            if (face !== 'ok' && face !== 'before') errors.push({ kind: 'scene', viewport: vp.name, message: tag(`map neon: the number people's calm face is missing (${face})`) });
+          }
           // R67: the quest line and the walk help sit over the map art, so each needs a near-solid backing to stay readable.
           const thin = await page.evaluate(() => ['#quest', '.walk-help'].filter(sel => { const el = document.querySelector(sel); if (!el || !el.offsetParent || !el.textContent.trim()) return false;
             const c = getComputedStyle(el).backgroundColor.match(/[\d.]+/g) || []; return (c.length < 4 ? (c.length ? 1 : 0) : Number(c[3])) < 0.85; }));
