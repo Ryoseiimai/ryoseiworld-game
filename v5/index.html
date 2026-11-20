@@ -889,7 +889,9 @@ const SPRITE_CROP_TOP={numberperson:[62,63,61,63]};
 const SPRITE_CROP_BOTTOM={hero_ride:{8:.85,9:.85,10:.85,11:.85}};
 // R224: the bicycle (props 8) and the car (props 9) end 52 and 46 empty rows above the bottom of their 248-row cell, while the other props end 4 rows above it.
 // They floated about 18px over their shadows, so they are drawn lower by the extra rows, and bounds() moves their collider down with them.
-const SPRITE_FOOT_PAD={props:{8:48,9:42}};
+// R644: the right-facing ride frames (hero_ride 8-11) end at row 195 of 253 while the other ride frames end at row 248, so the wheels floated
+// about 18px over the hero's shadow when riding right; they are drawn lower by the 53 extra rows (52 of 248), and the R643 cut moves down with them.
+const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};
 // R243: the park sign (props 11) stands on two posts far apart (feet at rows 224 and 243 of 248, about 66 px either side of the middle), so the small round shadow lay on the grass between and below them.
 // Its shadow is [half width, rise above the foot, half height] in sheet px (236 wide cell) and a tilt (radians) from the left foot down to the right one.
 // R273: the ちず (w 104) and ミナモ (w 136) boards stand on the same two posts, and their small round shadow lay between and below the feet too, so boards w 100 and up use it.

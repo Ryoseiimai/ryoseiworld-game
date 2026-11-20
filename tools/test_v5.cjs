@@ -1830,7 +1830,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/PLAY_B - top/.test(back),'the town pole no longer reaches the bottom of the play area');}
  result.push('R229: BUG KING 戦で、町の電柱がガードレールと石垣の前まで立たない PASS');
  // R224: the bicycle and car frames end far above the bottom of their cells, so they floated over their shadows. sprite() draws them lower by the extra empty rows.
- {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42}};'),'the bicycle and the car have a foot pad');
+ {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};'),'the bicycle and the car have a foot pad');
   assert(html.includes('y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;'),'sprite() lowers a padded frame onto its foot');
   assert(html.includes('y:o.y*TILE-d.h+d.h*band.top+pad,'),'the collider moves down with the drawn frame');
   const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(300);while(r.g.dialogue)r.dialogue();
@@ -2788,6 +2788,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(rows(Math.floor(h*.7),Math.floor(h*.78))>0,key+': the wheels are drawn just above the gap');}
   const src=html.slice(html.indexOf('function sprite('),html.indexOf('function sprite(')+900);assert(/low=SPRITE_CROP_BOTTOM\[kind\]\?\.\[index\]\|\|0/.test(src)&&src.includes('Math.floor(f.h*low)*s'),'sprite() ends its clip at that part of the frame');}
  result.push('R643: キックボードの主人公の右向きの絵の下に出ていた黒い欠片を消した PASS');
+ // R644: the right-facing ride frames end 53 rows above the others, so the wheels floated about 18px over the shadow when riding right.
+ {const last=(r,c)=>{const file=path.join(root,'assets','hero_ride','hero_ride_r'+r+'_c'+c+'.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
+   const lim=r===2?Math.floor(h*.85):h;let y0=-1;for(let y=0;y<lim;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>40){y0=y;break;}return{y:y0,h};};
+  const pad=JSON.parse(html.match(/const SPRITE_FOOT_PAD=(\{.*?\});/)[1].replace(/(\w+):/g,'"$1":')).hero_ride;
+  for(let c=0;c<4;c++){const o=last(0,c),rt=last(2,c);
+   const low=rt.y+pad[8+c]*rt.h/248;assert(Math.abs(low-o.y)<=2,'hero_ride r2_c'+c+': the wheels end on the same row as the down-facing frame: '+low.toFixed(1)+' / '+o.y);}}
+ result.push('R644: 右向きのキックボードの車輪が影より上に浮かない PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
   for(const id of ['town','minamo','neon']){const objs=r.g.GAME_DATA.maps[id].objects,people=objs.filter(o=>/^(npc|npc2|numberperson)$/.test(o.kind)),posts=objs.filter(o=>o.kind==='props'&&/^(minamo_)?(light|signal|pole)\d*$/.test(o.id));nPeople+=people.length;nPosts+=posts.length;
