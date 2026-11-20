@@ -18,6 +18,7 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
  // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
  portals:[{x:5,y:11.4,to:'neon',at:[15,5.4],sign:'そとへ'}],
+ // R638: the pads on floors 2 and 3 were named the other way round (tw2_down said うえへ), so each *_up pad now stands at 8.4 and each *_down pad at 2.2.
  // R27: ひかりの ゆか (up pad) is always at (8.4,3.5), the down pad at (2.2,3.5); landing always on the next floor's spawn.
  cells:[{x:8.4,y:3.5,warp:'tower2',at:[5,10]},
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
@@ -25,14 +26,14 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
 maps.tower2={name:'ノイズのとう 2かい',short:'とう 2かい',shortAdult:'塔2階',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('tw2_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
- tower('tw2_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('tw2_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  // R217: the crow swings 1.5 tiles each way along y 6.6; from x 4 it flew onto the fan (2.2, 6.4), so it starts at 5.2 and turns before the fan; むげんローディング (x 7) rose into the save kiosk, so it walks at 6.8.
  enemies:[{id:'tz2a',type:'crow2',x:5.2,y:6.6,axis:'x'},{id:'tz2b',type:'infload2',x:6.8,y:9.6,axis:'y'}],
  portals:[],cells:[{x:2.2,y:3.5,warp:'tower1',at:[5,10]},{x:8.4,y:3.5,warp:'tower3',at:[5,10]}]};
 maps.tower3={name:'ノイズのとう 3かい',short:'とう 3かい',shortAdult:'塔3階',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('tw3_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,6.4,80,90),
- tower('tw3_down',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_up',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('tw3_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
  // R217: the same for the vault (2.2, 6.4) on the third floor.
  enemies:[{id:'tz3',type:'virusball',x:5.2,y:6.6,axis:'x'}],
  portals:[],cells:[{x:2.2,y:3.5,warp:'tower2',at:[5,10]},{x:8.4,y:3.5,warp:'tower_roof',at:[5,10]}]};

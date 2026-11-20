@@ -3794,6 +3794,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const missing=all.filter(r=>inView(r)&&!part.includes(r));assert.deepEqual(missing.slice(0,3),[],name+': every rectangle of the whole-map draw inside the view is drawn');
    const extra=part.filter(r=>!all.includes(r));assert.deepEqual(extra,[],name+': the view draws nothing the whole-map draw does not');}}
  result.push('R605: 町の地面は、画面に映るマスだけを描く（映る所の絵は前と同じ） PASS');
+ // R638: on every tower floor the *_up pad says うえへ and stands on the cell that warps one floor up; the *_down pad says したへ and stands on the cell that warps one floor down.
+ {const maps=(await runtime()).g.GAME_DATA.maps,order=['tower1','tower2','tower3','tower_roof'];
+  for(const [i,name] of order.entries()){const m=maps[name];if(!m)continue;
+   for(const o of m.objects.filter(o=>/_(up|down)$/.test(o.id))){const up=o.id.endsWith('_up'),cell=(m.cells||[]).find(c=>c.warp&&Math.abs(c.x-o.x)<.01&&Math.abs(c.y-o.y)<.01);
+    assert.equal(o.sign,up?'うえへ':'したへ',name+' '+o.id+' says '+(up?'うえへ':'したへ'));
+    assert(cell,name+' '+o.id+' stands on a warp cell');assert.equal(cell.warp,order[i+(up?1:-1)],name+' '+o.id+' leads '+(up?'up':'down'));}}}
+ result.push('R638: 塔の「うえへ」「したへ」の床の名前と行き先が合っている PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
