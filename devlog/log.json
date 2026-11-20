@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T03:41:12.707Z",
-  "branch": "claude/autodev-20261113-1222-R527",
-  "task": "R527 遊んで一番気になる所を1つ直す",
-  "summary": "スマホのボス戦で「ドラッグで動く」の板が2行分の大きさで、中ががらんとしていた\nスマホでは板を字の幅と1行の高さに合わせた（キーボードの所は2行のまま）\n前と後のスクショを docs/shots/R526 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/915/mobile-02-mode-select.jpg",
-   "shots/915/mobile-19-custom-og-credit-card.jpg",
-   "shots/915/mobile-34-chapter-1-play.jpg",
-   "shots/915/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "dc63f46",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359326851"
- },
- {
   "at": "2026-11-13T03:52:49.465Z",
   "branch": "claude/autodev-20261113-1222-R527",
   "task": "R527 タイトルの「遊びながらゲーム作りと AIを学ぶRPG」が後ろの家の屋根とアンテナに重なって読みにくかったので、下の案内と同じ濃い透ける地を付けた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "75d5935",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44824893852"
+ },
+ {
+  "at": "2026-11-20T22:51:27.652Z",
+  "branch": "claude/autodev-20261121-0721-R657",
+  "task": "R657 電気屋の奥・友だちの家・ネットカフェのソファが、影から離れて浮いて見えていたので、影をソファの足元に沿わせた",
+  "summary": "全章のスクショ154枚を撮り、確認役が見て5つ挙げた\n斜めに描いたソファの影が足元から離れ、浮いて見えたのを直した\n前と後のスクショで電気屋の奥のソファが床に着いたのを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1156/mobile-02-mode-select.jpg",
+   "shots/1156/mobile-19-custom-og-credit-card.jpg",
+   "shots/1156/mobile-34-chapter-1-play.jpg",
+   "shots/1156/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d554c9c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44830940285"
  }
 ]
