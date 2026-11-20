@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T13:47:45.822Z",
-  "branch": "claude/autodev-20261112-2224-R513",
-  "task": "R513 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘のソラと名前を20px上に出した\n名前とHPの欄の上の線の間が、約10pxから約34pxに広がった\n名前と欄の間が24px以上あることを、テストで確かめるようにした",
-  "result": "fail",
-  "shots": [
-   "shots/890/mobile-02-mode-select.jpg",
-   "shots/890/mobile-19-custom-og-credit-card.jpg",
-   "shots/890/mobile-34-chapter-1-play.jpg",
-   "shots/890/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "464d92f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43228728231"
- },
- {
   "at": "2026-11-12T13:58:06.295Z",
   "branch": "claude/autodev-20261112-2224-R513",
   "task": "R513 「調べる」が金色に戻る0.3秒の間、暗い字に黒い縁取りが残って黒くにじんでいたので、縁取りを字の色と一緒に消した",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "00bea56",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702928072"
+ },
+ {
+  "at": "2026-11-20T09:35:25.492Z",
+  "branch": "claude/autodev-20261120-1821-R643",
+  "task": "R643 タイトルや外のマップで、キックボードの主人公の車輪の約20px下に小さな黒い欠片が出るのを直す",
+  "summary": "右向きのキックボードの絵の下に、次の段の帽子の頭がのぞいていた\nその4コマだけ、絵の下の端を描かないようにした\n前と後のタイトルのスクショと、確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1134/mobile-02-mode-select.jpg",
+   "shots/1134/mobile-19-custom-og-credit-card.jpg",
+   "shots/1134/mobile-34-chapter-1-play.jpg",
+   "shots/1134/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8c5540d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44710634255"
  }
 ]
