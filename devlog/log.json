@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T19:06:54.970Z",
-  "branch": "claude/autodev-20261113-0322-R518",
-  "task": "R518 章の札とおしまいの札で、金色の「次へ」が下の「シェアする」「アニメを見る」より狭く、主と従が逆に見えたので、両方を同じ400pxの幅にした",
-  "summary": "章の札とおしまいの札で、金色の主ボタンと下の段を同じ400pxの幅にした\n下の段は2つを同じ幅で並べ、こども向けの「アニメを みる」も収まるよう左右の余白を14pxにした\n鍵のブランチへの push はルーチンの決まりで止められたので、鍵なしで進めた（R493）",
-  "result": "pass",
-  "shots": [
-   "shots/897/mobile-02-mode-select.jpg",
-   "shots/897/mobile-19-custom-og-credit-card.jpg",
-   "shots/897/mobile-34-chapter-1-play.jpg",
-   "shots/897/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f81f082",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43284280642"
- },
- {
   "at": "2026-11-12T20:06:17.860Z",
   "branch": "claude/autodev-20261113-0421-R519",
   "task": "R519 きずなの一覧で、たまった♥とまだの♡が同じクリーム色で数が読みにくかったので、たまった♥を桃色にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "7b2cb35",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44745068069"
+ },
+ {
+  "at": "2026-11-20T14:40:58.409Z",
+  "branch": "claude/autodev-20261120-2321-R647",
+  "task": "R647 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも前の件で決めた作りか、人が決めることだったので直さなかった\n終わりの札の「作った人：RYOSEIWORLD」は作者名にするか今井さんが決める",
+  "result": "pass",
+  "shots": [
+   "shots/1141/mobile-02-mode-select.jpg",
+   "shots/1141/mobile-19-custom-og-credit-card.jpg",
+   "shots/1141/mobile-34-chapter-1-play.jpg",
+   "shots/1141/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5b7b40f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44754253558"
  }
 ]
