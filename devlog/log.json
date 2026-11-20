@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T04:34:08.589Z",
-  "branch": "claude/autodev-20261113-1321-R528",
-  "task": "R528 遊んで一番気になる所を1つ直す",
-  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/919/mobile-02-mode-select.jpg",
-   "shots/919/mobile-19-custom-og-credit-card.jpg",
-   "shots/919/mobile-34-chapter-1-play.jpg",
-   "shots/919/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5686dd9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43365032118"
- },
- {
   "at": "2026-11-13T04:55:42.220Z",
   "branch": "claude/autodev-20261113-1321-R528",
   "task": "R528 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "daf300a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44837599739"
+ },
+ {
+  "at": "2026-11-20T23:59:31.462Z",
+  "branch": "claude/autodev-20261121-0821-R658",
+  "task": "R658 ミナモちょうの家3軒が自分の家と同じ絵で、別の町に自分の家があるように見えていたので、屋根の色を赤茶・緑・茶に変え、2軒を左右反対にした",
+  "summary": "全章のスクショ153枚を撮り、確認役が見て5つ挙げた\nミナモの家3軒が自分の家と同じ絵だったので、屋根の色を変え2軒を反転した\n前と後のスクショで3軒が自分の家と違って見えるのを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1158/mobile-02-mode-select.jpg",
+   "shots/1158/mobile-19-custom-og-credit-card.jpg",
+   "shots/1158/mobile-34-chapter-1-play.jpg",
+   "shots/1158/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d0bb53a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44839655725"
  }
 ]
