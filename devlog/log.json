@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T07:02:15.314Z",
-  "branch": "claude/autodev-20261112-1522-R507",
-  "task": "R507 ネオンのかずの人の「ランク 86位」などの札の下の縁が髪に触れ、頭に載って見えたので、札を4px上げた",
-  "summary": "ネオンのかずの人の札の下の縁が髪に触れていたので、札を4px上げた\n話す相手の名前の札と、目標の行がよける幅も、同じだけ上げた\n札と頭の間が4px以上あるかを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/880/mobile-02-mode-select.jpg",
-   "shots/880/mobile-19-custom-og-credit-card.jpg",
-   "shots/880/mobile-34-chapter-1-play.jpg",
-   "shots/880/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ef5c9c3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43170637521"
- },
- {
   "at": "2026-11-12T07:40:54.896Z",
   "branch": "claude/autodev-20261112-1622-R508",
   "task": "R508 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "363e5f9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44675145431"
+ },
+ {
+  "at": "2026-11-20T05:03:43.668Z",
+  "branch": "claude/autodev-20261120-1322-R637",
+  "task": "R637 プロローグの部屋は暗い無地の壁と板の床で、歩ける自分の部屋の縦じまの壁と市松の床と別の部屋に見えていたので、同じ壁と床にして夜の青をうすくかけた",
+  "summary": "プロローグの部屋が、歩ける自分の部屋と別の部屋に見えていた\nプロローグの壁と床を、自分の部屋と同じ縦じまの壁と市松の床にした\n確認役の指摘で、夜の青をうすくし、壁と床の境の帯を見えるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1126/mobile-02-mode-select.jpg",
+   "shots/1126/mobile-19-custom-og-credit-card.jpg",
+   "shots/1126/mobile-34-chapter-1-play.jpg",
+   "shots/1126/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7521ffe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44677453482"
  }
 ]
