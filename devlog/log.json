@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T11:51:18.536Z",
-  "branch": "claude/autodev-20261112-2021-R511",
-  "task": "R511 章の終わりとおしまいの札の地が93%の濃さで、後ろのタイトルの木や家が字の後ろに透けていたので、地を不透明にした",
-  "summary": "章の終わりとおしまいの札の地を、93%の濃さから不透明にした\n札の字の後ろに、タイトルの木や家が透けて見えなくなった\n地が不透明であることを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/887/mobile-02-mode-select.jpg",
-   "shots/887/mobile-19-custom-og-credit-card.jpg",
-   "shots/887/mobile-34-chapter-1-play.jpg",
-   "shots/887/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fd8eee5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43211225372"
- },
- {
   "at": "2026-11-12T12:58:12.805Z",
   "branch": "claude/autodev-20261112-2122-R512",
   "task": "R512 戦闘でソラの名前がRYOSEIとHPの欄の上の線に乗って見えたので、ソラを20px上に出した",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "88fbece",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44698057936"
+ },
+ {
+  "at": "2026-11-20T08:35:11.777Z",
+  "branch": "claude/autodev-20261120-1721-R642",
+  "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
+  "summary": "ネオンの人の頭の数字の札が、ボスに勝った後も残っていた\n勝った後は札を消し、話すと好きな物の話をするようにした\n確認役が挙げた友だちの家のテレビと主人公の下の欠片を R642・R643 にした",
+  "result": "pass",
+  "shots": [
+   "shots/1132/mobile-02-mode-select.jpg",
+   "shots/1132/mobile-19-custom-og-credit-card.jpg",
+   "shots/1132/mobile-34-chapter-1-play.jpg",
+   "shots/1132/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a6dd3ed",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702413508"
  }
 ]
