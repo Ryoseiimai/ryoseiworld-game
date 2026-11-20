@@ -3850,6 +3850,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(o.some(x=>x.id==='neon_mio'&&x.kind==='npc2'),'ミオ is still in ネオン');
   for(const a of nums)for(const b of nums)if(a!==b&&a.frame===b.frame)assert(Math.hypot(a.x-b.x,a.y-b.y)>=8,a.id+' and '+b.id+' share a look and stand '+Math.hypot(a.x-b.x,a.y-b.y).toFixed(1)+' tiles apart');}
  result.push('R651: ネオンの「かずの ひと」はミオや絵をかく子と同じ絵を使わず、同じ絵の人は離れて立つ PASS');
+ // R656: the デバッグ summon says 表示バグも直った only when a 表示バグ was there before the cast (the first crow fight has none).
+ {const line=html.split('\n').find(l=>l.includes("'デバッグ！HPが戻った。")&&l.includes('later('))||'',pre=html.split('\n').find(l=>l.includes('const hadStatus=!!g.status;'))||'';
+  assert(/const hadStatus=!!g\.status;const rescue=/.test(pre),'R656: hadStatus is read before the rescue clears g.status');
+  assert(/msg=hadStatus\?menuLabel\('デバッグ！HPが戻った。\\n表示バグも直った！'/.test(line),'R656: 表示バグも直った only with hadStatus');
+  assert(/:menuLabel\('デバッグ！HPが戻った。','デバッグ！ HPが もどった。'\)/.test(line),'R656: without a 表示バグ only the HP line is said');}
+ result.push('R656: デバッグで「表示バグも直った」と言うのは、表示バグがあった時だけ PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

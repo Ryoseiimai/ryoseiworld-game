@@ -425,6 +425,7 @@ R596: 戦闘のソラの光と名前の札が重ならない PASS
 R605: 町の地面は、画面に映るマスだけを描く（映る所の絵は前と同じ） PASS
 R638: 塔の「うえへ」「したへ」の床の名前と行き先が合っている PASS
 R651: ネオンの「かずの ひと」はミオや絵をかく子と同じ絵を使わず、同じ絵の人は離れて立つ PASS
+R656: デバッグで「表示バグも直った」と言うのは、表示バグがあった時だけ PASS
 og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
 og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
 og-achievement: every row is earned on a save that satisfies its `when`, none on an empty save, and atLeast is a hard floor PASS
@@ -482,5 +483,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 82ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 84ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
