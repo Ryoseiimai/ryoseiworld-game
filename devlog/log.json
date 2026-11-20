@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T00:53:33.904Z",
-  "branch": "claude/autodev-20261113-0921-R524",
-  "task": "R524 ミナモの看板で「ミナモ」の字が板からはみ出し、両側の柱にかかっていたので、看板を少し大きくし字の間を2pxつめて板の中に収めた",
-  "summary": "ミナモの看板で、字が両側の柱にかかっていたのを直した\n看板を136から148pxにし、字の間を2pxつめて形の中心でそろえた\n前と後のスクショを docs/shots/R524 に置き、テストを足した",
-  "result": "fail",
-  "shots": [
-   "shots/906/mobile-02-mode-select.jpg",
-   "shots/906/mobile-19-custom-og-credit-card.jpg",
-   "shots/906/mobile-34-chapter-1-play.jpg",
-   "shots/906/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d627a13",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43339803626"
- },
- {
   "at": "2026-11-13T01:06:11.343Z",
   "branch": "claude/autodev-20261113-0921-R524",
   "task": "R524 ミナモの看板で「ミナモ」の字が板からはみ出し、両側の柱にかかっていたので、この看板だけ字の間を4pxつめて板の中に収めた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "970ad7f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44793035390"
+ },
+ {
+  "at": "2026-11-20T18:58:09.294Z",
+  "branch": "claude/autodev-20261121-0321-R652",
+  "task": "R652 プロローグの部屋に、歩ける自分の部屋にある本だなが無く、別の部屋に見えていたので、右の壁に同じ本だなを描き、窓を机の上へ、テレビと扇風機を少し下へ動かした",
+  "summary": "プロローグの部屋の右の壁に、自分の部屋と同じ本だなを描いた\n窓を机の上へ、テレビと扇風機を少し下へ動かし、本だなと重ならないようにした\n本だなが窓・机・テレビと重ならないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1149/mobile-02-mode-select.jpg",
+   "shots/1149/mobile-19-custom-og-credit-card.jpg",
+   "shots/1149/mobile-34-chapter-1-play.jpg",
+   "shots/1149/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "25ce9b3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44793615299"
  }
 ]
