@@ -3044,7 +3044,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/station_sign:4\b/.test(html)&&/station_sign:2\b/.test(html),'index.html loads the station_sign pictures');}
  result.push('R239: ネオンの かんばんが、町の木の板ではなく光る看板 PASS');
  // R243: the park sign stands on two posts far apart, and the small round shadow lay on the grass between and below them (ミナモ, desktop-26). Its shadow now joins both post feet.
- {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}\};/);assert(m,'the park sign has its own shadow');const [rx,rise,ry,tilt]=m.slice(1).map(Number);
+ {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/);assert(m,'the park sign has its own shadow');const [rx,rise,ry,tilt]=m.slice(1).map(Number);
   assert(/const fsh=o\.w>=100&&FOOT_SHADOW\[o\.kind\]\?\.\[o\.frame\]/.test(html),'only the boards w 100 and up use it (R273 widened it from the park boards)');
   const file=path.join(root,'assets','props','props_r2_c3.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);assert.equal(width,236);
   const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>40)b=y;low.push(b);}
@@ -3092,7 +3092,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime();r.tick();r.g.debugWarp('town',6,25.5);r.tick(16);for(let x=9;x<=12.6;x+=.1)assert(!r.g.debugBlocked(x*48,25.5*48),'the start row (y 25.5) stays open past the ちず sign at x '+x.toFixed(1));}
  result.push('R272: 町の電柱が「ちず」の看板の上に立って見えない PASS');
  // R273: the ちず and ミナモ boards share the park sign picture (props 11) but are w 104 and 136, so they kept the small round shadow between and below their two feet; now they use the two-feet shadow too.
- {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}\};/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
+ {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
   const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects);
   for(const [id,text] of [['sign','ちず'],['minamo_sign','ミナモ']]){const o=all.find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.sign===text,id+' is the '+text+' board on props 11');assert(o.w>=min,id+' (w '+o.w+') gets the two-feet shadow');}
   const [rx,rise,ry]=m.slice(1,4).map(Number);for(const id of ['sign','minamo_sign']){const k=all.find(x=>x.id===id).w/236;assert(ry*k>=3&&rx*k>=30,'the '+id+' shadow stays visible: '+(rx*k).toFixed(1)+' x '+(ry*k).toFixed(1));}}
@@ -3856,6 +3856,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/msg=hadStatus\?menuLabel\('デバッグ！HPが戻った。\\n表示バグも直った！'/.test(line),'R656: 表示バグも直った only with hadStatus');
   assert(/:menuLabel\('デバッグ！HPが戻った。','デバッグ！ HPが もどった。'\)/.test(line),'R656: without a 表示バグ only the HP line is said');}
  result.push('R656: デバッグで「表示バグも直った」と言うのは、表示バグがあった時だけ PASS');
+ // R657: the slanted sofa (interior 12) looked like it floated over its small round shadow; its shadow now lies along its base (left leg to front corner).
+ {const m=html.match(/interior:\{12:\[(\d+),(\d+),(\d+),([0-9.]+),(-?\d+)\]\}/);assert(m,'R657: the sofa has its own shadow');const [rx,rise,ry,tilt,off]=m.slice(1).map(Number);
+  assert(/ctx\.ellipse\(o\.x\*TILE\+\(fsh\[4\]\|\|0\)\*k,o\.foot-fsh\[1\]\*k,/.test(html),'R657: the 5th number moves the shadow sideways');
+  const file=path.join(root,'assets','interior','interior_r3_c0.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);
+  const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>128)b=y;low.push(b);}
+  let left=0;for(let x=0;x<30;x++)if(low[x]>low[left])left=x;let front=100;for(let x=100;x<200;x++)if(low[x]>low[front])front=x;
+  const cx=width/2+off,cy=height-rise;
+  for(const [x,y] of [[left,low[left]],[front,low[front]]]){const dx=x-cx,dy=y-cy,u=dx*Math.cos(tilt)+dy*Math.sin(tilt),v=-dx*Math.sin(tilt)+dy*Math.cos(tilt);assert((u/rx)**2+(v/ry)**2<=1.05,`R657: the sofa shadow reaches the foot at ${x},${y}`);}
+  const all=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='interior'&&o.frame===12);assert(all.length>=3,'R657: the sofas are found');
+  for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the sofa shadow');}
+ result.push('R657: ソファの影が、足元に沿って床に落ちる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
