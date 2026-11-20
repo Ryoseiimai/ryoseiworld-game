@@ -85,7 +85,7 @@ maps.town.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
 maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spawn:[5,9],window:[334,16],objects:[
  object('rug','interior',11,5,9.6,160,160,{floor:true,collider:false}),object('stairs','interior',15,5,13.2,110,110,{floor:true,collider:false}),
  object('clock','interior',14,2.6,1.9,70,70,{collider:false}),object('pc','interior',1,5,4.2,130,130,{label:'パソコン',dialogue:'pc',action:'save'}),object('shelf','interior',2,8.5,4.2,110,130),object('plant','interior',13,1.6,4.3,75,80),
- object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear'}),
+ object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear',calmTv:true}),
  object('fan','fan',0,9.5,10.4,60,132),
  object('cushion','spot',0,9.3,11.2,60,40,{hidden:true,label:'ざぶとん',event:'cushion',collider:false})],enemies:[],portals:[{x:5,y:12,to:'town',at:[6,25.5],sign:'そとへ',plate:[7,12.6]}]};
 // R634: window is where the prologue's cross window with the moon hangs on the wall (between the desk and the shelf); only this room has one.

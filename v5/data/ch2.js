@@ -77,7 +77,7 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
 // The friend's house: the boy who may not go out.
 maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:13,spawn:[5,10],objects:[
  object('mf_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
- object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTv'}),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
+ object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTvNoise',clearedDialogue:'friendTv',calmTv:true}/* R642: after the boss it shows a picture, like the own room's TV */),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
  enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[6,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
@@ -134,7 +134,8 @@ RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino
   minamoDad:[['つかれた おとうさん','こうえんの ニュース、\nぜんぶ よんでる。'],['つかれた おとうさん','よめば よむほど\nこうえんが こわくなる。']],
   minamoMom:[['ともだちの ママ','うちの こ？\nいえで まってるわ。'],['ともだちの ママ','そとは あぶないもの。\nスマホに かいてある。']],
   minamoBoy:[['ともだち','RYOSEIくん？\nそとから きたの？'],['ともだち','ぼくも でたい。\nでも ママが\nしんぱいする。'],['ともだち','かべが あるから\nって いうんだ。']],
-  friendTv:[['テレビ','「きょうの あぶない\nランキング」\nを やっている。']],
+  friendTvNoise:[['テレビ','ザーッ。…ときどき\n「あぶない」だけ\nきこえる。']],
+  friendTv:[['テレビ','「きょうの あぶない\nランキング」\nを やっている。'],['テレビ','だい1い。ねこの\nしっぽを ふむ。']],
   minamoDog:[['いぬ','ワン。\n（さんぽは まだ？）']],
   searchMachine:[['けんさくの きかい','ほう…ほう…\n（いびきが きこえる）'],['ソラ','なかに だれか いる。\nおじいちゃんに きこう。']],
   grandpaAsk:[['おじいちゃん','よく きたね。\nここは みずべの\nとしょかん。'],['おじいちゃん','けんさくの きかいが\nノイズで ねむっとる。'],['おじいちゃん','まちの ノイズを\n3つ しずめて くれんか。']],

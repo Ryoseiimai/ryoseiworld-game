@@ -19,7 +19,7 @@ assert(scripts.length>=3&&scripts.some(s=>s.file==='v5/data/ch1.js'),'index.html
 function roomWindowSrc(){const s=(html.match(/function drawRoomWindow\(x,y\)\{.*/)||[''])[0];assert(s,'drawRoomWindow() is in index.html');return 'function ellipse(x,y,rx,ry,c){rect(x-rx,y-ry,rx*2,ry*2,c);}\n'+s+'\n';}
 const result=[];
 // R605: fillRect records these plate colours by name (one Map lookup instead of five string checks per rectangle).
-const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate']]);
+const FILL_TAGS=new Map([['#0b1f3ce0','summonplate'],['#1f2a44e6','plate'],['#244b49ee','tag'],['#98a27f','paving'],['#e7d29f','exitplate'],['#4f7fa6','calmtv']]);
 // R605: each script is compiled once (vm.Script) and run in every runtime's new context, instead of compiling 600KB again for each of the ~340 runtimes.
 // Decode the shipped RGBA PNGs so collision tests use actual alpha, not rectangles.
 const decoded=new Map();
@@ -663,6 +663,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(r.g.questStep,'key');assert(talk(r,'minamo_library',3.4,8.5).includes('つかえるように なった'));while(r.g.dialogue)r.dialogue();assert(r.g.state.flags.minamoKey);assert.equal(r.g.questStep,'recruit');
   assert(talk(r,'minamo_library',5.7,5.3).includes('おこした'),'the search machine wakes after the key');while(r.g.dialogue)r.dialogue();r.tick(400);assert.equal(r.g.modal,'event','the owl asks the first question');for(const a of ['ながくて ばらばら','おさないで おとなに','ひみつは いわない']){r.button(a);while(r.g.dialogue)r.dialogue();r.tick(400);}assert(r.g.summons.includes('owl'));
   assert(talk(r,'minamo_friend',4.6,7.7).includes('でたい'));while(r.g.dialogue)r.dialogue();
+  // R642: before the boss the friend's TV is static and says so; it draws no picture.
+  {const tv=D.maps.minamo_friend.objects.find(o=>o.id==='mf_tv');assert(tv.calmTv,'the friend TV is marked calmTv');assert(talk(r,'minamo_friend',tv.x,tv.y+1.2).includes('ザーッ'),'the friend TV is static before the boss');while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);assert(!r.canvasCalls.some(c=>c[0]==='calmtv'),'no picture before the boss');}
   // Leaving the library and the friend's house comes back in front of their doors; the bus stop lists both towns.
   r.g.debugWarp('minamo_library',5,11.9);r.tick(400);r.key('ArrowDown');for(let i=0;i<20&&r.g.map!=='minamo';i++)r.tick(16);r.key('ArrowDown',true);r.tick(16);assert.equal(r.g.map,'minamo');
   r.g.debugWarp('minamo',12.4,31.3);r.g.debugFace(3);r.tick(400);r.click('talk-btn');r.tick(400);assert.equal(r.g.modal,'event');r.button('ヒダマリちょう');assert.equal(r.g.map,'town');
@@ -719,7 +721,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=D.maps.minamo.objects.find(o=>o.id==='minamo_wall1');r.g.debugWarp('minamo',w.x,w.y+1.4);r.g.debugFace(3);r.tick(16);r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y<w.y*48-10,'the wall is gone '+r.g.position.y);
   r.g.debugWarp('minamo',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='しんぱいの かべ'),'the park wall is gone too');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_friend',4.6,7.7).includes('あした'),'the friend changes after the boss');while(r.g.dialogue)r.dialogue();
-  for(const k of ['kateinoTalk','kateinoClear','minamoPark','dadAfter','momAfter','boyAfter'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
+  // R642: after the boss the friend's TV shows a picture (drawCalmTv), matching its line about a programme.
+  {const tv=D.maps.minamo_friend.objects.find(o=>o.id==='mf_tv');r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='calmtv'),'the friend TV shows a picture after the boss');assert(talk(r,'minamo_friend',tv.x,tv.y+1.2).includes('ランキング'),'the friend TV talks about the programme after the boss');while(r.g.dialogue)r.dialogue();}
+  for(const k of ['kateinoTalk','kateinoClear','minamoPark','dadAfter','momAfter','boyAfter','friendTvNoise','friendTv'])for(const l of D.dialogue[k])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'chapter 2 line fits '+row);
   // R440: the boss speaks under the same name its map label shows.
   {const b=D.maps.minamo.objects.find(o=>o.id==='minamo_boss');assert.equal(D.dialogue[b.dialogue][0][0],b.label,'the boss talks under its own name');}}
  // R37: the train goes both ways after the card, and a save made between the boss and the park scene plays the scene again.
