@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T13:58:06.295Z",
-  "branch": "claude/autodev-20261112-2224-R513",
-  "task": "R513 「調べる」が金色に戻る0.3秒の間、暗い字に黒い縁取りが残って黒くにじんでいたので、縁取りを字の色と一緒に消した",
-  "summary": "「調べる」「話す」の縁取りを、字の色と一緒に0.3秒で消すようにした\n金色に戻る途中の字が、黒くにじまずに読めることを前後のスクショで確かめた\n縁取りが字の色と一緒に消えることを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/892/mobile-02-mode-select.jpg",
-   "shots/892/mobile-19-custom-og-credit-card.jpg",
-   "shots/892/mobile-34-chapter-1-play.jpg",
-   "shots/892/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "99787ff",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43230209885"
- },
- {
   "at": "2026-11-12T15:08:12.346Z",
   "branch": "claude/autodev-20261112-2321-R514",
   "task": "R514 おしまいの札の上にメニューや窓を開くと、窓の縁で後ろの札の「作った人」や「ありがとう」が上半分だけ見えていたので、窓が開いている間は札を隠した",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "8c5540d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44710634255"
+ },
+ {
+  "at": "2026-11-20T09:45:09.697Z",
+  "branch": "claude/autodev-20261120-1821-R643",
+  "task": "R643 タイトルや外のマップで、キックボードの主人公の車輪の約20px下に小さな黒い欠片が出るのを直す",
+  "summary": "右向きのキックボードの絵の下に、次の段の帽子の頭がのぞいていた\nその4コマだけ、絵の下の端を描かないようにした\nタイトルと町の前と後のスクショと、確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1135/mobile-02-mode-select.jpg",
+   "shots/1135/mobile-19-custom-og-credit-card.jpg",
+   "shots/1135/mobile-34-chapter-1-play.jpg",
+   "shots/1135/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cd93564",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44710927166"
  }
 ]
