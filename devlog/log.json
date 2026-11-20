@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T01:54:43.273Z",
-  "branch": "claude/autodev-20261113-1021-R525",
-  "task": "R525 人が後ろにいる時の「話す」の真ん中に暗い楕円のしみが見えていたので、暗い地をボタンの角まで広げてむらのない地にした",
-  "summary": "後ろに人がいる時の「話す」で、真ん中の暗い楕円がしみに見えていた\n暗い地を角の外まで広げ、相手がいない時は薄くして人が透けるようにした\n前と後のスクショを docs/shots/R525 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/912/mobile-02-mode-select.jpg",
-   "shots/912/mobile-19-custom-og-credit-card.jpg",
-   "shots/912/mobile-34-chapter-1-play.jpg",
-   "shots/912/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e2b4421",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43345965734"
- },
- {
   "at": "2026-11-13T02:50:03.057Z",
   "branch": "claude/autodev-20261113-1121-R526",
   "task": "R526 ボス戦の始めの「ドラッグで動く」の板が、スマホでは1行なのに2行分の大きさで、道の上の空の暗い箱に見えたので、字に合う大きさにした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "7351621",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44814044007"
+ },
+ {
+  "at": "2026-11-20T21:39:32.892Z",
+  "branch": "claude/autodev-20261121-0621-R655",
+  "task": "R655 全章のスクショから確認役が5つ挙げたので確かめた。ボス戦の「ライフ」「武器」と壁の帯、コマンド戦の「ソラ」の名札、会話の「タップ」はどれも24pxで書いてある、ネオンの灰色の顔は町を直す前の作り、設定などの窓の後ろが夜空だけなのはシェア用の絵、電気屋の奥は17マスの縦長で奥の壁が上へ流れて見えないだけ、きずなの札にお母さんがいないのは検証用の呼び出しの絵なので、どれも直さなかった",
+  "summary": "全章を通してスクショ154枚を撮り、確認役が携帯の51枚から5つ挙げた\n文字の大きさの3件はコードで24px以上と確かめ、残り2件も決めた作りだった\n今回はゲームの中身を変えず、確かめた結果を台帳に書いた",
+  "result": "pass",
+  "shots": [
+   "shots/1154/mobile-02-mode-select.jpg",
+   "shots/1154/mobile-19-custom-og-credit-card.jpg",
+   "shots/1154/mobile-34-chapter-1-play.jpg",
+   "shots/1154/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2d6881e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44820849492"
  }
 ]
