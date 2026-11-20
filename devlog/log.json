@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T23:33:02.732Z",
-  "branch": "claude/autodev-20261113-0822-R523",
-  "task": "R523 遊んで一番気になる所を1つ直す",
-  "summary": "ミナモの看板を0.35マス左に立て、右の柱も芝の上に載せた\n看板の当たりを少し内側にし、着いた所から北へまっすぐ歩けるままにした\n直す前と後のスクショを撮り、柱と歩く道のテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/903/mobile-02-mode-select.jpg",
-   "shots/903/mobile-19-custom-og-credit-card.jpg",
-   "shots/903/mobile-34-chapter-1-play.jpg",
-   "shots/903/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "589c034",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43328334887"
- },
- {
   "at": "2026-11-12T23:55:51.911Z",
   "branch": "claude/autodev-20261113-0822-R523",
   "task": "R523 ボス戦でボスの台詞からソラのヒントへ入れ替わる時、札の濃い地が半秒ほど消えて町が透けていたので、続けて出る間は地を濃いまま残し文字だけを入れ替えた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "b05f8ed",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44767468414"
+ },
+ {
+  "at": "2026-11-20T16:50:21.485Z",
+  "branch": "claude/autodev-20261121-0122-R650",
+  "task": "R650 プロローグの部屋に、歩ける自分の部屋にある壁の時計・丸いじゅうたん・植木ばちが無く、別の部屋に見えていたので、同じ3つを描いた",
+  "summary": "プロローグの部屋に、自分の部屋と同じ時計・じゅうたん・植木ばちを描いた\n確認役は全章のスクショで、ほかに新しい問題は無いと答えた\n3つがそろっているかの確かめを test_v5 に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1146/mobile-02-mode-select.jpg",
+   "shots/1146/mobile-19-custom-og-credit-card.jpg",
+   "shots/1146/mobile-34-chapter-1-play.jpg",
+   "shots/1146/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "97ba728",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44775760472"
  }
 ]
