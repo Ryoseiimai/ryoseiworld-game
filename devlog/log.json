@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T12:58:12.805Z",
-  "branch": "claude/autodev-20261112-2122-R512",
-  "task": "R512 戦闘でソラの名前がRYOSEIとHPの欄の上の線に乗って見えたので、ソラを20px上に出した",
-  "summary": "戦闘のソラと名前を20px上に出した\n名前とHPの欄の上の線の間が、約10pxから約34pxに広がった\n名前と欄の間が24px以上あることを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/888/mobile-02-mode-select.jpg",
-   "shots/888/mobile-19-custom-og-credit-card.jpg",
-   "shots/888/mobile-34-chapter-1-play.jpg",
-   "shots/888/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9d5fb6f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43220536059"
- },
- {
   "at": "2026-11-12T13:47:45.822Z",
   "branch": "claude/autodev-20261112-2224-R513",
   "task": "R513 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "a6dd3ed",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702413508"
+ },
+ {
+  "at": "2026-11-20T08:46:50.906Z",
+  "branch": "claude/autodev-20261120-1721-R642",
+  "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
+  "summary": "町を直した後、友だちの家のテレビにも部屋と同じねこの番組の絵を出した\n直す前は砂嵐の台詞、直した後は「のんびりランキング」の台詞にした\n直す前と後のテレビの絵と台詞を確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1133/mobile-02-mode-select.jpg",
+   "shots/1133/mobile-19-custom-og-credit-card.jpg",
+   "shots/1133/mobile-34-chapter-1-play.jpg",
+   "shots/1133/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "00bea56",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702928072"
  }
 ]
