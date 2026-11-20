@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T15:46:22.142Z",
-  "branch": "claude/autodev-20261113-0021-R515",
-  "task": "R515 おとなモードのノイズの目標だけ「0/3」と斜線の前後が詰まり、実績の「7 / 12」やおさらいの「1 / 3」と書き方が違ったので、「0 / 3」にした（こどもは帯の幅に収まらないので今のまま）",
-  "summary": "おとなモードのノイズの目標の数を「0 / 3」と空けた\n前と後のスクショで、帯が1行に収まることを確かめた\n小さい画面で一番長い文が480pxの内471pxに収まると測った",
-  "result": "pass",
-  "shots": [
-   "shots/894/mobile-02-mode-select.jpg",
-   "shots/894/mobile-19-custom-og-credit-card.jpg",
-   "shots/894/mobile-34-chapter-1-play.jpg",
-   "shots/894/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "01d9c51",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43249523311"
- },
- {
   "at": "2026-11-12T16:56:40.417Z",
   "branch": "claude/autodev-20261113-0121-R516",
   "task": "R516 こどもモードのおさらいの見出しだけ「おさらい　1/3」と斜線の前後が詰まり、ふくろうの「もんだい 1 / 3」と書き方が違ったので、「おさらい　1 / 3」にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "c166f07",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44719310832"
+ },
+ {
+  "at": "2026-11-20T10:53:19.585Z",
+  "branch": "claude/autodev-20261120-1922-R644",
+  "task": "R644 町を右向きに走る時、キックボードの車輪が影より約18px上に浮いていた（タイトルでは歩道より上に浮いていた）ので、右向きの4コマだけ下にずらした",
+  "summary": "右向きに走る時だけ、車輪が影より約18px上に浮いていた\n右向きの4コマを他の向きと同じ高さまで下にずらした\n町とタイトルの前と後のスクショと、確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1137/mobile-02-mode-select.jpg",
+   "shots/1137/mobile-19-custom-og-credit-card.jpg",
+   "shots/1137/mobile-34-chapter-1-play.jpg",
+   "shots/1137/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0b8e277",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44720544121"
  }
 ]
