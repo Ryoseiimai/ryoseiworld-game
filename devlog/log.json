@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T20:59:27.909Z",
-  "branch": "claude/autodev-20261113-0522-R520",
-  "task": "R520 相手がいない時の「話す」の地が金色の薄い透けで、町では肌色、ネオンでは紫と地図ごとに色が変わって見えたので、上の札と同じ濃い透ける地にした",
-  "summary": "相手がいない時の「話す」の地を、上の札やメニューと同じ濃い透ける地にした\n町でもネオンでも同じ色に見え、下の人もうっすら見えるままにした\n鍵のブランチはルーチンの決まりで push できず、鍵なしで進めた",
-  "result": "pass",
-  "shots": [
-   "shots/899/mobile-02-mode-select.jpg",
-   "shots/899/mobile-19-custom-og-credit-card.jpg",
-   "shots/899/mobile-34-chapter-1-play.jpg",
-   "shots/899/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "884756a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43303320636"
- },
- {
   "at": "2026-11-12T21:52:04.245Z",
   "branch": "claude/autodev-20261113-0621-R521",
   "task": "R521 相手がいない時に後ろへ人が来ると「話す」の地が金色がかった灰色に変わっていたので、いない時と同じ濃い色のまま薄くした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "9df3978",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44756225141"
+ },
+ {
+  "at": "2026-11-20T15:09:25.298Z",
+  "branch": "claude/autodev-20261120-2321-R647",
+  "task": "R647 町の戦いに勝った後も、敵が赤い目と牙の暴れた顔のまま薄くなるだけだったので、色を落として寝息の z を浮かべ、おとなしくなったと分かるようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n勝った後の敵が暴れた顔のままだったので、色を落として z を浮かべた\n前の決まりのテスト1つは、色を落とす1文を間に入れてよいように広げた",
+  "result": "pass",
+  "shots": [
+   "shots/1143/mobile-02-mode-select.jpg",
+   "shots/1143/mobile-19-custom-og-credit-card.jpg",
+   "shots/1143/mobile-34-chapter-1-play.jpg",
+   "shots/1143/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8bc78eb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44758712425"
  }
 ]
