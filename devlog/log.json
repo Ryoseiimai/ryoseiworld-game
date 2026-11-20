@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T03:52:49.465Z",
-  "branch": "claude/autodev-20261113-1222-R527",
-  "task": "R527 タイトルの「遊びながらゲーム作りと AIを学ぶRPG」が後ろの家の屋根とアンテナに重なって読みにくかったので、下の案内と同じ濃い透ける地を付けた",
-  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/918/mobile-02-mode-select.jpg",
-   "shots/918/mobile-19-custom-og-credit-card.jpg",
-   "shots/918/mobile-34-chapter-1-play.jpg",
-   "shots/918/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d3687e7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43359826925"
- },
- {
   "at": "2026-11-13T04:34:08.589Z",
   "branch": "claude/autodev-20261113-1321-R528",
   "task": "R528 遊んで一番気になる所を1つ直す",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "d554c9c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44830940285"
+ },
+ {
+  "at": "2026-11-20T23:42:24.730Z",
+  "branch": "claude/autodev-20261121-0821-R658",
+  "task": "R658 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショ154枚を撮り、確認役が見て5つ挙げた\n斜めに描いたソファの影が足元から離れ、浮いて見えたのを直した\n前と後のスクショで電気屋の奥のソファが床に着いたのを確かめ、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1157/mobile-02-mode-select.jpg",
+   "shots/1157/mobile-19-custom-og-credit-card.jpg",
+   "shots/1157/mobile-34-chapter-1-play.jpg",
+   "shots/1157/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "daf300a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44837599739"
  }
 ]
