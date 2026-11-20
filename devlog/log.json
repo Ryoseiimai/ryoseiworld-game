@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-12T17:57:47.411Z",
-  "branch": "claude/autodev-20261113-0221-R517",
-  "task": "R517 戦闘で呼び出したナオスライムのスパナが名前の札の下の縁から6pxしか離れず、札に付いて見えたので、絵を札の12px下から始めるようにした",
-  "summary": "呼び出した仲間の絵を、名前の札の下から12px空けて始めた\n前と後のスクショで、ナオスライムのスパナが札から離れたのを確かめた\nビートのボタンが画面の下に6pxまで近づく件は、とくぎとの間16px（R375）とぶつかるので見送った",
-  "result": "pass",
-  "shots": [
-   "shots/896/mobile-02-mode-select.jpg",
-   "shots/896/mobile-19-custom-og-credit-card.jpg",
-   "shots/896/mobile-34-chapter-1-play.jpg",
-   "shots/896/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8e7e8df",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43272391772"
- },
- {
   "at": "2026-11-12T19:06:54.970Z",
   "branch": "claude/autodev-20261113-0322-R518",
   "task": "R518 章の札とおしまいの札で、金色の「次へ」が下の「シェアする」「アニメを見る」より狭く、主と従が逆に見えたので、両方を同じ400pxの幅にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "a62c3c1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44729407334"
+ },
+ {
+  "at": "2026-11-20T13:41:00.625Z",
+  "branch": "claude/autodev-20261120-2221-R646",
+  "task": "R646 全章のスクショから確認役が5つ挙げたので確かめた。塔の上り下りの床の雲は下の札で分かる、ボスの帯の下の攻撃力は R392 で「自分の」と書いた、実績の☆と未達成は R404 と R419 の作り、タイトルの案内は R409 と R437 で決めた文、終わりの札の作った人の名前は人が決めることなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも前の件で決めた作りか、人が決めることだったので直さなかった\n終わりの札の「作った人：RYOSEIWORLD」は作者名にするか今井さんが決める",
+  "result": "pass",
+  "shots": [
+   "shots/1140/mobile-02-mode-select.jpg",
+   "shots/1140/mobile-19-custom-og-credit-card.jpg",
+   "shots/1140/mobile-34-chapter-1-play.jpg",
+   "shots/1140/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7b2cb35",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44745068069"
  }
 ]
