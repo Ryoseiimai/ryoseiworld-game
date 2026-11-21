@@ -76,7 +76,9 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6],sign:'そとへ'}]};
 // The friend's house: the boy who may not go out.
 maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:13,spawn:[5,10],objects:[
- object('mf_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
+ // R664: the friend's own striped rug, low game table and beanbag (art from v5/assets/friend_rug), so it is not the own room's blue rug.
+ object('mf_rug','friend_rug',0,5,9.3,150,166,{floor:true,collider:false}),
+ object('mf_table','friend_rug',1,2.3,7.6,100,90),object('mf_beanbag','friend_rug',2,8.2,6.6,80,80),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTvNoise',clearedDialogue:'friendTv',calmTv:true}/* R642: after the boss it shows a picture, like the own room's TV */),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
  enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[6,35.4],sign:'そとへ'}]};

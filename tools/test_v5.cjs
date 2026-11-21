@@ -3903,6 +3903,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    r.g.debugWarp(map,o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===text),'R661: the board words are drawn in '+mode+' mode');}}
  {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(4000);for(let k=0;k<80&&r.g.dialogue;k++)r.dialogue();assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===200,'R661: adult chapter start has the 200px board');r.click('menu-btn');r.button('設定');r.button('こどもモードにする');r.tick(200);assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===224,'R661: going back to kids mode brings the 224px board back');}
  result.push('R661: おとなモードの「公園」の看板が、200pxに小さくなる PASS');
+ // R664: the friend's house had the own room's blue round rug; it now uses the delivered friend_rug art (rug, low table, beanbag).
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.friend_rug,4,'R664: the friend_rug sheet loads 4 frames');
+  const objs=r.g.GAME_DATA.maps.minamo_friend.objects,rug=objs.find(o=>o.id==='mf_rug'),more=objs.filter(o=>o.kind==='friend_rug'&&o.id!=='mf_rug');
+  assert(rug&&rug.kind==='friend_rug'&&rug.frame===0&&rug.floor&&rug.collider===false,'R664: the friend rug is the striped rug, lying flat on the floor');
+  assert(more.length>=1,'R664: at least one new piece of furniture stands in the friend house');
+  assert(!objs.some(o=>o.kind==='friend_rug'&&o.frame===3),'R664: the shelf cell (a toy that looks like a known robot) is not used');
+  const [sx,sy]=r.g.GAME_DATA.maps.minamo_friend.spawn;for(const o of more)assert(Math.hypot(o.x-sx,o.y-sy)>=2,'R664: '+o.id+' stays off the door spawn');
+  r.g.debugWarp('minamo_friend',sx,sy);r.tick(16);assert.equal(r.g.map,'minamo_friend','R664: the friend house opens');
+  assert(talk(r,'minamo_friend',4.6,7.7).length>0,'R664: the boy can still be reached and talked to');while(r.g.dialogue)r.dialogue();}
+ result.push('R664: 友達の家に、届いた絵のしましまのラグ・低い机・ビーズクッションが置かれる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
