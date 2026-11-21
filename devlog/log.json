@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T16:56:20.202Z",
-  "branch": "claude/autodev-20261114-0111-R537",
-  "task": "R537 自分の部屋と図書館で、部屋の上の壁の縁が目標の帯のすぐ下にのぞいていたので、部屋を動かさず帯から22px下に置いた",
-  "summary": "自分の部屋と図書館は帯より26px高く、少しずれて壁の縁が帯に付いて見えていた\n1マス以内だけ高い部屋は動かさず、コンビニと同じく帯の22px下に置いた\n下の「話す」が床の下の縁に12pxかかるが、出口は隠れないので残した",
-  "result": "pass",
-  "shots": [
-   "shots/935/mobile-02-mode-select.jpg",
-   "shots/935/mobile-19-custom-og-credit-card.jpg",
-   "shots/935/mobile-34-chapter-1-play.jpg",
-   "shots/935/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3ae86f1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43465222888"
- },
- {
   "at": "2026-11-13T18:12:55.989Z",
   "branch": "claude/autodev-20261114-0222-R538",
   "task": "R538 電気屋の奥を下へ進むと、床が上の目標の帯の下まで上がって帯が床に乗って見えたので、部屋の上の線より上を周りの色で覆った",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "25a26a8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44886990989"
+ },
+ {
+  "at": "2026-11-21T09:50:20.735Z",
+  "branch": "claude/autodev-20261121-1822-R668",
+  "task": "R668 図書館の検索の機械が家のパソコン机だったので、届いた図書館用の端末の絵にし、緑のラグ・読書の机・返却のワゴンを置いた",
+  "summary": "図書館の検索の機械を、届いた図書館用の端末の絵に替えた\n右の空いた床に緑のラグ・読書の机・返却のワゴンを置いた\n前と後のスクショを docs/shots/R668 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1174/mobile-02-mode-select.jpg",
+   "shots/1174/mobile-19-custom-og-credit-card.jpg",
+   "shots/1174/mobile-34-chapter-1-play.jpg",
+   "shots/1174/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2679ad6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44890622367"
  }
 ]
