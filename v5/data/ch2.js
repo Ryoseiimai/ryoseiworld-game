@@ -73,7 +73,9 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  // so it was taken out until the library's own front desk art (v5/assets/library_desk) arrived.
  // R670: the library's own front desk (books, a date stamp, a bell) stands on the lower right, off the door-to-terminal path.
  object('ml_desk','library_desk',0,8.4,8.8,130,100),
- object('ml_magazines','interior',7,1.7,10.6,80,95),
+ // R671: the colorful magazine rack was the convenience store's own (interior 7), so the library looked like the store there;
+ // it is now the picture book shelf from the delivered library_desk sheet (frame 1).
+ object('ml_picbooks','library_desk',1,1.7,10.6,90,95),
  object('ml_shelf1','interior',2,1.8,4.2,110,130),object('ml_shelf2','interior',2,3.8,4.2,110,130),object('ml_shelf3','interior',2,7.6,4.2,110,130),object('ml_shelf4','interior',2,9.4,4.2,110,130),
  // R668: the search machine is the library's own terminal on a stand (v5/assets/library_set), not the home computer desk,
  // and a green reading rug with a reading table and a book return cart sit on the right, away from the door path.

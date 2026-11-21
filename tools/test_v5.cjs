@@ -3918,7 +3918,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,room=r.g.GAME_DATA.maps.room.objects;
   assert(!objs.some(o=>o.kind==='interior'&&o.frame===11),'R667: the library does not lay the own room blue round rug');
   assert(room.some(o=>o.kind==='interior'&&o.frame===11),'R667: the own room keeps its blue rug');
-  const mag=objs.find(o=>o.id==='ml_magazines');assert(mag&&mag.frame===7,'R667: the library has a magazine rack');
+  const mag=objs.find(o=>o.id==='ml_picbooks');assert(mag&&mag.kind==='library_desk'&&mag.frame===1,'R667/R671: the library has a book rack (the picture book shelf, not the store magazine rack)');
   // R669: the store's register counter (interior 6) made the library look like the convenience store.
   assert(!objs.some(o=>o.kind==='interior'&&o.frame===6),'R669: the library has no store register counter');
   const [sx,sy]=lib.spawn;for(const o of [mag])assert(Math.hypot(o.x-sx,o.y-sy)>=2.5,'R667: '+o.id+' stays off the door spawn');
@@ -3946,7 +3946,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();assert.equal(r.g.assets.library_desk,4,'R670: the library_desk sheet loads 4 frames');
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,desk=objs.find(o=>o.id==='ml_desk');
   assert(desk&&desk.kind==='library_desk'&&desk.frame===0&&!desk.floor,'R670: the library has its own front desk');
-  assert(!objs.some(o=>o.kind==='library_desk'&&o.frame!==0),'R670: only the front desk cell is used');
+  assert(!objs.some(o=>o.kind==='library_desk'&&o.frame!==0&&o.frame!==1),'R670: only the front desk and picture book shelf cells are used');
   assert(!objs.some(o=>o.kind==='interior'&&o.frame===6),'R670: the store register counter stays out');
   const [sx,sy]=lib.spawn;assert(Math.hypot(desk.x-sx,desk.y-sy)>=2.5,'R670: the desk stays off the door spawn');
   assert(desk.x*48-desk.w/2>=6*48,'R670: the desk stays right of the door-to-terminal path');
@@ -3957,6 +3957,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(talk(r,'minamo_library',5.7,5.3).length>0,'R670: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
   assert(talk(r,'minamo_library',3.4,8.5).length>0,'R670: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
  result.push('R670: 図書館に、届いた図書館用の受付の机を、入口と検索の機械の道をふさがずに置く PASS');
+ // R671: the library's magazine rack was the convenience store's (interior 7); it is now the library's picture book shelf.
+ {const r=await runtime();r.tick();const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,store=r.g.GAME_DATA.maps.store.objects;
+  assert(!objs.some(o=>o.kind==='interior'&&o.frame===7),'R671: the library has no convenience store magazine rack');
+  assert(store.some(o=>o.kind==='interior'&&o.frame===7),'R671: the convenience store keeps its magazine rack');
+  const pb=objs.find(o=>o.id==='ml_picbooks');assert(pb&&pb.kind==='library_desk'&&pb.frame===1&&!pb.floor,'R671: the picture book shelf stands in the library');
+  const [sx,sy]=lib.spawn;assert(Math.hypot(pb.x-sx,pb.y-sy)>=2.5,'R671: the shelf stays off the door spawn');
+  assert(pb.x*48-pb.w/2>=0&&pb.x*48+pb.w/2<=lib.w*48&&pb.y*48<=(lib.h-1)*48,'R671: the shelf stays inside the room, above the door row');
+  for(const o of objs.filter(o=>o!==pb&&!o.floor&&o.collider!==false))assert(Math.abs(o.x-pb.x)*48>=(o.w+pb.w)/2||Math.abs(o.y-pb.y)*48>=40,'R671: the shelf does not sit on '+o.id);
+  r.g.debugWarp('minamo_library',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'minamo_library');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/library_desk/library_desk_r0_c1.png')),'R671: the picture book shelf is drawn');
+  assert(talk(r,'minamo_library',3.4,8.5).length>0,'R671: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
+ result.push('R671: 図書館のコンビニと同じ雑誌の棚を、届いた図書館用の絵本の棚にした PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
