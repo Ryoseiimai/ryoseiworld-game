@@ -4038,6 +4038,24 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/props/props_r3_c2.png')),'R680: the bin is drawn');
   r.g.debugWarp('store',sh.x,sh.y+0.9);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('3ぷん')),'R680: the hero can check the second shelf');while(r.g.dialogue)r.dialogue();}
  result.push('R680: コンビニの右下の空いた床に、お菓子の棚とごみ箱を出口への道をふさがずに置く PASS');
+ // R681: my room's lower floor was empty (mobile-26), so a second plant stands in the lower left corner and a bin in the lower right one, off the stairs, the exit plate and the cushion.
+ {const r=await runtime();r.tick();const rm=r.g.GAME_DATA.maps.room,objs=rm.objects,door=rm.portals[0];
+  const sh=objs.find(o=>o.id==='plant2'),bin=objs.find(o=>o.id==='roombin'),stairs=objs.find(o=>o.id==='stairs'),cushion=objs.find(o=>o.id==='cushion');
+  assert(sh&&sh.kind==='interior'&&sh.frame===13,'R681: a second plant stands in the lower left corner of my room');
+  assert(bin&&bin.kind==='props'&&bin.frame===14,'R681: a bin stands in the lower right corner');
+  const [plx,ply]=door.plate,pl=plx*48-26,pr=pl+[...door.sign].length*24+58;
+  for(const o of [sh,bin]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2,top=o.y*48-o.h,foot=o.y*48;
+   assert(l>=0&&rr<=rm.w*48&&foot<=(rm.h-1)*48,'R681: '+o.id+' stays inside the room');
+   assert(Math.abs(o.x-door.x)*48>=o.w/2+24,'R681: '+o.id+' stays off the column down to the door');
+   assert(rr<=stairs.x*48-stairs.w/2||l>=stairs.x*48+stairs.w/2,'R681: '+o.id+' stays clear of the stairs');
+   assert(rr<=pl||l>=pr||foot<=ply*48-17||top>=ply*48+17,'R681: '+o.id+' does not cover the exit plate');
+   for(const q of objs.filter(q=>q!==o&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=40,'R681: '+o.id+' does not sit on '+q.id);}
+  assert(Math.abs(bin.x-cushion.x)*48>=bin.w/2+12,'R681: the bin leaves the cushion reachable from below');
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('room',5,10);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'room');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/interior/interior_r3_c1.png')&&r.imageLog.filter(u=>String(u).includes('assets/interior/interior_r3_c1.png')).length>=2),'R681: both plants are drawn');assert(r.imageLog.some(u=>String(u).includes('assets/props/props_r3_c2.png')),'R681: the bin is drawn');
+  r.g.debugWarp('room',cushion.x-1,cushion.y);r.g.debugFace(2);r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('ふかふか')),'R681: the cushion can still be checked from its left');while(r.g.dialogue)r.dialogue();}
+ result.push('R681: 自分の部屋の下の空いた床に、鉢植えとごみ箱を階段と出口の札をふさがずに置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
