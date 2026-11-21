@@ -1,0 +1,35 @@
+{
+  "branch": "claude/autodev-20261122-0321-R677",
+  "sha": "534c6628f0b01b17ffdbb4c8b99c20c2bc64642f",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: somewhere in the shop the exit arrow sits behind the help box: false,false,false,false,false,false,false,false,false",
+    "    at /tmp/tmp.DbMPy1qt40/tree-claude__autodev-20261122-0321-R677/tools/test_v5.cjs:1469:3 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/1188/mobile-02-mode-select.jpg",
+    "devlog/shots/1188/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1188/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1188/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-21T18:31:27.280Z",
+  "merged_sha": null,
+  "tested_base": "664b484f7bc02795307abb74c3ba36c17b942b39",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44935335043"
+}
