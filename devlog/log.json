@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T18:12:55.989Z",
-  "branch": "claude/autodev-20261114-0222-R538",
-  "task": "R538 電気屋の奥を下へ進むと、床が上の目標の帯の下まで上がって帯が床に乗って見えたので、部屋の上の線より上を周りの色で覆った",
-  "summary": "電気屋の奥を下へ進むと、床が上の目標の帯の下まで上がって見えていた\n部屋の上の線より上を、部屋の横と同じ周りの色で覆った\n上の段の物の頭が覆いで少し切れることがあるが、ほかの部屋の壁の縁と同じ所なので残した",
-  "result": "pass",
-  "shots": [
-   "shots/937/mobile-02-mode-select.jpg",
-   "shots/937/mobile-19-custom-og-credit-card.jpg",
-   "shots/937/mobile-34-chapter-1-play.jpg",
-   "shots/937/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9349cc4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43478493795"
- },
- {
   "at": "2026-11-13T19:02:30.664Z",
   "branch": "claude/autodev-20261114-0321-R539",
   "task": "R539 ミナモに着いた時、公園のゴミ箱が上の目標の帯の矢印のすぐ後ろに出て帯の一部に見えたので、ゴミ箱を公園の左下へ移した",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "2679ad6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44890622367"
+ },
+ {
+  "at": "2026-11-21T10:49:52.782Z",
+  "branch": "claude/autodev-20261121-1921-R669",
+  "task": "R669 図書館の受付がコンビニのレジ机と同じ絵で店に見えたので外し、図書館用の受付の絵を絵係に頼んだ",
+  "summary": "図書館の受付がコンビニのレジ机と同じ絵だったので外した\n図書館用の受付の机などの絵を絵係に頼み、置く件を R670 に足した\n前と後のスクショを docs/shots/R669 に置き、テストを直した",
+  "result": "pass",
+  "shots": [
+   "shots/1175/mobile-02-mode-select.jpg",
+   "shots/1175/mobile-19-custom-og-credit-card.jpg",
+   "shots/1175/mobile-34-chapter-1-play.jpg",
+   "shots/1175/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6c5dabd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44895291910"
  }
 ]
