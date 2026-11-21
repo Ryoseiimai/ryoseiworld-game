@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T11:45:55.170Z",
-  "branch": "claude/autodev-20261113-2021-R534",
-  "task": "R534 戦闘で勝った後、うすくなった敵の体越しに足元の影が濃いまま見えて暗いしみに見えたので、影も敵と同じだけうすくした",
-  "summary": "戦闘で勝った後、うすい敵の体越しに足元の影が濃く見えていた\n影の濃さを敵と同じ割合でうすくし、テストを足した\n前と後のスクショを docs/shots/R534 に置いた（鍵ブランチへの push は許可が無く、鍵を取らずに動いた）",
-  "result": "pass",
-  "shots": [
-   "shots/930/mobile-02-mode-select.jpg",
-   "shots/930/mobile-19-custom-og-credit-card.jpg",
-   "shots/930/mobile-34-chapter-1-play.jpg",
-   "shots/930/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6c864c1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43418155868"
- },
- {
   "at": "2026-11-13T11:58:12.259Z",
   "branch": "claude/autodev-20261113-2021-R534",
   "task": "R534 戦闘で勝った後、うすくなった敵の体越しに足元の影が濃いまま見えて暗いしみに見えたので、影も敵と同じだけうすくした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "c6abf10",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44876038970"
+ },
+ {
+  "at": "2026-11-21T06:59:51.311Z",
+  "branch": "claude/autodev-20261121-1421-R665",
+  "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
+  "summary": "自動確認で落ちた所を直した。家並みと窓は波より先に描き、ぼかしの順を元どおりにした\n部屋の窓がソラの光と重なっていたので、上の札とソラの間に動かした\n町と自分の部屋の戦闘の前と後のスクショを docs/shots/R665 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1168/mobile-02-mode-select.jpg",
+   "shots/1168/mobile-19-custom-og-credit-card.jpg",
+   "shots/1168/mobile-34-chapter-1-play.jpg",
+   "shots/1168/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4e63632",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44877410638"
  }
 ]

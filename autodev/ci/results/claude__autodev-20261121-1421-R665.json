@@ -1,36 +1,22 @@
 {
   "branch": "claude/autodev-20261121-1421-R665",
-  "sha": "53c8be0094a8ebea89e81c1441ad2ec4bdc05cbe",
-  "result": "fail",
+  "sha": "4e636326480481e9894fe8d1b9d63308d508a7e1",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "merge",
-    "test_v5": "fail",
+    "merge": "ff",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "R601 boss right edge 246.9 camera left 253.20000000000005",
-    "AssertionError [ERR_ASSERTION]: the patch is drawn after the waves and before the enemy",
-    "    at /tmp/tmp.zzcgfgGRHA/tree-claude__autodev-20261121-1421-R665/tools/test_v5.cjs:3291:3 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/1166/mobile-02-mode-select.jpg",
-    "devlog/shots/1166/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/1166/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/1166/mobile-50-battle-bugking.jpg"
+    "devlog/shots/1168/mobile-02-mode-select.jpg",
+    "devlog/shots/1168/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1168/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1168/mobile-50-battle-bugking.jpg"
   ],
-  "at": "2026-11-21T05:49:28.211Z",
-  "merged_sha": null,
-  "tested_base": "6508d82d870d9f6af2092f5efcd95c9a72bda9b8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44872024862"
+  "at": "2026-11-21T06:59:51.311Z",
+  "merged_sha": "4e636326480481e9894fe8d1b9d63308d508a7e1",
+  "tested_base": "bb16b7503ffc2b805a9d2ed0f2b0b81044fac932",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44877410638"
 }
