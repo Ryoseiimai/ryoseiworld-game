@@ -186,8 +186,10 @@
     "name": "library_desk",
     "prompt": "Pixel art top-down interior furniture sprite sheet for a small town library, 2x2 grid, same style, palette and scale as the reference sheet. Row 1 left: a wooden library front desk (circulation counter) with small stacks of books, a date stamp and a little bell on top, clearly not a shop counter, no cash register. Row 1 right: a low wooden picture book shelf with colorful book spines facing out. Row 2 left: a small wooden book return box with a slot on top. Row 2 right: a cork notice board on short legs with a few blank paper notes pinned. Each item centered in its cell, viewed from slightly above, transparent background, no text, no letters, no shadow.",
     "ref": "v5/assets/interior_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R669",
-    "requested_at": "2026-11-21T19:35:00+09:00"
+    "requested_at": "2026-11-21T19:35:00+09:00",
+    "done_at": "2026-11-21T20:20:03+09:00",
+    "actual_size": "1024x1024"
   }
 ]
