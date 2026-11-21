@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T04:55:33.738Z",
-  "branch": "claude/autodev-20261114-1322-R547",
-  "task": "R547 ボス戦で、ことばの札の下に出る台詞の枠が札より左右に3pxずつはみ出してそろっていなかったので、枠の端を札と同じ18pxにそろえた",
-  "summary": "ボス戦で、ことばの札の下に出る台詞の枠が札より左右に3pxずつ広かった\n枠の端を札と同じ画面の端から18pxにそろえ、字の位置と折り返しは前のままにした\n前と後のスクショを v5/verification に置き、そろっているかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/951/mobile-02-mode-select.jpg",
-   "shots/951/mobile-19-custom-og-credit-card.jpg",
-   "shots/951/mobile-34-chapter-1-play.jpg",
-   "shots/951/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ce7780b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43558117345"
- },
- {
   "at": "2026-11-14T06:23:27.901Z",
   "branch": "claude/autodev-20261114-1421-R548",
   "task": "R548 ミナモに着いた時、公園の木の頭が上の場所の札の上の縁から黒くのぞいていたので、その木だけ少し小さくした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "534c662",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44935335043"
+ },
+ {
+  "at": "2026-11-21T18:50:39.961Z",
+  "branch": "claude/autodev-20261122-0321-R677",
+  "task": "R677 電気屋の奥を他の部屋と同じ高さ14にし、着いた時に奥の壁が見えるようにする",
+  "summary": "電気屋の奥の高さを17から14にし、着いた時に奥の壁が見えるようにした\nテレビのやまとサーバーは壁にかからないよう少しだけ上げ、机は2.5上げた\n高い部屋のテストは17行の写しの部屋で仕組みを確かめる形にした",
+  "result": "pass",
+  "shots": [
+   "shots/1189/mobile-02-mode-select.jpg",
+   "shots/1189/mobile-19-custom-og-credit-card.jpg",
+   "shots/1189/mobile-34-chapter-1-play.jpg",
+   "shots/1189/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ae64354",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44936744750"
  }
 ]
