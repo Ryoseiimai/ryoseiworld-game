@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T05:06:18.937Z",
-  "branch": "claude/autodev-20261113-1321-R528",
-  "task": "R528 遊んで一番気になる所を1つ直す",
-  "summary": "タイトルの「AIを学ぶRPG」の行が家の屋根に重なり、灰色の字が読みにくかった\nこの行に、下の案内と同じ濃い透ける地を付け、字の幅に合わせて真ん中に置いた\n前と後のスクショを docs/shots/R527 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/921/mobile-02-mode-select.jpg",
-   "shots/921/mobile-19-custom-og-credit-card.jpg",
-   "shots/921/mobile-34-chapter-1-play.jpg",
-   "shots/921/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ac324c4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43367790129"
- },
- {
   "at": "2026-11-13T05:20:41.656Z",
   "branch": "claude/autodev-20261113-1321-R528",
   "task": "R528 自分の部屋だけ出口に「外へ」の札が無かったので、階段の絵の横に「← 外へ」の札を立てた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "831985c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44843689245"
+ },
+ {
+  "at": "2026-11-21T01:53:24.264Z",
+  "branch": "claude/autodev-20261121-1021-R660",
+  "task": "R660 ミナモ図書館のおじいちゃんがヒダマリのおじいさんと同じ絵だったので、上着を紺にして左右反対にし、別の絵を絵係に頼んだ",
+  "summary": "図書館のおじいちゃんが町のおじいさんと同じ絵だったので、上着を紺にして左右反対にした\n顔と体は同じままなので、めがねと帽子の別の絵を絵係に頼んだ\n前と後のスクショを撮り、2人が同じ見た目にならないかを見るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1160/mobile-02-mode-select.jpg",
+   "shots/1160/mobile-19-custom-og-credit-card.jpg",
+   "shots/1160/mobile-34-chapter-1-play.jpg",
+   "shots/1160/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "761aa94",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44851898475"
  }
 ]
