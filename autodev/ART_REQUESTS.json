@@ -171,8 +171,10 @@
     "name": "library_set",
     "prompt": "Pixel art top-down interior furniture sprite sheet for a small town library, 2x2 grid, same style, palette and scale as the reference sheet. Row 1 left: a library book search terminal on a slim stand, a small screen on top and a narrow slot below, light grey and teal, clearly not a home computer desk. Row 1 right: a long rectangular reading room rug in dark green with a thin cream border. Row 2 left: a wooden reading table with an open book and a green desk lamp. Row 2 right: a small wooden book return cart with a few books on it. Each item centered in its cell, viewed from slightly above, transparent background, no text, no shadow.",
     "ref": "v5/assets/interior_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R667",
-    "requested_at": "2026-11-21T17:40:00+09:00"
+    "requested_at": "2026-11-21T17:40:00+09:00",
+    "done_at": "2026-11-21T17:53:20+09:00",
+    "actual_size": "1024x1024"
   }
 ]
