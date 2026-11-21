@@ -107,6 +107,7 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // R677: the room was 17 rows, the only room taller than the screen band, so by the door the camera sat at its bottom and the back wall
 // never showed (the floor looked cut off under the goal strip). It is 14 rows now like my room and the library, so it stays still with its wall in view.
 // Everything moved 3 rows up; the TV pile (5.6) and the server (7.1) moved less, so the pile top stays under the wall lip and 1.5 rows stay between them.
+// The bench moved 2.5 rows (12.2 to 9.7), so it still stands 2.5 rows or more below the server (R673).
 maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:14,spawn:[5,11],objects:[
  object('sofa','interior',12,1.9,9.4,110,110),object('repair','npc',15,3.6,10.1,48,65,{event:'repair'}),
  object('server','interior',10,7,7.1,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
@@ -114,7 +115,7 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  // R672: junk2 was the boss TV pile (interior 9) drawn smaller, so two of the same pile stood in the room and it was unclear
  // which one to check; it was taken out (the console shelf, interior 8, stays unused: F03), so only the boss is a TV pile.
  // R673: the repair workbench from the art desk (v5/assets/repair_bench frame 0) fills the empty right side, by the old spot.
- object('junk1','props',14,2,6,60,63),object('bench','repair_bench',0,8.9,9.5,110,110)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
+ object('junk1','props',14,2,6,60,63),object('bench','repair_bench',0,8.9,9.7,110,110)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
 items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},

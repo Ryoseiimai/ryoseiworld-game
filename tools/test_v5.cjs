@@ -1465,8 +1465,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.walk-help\.behind\{opacity:\.55;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
-  for(let y=3;y<=11;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
-  assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
+  // R677: the shop is 14 rows and still now, so its exit never reaches the box; a 17-row copy with the old exit (16.2) checks the see-through rule.
+  {const e=r.g.GAME_DATA.maps.electric;r.g.GAME_DATA.maps.r677tall={...e,h:17,objects:[],portals:[{...e.portals[0],y:16.2}]};}
+  for(let y=3;y<=14;y++){r.g.debugWarp('r677tall',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
+  delete r.g.GAME_DATA.maps.r677tall;
+  assert(seen.some(Boolean),'somewhere in the tall room the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
+  r.g.debugWarp('electric',...r.g.GAME_DATA.maps.electric.spawn);r.tick(16);assert(!help.classes.has('behind'),'R677: by the door of the 14-row shop the exit is clear of the box');
   r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
  result.push('R80: 出口の矢印や敵・人が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
  // R107: the talk button (bottom right) turns its plate see-through (letters stay solid, as in R77) while a person, an enemy or an exit is behind it, like the walk help box.
