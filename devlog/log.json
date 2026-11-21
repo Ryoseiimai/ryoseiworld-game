@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T21:58:05.478Z",
-  "branch": "claude/autodev-20261114-0621-R542",
-  "task": "R542 塔の雲の床の「上へ」「下へ」の札が雲の下の縁にくっついて見えたので、札を6px下げて雲から離した",
-  "summary": "塔の雲の床の「上へ」「下へ」の札の上の縁が、雲の下の縁にくっついていた\n札を6px下げ、前と後のスクショで雲との間があいたのを見た\n確認役が挙げたボス戦の始めの台詞と帯の重なりは、R173 の判断待ちなので残した",
-  "result": "pass",
-  "shots": [
-   "shots/942/mobile-02-mode-select.jpg",
-   "shots/942/mobile-19-custom-og-credit-card.jpg",
-   "shots/942/mobile-34-chapter-1-play.jpg",
-   "shots/942/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2a6e41b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43513586037"
- },
- {
   "at": "2026-11-13T22:10:12.410Z",
   "branch": "claude/autodev-20261114-0621-R542",
   "task": "R542 塔の雲の床の「上へ」「下へ」の札が雲の下の縁にくっついて見えたので、札を6px下げて雲から離した",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "1c9cbf0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44909245447"
+ },
+ {
+  "at": "2026-11-21T13:55:18.249Z",
+  "branch": "claude/autodev-20261121-2241-R672",
+  "task": "R672 電気屋の奥にボスと同じテレビの山が小さくもう1つあり、どれを調べるか迷うので外し、修理の机の絵を絵係に頼んだ",
+  "summary": "電気屋の奥に、ボスと同じテレビの山が小さくもう1つあった\n小さい方を外し、テレビの山はボスの1つだけにした\n空いた所に置く修理の机の絵を絵係に頼み、前と後のスクショを置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1181/mobile-02-mode-select.jpg",
+   "shots/1181/mobile-19-custom-og-credit-card.jpg",
+   "shots/1181/mobile-34-chapter-1-play.jpg",
+   "shots/1181/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "d50906e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44910483586"
  }
 ]
