@@ -4023,6 +4023,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('town',22,9.3);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);assert(!r.els.get('quest').classes.has('tower'),'R674: outside keeps the plain goal strip');
   assert(/\.quest\.tower\{[^}]*box-shadow:0 0 0 2px #5fb8ff/.test(html),'R674: the tower goal strip has a blue edge');}
  result.push('R674: 塔の階では目標の帯に紺の地と青い縁を付け、暗い床の上でも帯が見える PASS');
+ // R680: the convenience store's lower right floor was empty (mobile-27), so a second snack shelf and a bin stand there, off the door path.
+ {const r=await runtime();r.tick();const st=r.g.GAME_DATA.maps.store,objs=st.objects,[sx,sy]=st.spawn,door=st.portals[0];
+  const sh=objs.find(o=>o.id==='snacks2'),bin=objs.find(o=>o.id==='bin');
+  assert(sh&&sh.kind==='interior'&&sh.frame===4&&sh.label&&sh.dialogue,'R680: the second snack shelf stands in the store and can be checked');
+  assert(bin&&bin.kind==='props'&&bin.frame===14,'R680: a bin stands by the door');
+  for(const o of [sh,bin]){
+   assert(o.x*48-o.w/2>=0&&o.x*48+o.w/2<=st.w*48&&o.y*48<=(st.h-1)*48,'R680: '+o.id+' stays inside the room');
+   assert(Math.abs(o.x-sx)*48>=o.w/2+24,'R680: '+o.id+' stays off the column from the spawn to the door');
+   assert(Math.abs(o.x-door.x)*48>=o.w/2+24,'R680: '+o.id+' stays off the door');
+   for(const q of objs.filter(q=>q!==o&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=40,'R680: '+o.id+' does not sit on '+q.id);}
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'store');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/props/props_r3_c2.png')),'R680: the bin is drawn');
+  r.g.debugWarp('store',sh.x,sh.y+0.9);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('3ぷん')),'R680: the hero can check the second shelf');while(r.g.dialogue)r.dialogue();}
+ result.push('R680: コンビニの右下の空いた床に、お菓子の棚とごみ箱を出口への道をふさがずに置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

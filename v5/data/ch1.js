@@ -95,7 +95,9 @@ maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spa
 // R261: the ↓ plate of the indoor exits stood 1.5 to 2 tiles above the front wall, a mat in the middle of the floor (mobile-18/19/21/22), so every exit without stairs or a sign now sits 0.8 tile above the wall, at the bottom of the walkable floor.
 maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
  object('clerk','npc',3,5.7,3.9,56,75,{event:'clerk',raise:26}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
- object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'})],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
+ object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'}),
+ // R680: the lower right half of the floor was empty (mobile-27), so a second snack shelf stands under the fridge and a bin by the door.
+ object('snacks2','interior',4,8.6,9,120,120,{label:'おかしの たな',dialogue:'snacks2'}),object('bin','props',14,7.8,11.4,48,52)],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
 // R543: R538 then covered the strip above the room's top line (hudTop+12, about 196px down) while the room scrolls, so by the exit that cover cut the pile's drawn top flat (mobile-28, desktop-28).
 // The pile stands half a tile lower (drawn top about 211px, 15px clear of the cover) and the server half a tile lower with it, keeping the 1.5-tile walk between them.
 // R509: once the goal read メニューのチャレンジで遊ぼう, the pile's drawn cable top (about 17px under its box top) sat right on the goal bar's bottom edge (about 173px down the screen by the exit; mobile-28, desktop-28), so it stands 0.3 tile lower, about 14px clear of the bar.
@@ -251,6 +253,7 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  roomTvClear:[['テレビ','ねこの とくしゅう。\nノイズは もう ない。']],
  fridge:[['れいぞうこ','ツナマヨが ノイズで\nツナマヨマヨに なってる。']],
  snacks:[['おかしの たな','ポテチの ふくろが\nぜんぶ「よみこみちゅう」。']],
+ snacks2:[['おかしの たな','カップめんの ふたに\n「あと 3ぷん」と かいてある。']],
  magazine:[['ざっし','ひょうしの ひとが\nまばたき している。']],
  zakoWin:[['','{name}は\nしゅうりされた。'],['','けいけんち {exp}と\n{money}えんを もらった。']],
  zakoWinAdult:[['','{name}は\n修理された。'],['','経験値 {exp}と\n{money}円をもらった。']],
