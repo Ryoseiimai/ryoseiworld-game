@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T10:00:00.786Z",
-  "branch": "claude/autodev-20261113-1821-R533",
-  "task": "R533 1章の町で、おまわりさんの灰色の守護霊が上の目標の帯の右端に並んで帯の一部に見えたので、外の守護霊を帯より下に出した",
-  "summary": "1章の町で、灰色の守護霊が上の目標の帯の右端に並んでいた\n外の守護霊を、上の表示の線より下に出すようにした（足元より下へは下げない）\n前と後のスクショを docs/shots/R533 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/928/mobile-02-mode-select.jpg",
-   "shots/928/mobile-19-custom-og-credit-card.jpg",
-   "shots/928/mobile-34-chapter-1-play.jpg",
-   "shots/928/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "644489b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43403218134"
- },
- {
   "at": "2026-11-13T11:45:55.170Z",
   "branch": "claude/autodev-20261113-2021-R534",
   "task": "R534 戦闘で勝った後、うすくなった敵の体越しに足元の影が濃いまま見えて暗いしみに見えたので、影も敵と同じだけうすくした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "53c8be0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44872024862"
+ },
+ {
+  "at": "2026-11-21T06:42:45.407Z",
+  "branch": "claude/autodev-art-20261121-153221",
+  "task": "絵",
+  "summary": "できた絵: minamo_grandpa、friend_rug",
+  "result": "pass",
+  "shots": [
+   "shots/1167/mobile-02-mode-select.jpg",
+   "shots/1167/mobile-19-custom-og-credit-card.jpg",
+   "shots/1167/mobile-34-chapter-1-play.jpg",
+   "shots/1167/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c6abf10",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44876038970"
  }
 ]
