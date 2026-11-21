@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T20:53:40.968Z",
-  "branch": "claude/autodev-20261114-0521-R541",
-  "task": "R541 ボス戦の始めの「ドラッグで動く」の板が透けて、ガードレールの柱が字の後ろに見えていたので、板をほぼ透けない色にした",
-  "summary": "ボス戦の始めに「ドラッグで動く」の板が透け、ガードレールの柱が字の後ろに見えていた\n板の地を0.78から0.92の濃さにし、前と後のスクショで柱が消えたのを見た\n確認役は、板の下に入った主人公が見えにくくなると挙げたが、板は主人公の通り道より下で、動けば消えるので残した",
-  "result": "pass",
-  "shots": [
-   "shots/941/mobile-02-mode-select.jpg",
-   "shots/941/mobile-19-custom-og-credit-card.jpg",
-   "shots/941/mobile-34-chapter-1-play.jpg",
-   "shots/941/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "eff0cc5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43504174038"
- },
- {
   "at": "2026-11-13T21:58:05.478Z",
   "branch": "claude/autodev-20261114-0621-R542",
   "task": "R542 塔の雲の床の「上へ」「下へ」の札が雲の下の縁にくっついて見えたので、札を6px下げて雲から離した",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "4199c5e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44905609786"
+ },
+ {
+  "at": "2026-11-21T13:40:43.387Z",
+  "branch": "claude/autodev-20261121-2222-R671",
+  "task": "R671 図書館の雑誌の棚がコンビニと同じ絵で店に見えたので、届いた図書館用の絵本の棚にした",
+  "summary": "図書館の雑誌の棚が、コンビニと同じ絵だったので外した\n代わりに、届いた図書館用の絵本の棚を同じ場所に置いた\nテストに棚の確認を足し、前と後のスクショを docs/shots/R671 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1180/mobile-02-mode-select.jpg",
+   "shots/1180/mobile-19-custom-og-credit-card.jpg",
+   "shots/1180/mobile-34-chapter-1-play.jpg",
+   "shots/1180/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1c9cbf0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44909245447"
  }
 ]
