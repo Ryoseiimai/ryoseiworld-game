@@ -144,5 +144,18 @@
     "status": "pending",
     "task": "R660",
     "requested_at": "2026-11-21T10:45:00+09:00"
+  },
+  {
+    "id": "art-20261121-1300-friend_rug",
+    "file": "v5/assets/friend_rug_sheet.png",
+    "size": "1024x1024",
+    "grid": "2x2",
+    "out": "v5/assets/friend_rug",
+    "name": "friend_rug",
+    "prompt": "Pixel art top-down interior furniture sprite sheet, 2x2 grid, same style, palette and scale as the reference sheet. Row 1 left: a rectangular woven rug with warm orange and cream stripes and a short fringe on two ends. Row 1 right: a small low wooden table with a game controller and a cup on it. Row 2 left: a yellow beanbag cushion. Row 2 right: a short bookshelf full of comic books and a toy robot on top. Each item centered in its cell, viewed from slightly above, transparent background, no text, no shadow.",
+    "ref": "v5/assets/interior_sheet.png",
+    "status": "pending",
+    "task": "R663",
+    "requested_at": "2026-11-21T13:00:00+09:00"
   }
 ]
