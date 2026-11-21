@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T05:58:13.666Z",
-  "branch": "claude/autodev-20261113-1422-R529",
-  "task": "R529 会話の窓が少し透けて、明るい町では後ろの看板や桜が字の下に見えていたので、窓の地を透けない色にした",
-  "summary": "会話の窓が少し透け、町の看板や桜が字の下に見えていた\n会話の窓の地を、透けない同じ色にした\n前と後のスクショを docs/shots/R529 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/923/mobile-02-mode-select.jpg",
-   "shots/923/mobile-19-custom-og-credit-card.jpg",
-   "shots/923/mobile-34-chapter-1-play.jpg",
-   "shots/923/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fc5149c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43373868096"
- },
- {
   "at": "2026-11-13T06:56:40.425Z",
   "branch": "claude/autodev-20261113-1521-R530",
   "task": "R530 地図の上の札で、電池の絵の出っ張りが「100％」の字に付いて見えたので、絵の後ろを絵の前と同じだけ空けた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "e775969",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44857534899"
+ },
+ {
+  "at": "2026-11-21T03:39:20.186Z",
+  "branch": "claude/autodev-20261121-1221-R662",
+  "task": "R662 全章のスクショを確認役に見せ、挙がった5つを確かめたが、どれも仕様どおりだったので直さなかった（灰色の守護霊は STORY_V4 の「つながりが細い守護霊は灰色」、ボスの台詞の名札は R557 で外した、塔の雲の台は札で上と下が分かる、字は540幅で24px）",
+  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\n5つとも仕様どおりだったので、コードは変えなかった\n町に灰色の守護霊が6つ並び、ノイズ0/3と並ぶと敵に見える点は、今井さんに見てほしい",
+  "result": "pass",
+  "shots": [
+   "shots/1163/mobile-02-mode-select.jpg",
+   "shots/1163/mobile-19-custom-og-credit-card.jpg",
+   "shots/1163/mobile-34-chapter-1-play.jpg",
+   "shots/1163/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "807213d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44861420235"
  }
 ]
