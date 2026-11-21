@@ -3925,6 +3925,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(talk(r,'minamo_library',3.4,8.5).length>0,'R667: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_library',5.7,5.3).length>0,'R667: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
  result.push('R667: 図書館に自分の部屋の青い丸ラグを置かず、受付の机と雑誌の棚を置く PASS');
+ // R668: the library search machine was the home computer desk; it now uses the delivered library_set art, with a reading rug, table and return cart.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.library_set,4,'R668: the library_set sheet loads 4 frames');
+  const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,by=id=>objs.find(o=>o.id===id);
+  const s=by('ml_search');assert(s&&s.kind==='library_set'&&s.frame===0&&s.event==='owlQuiz'&&s.label,'R668: the search machine is the library terminal and still wakes the owl');
+  assert(!objs.some(o=>o.kind==='interior'&&o.frame===1),'R668: the library has no home computer desk');
+  const rug=by('ml_read_rug'),table=by('ml_read_table'),cart=by('ml_cart');
+  assert(rug&&rug.kind==='library_set'&&rug.frame===1&&rug.floor&&rug.collider===false,'R668: the reading rug lies flat');
+  assert(table&&table.frame===2&&cart&&cart.frame===3,'R668: the reading table and the return cart are placed');
+  const [sx,sy]=lib.spawn;for(const o of [s,rug,table,cart]){assert(o.x*48-o.w/2>=0&&o.x*48+o.w/2<=lib.w*48,'R668: '+o.id+' stays inside the room walls');assert(Math.hypot(o.x-sx,o.y-sy)>=2.5,'R668: '+o.id+' stays off the door spawn');}
+  for(const o of [table,cart])assert(o.x*48-o.w/2>=6*48,'R668: '+o.id+' stays right of the door-to-terminal path');
+  r.g.debugWarp('minamo_library',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'minamo_library');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/library_set/library_set_r0_c0.png')),'R668: the terminal picture is drawn');
+  assert(talk(r,'minamo_library',5.7,5.3).length>0,'R668: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
+  assert(talk(r,'minamo_library',3.4,8.5).length>0,'R668: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
+ result.push('R668: 図書館の検索の機械を図書館用の絵にし、読書のラグ・机・返却のワゴンを置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

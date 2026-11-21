@@ -79,7 +79,7 @@ with tempfile.TemporaryDirectory(prefix='.playables_v5-', dir=dist) as temp:
         'enemies': 'enemies', 'summons': 'summons', 'buildings': 'buildings', 'props': 'props',
         'interior': 'interior', 'ryosei': 'ryosei', 'bugking': 'bugking', 'spirits': 'spirits',
         'neon': 'neon', 'tower': 'tower', 'kateino': 'kateino', 'hikaku': 'hikaku',
-        'zero': 'zero', 'tiger': 'tiger', 'items': 'items',
+        'zero': 'zero', 'tiger': 'tiger', 'items': 'items', 'library_set': 'library_set',
     }
     (bundle / 'assets').mkdir(exist_ok=True)
     for name, dirname in sheet_dirs.items():
