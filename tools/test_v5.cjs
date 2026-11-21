@@ -3913,6 +3913,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('minamo_friend',sx,sy);r.tick(16);assert.equal(r.g.map,'minamo_friend','R664: the friend house opens');
   assert(talk(r,'minamo_friend',4.6,7.7).length>0,'R664: the boy can still be reached and talked to');while(r.g.dialogue)r.dialogue();}
  result.push('R664: 友達の家に、届いた絵のしましまのラグ・低い机・ビーズクッションが置かれる PASS');
+ // R667: the library had the own room's blue round rug, so it looked like the bedroom. It now has a front desk and a magazine rack.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
+  const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,room=r.g.GAME_DATA.maps.room.objects;
+  assert(!objs.some(o=>o.kind==='interior'&&o.frame===11),'R667: the library does not lay the own room blue round rug');
+  assert(room.some(o=>o.kind==='interior'&&o.frame===11),'R667: the own room keeps its blue rug');
+  const desk=objs.find(o=>o.id==='ml_desk'),mag=objs.find(o=>o.id==='ml_magazines');assert(desk&&desk.frame===6&&mag&&mag.frame===7,'R667: the library has a front desk and a magazine rack');
+  const [sx,sy]=lib.spawn;for(const o of [desk,mag])assert(Math.hypot(o.x-sx,o.y-sy)>=2.5,'R667: '+o.id+' stays off the door spawn');
+  for(const o of [desk,mag]){assert(o.x*48-o.w/2>=0&&o.x*48+o.w/2<=lib.w*48,'R667: '+o.id+' stays inside the room walls');assert(o.y*48<=(lib.h-1)*48,'R667: '+o.id+' stands above the door row');}
+  r.g.debugWarp('minamo_library',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'minamo_library');
+  assert(talk(r,'minamo_library',3.4,8.5).length>0,'R667: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();
+  assert(talk(r,'minamo_library',5.7,5.3).length>0,'R667: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
+ result.push('R667: 図書館に自分の部屋の青い丸ラグを置かず、受付の机と雑誌の棚を置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));

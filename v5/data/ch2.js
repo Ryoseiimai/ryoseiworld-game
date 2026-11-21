@@ -68,7 +68,8 @@ maps.minamo.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
 }).join(''));
 // The library: shelves, the search machine where Search Owl sleeps (R21) and the grandpa.
 maps.minamo_library={name:'みずべの としょかん',short:'としょかん',shortAdult:'図書館',w:11,h:14,spawn:[5,11],objects:[
- object('ml_rug','interior',11,5,10.2,160,160,{floor:true,collider:false}),
+ // R667: the own room's blue round rug made the library look like the bedroom, so it has a front desk and a magazine rack instead.
+ object('ml_desk','interior',6,8.4,8.6,120,100),object('ml_magazines','interior',7,1.7,10.6,80,95),
  object('ml_shelf1','interior',2,1.8,4.2,110,130),object('ml_shelf2','interior',2,3.8,4.2,110,130),object('ml_shelf3','interior',2,7.6,4.2,110,130),object('ml_shelf4','interior',2,9.4,4.2,110,130),
  object('ml_search','interior',1,5.7,4.4,120,120,{label:'けんさくの きかい',event:'owlQuiz'}),
  object('ml_plant','interior',13,1.6,8.4,75,80),object('ml_clock','interior',14,5.7,1.9,70,70,{collider:false}),
