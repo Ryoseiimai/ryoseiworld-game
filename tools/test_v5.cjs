@@ -905,7 +905,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(Math.abs(txt[2]-(left+right)/2)<=2&&Math.abs(txt[3]-9-(y+h*128/248))<=2,id+' words sit at the middle of the board (text '+txt[2]+','+txt[3]+')');
    // The hero standing behind the board (on its upper half) sees through it; in front of it, the sign is solid.
    // R133: above the beam (the clear top of the picture, 4.5 tiles up) nothing hides the hero, so the sign stays solid too.
-   // R661: the adult board is smaller (160px), so the two upper spots scale with the board's height (same places on the picture).
+   // R661: the adult board is smaller (200px), so the two upper spots scale with the board's height (same places on the picture).
    const k=o.h/Math.round(224*1.05);for(const [dy,alpha] of [[-1.2,.45],[-3.5*k,.45],[-4.5*k,1],[1.8,1]]){r.g.debugWarp(map,o.x,o.y+dy);r.tick(16);r.imageLog.length=0;r.imageAlpha.length=0;r.tick(16);const i=r.imageLog.findLastIndex(src=>String(src).endsWith('props_r2_c3.png'));
     assert(i>=0&&r.imageAlpha[i]===alpha,id+' sign alpha '+r.imageAlpha[i]+' with the hero at dy '+dy);}}}
  result.push('R100: こうえん の看板の字が板の真ん中に収まる（ヒダマリちょう・ミナモちょう） PASS');
@@ -3894,14 +3894,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/o\.coat!=null&&coatFrame\(o\.kind,o\.frame,o\.coat,o\.flip\)/.test(html),'R660: the map draws the coat copy');
   assert(/function coatFrame\(kind,frame,hue,flip\)/.test(html)&&/coatFrames\[key\]=out/.test(html),'R660: the coat copy is made once and kept');}
  result.push('R660: ミナモの おじいちゃんが、ヒダマリの おじいさんと違う上着で描かれる PASS');
- // R661: the park boards were 224px in both modes, the biggest thing in each park; in adult mode they say 「公園」 and shrink to 160px.
+ // R661: the park boards were 224px in both modes, the biggest thing in each park; in adult mode they say 「公園」 and shrink to 200px.
  for(const mode of ['kids','adult']){const r=await runtime();r.tick();r.start(mode);r.tick(500);const maps=r.g.GAME_DATA.maps;
   for(const [map,id] of [['town','parksign'],['minamo','minamo_parksign']]){const o=maps[map].objects.find(x=>x.id===id),text=mode==='adult'?'公園':'こうえん';
-   assert(o.w===(mode==='adult'?160:224)&&o.h===Math.round(o.w*1.05),'R661: '+id+' in '+mode+' mode is '+o.w+'px');
+   assert(o.w===(mode==='adult'?200:224)&&o.h===Math.round(o.w*1.05),'R661: '+id+' in '+mode+' mode is '+o.w+'px');
    assert(o.w*111/236>=[...text].length*24+6,'R661: the 24px words '+text+' still fit between the posts');
    r.g.debugWarp(map,o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===text),'R661: the board words are drawn in '+mode+' mode');}}
  {const r=await runtime();r.tick();r.start('adult');r.tick(200);r.start('kids');r.tick(200);assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===224,'R661: going back to kids mode brings the 224px board back');}
- result.push('R661: おとなモードの「公園」の看板が、160pxに小さくなる PASS');
+ result.push('R661: おとなモードの「公園」の看板が、200pxに小さくなる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
