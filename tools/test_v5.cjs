@@ -3056,7 +3056,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const id of ['parksign','minamo_parksign']){const o=Object.values(maps).flatMap(mp=>mp.objects).find(x=>x.id===id);assert(o&&o.kind==='props'&&o.frame===11&&o.w>=160,id+' is a big board on props 11');}}
  result.push('R243: 「こうえん」の看板の影が、2本の柱の足元をつなぐ PASS');
  // R289: the ミナモ park board was 240px, much taller than the houses and trees around it; it now matches the town board (224px), the smallest that keeps the 24px words between the posts.
- {const maps=(await runtime()).g.GAME_DATA.maps,s=maps.minamo.objects.find(o=>o.id==='minamo_parksign'),town=maps.town.objects.find(o=>o.id==='parksign');
+ // R661: the game starts in adult mode, where the boards are 200px (公園, 2 letters); this size rule is about こうえん, so it is measured in kids mode.
+ {const rk=await runtime();rk.tick();rk.start('kids');rk.tick(200);const maps=rk.g.GAME_DATA.maps,s=maps.minamo.objects.find(o=>o.id==='minamo_parksign'),town=maps.town.objects.find(o=>o.id==='parksign');
   assert(s.w<240&&s.w===town.w,'the ミナモ park board is the same size as the town one, w '+s.w);assert(s.w*111/236>=[...s.sign].length*24+6,'the 24px words still fit between the posts');
   assert(s.x===9&&s.y===26.6,'the park board keeps its feet');}
  result.push('R289: ミナモの「こうえん」の看板が、町の看板と同じ大きさで字が収まる PASS');
@@ -3900,7 +3901,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(o.w===(mode==='adult'?200:224)&&o.h===Math.round(o.w*1.05),'R661: '+id+' in '+mode+' mode is '+o.w+'px');
    assert(o.w*111/236>=[...text].length*24+6,'R661: the 24px words '+text+' still fit between the posts');
    r.g.debugWarp(map,o.x,o.y+1.8);r.tick(16);r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='strokeText'&&c[1]===text),'R661: the board words are drawn in '+mode+' mode');}}
- {const r=await runtime();r.tick();r.start('adult');r.tick(200);r.start('kids');r.tick(200);assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===224,'R661: going back to kids mode brings the 224px board back');}
+ {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(4000);for(let k=0;k<80&&r.g.dialogue;k++)r.dialogue();assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===200,'R661: adult chapter start has the 200px board');r.click('menu-btn');r.button('設定');r.button('こどもモードにする');r.tick(200);assert(r.g.GAME_DATA.maps.town.objects.find(x=>x.id==='parksign').w===224,'R661: going back to kids mode brings the 224px board back');}
  result.push('R661: おとなモードの「公園」の看板が、200pxに小さくなる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
