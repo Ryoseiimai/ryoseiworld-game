@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T05:20:41.656Z",
-  "branch": "claude/autodev-20261113-1321-R528",
-  "task": "R528 自分の部屋だけ出口に「外へ」の札が無かったので、階段の絵の横に「← 外へ」の札を立てた",
-  "summary": "自分の部屋だけ、出口の階段に「外へ」の札が無かった\n階段の絵の右横に、階段を指す「← 外へ」の札を立てた\n前と後のスクショを docs/shots/R528 に置き、テストを直した",
-  "result": "pass",
-  "shots": [
-   "shots/922/mobile-02-mode-select.jpg",
-   "shots/922/mobile-19-custom-og-credit-card.jpg",
-   "shots/922/mobile-34-chapter-1-play.jpg",
-   "shots/922/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "40ce4be",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43369263992"
- },
- {
   "at": "2026-11-13T05:58:13.666Z",
   "branch": "claude/autodev-20261113-1422-R529",
   "task": "R529 会話の窓が少し透けて、明るい町では後ろの看板や桜が字の下に見えていたので、窓の地を透けない色にした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "761aa94",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44851898475"
+ },
+ {
+  "at": "2026-11-21T02:53:34.539Z",
+  "branch": "claude/autodev-20261121-1121-R661",
+  "task": "R661 公園の看板が公園の中で一番大きく見えていたので、字が「公園」の2字になるおとなモードでは224pxから200pxに小さくした",
+  "summary": "公園の看板が大きすぎて、2つの町で一番目立っていた\nおとなモードでは字が「公園」の2字なので、看板を224pxから200pxにした\nこどもモードは「こうえん」4字が入る224pxのまま。切り替えると大きさも戻る",
+  "result": "pass",
+  "shots": [
+   "shots/1162/mobile-02-mode-select.jpg",
+   "shots/1162/mobile-19-custom-og-credit-card.jpg",
+   "shots/1162/mobile-34-chapter-1-play.jpg",
+   "shots/1162/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e775969",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44857534899"
  }
 ]
