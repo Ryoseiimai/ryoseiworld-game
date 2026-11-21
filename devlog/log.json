@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T09:45:28.751Z",
-  "branch": "claude/autodev-20261114-1821-R552",
-  "task": "R552 縦長のスマホで、ステージの上の帯に後ろのぼかしの月がにじんで出ていたので、帯をステージの上と下の色でうめた",
-  "summary": "縦長のスマホで、ステージの上の帯に月がオレンジのにじみとして出ていた\n後ろのぼかしは、ステージの位置をそのままにし、上下の帯をステージの端の色でうめた\n前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/958/mobile-02-mode-select.jpg",
-   "shots/958/mobile-19-custom-og-credit-card.jpg",
-   "shots/958/mobile-34-chapter-1-play.jpg",
-   "shots/958/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8d6ff0e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43581050373"
- },
- {
   "at": "2026-11-14T09:57:33.706Z",
   "branch": "claude/autodev-20261114-1821-R552",
   "task": "R552 縦長のスマホで、ステージの上の帯に後ろのぼかしの月がにじんで出ていたので、帯をステージの上と下の色でうめた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "6f42785",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44952954049"
+ },
+ {
+  "at": "2026-11-21T22:50:30.324Z",
+  "branch": "claude/autodev-20261122-0721-R681",
+  "task": "R681 自分の部屋の下の床が空いていて間延びして見えたので、左下に鉢植え、右下にごみ箱を階段と出口の札をふさがずに置いた",
+  "summary": "全章のスクショを確認役に見せ、自分の部屋の下の床が空いているのを直す所に選んだ\n部屋の左下に鉢植え、右下にごみ箱を置き、階段・出口の札・ざぶとんへの道を空けた\n置いた物が道や札をふさがず、ざぶとんを調べられることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1196/mobile-02-mode-select.jpg",
+   "shots/1196/mobile-19-custom-og-credit-card.jpg",
+   "shots/1196/mobile-34-chapter-1-play.jpg",
+   "shots/1196/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "262ba03",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44957982676"
  }
 ]
