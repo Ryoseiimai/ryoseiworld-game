@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T15:35:47.169Z",
-  "branch": "claude/autodev-20261113-2141-R535",
-  "task": "R535 戦闘で呼び出しの演出の間、何が起きたかを書く文までうすくなって読みにくかったので、文の欄だけはうすくしないようにした",
-  "summary": "R535 の枝が2本でき、ネオンの札の件が main とぶつかっていた\nネオンの札の件を R536 に付け直し、main の R535 と両方を残した\n札の前と後のスクショを docs/shots/R536 に移した",
-  "result": "pass",
-  "shots": [
-   "shots/934/mobile-02-mode-select.jpg",
-   "shots/934/mobile-19-custom-og-credit-card.jpg",
-   "shots/934/mobile-34-chapter-1-play.jpg",
-   "shots/934/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "456f446",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43452499489"
- },
- {
   "at": "2026-11-13T16:56:20.202Z",
   "branch": "claude/autodev-20261114-0111-R537",
   "task": "R537 自分の部屋と図書館で、部屋の上の壁の縁が目標の帯のすぐ下にのぞいていたので、部屋を動かさず帯から22px下に置いた",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "4dcd02a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44885681754"
+ },
+ {
+  "at": "2026-11-21T09:03:00.586Z",
+  "branch": "claude/autodev-art-20261121-175320",
+  "task": "絵",
+  "summary": "できた絵: library_set",
+  "result": "pass",
+  "shots": [
+   "shots/1173/mobile-02-mode-select.jpg",
+   "shots/1173/mobile-19-custom-og-credit-card.jpg",
+   "shots/1173/mobile-34-chapter-1-play.jpg",
+   "shots/1173/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "25a26a8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44886990989"
  }
 ]
