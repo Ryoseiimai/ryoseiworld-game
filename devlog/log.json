@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T23:05:51.801Z",
-  "branch": "claude/autodev-20261114-0721-R543",
-  "task": "R543 電気屋の奥に入った時、テレビの山の上が部屋の上のおおいでまっすぐ切れていたので、山とサーバーを半マス下げた",
-  "summary": "電気屋の奥に入ると、テレビの山の上が部屋の上のおおいで切れていた\n山とサーバーを半マス下げ、前と後のスクショで山が全部見えるのを見た\nテストは実際のおおいの位置で、山の上が6px以上下にあるかを見る",
-  "result": "pass",
-  "shots": [
-   "shots/944/mobile-02-mode-select.jpg",
-   "shots/944/mobile-19-custom-og-credit-card.jpg",
-   "shots/944/mobile-34-chapter-1-play.jpg",
-   "shots/944/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c336392",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43522694995"
- },
- {
   "at": "2026-11-14T00:02:02.929Z",
   "branch": "claude/autodev-20261114-0821-R544",
   "task": "R544 ミナモに着いた時、右の街灯がメニューのボタンと画面の右の縁の間にはさまって上が欠けていたので、北の交差点の角へ移した",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "6a16c9f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44911781527"
+ },
+ {
+  "at": "2026-11-21T14:44:32.582Z",
+  "branch": "claude/autodev-20261121-2321-R673",
+  "task": "R673 届いた修理の机を電気屋の奥に置く",
+  "summary": "届いた修理の机の絵を、電気屋の奥の右の空いた所に置いた\n入口とボス・サーバーへの道から離れていることをテストで確かめた\n前と後のスクショを docs/shots/R673 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1183/mobile-02-mode-select.jpg",
+   "shots/1183/mobile-19-custom-og-credit-card.jpg",
+   "shots/1183/mobile-34-chapter-1-play.jpg",
+   "shots/1183/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3e1be0d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44914484091"
  }
 ]
