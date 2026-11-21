@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-13T13:27:07.326Z",
-  "branch": "claude/autodev-20261113-2141-R535",
-  "task": "R535 ネオンの着いた所で「ランク 86位」の札の板が上の札より画面の左の縁に寄っていたので、板を上の札と同じ20px内側に入れた",
-  "summary": "ネオンの「ランク 86位」の札の板が、上の札より画面の左の縁に寄っていた\n札の板を縁から20px離し、札が人の真上に残るよう人とミオを少し右へ寄せた\n前と後のスクショを docs/shots/R535 に置き、テストを足した（鍵の枝への push は許可が無く、鍵を取らずに動いた）",
-  "result": "conflict",
-  "shots": [],
-  "sha": "7829091",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43433608460"
- },
- {
   "at": "2026-11-13T15:35:47.169Z",
   "branch": "claude/autodev-20261113-2141-R535",
   "task": "R535 戦闘で呼び出しの演出の間、何が起きたかを書く文までうすくなって読みにくかったので、文の欄だけはうすくしないようにした",
@@ -2958,5 +2948,20 @@
   ],
   "sha": "2480806",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44880401668"
+ },
+ {
+  "at": "2026-11-21T08:48:05.470Z",
+  "branch": "claude/autodev-20261121-1721-R667",
+  "task": "R667 図書館に自分の部屋と同じ青い丸ラグがあり寝室に見えていたので、ラグを外して受付の机と雑誌の棚を置き、検索の機械とラグの絵を絵係に頼んだ",
+  "summary": "図書館の青い丸ラグを外し、受付の机と雑誌の棚を置いた\n図書館用の検索の機械と読書室のラグの絵を、絵係に頼んだ\n前と後のスクショを docs/shots/R667 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1172/mobile-02-mode-select.jpg",
+   "shots/1172/mobile-19-custom-og-credit-card.jpg",
+   "shots/1172/mobile-34-chapter-1-play.jpg",
+   "shots/1172/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4dcd02a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44885681754"
  }
 ]
