@@ -141,9 +141,11 @@
     "name": "minamo_grandpa",
     "prompt": "Pixel art character sprite sheet, 2x2 grid, chibi RPG townsperson in the same style and proportions as the reference. A kind elderly librarian grandfather who loves owls: round glasses, neat white hair with a small knit beret, short white mustache, brown knit vest over a light blue shirt, dark grey trousers, holding a small book. Row 1: facing front, facing back. Row 2: facing left, facing right. Transparent background, no text, no shadow.",
     "ref": "v5/assets/npc_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R660",
-    "requested_at": "2026-11-21T10:45:00+09:00"
+    "requested_at": "2026-11-21T10:45:00+09:00",
+    "done_at": "2026-11-21T15:32:21+09:00",
+    "actual_size": "1024x1024"
   },
   {
     "id": "art-20261121-1300-friend_rug",
@@ -154,8 +156,10 @@
     "name": "friend_rug",
     "prompt": "Pixel art top-down interior furniture sprite sheet, 2x2 grid, same style, palette and scale as the reference sheet. Row 1 left: a rectangular woven rug with warm orange and cream stripes and a short fringe on two ends. Row 1 right: a small low wooden table with a game controller and a cup on it. Row 2 left: a yellow beanbag cushion. Row 2 right: a short bookshelf full of comic books and a toy robot on top. Each item centered in its cell, viewed from slightly above, transparent background, no text, no shadow.",
     "ref": "v5/assets/interior_sheet.png",
-    "status": "pending",
+    "status": "done",
     "task": "R663",
-    "requested_at": "2026-11-21T13:00:00+09:00"
+    "requested_at": "2026-11-21T13:00:00+09:00",
+    "done_at": "2026-11-21T15:32:21+09:00",
+    "actual_size": "1024x1024"
   }
 ]
