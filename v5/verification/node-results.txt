@@ -437,6 +437,7 @@ R668: 図書館の検索の機械を図書館用の絵にし、読書のラグ�
 R670: 図書館に、届いた図書館用の受付の机を、入口と検索の機械の道をふさがずに置く PASS
 R671: 図書館のコンビニと同じ雑誌の棚を、届いた図書館用の絵本の棚にした PASS
 R672: 電気屋の奥の小さいテレビの山を外し、テレビの山はボスの1つだけにした PASS
+R673: 電気屋の奥の右の空いた所に、届いた修理の机を道をふさがずに置く PASS
 og-achievement: the records row is view-only (no challenge row, no do:start) and ships 12 distinct achievements PASS
 og-achievement: every boss/summon in `when` is real in GAME_DATA, and every atLeast stays inside what a save can reach PASS
 og-achievement: every row is earned on a save that satisfies its `when`, none on an empty save, and atLeast is a hard floor PASS
@@ -471,7 +472,7 @@ og-ogp: v5/assets/og/ogp.jpg is a 1200x630 JPEG, 170327 bytes PASS
 og-ogp: tools/make_outgame_art.py has no mirror, flip or transpose PASS
 og-ogp: tools/test_playables_v5.cjs (not otherwise run by gate.sh) PASS
 og-ogp: build_playables_v5.sh leaves the OGP meta and assets/og/ out of the bundle PASS
-og-ogp: no file in the Playables bundle (297 files) carries the string github.io PASS
+og-ogp: no file in the Playables bundle (302 files) carries the string github.io PASS
 og-share: validate() is empty for the shipped table and catches every rule in design_a.md 2.3, including {not} and {item} in an achievement PASS
 og-share: registerOutGame removes the row with a problem, reports it on console.error, and the rest keeps working PASS
 og-share: navigator.share gets this run (lower than the best), the game URL and no empty {var} PASS
@@ -494,5 +495,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 79ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 97ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

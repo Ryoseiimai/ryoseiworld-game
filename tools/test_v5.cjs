@@ -3976,6 +3976,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(objs.some(o=>o.id==='server')&&objs.some(o=>o.id==='repair')&&objs.some(o=>o.id==='junk1'),'R672: the server, the repair man and the bin stay');
   const [sx,sy]=m.spawn;r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');}
  result.push('R672: 電気屋の奥の小さいテレビの山を外し、テレビの山はボスの1つだけにした PASS');
+ // R673: the delivered repair workbench (repair_bench frame 0) fills the empty right side of the electric shop back room.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.repair_bench,4,'R673: the repair_bench sheet loads 4 frames');
+  const m=r.g.GAME_DATA.maps.electric,objs=m.objects,b=objs.find(o=>o.id==='bench');
+  assert(b&&b.kind==='repair_bench'&&b.frame===0&&!b.floor&&!b.action&&!b.event,'R673: the back room has the repair workbench, a plain piece of furniture');
+  assert(!objs.some(o=>o.kind==='repair_bench'&&o.frame!==0),'R673: only the workbench cell is used');
+  const [sx,sy]=m.spawn;assert(Math.hypot(b.x-sx,b.y-sy)>=2.5,'R673: the bench stays off the door spawn');
+  assert(b.x*48-b.w/2>=7.5*48,'R673: the bench stays right of the door-to-boss-and-server path');
+  const sv=objs.find(o=>o.id==='server');assert(b.y-sv.y>=2.5,'R673: the bench stands well below the server, leaving the walk to the server and boss open');
+  assert(b.x*48-b.w/2>=0&&b.x*48+b.w/2<=m.w*48&&b.y*48<=(m.h-1)*48,'R673: the bench stays inside the room, above the door row');
+  for(const o of objs.filter(o=>o!==b&&!o.floor&&o.collider!==false))assert(Math.abs(o.x-b.x)*48>=(o.w+b.w)/2||Math.abs(o.y-b.y)*48>=40,'R673: the bench does not sit on '+o.id);
+  r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/repair_bench/repair_bench_r0_c0.png')),'R673: the workbench picture is drawn');}
+ result.push('R673: 電気屋の奥の右の空いた所に、届いた修理の机を道をふさがずに置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
