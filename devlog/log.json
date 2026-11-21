@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T09:57:33.706Z",
-  "branch": "claude/autodev-20261114-1821-R552",
-  "task": "R552 縦長のスマホで、ステージの上の帯に後ろのぼかしの月がにじんで出ていたので、帯をステージの上と下の色でうめた",
-  "summary": "縦長のスマホで、ステージの上の帯に月がオレンジのにじみとして出ていた\n後ろのぼかしは、ステージの位置をそのままにし、上下の帯をステージの端の色でうめた\n前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/959/mobile-02-mode-select.jpg",
-   "shots/959/mobile-19-custom-og-credit-card.jpg",
-   "shots/959/mobile-34-chapter-1-play.jpg",
-   "shots/959/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ab70362",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43582046692"
- },
- {
   "at": "2026-11-14T11:02:07.485Z",
   "branch": "claude/autodev-20261114-1921-R553",
   "task": "R553 ボス戦で、ことばの札の右の「ソラ」とすぐ下の台詞の「ソラ」が2つ並んで見えたので、同じ人の台詞が出ている間は札の名前を隠した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "262ba03",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44957982676"
+ },
+ {
+  "at": "2026-11-21T23:43:12.674Z",
+  "branch": "claude/autodev-20261122-0821-R682",
+  "task": "R682 電気屋の奥のテレビの山が、倒した後も割れた画面のまま「ねこの とくしゅうを やっている」と言っていたので、絵に合う台詞にした",
+  "summary": "全章のスクショを確認役に見せ、電気屋の奥のテレビの山の台詞を直す所に選んだ\n倒した後の台詞を「がめんは われた まま」など、割れた画面の絵に合う3行にした\n台詞が番組を言わず、1行が枠に収まることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1197/mobile-02-mode-select.jpg",
+   "shots/1197/mobile-19-custom-og-credit-card.jpg",
+   "shots/1197/mobile-34-chapter-1-play.jpg",
+   "shots/1197/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c3e71c0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44962379436"
  }
 ]
