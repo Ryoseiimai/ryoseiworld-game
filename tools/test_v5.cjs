@@ -725,6 +725,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const w=D.maps.minamo.objects.find(o=>o.id==='minamo_wall1');r.g.debugWarp('minamo',w.x,w.y+1.4);r.g.debugFace(3);r.tick(16);r.key('ArrowUp');r.tick(800);r.key('ArrowUp',true);r.tick(16);assert(r.g.position.y<w.y*48-10,'the wall is gone '+r.g.position.y);
   r.g.debugWarp('minamo',boss.x,boss.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(!r.g.dialogue||!r.g.dialogue.lines.some(l=>l[0]==='しんぱいの かべ'),'the park wall is gone too');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_friend',4.6,7.7).includes('あした'),'the friend changes after the boss');while(r.g.dialogue)r.dialogue();
+  // R682: the electric shop's TV pile keeps its cracked screens after the boss (no calm picture), so its cleared line does not claim a programme.
+  {const p=D.maps.electric.objects.find(o=>o.id==='boss');assert(!p.calmTv,'the pile draws no calm picture');const t=D.dialogue[p.clearedDialogue].map(l=>l[1]).join('');assert(!/やっている|とくしゅう|ばんぐみ/.test(t),'the cracked pile does not say a programme is on '+t);for(const l of D.dialogue[p.clearedDialogue])for(const row of l[1].split('\n'))assert(wide(row)<=12.5,'pile line fits '+row);}
   // R642: after the boss the friend's TV shows a picture (drawCalmTv), matching its line about a programme.
   {const tv=D.maps.minamo_friend.objects.find(o=>o.id==='mf_tv');r.canvasCalls.length=0;r.tick(16);assert(r.canvasCalls.some(c=>c[0]==='calmtv'),'the friend TV shows a picture after the boss');
    // R653: the cat on the calm TV has eyes and a nose at least 3px wide inside the screen (at 2px*k they were about 1px and the cat had no face).

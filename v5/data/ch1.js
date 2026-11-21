@@ -249,7 +249,8 @@ clearEvent:makeGame,town:'town',boss:'bugking',next:2,nextTitle:'ミナモちょ
  bossRetreat:[['ソラ','まちに もどったよ。\nじゅんびして また こよう。']],
  bossLocked:[['ソラ','さきに サーバーに\nはなしかけよう。'],['ソラ','ひとりで ねむってる\nこが いる。']],
  defeated:[['ソラ','さいごに ほぞんした ところから\nやりなおそう。']],
- tv:[['テレビの やま','おうさまの いない テレビ。\nねこの とくしゅうを\nやっている。']],
+ // R682: the pile keeps its cracked screens after the boss, so its line no longer says a programme is on.
+ tv:[['テレビの やま','がめんは われた まま。\nもう ザーッと いわない。\nしずかな テレビの やま。']],
  foldBoard:[['おかあさん','いえの なかでは\nキックボード たたみなさい'],['','キックボードを たたんで\nわきに かかえた。']],
  roomTv:[['テレビ','ザーッ。…ときどき\nおうかんの かげが うつる。']],
  roomTvClear:[['テレビ','ねこの とくしゅう。\nノイズは もう ない。']],
