@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-11-13T07:46:18.278Z",
-  "branch": "claude/autodev-20261113-1622-R531",
-  "task": "R531 小さい画面で Lv が2けたになると、上の札の「100％」が枠を越えていたので、はみ出す時だけ字を27pxにして枠に収めた",
-  "summary": "小さい画面で Lv が2けただと、上の札の「100％」が枠を越えていた\nはみ出す時だけ、その行の字を31pxから27pxにして枠に収めた\n前と後のスクショを docs/shots/R531 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/925/mobile-02-mode-select.jpg",
-   "shots/925/mobile-19-custom-og-credit-card.jpg",
-   "shots/925/mobile-34-chapter-1-play.jpg",
-   "shots/925/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3f1442b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43386703205"
- },
- {
-  "at": "2026-11-13T08:51:17.819Z",
-  "branch": "claude/autodev-20261113-1721-R532",
-  "task": "R532 スマホで町のノイズの砂嵐の帯が、上の目標の帯の下の縁に付いて表示が壊れて見えたので、帯を目標の帯から離して出した",
-  "summary": "スマホで町のノイズの帯が、上の目標の帯の下の縁に付いていた\n帯を出す高さの下限を、上の表示の下から18px離した\n前と後のスクショを docs/shots/R532 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/927/mobile-02-mode-select.jpg",
-   "shots/927/mobile-19-custom-og-credit-card.jpg",
-   "shots/927/mobile-34-chapter-1-play.jpg",
-   "shots/927/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d1eff3d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43394829944"
- },
- {
   "at": "2026-11-13T10:00:00.786Z",
   "branch": "claude/autodev-20261113-1821-R533",
   "task": "R533 1章の町で、おまわりさんの灰色の守護霊が上の目標の帯の右端に並んで帯の一部に見えたので、外の守護霊を帯より下に出した",
@@ -2958,5 +2928,35 @@
   ],
   "sha": "71f7bbc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44863220118"
+ },
+ {
+  "at": "2026-11-21T05:41:11.285Z",
+  "branch": "claude/autodev-20261121-1421-R665",
+  "task": "R665 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\n友達の家用のラグと家具の絵を絵係に頼んだ。届いたら R664 で差し替える\n実績の数のずれとボス戦が進まない件は、撮影の手順によるものだった",
+  "result": "pass",
+  "shots": [
+   "shots/1165/mobile-02-mode-select.jpg",
+   "shots/1165/mobile-19-custom-og-credit-card.jpg",
+   "shots/1165/mobile-34-chapter-1-play.jpg",
+   "shots/1165/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ce8950a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44871309665"
+ },
+ {
+  "at": "2026-11-21T05:49:28.211Z",
+  "branch": "claude/autodev-20261121-1421-R665",
+  "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
+  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\nコマンド戦の背景に、外なら家並み、部屋なら窓を薄く描いた\n残り4つは直さなかった（下の理由）",
+  "result": "fail",
+  "shots": [
+   "shots/1166/mobile-02-mode-select.jpg",
+   "shots/1166/mobile-19-custom-og-credit-card.jpg",
+   "shots/1166/mobile-34-chapter-1-play.jpg",
+   "shots/1166/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "53c8be0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44872024862"
  }
 ]
