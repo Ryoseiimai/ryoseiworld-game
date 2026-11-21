@@ -75,7 +75,7 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:13,
  object('nc_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nc_pc1','interior',1,2.2,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),object('nc_pc2','interior',1,8.6,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),
  object('nc_sofa','interior',12,2.2,8,110,110),object('nc_counter','interior',6,5.4,6.6,120,110,{label:'うけつけ',event:'netCafe',collider:{left:.1,right:.9,top:.55,bottom:1}}),object('nc_plant','interior',13,9.4,8.4,75,80),
- object('nc_clerk','npc2',8,5.4,5.2,48,65)],
+ object('nc_clerk','npc2',3,5.4,5.2,48,65)],
  enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[5.6,13.8],sign:'そとへ'}]};
 // The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
 maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[

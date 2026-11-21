@@ -3875,6 +3875,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/\|\|o\.roof!=null&&roofFrame\(o\.kind,o\.frame,o\.roof,o\.flip\)\|\|undefined/.test(html),'R658: the field draws the roof copy');
   assert(/function roofFrame\(kind,frame,hue,flip\)\{[^\n]*h<205\|\|h>260/.test(html),'R658: only the dark blue roof tiles change');}
  result.push('R658: ミナモの家3軒が、自分の家と違う屋根の色で描かれる PASS');
+ // R659: the net cafe clerk used the same picture as ミナモ's mother (npc2 8); each person in a room or town has their own face.
+ {const maps=(await runtime()).g.GAME_DATA.maps,find=id=>Object.values(maps).flatMap(mp=>mp.objects).find(o=>o.id===id);
+  const clerk=find('nc_clerk'),mom=find('minamo_mom');assert(clerk&&mom,'R659: both people are found');
+  assert(clerk.kind+'/'+clerk.frame!==mom.kind+'/'+mom.frame,'R659: the clerk and the mother do not share a picture');
+  assert(clerk.kind==='npc2'&&clerk.frame===3,'R659: the clerk wears the staff uniform (npc2 3)');
+  const named=['mother','sister','grandpa','clerk','worker','student','police','dog','cat','grandma','delivery','kid','hacker','shrine','musician','repair'];
+  assert(!(clerk.kind==='npc'&&named.includes(named[clerk.frame])),'R659: the clerk is not one of the named npc people');
+  const seen={};for(const o of Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='npc2'&&o.frame!==0)){const k=o.frame;assert(!seen[k],'R659: npc2 '+k+' is used by both '+seen[k]+' and '+o.id);seen[k]=o.id;}}
+ result.push('R659: ネットカフェの店員が、ミナモのお母さんと違う絵で描かれる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
