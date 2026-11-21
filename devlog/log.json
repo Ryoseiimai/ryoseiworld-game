@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T08:54:53.087Z",
-  "branch": "claude/autodev-20261114-1721-R551",
-  "task": "R551 モードを選ぶ窓の下から「続きから」のボタンの縁が帯のようにのぞいていたので、窓が開いている間はタイトルのボタンを隠した",
-  "summary": "モードを選ぶ窓の下に、タイトルの「続きから」の縁と案内の札がのぞいていた\n窓が開いている間は、タイトルのボタンと案内を隠すようにし、テストを足した\n前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/957/mobile-02-mode-select.jpg",
-   "shots/957/mobile-19-custom-og-credit-card.jpg",
-   "shots/957/mobile-34-chapter-1-play.jpg",
-   "shots/957/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ec2fcbb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43576755271"
- },
- {
   "at": "2026-11-14T09:45:28.751Z",
   "branch": "claude/autodev-20261114-1821-R552",
   "task": "R552 縦長のスマホで、ステージの上の帯に後ろのぼかしの月がにじんで出ていたので、帯をステージの上と下の色でうめた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "2bfbc85",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44952777794"
+ },
+ {
+  "at": "2026-11-21T22:01:46.825Z",
+  "branch": "claude/autodev-20261122-0621-R680",
+  "task": "R680 コンビニの右下の床が空いていて店に何も無いように見えたので、お菓子の棚とごみ箱を出口への道をふさがずに置いた",
+  "summary": "全章のスクショを確認役に見せ、コンビニの右下の床が空いているのを一番大きい所に選んだ\n冷蔵庫の下にお菓子の棚、出口の右にごみ箱を置き、棚は調べられるようにした\n棚とごみ箱が出口への道をふさがないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1195/mobile-02-mode-select.jpg",
+   "shots/1195/mobile-19-custom-og-credit-card.jpg",
+   "shots/1195/mobile-34-chapter-1-play.jpg",
+   "shots/1195/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6f42785",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44952954049"
  }
 ]
