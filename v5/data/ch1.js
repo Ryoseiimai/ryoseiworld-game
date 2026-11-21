@@ -108,7 +108,9 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
  object('server','interior',10,7,8.5,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
  object('boss','interior',9,5,7,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
- object('junk1','props',14,2,9,60,63),object('junk2','interior',9,9,12,80,80)],enemies:[],portals:[{x:5,y:16.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
+ // R672: junk2 was the boss TV pile (interior 9) drawn smaller, so two of the same pile stood in the room and it was unclear
+ // which one to check; it is now a metal shelf of old parts (interior 8), so only the boss is a TV pile.
+ object('junk1','props',14,2,9,60,63),object('junk2','interior',8,9,12,84,94)],enemies:[],portals:[{x:5,y:16.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
 items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},
