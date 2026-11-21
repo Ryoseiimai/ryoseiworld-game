@@ -3003,11 +3003,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R578: 町のノイズの帯が、画面にいる人の顔の上を横切らない PASS');
  // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
  {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
-  const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(24,45,68,([0-9.]+)\)/.exec(s)[1]);
-  assert(Math.abs(alpha(col(0))-.33)<.005,'during the fight the shadow keeps its old strength: '+col(0));
+  const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(14,28,44,([0-9.]+)\)/.exec(s)[1]);
+  // R678: the shadow is as dark as the hero's (#0e1c2c, alpha .66) so the enemy no longer floats over the waves.
+  assert(Math.abs(alpha(col(0))-.66)<.005,'during the fight the shadow is as strong as the hero shadow: '+col(0));
+  assert.equal(col(0).replace(/,[0-9.]+\)$/,''),'rgba(14,28,44','R678: the enemy shadow has the hero shadow colour');
   assert(Math.abs(alpha(col(1))/alpha(col(0))-.4)<.02,'after the win the shadow fades like the enemy (40%): '+col(1));
   assert(alpha(col(0,1))===0,'R564: during a summon the shadow goes with the enemy: '+col(0,1));}
  result.push('R534: 勝った後、敵の足元の影も敵と同じだけうすくなる PASS');
+ result.push('R678: 戦闘の敵の足元の影が主人公の影と同じ濃さで見える PASS');
  // R535: while a summon is on screen the other battle parts dim, but the log that says what the summon did stays clear.
  {const css=html.match(/[^}]*\.casting[^{]*\{opacity:\.35[^}]*\}/);assert(css,'the casting dim rule is found');
   assert(/\.casting \.commands/.test(css[0])&&/\.casting \.hp-card/.test(css[0]),'the commands and HP card still dim: '+css[0]);
