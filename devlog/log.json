@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T00:02:02.929Z",
-  "branch": "claude/autodev-20261114-0821-R544",
-  "task": "R544 ミナモに着いた時、右の街灯がメニューのボタンと画面の右の縁の間にはさまって上が欠けていたので、北の交差点の角へ移した",
-  "summary": "ミナモに着いた時、右の街灯がメニューのボタンと画面の縁の間で欠けていた\n街灯を北の交差点の角へ移し、前と後のスクショで欠けが消えたのを見た\n着いた時の画面の左右の縁で切れる街灯が無いかを見るテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/946/mobile-02-mode-select.jpg",
-   "shots/946/mobile-19-custom-og-credit-card.jpg",
-   "shots/946/mobile-34-chapter-1-play.jpg",
-   "shots/946/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f9f0366",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43530111198"
- },
- {
   "at": "2026-11-14T01:09:38.001Z",
   "branch": "claude/autodev-20261114-0921-R545",
   "task": "R545 1章の始めに、公園のおじいさんが画面の下の縁で胸から上だけ見えていたので、池の右の縁へ動かして全身が見えるようにした",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "3e1be0d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44914484091"
+ },
+ {
+  "at": "2026-11-21T15:49:35.972Z",
+  "branch": "claude/autodev-20261122-0021-R674",
+  "task": "R674 塔の階で目標の帯の地が暗い床に溶けて文字だけ浮いていたので、紺の地と青い縁を付けた",
+  "summary": "塔の階で、目標の帯に紺の地と青い縁を付けた\n塔では縁が付き、部屋と外では今のままだとテストで確かめた\n前と後のスクショを docs/shots/R674 に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1184/mobile-02-mode-select.jpg",
+   "shots/1184/mobile-19-custom-og-credit-card.jpg",
+   "shots/1184/mobile-34-chapter-1-play.jpg",
+   "shots/1184/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9e88264",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44920299974"
  }
 ]
