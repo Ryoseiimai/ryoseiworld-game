@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T01:37:38.945Z",
-  "branch": "claude/autodev-20261114-0941-R545",
-  "task": "R545 1章の始めに、公園のおじいさんが画面の下の縁で胸から上だけ見えていたので、池の右の縁へ動かして全身が見えるようにした",
-  "summary": "9時41分の枝は、9時21分に通った R545 と同じ直しを2回目に作っていた\nその枝に main を取りこみ、衝突した6つのファイルを main の版にそろえた\n枝の中身は main と同じになり、おじいさんの位置は池の右の縁のまま",
-  "result": "pass",
-  "shots": [
-   "shots/949/mobile-02-mode-select.jpg",
-   "shots/949/mobile-19-custom-og-credit-card.jpg",
-   "shots/949/mobile-34-chapter-1-play.jpg",
-   "shots/949/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ded182b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43540268251"
- },
- {
   "at": "2026-11-14T03:51:32.155Z",
   "branch": "claude/autodev-20261114-1221-R546",
   "task": "R546 ボス戦の始めに、板がまだ薄いうちに「キックボードが浮かんだ」の字が家の上に出て読みにくかったので、板を濃くし、字を板の後から出した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "9eb5449",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44930281561"
+ },
+ {
+  "at": "2026-11-21T17:48:36.743Z",
+  "branch": "claude/autodev-20261122-0221-R676",
+  "task": "R676 全章のスクショを確認役に見せ、一番大きい「電気屋の奥だけ着いた時に奥の壁が見えず床が浮いて見える」を次の件に分けた（部屋の高さ17を14にすると10を超えるテストの位置が変わり、1回に収まらないため）",
+  "summary": "全章のスクショを撮り、確認役に気になる所を5つ挙げさせた\n一番大きいのは、電気屋の奥だけ着いた時に奥の壁が見えず床が浮いて見える所\n部屋の高さを他の部屋と同じ14にすると10を超えるテストが動くので、R677 に分けた",
+  "result": "pass",
+  "shots": [
+   "shots/1187/mobile-02-mode-select.jpg",
+   "shots/1187/mobile-19-custom-og-credit-card.jpg",
+   "shots/1187/mobile-34-chapter-1-play.jpg",
+   "shots/1187/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c6625ca",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44930461137"
  }
 ]
