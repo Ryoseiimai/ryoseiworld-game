@@ -174,9 +174,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  if(t.g.battery<100){t.button(t.g.state.mode==='kids'?'じゅうでん':'充電');assert.equal(t.g.battery,100);assert.equal(t.g.state.money,cash-105);}t.button('ありがとう');assert.equal(t.g.questStep,'recruit');
  result.push('3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS');
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
- const before=t.g.battery;assert(talk(t,'electric',7,9.4).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
+ const before=t.g.battery;assert(talk(t,'electric',7,8.0).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
  // BUG KING (SPEC_V6.md 4): the talk, the kickboard lifts, then the side-scrolling battle opens with the hero's weapons.
- t.g.debugWarp('electric',5,7.2);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
+ t.g.debugWarp('electric',5,5.8);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
  assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
  {const hero=t.g.lift;t.tick(400);assert(t.g.lift&&t.g.lift.type==='bugking'&&hero);}
  t.key('Escape');assert(!t.g.modal,'the menu stays closed while lifting');
@@ -184,7 +184,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const c=t.shooterRuns[0].cfg;assert.equal(c.boss,'bugking');assert.equal(c.hearts,3);assert(Array.isArray(c.weapons)&&!c.weapons.includes('fuku'));assert(Array.isArray(c.options)&&c.options.length<=3);assert.equal(c.lines.bursts[50],'TODO: エラー処理');assert.equal(c.platform,t.g.platform);
   // Lose → まちに もどる: back on the field in front of the TV pile, healed, with Sora's line.
   t.g.debugDamage(10);c.onLose('town');assert.equal(t.g.screen,'field');assert.equal(t.g.map,'town');assert.equal(t.g.hp.hp,t.g.hp.maxHp);assert(t.g.dialogue.lines[0][1].includes('もどった'));t.dialogue();assert.equal(c.lines.intro[0],'ソラ','no second むりだ line');}
- t.g.debugWarp('electric',5,7.2);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
+ t.g.debugWarp('electric',5,5.8);t.g.debugFace(3);{assert(!t.g.state.bosses.includes('bugking'));}
  t.tick(400);t.click('talk-btn');t.dialogue();t.tick(1400);assert(!t.g.modal);assert.equal(t.shooterRuns.length,2,'talking again opens the battle again');
  t.shooterRuns[1].cfg.onLose('retry');assert(!t.g.modal);assert.equal(t.g.screen,'shooter');assert.equal(t.shooterRuns.length,3,'すぐ やりなおす starts without the apply-only screen');
  {const exp=t.g.state.exp,lv=t.g.level,money=t.g.state.money;t.shooterRuns[2].cfg.onWin({boss:'bugking',seconds:150,hearts:2,maxHearts:3,hurts:1});
@@ -393,7 +393,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  for(const patch of [{chapter:2},{dir:7},{map:'constructor'},{exp:'10'},{x:288,y:1130,map:'town'},{x:-5000,y:-5000,map:'town'}]){const b=await runtime({saved:new Map([['ryoseiworld-rpg-v5',JSON.stringify({...base,bosses:[],...patch})]])});b.tick();if(!b.els.get('continue-btn').disabled){b.click('continue-btn');b.tick(100);assert(b.hasFrame(),'loop alive '+JSON.stringify(patch));assert(!b.g.debugBlocked(b.g.position.x,b.g.position.y),'not stuck '+JSON.stringify(patch));let moved=false;for(const k of ['ArrowDown','ArrowUp','ArrowLeft','ArrowRight']){const p=b.g.position;b.key(k);b.tick(300);b.key(k,true);if(b.g.position.x!==p.x||b.g.position.y!==p.y||b.g.screen!=='field')moved=true;}assert(moved,'can move '+JSON.stringify(patch));assert.equal(typeof b.g.state.exp,'number');assert(b.g.level<=base.level+1);}else assert(patch.chapter||patch.dir||patch.map==='constructor','only broken saves are rejected '+JSON.stringify(patch));}
  result.push('Saves: tutorial resume with 10% battery, chapter 2 / dir 7 / map constructor rejected, exp "10" read as a number, stuck or off-map positions moved to open ground PASS');
  // F18: a fast second tap after the boss intro does not hit にげる.
- const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,7.2);tap.tick(16);tap.g.debugEvent([{say:[['BUG KING','どうせ お前には むりだ']]},{battle:'bugking',id:'f18'}]);while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
+ const tap=await runtime({saved:new Map(t.saved)});tap.tick();tap.click('continue-btn');tap.g.state.bosses=[];tap.g.debugWarp('electric',5,5.8);tap.tick(16);tap.g.debugEvent([{say:[['BUG KING','どうせ お前には むりだ']]},{battle:'bugking',id:'f18'}]);while(tap.g.dialogue)tap.click('dialogue');assert.equal(tap.g.battle.type,'bugking');const logBefore=tap.g.battle.log;tap.cmd('run');assert.equal(tap.g.battle.log,logBefore);assert(!tap.g.battle.locked);tap.tick(300);tap.cmd('run');assert(tap.g.battle.log.includes('ふさいでいる'));
  result.push('Closing tap is ignored for 250 ms by battle and shop buttons PASS');
  // F24: one victory jingle, then one level-up fanfare and the gained numbers.
  const lv=await runtime();lv.tick();lv.start();lv.tick(3000);lv.g.debugWin();lv.tick(2000);lv.dialogue();const count={victory:0,levelup:0};for(const k of Object.keys(count)){const fn=lv.g.sfx[k];lv.g.sfx[k]=(...a)=>{count[k]++;return fn(...a);};}
@@ -462,10 +462,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('Events: say/choice/quiz/join/give/take/flag/if from data, wrong quiz answer asks again, escape keeps a choice open, police talk is an event PASS');
  // R6: event steps for battle, warp, transport, inn, music, shake, flash, wait, chapterClear, ending, and door / warp / trigger cells on the map.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
-  const D=r.g.GAME_DATA,flags=r.g.state.flags;r.g.debugWarp('electric',5,14);r.tick(400);let done=0;
+  const D=r.g.GAME_DATA,flags=r.g.state.flags;r.g.debugWarp('electric',5,11);r.tick(400);let done=0;
   r.g.debugDamage(20);r.tick(2000);r.g.state.battery=40;
   r.g.debugEvent([{music:'boss'},{shake:true,ms:400,power:8},{flash:'#ffffff',ms:300},{wait:600},{battle:'crow',id:'t6',win:[{flag:'won'}],lose:[{flag:'lost'}]},{inn:true},
-   {transport:'バス',stops:[{text:'じぶんの へや',map:'room',at:[5,9]},{text:'ひみつの みせ',map:'store',at:[5,10],if:'secret'}]},{warp:'electric',at:[5,14]}],()=>{done++;});
+   {transport:'バス',stops:[{text:'じぶんの へや',map:'room',at:[5,9]},{text:'ひみつの みせ',map:'store',at:[5,10],if:'secret'}]},{warp:'electric',at:[5,11]}],()=>{done++;});
   assert.equal(r.g.state.music,'boss');assert(r.g.fx.shakeUntil>0&&r.g.fx.shake===8);assert(r.g.fx.flashUntil>0);
   const at={...r.g.position};r.key('ArrowRight');r.tick(300);r.key('ArrowRight',true);assert.equal(r.g.position.x,at.x,'wait holds the player');assert.equal(r.g.screen,'field');
   r.key('Escape');r.tick(16);assert.equal(r.g.modal,'','escape does not open the menu during a wait');r.click('menu-btn');r.tick(16);assert.equal(r.g.modal,'','the menu button does not open the menu during a wait');
@@ -1465,14 +1465,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R80: the walk help box (bottom left) turns see-through while the exit arrow of でんきや is behind it, and solid again when the exit is clear of it.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.walk-help\.behind\{opacity:\.55;[^}]*\}\.walk-help\.learned\{opacity:0\}/.test(html),'see-through rule, and learned still wins');const help=r.els.get('walk-help');help.offsetWidth=236;help.offsetHeight=82;const seen=[];
-  for(let y=3;y<=14;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
+  for(let y=3;y<=11;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(help.classes.has('behind'));}
   assert(seen.some(Boolean),'somewhere in the shop the exit arrow sits behind the help box: '+seen);assert(!seen.at(-1),'by the exit the map scrolls up and the box is solid: '+seen);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!help.classes.has('behind'),'in the room nothing is behind the box');}
  result.push('R80: 出口の矢印や敵・人が「ドラッグで あるく」の箱の後ろに来ると、箱が薄くなる PASS');
  // R107: the talk button (bottom right) turns its plate see-through (letters stay solid, as in R77) while a person, an enemy or an exit is behind it, like the walk help box.
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   {const css=(html.match(/#talk-btn\.behind\{[^}]*\}/)||[''])[0];assert(/background:#f1cd7c1a/.test(css)&&!/opacity/.test(css),'only the plate turns see-through, the word stays solid (R77): '+css);}const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const seen=[];
-  for(let y=3;y<=14;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(btn.classes.has('behind'));}
+  for(let y=3;y<=11;y++){r.g.debugWarp('electric',5,y);r.tick(16);seen.push(btn.classes.has('behind'));}
   for(let x=2;x<=20;x++)for(let y=4;y<=30;y+=2){r.g.debugWarp('town',x,y);r.tick(16);seen.push(btn.classes.has('behind'));}
   assert(seen.some(Boolean),'somewhere a person or exit sits behind the talk button: '+seen.filter(Boolean).length);
   r.g.debugWarp('room',5,5);r.tick(16);assert(!btn.classes.has('behind'),'in the room nothing is behind the talk button');}
@@ -2819,28 +2819,29 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const po=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='police');assert(po&&po.x===9.5&&po.y===19.6,'the police officer stands on the sidewalk across from the police box (R270)');}
  result.push('R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS');
  // R204: the TV pile in でんきや stuck 70px up into the plain back wall (rows 0-1 and the 10px lip), so by the exit it hid under the HUD (mobile-19).
- // It now stands on the floor; the boss talk tests above stand at y 7.2 (R543), under its foot.
+ // It now stands on the floor; the boss talk tests above stand at y 5.8 (R677), under its foot.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss');
   assert(o&&o.enemy==='bugking','the TV pile is still the bug king spot');assert(o.y*48-o.h>=2*48+10,'the TV pile top ('+(o.y*48-o.h)+') stays below the wall lip ('+(2*48+10)+')');
   const sv=m.objects.find(x=>x.id==='server');assert(o.y<sv.y,'the pile still stands behind the server');}
  result.push('R204: でんきやの テレビの やま が、奥の壁にかからず床の上に立つ PASS');
- // R286: by the exit (camera at the room bottom, y = h*48-960+130) the pile's art top sat 8px under the goal bar below the HUD (mobile-19).
+ // R286 (R677: the camera is read by the door, since the room no longer scrolls): by the exit (camera at the room bottom, y = h*48-960+130) the pile's art top sat 8px under the goal bar below the HUD (mobile-19).
  // Its picture has ~40px of empty top, so the box top must be at least 140px down the screen for the visible top to clear the bar (~180).
- {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,top=o.y*48-o.h-camY;
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss');r.g.debugWarp('electric',...m.spawn);r.tick(400);const camY=r.g.camera.y,top=o.y*48-o.h-camY;
   assert(top>=140,'the TV pile box top is '+top.toFixed(0)+'px down the screen by the exit (140 or more)');
   const sv=m.objects.find(x=>x.id==='server');assert(sv.y-o.y>=1.5,'the server still stands in front with room to walk between ('+(sv.y-o.y).toFixed(1)+' tiles)');}
  result.push('R286: でんきやの入口で、テレビの やま の上が上の帯に隠れない PASS');
  // R288: the art's visible top (about 40/170 of the box is empty) sits about 10px lower than at R286 (182) so it clears the goal bar.
- {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,vis=o.y*48-o.h+o.h*40/170-camY;
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss');r.g.debugWarp('electric',...m.spawn);r.tick(400);const camY=r.g.camera.y,vis=o.y*48-o.h+o.h*40/170-camY;
   assert(vis>=188,'the TV pile visible top is '+vis.toFixed(0)+'px down the screen by the exit (188 or more)');assert(o.h>=150,'the TV pile stays boss sized ('+o.h+')');}
  result.push('R288: でんきやの入口で、テレビの やま の線が目当ての帯に重ならない PASS');
  // R509: in the browser the pile's drawn top is about 17px under its box top and the goal bar ends about 173px down the screen, so they touched; the box top now stands 168px or more down by the exit (a 10px gap or more).
- {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),camY=m.h*48-960+130,top=o.y*48-o.h-camY,sv=m.objects.find(x=>x.id==='server');
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss');r.g.debugWarp('electric',...m.spawn);r.tick(400);const camY=r.g.camera.y,top=o.y*48-o.h-camY,sv=m.objects.find(x=>x.id==='server');
   assert(top+17>=173+10,'the TV pile drawn top is '+(top+17).toFixed(0)+'px down by the exit (183 or more, 10px under the goal bar)');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
  result.push('R509: でんきやの入口で、テレビの やま の線と目当ての帯の間が10pxあく PASS');
  // R543: R538 covers the strip above the room's top line (hudTop+12, about 196px down in the browser) while this tall room scrolls, so by the exit the pile's drawn top (17px under its box top) must sit 10px or more under that cover, not cut flat by it.
- {const r=await runtime();r.tick();r.g.debugWarp('electric',5,14);r.tick(400);const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),sv=m.objects.find(x=>x.id==='server'),cover=r.g.roomTopCover,drawn=o.y*48-o.h+17-r.g.camera.y;
-  assert(cover>0,'the room-top cover is drawn by the exit ('+cover+')');assert(drawn>=cover+6,'the TV pile drawn top is '+drawn.toFixed(0)+'px down by the exit, 6px or more under the room-top cover ('+cover+')');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
+ // R677: the room is 14 rows now and stays still, so nothing is covered by the exit; the pile's drawn top must sit 6px or more under the room top line (hudTop+12) instead.
+ {const r=await runtime();r.tick();const m0=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',...m0.spawn);r.tick(400);const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),sv=m.objects.find(x=>x.id==='server'),cover=Math.max(r.g.roomTopCover,r.g.hudTop+12),drawn=o.y*48-o.h+17-r.g.camera.y;
+  assert.equal(r.g.roomTopCover,0,'R677: the still room has no top cover by the exit');assert(drawn>=cover+6,'the TV pile drawn top is '+drawn.toFixed(0)+'px down by the exit, 6px or more under the room top line ('+cover+')');assert(sv.y-o.y>=1.5,'room to walk between the pile and the server ('+(sv.y-o.y).toFixed(1)+')');}
  result.push('R543: でんきやの入口で、テレビの やま の上が部屋の上のおおいで切れない PASS');
  // R510: over a building the see-through HUD plate was only 35% dark, so the shop's pots and steps sat right behind 「85％」; it is now about 55% dark (the building still shows, the words sit on a calmer plate).
  {const css=(html.match(/#hud\.over \.panel\{[^}]*\}/)||[''])[0],a=parseInt((css.match(/background:#16353b([0-9a-f]{2})/)||[])[1],16);assert(a>=0x80&&a<=0xa0,'R510: the see-through HUD plate is about half dark (0x80..0xa0): '+css);}
@@ -3012,15 +3013,25 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R537: my room and the library (14 rows) were 26px taller than the band, so they scrolled and the wall's top edge sat right on the goal strip. They now stay still with their top 22px under the strip (hudTop+12), like a short centred room.
  {const r=await runtime();for(const id of ['room','minamo_library']){const m=r.g.GAME_DATA.maps[id],mh=m.h*48;r.g.debugWarp(id,m.w/2,1.6);r.tick(32);const top=-r.g.camera.y,ht=r.g.hudTop;assert(mh>960-ht-130,id+' is taller than the band');assert.equal(top,ht+12,id+': at the top the room starts 12px under the HUD line');
   assert(mh<=960-ht-130+48,id+' is at most one tile taller than the band');r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(-r.g.camera.y,ht+12,id+': the room does not scroll, so its top edge never slides up beside the strip');assert(ht+12+mh<=960-80,id+': the last row stays above the lowest 80px');}
-  {const e=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',e.w/2,1.6);r.tick(32);assert.equal(-r.g.camera.y,r.g.hudTop+12,'a tall room (electric) scrolls and stops 12px under the HUD line at its top');}
+  // R677: no room in the game is taller than this any more, so a 17-row copy of the electric shop checks that a tall room still scrolls and stops at its top.
+  {const e=r.g.GAME_DATA.maps.electric;r.g.GAME_DATA.maps.r677tall={...e,h:17,objects:[],portals:[]};r.g.debugWarp('r677tall',e.w/2,1.6);r.tick(32);assert.equal(-r.g.camera.y,r.g.hudTop+12,'a tall room scrolls and stops 12px under the HUD line at its top');delete r.g.GAME_DATA.maps.r677tall;}
   const s=r.g.GAME_DATA.maps.store;r.g.debugWarp('store',s.w/2,s.h/2);r.tick(32);const band=960-r.g.hudTop-130;assert(s.h*48<=band,'the store fits the band');assert.equal(r.g.camera.y,(s.h*48-band)/2-r.g.hudTop,'the short store stays centred');}
  result.push('R537: 自分の部屋と図書館で、部屋の上の壁が目標の帯から22px離れる PASS');
  // R538: the back of the electric shop scrolls; scrolled down, its floor ran up under the HUD and the goal strip sat on the floor. Above the room's top line (hudTop+12) the surround colour now covers it.
- {const r=await runtime(),e=r.g.GAME_DATA.maps.electric;r.g.debugWarp('electric',e.w/2,e.h-1.5);r.tick(32);const cap=r.g.hudTop+12;assert(r.g.roomFill.top<cap,'scrolled down, the electric room top is above the line');assert.equal(r.g.roomTopCover,cap,'the part above the line is covered');
-  r.g.debugWarp('electric',e.w/2,1.6);r.tick(32);assert.equal(r.g.roomTopCover,0,'at its top the wall shows and nothing is covered');
-  for(const id of ['room','store','minamo_library']){const m=r.g.GAME_DATA.maps[id];r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(r.g.roomTopCover,0,id+' does not scroll, so nothing is covered');}
+ // R677: the electric shop is 14 rows now, so the mechanism is checked on a 17-row copy of it (the old size), and the shop itself joins the still rooms.
+ {const r=await runtime(),e0=r.g.GAME_DATA.maps.electric,e={...e0,h:17,objects:[],portals:[]};r.g.GAME_DATA.maps.r677tall=e;r.g.debugWarp('r677tall',e.w/2,e.h-1.5);r.tick(32);const cap=r.g.hudTop+12;assert(r.g.roomFill.top<cap,'scrolled down, the tall room top is above the line');assert.equal(r.g.roomTopCover,cap,'the part above the line is covered');
+  r.g.debugWarp('r677tall',e.w/2,1.6);r.tick(32);assert.equal(r.g.roomTopCover,0,'at its top the wall shows and nothing is covered');delete r.g.GAME_DATA.maps.r677tall;
+  for(const id of ['room','store','minamo_library','electric']){const m=r.g.GAME_DATA.maps[id];r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(r.g.roomTopCover,0,id+' does not scroll, so nothing is covered');}
   r.g.debugWarp('town',2,2);r.tick(32);assert.equal(r.g.roomTopCover,0,'outside nothing is covered');}
  result.push('R538: 電気屋の奥を下へ進んでも、床が上の帯の下に入らない PASS');
+ // R677: the back of the electric shop was 17 rows, so by the door the camera sat at its bottom and the back wall never showed. It is 14 rows like my room now.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,ht=()=>r.g.hudTop;assert.equal(m.h,14,'the electric shop back room is 14 rows like my room');assert.equal(m.h,r.g.GAME_DATA.maps.room.h,'same height as my room');
+  const door=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='electric');assert.deepEqual(door.arrival,m.spawn,'the town door lands on the spawn point');
+  r.g.debugWarp('electric',...m.spawn);r.tick(400);assert.equal(-r.g.camera.y,ht()+12,'by the door the room top (the back wall) is on screen, 12px under the HUD line');assert.equal(r.g.roomFill.top,ht()+12,'the room fill starts at the wall top');
+  r.g.debugWarp('electric',m.w/2,1.6);r.tick(32);const top=r.g.camera.y;r.g.debugWarp('electric',m.w/2,m.h-1);r.tick(32);assert.equal(r.g.camera.y,top,'the room does not scroll');
+  for(const o of m.objects){assert(o.y<=m.h-1.5,o.id+' stands on the floor above the door row ('+o.y+')');assert(o.y*48-o.h>=2*48,o.id+' does not start above the back wall ('+(o.y*48-o.h)+')');}
+  assert(Math.abs(m.portals[0].y-(m.h-0.8))<1e-9,'the exit sits 0.8 row above the front wall like the other rooms ('+m.portals[0].y+')');}
+ result.push('R677: 電気屋の奥に着いた時、奥の壁が見え、部屋が動かない PASS');
  // R228: in the town the pole south of the junkyard stood right behind a tree, so its top stuck out of the leaves (a tree with a pole for a trunk). No post stands behind a tree's leaves now.
  {const g=(await runtime()).g;for(const id of ['town','minamo','neon']){const m=g.GAME_DATA.maps[id],posts=m.objects.filter(o=>/(^|_)(pole|signal|light)\d*$/.test(o.id)),trees=m.objects.filter(o=>/(^|_)tree\d*$/.test(o.id));assert(posts.length&&trees.length,id+': posts and trees are found');
   for(const t of trees)for(const p of posts)assert(!(Math.abs(t.x-p.x)*48<t.w*.45&&t.y>p.y&&(t.y-p.y)*48<t.h*.8),`${id}: ${p.id} stands behind the leaves of ${t.id}`);}}

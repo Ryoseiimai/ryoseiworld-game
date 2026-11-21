@@ -15,7 +15,7 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
  object('store','buildings',1,22,24,200,190,{label:'コンビニ',enter:'store',arrival:[5,10]}),
  object('school','buildings',2,7,7,220,192,{label:'がっこう',dialogue:'school'}),
- object('electric','buildings',3,22,8,220,200,{label:'でんきや',enter:'electric',arrival:[5,14],lock:'key',lockedDialogue:'shutter',firstDialogue:'shutterOpen'}),
+ object('electric','buildings',3,22,8,220,200,{label:'でんきや',enter:'electric',arrival:[5,11],lock:'key',lockedDialogue:'shutter',firstDialogue:'shutterOpen'}),
  object('junkyard','buildings',8,27,7.6,170,150),
  object('koban','buildings',4,7,16,175,162,{label:'こうばん',event:'policeBox'}),
  object('library','buildings',5,23,16,210,188,{label:'としょかん',dialogue:'library'}),
@@ -104,14 +104,17 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // R204: the TV pile (boss) stood with its top 70px up in the plain back wall and hid under the HUD by the exit (mobile-19), so it moved down onto the floor and got a little smaller.
 // R466: the label read 電気屋・ジャンク, which looked like two places or a shop called ジャンク; it is the back room of the
 // electric shop (STORY_V3: でんきやのジャンク置き場, the town sign says 電気屋), so the label now reads 電気屋の奥 / でんきやの おく.
-maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:17,spawn:[5,14],objects:[
- object('sofa','interior',12,1.9,12.4,110,110),object('repair','npc',15,3.6,13.1,48,65,{event:'repair'}),
- object('server','interior',10,7,8.5,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
- object('boss','interior',9,5,7,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
+// R677: the room was 17 rows, the only room taller than the screen band, so by the door the camera sat at its bottom and the back wall
+// never showed (the floor looked cut off under the goal strip). It is 14 rows now like my room and the library, so it stays still with its wall in view.
+// Everything moved 3 rows up; the TV pile (5.6) and the server (7.1) moved less, so the pile top stays under the wall lip and 1.5 rows stay between them.
+maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:14,spawn:[5,11],objects:[
+ object('sofa','interior',12,1.9,9.4,110,110),object('repair','npc',15,3.6,10.1,48,65,{event:'repair'}),
+ object('server','interior',10,7,7.1,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
+ object('boss','interior',9,5,5.6,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  // R672: junk2 was the boss TV pile (interior 9) drawn smaller, so two of the same pile stood in the room and it was unclear
  // which one to check; it was taken out (the console shelf, interior 8, stays unused: F03), so only the boss is a TV pile.
  // R673: the repair workbench from the art desk (v5/assets/repair_bench frame 0) fills the empty right side, by the old spot.
- object('junk1','props',14,2,9,60,63),object('bench','repair_bench',0,8.9,12.2,110,110)],enemies:[],portals:[{x:5,y:16.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
+ object('junk1','props',14,2,6,60,63),object('bench','repair_bench',0,8.9,9.5,110,110)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
 items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},
