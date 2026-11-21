@@ -3918,13 +3918,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,room=r.g.GAME_DATA.maps.room.objects;
   assert(!objs.some(o=>o.kind==='interior'&&o.frame===11),'R667: the library does not lay the own room blue round rug');
   assert(room.some(o=>o.kind==='interior'&&o.frame===11),'R667: the own room keeps its blue rug');
-  const desk=objs.find(o=>o.id==='ml_desk'),mag=objs.find(o=>o.id==='ml_magazines');assert(desk&&desk.frame===6&&mag&&mag.frame===7,'R667: the library has a front desk and a magazine rack');
-  const [sx,sy]=lib.spawn;for(const o of [desk,mag])assert(Math.hypot(o.x-sx,o.y-sy)>=2.5,'R667: '+o.id+' stays off the door spawn');
-  for(const o of [desk,mag]){assert(o.x*48-o.w/2>=0&&o.x*48+o.w/2<=lib.w*48,'R667: '+o.id+' stays inside the room walls');assert(o.y*48<=(lib.h-1)*48,'R667: '+o.id+' stands above the door row');}
+  const mag=objs.find(o=>o.id==='ml_magazines');assert(mag&&mag.frame===7,'R667: the library has a magazine rack');
+  // R669: the store's register counter (interior 6) made the library look like the convenience store.
+  assert(!objs.some(o=>o.kind==='interior'&&o.frame===6),'R669: the library has no store register counter');
+  const [sx,sy]=lib.spawn;for(const o of [mag])assert(Math.hypot(o.x-sx,o.y-sy)>=2.5,'R667: '+o.id+' stays off the door spawn');
+  for(const o of [mag]){assert(o.x*48-o.w/2>=0&&o.x*48+o.w/2<=lib.w*48,'R667: '+o.id+' stays inside the room walls');assert(o.y*48<=(lib.h-1)*48,'R667: '+o.id+' stands above the door row');}
   r.g.debugWarp('minamo_library',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'minamo_library');
   assert(talk(r,'minamo_library',3.4,8.5).length>0,'R667: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();
   assert(talk(r,'minamo_library',5.7,5.3).length>0,'R667: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
- result.push('R667: 図書館に自分の部屋の青い丸ラグを置かず、受付の机と雑誌の棚を置く PASS');
+ result.push('R667: 図書館に自分の部屋の青い丸ラグを置かず、雑誌の棚を置き、コンビニのレジ机は置かない（R669） PASS');
  // R668: the library search machine was the home computer desk; it now uses the delivered library_set art, with a reading rug, table and return cart.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.library_set,4,'R668: the library_set sheet loads 4 frames');
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,by=id=>objs.find(o=>o.id===id);
