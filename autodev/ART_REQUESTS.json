@@ -191,5 +191,18 @@
     "requested_at": "2026-11-21T19:35:00+09:00",
     "done_at": "2026-11-21T20:20:03+09:00",
     "actual_size": "1024x1024"
+  },
+  {
+    "id": "art-20261121-2250-repair_bench",
+    "file": "v5/assets/repair_bench_sheet.png",
+    "size": "1024x1024",
+    "grid": "2x2",
+    "out": "v5/assets/repair_bench",
+    "name": "repair_bench",
+    "prompt": "Pixel art top-down interior furniture sprite sheet for the back room of a small town electronics repair shop, 2x2 grid, same style, palette and scale as the reference sheet. Row 1 left: a wooden repair workbench with a soldering iron, a small multimeter, loose screws and an opened generic radio on top. Row 1 right: a metal shelf with cardboard boxes of spare parts and coiled cables, no game consoles, no controllers. Row 2 left: a stack of three cardboard boxes. Row 2 right: a small rolling tool cart with screwdrivers and pliers. Each item centered in its cell, viewed from slightly above, transparent background, no text, no letters, no logos, no shadow.",
+    "ref": "v5/assets/interior_sheet.png",
+    "status": "pending",
+    "task": "R672",
+    "requested_at": "2026-11-21T22:50:00+09:00"
   }
 ]

@@ -3972,13 +3972,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R672: the electric shop back room had a second, smaller TV pile (junk2, interior 9) beside the boss pile.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,objs=m.objects;
   const piles=objs.filter(o=>o.kind==='interior'&&o.frame===9);assert.equal(piles.length,1,'R672: only one TV pile stands in the back room');assert.equal(piles[0].id,'boss','R672: the one TV pile is the boss');
-  const j=objs.find(o=>o.id==='junk2');assert(j&&j.kind==='interior'&&j.frame===8,'R672: junk2 is the parts shelf');
-  const [sx,sy]=m.spawn;assert(Math.hypot(j.x-sx,j.y-sy)>=2.5,'R672: the shelf stays off the door spawn');
-  assert(j.x*48-j.w/2>=0&&j.x*48+j.w/2<=m.w*48&&j.y*48<=(m.h-1)*48,'R672: the shelf stays inside the room');
-  for(const o of objs.filter(o=>o!==j&&!o.floor&&o.collider!==false))assert(Math.abs(o.x-j.x)*48>=(o.w+j.w)/2||Math.abs(o.y-j.y)*48>=40,'R672: the shelf does not sit on '+o.id);
-  r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');
-  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/interior/interior_r2_c0.png')),'R672: the parts shelf is drawn');}
- result.push('R672: 電気屋の奥の小さいテレビの山を部品の棚にし、テレビの山はボスの1つだけにした PASS');
+  assert(!objs.some(o=>o.id==='junk2'),'R672: the small copy of the TV pile is gone');
+  assert(objs.some(o=>o.id==='server')&&objs.some(o=>o.id==='repair')&&objs.some(o=>o.id==='junk1'),'R672: the server, the repair man and the bin stay');
+  const [sx,sy]=m.spawn;r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');}
+ result.push('R672: 電気屋の奥の小さいテレビの山を外し、テレビの山はボスの1つだけにした PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
