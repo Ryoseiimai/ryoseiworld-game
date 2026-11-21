@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T06:56:40.425Z",
-  "branch": "claude/autodev-20261113-1521-R530",
-  "task": "R530 地図の上の札で、電池の絵の出っ張りが「100％」の字に付いて見えたので、絵の後ろを絵の前と同じだけ空けた",
-  "summary": "地図の上の札で、電池の絵が「100％」の字に付いていた\n電池の絵の後ろを、絵の前と同じ10pxだけ空けた\n前と後のスクショを docs/shots/R530 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/924/mobile-02-mode-select.jpg",
-   "shots/924/mobile-19-custom-og-credit-card.jpg",
-   "shots/924/mobile-34-chapter-1-play.jpg",
-   "shots/924/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f7febbe",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43380473109"
- },
- {
   "at": "2026-11-13T07:46:18.278Z",
   "branch": "claude/autodev-20261113-1622-R531",
   "task": "R531 小さい画面で Lv が2けたになると、上の札の「100％」が枠を越えていたので、はみ出す時だけ字を27pxにして枠に収めた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "807213d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44861420235"
+ },
+ {
+  "at": "2026-11-21T04:00:49.108Z",
+  "branch": "claude/autodev-20261121-1241-R663",
+  "task": "R663 友達の家が自分の部屋と同じ青い丸ラグ・緑のソファで別の家に見えないので、友達の家用のラグと家具の絵を絵係に頼んだ（挙がった残り4つは撮影の手順によるもので、仕様どおりだった）",
+  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\n友達の家用のラグと家具の絵を絵係に頼んだ。届いたら R664 で差し替える\n実績の数のずれとボス戦が進まない件は、撮影の手順によるものだった",
+  "result": "pass",
+  "shots": [
+   "shots/1164/mobile-02-mode-select.jpg",
+   "shots/1164/mobile-19-custom-og-credit-card.jpg",
+   "shots/1164/mobile-34-chapter-1-play.jpg",
+   "shots/1164/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "71f7bbc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44863220118"
  }
 ]
