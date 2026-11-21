@@ -3989,6 +3989,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');
   r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/repair_bench/repair_bench_r0_c0.png')),'R673: the workbench picture is drawn');}
  result.push('R673: 電気屋の奥の右の空いた所に、届いた修理の机を道をふさがずに置く PASS');
+ // R674: on the tower floors the goal strip's dark green ground melted into the navy surround, so only its words seemed to float. There it gets the tower's navy ground and a blue edge.
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('tower1',5,8);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);assert.equal(r.g.map,'tower1');
+  assert(r.els.get('quest').textContent.length>0,'R674: a goal is shown on the tower floor');assert(r.els.get('quest').classes.has('tower'),'R674: the goal strip has the tower look on a tower floor');
+  r.g.debugWarp('electric',5,8);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);assert(!r.els.get('quest').classes.has('tower'),'R674: a house room keeps the plain goal strip');
+  r.g.debugWarp('town',22,9.3);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);assert(!r.els.get('quest').classes.has('tower'),'R674: outside keeps the plain goal strip');
+  assert(/\.quest\.tower\{[^}]*box-shadow:0 0 0 2px #5fb8ff/.test(html),'R674: the tower goal strip has a blue edge');}
+ result.push('R674: 塔の階では目標の帯に紺の地と青い縁を付け、暗い床の上でも帯が見える PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
