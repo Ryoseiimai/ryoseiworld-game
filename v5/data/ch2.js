@@ -70,7 +70,9 @@ maps.minamo.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
 maps.minamo_library={name:'みずべの としょかん',short:'としょかん',shortAdult:'図書館',w:11,h:14,spawn:[5,11],objects:[
  // R667: the own room's blue round rug made the library look like the bedroom, so it has a front desk and a magazine rack instead.
  // R669: the front desk used the convenience store's register counter (interior 6), which made the library look like the store,
- // so it is taken out until the library's own front desk art (v5/assets/library_desk) arrives.
+ // so it was taken out until the library's own front desk art (v5/assets/library_desk) arrived.
+ // R670: the library's own front desk (books, a date stamp, a bell) stands on the lower right, off the door-to-terminal path.
+ object('ml_desk','library_desk',0,8.4,8.8,130,100),
  object('ml_magazines','interior',7,1.7,10.6,80,95),
  object('ml_shelf1','interior',2,1.8,4.2,110,130),object('ml_shelf2','interior',2,3.8,4.2,110,130),object('ml_shelf3','interior',2,7.6,4.2,110,130),object('ml_shelf4','interior',2,9.4,4.2,110,130),
  // R668: the search machine is the library's own terminal on a stand (v5/assets/library_set), not the home computer desk,

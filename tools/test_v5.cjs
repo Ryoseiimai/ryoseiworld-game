@@ -3942,6 +3942,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(talk(r,'minamo_library',5.7,5.3).length>0,'R668: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
   assert(talk(r,'minamo_library',3.4,8.5).length>0,'R668: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
  result.push('R668: 図書館の検索の機械を図書館用の絵にし、読書のラグ・机・返却のワゴンを置く PASS');
+ // R670: the library's own front desk art (library_desk frame 0) replaces the store counter removed in R669.
+ {const r=await runtime();r.tick();assert.equal(r.g.assets.library_desk,4,'R670: the library_desk sheet loads 4 frames');
+  const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,desk=objs.find(o=>o.id==='ml_desk');
+  assert(desk&&desk.kind==='library_desk'&&desk.frame===0&&!desk.floor,'R670: the library has its own front desk');
+  assert(!objs.some(o=>o.kind==='library_desk'&&o.frame!==0),'R670: only the front desk cell is used');
+  assert(!objs.some(o=>o.kind==='interior'&&o.frame===6),'R670: the store register counter stays out');
+  const [sx,sy]=lib.spawn;assert(Math.hypot(desk.x-sx,desk.y-sy)>=2.5,'R670: the desk stays off the door spawn');
+  assert(desk.x*48-desk.w/2>=6*48,'R670: the desk stays right of the door-to-terminal path');
+  assert(desk.x*48-desk.w/2>=0&&desk.x*48+desk.w/2<=lib.w*48&&desk.y*48<=(lib.h-1)*48,'R670: the desk stays inside the room, above the door row');
+  for(const o of objs.filter(o=>o!==desk&&!o.floor&&o.collider!==false))assert(Math.abs(o.x-desk.x)*48>=(o.w+desk.w)/2||Math.abs(o.y-desk.y)*48>=40,'R670: the desk does not sit on '+o.id);
+  r.g.debugWarp('minamo_library',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'minamo_library');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/library_desk/library_desk_r0_c0.png')),'R670: the desk picture is drawn');
+  assert(talk(r,'minamo_library',5.7,5.3).length>0,'R670: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
+  assert(talk(r,'minamo_library',3.4,8.5).length>0,'R670: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
+ result.push('R670: 図書館に、届いた図書館用の受付の机を、入口と検索の機械の道をふさがずに置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
