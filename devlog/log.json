@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T12:57:38.230Z",
-  "branch": "claude/autodev-20261113-2122-R535",
-  "task": "R535 戦闘で呼び出しの演出の間、何が起きたかを書く文までうすくなって読みにくかったので、文の欄だけはうすくしないようにした",
-  "summary": "呼び出しの演出の間、結果の文が35%の濃さで読みにくかった\n文の欄だけはうすくせず、ほかの欄は今のままうすくした。テストを足した\n前と後のスクショを docs/shots/R535 に置いた（鍵ブランチへの push は許可が無く、鍵を取らずに動いた）",
-  "result": "pass",
-  "shots": [
-   "shots/932/mobile-02-mode-select.jpg",
-   "shots/932/mobile-19-custom-og-credit-card.jpg",
-   "shots/932/mobile-34-chapter-1-play.jpg",
-   "shots/932/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "85be439",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43427828483"
- },
- {
   "at": "2026-11-13T13:27:07.326Z",
   "branch": "claude/autodev-20261113-2141-R535",
   "task": "R535 ネオンの着いた所で「ランク 86位」の札の板が上の札より画面の左の縁に寄っていたので、板を上の札と同じ20px内側に入れた",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "ee9675c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44880040776"
+ },
+ {
+  "at": "2026-11-21T07:40:15.443Z",
+  "branch": "claude/autodev-20261121-1621-R664",
+  "task": "R664 友達の家のラグを届いた絵のしましまのラグに差し替え、低い机とビーズクッションを足した",
+  "summary": "友達の家のラグを、届いた絵のしましまのラグに差し替えた\n友達の家に、低い机とビーズクッションを足した。本だなの絵は実在のロボットに似たおもちゃがあるので使わなかった\n前と後のスクショを docs/shots/R664 に置き、テストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1171/mobile-02-mode-select.jpg",
+   "shots/1171/mobile-19-custom-og-credit-card.jpg",
+   "shots/1171/mobile-34-chapter-1-play.jpg",
+   "shots/1171/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2480806",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44880401668"
  }
 ]
