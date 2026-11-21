@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T07:04:51.237Z",
-  "branch": "claude/autodev-20261114-1541-R549",
-  "task": "R549 ゼロ戦の始めに、ゼロの台詞の地がソラのヒントの前に薄れて塔が透けていたので、ヒントまで地を濃く保った",
-  "summary": "ゼロ戦の始めに、ゼロの短い台詞の地がソラのヒントの前に薄れ、後ろの塔が透けていた\n始めの台詞の後にヒントが来る戦いでは、台詞の地を最初から濃いまま保つようにした\n前と後のスクショを v5/verification に置き、全部のボスで地が薄れないかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/954/mobile-02-mode-select.jpg",
-   "shots/954/mobile-19-custom-og-credit-card.jpg",
-   "shots/954/mobile-34-chapter-1-play.jpg",
-   "shots/954/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d0de3ca",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43568406542"
- },
- {
   "at": "2026-11-14T07:45:49.547Z",
   "branch": "claude/autodev-20261114-1621-R550",
   "task": "R550 タイトルの「遊びながらゲーム作りと AIを学ぶRPG」の板に後ろの家の屋根が透けていたので、板の地を濃くした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "ce74133",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44942043279"
+ },
+ {
+  "at": "2026-11-21T20:48:50.737Z",
+  "branch": "claude/autodev-20261122-0521-R679",
+  "task": "R679 キックボードの主人公が町の人に横から近づくと絵が半分重なっていたので、乗っている間は人から44px手前で止まるようにした",
+  "summary": "全章のスクショを確認役に見せ、主人公が町の人に重なるのを一番大きい所に選んだ\nキックボードに乗っている間は、人の横で止まる幅を36pxから44pxにした\n止まる位置と話しかけられることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1192/mobile-02-mode-select.jpg",
+   "shots/1192/mobile-19-custom-og-credit-card.jpg",
+   "shots/1192/mobile-34-chapter-1-play.jpg",
+   "shots/1192/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1f555ec",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44947367434"
  }
 ]
