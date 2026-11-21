@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T03:51:32.155Z",
-  "branch": "claude/autodev-20261114-1221-R546",
-  "task": "R546 ボス戦の始めに、板がまだ薄いうちに「キックボードが浮かんだ」の字が家の上に出て読みにくかったので、板を濃くし、字を板の後から出した",
-  "summary": "ボス戦の始めの帯で、板が薄いうちに水色の字だけが家の上に出ていた\n板の濃さを0.74から0.88にし、字は板が4割出てから出すようにした\n字がはっきり読める0.86秒は前と同じ。前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/950/mobile-02-mode-select.jpg",
-   "shots/950/mobile-19-custom-og-credit-card.jpg",
-   "shots/950/mobile-34-chapter-1-play.jpg",
-   "shots/950/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e4b2683",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43552525394"
- },
- {
   "at": "2026-11-14T04:55:33.738Z",
   "branch": "claude/autodev-20261114-1322-R547",
   "task": "R547 ボス戦で、ことばの札の下に出る台詞の枠が札より左右に3pxずつはみ出してそろっていなかったので、枠の端を札と同じ18pxにそろえた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "c6625ca",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44930461137"
+ },
+ {
+  "at": "2026-11-21T18:31:27.280Z",
+  "branch": "claude/autodev-20261122-0321-R677",
+  "task": "R677 電気屋の奥を他の部屋と同じ高さ14にし、着いた時に奥の壁が見えるようにする",
+  "summary": "全章のスクショを撮り、確認役に気になる所を5つ挙げさせた\n一番大きいのは、電気屋の奥だけ着いた時に奥の壁が見えず床が浮いて見える所\n部屋の高さを他の部屋と同じ14にすると10を超えるテストが動くので、R677 に分けた",
+  "result": "fail",
+  "shots": [
+   "shots/1188/mobile-02-mode-select.jpg",
+   "shots/1188/mobile-19-custom-og-credit-card.jpg",
+   "shots/1188/mobile-34-chapter-1-play.jpg",
+   "shots/1188/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "534c662",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44935335043"
  }
 ]
