@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T19:02:30.664Z",
-  "branch": "claude/autodev-20261114-0321-R539",
-  "task": "R539 ミナモに着いた時、公園のゴミ箱が上の目標の帯の矢印のすぐ後ろに出て帯の一部に見えたので、ゴミ箱を公園の左下へ移した",
-  "summary": "ミナモに着くと、公園のゴミ箱が上の目標の帯の矢印のすぐ後ろに出ていた\nゴミ箱をベンチと公園の看板の左の柱の間へ移し、帯から離した\n移した場所が草の上で、ベンチ・犬・柱・歩道に付かないことをテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/938/mobile-02-mode-select.jpg",
-   "shots/938/mobile-19-custom-og-credit-card.jpg",
-   "shots/938/mobile-34-chapter-1-play.jpg",
-   "shots/938/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "385b219",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43486081976"
- },
- {
   "at": "2026-11-13T19:52:55.980Z",
   "branch": "claude/autodev-20261114-0421-R540",
   "task": "R540 ミナモに着いた時、公園の木の根元だけが上の目標の帯のすぐ下に細くのぞいていたので、木を北へ動かして根元を上の札の後ろに入れた",
@@ -2963,5 +2948,20 @@
   ],
   "sha": "6c5dabd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44895291910"
+ },
+ {
+  "at": "2026-11-21T11:29:44.247Z",
+  "branch": "claude/autodev-art-20261121-202003",
+  "task": "絵",
+  "summary": "できた絵: library_desk",
+  "result": "pass",
+  "shots": [
+   "shots/1176/mobile-02-mode-select.jpg",
+   "shots/1176/mobile-19-custom-og-credit-card.jpg",
+   "shots/1176/mobile-34-chapter-1-play.jpg",
+   "shots/1176/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bff57df",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44898626549"
  }
 ]
