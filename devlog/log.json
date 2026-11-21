@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T06:23:27.901Z",
-  "branch": "claude/autodev-20261114-1421-R548",
-  "task": "R548 ミナモに着いた時、公園の木の頭が上の場所の札の上の縁から黒くのぞいていたので、その木だけ少し小さくした",
-  "summary": "ミナモに着いた時、公園の木の頭が画面の上の縁と場所の札の間にのぞいていた\n木の上は歩道、下は公園の看板で動かせないので、その木だけ130から104に小さくした\n前と後のスクショを v5/verification に置き、木の頭が出ないかのテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/952/mobile-02-mode-select.jpg",
-   "shots/952/mobile-19-custom-og-credit-card.jpg",
-   "shots/952/mobile-34-chapter-1-play.jpg",
-   "shots/952/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "bf26eab",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43565291829"
- },
- {
   "at": "2026-11-14T07:04:51.237Z",
   "branch": "claude/autodev-20261114-1541-R549",
   "task": "R549 ゼロ戦の始めに、ゼロの台詞の地がソラのヒントの前に薄れて塔が透けていたので、ヒントまで地を濃く保った",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "ae64354",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44936744750"
+ },
+ {
+  "at": "2026-11-21T19:50:37.928Z",
+  "branch": "claude/autodev-20261122-0421-R678",
+  "task": "R678 コマンド戦の敵の足元の影が背景の波に溶けて、敵が宙に浮いて見えていたので、影を主人公の影と同じ濃さにした",
+  "summary": "全章のスクショを確認役に見せ、敵が宙に浮いて見えるのを一番大きい所に選んだ\nコマンド戦の敵の足元の影を、主人公の影と同じ色と濃さにした\n影の濃さのテストを新しい値に合わせ、色が主人公と同じことも確かめる形にした",
+  "result": "pass",
+  "shots": [
+   "shots/1191/mobile-02-mode-select.jpg",
+   "shots/1191/mobile-19-custom-og-credit-card.jpg",
+   "shots/1191/mobile-34-chapter-1-play.jpg",
+   "shots/1191/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ce74133",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44942043279"
  }
 ]
