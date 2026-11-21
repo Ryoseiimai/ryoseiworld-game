@@ -460,7 +460,10 @@ function refreshWeaponData(){if(!window.RYW?.Shooter?.syncWeaponNames)return;win
 // R315: the town walk help is a how-to line like the boss fight's move hint (R314), so adult mode reads it in kanji. Kids keep the hiragana one.
 function refreshWalkHelp(){const adult=g.mode==='adult';$('walk-sp').textContent=adult?'':' ';$('walk-verb').textContent=adult?'歩く':'あるく';$('walk-kbd').textContent=adult?'矢印・WASDでも歩く':'やじるし・WASDで あるく';}
 // R477: kids read 矢印 in kanji and 「 / 」 here while the boss fight's kids hint reads 「やじるし・WASD でも うごく」; kids now read やじるし・ too. 「でも」 is dropped so the longer kana line keeps clear of the 「はなす」 button, and it pairs with 「ドラッグで あるく」 above.// R391: the second line ended at でも and read as cut off, so it says 歩く to the end like the boss fight's move hint
-function applyMode(){window.RYW?.setMode?.(g.mode);refreshCommandLabels();refreshWeaponData();refreshWalkHelp();}
+// R661: in adult mode the park boards say 「公園」 (2 letters, not 4), so they no longer need the 224px that keeps こうえん between the posts;
+// they shrink to wAdult and stop being the biggest thing in the park. kids mode keeps the size from R289.
+function boardSizes(){for(const m of Object.values(GAME_DATA.maps))for(const o of m.objects||[])if(o.wAdult){o.wKids??=o.w;o.w=g.mode==='adult'?o.wAdult:o.wKids;o.h=Math.round(o.w*1.05);}}
+function applyMode(){boardSizes();window.RYW?.setMode?.(g.mode);refreshCommandLabels();refreshWeaponData();refreshWalkHelp();}
 const menuLabel=(adultText,kidsText)=>g.mode==='adult'?adultText:kidsText;
 // R321: every menu's back button read 「もどる」 under kanji in adult mode; it reads 「戻る」 there now, and kids keep 「もどる」.
 const backLabel=()=>menuLabel('戻る','もどる');

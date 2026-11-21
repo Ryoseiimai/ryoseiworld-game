@@ -31,7 +31,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // R289: at 240px the board stood far taller than the houses and trees around it (mobile-20); it keeps its feet and is now 224px like the town's board (below about 217px the 24px words would touch the posts).
  // R506: its whole bottom band blocked x 7.3-10.7, and with the ミナモ board (R505) right beside it only about 18px at x 11 was left for the hero to walk north into the park;
  // like the town's こうえん board only its left post blocks now, so the way in between the posts stays open.
- prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん',collider:{left:.22,right:.32,top:.85,bottom:1}}),
+ prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん',wAdult:160,collider:{left:.22,right:.32,top:.85,bottom:1}}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
  prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
