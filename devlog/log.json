@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-13T11:58:12.259Z",
-  "branch": "claude/autodev-20261113-2021-R534",
-  "task": "R534 戦闘で勝った後、うすくなった敵の体越しに足元の影が濃いまま見えて暗いしみに見えたので、影も敵と同じだけうすくした",
-  "summary": "戦闘で勝った後、うすい敵の体越しに足元の影が濃く見えていた\n影の濃さを敵と同じ割合でうすくし、テストを足した\n前と後のスクショを docs/shots/R534 に置いた（鍵ブランチへの push は許可が無く、鍵を取らずに動いた）",
-  "result": "pass",
-  "shots": [
-   "shots/931/mobile-02-mode-select.jpg",
-   "shots/931/mobile-19-custom-og-credit-card.jpg",
-   "shots/931/mobile-34-chapter-1-play.jpg",
-   "shots/931/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1d853ff",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43418221934"
- },
- {
   "at": "2026-11-13T12:57:38.230Z",
   "branch": "claude/autodev-20261113-2122-R535",
   "task": "R535 戦闘で呼び出しの演出の間、何が起きたかを書く文までうすくなって読みにくかったので、文の欄だけはうすくしないようにした",
@@ -2958,5 +2943,20 @@
   ],
   "sha": "4e63632",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44877410638"
+ },
+ {
+  "at": "2026-11-21T07:30:35.250Z",
+  "branch": "claude/autodev-20261121-1621-R664",
+  "task": "R664 友達の家のラグを届いた絵のしましまのラグに差し替え、低い机とビーズクッションを足した",
+  "summary": "友達の家のラグを、届いた絵のしましまのラグに差し替えた\n友達の家に、低い机とビーズクッションを足した。本だなの絵は実在のロボットに似たおもちゃがあるので使わなかった\n前と後のスクショを docs/shots/R664 に置き、テストを足した",
+  "result": "fail",
+  "shots": [
+   "shots/1169/mobile-02-mode-select.jpg",
+   "shots/1169/mobile-19-custom-og-credit-card.jpg",
+   "shots/1169/mobile-34-chapter-1-play.jpg",
+   "shots/1169/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ee9675c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44880040776"
  }
 ]
