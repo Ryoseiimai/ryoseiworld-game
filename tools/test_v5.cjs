@@ -3746,6 +3746,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // Dogs and cats stay walk-past, as in ch1 (R193).
   const dogs=Object.values(r.g.GAME_DATA.maps).flatMap(mm=>mm.objects.filter(o=>/(^|_)(dog|cat)$/.test(o.id||'')));assert(dogs.length>=2,'R501: the dog list is found');}
  result.push('R501: 主人公が人の絵を通り抜けず、横で止まって話せる PASS');
+ // R679: on the kick scooter (60 wide) the deck ran into the person at 36px (desktop-34), so riding outdoors stops 44px away; walking indoors keeps 36px.
+ {const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(16);const mo=r.g.GAME_DATA.maps.town.objects.find(o=>o.id==='mother'),mx=mo.x*48;
+  assert(r.g.GAME_DATA.maps.town.outside,'R679: the town is outside, so the hero rides');
+  r.key('ArrowLeft');r.tick(2500);r.key('ArrowLeft',true);r.tick(16);const p=r.g.position;
+  assert(p.x-mx>=42,'R679: riding, the hero stops at least 42px from the mother ('+(p.x-mx)+')');assert(p.x-mx<=50,'R679: the hero still comes close ('+(p.x-mx)+')');
+  r.g.interact();r.tick(16);assert(r.g.dialogue,'R679: the hero can still talk to the mother from the wider stop');
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');assert(html.includes('const HERO_PERSON_GAP={x:36,ride:44,up:14,down:24};'),'R679: walking keeps 36px, riding 44px');}
+ result.push('R679: キックボードの主人公は人から44px手前で止まり、絵が重ならない PASS');
  // R508: the last row of a long list sat 5px over the dashed line; the line is now drawn on the panel, 12px under the last whole row, and ▼ 続き and the buttons move down with it.
  {const fit=(html.match(/function fitModalCopy\(\)\{[^\n]*/)||[''])[0];
   assert(/const MODAL_GAP=12;function fitModalCopy/.test(html),'R508: a 12px gap under the last row');

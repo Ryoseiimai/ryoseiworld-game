@@ -818,8 +818,9 @@ const PERSON=o=>(o.kind==='npc'||o.kind==='npc2'||o.kind==='numberperson')&&o.id
 function personGap(m,x,y){let d=Infinity;for(const o of m.objects)if(PERSON(o)&&!gone(o))d=Math.min(d,Math.hypot(x-o.x*TILE,y-o.y*TILE));return d;}
 // R501: the hero walked a few px under a person's foot box and slid right through her (ch1 mother), so keep the hero's sprite beside a person, not on her.
 // A step that moves away from the person is always fine, so a hero dropped too close (spawn or warp) never gets stuck.
-function heroPersonNear(o,x,y){const dx=x-o.x*TILE,dy=y-o.y*TILE;return Math.abs(dx)<HERO_PERSON_GAP.x&&dy>-HERO_PERSON_GAP.up&&dy<HERO_PERSON_GAP.down;}
-const HERO_PERSON_GAP={x:36,up:14,down:24};
+// R679: on the kick scooter the hero's picture is 60 wide (walking 50), and at 36px the scooter's deck ran into the person beside it (desktop-34), so riding keeps 44px.
+function heroPersonNear(o,x,y){const dx=x-o.x*TILE,dy=y-o.y*TILE;return Math.abs(dx)<(heroKind()==='hero_ride'?HERO_PERSON_GAP.ride:HERO_PERSON_GAP.x)&&dy>-HERO_PERSON_GAP.up&&dy<HERO_PERSON_GAP.down;}
+const HERO_PERSON_GAP={x:36,ride:44,up:14,down:24};
 function heroPersonBlocked(x,y){return GAME_DATA.maps[g.map].objects.some(o=>PERSON(o)&&!/(^|_)(dog|cat)$/.test(o.id||'')&&!gone(o)&&o.collider!==false&&heroPersonNear(o,x,y)&&Math.hypot(x-o.x*TILE,y-o.y*TILE)<=Math.hypot(g.x-o.x*TILE,g.y-o.y*TILE));}
 function enemyStep(m,x,y,px,py){if(!enemyFree(m,x,y))return false;const d=personGap(m,x,y);return d>=PERSON_GAP||d>=personGap(m,px,py);}
 // Town noises pace near home and lean toward the player inside three tiles; they never step onto roads or into buildings.
