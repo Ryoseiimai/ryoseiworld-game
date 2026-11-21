@@ -131,5 +131,18 @@
     "requested_at": "2026-11-20T07:10:00+09:00",
     "done_at": "2026-11-20T07:19:58+09:00",
     "actual_size": "1024x1024"
+  },
+  {
+    "id": "art-20261121-1045-minamo_grandpa",
+    "file": "v5/assets/minamo_grandpa_sheet.png",
+    "size": "1024x1024",
+    "grid": "2x2",
+    "out": "v5/assets/minamo_grandpa",
+    "name": "minamo_grandpa",
+    "prompt": "Pixel art character sprite sheet, 2x2 grid, chibi RPG townsperson in the same style and proportions as the reference. A kind elderly librarian grandfather who loves owls: round glasses, neat white hair with a small knit beret, short white mustache, brown knit vest over a light blue shirt, dark grey trousers, holding a small book. Row 1: facing front, facing back. Row 2: facing left, facing right. Transparent background, no text, no shadow.",
+    "ref": "v5/assets/npc_sheet.png",
+    "status": "pending",
+    "task": "R660",
+    "requested_at": "2026-11-21T10:45:00+09:00"
   }
 ]

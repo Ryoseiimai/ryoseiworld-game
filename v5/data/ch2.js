@@ -72,7 +72,7 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  object('ml_shelf1','interior',2,1.8,4.2,110,130),object('ml_shelf2','interior',2,3.8,4.2,110,130),object('ml_shelf3','interior',2,7.6,4.2,110,130),object('ml_shelf4','interior',2,9.4,4.2,110,130),
  object('ml_search','interior',1,5.7,4.4,120,120,{label:'けんさくの きかい',event:'owlQuiz'}),
  object('ml_plant','interior',13,1.6,8.4,75,80),object('ml_clock','interior',14,5.7,1.9,70,70,{collider:false}),
- object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa'})],
+ object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa',coat:220,flip:true})],
  enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6],sign:'そとへ'}]};
 // The friend's house: the boy who may not go out.
 maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:13,spawn:[5,10],objects:[

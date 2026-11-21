@@ -3884,6 +3884,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!(clerk.kind==='npc'&&named.includes(named[clerk.frame])),'R659: the clerk is not one of the named npc people');
   const seen={};for(const o of Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='npc2'&&o.frame!==0)){const k=o.frame;assert(!seen[k],'R659: npc2 '+k+' is used by both '+seen[k]+' and '+o.id);seen[k]=o.id;}}
  result.push('R659: ネットカフェの店員が、ミナモのお母さんと違う絵で描かれる PASS');
+ // R660: ミナモの おじいちゃん used the very same picture as the ヒダマリ grandpa (npc 2); he now wears a recoloured jacket and faces the other way.
+ {const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects),find=id=>all.find(o=>o.id===id);
+  const town=find('grandpa'),lib=find('minamo_grandpa');assert(town&&lib,'R660: both grandfathers are found');
+  const look=o=>[o.kind,o.frame,o.coat??'',o.roof??'',!!o.flip].join('/');
+  assert(look(town)!==look(lib),'R660: the two grandfathers do not share a look');
+  assert(lib.coat!=null&&!town.coat,'R660: the ミナモ grandfather wears a recoloured jacket');
+  assert(/o\.coat!=null&&coatFrame\(o\.kind,o\.frame,o\.coat,o\.flip\)/.test(html),'R660: the map draws the coat copy');
+  assert(/function coatFrame\(kind,frame,hue,flip\)/.test(html)&&/coatFrames\[key\]=out/.test(html),'R660: the coat copy is made once and kept');}
+ result.push('R660: ミナモの おじいちゃんが、ヒダマリの おじいさんと違う上着で描かれる PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
