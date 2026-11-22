@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T09:10:19.734Z",
-  "branch": "claude/autodev-20261115-1721-R577",
-  "task": "R577 町で、おまわりさんの横の灰色の守護霊が肩に重なって汚れに見えていたので、下へずれた守護霊を横へ離した",
-  "summary": "町で、おまわりさんの横の守護霊が肩に重なっていたので横へ離した\n頭の横から下へずれた守護霊だけを、最大14px外へ出すようにした\n画面の端で切れない確認は、実際に描く位置で行うようにした",
-  "result": "pass",
-  "shots": [
-   "shots/1003/mobile-02-mode-select.jpg",
-   "shots/1003/mobile-19-custom-og-credit-card.jpg",
-   "shots/1003/mobile-34-chapter-1-play.jpg",
-   "shots/1003/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ef97d42",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43697022940"
- },
- {
   "at": "2026-11-15T09:49:01.459Z",
   "branch": "claude/autodev-20261115-1821-R578",
   "task": "R578 町で、ときどき横切るノイズの帯が、ほかの人の顔に重なって汚れに見えていたので、画面にいる人の顔の高さをよけるようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e1ef2cc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45079863549"
+ },
+ {
+  "at": "2026-11-22T23:38:25.467Z",
+  "branch": "claude/autodev-20261123-0821-R711",
+  "task": "R711 遊んで一番気になる所を1つ直す",
+  "summary": "電気屋の奥で、作業台とソファの下の床が空いていたので段ボールの山を置いた\n段ボールは右の壁と作業台にかからず、入口から外への道もふさがない\nそのことをテストに足し、全章のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1238/mobile-02-mode-select.jpg",
+   "shots/1238/mobile-19-custom-og-credit-card.jpg",
+   "shots/1238/mobile-34-chapter-1-play.jpg",
+   "shots/1238/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "fdccc6d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45083452835"
  }
 ]
