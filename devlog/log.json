@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T18:55:29.011Z",
-  "branch": "claude/autodev-20261115-0321-R562",
-  "task": "R562 チュートリアル戦で、呼び出しの窓や会話の箱が開いている間も「呼び出す」の金色の点線の枠が後ろで点滅していたので、窓が開いている間は枠を消した",
-  "summary": "呼び出しの窓が開いている間も「呼び出す」の点線の枠が後ろで点滅していた\n窓か会話の箱が開いている間は枠を消し、閉じたら戻すようにした。前と後の画像を置いた\n窓が開いている間に枠が消えるかを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/975/mobile-02-mode-select.jpg",
-   "shots/975/mobile-19-custom-og-credit-card.jpg",
-   "shots/975/mobile-34-chapter-1-play.jpg",
-   "shots/975/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2a22abd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43628123063"
- },
- {
   "at": "2026-11-14T18:56:51.694Z",
   "branch": "claude/autodev-20261115-0341-R562",
   "task": "R562 戦いの始めに「呼び出す」の窓を開いても、後ろのボタンの金色の点線の枠が点滅していたので、窓が開いている間は枠を止めた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "18a0bec",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45009345418"
+ },
+ {
+  "at": "2026-11-22T10:10:10.979Z",
+  "branch": "claude/autodev-20261122-1841-R694",
+  "task": "R694 塔1階の「外へ」の札が床のまん中に浮いて見えたので、床の一番下の段へ動かした",
+  "summary": "塔1階の「外へ」の札が床のまん中に浮いて見えたので、一番下の段へ動かした\n札が一番下の段にあり、そこから外へ出られることをテストにした\n手元のテストと全章のスクショ確認はすべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1213/mobile-02-mode-select.jpg",
+   "shots/1213/mobile-19-custom-og-credit-card.jpg",
+   "shots/1213/mobile-34-chapter-1-play.jpg",
+   "shots/1213/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e018020",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45009882903"
  }
 ]
