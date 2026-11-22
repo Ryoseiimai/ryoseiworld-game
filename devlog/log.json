@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T18:33:57.445Z",
-  "branch": "claude/autodev-20261115-0321-R562",
-  "task": "R562 遊んで一番気になる所を1つ直す",
-  "summary": "召喚の間、ソラの光の玉がナオスライムの頭の後ろから半分のぞいていた\n玉を呼んだ仲間の右に出し、少し小さくした。前と後の画像を置いた\n召喚の間に玉が仲間の右にあるかを調べるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/974/mobile-02-mode-select.jpg",
-   "shots/974/mobile-19-custom-og-credit-card.jpg",
-   "shots/974/mobile-34-chapter-1-play.jpg",
-   "shots/974/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "946a3ec",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43626173800"
- },
- {
   "at": "2026-11-14T18:55:29.011Z",
   "branch": "claude/autodev-20261115-0321-R562",
   "task": "R562 チュートリアル戦で、呼び出しの窓や会話の箱が開いている間も「呼び出す」の金色の点線の枠が後ろで点滅していたので、窓が開いている間は枠を消した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "4834fae",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45003287947"
+ },
+ {
+  "at": "2026-11-22T09:58:13.824Z",
+  "branch": "claude/autodev-20261122-1841-R694",
+  "task": "R694 遊んで一番気になる所を1つ直す",
+  "summary": "ミナモに着いた時、公園の砂場の端が地名の札の下で左の端に見えていたので、砂場を西へ2マス動かした\n砂場が着いた時の画面より西で終わることをテストにした\n手元のテストはすべて通った（失敗0件）",
+  "result": "pass",
+  "shots": [
+   "shots/1212/mobile-02-mode-select.jpg",
+   "shots/1212/mobile-19-custom-og-credit-card.jpg",
+   "shots/1212/mobile-34-chapter-1-play.jpg",
+   "shots/1212/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "18a0bec",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45009345418"
  }
 ]
