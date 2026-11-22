@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T22:52:14.755Z",
-  "branch": "claude/autodev-20261115-0721-R566",
-  "task": "R566 縦長のスマホで、画面の下の帯に木や人の色が縦のすじになってにじんでいたので、帯を端の行の平均の1色でうめた",
-  "summary": "R566: 縦長のスマホで、画面の下の帯に木や人の色が縦のすじになって出ていた\n上と下の帯を、ゲーム画面の端の行の平均の1色でうめるようにした\n帯の描き方を調べるテストを足し、前と後の画像を置いた",
-  "result": "pass",
-  "shots": [
-   "shots/986/mobile-02-mode-select.jpg",
-   "shots/986/mobile-19-custom-og-credit-card.jpg",
-   "shots/986/mobile-34-chapter-1-play.jpg",
-   "shots/986/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9187390",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43649063136"
- },
- {
   "at": "2026-11-14T23:44:32.913Z",
   "branch": "claude/autodev-20261115-0820-R567",
   "task": "R567 新しく始める人のタイトル画面で、押せない「続きから」が半分透けて字が薄かったので、透けない濃い地にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "2625e1b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45034176018"
+ },
+ {
+  "at": "2026-11-22T15:44:49.534Z",
+  "branch": "claude/autodev-20261123-0021-R702",
+  "task": "R702 自分の部屋のごみ箱と図書館の返却のワゴンが右の壁に少しはみ出していたので、床の上へ動かした",
+  "summary": "全章のスクショを確認役に見せ、建物の中の物が壁にはみ出す所を選んだ\n自分の部屋のごみ箱と図書館の返却のワゴンを、右の壁から床の上へ動かした\n建物の中の物が左右の壁にはみ出さないかを見るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1221/mobile-02-mode-select.jpg",
+   "shots/1221/mobile-19-custom-og-credit-card.jpg",
+   "shots/1221/mobile-34-chapter-1-play.jpg",
+   "shots/1221/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "09a0b0f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45039146666"
  }
 ]
