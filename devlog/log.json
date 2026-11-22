@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T07:38:06.827Z",
-  "branch": "claude/autodev-20261115-1541-R575",
-  "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
-  "summary": "ボス戦の始めの帯で、板と字を同じコマに出す直しを main に合わせた\nmain の R575 と番号がぶつかったので、この件を R576 に付け直した\nテストの名前と前後のスクショの名前も R576 に直した",
-  "result": "pass",
-  "shots": [
-   "shots/1001/mobile-02-mode-select.jpg",
-   "shots/1001/mobile-19-custom-og-credit-card.jpg",
-   "shots/1001/mobile-34-chapter-1-play.jpg",
-   "shots/1001/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fe0b396",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43689861475"
- },
- {
   "at": "2026-11-15T07:53:00.646Z",
   "branch": "claude/autodev-20261115-1541-R575",
   "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
@@ -2973,5 +2958,20 @@
   "shots": [],
   "sha": "032d35d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45073560377"
+ },
+ {
+  "at": "2026-11-22T21:58:26.014Z",
+  "branch": "claude/autodev-20261123-0621-R709",
+  "task": "R709 ネオンに着いた時、駅の右の床が空いて間延びしていたので、着いた画面に収まり1歩左では端に出ない所へ木を1本置いた",
+  "summary": "ネオンに着いた画面で、駅の右の床が空いていたので木を1本置いた\n木は着いた画面に収まり、1歩左へ動いた画面の端には切れて出ない\n東のランキングタワーへの道がふさがらないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1235/mobile-02-mode-select.jpg",
+   "shots/1235/mobile-19-custom-og-credit-card.jpg",
+   "shots/1235/mobile-34-chapter-1-play.jpg",
+   "shots/1235/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9a29f32",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45074167340"
  }
 ]
