@@ -4048,6 +4048,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('minamo_library',...lib.spawn);r.tick(32);r.key('ArrowDown');for(let i=0;i<160&&r.g.map==='minamo_library';i++){r.tick(16);while(r.g.dialogue)r.dialogue();}r.key('ArrowDown',true);
   assert.equal(r.g.map,'minamo','R696: walking south from the spawn still leads outside');}
  result.push('R696: 図書館の返却のワゴンが読書のラグの端に乗らず、受付の机のそばに立つ PASS');
+ // R698: the library clock hung at the foot of the wall, right on top of the search machine (mobile-30). It hangs higher, with a gap above the machine.
+ {const r=await runtime();r.tick();const lib=r.g.GAME_DATA.maps.minamo_library,ck=lib.objects.find(o=>o.id==='ml_clock'),sm=lib.objects.find(o=>o.id==='ml_search');
+  assert(ck&&sm&&Math.abs(ck.x-sm.x)<1,'R698: the clock still hangs over the search machine');
+  assert(ck.y*48-ck.h>=0,'R698: the clock top stays inside the back wall: '+(ck.y*48-ck.h));
+  assert(ck.y*48<=sm.y*48-sm.h-12,'R698: the clock keeps 12px or more clear above the search machine top: '+[ck.y*48,sm.y*48-sm.h]);}
+ result.push('R698: 図書館の時計が検索の機械の上にくっつかず、壁の高い所にかかる PASS');
  // R670: the library's own front desk art (library_desk frame 0) replaces the store counter removed in R669.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.library_desk,4,'R670: the library_desk sheet loads 4 frames');
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,desk=objs.find(o=>o.id==='ml_desk');
