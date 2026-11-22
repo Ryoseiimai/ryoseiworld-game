@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T07:53:00.646Z",
-  "branch": "claude/autodev-20261115-1541-R575",
-  "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
-  "summary": "ボス戦の始めの帯で、板と字を同じコマに出す直しを main に合わせた\nmain の R575 と番号がぶつかったので、この件を R576 に付け直した\nテストの名前と前後のスクショの名前も R576 に直した",
-  "result": "pass",
-  "shots": [
-   "shots/1002/mobile-02-mode-select.jpg",
-   "shots/1002/mobile-19-custom-og-credit-card.jpg",
-   "shots/1002/mobile-34-chapter-1-play.jpg",
-   "shots/1002/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "245584b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43690222314"
- },
- {
   "at": "2026-11-15T09:10:19.734Z",
   "branch": "claude/autodev-20261115-1721-R577",
   "task": "R577 町で、おまわりさんの横の灰色の守護霊が肩に重なって汚れに見えていたので、下へずれた守護霊を横へ離した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "9a29f32",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45074167340"
+ },
+ {
+  "at": "2026-11-22T23:01:51.954Z",
+  "branch": "claude/autodev-20261123-0721-R710",
+  "task": "R710 電気屋の奥で作業台とソファの下から入口までの床が空いて間延びしていたので、右下の角に段ボールの山を置いた",
+  "summary": "電気屋の奥で、作業台とソファの下の床が空いていたので段ボールの山を置いた\n段ボールは右の壁と作業台にかからず、入口から外への道もふさがない\nそのことをテストに足し、全章のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1237/mobile-02-mode-select.jpg",
+   "shots/1237/mobile-19-custom-og-credit-card.jpg",
+   "shots/1237/mobile-34-chapter-1-play.jpg",
+   "shots/1237/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e1ef2cc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45079863549"
  }
 ]
