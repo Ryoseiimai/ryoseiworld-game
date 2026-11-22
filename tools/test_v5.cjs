@@ -2235,7 +2235,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R340: おとなモードでバス停と駅の看板の「次のバスは…」「電車は止まっています」を漢字で出し、こどもモードは ひらがなのまま PASS');
  // R341: the town signs (地図の看板・貼り紙・ミナモとネオンの看板) speak in kanji in adult mode, like the R340 bus stop; Sora's lines and the narration keep the story kana, and kids keep the hiragana ones.
  for(const mode of ['adult','kids']){const adult=mode==='adult',r=await runtime();r.tick();r.start(mode);await settle();r.tick(3000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.tick(300);
-  const signs=[['town',12,27.1,adult?['看板','← 家　　コンビニ →\n↑ 電気屋　↓ 公園']:['かんばん','← おうち　　コンビニ →\n↑ でんきや　↓ こうえん']],
+  const signs=[['town',10.4,27.1,adult?['看板','← 家　　コンビニ →\n↑ 電気屋　↓ 公園']:['かんばん','← おうち　　コンビニ →\n↑ でんきや　↓ こうえん']],
    ['minamo',12.42,27.1,adult?['看板','ようこそ ミナモちょう。\n川と橋の町。']:['かんばん','ようこそ ミナモちょう。\nかわと はしの まち。'],'しずかすぎる。\nそとに だれも いない。'],
    ['minamo',20,8.6,adult?['看板','川で遊ぶときは\n大人と一緒に。']:['かんばん','かわで あそぶ ときは\nおとなと いっしょに。'],null,adult?['看板','（大人は\nスマホと一緒）']:['かんばん','（おとなは\nスマホと いっしょ）']],
    ['neon',11.4,15.4,adult?['看板','ようこそ ネオンシティ。\n光と数の町。']:['かんばん','ようこそ ネオンシティ。\nひかりと かずの まち。'],'みんなの あたまに\nかずが うかんでる…？']];
@@ -3113,6 +3113,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert.equal(m.tiles[Math.floor(s.y)][Math.floor(s.x)],'+','the ちず sign stands on the sidewalk');
   const r=await runtime();r.tick();r.g.debugWarp('town',6,25.5);r.tick(16);for(let x=9;x<=12.6;x+=.1)assert(!r.g.debugBlocked(x*48,25.5*48),'the start row (y 25.5) stays open past the ちず sign at x '+x.toFixed(1));}
  result.push('R272: 町の電柱が「ちず」の看板の上に立って見えない PASS');
+ // R684: on arrival in town (camera x = spawn*48-270) the ちず board stood at x 12 and half of it was cut at the right edge of the 540px view (mobile-25/33).
+ // The board and the postbox are now wholly inside the first view, with 6px or more to spare, and the walk up to the crow c1 stays open.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,cam=Math.max(0,m.spawn[0]*48-270);
+  for(const id of ['sign','post']){const o=m.objects.find(x=>x.id===id);assert(o,id+' is in town');const l=o.x*48-o.w/2-cam,r=o.x*48+o.w/2-cam;
+   assert(l>=6&&r<=534,'R684: '+id+' stands wholly inside the arrival view: '+l.toFixed(1)+'..'+r.toFixed(1));}
+  const s=m.objects.find(x=>x.id==='sign'),crow=m.enemies.find(e=>e.id==='c1'),r=await runtime();r.g.debugWarp('town',6,25.5);r.tick(50);
+  for(let y=crow.y;y<=crow.y+1.6;y+=.1)assert(!r.g.debugBlocked(crow.x*48,y*48),'R684: the walk up to the crow c1 stays open at y '+y.toFixed(1));
+  assert(Math.abs(s.x-6)*48>=150,'R684: the ちず board stays clear of the home door');}
+ result.push('R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS');
  // R273: the ちず and ミナモ boards share the park sign picture (props 11) but are w 104 and 136, so they kept the small round shadow between and below their two feet; now they use the two-feet shadow too.
  {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
   const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects);
