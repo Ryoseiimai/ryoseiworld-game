@@ -2941,10 +2941,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const lim=/&&t<(\d+)/.exec(m[1]);assert(lim&&Number(lim[1])<=900,'the Naoslime blocks stop by the heal at 0.9 s');}
  result.push('R219: ナオスライムを呼んだ後、水色の四角が足のように残らない PASS');
  // R225: the cherry tree by the town park sandbox stood on the sandbox's right rim and read as growing in the sand. It moved onto the grass column between the sand and the sidewalk.
- {const m=(await runtime()).g.GAME_DATA.maps.town,t=m.objects.find(o=>o.id==='tree7');assert(t,'the park cherry tree is found');
-  const row=m.tiles[Math.floor(t.y)],sandRight=row.lastIndexOf(':')+1;assert(sandRight>0,'the sandbox is on the tree row');
-  assert(row[Math.floor(t.x)]==='.','the tree stands on the park grass');
-  assert((t.x-sandRight)*48>=t.w*.2,'the grass tuft under the tree stays off the sandbox rim');}
+ // R688: the cherry tree left the park (it was cut in half at the arrival view's right edge), so every tree is checked: none stands in or on the sandbox's rim.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,trees=m.objects.filter(o=>/^tree/.test(o.id));assert(trees.length>=5,'the town still has its trees');
+  for(const t of trees){const row=m.tiles[Math.floor(t.y)],sandLeft=row.indexOf(':'),sandRight=row.lastIndexOf(':')+1;
+   assert(row[Math.floor(t.x)]!==':',t.id+' does not stand in the sandbox');
+   if(sandLeft>=0)assert(t.x*48+t.w*.2<=sandLeft*48||(t.x-sandRight)*48>=t.w*.2,t.id+' keeps its grass tuft off the sandbox rim');}}
  result.push('R225: 町の公園の桜の木が、砂場のふちに立たない PASS');
  // R226: in the own room the ↓ plate sat in the middle of the stairs picture and hid the stairwell. No plate is drawn on an exit that has stairs.
  {const r=await runtime();r.g.debugWarp('room');r.tick(300);while(r.g.dialogue)r.dialogue();r.canvasCalls.length=0;r.tick(16);
@@ -3126,6 +3127,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let y=crow.y;y<=crow.y+1.6;y+=.1)assert(!r.g.debugBlocked(crow.x*48,y*48),'R684: the walk up to the crow c1 stays open at y '+y.toFixed(1));
   assert(Math.abs(s.x-6)*48>=150,'R684: the ちず board stays clear of the home door');}
  result.push('R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS');
+ // R688: on arrival in town the park cherry tree (tree7, x 11.55, 118px) stood on the right edge of the 540px view and only its left half showed (mobile-25/33/34).
+ // No tree is now cut by the arrival view: each one is wholly inside it or wholly outside it.
+ {const m=(await runtime()).g.GAME_DATA.maps.town,cam=Math.max(0,m.spawn[0]*48-270);
+  assert(!m.objects.some(o=>o.id==='tree7'),'R688: the cut-off cherry tree is gone from the sandbox side');
+  const camY=Math.min(Math.max(0,m.spawn[1]*48-480),m.h*48-960);
+  for(const o of m.objects.filter(o=>/^tree/.test(o.id))){const l=o.x*48-o.w/2-cam,r=o.x*48+o.w/2-cam,feet=o.y*48-camY;if(feet<=0||feet-(o.h||o.w)>=960)continue;
+   assert(r<=0||l>=540||(l>=0&&r<=540),'R688: '+o.id+' is not cut by the arrival view edge: '+l.toFixed(1)+'..'+r.toFixed(1));}}
+ result.push('R688: 町に着いた時、公園の桜の木が右端で半分に切れない PASS');
  // R685: tower floor 1 had no down pad, so its upper left and lower left were bare blue grid (mobile-39/40). A data pillar and a broken CRT fill them,
  // inside the floor, off the virus ball's lane, the そとへ plate and the walk from the spawn to the up pad, the guide and the cables.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower1,ball=m.enemies.find(e=>e.id==='tz1'),p=m.portals[0];

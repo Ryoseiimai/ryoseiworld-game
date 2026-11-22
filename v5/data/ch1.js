@@ -34,7 +34,7 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // R251: the board still reached about 80px up over the road rows 26-28 (mobile-25), so the sign stands 1.7 tiles deeper in the park, the pond moved one tile west so the left post stands on grass, and the bench sits centred between the posts.
  // R206: the park sign (240px, feet at y 30.4) hung its board over the road rows 26-28 (mobile-25), so it is as small as its 24px words allow and stands a little deeper in the park, east of the pond; only its left post blocks, so the way into the park stays open.
  // R208: grandpa, the kid in the sandbox and the musician stood within three tiles, and their three grey spirits bunched over the sandbox like the town noises (mobile-25),
- // so grandpa stands west of the bench and the musician plays in the corner under the cherry tree.
+ // so grandpa stands west of the bench and the musician plays in the corner east of the sandbox.
  // R238: grandpa's spirit floated over the pond (mobile-25); spirits now keep off water and he stands a little east, so it floats over the bench side, clear of the pond's edge.
  // R263: on the bench side his spirit then floated on the sign's left post (mobile-25), so he stands a quarter tile west and it floats over his head, between the pond's rim and the post.
  // R207: after R206 the sign's right post stood right behind the bench (mobile-25), so the bench sits lower, between the pond and the sandbox, next to grandpa.
@@ -50,8 +50,8 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  ...props('edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  ...props('tree',0,130,[[2.6,5,1],[10.9,5.2],[2.8,7.8],[2,15,1],[27,12.5],[27.3,21,1]]),
  // R225: the cherry tree by the park sandbox (sand x 8-10) stood on the sandbox's right rim, so it read as growing in the sand (mobile-24).
- // It sits on the one grass column between the sand and the sidewalk, a bit smaller so its grass tuft stays off the rim.
- prop('tree7',1,11.55,32.4,118),
+ // R688: it then stood on the one grass column between the sand and the sidewalk (x 11.55), right on the right edge of the town's arrival view (x 0.4-11.6),
+ // so only its left half showed beside the 話す button (mobile-25/33/34). That column has no room for a 118px tree wholly in or out of view, so the tree is gone.
  // R213: a signal's pole is at the left of its picture (about 25px left of x), so on the east sidewalk (x 17) the pole base stood on the road (mobile-16); those signals sat 0.6 tile east (R236: now mirrored, see below).
  // R218: on the west sidewalk (x 12) each post stood about half a tile under the one above (a pole on the bus stop sign, a signal on a pole's top), so they read as one tall post.
  // The two signals moved up their sidewalk row and the pole north of the bus stop moved up, so every post on one sidewalk starts at least 40px under the one above.
