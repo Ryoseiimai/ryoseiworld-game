@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T11:49:11.561Z",
-  "branch": "claude/autodev-20261114-2021-R554",
-  "task": "R554 ボス戦の始めの「キックボードが浮かんだ」の帯が消える途中、薄い板に灰色の字が出て読みにくかったので、字を先に消して板を後から消した",
-  "summary": "ボス戦の始めの帯が消える途中、薄い板に灰色の字が出ていた\n字は板が濃いうちに消し、板は前と同じ時間で消えるようにした\n板と字の濃さと、ボスが板にかからないことをテストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/961/mobile-02-mode-select.jpg",
-   "shots/961/mobile-19-custom-og-credit-card.jpg",
-   "shots/961/mobile-34-chapter-1-play.jpg",
-   "shots/961/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5c1b13c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43590680926"
- },
- {
   "at": "2026-11-14T12:47:32.304Z",
   "branch": "claude/autodev-20261114-2121-R555",
   "task": "R555 上の場所の名前の板が薄くなる時、後ろの塔や家の線が字の真後ろに見えて読みにくかったので、板の後ろをぼかした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "8153535",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44966928950"
+ },
+ {
+  "at": "2026-11-22T01:52:08.472Z",
+  "branch": "claude/autodev-20261122-1020-R684",
+  "task": "R684 町に着いた時、ちずの看板と電柱が画面の右端で半分切れていたので、看板を西へ動かし、ポストを北西の芝生へ移した",
+  "summary": "全章のスクショを確認役に見せ、町に着いた画面で右端が切れる看板を直す所に選んだ\nちずの看板を x12 から10.4へ、電柱を11.4へ、ポストを北西の芝生へ動かした\n看板とポストが着いた画面に全部入ることと、カラスへの道が空いていることのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1200/mobile-02-mode-select.jpg",
+   "shots/1200/mobile-19-custom-og-credit-card.jpg",
+   "shots/1200/mobile-34-chapter-1-play.jpg",
+   "shots/1200/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7b33e40",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44972722904"
  }
 ]
