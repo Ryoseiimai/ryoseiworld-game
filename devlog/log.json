@@ -1,30 +1,5 @@
 [
  {
-  "at": "2026-11-15T07:01:05.549Z",
-  "branch": "claude/autodev-20261115-1521-R575",
-  "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
-  "summary": "縦長のスマホのカテイノジジョウ戦で、上の帯に夕焼けが赤茶色ににじんでいた\n縦長の画面の時だけ、上下の帯をぼかした絵でなく暗い1色にした\nR575 のテストと、前と後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/999/mobile-02-mode-select.jpg",
-   "shots/999/mobile-19-custom-og-credit-card.jpg",
-   "shots/999/mobile-34-chapter-1-play.jpg",
-   "shots/999/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "cc0117c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687203348"
- },
- {
-  "at": "2026-11-15T07:02:17.718Z",
-  "branch": "claude/autodev-20261115-1541-R575",
-  "task": "R575 ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていたので、板と字を同じコマで出すようにした",
-  "summary": "R575: ボス戦の始めの帯で、字の無い暗い板だけが一瞬見えていた\n板と字を、薄い途中なしで同じコマに出すようにした\nR575 のテストと、前と後のスクショを足した",
-  "result": "conflict",
-  "shots": [],
-  "sha": "8321ae1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43687985156"
- },
- {
   "at": "2026-11-15T07:38:06.827Z",
   "branch": "claude/autodev-20261115-1541-R575",
   "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
@@ -2973,5 +2948,30 @@
   ],
   "sha": "b462969",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45071928751"
+ },
+ {
+  "at": "2026-11-22T21:45:56.996Z",
+  "branch": "claude/autodev-20261123-0621-R709",
+  "task": "R709 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役が見て、気になる所を4つ挙げた\n戦闘のソラの名札は24pxで描いていて、決まりどおりだった\nランクの人の顔なし・話すボタン・塔の目標の枠は直す所ではないので、変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1233/mobile-02-mode-select.jpg",
+   "shots/1233/mobile-19-custom-og-credit-card.jpg",
+   "shots/1233/mobile-34-chapter-1-play.jpg",
+   "shots/1233/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "98d8f05",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45073023093"
+ },
+ {
+  "at": "2026-11-22T21:47:30.374Z",
+  "branch": "claude/autodev-20261123-0621-R709",
+  "task": "R709 ネオンに着いた時、駅の右の床が空いて間延びしていたので、着いた画面に収まり1歩左では端に出ない所へ木を1本置いた",
+  "summary": "ネオンに着いた画面で、駅の右の床が空いていたので木を1本置いた\n木は着いた画面に収まり、1歩左へ動いた画面の端には切れて出ない\n東のランキングタワーへの道がふさがらないことをテストに足した",
+  "result": "fail",
+  "shots": [],
+  "sha": "032d35d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45073560377"
  }
 ]
