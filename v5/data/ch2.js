@@ -35,7 +35,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // like the town's こうえん board only its left post blocks now, so the way in between the posts stays open.
  prop('minamo_parksign',11,9,26.6,224,{sign:'こうえん',wAdult:200,collider:{left:.22,right:.32,top:.85,bottom:1}}),
  prop('minamo_river',11,20,7.4,80,{dialogue:'minamoRiver'}),
- prop('minamo_bench',4,5.4,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
+ // R686: on arrival the camera shows x 5.27-16.5, and the bench (x 4.5-6.3) stood half cut at the left edge (mobile-29/35). It cannot move east (it keeps 24px off the park board's posts),
+ // so it stands 1.15 tiles west, wholly outside the arrival view, still on the grass under the sand, between the flower bed and the bin, with the dog at its feet.
+ prop('minamo_bench',4,4.25,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
  // R540: the park tree at 10,22.6 showed only its foot as a thin strip right under the goal line on arrival; it moved north to 21.3 so the place box hides its foot on a phone.
  // R548: at 130 its crown still peeked out as a dark tuft between the top of the screen and the place box on arrival (mobile-29).

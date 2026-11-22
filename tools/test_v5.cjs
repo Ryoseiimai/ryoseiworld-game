@@ -3132,6 +3132,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y>=3.5;y-=.1)assert(!r.g.debugBlocked(5*48,y*48),'the walk north from the spawn stays open at y '+y.toFixed(1));
   for(let x=5;x<=8.4;x+=.1)assert(!r.g.debugBlocked(x*48,3.5*48+40)||x>7.4,'the walk east to the up pad stays open at x '+x.toFixed(1));}
  result.push('R685: 塔1階の左上と左下に、データの柱と壊れたテレビを置いた PASS');
+ // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
+ // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
+ {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
+  const l=b.x*48-b.w/2,r=b.x*48+b.w/2;assert(r<=left||(l>=left+6&&r<=left+534),'R686: the bench is not cut by the side edge on arrival ('+l.toFixed(1)+'..'+r.toFixed(1)+', view from '+left.toFixed(1)+')');
+  assert(l>=0,'R686: the bench stays on the map');
+  for(const dx of [-.9,0,.9])assert.equal(m.tiles[Math.floor(b.y)][Math.floor(b.x+dx)],'.','R686: the bench stands on grass');
+  for(const o of m.objects.filter(x=>x!==b&&x.kind==='props'&&Math.abs(x.y-b.y)<=1.6))assert(Math.abs(o.x-b.x)*48>=(o.w+b.w)/2+8,'R686: the bench keeps off '+o.id);
+  assert(Math.abs(d.x-b.x)*48>=(d.w+b.w)/2||(d.y-b.y)*48>=d.h,'R686: the dog does not stand inside the bench');}
+ result.push('R686: ミナモに着いた時、公園のベンチが画面の左端で半分切れない PASS');
  // R273: the ちず and ミナモ boards share the park sign picture (props 11) but are w 104 and 136, so they kept the small round shadow between and below their two feet; now they use the two-feet shadow too.
  {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
   const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects);

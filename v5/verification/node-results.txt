@@ -332,6 +332,7 @@ R271: ミナモの看板の板が、車道にかからない PASS
 R272: 町の電柱が「ちず」の看板の上に立って見えない PASS
 R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS
 R685: 塔1階の左上と左下に、データの柱と壊れたテレビを置いた PASS
+R686: ミナモに着いた時、公園のベンチが画面の左端で半分切れない PASS
 R273: 「ちず」と「ミナモ」の看板の影が、2本の柱の足元をつなぐ PASS
 R257: 暗い床の上のノイズに、うすい光の輪がある PASS
 R258: 1しょうの始めに、「はなす」ボタンの下に人がいない PASS
@@ -504,5 +505,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 101ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 94ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
