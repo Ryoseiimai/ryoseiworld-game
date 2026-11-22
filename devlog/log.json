@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T03:58:51.681Z",
-  "branch": "claude/autodev-20261115-1221-R571",
-  "task": "R571 章の終わりの札の両はしに、後ろの薄い家の切れはしが緑と灰色の汚れのように残っていたので、札の画面では家を札の真後ろへ寄せた",
-  "summary": "R571: 章の終わりの札の両はしに、後ろの薄い家の切れはしが残っていた\n札の画面では家2つを札の真後ろへ寄せ、タイトルでは元の場所のままにした\n家が札の外にはみ出さないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/993/mobile-02-mode-select.jpg",
-   "shots/993/mobile-19-custom-og-credit-card.jpg",
-   "shots/993/mobile-34-chapter-1-play.jpg",
-   "shots/993/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "85f1eab",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43673673322"
- },
- {
   "at": "2026-11-15T04:20:04.542Z",
   "branch": "claude/autodev-20261115-1241-R572",
   "task": "R572 ボス戦の台詞が出てくる一瞬、透けた地に灰色の字が見えていたので、地が85%まで出てから字を出すようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "20695d3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45056454326"
+ },
+ {
+  "at": "2026-11-22T19:33:46.941Z",
+  "branch": "claude/autodev-20261123-0421-R707",
+  "task": "R707 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショで、設定とメニューの窓が夜空だけの上に浮いて見えた\n確かめ用の入口をフィールドの上で開くようにし、テストを1つ足した\n他の4つは確かめた。札は24px、ボスの台詞の名前はR557の決まり、家の影は絵の通り",
+  "result": "pass",
+  "shots": [
+   "shots/1228/mobile-02-mode-select.jpg",
+   "shots/1228/mobile-19-custom-og-credit-card.jpg",
+   "shots/1228/mobile-34-chapter-1-play.jpg",
+   "shots/1228/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c68f75d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45060327411"
  }
 ]
