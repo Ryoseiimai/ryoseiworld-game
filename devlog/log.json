@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T19:54:29.313Z",
-  "branch": "claude/autodev-20261115-0436-R563",
-  "task": "R563 遊んで一番気になる所を1つ直す",
-  "summary": "03時41分の枝は、合流済みの R562 と同じ件を作っていて main と衝突した\n衝突は main の側を残して直した。main の方が会話の箱まで扱っていて広い\n重なった前後の画像はこの枝から外した。中身の変更は無い",
-  "result": "pass",
-  "shots": [
-   "shots/980/mobile-02-mode-select.jpg",
-   "shots/980/mobile-19-custom-og-credit-card.jpg",
-   "shots/980/mobile-34-chapter-1-play.jpg",
-   "shots/980/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "af50366",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43633621255"
- },
- {
   "at": "2026-11-14T20:07:24.784Z",
   "branch": "claude/autodev-20261115-0436-R563",
   "task": "R563 戦いに勝った後、灰色になったコマンドのボタンが透けて後ろの波の模様が字の後ろに見えていたので、ボタンの地を透けない濃い色にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "62e8b9a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45013506360"
+ },
+ {
+  "at": "2026-11-22T11:46:06.390Z",
+  "branch": "claude/autodev-20261122-2022-R697",
+  "task": "R697 町の公園の砂場の子が砂場の枠の上に立って見えたので、4分の1マス下の砂の上へ動かした",
+  "summary": "町の公園で、ゲームの子が砂場の木の枠の上に立って見えたので、4分の1マス下の砂の上へ動かした\n子の足が枠より下の砂にあることをテストにした。髪どめから1.6マス、話すボタンから12px以上はそのまま\n手元のテストと全章のスクショ確認はすべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1216/mobile-02-mode-select.jpg",
+   "shots/1216/mobile-19-custom-og-credit-card.jpg",
+   "shots/1216/mobile-34-chapter-1-play.jpg",
+   "shots/1216/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "93db932",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45018132859"
  }
 ]
