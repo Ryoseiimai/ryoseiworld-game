@@ -65,7 +65,9 @@ maps.minamo.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
  if(y<2)return '.';
  if(y>=3&&y<=5)return '~';
  if(y===6||y===7)return '+';
- if(x>=3&&x<=6&&y>=22&&y<=23)return ':';
+ // R693: at x 3-6 the sand reached x 7, so on arrival (view from x 5.27) its east end showed as a brown sliver under the place box at the left edge (mobile-29).
+ // It moved two tiles west (x 1-4) so it ends before the arrival view; the boss (x 3.8) still stands on it.
+ if(x>=1&&x<=4&&y>=22&&y<=23)return ':';
  if((x>=14&&x<=15&&y>=8)||(y>=18&&y<=19)||(y>=28&&y<=29))return '=';
  if((x===13||x===16)&&y>=8||y===17||y===20||y===27||y===30)return '+';
  return '.';

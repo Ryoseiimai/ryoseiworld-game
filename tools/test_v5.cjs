@@ -3158,6 +3158,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
   const l=b.x*48-b.w/2,r=b.x*48+b.w/2;assert(r<=left||(l>=left+6&&r<=left+534),'R686: the bench is not cut by the side edge on arrival ('+l.toFixed(1)+'..'+r.toFixed(1)+', view from '+left.toFixed(1)+')');
   assert(l>=0,'R686: the bench stays on the map');
+  {const left=m.spawn[0]-270/48,sand=[];for(const y of [22,23])m.tiles[y].split('').forEach((c,x)=>{if(c===':')sand.push(x);});assert(sand.length,'R693: the park sand is still there');assert(Math.max(...sand)+1<=left,'R693: the park sand ends before the arrival view (ends at x '+(Math.max(...sand)+1)+', view from '+left.toFixed(2)+')');}
   for(const dx of [-.9,0,.9])assert.equal(m.tiles[Math.floor(b.y)][Math.floor(b.x+dx)],'.','R686: the bench stands on grass');
   for(const o of m.objects.filter(x=>x!==b&&x.kind==='props'&&Math.abs(x.y-b.y)<=1.6))assert(Math.abs(o.x-b.x)*48>=(o.w+b.w)/2+8,'R686: the bench keeps off '+o.id);
   assert(Math.abs(d.x-b.x)*48>=(d.w+b.w)/2||(d.y-b.y)*48>=d.h,'R686: the dog does not stand inside the bench');}
