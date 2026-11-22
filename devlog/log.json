@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T20:07:24.784Z",
-  "branch": "claude/autodev-20261115-0436-R563",
-  "task": "R563 戦いに勝った後、灰色になったコマンドのボタンが透けて後ろの波の模様が字の後ろに見えていたので、ボタンの地を透けない濃い色にした",
-  "summary": "03時41分の R562 の枝の衝突を、main の側を残して直した。自動確認に通った\nR563: 勝った後の灰色のボタンが透けていたので、地を透けない濃い色にした\nボタンの地が透けないかを調べるテストを足し、前と後の画像を置いた",
-  "result": "pass",
-  "shots": [
-   "shots/981/mobile-02-mode-select.jpg",
-   "shots/981/mobile-19-custom-og-credit-card.jpg",
-   "shots/981/mobile-34-chapter-1-play.jpg",
-   "shots/981/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3f413fc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43634691882"
- },
- {
   "at": "2026-11-14T21:02:19.731Z",
   "branch": "claude/autodev-20261115-0521-R564",
   "task": "R564 召喚の間、呼んだ仲間の後ろに敵の黒い影が透けて汚れに見えていたので、召喚の間は敵と足元の影を消した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "93db932",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45018132859"
+ },
+ {
+  "at": "2026-11-22T12:45:45.799Z",
+  "branch": "claude/autodev-20261122-2121-R698",
+  "task": "R698 図書館の時計が検索の機械の真上にくっついて見えたので、壁の高い所へ上げた",
+  "summary": "図書館の時計が検索の機械の真上にくっついて見えたので、壁の高い所へ上げた\n時計の下と機械の上の間が12px以上あき、時計が壁の中に収まることをテストにした\n手元のテストと全章のスクショ確認はすべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1217/mobile-02-mode-select.jpg",
+   "shots/1217/mobile-19-custom-og-credit-card.jpg",
+   "shots/1217/mobile-34-chapter-1-play.jpg",
+   "shots/1217/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "29fe472",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45023139357"
  }
 ]
