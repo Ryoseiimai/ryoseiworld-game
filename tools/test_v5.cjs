@@ -4179,6 +4179,17 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/props/props_r3_c2.png')),'R680: the bin is drawn');
   r.g.debugWarp('store',sh.x,sh.y+0.9);r.g.debugFace(3);r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('3ぷん')),'R680: the hero can check the second shelf');while(r.g.dialogue)r.dialogue();}
  result.push('R680: コンビニの右下の空いた床に、お菓子の棚とごみ箱を出口への道をふさがずに置く PASS');
+ // R711: the store's lower left floor under the magazine rack was empty (mobile-27); a potted plant stands there, inside the left wall,
+ // below the rack, clear of the door column, and the walk from the spawn down to the door stays open.
+ {const r=await runtime();r.tick();const st=r.g.GAME_DATA.maps.store,objs=st.objects,[sx,sy]=st.spawn,door=st.portals[0],pl=objs.find(o=>o.id==='storeplant'),mg=objs.find(o=>o.id==='magazine');
+  assert(pl&&pl.kind==='interior'&&pl.frame===13,'R711: a potted plant stands in the store');
+  assert(pl.x*48-pl.w/2>=0,'R711: the plant stays inside the left wall');assert(pl.y<=st.h-1,'R711: the plant stays above the bottom wall');
+  assert(pl.y*48-pl.h>mg.y*48,'R711: the plant top stands below the magazine rack foot');
+  assert(Math.abs(pl.x-sx)*48>=pl.w/2+24&&Math.abs(pl.x-door.x)*48>=pl.w/2+24,'R711: the plant stays off the spawn-to-door column');
+  for(const q of objs.filter(q=>q!==pl&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-pl.x)*48>=(q.w+pl.w)/2||Math.abs(q.y-pl.y)*48>=40,'R711: the plant does not sit on '+q.id);
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
+  for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R711: the walk from the spawn to the door is open at y '+y);}
+ result.push('R711: コンビニの左下の空いた床に鉢植えを置き、壁と雑誌の棚にかからず、出口への道はふさがらない PASS');
  // R681: my room's lower floor was empty (mobile-26), so a second plant stands in the lower left corner and a bin in the lower right one, off the stairs, the exit plate and the cushion.
  {const r=await runtime();r.tick();const rm=r.g.GAME_DATA.maps.room,objs=rm.objects,door=rm.portals[0];
   const sh=objs.find(o=>o.id==='plant2'),bin=objs.find(o=>o.id==='roombin'),stairs=objs.find(o=>o.id==='stairs'),cushion=objs.find(o=>o.id==='cushion');
