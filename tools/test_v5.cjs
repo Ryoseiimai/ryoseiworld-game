@@ -4054,6 +4054,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ck.y*48-ck.h>=0,'R698: the clock top stays inside the back wall: '+(ck.y*48-ck.h));
   assert(ck.y*48<=sm.y*48-sm.h-12,'R698: the clock keeps 12px or more clear above the search machine top: '+[ck.y*48,sm.y*48-sm.h]);}
  result.push('R698: 図書館の時計が検索の機械の上にくっつかず、壁の高い所にかかる PASS');
+ // R699: the friend's feet stood on the striped rug's top fringe (mobile-31). He stands on the bare floor north of it and can still be talked to.
+ {const r=await runtime();r.tick();const objs=r.g.GAME_DATA.maps.minamo_friend.objects,boy=objs.find(o=>o.id==='minamo_boy'),rug=objs.find(o=>o.id==='mf_rug');
+  assert(boy&&rug&&Math.abs(boy.x-rug.x)<1.5,'R699: the boy still stands by the rug');
+  assert(boy.y*48<=rug.y*48-rug.h+30,'R699: the boy feet stay above the rug fringe: '+[boy.y*48,rug.y*48-rug.h]);
+  assert(boy.y*48-boy.h>=objs.find(o=>o.id==='mf_sofa').y*48-110,'R699: the boy does not go up into the wall');
+  assert(talk(r,'minamo_friend',4.6,7.6).length>0,'R699: the boy can be talked to from the rug');while(r.g.dialogue)r.dialogue();}
+ result.push('R699: 友達の家の友達が、ラグの房の上でなく床の上に立つ PASS');
  // R670: the library's own front desk art (library_desk frame 0) replaces the store counter removed in R669.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.library_desk,4,'R670: the library_desk sheet loads 4 frames');
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,desk=objs.find(o=>o.id==='ml_desk');
