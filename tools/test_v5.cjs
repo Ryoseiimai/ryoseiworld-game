@@ -174,7 +174,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  if(t.g.battery<100){t.button(t.g.state.mode==='kids'?'じゅうでん':'充電');assert.equal(t.g.battery,100);assert.equal(t.g.state.money,cash-105);}t.button('ありがとう');assert.equal(t.g.questStep,'recruit');
  result.push('3 ordinary wins → police key → store register, battery purchase (75) and paid charge (30) PASS');
  t.g.debugWarp('town',22,8.7);t.tick(1300);walkUp(t);assert.equal(t.g.map,'electric');assert(t.g.dialogue.lines[0][1].includes('あけた'));t.dialogue();
- const before=t.g.battery;assert(talk(t,'electric',7,8.0).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
+ const before=t.g.battery;assert(talk(t,'electric',8,8.0).includes('つないだ'));t.dialogue();t.tick(16);assert(!t.els.get('talk-btn').hidden,'はなす shows again once the dialogue closes');assert(t.g.summons.includes('code'));assert.equal(t.g.state.items.battery,0);assert.equal(t.g.battery,before,'recruiting no longer refills the battery');
  // BUG KING (SPEC_V6.md 4): the talk, the kickboard lifts, then the side-scrolling battle opens with the hero's weapons.
  t.g.debugWarp('electric',5,5.8);t.g.debugFace(3);t.click('talk-btn');assert(t.g.dialogue.lines.some(l=>l[1].includes('むりだ')));t.dialogue();
  assert(t.g.lift,'the kickboard lifts after the talk');assert.equal(t.g.screen,'field');assert(!t.g.battle,'no command battle for the boss');
@@ -4058,6 +4058,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('electric',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'electric');
   r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/repair_bench/repair_bench_r0_c0.png')),'R673: the workbench picture is drawn');}
  result.push('R673: 電気屋の奥の右の空いた所に、届いた修理の机を道をふさがずに置く PASS');
+ // R689: the server rack's box reached 37px into the TV pile's box, so the rack's top-left sat on the pile's right screens (mobile-28).
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.electric,o=m.objects.find(x=>x.id==='boss'),sv=m.objects.find(x=>x.id==='server');
+  const side=(sv.x*48-sv.w/2)-(o.x*48+o.w/2),under=(sv.y*48-sv.h)-o.y*48;assert(side>=8||under>=8,'R689: the server box is '+side.toFixed(0)+'px right of the TV pile box (8 or more) or '+under.toFixed(0)+'px under it');
+  assert(sv.x*48+sv.w/2<=m.w*48-24,'R689: the server stays inside the room with the wall edge clear');
+  const b=m.objects.find(x=>x.id==='bench');assert(b.y*48-b.h-sv.y*48>=8,'R689: the workbench top stays under the server feet');
+  r.g.state.items.battery=1;assert(talk(r,'electric',sv.x,sv.y+0.9).includes('つないだ'),'R689: the server itself answers from below it');}
+ result.push('R689: 電気屋の奥のサーバーがテレビの山に重ならない PASS');
  // R674: on the tower floors the goal strip's dark green ground melted into the navy surround, so only its words seemed to float. There it gets the tower's navy ground and a blue edge.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('tower1',5,8);r.tick(32);while(r.g.dialogue)r.dialogue();r.tick(32);assert.equal(r.g.map,'tower1');

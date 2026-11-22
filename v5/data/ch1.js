@@ -115,9 +115,11 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
 // never showed (the floor looked cut off under the goal strip). It is 14 rows now like my room and the library, so it stays still with its wall in view.
 // Everything moved 3 rows up; the TV pile (5.6) and the server (7.1) moved less, so the pile top stays under the wall lip and 1.5 rows stay between them.
 // The bench moved 2.5 rows (12.2 to 9.7), so it still stands 2.5 rows or more below the server (R673).
+// R689: the server box (x 7, 110 wide) reached 37px into the TV pile box (x 5, 156 wide), so the rack's top-left sat on the pile's
+// right screens (mobile-28). It moved one tile east, so the two boxes keep 11px apart side by side; the 1.5 rows to walk between them stay.
 maps.electric={name:'でんきや・ジャンクの おく',short:'でんきやの おく',shortAdult:'電気屋の奥',w:11,h:14,spawn:[5,11],objects:[
  object('sofa','interior',12,1.9,9.4,110,110),object('repair','npc',15,3.6,10.1,48,65,{event:'repair'}),
- object('server','interior',10,7,7.1,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
+ object('server','interior',10,8,7.1,110,140,{label:'サーバー',action:'recruit',summon:'code',needs:'battery',needsDialogue:'serverLow',dialogue:'server',repeatDialogue:'codeIdle'}),
  object('boss','interior',9,5,5.6,156,156,{label:'テレビの やま',action:'boss',enemy:'bugking',requires:'code',dialogue:'boss',lockedDialogue:'bossLocked',clearedDialogue:'tv'}),
  // R672: junk2 was the boss TV pile (interior 9) drawn smaller, so two of the same pile stood in the room and it was unclear
  // which one to check; it was taken out (the console shelf, interior 8, stays unused: F03), so only the boss is a TV pile.
