@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T12:47:32.304Z",
-  "branch": "claude/autodev-20261114-2121-R555",
-  "task": "R555 上の場所の名前の板が薄くなる時、後ろの塔や家の線が字の真後ろに見えて読みにくかったので、板の後ろをぼかした",
-  "summary": "上の場所の名前の板が薄い時、後ろの塔や家の線が字の真後ろに見えていた\n板が薄い間だけ、板の後ろの絵を4pxぼかし、建物は色だけ見えるようにした\nぼかしが上の板だけに付くことをテストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/962/mobile-02-mode-select.jpg",
-   "shots/962/mobile-19-custom-og-credit-card.jpg",
-   "shots/962/mobile-34-chapter-1-play.jpg",
-   "shots/962/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e310586",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43595582398"
- },
- {
   "at": "2026-11-14T12:59:45.404Z",
   "branch": "claude/autodev-20261114-2121-R555",
   "task": "R555 上の場所の名前の板が薄くなる時、後ろの塔や家の線が字の真後ろに見えて読みにくかったので、板の後ろをぼかした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "7b33e40",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44972722904"
+ },
+ {
+  "at": "2026-11-22T02:56:34.120Z",
+  "branch": "claude/autodev-20261122-1121-R685",
+  "task": "R685 塔1階は下への床が無く左上と左下が空いて間延びしていたので、左上にデータの柱、左下に壊れたテレビを置いた",
+  "summary": "全章のスクショを確認役に見せ、塔1階の左側の床が空いている所を直す所に選んだ\n塔1階の左上にデータの柱、左下に壊れたテレビを、敵の通り道と外への札をよけて置いた\n2つが床の中にあり、通り道と上への床までの道をふさがないことのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1201/mobile-02-mode-select.jpg",
+   "shots/1201/mobile-19-custom-og-credit-card.jpg",
+   "shots/1201/mobile-34-chapter-1-play.jpg",
+   "shots/1201/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "506673c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44977651009"
  }
 ]
