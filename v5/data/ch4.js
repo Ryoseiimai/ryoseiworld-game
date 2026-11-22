@@ -20,7 +20,8 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  tower('tw1_pillar',10,2.1,4.2,80,100),tower('tw1_crt',5,2.1,11.8,80,80)],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
  // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
- portals:[{x:5,y:11.4,to:'neon',at:[15,5.4],sign:'そとへ'}],
+ // R694: the plate stood at y 11.4 with two bare floor rows under it, so it read as floating mid-floor (mobile-39/40); it now sits on the bottom row at y 12.2 like the store's.
+ portals:[{x:5,y:12.2,to:'neon',at:[15,5.4],sign:'そとへ'}],
  // R638: the pads on floors 2 and 3 were named the other way round (tw2_down said うえへ), so each *_up pad now stands at 8.4 and each *_down pad at 2.2.
  // R27: ひかりの ゆか (up pad) is always at (8.4,3.5), the down pad at (2.2,3.5); landing always on the next floor's spawn.
  cells:[{x:8.4,y:3.5,warp:'tower2',at:[5,10]},
