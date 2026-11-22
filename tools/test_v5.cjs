@@ -3135,6 +3135,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of m.objects.filter(o=>/^tree/.test(o.id))){const l=o.x*48-o.w/2-cam,r=o.x*48+o.w/2-cam,feet=o.y*48-camY;if(feet<=0||feet-(o.h||o.w)>=960)continue;
    assert(r<=0||l>=540||(l>=0&&r<=540),'R688: '+o.id+' is not cut by the arrival view edge: '+l.toFixed(1)+'..'+r.toFixed(1));}}
  result.push('R688: 町に着いた時、公園の桜の木が右端で半分に切れない PASS');
+ // R692: on arrival in town the flower bed below the pond (flowers2, feet y 35.3) showed only its tips at the bottom edge of the view (mobile-25/33).
+ // It is gone, and every flower bed in town is wholly inside or wholly outside the arrival view, up and down as well as sideways.
+ {const r=await runtime();r.tick();r.g.debugWarp('town',6,25.5);r.tick(16);r.tick(16);const m=r.g.GAME_DATA.maps.town,cam=r.g.camera;
+  assert(!m.objects.some(o=>o.id==='flowers2'),'R692: the cut-off flower bed is gone from below the pond');
+  const beds=m.objects.filter(o=>/^flowers/.test(o.id));assert(beds.length>=1,'R692: a flower bed still stands in town');
+  for(const o of beds){const l=o.x*48-o.w/2-cam.x,rr=o.x*48+o.w/2-cam.x,t=o.y*48-(o.h||o.w)-cam.y,b=o.y*48-cam.y;
+   const out=rr<=0||l>=540||b<=0||t>=960;assert(out||(l>=0&&rr<=540&&t>=0&&b<=960),'R692: '+o.id+' is not cut by the arrival view '+JSON.stringify([l,rr,t,b].map(v=>+v.toFixed(1))));}}
+ result.push('R692: 町に着いた時、池の下の花だんが画面の下の端で切れない PASS');
  // R685: tower floor 1 had no down pad, so its upper left and lower left were bare blue grid (mobile-39/40). A data pillar and a broken CRT fill them,
  // inside the floor, off the virus ball's lane, the そとへ plate and the walk from the spawn to the up pad, the guide and the cables.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower1,ball=m.enemies.find(e=>e.id==='tz1'),p=m.portals[0];
