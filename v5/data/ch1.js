@@ -128,7 +128,9 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  // R672: junk2 was the boss TV pile (interior 9) drawn smaller, so two of the same pile stood in the room and it was unclear
  // which one to check; it was taken out (the console shelf, interior 8, stays unused: F03), so only the boss is a TV pile.
  // R673: the repair workbench from the art desk (v5/assets/repair_bench frame 0) fills the empty right side, by the old spot.
- object('junk1','props',14,2,6,60,63),object('bench','repair_bench',0,8.9,9.7,110,110)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
+ object('junk1','props',14,2,6,60,63),object('bench','repair_bench',0,8.9,9.7,110,110),
+ // R710: the floor under the bench and the sofa was empty down to the door (mobile-28), so a stack of junk boxes (repair_bench frame 2) waits in the lower right corner.
+ object('boxes','repair_bench',2,9.2,11.9,84,84)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
 items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},
