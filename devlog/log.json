@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T14:54:31.669Z",
-  "branch": "claude/autodev-20261114-2321-R557",
-  "task": "R557 ボス戦で、上の見出しのボス名と、すぐ下のボスの台詞の名札に同じ名前が2つ並んでいたので、ボス本人の台詞では名札を出さないようにした",
-  "summary": "ボス戦で、見出しと台詞の札に同じボスの名前が2つ並んでいた\nボス本人の台詞では、札の名札を出さないようにした\nソラの台詞は名札を残すことをテストで確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/967/mobile-02-mode-select.jpg",
-   "shots/967/mobile-19-custom-og-credit-card.jpg",
-   "shots/967/mobile-34-chapter-1-play.jpg",
-   "shots/967/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "be269b8",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43606033012"
- },
- {
   "at": "2026-11-14T15:05:50.705Z",
   "branch": "claude/autodev-20261114-2321-R557",
   "task": "R557 ボス戦で、上の見出しのボス名と、すぐ下のボスの台詞の名札に同じ名前が2つ並んでいたので、ボス本人の台詞では名札を出さないようにした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "d37722e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44987105069"
+ },
+ {
+  "at": "2026-11-22T05:13:26.036Z",
+  "branch": "claude/autodev-20261122-1321-R687",
+  "task": "R687 町の公園のおじいさんが「公園」の看板の左の柱に寄りかかって見えていたので、看板とベンチを東へ少し動かして24px離した",
+  "summary": "全章のスクショを確認役に見せ、町の公園のおじいさんが看板の柱にくっつく所を直す所に選んだ\n看板とベンチを0.18マス東へ動かし、おじいさんと左の柱の間を16pxから24pxにした\n柱から24px離れること、右の柱が砂場の縁にかからないことのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1204/mobile-02-mode-select.jpg",
+   "shots/1204/mobile-19-custom-og-credit-card.jpg",
+   "shots/1204/mobile-34-chapter-1-play.jpg",
+   "shots/1204/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f391e50",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44987451234"
  }
 ]
