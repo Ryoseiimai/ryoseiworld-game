@@ -1239,13 +1239,15 @@ const outgamePort={env:()=>isPlayables()?'playables':'web',adult:()=>g.screen===
  'chapter-card':()=>{const n=3,c=(GAME_DATA.events.minamoPark||[]).find(s=>s.chapterClear)||{}/* R431: CHAPTER 02 の札に3章の終わりの文が出ていたので、2章の終わりの文をデータから引く */;endingCard(nextCardHeading(n,GAME_DATA.chapters[n].title),title,'CHAPTER 2 COMPLETE',menuLabel(c.copyAdult||c.copy||'',c.copy||''));OG()?.mount('chapter-card',{chapter:n-1});},
  'challenge-result':async()=>{const keep={chapter:g.chapter,bosses:g.bosses};await api.smokeScenes.find(s=>s.name==='challenge-nextgoal').run();Object.assign(g,keep);},
  'credit-card':()=>creditCard('credits',()=>{}),
- 'settings':()=>openSettings(),
+ // R706: 設定とメニューは遊ぶ時はフィールドの上で開く。前の札（クレジット）の空の上で撮ると、ロゴも町も無い画面に窓だけが浮いて見えたので、フィールドに戻してから開く。
+ 'settings':()=>{toFieldForSmoke();openSettings();},
  // A made-up, OutGame-only modal, the same idea as the chapter-card opener above: the real menu() mixes
  // in ~12 unrelated rows (status, items, weapons...) long enough to make the panel itself scroll, which
  // would scroll modal-title out of view while this generic check scrolls to a button far down the list.
  // That scroll is real menu() UI, already covered by its own tests; this opener isolates OutGame's own row.
- 'menu':()=>{openModal(menuLabel('メニュー','めにゅー'),'',[...(OG()?.buttons('menu',{back:closeModal})||[]),{text:backLabel(),action:closeModal}],'menu');}
+ 'menu':()=>{toFieldForSmoke();openModal(menuLabel('メニュー','めにゅー'),'',[...(OG()?.buttons('menu',{back:closeModal})||[]),{text:backLabel(),action:closeModal}],'menu');}
 }};
+function toFieldForSmoke(){closeModal();if(g.screen!=='field'&&GAME_DATA.maps[g.map])screen('field');}
 function start(){if(started)return;started=true;applyMode();OG()?.connect(outgamePort);if(!GAME_DATA.chapters[1])console.error('chapter 1 data is missing (data/ch1.js)');(async()=>{await Promise.all([loadAssets(),platform.load().then(s=>{s=migrateSave(s);if(validSave(s)){saved=s;if(s.mode==='adult'&&!$('loading').hidden)$('loading').textContent='町の明かりをつけています…';}})]);await platform.whenActive();title();$('loading').hidden=true;booted=true;scheduleFrame();loadMusic();})();}
 window.RYW=Object.assign(window.RYW||{},{Shop,registerChapter,start,learn,learnQuiet,prepareBossWords,helpers:{object,person,prop,props}});
 })();
