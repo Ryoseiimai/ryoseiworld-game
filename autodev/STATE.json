@@ -3,7 +3,7 @@
   "current": {
     "id": "R709",
     "branch": "claude/autodev-20261123-0621-R709",
-    "attempts": 1,
+    "attempts": 2,
     "conflicts": 0,
     "retriggers": 0,
     "started_at": "2026-11-23T06:21:37+09:00"
