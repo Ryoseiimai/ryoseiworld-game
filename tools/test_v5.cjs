@@ -4029,6 +4029,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(talk(r,'minamo_library',5.7,5.3).length>0,'R668: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
   assert(talk(r,'minamo_library',3.4,8.5).length>0,'R668: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);}
  result.push('R668: 図書館の検索の機械を図書館用の絵にし、読書のラグ・机・返却のワゴンを置く PASS');
+ // R696: the return cart sat half on the reading rug's right edge (mobile-30). It stands off the rug, clear of the desk and the table, inside the room,
+ // off the spawn and the door, and the desk, the search machine and the grandpa can still be reached.
+ {const r=await runtime();r.tick();const lib=r.g.GAME_DATA.maps.minamo_library,by=id=>lib.objects.find(o=>o.id===id);
+  const box=o=>[o.x*48-o.w/2,o.x*48+o.w/2,o.y*48-(o.h||o.w),o.y*48],hit=(a,b)=>a[0]<b[1]&&b[0]<a[1]&&a[2]<b[3]&&b[2]<a[3];
+  const c=by('ml_cart'),cart=box(c),desk=by('ml_desk');for(const o of lib.objects)if(o!==c&&o.id!=='ml_clock')assert(!hit(cart,box(o)),'R696: the return cart does not overlap '+o.id+' '+JSON.stringify(cart));
+  assert(cart[0]>=0&&cart[1]<=lib.w*48-12&&cart[3]<=(lib.h-1)*48,'R696: the return cart stays inside the room, off the right wall, above the door row');
+  assert(Math.hypot(c.x-desk.x,c.y-desk.y)<=3,'R696: the return cart stands by the front desk');assert(Math.hypot(c.x-lib.spawn[0],c.y-lib.spawn[1])>=2.5,'R696: the return cart stays off the door spawn');
+  const p=lib.portals[0];assert(cart[0]>=p.x*48+60,'R696: the return cart keeps clear of the そとへ plate');
+  r.g.debugWarp('minamo_library',...lib.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();
+  assert(talk(r,'minamo_library',5.7,5.3).length>0,'R696: the search machine can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
+  assert(talk(r,'minamo_library',3.4,8.5).length>0,'R696: the grandpa can still be reached');while(r.g.dialogue)r.dialogue();r.tick(400);
+  r.g.debugWarp('minamo_library',...lib.spawn);r.tick(32);r.key('ArrowDown');for(let i=0;i<160&&r.g.map==='minamo_library';i++){r.tick(16);while(r.g.dialogue)r.dialogue();}r.key('ArrowDown',true);
+  assert.equal(r.g.map,'minamo','R696: walking south from the spawn still leads outside');}
+ result.push('R696: 図書館の返却のワゴンが読書のラグの端に乗らず、受付の机のそばに立つ PASS');
  // R670: the library's own front desk art (library_desk frame 0) replaces the store counter removed in R669.
  {const r=await runtime();r.tick();assert.equal(r.g.assets.library_desk,4,'R670: the library_desk sheet loads 4 frames');
   const lib=r.g.GAME_DATA.maps.minamo_library,objs=lib.objects,desk=objs.find(o=>o.id==='ml_desk');
