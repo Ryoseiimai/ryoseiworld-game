@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T16:03:37.458Z",
-  "branch": "claude/autodev-20261115-0021-R558",
-  "task": "R558 マップの黄色い出口の札（↓ 外へ・↑ 上へ）の字が細く薄くてスマホで読みにくかったので、字と矢印を太字にして色を濃くした",
-  "summary": "マップの出口の札の字が細く薄く、スマホで読みにくかった\n札の字と矢印を太字にし、字の色を濃くした\n前と後の画像を v5/verification の R558 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/970/mobile-02-mode-select.jpg",
-   "shots/970/mobile-19-custom-og-credit-card.jpg",
-   "shots/970/mobile-34-chapter-1-play.jpg",
-   "shots/970/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c2ed88b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43612401555"
- },
- {
   "at": "2026-11-14T16:19:30.483Z",
   "branch": "claude/autodev-20261115-0106-R559",
   "task": "R559 タイトルで、続きの章の行と案内が幅のちがう2枚の板に分かれて二重に見えたので、1枚の同じ幅の板にまとめた",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "7441cbd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44990007427"
+ },
+ {
+  "at": "2026-11-22T06:46:20.954Z",
+  "branch": "claude/autodev-20261122-1521-R689",
+  "task": "R689 電気屋の奥でサーバーの棚がテレビの山の右の画面に重なっていたので、サーバーを1マス東へ動かした",
+  "summary": "全章のスクショを見て、電気屋の奥でサーバーの棚がテレビの山に重なる所を直す所に選んだ\nサーバーを1マス東へ動かし、テレビの山との間を11pxあけた。修理の机とも重ならない\n二つが重ならないことと、サーバーに下から話しかけられることをテストにした",
+  "result": "pass",
+  "shots": [
+   "shots/1207/mobile-02-mode-select.jpg",
+   "shots/1207/mobile-19-custom-og-credit-card.jpg",
+   "shots/1207/mobile-34-chapter-1-play.jpg",
+   "shots/1207/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1917908",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44994445181"
  }
 ]
