@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T05:50:09.351Z",
-  "branch": "claude/autodev-20261115-1421-R574",
-  "task": "R574 ボス戦でソラのヒントが出る一瞬、金色の名前札が茶色く薄く見えていたので、字が半分出てから札を地と同じ濃さで出すようにした",
-  "summary": "R574: ボス戦でソラのヒントが出る一瞬、名前札が茶色く薄く見えていた\n字が半分出てから、札を地と同じ濃さで出すようにした\nR574 のテストと、前と後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/998/mobile-02-mode-select.jpg",
-   "shots/998/mobile-19-custom-og-credit-card.jpg",
-   "shots/998/mobile-34-chapter-1-play.jpg",
-   "shots/998/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5d790d3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43681962639"
- },
- {
   "at": "2026-11-15T07:01:05.549Z",
   "branch": "claude/autodev-20261115-1521-R575",
   "task": "R575 縦長のスマホのボス戦で、画面の上の帯に夕焼けの背景が赤茶色ににじんでいたので、縦長の時は帯を暗い1色にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e294a9f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45066803446"
+ },
+ {
+  "at": "2026-11-22T21:34:17.847Z",
+  "branch": "claude/autodev-20261123-0621-R709",
+  "task": "R709 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役が見て、気になる所を4つ挙げた\n戦闘のソラの名札は24pxで描いていて、決まりどおりだった\nランクの人の顔なし・話すボタン・塔の目標の枠は直す所ではないので、変えなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1232/mobile-02-mode-select.jpg",
+   "shots/1232/mobile-19-custom-og-credit-card.jpg",
+   "shots/1232/mobile-34-chapter-1-play.jpg",
+   "shots/1232/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b462969",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45071928751"
  }
 ]
