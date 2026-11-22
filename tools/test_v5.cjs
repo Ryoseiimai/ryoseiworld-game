@@ -2894,8 +2894,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const pondRight=Math.max(...m.tiles.slice(31,34).map(row=>row.lastIndexOf('~')+1))*48;assert(postL[0]-pondRight>=24&&postL[1]-pondRight>=40,'the left sign post keeps clear of the pond '+info+' pond '+pondRight);
   // grandpa stands beside the bench, not in it
   assert(Math.abs(gp.y-b.y)>=1.2||bench[0]-body[1]>=16||body[0]-bench[1]>=16,'grandpa stands clear of the bench '+info);
-  assert(b.y<m.h-1,'the bench stays inside the park');}
+  assert(b.y<m.h-1,'the bench stays inside the park');
+  // R687: grandpa's back stood about 16px from the left post and read as leaning on it (mobile-25); his whole picture keeps 24px off it.
+  const gall=G.cols(0,G.h).map((v,x)=>v?x:-1).filter(x=>x>=0);assert(postL[0]-G.px(Math.max(...gall))>=24,'R687: grandpa keeps 24px off the left sign post '+info);
+  const sandLeft=Math.min(...m.tiles.slice(31,34).map(row=>row.indexOf(':')))*48;assert(sandLeft-postR[1]>=1,'R687: the right sign post stays off the sandbox rim '+info+' sand '+sandLeft);}
  result.push('R207: 町の公園のベンチが、看板の柱にくっつかない PASS');
+ result.push('R687: 町の公園のおじいさんが、看板の左の柱から24px離れて立つ PASS');
  // R253: ミナモ's station stood as the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo,st=m.objects.find(o=>o.id==='minamo_station'),bus=m.objects.find(o=>o.id==='minamo_bus');
   assert(st&&bus,'ミナモ has a station and a bus stop');assert.equal(st.event,'trainStop');
