@@ -4054,6 +4054,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of m.objects){if(o.floor||o.hidden)continue;const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;
    assert(l>=20&&rr<=m.w*48-20,'R702: '+id+' '+o.id+' stays off the 20px side walls ('+Math.round(l)+'..'+Math.round(rr)+' of '+m.w*48+')');}}}
  result.push('R702: 建物の中の物が、左右の壁（20px）にはみ出さない PASS');
+ // R703: the stadium plant stood tucked under the throne's lower right corner. It stands clear of the throne, the guide, the door path and the boss-talk spot.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.neon_stadium,by=id=>m.objects.find(o=>o.id===id),p=by('nst_plant'),boss=by('neon_boss'),guide=by('nst_guide');
+  const box=o=>[o.x*48-o.w/2,o.x*48+o.w/2,o.y*48-o.h,o.y*48],gap=(a,b)=>Math.max(b[0]-a[1],a[0]-b[1],b[2]-a[3],a[2]-b[3]);
+  assert(p&&p.kind==='interior'&&p.frame===13,'R703: the stadium still has its plant');
+  assert(gap(box(p),box(boss))>=24,'R703: the plant stands 24px or more off the throne ('+Math.round(gap(box(p),box(boss)))+')');
+  assert(box(p)[2]>=2*48+10,'R703: the plant stands below the back wall');
+  assert(gap(box(p),box(guide))>=24,'R703: the plant stands off the challenge guide');
+  assert(Math.abs(p.x-m.portals[0].x)*48>=p.w/2+48&&Math.hypot(p.x-m.spawn[0],p.y-m.spawn[1])>=2.5,'R703: the plant stays off the door path and the spawn');
+  assert(Math.hypot(p.x-boss.x,p.y-(boss.y+1.3))>=2,'R703: the plant stays off the spot where the hero talks to the boss');
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();
+  r.g.debugWarp('neon_stadium',boss.x,boss.y+1.3);r.tick(16);assert.equal(r.g.map,'neon_stadium');assert(!r.g.debugBlocked(boss.x*48,(boss.y+1.3)*48),'R703: the spot below the throne is free to stand on');}
+ result.push('R703: スタジアムの鉢植えが玉座の下の角にくっつかず、左上の空いた所に立つ PASS');
  // R698: the library clock hung at the foot of the wall, right on top of the search machine (mobile-30). It hangs higher, with a gap above the machine.
  {const r=await runtime();r.tick();const lib=r.g.GAME_DATA.maps.minamo_library,ck=lib.objects.find(o=>o.id==='ml_clock'),sm=lib.objects.find(o=>o.id==='ml_search');
   assert(ck&&sm&&Math.abs(ck.x-sm.x)<1,'R698: the clock still hangs over the search machine');

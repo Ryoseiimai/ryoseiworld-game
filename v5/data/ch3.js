@@ -90,7 +90,8 @@ const bossQuest={text:'スタジアムの ヒカクマオウへ',adult:'スタ�
 maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
  object('nst_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
- object('nst_plant','interior',13,9,7,75,80),
+ // R703: the plant stood tucked under the throne's lower right corner (its picture 13px into the throne's), so it stands in the empty upper left corner.
+ object('nst_plant','interior',13,1.6,4.3,75,80),
  object('neon_boss','hikaku_throne',0,8.4,5.6,150,170,{label:'ヒカクマオウ',action:'boss',enemy:'hikaku',dialogue:'hikakuTalk',clearedDialogue:'hikakuGone',goneWhenCleared:true})],
  enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[15,35],sign:'そとへ'}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
