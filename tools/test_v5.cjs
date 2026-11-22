@@ -3143,6 +3143,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of beds){const l=o.x*48-o.w/2-cam.x,rr=o.x*48+o.w/2-cam.x,t=o.y*48-(o.h||o.w)-cam.y,b=o.y*48-cam.y;
    const out=rr<=0||l>=540||b<=0||t>=960;assert(out||(l>=0&&rr<=540&&t>=0&&b<=960),'R692: '+o.id+' is not cut by the arrival view '+JSON.stringify([l,rr,t,b].map(v=>+v.toFixed(1))));}}
  result.push('R692: 町に着いた時、池の下の花だんが画面の下の端で切れない PASS');
+ // R694: the そとへ plate on tower floor 1 stood at y 11.4 with two bare floor rows under it, so it read as floating mid-floor (mobile-39/40).
+ // It sits on the bottom row like the store's plate, inside the floor, clear of the CRT, and walking south from the spawn still leads outside.
+ {const r=await runtime();r.tick();r.start();r.tick(1000);assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
+  const m=r.g.GAME_DATA.maps.tower1,p=m.portals[0],crt=m.objects.find(o=>o.id==='tw1_crt');
+  assert(p.y>=m.h-1,'R694: the そとへ plate sits on the bottom floor row (y '+p.y+')');assert(p.y*48+17<=m.h*48,'R694: the plate stays inside the floor');
+  assert(crt.x*48+crt.w/2<=p.x*48-26,'R694: the plate keeps clear of the broken CRT');
+  r.g.debugWarp('tower1',5,10);r.tick(16);while(r.g.dialogue)r.dialogue();r.key('ArrowDown');for(let i=0;i<120&&r.g.map==='tower1';i++){r.tick(16);while(r.g.dialogue)r.dialogue();}r.key('ArrowDown',true);
+  assert.equal(r.g.map,'neon','R694: walking south from the spawn still leads out of the tower');}
+ result.push('R694: 塔1階の「外へ」の札が床のまん中に浮かず、一番下の段にある PASS');
  // R685: tower floor 1 had no down pad, so its upper left and lower left were bare blue grid (mobile-39/40). A data pillar and a broken CRT fill them,
  // inside the floor, off the virus ball's lane, the そとへ plate and the walk from the spawn to the up pad, the guide and the cables.
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower1,ball=m.enemies.find(e=>e.id==='tz1'),p=m.portals[0];
