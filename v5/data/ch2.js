@@ -88,7 +88,8 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  object('ml_search','library_set',0,5.7,4.4,170,120,{label:'けんさくの きかい',event:'owlQuiz'}),
  object('ml_read_rug','library_set',1,7.6,6.5,210,150,{floor:true,collider:false}),object('ml_read_table','library_set',2,7.6,6.4,130,88),
  // R696: the cart stood on the rug's right edge (mobile-30), but the room has no room right of the rug, so it waits by the front desk.
- object('ml_cart','library_set',3,9.6,11.2,104,72),
+ // R702: the cart's right edge reached 5px into the right wall (mobile-30), so it stands at x 9.45, inside the 20px wall.
+ object('ml_cart','library_set',3,9.45,11.2,104,72),
  // R698: the clock hung at the foot of the wall, right on top of the search machine (mobile-30), so it hangs higher on the wall.
  object('ml_plant','interior',13,1.6,8.4,75,80),object('ml_clock','interior',14,5.7,1.6,70,70,{collider:false}),
  object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa',coat:220,flip:true})],

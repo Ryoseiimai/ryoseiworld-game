@@ -4048,6 +4048,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('minamo_library',...lib.spawn);r.tick(32);r.key('ArrowDown');for(let i=0;i<160&&r.g.map==='minamo_library';i++){r.tick(16);while(r.g.dialogue)r.dialogue();}r.key('ArrowDown',true);
   assert.equal(r.g.map,'minamo','R696: walking south from the spawn still leads outside');}
  result.push('R696: 図書館の返却のワゴンが読書のラグの端に乗らず、受付の机のそばに立つ PASS');
+ // R702: the room's bin and the library's return cart reached 5 to 6px into the right wall (mobile-26, mobile-30). The side walls are 20px wide,
+ // so every standing object of every indoor map keeps its picture between them.
+ {const r=await runtime();r.tick();for(const [id,m] of Object.entries(r.g.GAME_DATA.maps)){if(m.outside)continue;
+  for(const o of m.objects){if(o.floor||o.hidden)continue;const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;
+   assert(l>=20&&rr<=m.w*48-20,'R702: '+id+' '+o.id+' stays off the 20px side walls ('+Math.round(l)+'..'+Math.round(rr)+' of '+m.w*48+')');}}}
+ result.push('R702: 建物の中の物が、左右の壁（20px）にはみ出さない PASS');
  // R698: the library clock hung at the foot of the wall, right on top of the search machine (mobile-30). It hangs higher, with a gap above the machine.
  {const r=await runtime();r.tick();const lib=r.g.GAME_DATA.maps.minamo_library,ck=lib.objects.find(o=>o.id==='ml_clock'),sm=lib.objects.find(o=>o.id==='ml_search');
   assert(ck&&sm&&Math.abs(ck.x-sm.x)<1,'R698: the clock still hangs over the search machine');

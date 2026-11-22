@@ -446,6 +446,7 @@ R664: 友達の家に、届いた絵のしましまのラグ・低い机・ビ�
 R667: 図書館に自分の部屋の青い丸ラグを置かず、雑誌の棚を置き、コンビニのレジ机は置かない（R669） PASS
 R668: 図書館の検索の機械を図書館用の絵にし、読書のラグ・机・返却のワゴンを置く PASS
 R696: 図書館の返却のワゴンが読書のラグの端に乗らず、受付の机のそばに立つ PASS
+R702: 建物の中の物が、左右の壁（20px）にはみ出さない PASS
 R698: 図書館の時計が検索の機械の上にくっつかず、壁の高い所にかかる PASS
 R699: 友達の家の友達が、ラグの房の上でなく床の上に立つ PASS
 R670: 図書館に、届いた図書館用の受付の机を、入口と検索の機械の道をふさがずに置く PASS
@@ -514,5 +515,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 80ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 122ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

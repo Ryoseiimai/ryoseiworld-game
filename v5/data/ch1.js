@@ -94,8 +94,9 @@ maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spa
  object('bed','interior',0,2.2,7.6,130,130,{label:'ベッド',dialogue:'bed',action:'rest'}),object('roomtv','interior',3,8.5,7.6,115,115,{label:'テレビ',dialogue:'roomTv',clearedDialogue:'roomTvClear',calmTv:true}),
  object('fan','fan',0,9.5,10.4,60,132),
  object('cushion','spot',0,9.3,11.2,60,40,{hidden:true,label:'ざぶとん',event:'cushion',collider:false}),
+ // R702: the bin's right edge reached 6px into the right wall (mobile-26), so it stands at x 10.06, inside the 20px wall.
  // R681: the floor under the bed and right of the exit plate was empty (mobile-26), so a second plant stands in the lower left corner and a bin in the lower right one, off the stairs and the cushion (the console shelf, frame 8, stays unused: F03).
- object('plant2','interior',13,1.6,12.7,75,80),object('roombin','props',14,10.2,12.8,48,52)],enemies:[],portals:[{x:5,y:12,to:'town',at:[6,25.5],sign:'そとへ',plate:[7,12.6]}]};
+ object('plant2','interior',13,1.6,12.7,75,80),object('roombin','props',14,10.06,12.8,48,52)],enemies:[],portals:[{x:5,y:12,to:'town',at:[6,25.5],sign:'そとへ',plate:[7,12.6]}]};
 // R634: window is where the prologue's cross window with the moon hangs on the wall (between the desk and the shelf); only this room has one.
 // R627: the prologue room has a fan (R625, 「せんぷうきだけが はたらいていた」) but the walkable room had none, so it looked like another room; the same fan now stands below and right of the TV.
 // R528: the room's stairs got a 「← そとへ」 plate too, standing right of the stairs picture (plate) and pointing at them, so the stairwell stays in view (R226).
