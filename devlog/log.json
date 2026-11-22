@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T11:02:07.485Z",
-  "branch": "claude/autodev-20261114-1921-R553",
-  "task": "R553 ボス戦で、ことばの札の右の「ソラ」とすぐ下の台詞の「ソラ」が2つ並んで見えたので、同じ人の台詞が出ている間は札の名前を隠した",
-  "summary": "ボス戦で、ことばの札の右とすぐ下の台詞に「ソラ」が2回並んでいた\n同じ人の台詞が札の下に出ている間は、札の右の名前を隠すようにした（場所は残す）\n名前を変えた時も効くことをテストで確かめ、前と後のスクショを v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/960/mobile-02-mode-select.jpg",
-   "shots/960/mobile-19-custom-og-credit-card.jpg",
-   "shots/960/mobile-34-chapter-1-play.jpg",
-   "shots/960/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e365513",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43587039473"
- },
- {
   "at": "2026-11-14T11:49:11.561Z",
   "branch": "claude/autodev-20261114-2021-R554",
   "task": "R554 ボス戦の始めの「キックボードが浮かんだ」の帯が消える途中、薄い板に灰色の字が出て読みにくかったので、字を先に消して板を後から消した",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "c3e71c0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44962379436"
+ },
+ {
+  "at": "2026-11-22T00:39:59.255Z",
+  "branch": "claude/autodev-20261122-0921-R683",
+  "task": "R683 ミナモにバスで着いた時、ともだちの いえが画面の左端で半分切れていたので、家を西へ動かし、元の場所に桜の木を置いた",
+  "summary": "全章のスクショを見て、ミナモに着いた時に左端で半分切れる友達の家を直す所に選んだ\n友達の家を西へ3マス動かし、元の場所に桜の木を置いて、出口の着地も家の前に合わせた\n着いた時の画面で建物が端で切れないことと、家と木が重ならないことのテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1199/mobile-02-mode-select.jpg",
+   "shots/1199/mobile-19-custom-og-credit-card.jpg",
+   "shots/1199/mobile-34-chapter-1-play.jpg",
+   "shots/1199/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8153535",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44966928950"
  }
 ]
