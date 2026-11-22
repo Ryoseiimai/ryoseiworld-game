@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T23:44:32.913Z",
-  "branch": "claude/autodev-20261115-0820-R567",
-  "task": "R567 新しく始める人のタイトル画面で、押せない「続きから」が半分透けて字が薄かったので、透けない濃い地にした",
-  "summary": "R567: 新しく始める人のタイトルで、押せない「続きから」が半分透けて字が薄く見えていた\nそのボタンを透けない濃い地にし、字は薄い灰色で読めるようにした\n見た目を調べるテストを足し、前と後の画像を v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/988/mobile-02-mode-select.jpg",
-   "shots/988/mobile-19-custom-og-credit-card.jpg",
-   "shots/988/mobile-34-chapter-1-play.jpg",
-   "shots/988/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8ad1c22",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43653515813"
- },
- {
   "at": "2026-11-15T00:52:49.779Z",
   "branch": "claude/autodev-20261115-0921-R568",
   "task": "R568 戦いに勝った後、薄くなった敵の体に後ろの波の線が透けて汚れに見えていたので、敵の形を地の色で塗った影を下に敷いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "09a0b0f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45039146666"
+ },
+ {
+  "at": "2026-11-22T16:06:49.681Z",
+  "branch": "claude/autodev-20261123-0045-R703",
+  "task": "R703 スタジアムの鉢植えが玉座の右下の角にくっついていたので、左上の空いた所へ動かした",
+  "summary": "建物の中の物どうしの重なりを調べ、スタジアムの鉢植えが玉座にくっつく所を選んだ\n鉢植えを玉座の右下から、部屋の左上の空いた所へ動かした\n鉢植えが玉座・受付の人・入口の道から離れることを見るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1222/mobile-02-mode-select.jpg",
+   "shots/1222/mobile-19-custom-og-credit-card.jpg",
+   "shots/1222/mobile-34-chapter-1-play.jpg",
+   "shots/1222/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "140c2c0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45040860196"
  }
 ]
