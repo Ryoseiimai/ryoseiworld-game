@@ -904,7 +904,9 @@ const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};
 // R657: the sofa (interior 12) is drawn slanted, its base running from the left leg (sheet x 20, y 178) down to the front corner (x 165, y 226),
 // so the small round shadow at the bottom of the cell lay under nothing and the sofa looked like it floated above it (電気屋の奥・友だちの家・ネットカフェ).
 // Its shadow now lies along that base; the 5th number moves the shadow's middle sideways (sheet px), to the middle of the base.
-const FOOT_SHADOW={props:{11:[86,14,8,.14]},interior:{12:[84,28,12,.29,-23]}};
+// R707: the shop counter (interior 6: コンビニのレジ・ネットカフェのうけつけ) is drawn slanted too, its base running from the left (sheet x 13, y 191) down to the front corner (x 176, y 226),
+// and its small round shadow lay below the front, apart from the counter, so it looked like it floated (mobile-27). Its shadow now lies along that base.
+const FOOT_SHADOW={props:{11:[86,14,8,.14]},interior:{12:[84,28,12,.29,-23],6:[86,22,10,.21,-20]}};
 function sprite(kind,index,x,y,w,h,name,flip,alt){const f=alt||(flip?mirrorFrame(kind,index):frameFor(kind,index));if(f){const s=Math.min(w/f.w,h/f.h);y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;const cut=Math.min(f.h-1,(SPRITE_CROP_TOP[kind]?.[index]||0)*f.h/452),low=SPRITE_CROP_BOTTOM[kind]?.[index]||0,clip=cut>0||low>0;if(clip){const top=Math.round(y-f.h*s)+Math.round(cut*s),end=low>0?Math.round(y-f.h*s+Math.floor(f.h*low)*s):Math.round(y)+1;ctx.save();ctx.beginPath();ctx.rect(Math.round(x-f.w*s/2),top,Math.round(f.w*s)+1,end-top);ctx.clip();}ctx.drawImage(f.img,Math.round(x-f.w*s/2),Math.round(y-f.h*s),Math.round(f.w*s),Math.round(f.h*s));if(clip)ctx.restore();return true;}fallback(kind,index,x,y,w,h,name);return false;}
 // People use the npc sheet (4x4) or npc2 (3x3: Mio, the painter, station staff... SPEC_V6.md 6).
 function isPerson(kind){return kind==='npc'||kind==='npc2';}

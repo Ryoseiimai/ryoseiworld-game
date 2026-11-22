@@ -3954,7 +3954,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/:menuLabel\('デバッグ！HPが戻った。','デバッグ！ HPが もどった。'\)/.test(line),'R656: without a 表示バグ only the HP line is said');}
  result.push('R656: デバッグで「表示バグも直った」と言うのは、表示バグがあった時だけ PASS');
  // R657: the slanted sofa (interior 12) looked like it floated over its small round shadow; its shadow now lies along its base (left leg to front corner).
- {const m=html.match(/interior:\{12:\[(\d+),(\d+),(\d+),([0-9.]+),(-?\d+)\]\}/);assert(m,'R657: the sofa has its own shadow');const [rx,rise,ry,tilt,off]=m.slice(1).map(Number);
+ {const m=html.match(/interior:\{12:\[(\d+),(\d+),(\d+),([0-9.]+),(-?\d+)\][,}]/);assert(m,'R657: the sofa has its own shadow');const [rx,rise,ry,tilt,off]=m.slice(1).map(Number);
   assert(/ctx\.ellipse\(o\.x\*TILE\+\(fsh\[4\]\|\|0\)\*k,o\.foot-fsh\[1\]\*k,/.test(html),'R657: the 5th number moves the shadow sideways');
   const file=path.join(root,'assets','interior','interior_r3_c0.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);
   const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>128)b=y;low.push(b);}
@@ -3964,6 +3964,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const all=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='interior'&&o.frame===12);assert(all.length>=3,'R657: the sofas are found');
   for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the sofa shadow');}
  result.push('R657: ソファの影が、足元に沿って床に落ちる PASS');
+ // R707: the slanted shop counter (interior 6) looked like it floated over its small round shadow below the front (mobile-27); its shadow now lies along its base.
+ {const m=html.match(/interior:\{[^}]*\b6:\[(\d+),(\d+),(\d+),([0-9.]+),(-?\d+)\][,}]/);assert(m,'R707: the counter has its own shadow');const [rx,rise,ry,tilt,off]=m.slice(1).map(Number);
+  const file=path.join(root,'assets','interior','interior_r1_c2.png'),png=fs.readFileSync(file),width=png.readUInt32BE(16),height=png.readUInt32BE(20),{data}=pngPixels(file);
+  const low=[];for(let x=0;x<width;x++){let b=-1;for(let y=0;y<height;y++)if(data[(y*width+x)*4+3]>128)b=y;low.push(b);}
+  let left=0;for(let x=0;x<30;x++)if(low[x]>low[left])left=x;let front=100;for(let x=100;x<200;x++)if(low[x]>low[front])front=x;
+  const cx=width/2+off,cy=height-rise,inside=(x,y)=>{const dx=x-cx,dy=y-cy,u=dx*Math.cos(tilt)+dy*Math.sin(tilt),v=-dx*Math.sin(tilt)+dy*Math.cos(tilt);return (u/rx)**2+(v/ry)**2;};
+  for(const [x,y] of [[left,low[left]],[front,low[front]]])assert(inside(x,y)<=1.05,`R707: the counter shadow reaches the base at ${x},${y}`);
+  // The old round shadow (radius 18 at the cell bottom, middle of the cell) lay more than 8 sheet px under the counter's base there.
+  const mid=Math.round(cx);assert(Math.abs(cy-low[mid])<=ry,'R707: the shadow middle sits on the base line, not below it: '+cy+' vs '+low[mid]);
+  const all=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='interior'&&o.frame===6);assert(all.length>=2,'R707: the counters are found');
+  for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the counter shadow');}
+ result.push('R707: コンビニのレジ台の影が、台の下に沿って床に落ちる PASS');
  // R658: ミナモ had three plain copies of the hero's house (buildings 0); each now has its own roof colour, and no two share the same look as the home.
  {const maps=(await runtime()).g.GAME_DATA.maps,houses=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='buildings'&&o.frame===0);
   const home=maps.town.objects.find(o=>o.id==='home');assert(home&&home.roof==null,'R658: the home keeps its own blue roof');
