@@ -14,7 +14,10 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  object('tw1_guide','npc2',4,2.2,7.4,48,65,{label:'あんないロボ',dialogue:'towerGuide'}),
  tower('tw1_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw1_rack',0,8.4,9.4,80,90),tower('tw1_cable',1,2.2,9.6,80,80),
- tower('tw1_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'})],
+ tower('tw1_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),
+ // R685: floor 1 has no down pad, so its upper left (where floors 2 and 3 have したへ) and its lower left were bare blue grid (mobile-39/40).
+ // A data pillar stands in the upper left, across from the up pad, and a broken CRT in the lower left corner, both west of the virus ball's lane (x 3.5-6.5) and of the そとへ plate.
+ tower('tw1_pillar',10,2.1,4.2,80,100),tower('tw1_crt',5,2.1,11.8,80,80)],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
  // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
  portals:[{x:5,y:11.4,to:'neon',at:[15,5.4],sign:'そとへ'}],

@@ -3122,6 +3122,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let y=crow.y;y<=crow.y+1.6;y+=.1)assert(!r.g.debugBlocked(crow.x*48,y*48),'R684: the walk up to the crow c1 stays open at y '+y.toFixed(1));
   assert(Math.abs(s.x-6)*48>=150,'R684: the ちず board stays clear of the home door');}
  result.push('R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS');
+ // R685: tower floor 1 had no down pad, so its upper left and lower left were bare blue grid (mobile-39/40). A data pillar and a broken CRT fill them,
+ // inside the floor, off the virus ball's lane, the そとへ plate and the walk from the spawn to the up pad, the guide and the cables.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower1,ball=m.enemies.find(e=>e.id==='tz1'),p=m.portals[0];
+  for(const id of ['tw1_pillar','tw1_crt']){const o=m.objects.find(x=>x.id===id);assert(o&&o.kind==='tower',id+' stands on tower floor 1');
+   const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48&&o.y*48<=m.h*48&&o.y*48-o.h>=48,id+' stays inside the floor');
+   assert(rr<=(ball.x-1.5)*48-24,id+' stays west of the virus ball lane');assert(rr<=p.x*48-26,id+' stays west of the そとへ plate');
+   for(const q of m.objects.filter(x=>x!==o&&x.kind!=='npc2'))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,id+' does not stand on '+q.id);}
+  r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y>=3.5;y-=.1)assert(!r.g.debugBlocked(5*48,y*48),'the walk north from the spawn stays open at y '+y.toFixed(1));
+  for(let x=5;x<=8.4;x+=.1)assert(!r.g.debugBlocked(x*48,3.5*48+40)||x>7.4,'the walk east to the up pad stays open at x '+x.toFixed(1));}
+ result.push('R685: 塔1階の左上と左下に、データの柱と壊れたテレビを置いた PASS');
  // R273: the ちず and ミナモ boards share the park sign picture (props 11) but are w 104 and 136, so they kept the small round shadow between and below their two feet; now they use the two-feet shadow too.
  {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/),cut=html.match(/const fsh=o\.w>=(\d+)&&FOOT_SHADOW/);assert(m,'props 11 has its own shadow');assert(cut,'the two-feet shadow has a width cut');const min=Number(cut[1]);
   const maps=(await runtime()).g.GAME_DATA.maps,all=Object.values(maps).flatMap(mp=>mp.objects);
