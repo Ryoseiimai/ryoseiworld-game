@@ -37,6 +37,9 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  prop('neon_bench',4,21.8,22.6,90),prop('neon_bench2',4,10.6,31.6,90),
  ...props('neon_light',5,120,[[12.4,18.6],[17.6,18.6],[12.4,29.6],[17.6,29.6],[2.4,20.6],[27.6,20.6],[2.4,30.6],[27.6,30.6]]),
  ...props('neon_tree',0,120,[[1.4,13.4,1],[28.6,13.4],[1.4,24.4],[28.6,24.4,1]]),
+ // R709: on arrival (view x 9.4 to 20.6) the paving right of the station was bare while the sign stood on its left, so a planted tree fills it.
+ // It stands above the row-13.6 walk east to the ranking tower and inside the arrival view (its crown ends about 10px left of the edge).
+ prop('neon_tree_station',0,19.2,12.2,120),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // R69: num1/num2 stand 1.8 tiles off the street lights at x 12.4/17.6, so the numbers never sit on a lamp.
  // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
