@@ -3972,7 +3972,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const cx=width/2+off,cy=height-rise,inside=(x,y)=>{const dx=x-cx,dy=y-cy,u=dx*Math.cos(tilt)+dy*Math.sin(tilt),v=-dx*Math.sin(tilt)+dy*Math.cos(tilt);return (u/rx)**2+(v/ry)**2;};
   for(const [x,y] of [[left,low[left]],[front,low[front]]])assert(inside(x,y)<=1.05,`R707: the counter shadow reaches the base at ${x},${y}`);
   // The old round shadow (radius 18 at the cell bottom, middle of the cell) lay more than 8 sheet px under the counter's base there.
-  const mid=Math.round(cx);assert(Math.abs(cy-low[mid])<=ry,'R707: the shadow middle sits on the base line, not below it: '+cy+' vs '+low[mid]);
+  const mid=Math.round(cx);assert(Math.abs(cy-low[mid])<=3&&low[Math.round(width/2)]<height-2-8,'R707: the shadow middle sits on the base line, not below it: '+cy+' vs '+low[mid]);
   const all=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='interior'&&o.frame===6);assert(all.length>=2,'R707: the counters are found');
   for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the counter shadow');}
  result.push('R707: コンビニのレジ台の影が、台の下に沿って床に落ちる PASS');
