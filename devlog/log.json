@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T00:52:49.779Z",
-  "branch": "claude/autodev-20261115-0921-R568",
-  "task": "R568 戦いに勝った後、薄くなった敵の体に後ろの波の線が透けて汚れに見えていたので、敵の形を地の色で塗った影を下に敷いた",
-  "summary": "R568: 戦いに勝った後、薄くなった敵の体の上を後ろの波の線が通り、汚れに見えていた\n敵の形を戦いの地の色で塗った影を先に敷き、その上に薄い敵を描くようにした\nテストを足し、前と後の画像を v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/989/mobile-02-mode-select.jpg",
-   "shots/989/mobile-19-custom-og-credit-card.jpg",
-   "shots/989/mobile-34-chapter-1-play.jpg",
-   "shots/989/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9ca8001",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43659538235"
- },
- {
   "at": "2026-11-15T01:22:22.164Z",
   "branch": "claude/autodev-20261115-0941-R569",
   "task": "R569 ボス戦で最後のソラのヒントが消える途中、透けた地に薄い字と暗い名札が残っていたので、字と名札を先に消し、地を後から消した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "140c2c0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45040860196"
+ },
+ {
+  "at": "2026-11-22T17:09:04.692Z",
+  "branch": "claude/autodev-20261123-0121-R704",
+  "task": "R704 ネオンで最初に1歩動いた画面の左端に、ネットカフェとセルフィーひろばの端が細く見えていたので、2つを西へ動かした",
+  "summary": "全章のスクショを確認役に見せ、ネオンの左端に建物の切れ端が見える所を選んだ\nネットカフェとセルフィーひろばを西へ動かし、カフェからの戻り先も合わせた\n2つが最初の画面の外にあり、角の木から離れていることを見るテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1224/mobile-02-mode-select.jpg",
+   "shots/1224/mobile-19-custom-og-credit-card.jpg",
+   "shots/1224/mobile-34-chapter-1-play.jpg",
+   "shots/1224/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3806e5f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45046823232"
  }
 ]
