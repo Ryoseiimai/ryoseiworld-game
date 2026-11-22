@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T01:22:22.164Z",
-  "branch": "claude/autodev-20261115-0941-R569",
-  "task": "R569 ボス戦で最後のソラのヒントが消える途中、透けた地に薄い字と暗い名札が残っていたので、字と名札を先に消し、地を後から消した",
-  "summary": "R569: ボス戦で最後のヒントが消える途中、透けた地に薄い字と暗い名札が残っていた\n字と名札を地が濃いうちに先に消し、地は後から消えるようにした\nテストを足し、前と後の画像を v5/verification に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/990/mobile-02-mode-select.jpg",
-   "shots/990/mobile-19-custom-og-credit-card.jpg",
-   "shots/990/mobile-34-chapter-1-play.jpg",
-   "shots/990/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f84bbd9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43661860952"
- },
- {
   "at": "2026-11-15T02:52:04.931Z",
   "branch": "claude/autodev-20261115-1121-R570",
   "task": "R570 章の終わりの札の両はしから、後ろの木と街灯の切れはしが汚れのようにのぞいていたので、札の画面では木と街灯を描かないようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3806e5f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45046823232"
+ },
+ {
+  "at": "2026-11-22T17:37:48.836Z",
+  "branch": "claude/autodev-20261123-0221-R705",
+  "task": "R705 全章のスクショから確認役が5つ挙げたので確かめた。2章で1歩動いた後に友達の家が左端で切れるのは歩いた長さで毎回変わるスクロール、道の上の街灯は台詞の窓で足元が隠れただけで歩道に立つ、主人公と虫の位置は動いている途中、話すボタンは R688 などで見た所なので、どれも直さなかった",
+  "summary": "全章のスクショを撮り、確認役に気になる所を5つ挙げさせた\n1件ずつ確かめたが、街灯は歩道に立ち、家が切れるのは歩いた長さで変わるので直さなかった\n見た目の直しが見つからない回が R613〜R615 に続いてまた出た。R616 の答え待ち",
+  "result": "pass",
+  "shots": [
+   "shots/1225/mobile-02-mode-select.jpg",
+   "shots/1225/mobile-19-custom-og-credit-card.jpg",
+   "shots/1225/mobile-34-chapter-1-play.jpg",
+   "shots/1225/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "204e9fe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45049592187"
  }
 ]
