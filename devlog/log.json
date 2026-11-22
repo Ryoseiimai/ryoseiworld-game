@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T02:52:04.931Z",
-  "branch": "claude/autodev-20261115-1121-R570",
-  "task": "R570 章の終わりの札の両はしから、後ろの木と街灯の切れはしが汚れのようにのぞいていたので、札の画面では木と街灯を描かないようにした",
-  "summary": "R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞいていた\n札の画面では木と街灯を描かず、タイトルだけで描くようにした\nR504 のテストを家の絵で確かめる形に直し、R570 のテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/991/mobile-02-mode-select.jpg",
-   "shots/991/mobile-19-custom-og-credit-card.jpg",
-   "shots/991/mobile-34-chapter-1-play.jpg",
-   "shots/991/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c17cadf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43668846061"
- },
- {
   "at": "2026-11-15T03:58:51.681Z",
   "branch": "claude/autodev-20261115-1221-R571",
   "task": "R571 章の終わりの札の両はしに、後ろの薄い家の切れはしが緑と灰色の汚れのように残っていたので、札の画面では家を札の真後ろへ寄せた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "204e9fe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45049592187"
+ },
+ {
+  "at": "2026-11-22T18:50:28.411Z",
+  "branch": "claude/autodev-20261123-0322-R706",
+  "task": "R706 全章のスクショで設定とメニューの窓がロゴも町も無い夜空の上に浮いて見えた。確かめ用の入口が前のクレジットの札の上で開いていたので、遊ぶ時と同じフィールドの上で開くようにした。ほかの4つ（戦闘の家の影・24pxに満たないと見えた札・ボスの台詞の名前・ミナモの砂場）は確かめて直さなかった",
+  "summary": "全章のスクショで、設定とメニューの窓が夜空だけの上に浮いて見えた\n確かめ用の入口をフィールドの上で開くようにし、テストを1つ足した\n他の4つは確かめた。札は24px、ボスの台詞の名前はR557の決まり、家の影は絵の通り",
+  "result": "pass",
+  "shots": [
+   "shots/1227/mobile-02-mode-select.jpg",
+   "shots/1227/mobile-19-custom-og-credit-card.jpg",
+   "shots/1227/mobile-34-chapter-1-play.jpg",
+   "shots/1227/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "20695d3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45056454326"
  }
 ]
