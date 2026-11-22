@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T16:19:30.483Z",
-  "branch": "claude/autodev-20261115-0106-R559",
-  "task": "R559 タイトルで、続きの章の行と案内が幅のちがう2枚の板に分かれて二重に見えたので、1枚の同じ幅の板にまとめた",
-  "summary": "タイトルで、章の行と案内が幅のちがう2枚の板に分かれていた\n2つを1枚の同じ幅の板にまとめ、ボタンより細くした\n前と後の画像を v5/verification の R559 に置き、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/971/mobile-02-mode-select.jpg",
-   "shots/971/mobile-19-custom-og-credit-card.jpg",
-   "shots/971/mobile-34-chapter-1-play.jpg",
-   "shots/971/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "bd91fde",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43613844592"
- },
- {
   "at": "2026-11-14T17:01:58.247Z",
   "branch": "claude/autodev-20261115-0121-R560",
   "task": "R560 公園とミナモの木の看板の字が細くて読みにくかったので、字を太字にして明るいクリーム色にした",
@@ -2968,5 +2953,20 @@
   ],
   "sha": "1917908",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44994445181"
+ },
+ {
+  "at": "2026-11-22T07:43:47.921Z",
+  "branch": "claude/autodev-20261122-1621-R690",
+  "task": "R690 全章のスクショから、町の家の東でカラスの敵が電柱の上に重なり一つの黒い塊に見える所を選んだが、決まりのテストとぶつかるので次の件に分けた",
+  "summary": "全章のスクショを確認役に見せ、町の家の東でカラスの敵が電柱の上に重なる所を選んだ\n電柱を歩道へ移すと重なりは消えるが、決まりのテスト（R272）が落ちるので元に戻した\n直し方を決めてもらう行（R691）を ROADMAP に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1208/mobile-02-mode-select.jpg",
+   "shots/1208/mobile-19-custom-og-credit-card.jpg",
+   "shots/1208/mobile-34-chapter-1-play.jpg",
+   "shots/1208/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "17bdd5c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44998813957"
  }
 ]
