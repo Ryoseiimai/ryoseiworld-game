@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T04:43:25.230Z",
-  "branch": "claude/autodev-20261115-1321-R573",
-  "task": "R573 ボス戦の始めの「キックボードが浮かんだ」の帯で、濃い板の上に薄い灰色の字が見えていたので、字を薄い途中なしで一度に出すようにした",
-  "summary": "R573: ボス戦の始めの帯で、濃い板の上に薄い灰色の字が見えていた\n帯が出きってから、字を薄い途中なしで一度に出すようにした\nR573 のテストと、前と後のスクショを足した",
-  "result": "pass",
-  "shots": [
-   "shots/995/mobile-02-mode-select.jpg",
-   "shots/995/mobile-19-custom-og-credit-card.jpg",
-   "shots/995/mobile-34-chapter-1-play.jpg",
-   "shots/995/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "98d174c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43676937767"
- },
- {
   "at": "2026-11-15T04:56:43.123Z",
   "branch": "claude/autodev-20261115-1321-R573",
   "task": "R573 ボス戦の始めの「キックボードが浮かんだ」の帯で、濃い板の上に薄い灰色の字が見えていたので、字を薄い途中なしで一度に出すようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b4829e5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45062831425"
+ },
+ {
+  "at": "2026-11-22T20:08:11.565Z",
+  "branch": "claude/autodev-20261123-0421-R707",
+  "task": "R707 コンビニのレジ台の影が台の前の床に離れて落ち、台が浮いて見えたので、影を台の下に沿わせた",
+  "summary": "全章のスクショで、コンビニのレジ台が影から浮いて見えた\nレジ台の影を、斜めの台の下に沿って落ちるようにした。ネットカフェの受付も同じ絵で直った\n掃除機のノイズと電柱の上の端は、矢印のテストと上の帯の決まりにぶつかるので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1230/mobile-02-mode-select.jpg",
+   "shots/1230/mobile-19-custom-og-credit-card.jpg",
+   "shots/1230/mobile-34-chapter-1-play.jpg",
+   "shots/1230/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "41898c1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45063278996"
  }
 ]
