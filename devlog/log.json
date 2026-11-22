@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T21:49:54.968Z",
-  "branch": "claude/autodev-20261115-0621-R565",
-  "task": "R565 ボス戦の始めの台詞からソラのヒントへ渡る間、字だけ先に消えて空の枠が残っていたので、次の台詞が続く時は字を渡す直前まで出すようにした",
-  "summary": "R565: ボス戦の始めの台詞の後、字だけ消えた空の枠が約0.4秒残っていた\n次の台詞が続く時は、字を渡す直前の0.1秒まで出すようにした\n空の枠の長さを4体のボスで測るテストを足し、前と後の画像を置いた",
-  "result": "pass",
-  "shots": [
-   "shots/983/mobile-02-mode-select.jpg",
-   "shots/983/mobile-19-custom-og-credit-card.jpg",
-   "shots/983/mobile-34-chapter-1-play.jpg",
-   "shots/983/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2c1f57f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43643617477"
- },
- {
   "at": "2026-11-14T22:02:23.427Z",
   "branch": "claude/autodev-20261115-0621-R565",
   "task": "R565 ボス戦の始めの台詞からソラのヒントへ渡る間、字だけ先に消えて空の枠が残っていたので、次の台詞が続く時は字を渡す直前まで出すようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "0f36763",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45028111135"
+ },
+ {
+  "at": "2026-11-22T13:54:02.070Z",
+  "branch": "claude/autodev-20261122-2221-R699",
+  "task": "R699 友達の家で友達の足がラグの上の房に乗って見えたので、少し北の床の上へ動かした",
+  "summary": "友達の家で、友達の足がラグの上の房に乗って見えたので、少し北の床の上へ動かした\n足がラグの房より上にあり、ラグの上から話しかけられることをテストにした\n手元のテストはすべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1219/mobile-02-mode-select.jpg",
+   "shots/1219/mobile-19-custom-og-credit-card.jpg",
+   "shots/1219/mobile-34-chapter-1-play.jpg",
+   "shots/1219/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3694137",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45028594651"
  }
 ]
