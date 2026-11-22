@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T22:02:23.427Z",
-  "branch": "claude/autodev-20261115-0621-R565",
-  "task": "R565 ボス戦の始めの台詞からソラのヒントへ渡る間、字だけ先に消えて空の枠が残っていたので、次の台詞が続く時は字を渡す直前まで出すようにした",
-  "summary": "R565: ボス戦の始めの台詞の後、字だけ消えた空に近い枠が約0.2秒残っていた\n次の台詞が続く時は、字を渡す直前の0.1秒まで出すようにした\n空の枠の長さを4体のボスで測るテストを足し、前と後の画像を置いた",
-  "result": "pass",
-  "shots": [
-   "shots/985/mobile-02-mode-select.jpg",
-   "shots/985/mobile-19-custom-og-credit-card.jpg",
-   "shots/985/mobile-34-chapter-1-play.jpg",
-   "shots/985/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "abaef90",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43643994378"
- },
- {
   "at": "2026-11-14T22:52:14.755Z",
   "branch": "claude/autodev-20261115-0721-R566",
   "task": "R566 縦長のスマホで、画面の下の帯に木や人の色が縦のすじになってにじんでいたので、帯を端の行の平均の1色でうめた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3694137",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45028594651"
+ },
+ {
+  "at": "2026-11-22T14:50:50.429Z",
+  "branch": "claude/autodev-20261122-2322-R700",
+  "task": "R700 全章のスクショから、ネオンに着いた時にミオが歩道の東の端から車道へ約14pxはみ出す所を選んだが、決まりのテストどうしがぶつかるので次の件に分けた",
+  "summary": "全章のスクショを確認役に見せ、ネオンに着いた時にミオが歩道から車道へはみ出す所を選んだ\nミオを西へ動かすと、札から離す決まり（R503）と街灯から離す決まり（R604）のテストが落ちるので元に戻した\n直し方を決めてもらう行（R701）を ROADMAP に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1220/mobile-02-mode-select.jpg",
+   "shots/1220/mobile-19-custom-og-credit-card.jpg",
+   "shots/1220/mobile-34-chapter-1-play.jpg",
+   "shots/1220/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2625e1b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45034176018"
  }
 ]
