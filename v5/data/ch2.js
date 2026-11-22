@@ -15,7 +15,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  object('minamo_house1','buildings',0,6,15.4,194,194,{roof:8}),
  object('minamo_house2','buildings',0,22,15.4,194,194,{roof:150,flip:true}),
  object('minamo_library','buildings',5,22,26.2,210,188,{label:'としょかん',enter:'minamo_library',arrival:[5,11]}),
- object('minamo_friend','buildings',0,6,34,194,194,{roof:28,flip:true,label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
+ // R683: at x 6 the friend's house stood half cut by the left edge of the screen when you arrive by bus (mobile-29, mobile-35).
+ // It moved west to x 3, out of the arrival view, and the cherry tree that stood there (minamo_tree7) took its old place, fully on screen.
+ object('minamo_friend','buildings',0,3,34,194,194,{roof:28,flip:true,label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
  object('minamo_apartment','buildings',6,23,34,190,190),
  prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
@@ -39,7 +41,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // R548: at 130 its crown still peeked out as a dark tuft between the top of the screen and the place box on arrival (mobile-29).
  // It cannot move north (row 20 is sidewalk) or south (the park board), so this one park tree is smaller (104): its crown now starts under the place box, its foot stays behind the goal line.
  ...props('minamo_tree',0,130,[[2.4,9.6],[10.6,9.6,1],[18,9.6],[27.4,9.6,1],[1.4,21.6]]),prop('minamo_tree5',1,10,21.3,104),
- ...[[27.6,20.6],[1.2,33.4,1],[10.6,34.4]].map(([x,y,f],i)=>prop('minamo_tree'+(6+i),f??0,x,y,130)),
+ ...[[27.6,20.6],[6.7,33.4,1],[10.6,34.4]].map(([x,y,f],i)=>prop('minamo_tree'+(6+i),f??0,x,y,130)),
  // R254: three lamps by the north-south road stood at x 12.5/17.5, on the grass beside the one-tile sidewalks (x 13 and 16) (mobile-20), so they stand on the sidewalk by the curb.
  // R544: at 16.4,22.6 the east lamp stood at the right edge on arrival, its head squeezed between the menu button and the screen edge (mobile-29, mobile-35).
  // Further south it would show half cut by the screen edge, so it stands north at the corner of the cross street (sidewalk row 17), out of the arrival view.
@@ -92,7 +94,7 @@ maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11
  object('mf_table','friend_rug',1,2.3,7.6,100,90),object('mf_beanbag','friend_rug',2,8.2,6.6,80,80),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTvNoise',clearedDialogue:'friendTv',calmTv:true}/* R642: after the boss it shows a picture, like the own room's TV */),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  object('minamo_boy','npc2',7,4.6,6.8,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
- enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[6,35.4],sign:'そとへ'}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[3,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},

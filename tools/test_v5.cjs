@@ -4058,6 +4058,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/interior/interior_r3_c1.png')&&r.imageLog.filter(u=>String(u).includes('assets/interior/interior_r3_c1.png')).length>=2),'R681: both plants are drawn');assert(r.imageLog.some(u=>String(u).includes('assets/props/props_r3_c2.png')),'R681: the bin is drawn');
   r.g.debugWarp('room',cushion.x-1,cushion.y);r.g.debugFace(2);r.tick(16);r.click('talk-btn');assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('ふかふか')),'R681: the cushion can still be checked from its left');while(r.g.dialogue)r.dialogue();}
  result.push('R681: 自分の部屋の下の空いた床に、鉢植えとごみ箱を階段と出口の札をふさがずに置く PASS');
+ // R683: arriving in ミナモ by bus, the friend's house stood half cut by the left edge of the screen. Every building is now either fully in the arrival view or fully out of it.
+ {const g=(await runtime()).g,m=g.GAME_DATA.maps.minamo,[sx,sy]=m.spawn,left=sx*48-270,right=sx*48+270,top=Math.min(sy*48-480,m.h*48-960);
+  for(const o of m.objects.filter(o=>o.kind==='buildings'&&o.y*48>top&&o.y*48-o.h<top+960)){const l=o.x*48-o.w/2,r=o.x*48+o.w/2;assert(r<=left||l>=right||(l>=left&&r<=right),'R683: '+o.id+' is not cut by the edge of the arrival view '+JSON.stringify([l,r,left,right]));}
+  const house=m.objects.find(o=>o.id==='minamo_friend'),out=g.GAME_DATA.maps.minamo_friend.portals.find(p=>p.to==='minamo');assert(house.x*48+house.w/2<=left,'R683: the friend house is out of the arrival view');
+  assert(Math.abs(out.at[0]-house.x)<.01&&out.at[1]>house.y,'R683: leaving the friend house puts you just below its door');
+  const tree=m.objects.find(o=>o.id==='minamo_tree7');assert(tree.x*48-tree.w/2>=left&&tree.x*48+tree.w/2<=right,'R683: the cherry tree in the house\'s old place is fully on screen');
+  assert(tree.x*48-tree.w/2>=house.x*48+house.w/2,'R683: the cherry tree does not overlap the house');
+  assert.equal(m.tiles[Math.floor(tree.y)][Math.floor(tree.x)],'.','R683: the cherry tree stands on the grass');}
+ result.push('R683: ミナモに着いた時、ともだちの いえが画面の左端で半分切れない PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
  console.log(result.join('\n'));
