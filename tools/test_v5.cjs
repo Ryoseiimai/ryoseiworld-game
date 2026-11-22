@@ -3523,6 +3523,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ky<=y0-12,'R295: the kid keeps 12px above the talk button (feet '+ky+', button top '+y0+')');
   assert(Math.hypot(kid.x-clip.x,kid.y-clip.y)>=1.6,'R295: the kid stays 1.6 tiles from the hairclip');}
  result.push('R295: 砂場の子の足が「はなす」ボタンの上の縁に触れない PASS');
+ // R697: the sandbox kid stood on the sandbox's top rim (mobile-25); the feet are on the sand, below the rim (8px and its 2px dark line).
+ {const town=(await runtime()).g.GAME_DATA.maps.town,kid=town.objects.find(o=>o.id==='kid'),ky=kid.y*48,tx=Math.floor(kid.x),ty=Math.floor(kid.y);
+  assert.equal(town.tiles[ty][tx],':','R697: the kid stands on a sand tile');let top=ty;while(town.tiles[top-1]?.[tx]===':')top--;
+  assert(ky>=top*48+10+12,'R697: the kid feet are clear below the sandbox top rim (feet '+ky+', rim bottom '+(top*48+10)+')');}
+ result.push('R697: 町の公園の砂場の子が、砂場の枠ではなく砂の上に立つ PASS');
  // R296: the indoor exits showed a bare ↓ plate (mobile-18/19/21/22) while the tower's said 「↓ そとへ」; every exit without stairs now says そとへ, and the plate fits in its room.
  {const r=await runtime();const maps=r.g.GAME_DATA.maps;let n=0;
   for(const [id,m] of Object.entries(maps)){if(m.outside)continue;for(const p of m.portals){if(m.objects.some(o=>o.id==='stairs'&&Math.abs(o.x-p.x)<=1&&Math.abs(o.y-p.y)<=1.5))continue;n++;
