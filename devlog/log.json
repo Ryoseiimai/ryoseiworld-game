@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-14T19:34:45.651Z",
-  "branch": "claude/autodev-20261115-0341-R562",
-  "task": "R562 チュートリアル戦で、呼び出しの窓や会話の箱が開いている間も「呼び出す」の金色の点線の枠が後ろで点滅していたので、窓が開いている間は枠を消した",
-  "summary": "03時41分の枝は、合流済みの R562 と同じ件を作っていて main と衝突した\n衝突は main の側を残して直した。main の方が会話の箱まで扱っていて広い\n重なった前後の画像はこの枝から外した。中身の変更は無い",
-  "result": "pass",
-  "shots": [
-   "shots/979/mobile-02-mode-select.jpg",
-   "shots/979/mobile-19-custom-og-credit-card.jpg",
-   "shots/979/mobile-34-chapter-1-play.jpg",
-   "shots/979/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3facdaa",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43631867584"
- },
- {
   "at": "2026-11-14T19:54:29.313Z",
   "branch": "claude/autodev-20261115-0436-R563",
   "task": "R563 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "43c38c7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45012621042"
+ },
+ {
+  "at": "2026-11-22T10:49:10.549Z",
+  "branch": "claude/autodev-20261122-1921-R696",
+  "task": "R696 図書館の返却のワゴンが読書のラグの右の端に半分乗っていたので、受付の机の下へ動かした",
+  "summary": "図書館の返却のワゴンが読書のラグの右の端に半分乗っていたので、受付の机の下へ動かした\nワゴンがほかの物に重ならず、机のそばにあり、壁から離れていることをテストにした\n手元のテストと全章のスクショ確認はすべて通った",
+  "result": "pass",
+  "shots": [
+   "shots/1215/mobile-02-mode-select.jpg",
+   "shots/1215/mobile-19-custom-og-credit-card.jpg",
+   "shots/1215/mobile-34-chapter-1-play.jpg",
+   "shots/1215/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "62e8b9a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45013506360"
  }
 ]
