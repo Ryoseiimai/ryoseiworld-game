@@ -755,6 +755,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [id,f] of [['neon_station',4],['neon_cafe',3],['neon_selfie',7],['neon_capsule',6],['neon_stadium',2],['neon_mural',5],['neon_ranking',0]])assert(obj(id)&&obj(id).kind==='neon'&&obj(id).frame===f,id);
   const near=(o)=>{r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);};
   for(const [id,want] of [['neon_ranking','ランキング'],['neon_selfie','いいね'],['neon_mural','まっしろ']]){near(obj(id));assert(r.g.dialogue&&r.g.dialogue.lines.map(l=>l[1]).join('').includes(want),id);while(r.g.dialogue)r.dialogue();}
+  // R704: after the first step left in 3章 the view starts at x 7.25; the cafe and the selfie plaza (220 wide) stay outside it, clear of the corner trees at x 1.4 (120 wide), and the cafe's way back follows its door.
+  for(const [id,reach] of [['neon_cafe',94],['neon_selfie',99]]){const o=obj(id);assert(o.x*48+reach+3<=7.25*48,id+' stays left of the first-step view (reach = painted pixels right of its middle)');assert(o.x*48-110>=1.4*48+60,id+' clear of the corner tree');}
+  assert.equal(D.maps.neon_cafe.portals[0].at[0],obj('neon_cafe').x,'the cafe exit lands at its door');
   near(obj('neon_cafe'));assert.equal(r.g.map,'neon_cafe','enter the net cafe');r.g.state.hero.hp=5;r.g.state.battery=3;
   assert(talk(r,'neon_cafe',5.4,7.4).includes('ネットカフェ'));for(let i=0;i<30;i++){if(r.g.dialogue){r.dialogue();continue;}if(r.g.modal==='event'){r.tick(400);r.button('とまる');continue;}r.tick(300);}
   assert.equal(r.g.battery,100,'battery full');assert.equal(r.g.hp.hp,r.g.hp.maxHp,'HP full');

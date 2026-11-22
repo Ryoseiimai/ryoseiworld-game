@@ -9,9 +9,11 @@ const maps={};
 maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outside:true,spawn:[15,13.6],objects:[
  // The train from ミナモちょう stops here (ch2.js trainStop).
  city('neon_station',4,15,12,250,240,{label:'えき',labelAdult:'駅',event:'trainStop'}),
- city('neon_cafe',3,5.6,12.6,220,220,{label:'ネットカフェ',enter:'neon_cafe',arrival:[5,10]}),
+ // R704: after the first step left in 3章 the view starts at x 7.25, and the cafe (5.6) and the selfie plaza (6.4) showed thin cut slivers at its left edge.
+ // At 5.1 both stay outside that view (the cafe picture reaches 94px right of its middle, the plaza 99px); the cafe's way back moves with its door.
+ city('neon_cafe',3,5.1,12.6,220,220,{label:'ネットカフェ',enter:'neon_cafe',arrival:[5,10]}),
  city('neon_ranking',0,24.6,12.6,190,250,{label:'ランキングタワー',dialogue:'rankingTower'}),
- city('neon_selfie',7,6.4,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
+ city('neon_selfie',7,5.1,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
  city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,10]}),
  city('neon_charts',1,5.6,33.6,200,240,{label:'いいねビル',dialogue:'chartTower'}),
  city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,10]}),
@@ -76,7 +78,7 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:13,
  object('nc_pc1','interior',1,2.2,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),object('nc_pc2','interior',1,8.6,4.2,110,110,{label:'パソコン',dialogue:'cafePc'}),
  object('nc_sofa','interior',12,2.2,8,110,110),object('nc_counter','interior',6,5.4,6.6,120,110,{label:'うけつけ',event:'netCafe',collider:{left:.1,right:.9,top:.55,bottom:1}}),object('nc_plant','interior',13,9.4,8.4,75,80),
  object('nc_clerk','npc2',3,5.4,5.2,48,65)],
- enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[5.6,13.8],sign:'そとへ'}]};
+ enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[5.1,13.8],sign:'そとへ'}]};
 // The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
 maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
