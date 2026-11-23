@@ -3201,13 +3201,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower2,f=id=>m.objects.find(o=>o.id===id),pipe=f('tw2_pipe'),rack=f('tw2_rack'),inf=m.enemies.find(e=>e.type==='infload2');
   assert(pipe&&pipe.kind==='tower'&&pipe.frame===12&&!pipe.action&&!pipe.event,'R715: a pipe stands on tower floor 2');assert(rack&&rack.kind==='tower'&&rack.frame===0&&!rack.action,'R715: a rack stands on tower floor 2');
   assert(Math.abs(pipe.y-rack.y)<=0.3,'R715: the pipe and the rack line up across the floor');
-  for(const o of [pipe,rack]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=20&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y>=f('tw2_cube').y+1.5,'R715: '+o.id+' stays inside the floor, in the bottom rows');
+  assert(rack.x<m.spawn[0]&&pipe.x>m.spawn[0],'R715: the rack stands on the left (floor 1 has its rack on the right) and the pipe on the right');
+  for(const [o,above] of [[rack,f('tw2_cube')],[pipe,f('tw2_floppy')]])assert(o.y*48-o.h-above.y*48>=24,'R715: '+o.id+' leaves a gap under '+above.id+', so they do not read as one stack');
+  for(const o of [pipe,rack]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y*48-o.h>=48&&o.y>=f('tw2_cube').y+1.5,'R715: '+o.id+' stays inside the floor, in the bottom rows');
    assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R715: '+o.id+' stays off the spawn column');assert(l>=inf.x*48+28+12||rr<=inf.x*48-28-12,'R715: '+o.id+' stays off the むげんローディング lane');
    for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R715: '+o.id+' does not stand on '+q.id);}
   r.g.debugWarp('tower2',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R715: the floor under the spawn stays open at y '+y);
-  for(let x=3.4;x<=7.6;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R715: the bottom row between the pipe and the rack stays open at x '+x.toFixed(1));
-  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/tower/tower_r3_c0.png')),'R715: the pipe picture is drawn');}
- result.push('R715: 塔2階の下の空いた床の左に管、右にラックを置いた PASS');
+  const a=(rack.x*48+rack.w/2)/48+.1,b=(pipe.x*48-pipe.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R715: the bottom row between the rack and the pipe stays open right up to them at x '+x.toFixed(1));
+  r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c0.png','tower_r0_c0.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R715: '+png+' is drawn');}
+ result.push('R715: 塔2階の下の空いた床の左にラック、右に管を置いた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
