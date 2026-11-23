@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T02:57:24.709Z",
-  "branch": "claude/autodev-20261116-1121-R594",
-  "task": "R594 召喚の効き目の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
-  "summary": "召喚の効き目の光が、戦闘画面を一瞬白く覆っていた\n召喚の光だけ4割の濃さにし、ほかの光は元のままにした\n手元のテスト463件と画面の確認がすべて通った",
-  "result": "fail",
-  "shots": [
-   "shots/1035/mobile-02-mode-select.jpg",
-   "shots/1035/mobile-19-custom-og-credit-card.jpg",
-   "shots/1035/mobile-34-chapter-1-play.jpg",
-   "shots/1035/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "0a7ea62",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43793711319"
- },
- {
   "at": "2026-11-16T03:41:22.637Z",
   "branch": "claude/autodev-20261116-1121-R594",
   "task": "R594 召喚が届いた時の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "3f3fa4d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45210059397"
+ },
+ {
+  "at": "2026-11-23T16:51:10.652Z",
+  "branch": "claude/autodev-20261124-0121-R732",
+  "task": "R732 コンビニだけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "全章のスクショを確認役に見せ、コンビニの床の下の暗い帯を選んだ\nコンビニを13行から、ほかの部屋と同じ14行にした\n出口・出る所・ごみ箱・鉢植え・箱を1行下げ、確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1273/mobile-02-mode-select.jpg",
+   "shots/1273/mobile-19-custom-og-credit-card.jpg",
+   "shots/1273/mobile-34-chapter-1-play.jpg",
+   "shots/1273/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a743107",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45218381041"
  }
 ]
