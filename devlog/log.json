@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T10:03:17.748Z",
-  "branch": "claude/autodev-20261116-1821-R600",
-  "task": "R600 タイトルの「♪ タップで音楽」の字の間に夜空の星が見えていたので、説明の札と同じ暗い札を敷いた",
-  "summary": "全章のスクショを確認役に見せ、気になる所を4つ挙げさせた\nタイトルの「♪ タップで音楽」に暗い札を敷き、字の間の星を隠した。札は下のボタンの6px上で終わる\n橋を抜けて浮く主人公と名前の無い台詞は R290・R557 の作りどおりで直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1046/mobile-02-mode-select.jpg",
-   "shots/1046/mobile-19-custom-og-credit-card.jpg",
-   "shots/1046/mobile-34-chapter-1-play.jpg",
-   "shots/1046/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b682af6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43843429435"
- },
- {
   "at": "2026-11-16T11:00:36.795Z",
   "branch": "claude/autodev-20261116-1921-R601",
   "task": "R601 ミナモに着いた時、2章のボスの右腕だけが画面の左端にのぞいていたので、ボスを砂場の上で0.8マス西へ動かした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e51a2cd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45282116929"
+ },
+ {
+  "at": "2026-11-23T23:38:40.280Z",
+  "branch": "claude/autodev-20261124-0821-R739",
+  "task": "R739 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n縦長の画面の上下の帯を半分の暗さにするのをやめ、地面との境目を消した\n帯が暗くならないことの確認を tools/test_v5.cjs に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1284/mobile-02-mode-select.jpg",
+   "shots/1284/mobile-19-custom-og-credit-card.jpg",
+   "shots/1284/mobile-34-chapter-1-play.jpg",
+   "shots/1284/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "372d7fc",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45289099818"
  }
 ]
