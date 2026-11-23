@@ -4190,6 +4190,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
   for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R711: the walk from the spawn to the door is open at y '+y);}
  result.push('R711: コンビニの左下の空いた床に鉢植えを置き、壁と雑誌の棚にかからず、出口への道はふさがらない PASS');
+ // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
+ // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
+ {const r=await runtime();r.tick();const mf=r.g.GAME_DATA.maps.minamo_friend,objs=mf.objects,[sx,sy]=mf.spawn,door=mf.portals[0];
+  const sh=objs.find(o=>o.id==='mf_shelf'),bin=objs.find(o=>o.id==='mf_bin'),rug=objs.find(o=>o.id==='mf_rug');
+  assert(sh&&sh.kind==='interior'&&sh.frame===2,'R712: a bookshelf stands in the friend house');assert(bin&&bin.kind==='props'&&bin.frame===14,'R712: a bin stands in the friend house');
+  for(const o of [sh,bin]){assert(o.x*48-o.w/2>=20&&o.x*48+o.w/2<=mf.w*48-20,'R712: '+o.id+' stays inside the side walls');assert(o.y<=mf.h-0.3,'R712: '+o.id+' stays above the bottom wall');
+   assert(Math.abs(o.x-sx)*48>=o.w/2+24&&Math.abs(o.x-door.x)*48>=o.w/2+24,'R712: '+o.id+' stays off the spawn-to-door column');
+   assert(Math.abs(o.x-rug.x)*48>=(o.w+rug.w)/2,'R712: '+o.id+' stays off the rug');
+   for(const q of objs.filter(q=>q!==o&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=o.h,'R712: '+o.id+' does not sit on '+q.id);}
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(2));while(r.g.dialogue)r.dialogue();r.g.debugWarp('minamo_friend',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
+  for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R712: the walk from the spawn to the door is open at y '+y);}
+ result.push('R712: 友達の家のラグの下の空いた床に本棚とごみ箱を置き、壁とラグにかからず、出口への道はふさがらない PASS');
  // R681: my room's lower floor was empty (mobile-26), so a second plant stands in the lower left corner and a bin in the lower right one, off the stairs, the exit plate and the cushion.
  {const r=await runtime();r.tick();const rm=r.g.GAME_DATA.maps.room,objs=rm.objects,door=rm.portals[0];
   const sh=objs.find(o=>o.id==='plant2'),bin=objs.find(o=>o.id==='roombin'),stairs=objs.find(o=>o.id==='stairs'),cushion=objs.find(o=>o.id==='cushion');

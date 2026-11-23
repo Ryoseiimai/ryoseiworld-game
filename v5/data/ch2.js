@@ -101,7 +101,9 @@ maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11
  object('mf_table','friend_rug',1,2.3,7.6,100,90),object('mf_beanbag','friend_rug',2,8.2,6.6,80,80),
  object('mf_tv','interior',3,8.5,4.2,115,115,{label:'テレビ',dialogue:'friendTvNoise',clearedDialogue:'friendTv',calmTv:true}/* R642: after the boss it shows a picture, like the own room's TV */),object('mf_sofa','interior',12,2.2,5.2,110,110),object('mf_plant','interior',13,9.4,8.4,75,80),
  // R699: the boy's feet stood on the rug's top fringe (mobile-31), so he stands a little north, on the bare floor.
- object('minamo_boy','npc2',7,4.6,6.4,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'})],
+ object('minamo_boy','npc2',7,4.6,6.4,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'}),
+ // R712: the floor under the rug was empty (mobile-31), so a bookshelf stands in the lower left corner and a bin in the lower right one, off the door path.
+ object('mf_shelf','interior',2,1.8,12.4,110,130),object('mf_bin','props',14,10.06,12.6,48,52)],
  enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[3,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
