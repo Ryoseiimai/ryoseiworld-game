@@ -3080,6 +3080,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // inside the right wall, clear of the bench, and the walk from the spawn down to the door stays open.
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.electric,b=m.objects.find(o=>o.id==='boxes'),bench=m.objects.find(o=>o.id==='bench');assert(b,'electric: the junk boxes are found');assert.equal(b.kind,'repair_bench','electric: the boxes use the repair_bench art');assert.equal(b.frame,2,'electric: the boxes are repair_bench frame 2');assert(b.x+b.w/96<=m.w-0.4,'electric: the boxes stay inside the right wall');assert(b.y-b.h/48>bench.y,'electric: the boxes stand below the bench');assert(b.x-b.w/96>m.portals[0].x+1,'electric: the boxes stand clear of the door');g.debugWarp('electric',m.spawn[0],m.spawn[1]);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'electric: the walk from the spawn to the door is open at y '+y);}
  result.push('R710: 電気屋の奥の右下の空いた床に段ボールが積まれ、壁と作業台にかからず、入口から外への道はふさがらない PASS');
+ // R714: with the boxes in the lower right, the lower left under the sofa was the only bare floor of the back room. The tool cart fills that corner,
+ // inside the left wall, below the sofa, left of the repair man (who stays reachable from the spawn), lined up with the boxes, and the door path stays open.
+ {const r=await runtime();r.tick();const g=r.g,m=g.GAME_DATA.maps.electric,f=id=>m.objects.find(o=>o.id===id),c=f('cart'),sofa=f('sofa'),rep=f('repair'),bx=f('boxes'),door=m.portals[0];
+  assert(c&&c.kind==='repair_bench'&&c.frame===3&&!c.action&&!c.event,'R714: the back room has the tool cart, a plain piece of furniture');
+  const l=c.x*48-c.w/2,rr=c.x*48+c.w/2;assert(l>=sofa.x*48-sofa.w/2-6&&c.y<=m.h-1.5,'R714: the cart stands as far off the left wall as the sofa, above the door row');
+  assert(c.y*48-c.h>=sofa.y*48,'R714: the cart stands below the sofa');assert(rr<=rep.x*48-rep.w/2,'R714: the cart stays left of the repair man');
+  assert(rr<=door.x*48-48,'R714: the cart stands clear of the door');assert(Math.abs(c.y-bx.y)<=0.3,'R714: the cart lines up with the boxes across the room');
+  for(const q of m.objects.filter(o=>o!==c&&!o.floor&&o.collider!==false))assert(Math.abs(q.x-c.x)*48>=(q.w+c.w)/2||Math.abs(q.y-c.y)*48>=Math.max(q.h,c.h)*.8,'R714: the cart does not stand on '+q.id);
+  g.debugWarp('electric',m.spawn[0],m.spawn[1]);r.tick(16);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'R714: the walk from the spawn to the door is open at y '+y);
+  for(let x=m.spawn[0];x>=rep.x+1;x-=0.1)assert(!g.debugBlocked(x*48,rep.y*48),'R714: the walk to the repair man stays open at x '+x.toFixed(1));
+  for(let y=rep.y+0.25;y<=12.5;y+=0.25)assert(!g.debugBlocked(rep.x*48,y*48),'R714: the floor under the repair man, right of the cart, stays open at y '+y);
+  while(g.dialogue)r.dialogue();r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/repair_bench/repair_bench_r1_c1.png')),'R714: the cart picture is drawn');}
+ result.push('R714: 電気屋の奥の左下の空いた床に工具のワゴンを置き、修理屋さんへの道と外への道をふさがない PASS');
  // R243: the park sign stands on two posts far apart, and the small round shadow lay on the grass between and below them (ミナモ, desktop-26). Its shadow now joins both post feet.
  {const m=html.match(/const FOOT_SHADOW=\{props:\{11:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}[,}]/);assert(m,'the park sign has its own shadow');const [rx,rise,ry,tilt]=m.slice(1).map(Number);
   assert(/const fsh=o\.w>=100&&FOOT_SHADOW\[o\.kind\]\?\.\[o\.frame\]/.test(html),'only the boards w 100 and up use it (R273 widened it from the park boards)');
@@ -4150,7 +4163,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();assert.equal(r.g.assets.repair_bench,4,'R673: the repair_bench sheet loads 4 frames');
   const m=r.g.GAME_DATA.maps.electric,objs=m.objects,b=objs.find(o=>o.id==='bench');
   assert(b&&b.kind==='repair_bench'&&b.frame===0&&!b.floor&&!b.action&&!b.event,'R673: the back room has the repair workbench, a plain piece of furniture');
-  assert(!objs.some(o=>o.kind==='repair_bench'&&o.frame!==0&&o.id!=='boxes'),'R673: only the workbench cell is used (R710 adds the boxes cell, frame 2, checked on its own)');assert(objs.filter(o=>o.kind==='repair_bench').length===2,'R673/R710: the back room has the bench and the boxes only from this sheet');
+  assert(!objs.some(o=>o.kind==='repair_bench'&&o.frame!==0&&o.id!=='boxes'&&o.id!=='cart'),'R673: only the workbench cell is used (R710 adds the boxes cell, frame 2, and R714 the cart cell, frame 3, each checked on its own)');assert(objs.filter(o=>o.kind==='repair_bench').length===3,'R673/R710/R714: the back room has the bench, the boxes and the cart only from this sheet');
   const [sx,sy]=m.spawn;assert(Math.hypot(b.x-sx,b.y-sy)>=2.5,'R673: the bench stays off the door spawn');
   assert(b.x*48-b.w/2>=7.5*48,'R673: the bench stays right of the door-to-boss-and-server path');
   const sv=objs.find(o=>o.id==='server');assert(b.y-sv.y>=2.5,'R673: the bench stands well below the server, leaving the walk to the server and boss open');
