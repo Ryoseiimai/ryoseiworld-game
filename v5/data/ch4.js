@@ -45,7 +45,7 @@ maps.tower3={name:'ノイズのとう 3かい',short:'とう 3かい',shortAdult
  tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,6.4,80,90),
  tower('tw3_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'}),
  // R716: below the chart and the crystal the bottom three rows were bare blue grid, as on floor 2 before R715.
- // A data column stands in the lower left and a bundle of cables in the lower right (floors 1 and 2 use other things there),
+ // A data column stands in the lower left and a bundle of cables in the lower right (floor 2 has a rack and a pipe there),
  // both off the spawn column, with a gap under the chart and the crystal.
  tower('tw3_column',10,2.1,11.8,70,90),tower('tw3_cable',1,8.9,11.8,80,80)],
  // R217: the same for the vault (2.2, 6.4) on the third floor.

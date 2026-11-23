@@ -3218,6 +3218,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const [o,above] of [[col,f('tw3_chart')],[cab,f('tw3_crystal')]])assert(o.y*48-o.h-above.y*48>=24,'R716: '+o.id+' leaves a gap under '+above.id);
   for(const o of [col,cab]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y>=f('tw3_chart').y+1.5,'R716: '+o.id+' stays inside the floor, in the bottom rows');
    assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R716: '+o.id+' stays off the spawn column');
+   {const e=m.enemies.find(x=>x.id==='tz3');assert(o.y*48-o.h>=(e.y+2.5)*48+24,'R716: '+o.id+' stays below the virus ball lane');}
    for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R716: '+o.id+' does not stand on '+q.id);}
   r.g.debugWarp('tower3',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R716: the floor under the spawn stays open at y '+y);
   const a=(col.x*48+col.w/2)/48+.1,b=(cab.x*48-cab.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R716: the bottom row between them stays open at x '+x.toFixed(1));
