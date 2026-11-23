@@ -1846,7 +1846,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!/PLAY_B - top/.test(back),'the town pole no longer reaches the bottom of the play area');}
  result.push('R229: BUG KING 戦で、町の電柱がガードレールと石垣の前まで立たない PASS');
  // R224: the bicycle and car frames end far above the bottom of their cells, so they floated over their shadows. sprite() draws them lower by the extra empty rows.
- {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52}};'),'the bicycle, the car and the right-facing ride frames have a foot pad');
+ {assert(html.includes('const SPRITE_FOOT_PAD={props:{8:48,9:42},hero_ride:{8:52,9:52,10:52,11:52},tower:{11:64}};'),'the bicycle, the car, the right-facing ride frames and the floppy pile (R739) have a foot pad');
   assert(html.includes('y+=(SPRITE_FOOT_PAD[kind]?.[index]||0)*f.h/248*s;'),'sprite() lowers a padded frame onto its foot');
   assert(html.includes('y:o.y*TILE-d.h+d.h*band.top+pad,'),'the collider moves down with the drawn frame');
   const r=await runtime();r.tick();r.g.debugStartChapter(1);r.tick(300);while(r.g.dialogue)r.dialogue();
@@ -2793,13 +2793,26 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const again=despeckPixels(d,w,h,12);assert.equal(again,0,'nothing loose is left');}
  result.push('R202: 町の電柱の絵の右にあった黒い点を消し、絵がこわれて見えないようにした PASS');
  // R227: the station picture had a thin purple sliver far under its steps, drawn as a stray line below ネオン's えき. Loading clears the rows under the art; the lamps in the tower window stay.
- {assert(html.includes("const CLEAR_BELOW={'neon:1_1':.9};"),'only the station frame has its bottom rows cleared');assert(html.includes('despeck(name,key,entry);clearBelow(name,key,entry);'),'the loader clears them after loading');
+ {assert(html.includes("const CLEAR_BELOW={'neon:1_1':.9,'tower:2_3':.85};"),'only the station and the floppy pile frames have their bottom rows cleared');assert(html.includes('despeck(name,key,entry);clearBelow(name,key,entry);'),'the loader clears them after loading');
   const r=await runtime();const st=r.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_station');assert(st&&st.kind==='neon'&&st.frame===4,'the station uses neon frame 4 (row 1, col 1)');
   const file=path.join(root,'assets','neon','neon_r1_c1.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
   const rows=(a,z)=>{let n=0;for(let y=a;y<z;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>16)n++;return n;},from=Math.floor(h*.9);
   assert(rows(from,h)>=40,'the sliver sits in the cleared rows: '+rows(from,h));assert.equal(rows(Math.floor(h*.83),from),0,'the station art ends well above them, so nothing of it is cut');
   assert(rows(85,87)>0,'the lower window lamp (rows 85-86) is part of the picture and is not touched');}
  result.push('R227: ネオンの えきの下に出ていた紫の線を消した PASS');
+ // R739: the tower floppy pile (tower:2_3) carried a grey bit of the next sheet cell at its bottom, drawn as a stray line by its shadow, and the pile floated ~19px above the floor.
+ {const file=path.join(root,'assets','tower','tower_r2_c3.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20);decoded.delete(file);const d=Buffer.from(pngPixels(file).data);decoded.delete(file);
+  const rows=(a,z)=>{let n=0;for(let y=a;y<z;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>16)n++;return n;},from=Math.floor(h*.85);
+  assert(rows(from,h)>=40,'the grey bit sits in the cleared rows: '+rows(from,h));assert.equal(rows(Math.floor(h*.75),from),0,'the pile ends well above them, so nothing of it is cut');
+  let bottom=0;for(let y=0;y<from;y++)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>16)bottom=y+1;
+  const gap=(h-bottom)*70/h-64*h/248*Math.min(70/w,70/h);assert(gap>=-1&&gap<=4,'with the foot pad the pile base sits on its shadow (gap '+gap.toFixed(1)+'px at 70px)');
+  assert(html.includes('entry.cleared=true;/* R739: measure the footprint again without the cleared bit */if(entry.band)scanAlpha(c,entry);'),'the footprint is measured again after clearing');
+  assert(html.includes('scratch.width=img.naturalWidth||img.width;'),'scanAlpha can read a canvas');
+  // The node fake canvas cannot run the second scan, so the browser footprint is worked out here the way scanAlpha does (alpha > 80, last solid row above the cleared rows).
+  {let sb=-1;for(let y=from-1;y>=0&&sb<0;y--)for(let x=0;x<w;x++)if(d[(y*w+x)*4+3]>80){sb=y;break;}const pad=64*70/248,colBottom=-70+70*(sb+1)/h+pad;
+   assert(sb>=160&&sb<=175,'the rescanned footprint ends at the pile base (row '+sb+'), not at the grey bit');assert(Math.abs(colBottom)<=3,'the collider bottom meets the foot ('+colBottom.toFixed(1)+'px)');}
+  const r=await runtime();for(const [m,id] of [['tower1','tw1_floppy'],['tower2','tw2_floppy']]){const o=r.g.GAME_DATA.maps[m].objects.find(x=>x.id===id);assert(o&&o.kind==='tower'&&o.frame===11,id+' uses tower frame 11');}}
+ result.push('R739: 塔のフロッピーの山の下の灰色の線を消し、山を影の上に下ろした PASS');
  // R643: the right-facing ride frames (hero_ride row 2) carry the top of the next row's cap under the wheels, drawn as a small black piece about 20px under the hero on the title and outside.
  {assert(html.includes('const SPRITE_CROP_BOTTOM={hero_ride:{8:.85,9:.85,10:.85,11:.85}};'),'only the right-facing ride frames are cut at the bottom');
   for(let c=0;c<4;c++){const key='hero_ride r2_c'+c;
