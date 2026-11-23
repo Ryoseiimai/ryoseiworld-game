@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-15T16:52:12.188Z",
-  "branch": "claude/autodev-20261116-0121-R585",
-  "task": "R585 町やネオンシティで、上の地名の札より上の細い帯に屋根や木の切れはしが見えていたので、その帯を濃い色でふさいだ",
-  "summary": "町とネオンで、地名の札より上の帯に屋根や木の切れはしが見えていた\n外のマップだけ、札の上の帯を濃い色でふさぎ、札の下で前の影に戻した\n影の段の順が画面の大きさで崩れないことを確かめるテストを足した",
-  "result": "conflict",
-  "shots": [],
-  "sha": "5a0126d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43737776900"
- },
- {
   "at": "2026-11-15T17:13:07.372Z",
   "branch": "claude/autodev-20261116-0121-R585",
   "task": "R585 クイズの「正解！」の窓の上から、戦いの主人公の頭だけがのぞいて切れた絵に見えていたので、窓の縁が横切る間は主人公とソラを描かないようにした",
@@ -2978,5 +2968,20 @@
   ],
   "sha": "f17697f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45118470525"
+ },
+ {
+  "at": "2026-11-23T05:56:53.214Z",
+  "branch": "claude/autodev-20261123-1443-R720",
+  "task": "R720 電気屋の奥の何も無い壁に時計をかけようとしたが、R677 のテストが部屋の物すべてを奥の壁より下に置かせるので、次の件に分けた",
+  "summary": "電気屋の奥の何も無い壁に時計をかけようとした\n前からあるテストが部屋の物すべてを壁より下に置かせるので、時計は入れなかった\nテストをゆるめてよいかを、司令塔に決めてもらう行を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1256/mobile-02-mode-select.jpg",
+   "shots/1256/mobile-19-custom-og-credit-card.jpg",
+   "shots/1256/mobile-34-chapter-1-play.jpg",
+   "shots/1256/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4777776",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45120035555"
  }
 ]
