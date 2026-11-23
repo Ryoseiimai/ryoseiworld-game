@@ -3196,6 +3196,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const q of m.objects.filter(x=>x!==o&&x.kind!=='npc2'))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R713: the pile does not stand on '+q.id);
   r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y<=p.y-0.5;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R713: the walk from the spawn to the plate stays open at y '+y);}
  result.push('R713: 塔1階の右下の空いた床に、フロッピーの山を外への道をふさがずに置いた PASS');
+ // R715: on floor 2 the bottom rows under the cube and the floppy pile were bare grid (mobile-07). A pipe fills the lower left and a rack the lower right,
+ // inside the floor, lined up with each other, clear of the spawn column, the むげんローディング lane and every other thing, and the spawn can still walk down.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower2,f=id=>m.objects.find(o=>o.id===id),pipe=f('tw2_pipe'),rack=f('tw2_rack'),inf=m.enemies.find(e=>e.type==='infload2');
+  assert(pipe&&pipe.kind==='tower'&&pipe.frame===12&&!pipe.action&&!pipe.event,'R715: a pipe stands on tower floor 2');assert(rack&&rack.kind==='tower'&&rack.frame===0&&!rack.action,'R715: a rack stands on tower floor 2');
+  assert(Math.abs(pipe.y-rack.y)<=0.3,'R715: the pipe and the rack line up across the floor');
+  for(const o of [pipe,rack]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=20&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y>=f('tw2_cube').y+1.5,'R715: '+o.id+' stays inside the floor, in the bottom rows');
+   assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R715: '+o.id+' stays off the spawn column');assert(l>=inf.x*48+28+12||rr<=inf.x*48-28-12,'R715: '+o.id+' stays off the むげんローディング lane');
+   for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R715: '+o.id+' does not stand on '+q.id);}
+  r.g.debugWarp('tower2',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R715: the floor under the spawn stays open at y '+y);
+  for(let x=3.4;x<=7.6;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R715: the bottom row between the pipe and the rack stays open at x '+x.toFixed(1));
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/tower/tower_r3_c0.png')),'R715: the pipe picture is drawn');}
+ result.push('R715: 塔2階の下の空いた床の左に管、右にラックを置いた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;

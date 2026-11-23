@@ -32,7 +32,10 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
 maps.tower2={name:'ノイズのとう 2かい',short:'とう 2かい',shortAdult:'塔2階',w:11,h:13,spawn:[5,10],tiles:grid,objects:[
  tower('tw2_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
- tower('tw2_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('tw2_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'}),
+ // R715: below the cube and the floppy pile the bottom three rows were bare blue grid (mobile-07), like floor 1 before R685/R713.
+ // A bent pipe stands in the lower left and a server rack in the lower right, both off the spawn column and the むげんローディング lane (x 6.8).
+ tower('tw2_pipe',12,2.1,11.8,80,80),tower('tw2_rack',0,8.9,11.8,80,90)],
  // R217: the crow swings 1.5 tiles each way along y 6.6; from x 4 it flew onto the fan (2.2, 6.4), so it starts at 5.2 and turns before the fan; むげんローディング (x 7) rose into the save kiosk, so it walks at 6.8.
  enemies:[{id:'tz2a',type:'crow2',x:5.2,y:6.6,axis:'x'},{id:'tz2b',type:'infload2',x:6.8,y:9.6,axis:'y'}],
  portals:[],cells:[{x:2.2,y:3.5,warp:'tower1',at:[5,10]},{x:8.4,y:3.5,warp:'tower3',at:[5,10]}]};
