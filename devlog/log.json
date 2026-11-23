@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T04:14:22.825Z",
-  "branch": "claude/autodev-20261116-1242-R595",
-  "task": "R595 全章のスクショを確認役に見せ、気になる所を3つ挙げさせた（前半）",
-  "summary": "確認役が R594 の枝を見て、台帳の題の言い方を1か所直した。自動確認に合格した\n全章のスクショ51枚を確認役に見せ、気になる所を3つ挙げさせた\n1番は、戦闘でソラの名前の札が光の下半分に重なる所。後半の件として台帳に書いた",
-  "result": "pass",
-  "shots": [
-   "shots/1039/mobile-02-mode-select.jpg",
-   "shots/1039/mobile-19-custom-og-credit-card.jpg",
-   "shots/1039/mobile-34-chapter-1-play.jpg",
-   "shots/1039/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b88c27c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43800561951"
- },
- {
   "at": "2026-11-16T04:57:15.879Z",
   "branch": "claude/autodev-20261116-1321-R596",
   "task": "R596 戦闘でソラの名前の札が、ソラの光の下半分に重なって光を切っていたので、ソラを40px上げて光と札の間を5px空けた（後半）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "730832d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45228084346"
+ },
+ {
+  "at": "2026-11-23T18:36:33.192Z",
+  "branch": "claude/autodev-20261124-0322-R734",
+  "task": "R734 ネットカフェだけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "ネットカフェが13行で、床の下に暗い帯が出ていたのを選んだ\nネットカフェを、ほかの部屋と同じ14行にした\n着く所と外への札を1行下げ、確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1277/mobile-02-mode-select.jpg",
+   "shots/1277/mobile-19-custom-og-credit-card.jpg",
+   "shots/1277/mobile-34-chapter-1-play.jpg",
+   "shots/1277/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "507a6be",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45238284589"
  }
 ]
