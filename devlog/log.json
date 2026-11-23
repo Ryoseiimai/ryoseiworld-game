@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T17:44:51.024Z",
-  "branch": "claude/autodev-20261116-0221-R587",
-  "task": "R587 ヒカクマオウ戦の始めに、字のない暗い枠だけが一瞬見えていたので、台詞の枠と字を同じコマで出すようにした",
-  "summary": "ヒカクマオウ戦の始めに、字のない暗い枠だけが一瞬見えていた\nボスの台詞の枠と字を、入場の帯と同じく1コマで一緒に出すようにした\n全部のボスで空の枠のコマが無いことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1020/mobile-02-mode-select.jpg",
-   "shots/1020/mobile-19-custom-og-credit-card.jpg",
-   "shots/1020/mobile-34-chapter-1-play.jpg",
-   "shots/1020/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5271c3a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43741676997"
- },
- {
   "at": "2026-11-15T19:10:19.547Z",
   "branch": "claude/autodev-20261116-0321-R588",
   "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b281b54",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45125433949"
+ },
+ {
+  "at": "2026-11-23T08:03:43.934Z",
+  "branch": "claude/autodev-20261123-1621-R723",
+  "task": "R723 ミナモ町に着いた時、桜の下と木と街灯の間の南の草地が空いて間延びしていたので、花壇を2つ置いた",
+  "summary": "ミナモ町に着いた時、南の草地が空いていたので花壇を2つ置いた\n花壇は歩ける行より下に置き、友達の家から東への道はふさがない\n家・桜・木・街灯・お母さんにかからないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1258/mobile-02-mode-select.jpg",
+   "shots/1258/mobile-19-custom-og-credit-card.jpg",
+   "shots/1258/mobile-34-chapter-1-play.jpg",
+   "shots/1258/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "faaba31",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45134432049"
  }
 ]
