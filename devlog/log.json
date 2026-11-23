@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T21:10:04.259Z",
-  "branch": "claude/autodev-20261116-0522-R590",
-  "task": "R590 道の真ん中の白い線が交差点の中まで続き、ミナモの下の道には線が無かったので、線を交差点で止め、どの横の道にも引くようにした",
-  "summary": "縦の道の白い線が交差点の中を通っていたので、交差点では引かないようにした\nミナモの下の横の道に線が無かったので、どの横の道にも線を引くようにした\n前と後のスクショを v5/verification/R590_road_*.png に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/1027/mobile-02-mode-select.jpg",
-   "shots/1027/mobile-19-custom-og-credit-card.jpg",
-   "shots/1027/mobile-34-chapter-1-play.jpg",
-   "shots/1027/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "915d8a2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43760015204"
- },
- {
   "at": "2026-11-15T22:19:59.212Z",
   "branch": "claude/autodev-20261116-0641-R591",
   "task": "R591 タイトルで説明の箱が左の家の屋根に重なっていたので、タイトルでだけ家を下げ、箱を少し上に寄せた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "066abba",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45155956594"
+ },
+ {
+  "at": "2026-11-23T11:52:25.503Z",
+  "branch": "claude/autodev-20261123-2021-R727",
+  "task": "R727 ネオンシティに着いた時、広場の木の冠が画面の左右の端に細く切れて見えたので、2本とも少し外へ寄せた",
+  "summary": "ネオンシティに着いた画面の左右の端に、広場の木の冠が細く切れて出ていた\n広場の木2本を外へ寄せ、冠が着いた画面の外に収まるようにした\n冠が着いた画面に入らないことを調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1264/mobile-02-mode-select.jpg",
+   "shots/1264/mobile-19-custom-og-credit-card.jpg",
+   "shots/1264/mobile-34-chapter-1-play.jpg",
+   "shots/1264/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a8b06e7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45167267145"
  }
 ]
