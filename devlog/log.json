@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T11:06:51.971Z",
-  "branch": "claude/autodev-20261115-1921-R579",
-  "task": "R579 ネオンシティで一歩左へ歩くと、掃除機のノイズの足が「調べる」ボタンに隠れていたので、歩く範囲を少し上へずらした",
-  "summary": "ネオンシティで掃除機のノイズの足が「調べる」ボタンに隠れていたのを直した\nノイズの歩く範囲を1タイル上へずらし、足がボタンの上に残るようにした\n一歩左へ歩いても足がボタンに入らないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1006/mobile-02-mode-select.jpg",
-   "shots/1006/mobile-19-custom-og-credit-card.jpg",
-   "shots/1006/mobile-34-chapter-1-play.jpg",
-   "shots/1006/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ee322f6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43706270391"
- },
- {
   "at": "2026-11-15T11:56:31.474Z",
   "branch": "claude/autodev-20261115-2021-R580",
   "task": "R580 設定やメニューの窓を開くと、縦長のスマホで画面の下の帯だけがタイトルの明るい地面の色のまま残っていたので、帯にも窓と同じ暗い色をかぶせた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3465ea9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45085181183"
+ },
+ {
+  "at": "2026-11-23T00:42:39.981Z",
+  "branch": "claude/autodev-20261123-0921-R712",
+  "task": "R712 友達の家のラグの下の床が空いて間延びしていたので、左下に本棚、右下にごみ箱を出口への道をふさがずに置いた",
+  "summary": "友達の家のラグの下の床が空いていたので、左下に本棚、右下にごみ箱を置いた\n2つは壁とラグにかからず、入口から外への道もふさがない\nそのことをテストに足し、友達の家のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1241/mobile-02-mode-select.jpg",
+   "shots/1241/mobile-19-custom-og-credit-card.jpg",
+   "shots/1241/mobile-34-chapter-1-play.jpg",
+   "shots/1241/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3020289",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45089418709"
  }
 ]
