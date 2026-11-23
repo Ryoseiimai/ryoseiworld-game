@@ -3098,6 +3098,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   g.debugWarp('neon',m.spawn[0],m.spawn[1]);
   for(const lx of [10.5,19.5])for(let y=7;y<=9;y+=0.5)assert(!g.debugBlocked(lx*48,y*48),'R726: the lane beside the plaza trees is open at x '+lx+' y '+y);}
  result.push('R726: ネオンの駅と くもの もんの間の空いた広場に木を2本立て、駅とカフェとタワーにかからず、もんへの道はふさがらない PASS');
+ // R727: the plaza trees stood with 10px of crown inside the arrival view at both screen edges, a thin cut slice. Each crown now stays out of it.
+ {const g=(await runtime()).g;const m=g.GAME_DATA.maps.neon,by=id=>m.objects.find(o=>o.id===id);
+  const tw=by('neon_tree_plaza0'),te=by('neon_tree_plaza1'),crown=45/48,v0=m.spawn[0]-540/96,v1=m.spawn[0]+540/96;
+  assert(Math.abs(v0-9.375)<0.01,'R727: the arrival view starts at x 9.375 (got '+v0+')');
+  assert(tw.x+crown<=v0,'R727: the left plaza tree crown stays outside the arrival view');
+  assert(te.x-crown>=v1,'R727: the right plaza tree crown stays outside the arrival view');}
+ result.push('R727: ネオンに着いた時、広場の木の冠が画面の左右の端に細く切れて出ない PASS');
  // R710: the electric shop's back room was bare below the bench and the sofa (mobile-28); junk boxes stand in the lower right corner,
  // inside the right wall, clear of the bench, and the walk from the spawn down to the door stays open.
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.electric,b=m.objects.find(o=>o.id==='boxes'),bench=m.objects.find(o=>o.id==='bench');assert(b,'electric: the junk boxes are found');assert.equal(b.kind,'repair_bench','electric: the boxes use the repair_bench art');assert.equal(b.frame,2,'electric: the boxes are repair_bench frame 2');assert(b.x+b.w/96<=m.w-0.4,'electric: the boxes stay inside the right wall');assert(b.y-b.h/48>bench.y,'electric: the boxes stand below the bench');assert(b.x-b.w/96>m.portals[0].x+1,'electric: the boxes stand clear of the door');g.debugWarp('electric',m.spawn[0],m.spawn[1]);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'electric: the walk from the spawn to the door is open at y '+y);}
