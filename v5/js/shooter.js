@@ -309,7 +309,9 @@
         // R432: the adult hint was kana in front and kanji in the quote, and 「よわる」 did not say what weakens; it now reads like the
         // adult notices (down: 「数字に当たって攻撃力が下がった」, pace: 「攻撃力が1段戻った！」 since R460).
         // R459: the adult hint alone had a space inside the sentence (数字に当たると 攻撃力), unlike the other adult hints (R454/R455); it is closed up.
-        hintAdult: ['ソラ', '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で戻る'],
+        // R737: 「緑の『自分のペース』で戻る」では何が戻るのか分かりにくかった（確認役 mobile-47）。拾った時の知らせ「攻撃力が1段戻った！」と同じ「1段」を入れ、
+        // 下がった攻撃力が1段ずつ戻ると読めるようにした。空白をのぞいて30字のまま。
+        hintAdult: ['ソラ', '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で1段戻る'],
         owlHint: ['サーチフクロウ', 'かずは ぜんぶ たにんの もの。かんむりを ねらって'],
         win: 'ヒカクマオウは おとなしく なった', winAdult: 'ヒカクマオウはおとなしくなった' }
     },

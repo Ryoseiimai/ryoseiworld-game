@@ -1347,9 +1347,11 @@ async function browserAdapterChecks() {
   // R427: the pickup comes up 9 s after the hint, so the hint says what to look for (みどり, the pickup's colour) and what it does (もどる).
   check('R427: ヒカクマオウのヒントは拾う物の色と、拾うと戻ることを言う', k[1].includes('みどりの「') && k[1].endsWith('で もどる') && !k[1].includes('とろう'), k);
   // R432: adult mode says it in kanji like its notices, and names what goes down (攻撃力).
-  check('R427/R432: おとなモードのヒントは拾う物の色と、拾うと戻ることを漢字で言う', a[1].includes('緑の「') && a[1].endsWith('で戻る') && !a[1].includes('とろう'), a);
+  check('R427/R432: おとなモードのヒントは拾う物の色と、拾うと戻ることを漢字で言う', a[1].includes('緑の「') && a[1].endsWith('で1段戻る') && !a[1].includes('とろう'), a);
   check('R432: おとなモードのヒントは何が下がるか（攻撃力）を言い、ひらがなの「すうじ」「よわる」「もどる」を使わない', a[1].includes('攻撃力が下がる') && a[1].startsWith('数字に当たると') && !/すうじ|よわる|もどる/.test(a[1]), a);
-  check('R459: おとなモードのヒカクマオウのヒントは、文の中に空白を入れない', !/ /.test(a[1]) && a[1] === '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で戻る', a);
+  check('R459: おとなモードのヒカクマオウのヒントは、文の中に空白を入れない', !/ /.test(a[1]) && a[1] === '数字に当たると攻撃力が下がる。\n緑の「自分のペース」で1段戻る', a);
+  // R737: the adult hint says how far the attack comes back (1段), the same word as the pickup notice 「攻撃力が1段戻った！」.
+  check('R737: おとなモードのヒントの「1段」は、拾った時の知らせと同じ言葉', a[1].includes('1段戻る') && (globalThis.RYW.setMode('adult'), sim.noticeText('pace')).includes('1段戻った') && (globalThis.RYW.setMode('kids'), true), a);
   for (const h of [a, k]) check('R427: ヒカクマオウのヒントは2行で、空白をのぞいて30字まで', h[1].split('\n').length === 2 && h[1].replace(/[\s]/g, '').length <= 30, h);
   globalThis.RYW.setMode(old || 'kids');
 })();
