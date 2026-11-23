@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T03:41:22.637Z",
-  "branch": "claude/autodev-20261116-1121-R594",
-  "task": "R594 召喚が届いた時の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
-  "summary": "自動確認で落ちた R594 の枝を、手元で全部のテストにかけ直した\n手元では 463 件すべて通り、7分11秒で最後まで終わった\n確認役の指摘で、台帳の題の「効き目」を「召喚が届いた時の光」に直した",
-  "result": "pass",
-  "shots": [
-   "shots/1037/mobile-02-mode-select.jpg",
-   "shots/1037/mobile-19-custom-og-credit-card.jpg",
-   "shots/1037/mobile-34-chapter-1-play.jpg",
-   "shots/1037/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a84335a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43798456253"
- },
- {
   "at": "2026-11-16T04:01:58.920Z",
   "branch": "claude/autodev-20261116-1242-R595",
   "task": "R595 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "a743107",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45218381041"
+ },
+ {
+  "at": "2026-11-23T17:30:30.197Z",
+  "branch": "claude/autodev-20261124-0222-R733",
+  "task": "R733 塔の4つの階だけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "塔の4つの階が13行で、床の下に暗い帯が出ていたのを選んだ\n4つの階を、ほかの部屋と同じ14行にした\n着く所・ワープ先・外への札・下の段の物を1行下げ、確認を足した",
+  "result": "fail",
+  "shots": [
+   "shots/1274/mobile-02-mode-select.jpg",
+   "shots/1274/mobile-19-custom-og-credit-card.jpg",
+   "shots/1274/mobile-34-chapter-1-play.jpg",
+   "shots/1274/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5b9f3ab",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45227229086"
  }
 ]

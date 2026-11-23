@@ -1,0 +1,36 @@
+{
+  "branch": "claude/autodev-20261124-0222-R733",
+  "sha": "5b9f3ab9613fbdf57508504f90200e7682598171",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+    "528 !== 480",
+    "    at /tmp/tmp.qB3NqHgrOE/tree-claude__autodev-20261124-0222-R733/tools/test_v5.cjs:793:131 {",
+    "  generatedMessage: true,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: 528,",
+    "  expected: 480,",
+    "  operator: 'strictEqual',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/1274/mobile-02-mode-select.jpg",
+    "devlog/shots/1274/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1274/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1274/mobile-50-battle-bugking.jpg"
+  ],
+  "at": "2026-11-23T17:30:30.197Z",
+  "merged_sha": null,
+  "tested_base": "8ee1c4467b1ec1f2dd2394b5488fd8cb8170de17",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45227229086"
+}
