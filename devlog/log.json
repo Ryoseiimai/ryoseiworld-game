@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T02:41:06.211Z",
-  "branch": "claude/autodev-20261116-1121-R594",
-  "task": "R594 遊んで一番気になる所を1つ直す",
-  "summary": "自動確認で落ちた R592 の枝を、手元で全部のテストにかけ直した\n手元では 463 件すべて通り、最後まで終わった\n確認役も、しっぽの位置の1行で落ちる所は無いと答えた",
-  "result": "pass",
-  "shots": [
-   "shots/1034/mobile-02-mode-select.jpg",
-   "shots/1034/mobile-19-custom-og-credit-card.jpg",
-   "shots/1034/mobile-34-chapter-1-play.jpg",
-   "shots/1034/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8472671",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43792444538"
- },
- {
   "at": "2026-11-16T02:57:24.709Z",
   "branch": "claude/autodev-20261116-1121-R594",
   "task": "R594 召喚の効き目の光が戦闘画面を白く覆い、敵の名前や主人公が見えにくかったので、召喚の光だけ4割の濃さにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "34298b8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45195215949"
+ },
+ {
+  "at": "2026-11-23T16:05:42.700Z",
+  "branch": "claude/autodev-20261124-0021-R731",
+  "task": "R731 電気屋の奥は右上の床だけ何も無かったので、ほかの部屋と同じ鉢植えを置いた",
+  "summary": "全章のスクショを確認役に見せ、電気屋の奥の右上が空いているのを選んだ\nテレビの山の右、サーバーの上に、ほかの部屋と同じ鉢植えを置いた\n壁とサーバーにかからず、道がふさがらない確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1272/mobile-02-mode-select.jpg",
+   "shots/1272/mobile-19-custom-og-credit-card.jpg",
+   "shots/1272/mobile-34-chapter-1-play.jpg",
+   "shots/1272/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3f3fa4d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45210059397"
  }
 ]
