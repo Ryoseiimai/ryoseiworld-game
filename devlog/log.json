@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T11:56:31.474Z",
-  "branch": "claude/autodev-20261115-2021-R580",
-  "task": "R580 設定やメニューの窓を開くと、縦長のスマホで画面の下の帯だけがタイトルの明るい地面の色のまま残っていたので、帯にも窓と同じ暗い色をかぶせた",
-  "summary": "設定やメニューの窓を開くと、縦長のスマホで画面の下の帯が明るい黄緑のまま残っていた\n窓が開いている間は、上下の帯と横のぼかしにも窓と同じ暗い色をかぶせた\n色が窓と同じで、帯を描いた後にかぶせていることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1008/mobile-02-mode-select.jpg",
-   "shots/1008/mobile-19-custom-og-credit-card.jpg",
-   "shots/1008/mobile-34-chapter-1-play.jpg",
-   "shots/1008/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a8b8b2b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43710498828"
- },
- {
   "at": "2026-11-15T12:45:22.151Z",
   "branch": "claude/autodev-20261115-2121-R581",
   "task": "R581 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3020289",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45089418709"
+ },
+ {
+  "at": "2026-11-23T00:57:58.795Z",
+  "branch": "claude/autodev-20261123-0943-R713",
+  "task": "R713 塔1階は左下に壊れたテレビが入った後、ラックの下の右下だけ床が空いていたので、右下にフロッピーの山を置いた",
+  "summary": "塔1階の右下の床が空いていたので、フロッピーの山を置いた\n山は左下の壊れたテレビと同じ高さで、敵の通り道と外への道をふさがない\nそのことをテストに足し、塔1階のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1242/mobile-02-mode-select.jpg",
+   "shots/1242/mobile-19-custom-og-credit-card.jpg",
+   "shots/1242/mobile-34-chapter-1-play.jpg",
+   "shots/1242/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7d83c1d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45090907373"
  }
 ]
