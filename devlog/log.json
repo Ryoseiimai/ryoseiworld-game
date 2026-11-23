@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T15:57:05.932Z",
-  "branch": "claude/autodev-20261116-0021-R584",
-  "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
-  "summary": "戦闘のソラの名前に、ボスの紫の縞が字にかかっていた\n名前の下に濃い札を敷き、字の色は前のままにした\n札がHPの欄にかからず、右の端からはみ出さないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1015/mobile-02-mode-select.jpg",
-   "shots/1015/mobile-19-custom-og-credit-card.jpg",
-   "shots/1015/mobile-34-chapter-1-play.jpg",
-   "shots/1015/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ca05dac",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43731739864"
- },
- {
   "at": "2026-11-15T16:28:59.674Z",
   "branch": "claude/autodev-20261116-0041-R584",
   "task": "R584 クイズの「正解！」の窓の上から、戦いの主人公の頭だけがのぞいて切れた絵に見えていたので、窓の縁が横切る間は主人公とソラを描かないようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "bebcf0e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45106288009"
+ },
+ {
+  "at": "2026-11-23T04:35:26.520Z",
+  "branch": "claude/autodev-20261123-1321-R717",
+  "task": "R717 屋上は下の3段の床が空いて間延びしていたので、左下にデータの雲、右下に室外機を置いた",
+  "summary": "屋上の下の3段の床が空いていたので、左下にデータの雲、右下に室外機を置いた\n2つは出発の列と下へ歩く道をふさがず、上の雲から離した\nそのことをテストに足した。確認役は止めるほどの問題を挙げなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1253/mobile-02-mode-select.jpg",
+   "shots/1253/mobile-19-custom-og-credit-card.jpg",
+   "shots/1253/mobile-34-chapter-1-play.jpg",
+   "shots/1253/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7554017",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45111803972"
  }
 ]
