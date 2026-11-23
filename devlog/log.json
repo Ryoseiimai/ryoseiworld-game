@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-15T16:28:59.674Z",
-  "branch": "claude/autodev-20261116-0041-R584",
-  "task": "R584 クイズの「正解！」の窓の上から、戦いの主人公の頭だけがのぞいて切れた絵に見えていたので、窓の縁が横切る間は主人公とソラを描かないようにした",
-  "summary": "確認役がクイズの窓の上に主人公の頭だけ出ていると挙げた\n窓の縁が主人公やソラを横切る間は、その絵を描かないようにした\n窓の位置で消えるかどうかを調べる確認を手元のテストに足した",
-  "result": "conflict",
-  "shots": [],
-  "sha": "40fdfd6",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43735592516"
- },
- {
   "at": "2026-11-15T16:49:26.179Z",
   "branch": "claude/autodev-20261116-0041-R584",
   "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
@@ -2973,5 +2963,20 @@
   ],
   "sha": "7554017",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45111803972"
+ },
+ {
+  "at": "2026-11-23T04:52:45.162Z",
+  "branch": "claude/autodev-20261123-1336-R718",
+  "task": "R718 友達の家の壁だけ何も無く、自分の部屋と図書館にある時計が無かったので、ソファの上の高い所へ時計をかけた",
+  "summary": "友達の家の壁だけ何も無かったので、ソファの上に自分の部屋と同じ時計をかけた\n時計は壁の中に収め、ソファとテレビから離し、歩く道をふさがない\n確認役が挙げた時計の高さのずれを直し、テストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1254/mobile-02-mode-select.jpg",
+   "shots/1254/mobile-19-custom-og-credit-card.jpg",
+   "shots/1254/mobile-34-chapter-1-play.jpg",
+   "shots/1254/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "789bf3d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45113526120"
  }
 ]
