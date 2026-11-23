@@ -58,7 +58,11 @@ maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょ�
  tower('twr_gate',15,5,2.6,110,130,{label:'ひかる もん',action:'boss',enemy:'jibun',dialogue:'jibunTalk',clearedDialogue:'jibunGone',goneWhenCleared:true}),
  // R29: a second, fainter door for ゼロ. requiresBoss keeps it locked until ジブン is beaten (jibun.winEvent pushes 'jibun' into g.bosses).
  tower('twr_gate2',15,7.4,2.6,90,110,{label:'かすかな ひかり',action:'boss',enemy:'zero',requiresBoss:'jibun',dialogue:'zeroTalk',lockedDialogue:'zeroLocked',clearedDialogue:'zeroGone',goneWhenCleared:true}),
- tower('twr_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'})],
+ tower('twr_down',6,2.2,3.5,90,90,{label:'ひかりの ゆか',sign:'したへ'}),
+ // R717: the bottom three rows were bare blue grid, as on floors 2 and 3 before R715/R716.
+ // A small data cloud drifts in the lower left (the roof already has one by the save terminal) and an outdoor fan unit stands in the lower right,
+ // both off the spawn column, with a gap under the cloud above.
+ tower('twr_cloud2',13,2.1,11.8,70,70),tower('twr_fan',9,8.9,11.8,80,80)],
  enemies:[],portals:[],cells:[{x:2.2,y:3.5,warp:'tower3',at:[5,10]}]};
 RYW.registerChapter({id:4,title:'ノイズのとう',titleAdult:'ノイズの塔',town:'tower1',zakoGoal:3,
  // R29: ジブンに勝っても まだ 章は終わらない（jibun.winEvent が jibunWin を走らせるだけ）。章の ほんとうの ボスは ゼロ。

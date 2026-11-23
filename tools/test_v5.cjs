@@ -3224,6 +3224,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const a=(col.x*48+col.w/2)/48+.1,b=(cab.x*48-cab.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R716: the bottom row between them stays open at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r2_c2.png','tower_r0_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R716: '+png+' is drawn');}
  result.push('R716: 塔3階の下の空いた床の左に光の柱、右にケーブルを置いた PASS');
+ // R717: on the roof the bottom rows and the left side under the down floor were bare grid, as on floors 2 and 3 before R715/R716. A data cloud fills the lower left and a fan unit
+ // the lower right, lined up, inside the floor, clear of the spawn column, with a gap under the cloud above, not standing on anything, no talk, and the spawn can still walk down.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower_roof,f=id=>m.objects.find(o=>o.id===id),cl=f('twr_cloud2'),fan=f('twr_fan');
+  assert(cl&&cl.kind==='tower'&&cl.frame===13&&!cl.action&&!cl.event&&!cl.dialogue,'R717: a data cloud drifts on the roof');assert(fan&&fan.kind==='tower'&&fan.frame===9&&!fan.action&&!fan.event&&!fan.dialogue,'R717: a fan unit stands on the roof');
+  assert(Math.abs(cl.y-fan.y)<=0.3&&cl.x<m.spawn[0]&&fan.x>m.spawn[0],'R717: the cloud on the left and the fan on the right line up across the floor');
+  {const up=f('twr_cloud1');assert(fan.y*48-fan.h-up.y*48>=24,'R717: the fan leaves a gap under twr_cloud1');}
+  for(const o of [cl,fan]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y>=m.spawn[1]+1.5,'R717: '+o.id+' stays inside the floor, in the bottom rows');
+   assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R717: '+o.id+' stays off the spawn column');
+   for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R717: '+o.id+' does not stand on '+q.id);}
+  r.g.debugWarp('tower_roof',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R717: the floor under the spawn stays open at y '+y);
+  const a=(cl.x*48+cl.w/2)/48+.1,b=(fan.x*48-fan.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R717: the bottom row between them stays open at x '+x.toFixed(1));
+  r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c1.png','tower_r2_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R717: '+png+' is drawn');}
+ result.push('R717: 屋上の下の空いた床の左にデータの雲、右に室外機を置いた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
