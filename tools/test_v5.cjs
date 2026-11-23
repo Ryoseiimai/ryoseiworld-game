@@ -4386,6 +4386,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert.equal(-r.g.camera.y,ht+12,'R733: '+id+' starts 12px under the HUD line like my room');assert(ht+12+m.h*48<=960-80,'R733: '+id+' last row stays above the lowest 80px');}
   r.g.debugWarp('tower1',...M.tower1.spawn);r.tick(16);for(let y=M.tower1.spawn[1];y<=p.y-0.5;y+=0.25)assert(!r.g.debugBlocked(5*48,y*48),'R733: the walk from the spawn to the plate is open at y '+y);}
  result.push('R733: 塔の4つの階を、ほかの部屋と同じ14行の高さにした PASS');
+ // R734: the net cafe was 13 rows while the other rooms and the tower are 14, so its floor ended higher and a dark band sat under it.
+ {const r=await runtime();const M=r.g.GAME_DATA.maps,m=M.neon_cafe,door=m.portals[0];
+  for(const id of ['room','store','tower1'])assert.equal(m.h,M[id].h,'R734: the cafe is as tall as '+id);
+  assert(Math.abs(door.y-(m.h-0.8))<1e-9,'R734: the そとへ plate sits on the bottom row like the store door');assert.equal(m.spawn[1],m.h-3,'R734: the spawn stands three rows above the bottom like the store');
+  assert.deepEqual(M.neon.objects.find(o=>o.enter==='neon_cafe').arrival,m.spawn,'R734: entering from the city arrives at the spawn');
+  r.tick();r.start();r.tick(1000);assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();r.g.debugWarp('neon_cafe',...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();
+  const ht=r.g.hudTop;assert.equal(-r.g.camera.y,ht+12,'R734: the cafe starts 12px under the HUD line like my room');assert(ht+12+m.h*48<=960-80,'R734: the last row stays above the lowest 80px');
+  for(let y=m.spawn[1];y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(m.spawn[0]*48,y*48),'R734: the walk from the spawn to the door is open at y '+y);}
+ result.push('R734: ネットカフェを、ほかの部屋と同じ14行の高さにした PASS');
  // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
  // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
  // R729: the friend house was 13 rows while my room, the library and the electric back room are 14, so its floor ended higher on screen (mobile-31).
