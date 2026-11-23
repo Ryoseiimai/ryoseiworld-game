@@ -96,7 +96,12 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:13,
 // The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
 maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
- object('ncap_plant','interior',13,9.4,8.8,75,80)],
+ object('ncap_plant','interior',13,9.4,8.8,75,80),
+ // R730: under the three capsules only the plant stood, so the lower half of the floor was empty (map-neon_capsule).
+ // A lounge sofa stands on the left, a drink machine in the lower left corner and a bin in the lower right one, off the door path (x 3.5 to 6.5).
+ object('ncap_sofa','interior',12,2.2,8.4,110,110),
+ prop('ncap_vending',3,1.6,11.4,104,{label:'じはんき',labelAdult:'自販機',dialogue:'capsuleVending'}),
+ object('ncap_bin','props',14,10.06,11.6,48,52)],
  enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[24,25.8],sign:'そとへ'}]};
 // FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
@@ -176,6 +181,7 @@ RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
   cafeBye:[['てんいん','また どうぞ。']],
   cafePc:[['パソコン','ランキングの ページが\nひらいた ままだ。'],['ソラ','とじて おこう。']],
   capsuleBed:[['カプセル','（なかで だれかが\nスマホを みている）'],['','ピロン ピロン…']],
+  capsuleVending:[['じはんき','のみものにも\nランキングの シールが\nはってある。'],['ソラ','1いは… おみず？']],
   // R26: the stadium boss (rpg.html 3章のせりふを移す). The crown glows for サーチフクロウ in the shooter itself.
   hikakuTalk:[['ヒカクマオウ','おなじ としで\nもう しゃちょう'],['ソラ','すうじに のまれそう…'],['ソラ','かんむりを\nねらって みよう！']],
   hikakuGone:[['','ヒカクマオウは\nおとなしく なった。']],
