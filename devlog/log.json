@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T16:49:26.179Z",
-  "branch": "claude/autodev-20261116-0041-R584",
-  "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
-  "summary": "確認役がクイズの窓の上に主人公の頭だけ出ていると挙げた\n窓の縁が主人公やソラを横切る間は、その絵を描かないようにした\n窓の位置で消えるかどうかを調べる確認を手元のテストに足した",
-  "result": "pass",
-  "shots": [
-   "shots/1017/mobile-02-mode-select.jpg",
-   "shots/1017/mobile-19-custom-og-credit-card.jpg",
-   "shots/1017/mobile-34-chapter-1-play.jpg",
-   "shots/1017/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "4c6d190",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43736571091"
- },
- {
   "at": "2026-11-15T16:52:12.188Z",
   "branch": "claude/autodev-20261116-0121-R585",
   "task": "R585 町やネオンシティで、上の地名の札より上の細い帯に屋根や木の切れはしが見えていたので、その帯を濃い色でふさいだ",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "789bf3d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45113526120"
+ },
+ {
+  "at": "2026-11-23T05:43:23.054Z",
+  "branch": "claude/autodev-20261123-1421-R719",
+  "task": "R719 コンビニの奥の壁だけ何も無く、ほかの部屋にある時計が無かったので、おかしの棚の上の高い所へ時計をかけた",
+  "summary": "コンビニの奥の壁だけ何も無かったので、おかしの棚の上に時計をかけた\n時計は壁の中に収め、レジと店員から離し、歩く道をふさがない\n同時に動かないための印を今回は置けなかった（前の回は終わっていた）",
+  "result": "pass",
+  "shots": [
+   "shots/1255/mobile-02-mode-select.jpg",
+   "shots/1255/mobile-19-custom-og-credit-card.jpg",
+   "shots/1255/mobile-34-chapter-1-play.jpg",
+   "shots/1255/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f17697f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45118470525"
  }
 ]
