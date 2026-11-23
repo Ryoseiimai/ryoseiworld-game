@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T08:41:52.391Z",
-  "branch": "claude/autodev-20261116-1621-R599",
-  "task": "R599 全章のスクショから確認役が3つ挙げたので確かめた。ボス戦の始めの札と板は R158 の作りどおり、情報欄の下の2章のボスは歩けば見える、勝った後の空の窓は字が出る前の0.1秒だったので、どれも直さなかった",
-  "summary": "前の枝は自動確認で test_v5 だけ落ちた。ログは警告2行で切れていた\n手元で main を取りこんで test_v5 を流すと、464件すべて通り、4分半で終わった\n時間切れか一時的な落ちと見て、コードは変えずに確認へ出し直した",
-  "result": "pass",
-  "shots": [
-   "shots/1045/mobile-02-mode-select.jpg",
-   "shots/1045/mobile-19-custom-og-credit-card.jpg",
-   "shots/1045/mobile-34-chapter-1-play.jpg",
-   "shots/1045/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b8d527a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43831573217"
- },
- {
   "at": "2026-11-16T10:03:17.748Z",
   "branch": "claude/autodev-20261116-1821-R600",
   "task": "R600 タイトルの「♪ タップで音楽」の字の間に夜空の星が見えていたので、説明の札と同じ暗い札を敷いた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1c2edf9",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45272639132"
+ },
+ {
+  "at": "2026-11-23T22:53:09.883Z",
+  "branch": "claude/autodev-20261124-0721-R738",
+  "task": "R738 縦長の画面で上下の帯が半分の暗さになり地面との境目が見えていたので、帯を暗くしないようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n縦長の画面の上下の帯を半分の暗さにするのをやめ、地面との境目を消した\n帯が暗くならないことの確認を tools/test_v5.cjs に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1283/mobile-02-mode-select.jpg",
+   "shots/1283/mobile-19-custom-og-credit-card.jpg",
+   "shots/1283/mobile-34-chapter-1-play.jpg",
+   "shots/1283/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e51a2cd",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45282116929"
  }
 ]
