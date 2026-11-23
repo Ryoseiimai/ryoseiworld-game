@@ -4293,6 +4293,21 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
   for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R722: the walk from the spawn to the door is open at y '+y);}
  result.push('R722: コンビニの右下の空いた床に在庫の段ボールを置き、壁とおかしの棚とごみ箱にかからず、出口への道はふさがらない PASS');
+ // R723: ミナモ's south grass under the sakura and between the oak and the south lamp was bare on arrival (mobile-29); two low walk-through flower beds fill it,
+ // inside the map, clear of the friend's house, the trees, the lamp and the mom, and the walk east from the friend's door stays open.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo,objs=m.objects,f0=objs.find(o=>o.id==='minamo_flowers_s0'),f1=objs.find(o=>o.id==='minamo_flowers_s1');
+  const by=id=>objs.find(o=>o.id===id);
+  for(const f of [f0,f1]){assert(f&&f.kind==='props'&&f.frame===10&&f.collider===false&&!f.action&&!f.event&&!f.dialogue,'R723: the south flower bed is plain walk-through scenery');
+   assert(f.y<=m.h-0.3&&f.y>=35,'R723: the flower bed stands on the bottom row inside the map');
+   assert(f.x-f.w/96>=5.3&&f.x+f.w/96<=16.5,'R723: the flower bed is inside the arrival view');}
+  const house=by('minamo_friend');assert(f0.x-f0.w/96>=house.x+house.w/96+0.3,'R723: the left bed stands clear of the friend house');
+  const mom=by('minamo_mom');for(const f of [f0,f1])assert(Math.abs(f.x-mom.x)*48>=(f.w+mom.w)/2+8,'R723: the bed stands clear of the mom');
+  const sakura=by('minamo_tree7');assert(f0.y-sakura.y>=1.5,'R723: the left bed stands below the sakura trunk, clear of it');
+  const oak=by('minamo_tree8');assert(f1.x-f1.w/96>=oak.x+0.9,'R723: the right bed stands right of the oak trunk');
+  const lamp=by('minamo_light2');assert(f1.x+f1.w/96<=lamp.x+0.2,'R723: the right bed stays left of the south lamp');
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(2));while(r.g.dialogue)r.dialogue();r.g.debugWarp('minamo',3,35);r.tick(32);while(r.g.dialogue)r.dialogue();
+  for(let x=3;x<=14;x+=0.25)assert(!r.g.debugBlocked(x*48,35*48),'R723: the walk east from the friend door along the lowest open row (y 35) is open at x '+x);}
+ result.push('R723: ミナモ町に着いた時、南の空いた草地に花壇を2つ置き、家・木・街灯・お母さんにかからず、友達の家から東への道はふさがらない PASS');
  // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
  // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
  {const r=await runtime();r.tick();const mf=r.g.GAME_DATA.maps.minamo_friend,objs=mf.objects,[sx,sy]=mf.spawn,door=mf.portals[0];

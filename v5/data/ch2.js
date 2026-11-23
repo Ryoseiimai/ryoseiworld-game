@@ -39,6 +39,9 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  // so it stands 1.15 tiles west, wholly outside the arrival view, still on the grass under the sand, between the flower bed and the bin, with the dog at its feet.
  prop('minamo_bench',4,4.25,25.2,90),prop('minamo_bin',14,6.4,26.7,60)/* R539: at 12.4,22.6 (R505) it stood right after the arrow at the end of the goal line on arrival and read as part of it; it now stands in the park's south-west corner, between the bench and the park board's left post, above the sidewalk */,prop('minamo_post',6,17.2,30.6,70),
  ...props('minamo_flowers',10,100,[[2,24.8],[2,26.4]]),
+ // R723: on arrival the grass under the sakura and between the oak and the south lamp was bare down to the map's south edge (mobile-29, mobile-36),
+ // so two low flower beds fill that bottom row. They stand on the strip below the lowest walkable row (y 35), so they never block the walk east from the friend's door.
+ prop('minamo_flowers_s0',10,6.9,35.6,90,{collider:false}),prop('minamo_flowers_s1',10,12.45,35.6,80,{collider:false}),
  // R540: the park tree at 10,22.6 showed only its foot as a thin strip right under the goal line on arrival; it moved north to 21.3 so the place box hides its foot on a phone.
  // R548: at 130 its crown still peeked out as a dark tuft between the top of the screen and the place box on arrival (mobile-29).
  // It cannot move north (row 20 is sidewalk) or south (the park board), so this one park tree is smaller (104): its crown now starts under the place box, its foot stays behind the goal line.
