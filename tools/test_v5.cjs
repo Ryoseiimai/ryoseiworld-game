@@ -4280,6 +4280,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
   for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R711: the walk from the spawn to the door is open at y '+y);}
  result.push('R711: コンビニの左下の空いた床に鉢植えを置き、壁と雑誌の棚にかからず、出口への道はふさがらない PASS');
+ // R722: the store's lower right corner under the second snack shelf was empty floor (mobile-27); a stack of stock boxes (repair_bench 2) stands there,
+ // inside the right wall and above the bottom wall, below the snack shelf, right of the bin, off the spawn-to-door column, and the walk to the door stays open.
+ {const r=await runtime();r.tick();const st=r.g.GAME_DATA.maps.store,objs=st.objects,[sx,sy]=st.spawn,door=st.portals[0],gs=objs.find(o=>o.id==='storeboxes'),sn=objs.find(o=>o.id==='snacks2'),bin=objs.find(o=>o.id==='bin'),pl=objs.find(o=>o.id==='storeplant');
+  assert(gs&&gs.kind==='repair_bench'&&gs.frame===2&&!gs.action&&!gs.event&&!gs.dialogue,'R722: the stock boxes stand in the store as plain furniture');
+  assert(gs.x*48+gs.w/2<=st.w*48-20,'R722: the boxes stay inside the 20px right wall');assert(gs.y<=st.h-1,'R722: the boxes stay above the bottom wall');
+  assert(gs.y*48-gs.h>=sn.y*48+16,'R722: the boxes top stands 16px or more below the snack shelf foot');
+  assert(gs.x*48-gs.w/2>=bin.x*48+bin.w/2+8,'R722: the boxes stand right of the bin, 8px or more clear');
+  assert(Math.abs(gs.y-pl.y)<=0.3,'R722: the boxes and the plant share the bottom row');
+  assert(Math.abs(gs.x-sx)*48>=gs.w/2+24&&Math.abs(gs.x-door.x)*48>=gs.w/2+24,'R722: the boxes stay off the spawn-to-door column');
+  for(const q of objs.filter(q=>q!==gs&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-gs.x)*48>=(q.w+gs.w)/2||Math.abs(q.y-gs.y)*48>=40,'R722: the boxes do not sit on '+q.id);
+  r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();
+  for(let y=sy;y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R722: the walk from the spawn to the door is open at y '+y);}
+ result.push('R722: コンビニの右下の空いた床に在庫の段ボールを置き、壁とおかしの棚とごみ箱にかからず、出口への道はふさがらない PASS');
  // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
  // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
  {const r=await runtime();r.tick();const mf=r.g.GAME_DATA.maps.minamo_friend,objs=mf.objects,[sx,sy]=mf.spawn,door=mf.portals[0];

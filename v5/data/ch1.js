@@ -110,7 +110,10 @@ maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:1
  // R711: the lower left floor under the magazine rack was still empty (mobile-27), so a potted plant stands in that corner, off the door path.
  object('storeplant','interior',13,1.6,11.6,75,80),
  // R719: the store's back wall was bare paper while the own room, the library and the friend house each hang a clock, so a clock hangs high on that wall over the snack shelf, left of the register.
- object('storeclock','interior',14,2,1.9,70,70,{collider:false})],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
+ object('storeclock','interior',14,2,1.9,70,70,{collider:false}),
+ // R722: the lower right corner under the second snack shelf was still empty floor while the lower left holds the plant (mobile-27),
+ // so a stack of stock boxes (the repair_bench box art, as in the electric shop) stands in that corner, right of the bin. Interior 8 stays unused (F03).
+ object('storeboxes','repair_bench',2,9.55,11.6,84,84)],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
 // R543: R538 then covered the strip above the room's top line (hudTop+12, about 196px down) while the room scrolls, so by the exit that cover cut the pile's drawn top flat (mobile-28, desktop-28).
 // The pile stands half a tile lower (drawn top about 211px, 15px clear of the cover) and the server half a tile lower with it, keeping the 1.5-tile walk between them.
 // R509: once the goal read メニューのチャレンジで遊ぼう, the pile's drawn cable top (about 17px under its box top) sat right on the goal bar's bottom edge (about 173px down the screen by the exit; mobile-28, desktop-28), so it stands 0.3 tile lower, about 14px clear of the bar.
