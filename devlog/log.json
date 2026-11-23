@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T00:58:38.188Z",
-  "branch": "claude/autodev-20261116-0721-R592",
-  "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
-  "summary": "自動確認で落ちた R592 の枝を、手元で全部のテストにかけ直した\n手元では 463 件すべて通り、最後まで終わった\n確認役も、しっぽの位置の1行で落ちる所は無いと答えた",
-  "result": "fail",
-  "shots": [
-   "shots/1032/mobile-02-mode-select.jpg",
-   "shots/1032/mobile-19-custom-og-credit-card.jpg",
-   "shots/1032/mobile-34-chapter-1-play.jpg",
-   "shots/1032/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "854e5c1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43782025089"
- },
- {
   "at": "2026-11-16T01:21:15.299Z",
   "branch": "claude/autodev-20261116-0721-R592",
   "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e297657",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45187451004"
+ },
+ {
+  "at": "2026-11-23T14:33:30.666Z",
+  "branch": "claude/autodev-20261123-2321-R730",
+  "task": "R730 カプセルホテルの下半分の床が空いていたので、ソファと自販機とごみ箱を置いた",
+  "summary": "カプセルホテルは3つのベッドの下の床に鉢植えしか無かった\nソファと自販機とごみ箱を、出口への道をふさがずに置いた\n自販機を調べると台詞が出るようにし、置き場所の確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1268/mobile-02-mode-select.jpg",
+   "shots/1268/mobile-19-custom-og-credit-card.jpg",
+   "shots/1268/mobile-34-chapter-1-play.jpg",
+   "shots/1268/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "75bf7c8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45193823370"
  }
 ]
