@@ -3237,6 +3237,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const a=(cl.x*48+cl.w/2)/48+.1,b=(fan.x*48-fan.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R717: the bottom row between them stays open at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c1.png','tower_r2_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R717: '+png+' is drawn');}
  result.push('R717: 屋上の下の空いた床の左にデータの雲、右に室外機を置いた PASS');
+ // R718: the friend's back wall was bare paper while the own room and the library each hang a clock. A clock hangs high on that wall, inside it, over the sofa, clear of the TV,
+ // walk-through (no collider, no talk), and it is drawn.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.minamo_friend,f=id=>m.objects.find(o=>o.id===id),ck=f('mf_clock'),sofa=f('mf_sofa'),tv=f('mf_tv'),room=r.g.GAME_DATA.maps.room.objects.find(o=>o.id==='clock');
+  assert(ck&&ck.kind===room.kind&&ck.frame===room.frame&&ck.collider===false&&!ck.action&&!ck.event&&!ck.dialogue&&!ck.label,'R718: the friend house hangs the same walk-through clock as the own room');
+  assert(ck.y*48-ck.h>=8&&ck.y*48<=2*48-4,'R718: the clock stays on the back wall, under the rail: '+[ck.y*48-ck.h,ck.y*48]);
+  assert(ck.x*48-ck.w/2>=20&&ck.x*48+ck.w/2<=m.w*48-20,'R718: the clock stays inside the wall paper');
+  assert(Math.abs(ck.x-sofa.x)<=0.6,'R718: the clock hangs over the sofa');
+  assert(ck.y*48<=sofa.y*48-sofa.h-24,'R718: the clock keeps 24px or more clear above the sofa');
+  assert(ck.x*48+ck.w/2<=tv.x*48-tv.w/2-48,'R718: the clock keeps clear of the TV');
+  for(const q of m.objects.filter(o=>o!==ck&&!o.floor))assert(Math.abs(q.x-ck.x)*48>=(q.w+ck.w)/2||q.y*48-q.h>=ck.y*48,'R718: the clock does not hang over '+q.id);
+  r.g.debugWarp('minamo_friend',2.6,3.2);r.tick(16);assert(!r.g.debugBlocked(ck.x*48,2*48+6),'R718: the floor right under the clock, at the foot of the wall, stays open');
+  r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/interior/interior_r3_c2.png')),'R718: the clock art is drawn');}
+ result.push('R718: 友達の家の何も無い壁に、ソファの上の高い所へ時計をかけた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;

@@ -103,7 +103,9 @@ maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11
  // R699: the boy's feet stood on the rug's top fringe (mobile-31), so he stands a little north, on the bare floor.
  object('minamo_boy','npc2',7,4.6,6.4,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'}),
  // R712: the floor under the rug was empty (mobile-31), so a bookshelf stands in the lower left corner and a bin in the lower right one, off the door path.
- object('mf_shelf','interior',2,1.8,12.4,110,130),object('mf_bin','props',14,10.06,12.6,48,52)],
+ object('mf_shelf','interior',2,1.8,12.4,110,130),object('mf_bin','props',14,10.06,12.6,48,52),
+ // R718: the friend's wall was bare paper while the own room and the library each hang a clock, so a clock hangs on the wall above the sofa, as high as the own room's.
+ object('mf_clock','interior',14,2.6,1.9,70,70,{collider:false})],
  enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[3,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
