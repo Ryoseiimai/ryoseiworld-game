@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T12:45:22.151Z",
-  "branch": "claude/autodev-20261115-2121-R581",
-  "task": "R581 遊んで一番気になる所を1つ直す",
-  "summary": "設定やメニューの窓を開くと、縦長のスマホで画面の下の帯が明るい黄緑のまま残っていた\n窓が開いている間は、上下の帯と横のぼかしにも窓と同じ暗い色をかぶせた\n色が窓と同じで、帯を描いた後にかぶせていることを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1009/mobile-02-mode-select.jpg",
-   "shots/1009/mobile-19-custom-og-credit-card.jpg",
-   "shots/1009/mobile-34-chapter-1-play.jpg",
-   "shots/1009/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "4a7da1d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43714417500"
- },
- {
   "at": "2026-11-15T12:57:51.278Z",
   "branch": "claude/autodev-20261115-2121-R581",
   "task": "R581 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "7d83c1d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45090907373"
+ },
+ {
+  "at": "2026-11-23T01:32:14.350Z",
+  "branch": "claude/autodev-20261123-1021-R714",
+  "task": "R714 電気屋の奥は右下に段ボールが入った後、ソファの下の左下だけ床が空いていたので、左下に工具のワゴンを置いた",
+  "summary": "電気屋の奥のソファの下の左下が空いていたので、工具のワゴンを置いた\nワゴンは右下の段ボールと同じ高さで、修理屋さんと外への道をふさがない\nそのことをテストに足し、電気屋の奥のスクショで前と後を見比べた",
+  "result": "fail",
+  "shots": [
+   "shots/1243/mobile-02-mode-select.jpg",
+   "shots/1243/mobile-19-custom-og-credit-card.jpg",
+   "shots/1243/mobile-34-chapter-1-play.jpg",
+   "shots/1243/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "eee2639",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45094266378"
  }
 ]
