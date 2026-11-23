@@ -3159,6 +3159,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let y=crow.y;y<=crow.y+1.6;y+=.1)assert(!r.g.debugBlocked(crow.x*48,y*48),'R684: the walk up to the crow c1 stays open at y '+y.toFixed(1));
   assert(Math.abs(s.x-6)*48>=150,'R684: the ちず board stays clear of the home door');}
  result.push('R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS');
+ // R725: on arrival in town the crow c1 flew up and down right over the transformer on the left of the pole east of it (mobile-33/34), so it read as part of the pole.
+ // The crow's 56px box (the field size of every noise) now stays left of the pole's first opaque column and right of the postbox's last one along its whole lane.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.town,crow=m.enemies.find(e=>e.id==='c1'),cl=crow.x*48-28,cr=crow.x*48+28,top=(crow.y-1.5)*48-68,bot=(crow.y+1.5)*48;
+  const cols=o=>{const file=path.join(root,'assets','props','props_r'+Math.floor(o.frame/4)+'_c'+o.frame%4+'.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(o.w/w,(o.h||1e9)/h);
+   let l=w,rr=0;for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(data[(y*w+x)*4+3]>128){if(x<l)l=x;if(x>rr)rr=x;}return{l:o.x*48-o.w/2+l*k,r:o.x*48-o.w/2+(rr+1)*k,t:o.y*48-h*k,b:o.y*48};};
+  let near=0;for(const o of m.objects.filter(o=>o.kind==='props'&&/^(pole\d*|post)$/.test(o.id))){const c=cols(o);if(c.b<top||c.t>bot||c.r<cl-60||c.l>cr+60)continue;near++;
+   assert(c.l>=cr+2||c.r<=cl,'R725: the crow c1 lane stays off '+o.id+' ('+c.l.toFixed(1)+'..'+c.r.toFixed(1)+' vs crow '+cl.toFixed(1)+'..'+cr.toFixed(1)+')');}
+  assert(near>=2,'R725: the check sees the pole and the postbox beside the crow ('+near+')');}
+ result.push('R725: 町に着いた時、カラスのノイズが電柱の変圧器に重ならない PASS');
  // R688: on arrival in town the park cherry tree (tree7, x 11.55, 118px) stood on the right edge of the 540px view and only its left half showed (mobile-25/33/34).
  // No tree is now cut by the arrival view: each one is wholly inside it or wholly outside it.
  {const m=(await runtime()).g.GAME_DATA.maps.town,cam=Math.max(0,m.spawn[0]*48-270);
