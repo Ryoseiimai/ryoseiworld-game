@@ -3033,11 +3033,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R535: 呼び出しの間も、戦闘の文はうすくならず読める PASS');
  result.push('R536: 数の人の札の板が、上の札と同じ20pxだけ画面の縁から離れる（ネオンの着いた所） PASS');
  // R537: my room and the library (14 rows) were 26px taller than the band, so they scrolled and the wall's top edge sat right on the goal strip. They now stay still with their top 22px under the strip (hudTop+12), like a short centred room.
- {const r=await runtime();for(const id of ['room','minamo_library']){const m=r.g.GAME_DATA.maps[id],mh=m.h*48;r.g.debugWarp(id,m.w/2,1.6);r.tick(32);const top=-r.g.camera.y,ht=r.g.hudTop;assert(mh>960-ht-130,id+' is taller than the band');assert.equal(top,ht+12,id+': at the top the room starts 12px under the HUD line');
+ {const r=await runtime();for(const id of ['room','minamo_library','store']){const m=r.g.GAME_DATA.maps[id],mh=m.h*48;r.g.debugWarp(id,m.w/2,1.6);r.tick(32);const top=-r.g.camera.y,ht=r.g.hudTop;assert(mh>960-ht-130,id+' is taller than the band');assert.equal(top,ht+12,id+': at the top the room starts 12px under the HUD line');
   assert(mh<=960-ht-130+48,id+' is at most one tile taller than the band');r.g.debugWarp(id,m.w/2,m.h-1);r.tick(32);assert.equal(-r.g.camera.y,ht+12,id+': the room does not scroll, so its top edge never slides up beside the strip');assert(ht+12+mh<=960-80,id+': the last row stays above the lowest 80px');}
   // R677: no room in the game is taller than this any more, so a 17-row copy of the electric shop checks that a tall room still scrolls and stops at its top.
   {const e=r.g.GAME_DATA.maps.electric;r.g.GAME_DATA.maps.r677tall={...e,h:17,objects:[],portals:[]};r.g.debugWarp('r677tall',e.w/2,1.6);r.tick(32);assert.equal(-r.g.camera.y,r.g.hudTop+12,'a tall room scrolls and stops 12px under the HUD line at its top');delete r.g.GAME_DATA.maps.r677tall;}
-  const s=r.g.GAME_DATA.maps.store;r.g.debugWarp('store',s.w/2,s.h/2);r.tick(32);const band=960-r.g.hudTop-130;assert(s.h*48<=band,'the store fits the band');assert.equal(r.g.camera.y,(s.h*48-band)/2-r.g.hudTop,'the short store stays centred');}
+  // R732: the store is 14 rows now like the other rooms, so a 13-row copy of it (its old size) checks that a short room still stays centred.
+  const s={...r.g.GAME_DATA.maps.store,h:13,objects:[],portals:[]};r.g.GAME_DATA.maps.r732short=s;r.g.debugWarp('r732short',s.w/2,s.h/2);r.tick(32);const band=960-r.g.hudTop-130;assert(s.h*48<=band,'the short room fits the band');assert.equal(r.g.camera.y,(s.h*48-band)/2-r.g.hudTop,'the short room stays centred');delete r.g.GAME_DATA.maps.r732short;}
  result.push('R537: 自分の部屋と図書館で、部屋の上の壁が目標の帯から22px離れる PASS');
  // R538: the back of the electric shop scrolls; scrolled down, its floor ran up under the HUD and the goal strip sat on the floor. Above the room's top line (hudTop+12) the surround colour now covers it.
  // R677: the electric shop is 14 rows now, so the mechanism is checked on a 17-row copy of it (the old size), and the shop itself joins the still rooms.
@@ -4363,6 +4364,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.start();r.tick(1000);assert(r.g.debugStartChapter(2));while(r.g.dialogue)r.dialogue();r.g.debugWarp('minamo',3,35);r.tick(32);while(r.g.dialogue)r.dialogue();
   for(let x=3;x<=14;x+=0.25)assert(!r.g.debugBlocked(x*48,35*48),'R723: the walk east from the friend door along the lowest open row (y 35) is open at x '+x);}
  result.push('R723: ミナモ町に着いた時、南の空いた草地に花壇を2つ置き、家・木・街灯・お母さんにかからず、友達の家から東への道はふさがらない PASS');
+ // R732: the store was 13 rows while the other rooms are 14, so its floor ended higher and a dark band sat under it (mobile-27).
+ {const r=await runtime();const M=r.g.GAME_DATA.maps,st=M.store,door=st.portals[0],town=M.town.objects.find(o=>o.enter==='store');
+  for(const id of ['room','electric','minamo_library','minamo_friend'])assert.equal(st.h,M[id].h,'R732: the store is as tall as '+id);
+  assert(Math.abs(door.y-(st.h-0.8))<1e-9,'R732: the door sits on the bottom row like my room');assert.equal(st.spawn[1],st.h-3,'R732: the spawn stands above the door');
+  assert.deepEqual(town.arrival,st.spawn,'R732: entering from the town arrives at the spawn');
+  for(const id of ['bin','storeplant','storeboxes'])assert(st.objects.find(o=>o.id===id).y>=st.h-1.6,'R732: '+id+' stays in the bottom row');
+  r.tick();r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',...st.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();
+  for(let y=st.spawn[1];y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(st.spawn[0]*48,y*48),'R732: the walk from the spawn to the door is open at y '+y);}
+ result.push('R732: コンビニを、ほかの部屋と同じ14行の高さにした PASS');
  // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
  // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
  // R729: the friend house was 13 rows while my room, the library and the electric back room are 14, so its floor ended higher on screen (mobile-31).

@@ -13,7 +13,7 @@ const maps={};
 // R368: the label at the top left read 「ヒダマリちょう」 while the other towns read 「ミナモ」「ネオン」. R481: the chapter titles and goals call the towns ヒダマリちょう・ミナモちょう・ネオンシティ, so all three labels now use the full name.
 maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,outside:true,spawn:[6,25.5],objects:[
  object('home','buildings',0,6,24,194,194,{label:'おうち',enter:'room',arrival:[5,11],firstDialogue:'foldBoard'}),
- object('store','buildings',1,22,24,200,190,{label:'コンビニ',enter:'store',arrival:[5,10]}),
+ object('store','buildings',1,22,24,200,190,{label:'コンビニ',enter:'store',arrival:[5,11]}),
  object('school','buildings',2,7,7,220,192,{label:'がっこう',dialogue:'school'}),
  object('electric','buildings',3,22,8,220,200,{label:'でんきや',enter:'electric',arrival:[5,11],lock:'key',lockedDialogue:'shutter',firstDialogue:'shutterOpen'}),
  object('junkyard','buildings',8,27,7.6,170,150),
@@ -105,18 +105,20 @@ maps.room={name:'じぶんの へや',shortAdult:'自分の部屋',w:11,h:14,spa
 // R528: the room's stairs got a 「← そとへ」 plate too, standing right of the stairs picture (plate) and pointing at them, so the stairwell stays in view (R226).
 // R296: the exits showed a bare ↓ plate (mobile-18/19/21/22), so each exit without stairs says 「↓ そとへ」 like the tower's.
 // R261: the ↓ plate of the indoor exits stood 1.5 to 2 tiles above the front wall, a mat in the middle of the floor (mobile-18/19/21/22), so every exit without stairs or a sign now sits 0.8 tile above the wall, at the bottom of the walkable floor.
-maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:13,spawn:[5,10],objects:[
+// R732: the store was 13 rows while my room, the library, the friend house and the electric back room are 14, so its floor ended about 37px higher
+// and a dark band sat under it around the 話す button (mobile-27). It is 14 rows now; the door, the spawn, the bin, the plant and the boxes moved one row down.
+maps.store={name:'コンビニ・よるの かわ',short:'コンビニ',w:11,h:14,spawn:[5,11],objects:[
  object('clerk','npc',3,5.7,3.9,56,75,{event:'clerk',raise:26}),object('register','interior',6,5,4.8,150,150,{label:'レジ',dialogue:'clerk',action:'shop'}),
  object('snacks','interior',4,2,6,120,120,{label:'おかしの たな',dialogue:'snacks'}),object('fridge','interior',5,8.6,6,120,130,{label:'れいぞうこ',dialogue:'fridge'}),object('magazine','interior',7,2,9,100,100,{label:'ざっし',dialogue:'magazine'}),
  // R680: the lower right half of the floor was empty (mobile-27), so a second snack shelf stands under the fridge and a bin by the door.
- object('snacks2','interior',4,8.6,9,120,120,{label:'おかしの たな',dialogue:'snacks2'}),object('bin','props',14,7.8,11.4,48,52),
+ object('snacks2','interior',4,8.6,9,120,120,{label:'おかしの たな',dialogue:'snacks2'}),object('bin','props',14,7.8,12.4,48,52),
  // R711: the lower left floor under the magazine rack was still empty (mobile-27), so a potted plant stands in that corner, off the door path.
- object('storeplant','interior',13,1.6,11.6,75,80),
+ object('storeplant','interior',13,1.6,12.6,75,80),
  // R719: the store's back wall was bare paper while the own room, the library and the friend house each hang a clock, so a clock hangs high on that wall over the snack shelf, left of the register.
  object('storeclock','interior',14,2,1.9,70,70,{collider:false}),
  // R722: the lower right corner under the second snack shelf was still empty floor while the lower left holds the plant (mobile-27),
  // so a stack of stock boxes (the repair_bench box art, as in the electric shop) stands in that corner, right of the bin. Interior 8 stays unused (F03).
- object('storeboxes','repair_bench',2,9.55,11.6,84,84)],enemies:[],portals:[{x:5,y:12.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
+ object('storeboxes','repair_bench',2,9.55,12.6,84,84)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,25.3],sign:'そとへ'}]};
 // R543: R538 then covered the strip above the room's top line (hudTop+12, about 196px down) while the room scrolls, so by the exit that cover cut the pile's drawn top flat (mobile-28, desktop-28).
 // The pile stands half a tile lower (drawn top about 211px, 15px clear of the cover) and the server half a tile lower with it, keeping the 1.5-tile walk between them.
 // R509: once the goal read メニューのチャレンジで遊ぼう, the pile's drawn cable top (about 17px under its box top) sat right on the goal bar's bottom edge (about 173px down the screen by the exit; mobile-28, desktop-28), so it stands 0.3 tile lower, about 14px clear of the bar.
