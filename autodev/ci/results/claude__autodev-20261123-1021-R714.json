@@ -1,35 +1,22 @@
 {
   "branch": "claude/autodev-20261123-1021-R714",
-  "sha": "eee2639dc07d66fcf1d8b425cf5f872d1283caf4",
-  "result": "fail",
+  "sha": "b677bcdc4c0faf51f3c472f3e7657263a74ccdb4",
+  "result": "pass",
   "checks": {
     "fence": "pass",
-    "merge": "ff",
-    "test_v5": "fail",
+    "merge": "merge",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "AssertionError [ERR_ASSERTION]: R714: the walk to the repair man stays open at x 4.2",
-    "    at /tmp/tmp.vMysAbk5Ik/tree-claude__autodev-20261123-1021-R714/tools/test_v5.cjs:3092:44 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/1243/mobile-02-mode-select.jpg",
-    "devlog/shots/1243/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/1243/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/1243/mobile-50-battle-bugking.jpg"
+    "devlog/shots/1246/mobile-02-mode-select.jpg",
+    "devlog/shots/1246/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1246/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1246/mobile-50-battle-bugking.jpg"
   ],
-  "at": "2026-11-23T01:32:14.350Z",
-  "merged_sha": null,
-  "tested_base": "80fb962119cf656d3136a964d046f1921d2fd6d4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45094266378"
+  "at": "2026-11-23T01:42:32.622Z",
+  "merged_sha": "a1fc9fd3500f6419c27200b9280549143ae477af",
+  "tested_base": "46a251544ca3185b988447e351c79a649e7c29b4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45094925970"
 }
