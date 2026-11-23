@@ -17,7 +17,9 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  tower('tw1_up',6,8.4,3.5,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),
  // R685: floor 1 has no down pad, so its upper left (where floors 2 and 3 have したへ) and its lower left were bare blue grid (mobile-39/40).
  // A data pillar stands in the upper left, across from the up pad, and a broken CRT in the lower left corner, both west of the virus ball's lane (x 3.5-6.5) and of the そとへ plate.
- tower('tw1_pillar',10,2.1,4.2,80,100),tower('tw1_crt',5,2.1,11.8,80,80)],
+ tower('tw1_pillar',10,2.1,4.2,80,100),tower('tw1_crt',5,2.1,11.8,80,80),
+ // R713: once the lower left had the CRT, the lower right under the rack was the only bare grid (mobile-40), so a floppy pile stands in that corner, mirroring the CRT.
+ tower('tw1_floppy',11,8.9,11.8,70,70)],
  enemies:[{id:'tz1',type:'virusball',x:5,y:6.6,axis:'x'}],
  // R138: the way out gets words too, like the うえへ / したへ pads, so the ↓ plate is not the only hint that it leads outside.
  // R694: the plate stood at y 11.4 with two bare floor rows under it, so it read as floating mid-floor (mobile-39/40); it now sits on the bottom row at y 12.2 like the store's.

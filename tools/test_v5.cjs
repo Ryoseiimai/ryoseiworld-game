@@ -3173,6 +3173,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y>=3.5;y-=.1)assert(!r.g.debugBlocked(5*48,y*48),'the walk north from the spawn stays open at y '+y.toFixed(1));
   for(let x=5;x<=8.4;x+=.1)assert(!r.g.debugBlocked(x*48,3.5*48+40)||x>7.4,'the walk east to the up pad stays open at x '+x.toFixed(1));}
  result.push('R685: 塔1階の左上と左下に、データの柱と壊れたテレビを置いた PASS');
+ // R713: with the CRT in the lower left, the lower right under the rack was the only bare grid on floor 1 (mobile-40). A floppy pile fills that corner,
+ // inside the floor, east of the virus ball's lane and the そとへ plate, off the rack, and the walk from the spawn down to the plate stays open.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower1,ball=m.enemies.find(e=>e.id==='tz1'),p=m.portals[0],o=m.objects.find(x=>x.id==='tw1_floppy');
+  assert(o&&o.kind==='tower'&&o.frame===11,'R713: a floppy pile stands on tower floor 1');
+  const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y*48-o.h>=48,'R713: the pile stays inside the floor');
+  assert(l>=(ball.x+1.5)*48+24,'R713: the pile stays east of the virus ball lane');assert(l>=p.x*48+26,'R713: the pile stays east of the そとへ plate');
+  const crt=m.objects.find(x=>x.id==='tw1_crt');assert(Math.abs(o.y-crt.y)<=0.3,'R713: the pile lines up with the CRT across the floor');
+  for(const q of m.objects.filter(x=>x!==o&&x.kind!=='npc2'))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R713: the pile does not stand on '+q.id);
+  r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y<=p.y-0.5;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R713: the walk from the spawn to the plate stays open at y '+y);}
+ result.push('R713: 塔1階の右下の空いた床に、フロッピーの山を外への道をふさがずに置いた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
