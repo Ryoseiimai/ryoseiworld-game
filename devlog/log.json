@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T13:43:49.447Z",
-  "branch": "claude/autodev-20261115-2221-R582",
-  "task": "R582 ことばカードの字が枠の左はしにくっついて見えていたので、カードの左右の余白を広げた",
-  "summary": "ことばカードの字が、枠の左はしから少ししか離れていなかった\nカードの左右の余白を14ドットから17ドットに広げた\n全65語と6字の名前で、カードの行の数が変わらないことを測った",
-  "result": "pass",
-  "shots": [
-   "shots/1012/mobile-02-mode-select.jpg",
-   "shots/1012/mobile-19-custom-og-credit-card.jpg",
-   "shots/1012/mobile-34-chapter-1-play.jpg",
-   "shots/1012/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ff2340f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43719599143"
- },
- {
   "at": "2026-11-15T13:54:32.265Z",
   "branch": "claude/autodev-20261115-2221-R582",
   "task": "R582 ことばカードの字が枠の左はしにくっついて見えていたので、カードの左右の余白を広げた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4efdcad",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45101613925"
+ },
+ {
+  "at": "2026-11-23T03:01:14.512Z",
+  "branch": "claude/autodev-20261123-1121-R715",
+  "task": "R715 塔2階は下の3段の床が空いて間延びしていたので、左下にラック、右下に管を置いた",
+  "summary": "塔2階の下の3段の床が空いていたので、左下にラック、右下に管を置いた\n2つは出発の列と、むげんローディングの通り道をふさがない\nそのことをテストに足し、ラックと管が上の物と積み重なって見えないことも確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1248/mobile-02-mode-select.jpg",
+   "shots/1248/mobile-19-custom-og-credit-card.jpg",
+   "shots/1248/mobile-34-chapter-1-play.jpg",
+   "shots/1248/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ba22c86",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45102180508"
  }
 ]
