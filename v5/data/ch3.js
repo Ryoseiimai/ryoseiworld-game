@@ -41,6 +41,10 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // At 19.6 its crown (about 44px each side) ends 5px inside the arrival view and starts 7px right of the view after the first step left (to x 18.5, R704),
  // so no thin cut sliver shows. It stands above the row-13.6 walk east to the ranking tower.
  prop('neon_tree_station',0,19.6,12.2,120),
+ // R724: with the tree right of the station (R709), the paving left of the station above the welcome board was the one bare corner on arrival.
+ // A second planted tree mirrors it at 10.4: its crown (about 45px each side) stays inside the arrival view (from x 9.38) and ends left of the
+ // view after the first step right (from x 11.5), and its foot stands above the board and the row-13.6 walk west to the cafe.
+ prop('neon_tree_station_w',0,10.4,11,120),
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // R69: num1/num2 stand 1.8 tiles off the street lights at x 12.4/17.6, so the numbers never sit on a lamp.
  // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
