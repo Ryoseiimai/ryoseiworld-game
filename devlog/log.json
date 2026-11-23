@@ -1,15 +1,5 @@
 [
  {
-  "at": "2026-11-15T19:11:25.944Z",
-  "branch": "claude/autodev-20261116-0341-R588",
-  "task": "R588 ヒカクマオウ戦で、ボスの台詞からソラのヒントへ渡る一瞬、灰色の字が明るいネオン街に透けて読めなかったので、字を1コマで入れ替えるようにした",
-  "summary": "ヒカクマオウ戦で、台詞が次へ渡る一瞬に灰色の字が透けて見えていた\n台詞の字を、前の台詞の最後のコマから次の台詞へ1コマで入れ替えるようにした\n全部のボスで、渡る間に薄い字のコマが無いことを確かめるテストを足した",
-  "result": "conflict",
-  "shots": [],
-  "sha": "9fac6dd",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43750000231"
- },
- {
   "at": "2026-11-15T19:34:24.302Z",
   "branch": "claude/autodev-20261116-0341-R588",
   "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
@@ -2983,5 +2973,20 @@
   ],
   "sha": "5d84885",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45138516282"
+ },
+ {
+  "at": "2026-11-23T08:44:53.394Z",
+  "branch": "claude/autodev-20261123-1721-R724",
+  "task": "R724 ネオンシティに着いた時、駅の右には木があるのに左の看板の上の床だけ空いていたので、左にも木を立てた",
+  "summary": "ネオンシティに着いた時、駅の左の看板の上が空いていたので木を立てた\n木は着いた画面の中に収まり、駅と看板にかからず、カフェへの道はふさがない\nそのことをテストに足し、手元のテストとブラウザの確認は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1260/mobile-02-mode-select.jpg",
+   "shots/1260/mobile-19-custom-og-credit-card.jpg",
+   "shots/1260/mobile-34-chapter-1-play.jpg",
+   "shots/1260/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9d24165",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45139163601"
  }
 ]
