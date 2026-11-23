@@ -3084,20 +3084,20 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(t.y<=sign.y-sign.h/48-0.5,'R724: the tree foot stands above the welcome board');assert(t.y<m.spawn[1]-1,'R724: the tree stands above the arrival row');
   g.debugWarp('neon',m.spawn[0],m.spawn[1]);for(let x=m.spawn[0];x>=7;x-=0.25)assert(!g.debugBlocked(x*48,m.spawn[1]*48),'R724: the walk west along the arrival row is open at x '+x);}
  result.push('R724: ネオンに着いた時、駅の左の看板の上の床に木が立ち、駅と看板にかからず、カフェへの道はふさがらない PASS');
- // R725: the plaza between the station and the cloud gate was bare; a pair of trees fills it at row 8, outside the station's sides, each clear of the
+ // R726: the plaza between the station and the cloud gate was bare; a pair of trees fills it at row 8, outside the station's sides, each clear of the
  // near building (the cafe and the ranking tower), off the two side paths, and the walk up the middle to the gate stays open.
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.neon,by=id=>m.objects.find(o=>o.id===id);
   const tw=by('neon_tree_plaza0'),te=by('neon_tree_plaza1'),st=by('neon_station'),cafe=by('neon_cafe'),rank=by('neon_ranking'),gate=by('neon_cloudgate');
-  assert(tw&&te,'R725: both plaza trees are found');assert(tw.kind==='props'&&tw.frame===0&&te.kind==='props'&&te.frame===0,'R725: the plaza trees use the props tree art');
+  assert(tw&&te,'R726: both plaza trees are found');assert(tw.kind==='props'&&tw.frame===0&&te.kind==='props'&&te.frame===0,'R726: the plaza trees use the props tree art');
   const crown=45/48;
-  assert(tw.x+crown<st.x-st.w/96&&te.x-crown>st.x+st.w/96,'R725: the plaza trees stand outside the station sides');
-  assert(tw.x-crown>cafe.x+cafe.w/96,'R725: the left tree stands clear of the net cafe');
-  assert(te.x+crown<rank.x-rank.w/96,'R725: the right tree stands clear of the ranking tower');
-  assert(tw.y>gate.y&&tw.y<st.y-1&&te.y===tw.y,'R725: the plaza trees stand below the cloud gate foot and above the station row');
+  assert(tw.x+crown<st.x-st.w/96&&te.x-crown>st.x+st.w/96,'R726: the plaza trees stand outside the station sides');
+  assert(tw.x-crown>cafe.x+cafe.w/96,'R726: the left tree stands clear of the net cafe');
+  assert(te.x+crown<rank.x-rank.w/96,'R726: the right tree stands clear of the ranking tower');
+  assert(tw.y>gate.y&&tw.y<st.y-1&&te.y===tw.y,'R726: the plaza trees stand below the cloud gate foot and above the station row');
   // the player rounds the station by the side lanes; the trees sit outside those lanes, so x 10.5 (left) and 19.5 (right) stay open past them.
   g.debugWarp('neon',m.spawn[0],m.spawn[1]);
-  for(const lx of [10.5,19.5])for(let y=7;y<=9;y+=0.5)assert(!g.debugBlocked(lx*48,y*48),'R725: the lane beside the plaza trees is open at x '+lx+' y '+y);}
- result.push('R725: ネオンの駅と くもの もんの間の空いた広場に木を2本立て、駅とカフェとタワーにかからず、もんへの道はふさがらない PASS');
+  for(const lx of [10.5,19.5])for(let y=7;y<=9;y+=0.5)assert(!g.debugBlocked(lx*48,y*48),'R726: the lane beside the plaza trees is open at x '+lx+' y '+y);}
+ result.push('R726: ネオンの駅と くもの もんの間の空いた広場に木を2本立て、駅とカフェとタワーにかからず、もんへの道はふさがらない PASS');
  // R710: the electric shop's back room was bare below the bench and the sofa (mobile-28); junk boxes stand in the lower right corner,
  // inside the right wall, clear of the bench, and the walk from the spawn down to the door stays open.
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.electric,b=m.objects.find(o=>o.id==='boxes'),bench=m.objects.find(o=>o.id==='bench');assert(b,'electric: the junk boxes are found');assert.equal(b.kind,'repair_bench','electric: the boxes use the repair_bench art');assert.equal(b.frame,2,'electric: the boxes are repair_bench frame 2');assert(b.x+b.w/96<=m.w-0.4,'electric: the boxes stay inside the right wall');assert(b.y-b.h/48>bench.y,'electric: the boxes stand below the bench');assert(b.x-b.w/96>m.portals[0].x+1,'electric: the boxes stand clear of the door');g.debugWarp('electric',m.spawn[0],m.spawn[1]);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'electric: the walk from the spawn to the door is open at y '+y);}
@@ -3173,6 +3173,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let y=crow.y;y<=crow.y+1.6;y+=.1)assert(!r.g.debugBlocked(crow.x*48,y*48),'R684: the walk up to the crow c1 stays open at y '+y.toFixed(1));
   assert(Math.abs(s.x-6)*48>=150,'R684: the ちず board stays clear of the home door');}
  result.push('R684: 町に着いた時、「ちず」の看板が右端で切れずに全部見える PASS');
+ // R725: on arrival in town the crow c1 flew up and down right over the transformer on the left of the pole east of it (mobile-33/34), so it read as part of the pole.
+ // The crow's 56px box (the field size of every noise) now stays left of the pole's first opaque column and right of the postbox's last one along its whole lane.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.town,crow=m.enemies.find(e=>e.id==='c1'),cl=crow.x*48-28,cr=crow.x*48+28,top=(crow.y-1.5)*48-68,bot=(crow.y+1.5)*48;
+  const cols=o=>{const file=path.join(root,'assets','props','props_r'+Math.floor(o.frame/4)+'_c'+o.frame%4+'.png'),b=fs.readFileSync(file),w=b.readUInt32BE(16),h=b.readUInt32BE(20),{data}=pngPixels(file),k=Math.min(o.w/w,(o.h||1e9)/h);
+   let l=w,rr=0;for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(data[(y*w+x)*4+3]>128){if(x<l)l=x;if(x>rr)rr=x;}return{l:o.x*48-o.w/2+l*k,r:o.x*48-o.w/2+(rr+1)*k,t:o.y*48-h*k,b:o.y*48};};
+  let near=0;for(const o of m.objects.filter(o=>o.kind==='props'&&/^(pole\d*|post)$/.test(o.id))){const c=cols(o);if(c.b<top||c.t>bot||c.r<cl-60||c.l>cr+60)continue;near++;
+   assert(c.l>=cr+2||c.r<=cl,'R725: the crow c1 lane stays off '+o.id+' ('+c.l.toFixed(1)+'..'+c.r.toFixed(1)+' vs crow '+cl.toFixed(1)+'..'+cr.toFixed(1)+')');}
+  assert(near>=2,'R725: the check sees the pole and the postbox beside the crow ('+near+')');}
+ result.push('R725: 町に着いた時、カラスのノイズが電柱の変圧器に重ならない PASS');
  // R688: on arrival in town the park cherry tree (tree7, x 11.55, 118px) stood on the right edge of the 540px view and only its left half showed (mobile-25/33/34).
  // No tree is now cut by the arrival view: each one is wholly inside it or wholly outside it.
  {const m=(await runtime()).g.GAME_DATA.maps.town,cam=Math.max(0,m.spawn[0]*48-270);

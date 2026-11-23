@@ -24,10 +24,13 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // R216: the vending machine's feet (y 24) sat behind the lamp of the signal just south of it (mobile-16), so it stands 0.7 tile further north and 0.2 tile west (the walk test along the store's west wall starts clear of it).
  // R684: on arrival the camera shows x 0.4-11.6, and the ちず board (x 12) and its pole stood half cut at the right edge (mobile-25/33),
  // so the board stands at x 10.4, the pole east of it at x 11.4 (east of the crow c1's lane at x 10.4) and the postbox moved north-west onto the grass at x 9.3.
+ // R725: the crow c1 flew up and down its lane at x 10.4 right over the transformer on the left of the pole at x 11.4 (its post stands about 0.43 tile left of x),
+ // so on arrival it read as part of the pole, not a noise (mobile-33/34). The lane moved to x 9.7 (its beak ends about 6px left of the transformer) and the postbox
+ // 0.5 tile west to x 8.8 so the crow passes between them. The pole stays: R272 wants a post north of the ちず sign.
  // R272: the pole north of the ちず sign (feet y 23.2) stood right on the board's roof, so the two read as one tall post (mobile-16).
  // The sign stands at the south edge of its sidewalk and the pole 0.1 tile north, so the pole keeps 40px over the board and 40px under the signal above.
  // Only the posts' feet block, so the sidewalk in front of the home (y 25.5, the start row) stays open to walk east past the sign.
- prop('sign',11,10.4,25.9,104,{dialogue:'signs',sign:'ちず',collider:{left:.15,right:.85,top:.9,bottom:1}}),prop('machine',3,18.8,23.3,80,{dialogue:'vending'}),prop('post',6,9.3,22.6,70),prop('bus',13,12,16,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),prop('bike',8,1.6,24.7,80),prop('car',9,23.7,35.3,120),
+ prop('sign',11,10.4,25.9,104,{dialogue:'signs',sign:'ちず',collider:{left:.15,right:.85,top:.9,bottom:1}}),prop('machine',3,18.8,23.3,80,{dialogue:'vending'}),prop('post',6,8.8,22.6,70),prop('bus',13,12,16,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),prop('bike',8,1.6,24.7,80),prop('car',9,23.7,35.3,120),
  prop('flowers',10,1.8,21.4,100),prop('bench',4,6.63,34.7,90),prop('neko',15,27.6,34.6,70),prop('parksign',11,6.63,33.2,224,{sign:'こうえん',wAdult:200,collider:{left:.22,right:.32,top:.85,bottom:1}}),
  // R687: grandpa's back was only about 16px from the sign's left post and read as leaning on it (mobile-25), so the sign and its bench stand 0.18 tile (about 9px) east, which leaves about 24px between him and the post. Grandpa cannot step west (at x 4.4 the R263 test found his spirit over the pond) and the sign cannot go further east (its right post would stand on the sandbox's rim).
  // R692: on arrival the view ends at about y 34.2, and the flower bed below the pond (flowers2, feet y 35.3) showed only its tips at the bottom edge (mobile-25/33).
@@ -77,7 +80,7 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // She stands a little west, past the gate, and the bike parks further west so Nao has clear air above her head.
  // R231: the student's grey spirit floats on her left, and at x 20 it sat on the lamps of the signal by the store (mobile-16), so she stands half a tile east, still clear of the store's corner.
  ...[['mother',3.7,25.3,{event:'mother'}],['sister',8.5,25.3,{event:'sister'}],['grandpa',4.45,32.8],['worker',19.4,34.6],['student',20.5,25.4],['police',9.5,19.6,{event:'police'}],['dog',8.4,20],['cat',26,25],['grandma',3,22.6],['delivery',20,19.3],['kid',9.9,31.5,{event:'kid'}],['hacker',20,11.3,{event:'hacker'}],['shrine',24.4,34.4],['musician',12.5,34.9]].map(([id,x,y,extra])=>person(id,x,y,extra))],
- enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:10.4,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
+ enemies:[{id:'v1',type:'vending',x:19,y:21.6,axis:'y'},{id:'c1',type:'crow',x:9.7,y:21.4,axis:'y'},{id:'p1',type:'popup',x:19.4,y:13.6,axis:'y'},{id:'c2',type:'crow',x:10.3,y:13.6,axis:'y'},{id:'v2',type:'vending',x:25.5,y:21.6,axis:'y'}],portals:[]};
 // Terrain grid: . grass, = road, + sidewalk, : sand, ~ water. Rows 0-1 are the hedge edge; rows 30-35 hold the park and the apartments.
 // Later towns can supply their own tile rows without changing movement/rendering.
 maps.town.tiles=Array.from({length:36},(_,y)=>Array.from({length:30},(_,x)=>{
