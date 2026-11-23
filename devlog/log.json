@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T22:19:59.212Z",
-  "branch": "claude/autodev-20261116-0641-R591",
-  "task": "R591 タイトルで説明の箱が左の家の屋根に重なっていたので、タイトルでだけ家を下げ、箱を少し上に寄せた",
-  "summary": "タイトルの説明の箱が左の家の屋根に重なっていたので、家を26px下げた\n箱の上の余白を12px詰め、箱の下の端が屋根より上に来るようにした\n前と後のスクショを v5/verification/R591_title_*.png に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/1028/mobile-02-mode-select.jpg",
-   "shots/1028/mobile-19-custom-og-credit-card.jpg",
-   "shots/1028/mobile-34-chapter-1-play.jpg",
-   "shots/1028/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "178e29a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43767641897"
- },
- {
   "at": "2026-11-15T23:12:37.238Z",
   "branch": "claude/autodev-20261116-0721-R592",
   "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "a8b06e7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45167267145"
+ },
+ {
+  "at": "2026-11-23T12:50:53.361Z",
+  "branch": "claude/autodev-20261123-2121-R728",
+  "task": "R728 ボス戦の最初の台詞に、話し手の名前の札を付ける",
+  "summary": "ボス戦の最初の台詞に、話し手の名前の札が無かった\n最初の台詞だけ、ソラの台詞と同じ金色の札を出すようにした\n途中の台詞は今までどおり札を出さず、両方の確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1265/mobile-02-mode-select.jpg",
+   "shots/1265/mobile-19-custom-og-credit-card.jpg",
+   "shots/1265/mobile-34-chapter-1-play.jpg",
+   "shots/1265/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "fc791f6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45176223781"
  }
 ]
