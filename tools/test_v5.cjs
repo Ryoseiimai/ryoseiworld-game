@@ -4183,7 +4183,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // below the rack, clear of the door column, and the walk from the spawn down to the door stays open.
  {const r=await runtime();r.tick();const st=r.g.GAME_DATA.maps.store,objs=st.objects,[sx,sy]=st.spawn,door=st.portals[0],pl=objs.find(o=>o.id==='storeplant'),mg=objs.find(o=>o.id==='magazine');
   assert(pl&&pl.kind==='interior'&&pl.frame===13,'R711: a potted plant stands in the store');
-  assert(pl.x*48-pl.w/2>=0,'R711: the plant stays inside the left wall');assert(pl.y<=st.h-1,'R711: the plant stays above the bottom wall');
+  assert(pl.x*48-pl.w/2>=20,'R711: the plant stays inside the 20px left wall (R702)');assert(pl.y<=st.h-1,'R711: the plant stays above the bottom wall');
   assert(pl.y*48-pl.h>mg.y*48,'R711: the plant top stands below the magazine rack foot');
   assert(Math.abs(pl.x-sx)*48>=pl.w/2+24&&Math.abs(pl.x-door.x)*48>=pl.w/2+24,'R711: the plant stays off the spawn-to-door column');
   for(const q of objs.filter(q=>q!==pl&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-pl.x)*48>=(q.w+pl.w)/2||Math.abs(q.y-pl.y)*48>=40,'R711: the plant does not sit on '+q.id);
