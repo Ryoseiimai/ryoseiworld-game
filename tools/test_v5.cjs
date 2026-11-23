@@ -3114,6 +3114,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // inside the right wall, clear of the bench, and the walk from the spawn down to the door stays open.
  {const g=(await runtime()).g;const m=g.GAME_DATA.maps.electric,b=m.objects.find(o=>o.id==='boxes'),bench=m.objects.find(o=>o.id==='bench');assert(b,'electric: the junk boxes are found');assert.equal(b.kind,'repair_bench','electric: the boxes use the repair_bench art');assert.equal(b.frame,2,'electric: the boxes are repair_bench frame 2');assert(b.x+b.w/96<=m.w-0.4,'electric: the boxes stay inside the right wall');assert(b.y-b.h/48>bench.y,'electric: the boxes stand below the bench');assert(b.x-b.w/96>m.portals[0].x+1,'electric: the boxes stand clear of the door');g.debugWarp('electric',m.spawn[0],m.spawn[1]);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'electric: the walk from the spawn to the door is open at y '+y);}
  result.push('R710: 電気屋の奥の右下の空いた床に段ボールが積まれ、壁と作業台にかからず、入口から外への道はふさがらない PASS');
+ // R731: the upper right of the electric shop (right of the TV pile, above the server) was bare floor; a potted plant stands there,
+ // under the back wall, inside the right wall, off the pile and the server, and the walks to the server and the pile stay open.
+ {const g=(await runtime()).g;const m=g.GAME_DATA.maps.electric,by=id=>m.objects.find(o=>o.id===id),p=by('elplant'),pile=by('boss'),sv=by('server');
+  assert(p&&p.kind==='interior'&&p.frame===13&&!p.action&&!p.event,'R731: the electric shop has a plain potted plant');
+  assert(p.y*48-p.h>=2*48+10,'R731: the plant starts under the back wall and its lip (as R204, R703)');assert(p.x+p.w/96<=m.w-0.4,'R731: the plant stays inside the right wall');
+  assert(p.x*48-p.w/2>=pile.x*48+pile.w/2+48,'R731: the plant stands a tile or more right of the TV pile');
+  assert(p.y*48<=sv.y*48-sv.h,'R731: the plant foot stays above the server top');
+  for(const q of m.objects.filter(o=>o!==p&&!o.floor&&o.collider!==false))assert(Math.abs(q.x-p.x)*48>=(q.w+p.w)/2||Math.abs(q.y-p.y)*48>=Math.max(q.h,p.h)*.8,'R731: the plant does not stand on '+q.id);
+  g.debugWarp('electric',m.spawn[0],m.spawn[1]);for(let y=m.spawn[1];y>=pile.y+0.2;y-=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'R731: the walk up to the TV pile is open at y '+y);
+  for(let x=m.spawn[0];x<=sv.x;x+=0.25)assert(!g.debugBlocked(x*48,(sv.y+0.9)*48),'R731: the walk to the server is open at x '+x);
+  for(let x=pile.x+pile.w/96+0.3;x<=p.x;x+=0.25)assert(!g.debugBlocked(x*48,(p.y+0.6)*48),'R731: the strip between the plant and the server stays open at x '+x);}
+ result.push('R731: 電気屋の奥の右上の空いた床に鉢植えが立ち、壁とテレビの山とサーバーにかからず、道はふさがらない PASS');
  // R714: with the boxes in the lower right, the lower left under the sofa was the only bare floor of the back room. The tool cart fills that corner,
  // inside the left wall, below the sofa, left of the repair man (who stays reachable from the spawn), lined up with the boxes, and the door path stays open.
  {const r=await runtime();r.tick();const g=r.g,m=g.GAME_DATA.maps.electric,f=id=>m.objects.find(o=>o.id===id),c=f('cart'),sofa=f('sofa'),rep=f('repair'),bx=f('boxes'),door=m.portals[0];

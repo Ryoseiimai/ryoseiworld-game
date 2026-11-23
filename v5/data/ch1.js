@@ -142,7 +142,10 @@ maps.electric={name:'でんきや・ジャンクの おく',short:'でんきや�
  // R710: the floor under the bench and the sofa was empty down to the door (mobile-28), so a stack of junk boxes (repair_bench frame 2) waits in the lower right corner.
  object('boxes','repair_bench',2,9.2,11.9,84,84),
  // R714: the lower left under the sofa stayed bare down to the door once the boxes filled the lower right, so the blue tool cart (repair_bench frame 3) waits in that corner, left of the repair man, as far off the left wall as the sofa.
- object('cart','repair_bench',3,1.6,11.9,84,84)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
+ object('cart','repair_bench',3,1.6,11.9,84,84),
+ // R731: right of the TV pile and above the server the floor stayed bare up to the back wall (mobile-28), so a potted plant (the same art and size as the other rooms' plants) stands in that corner, 1.6 off the right wall like the friend house plant.
+ // Its box sits 9px above the server box top; the drawn leaves and the rack top stay about 30px apart on screen.
+ object('elplant','interior',13,9.4,4,75,80)],enemies:[],portals:[{x:5,y:13.2,to:'town',at:[22,9.3],sign:'そとへ'}]};
 RYW.registerChapter({id:1,
 // The key item from the closing scene: shown under どうぐ, not sold, not used in battle. Chapter 2 asks to show it (SPEC_V6.md 4).
 items:{firstgame:{name:'はじめて つくった ゲーム',key:true,desc:'しかくが ジャンプすると\nピコッと なる。\nふたりの さくひん。',descAdult:'四角がジャンプすると\nピコッと鳴る。\n二人の作品。'}},
