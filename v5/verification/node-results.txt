@@ -439,6 +439,7 @@ R542: 塔の雲の床の「上へ」「下へ」の札を雲の下の縁から�
 R566: 縦長のスマホで画面の上下の帯を、端の行の平均の1色でうめた PASS
 R580: 窓を開いている間、画面の上下の帯にも窓と同じ暗い色をかぶせた PASS
 R617: 横長や正方形の画面の左右のぼかしを強め、塔の札が四角く浮かないようにした PASS
+R738: 縦長の画面の上下の帯を暗くせず、地面との境目が出ないようにした PASS
 R567: タイトルの押せない「続きから」を透けない濃い地にした PASS
 R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS
 R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞかない PASS
@@ -544,5 +545,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 116ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 69ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

@@ -4009,6 +4009,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const e=bd.indexOf("bctx.drawImage(canvas,0,0,bw,backdrop.height);backdrop.classList.add('wide')"),t=bd.indexOf("backdrop.classList.remove('wide')");
   assert(e>0&&t>0&&t<bd.indexOf('}else{'),'R617: only the side-margin branch adds .wide, the tall-phone band branch removes it');}
  result.push('R617: 横長や正方形の画面の左右のぼかしを強め、塔の札が四角く浮かないようにした PASS');
+ // R738: the tall-phone bands above and below the stage keep their own colour, so no darker seam shows under the title ground (mobile-15).
+ {const base=(html.match(/#backdrop\{[^}]*\}/)||[''])[0];
+  assert(base&&!/brightness/.test(base),'R738: the tall backdrop does not darken the bands: '+base);}
+ result.push('R738: 縦長の画面の上下の帯を暗くせず、地面との境目が出ないようにした PASS');
  // R567: the greyed 「続きから」 on the title keeps a solid plate (no 45% opacity), so the ground does not show through its faint words.
  {const m=/#title-actions button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R567: greyed title buttons keep an opaque plate: '+(m&&m[1]));
   assert(html.indexOf(m[0])>html.indexOf('button:disabled{opacity:.45'),'R567: the title rule comes after the generic see-through rule');}
