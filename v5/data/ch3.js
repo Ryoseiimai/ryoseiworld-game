@@ -100,8 +100,8 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  // R730: under the three capsules only the plant stood, so the lower half of the floor was empty (map-neon_capsule).
  // A lounge sofa stands on the left, a drink machine in the lower left corner and a bin in the lower right one, off the door path (x 3.5 to 6.5).
  object('ncap_sofa','interior',12,2.2,8.4,110,110),
- prop('ncap_vending',3,1.6,11.4,104,{label:'じはんき',labelAdult:'自販機',dialogue:'capsuleVending'}),
- object('ncap_bin','props',14,10.06,11.6,48,52)],
+ prop('ncap_vending',3,1.8,11.4,96,{label:'じはんき',labelAdult:'自販機',dialogue:'capsuleVending'}),
+ object('ncap_bin','props',14,9.9,11.6,48,52)],
  enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[24,25.8],sign:'そとへ'}]};
 // FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。

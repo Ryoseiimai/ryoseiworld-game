@@ -4403,16 +4403,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const sofa=f('ncap_sofa'),vm=f('ncap_vending'),bin=f('ncap_bin');
   assert(sofa&&sofa.kind==='interior'&&sofa.frame===12,'R730: a sofa stands in the capsule hotel');assert(vm&&vm.kind==='props'&&vm.frame===3,'R730: a drink machine stands in the capsule hotel');assert(bin&&bin.kind==='props'&&bin.frame===14,'R730: a bin stands in the capsule hotel');
   for(const o of [sofa,vm,bin]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;
-   assert(l>=20&&rr<=cm.w*48-20,'R730: '+o.id+' stays inside the side walls');assert(o.y<=cm.h-1,'R730: '+o.id+' stays above the bottom wall');
+   assert(l>=20+8&&rr<=cm.w*48-20-8,'R730: '+o.id+' stands at least 8px off the side walls');assert(o.y<=cm.h-1,'R730: '+o.id+' stays above the bottom wall');
    assert(o.y*48-o.h>=3*48,'R730: '+o.id+' stands below the back wall');assert(o.y>=6,'R730: '+o.id+' fills the lower half');
    assert(Math.abs(o.x-door.x)*48>=o.w/2+24,'R730: '+o.id+' stays off the column down to the door');
-   for(const q of objs.filter(q=>q!==o&&!q.floor&&q.collider!==false))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=40,'R730: '+o.id+' does not sit on '+q.id);}
+   // The drawn pictures must not overlap at all (not only the feet), and the 34px name plate over the machine stays clear of the sofa's feet.
+   for(const q of objs.filter(q=>q!==o&&!q.floor)){const ql=q.x*48-q.w/2,qr=q.x*48+q.w/2,qt=q.y*48-q.h,qb=q.y*48;assert(rr<=ql||l>=qr||o.y*48<=qt||o.y*48-o.h>=qb,'R730: '+o.id+' is not drawn over '+q.id);}}
+  assert(vm.y*48-vm.h-34>=sofa.y*48,'R730: the name plate over the drink machine stays below the sofa');
   for(const k of ['capsuleVending'])for(const l of r.g.GAME_DATA.dialogue[k])for(const row of l[1].split('\n'))assert([...row].length<=12,'R730: '+k+' rows fit the dialogue box: '+row);
   r.start();r.tick(1000);assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();r.g.debugWarp('neon_capsule',sx,sy);r.tick(32);while(r.g.dialogue)r.dialogue();assert.equal(r.g.map,'neon_capsule');
   for(let y=sy;y<=door.y-0.3;y+=0.25)assert(!r.g.debugBlocked(sx*48,y*48),'R730: the walk from the spawn down to the door is open at y '+y);
   r.g.debugWarp('neon_capsule',vm.x+1.2,vm.y-0.3);r.g.debugFace(1);r.tick(16);r.click('talk-btn');
-  if(!(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('ランキング')))){while(r.g.dialogue)r.dialogue();for(const d of [0,1,2,3]){r.g.debugFace(d);r.tick(16);r.click('talk-btn');if(r.g.dialogue)break;}}
-  assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('ランキング')),'R730: the drink machine can be checked');while(r.g.dialogue)r.dialogue();}
+  assert(r.g.dialogue&&r.g.dialogue.lines.some(l=>l[1].includes('ランキング')),'R730: the drink machine can be checked facing left from its right side');while(r.g.dialogue)r.dialogue();
+  assert(r.g.GAME_DATA.dialogue.capsuleVending.every(l=>l[1].split('\n').length<=3),'R730: each line of the drink machine fits in three rows');
+  r.g.debugWarp('neon_capsule',sx,door.y-0.6);r.key('ArrowDown');for(let i=0;i<120&&r.g.map==='neon_capsule';i++)r.tick(16);r.key('ArrowDown',true);r.tick(16);assert.equal(r.g.map,'neon','R730: walking down from above the door leaves for the city');}
  result.push('R730: カプセルホテルの下の空いた床に、ソファと自販機とごみ箱を出口への道をふさがずに置く PASS');
  await require('./test_outgame.cjs')({runtime,result,assert,html,root});
  fs.mkdirSync(path.join(root,'verification'),{recursive:true});fs.writeFileSync(path.join(root,'verification','node-results.txt'),result.join('\n')+'\n');
