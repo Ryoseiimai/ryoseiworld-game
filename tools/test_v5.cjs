@@ -3084,12 +3084,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // inside the left wall, below the sofa, left of the repair man (who stays reachable from the spawn), lined up with the boxes, and the door path stays open.
  {const r=await runtime();r.tick();const g=r.g,m=g.GAME_DATA.maps.electric,f=id=>m.objects.find(o=>o.id===id),c=f('cart'),sofa=f('sofa'),rep=f('repair'),bx=f('boxes'),door=m.portals[0];
   assert(c&&c.kind==='repair_bench'&&c.frame===3&&!c.action&&!c.event,'R714: the back room has the tool cart, a plain piece of furniture');
-  const l=c.x*48-c.w/2,rr=c.x*48+c.w/2;assert(l>=20&&c.y<=m.h-1.5,'R714: the cart stays inside the left wall and above the door row');
+  const l=c.x*48-c.w/2,rr=c.x*48+c.w/2;assert(l>=sofa.x*48-sofa.w/2-6&&c.y<=m.h-1.5,'R714: the cart stands as far off the left wall as the sofa, above the door row');
   assert(c.y*48-c.h>=sofa.y*48,'R714: the cart stands below the sofa');assert(rr<=rep.x*48-rep.w/2,'R714: the cart stays left of the repair man');
   assert(rr<=door.x*48-48,'R714: the cart stands clear of the door');assert(Math.abs(c.y-bx.y)<=0.3,'R714: the cart lines up with the boxes across the room');
   for(const q of m.objects.filter(o=>o!==c&&!o.floor&&o.collider!==false))assert(Math.abs(q.x-c.x)*48>=(q.w+c.w)/2||Math.abs(q.y-c.y)*48>=Math.max(q.h,c.h)*.8,'R714: the cart does not stand on '+q.id);
   g.debugWarp('electric',m.spawn[0],m.spawn[1]);r.tick(16);for(let y=m.spawn[1];y<=12.5;y+=0.25)assert(!g.debugBlocked(m.spawn[0]*48,y*48),'R714: the walk from the spawn to the door is open at y '+y);
   for(let x=m.spawn[0];x>=rep.x+0.6;x-=0.1)assert(!g.debugBlocked(x*48,rep.y*48),'R714: the walk to the repair man stays open at x '+x.toFixed(1));
+  for(let y=rep.y+0.25;y<=12.5;y+=0.25)assert(!g.debugBlocked(rep.x*48,y*48),'R714: the floor under the repair man, right of the cart, stays open at y '+y);
   while(g.dialogue)r.dialogue();r.imageLog.length=0;r.tick(16);assert(r.imageLog.some(u=>String(u).includes('assets/repair_bench/repair_bench_r1_c1.png')),'R714: the cart picture is drawn');}
  result.push('R714: 電気屋の奥の左下の空いた床に工具のワゴンを置き、修理屋さんへの道と外への道をふさがない PASS');
  // R243: the park sign stands on two posts far apart, and the small round shadow lay on the grass between and below them (ミナモ, desktop-26). Its shadow now joins both post feet.
