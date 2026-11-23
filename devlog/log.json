@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T06:13:02.195Z",
-  "branch": "claude/autodev-20261116-1421-R597",
-  "task": "R597 R595 で残った2つを確かめた。電気屋の奥の壁は R538 の作りどおり、砂場の上の「話す」ボタンは看板のためすでに薄くなっていたので、どちらも直さなかった",
-  "summary": "R595 で残った2つの所を、手元のスクショとテストで確かめた\n電気屋の奥は高い部屋なので、下では上の壁が見えない。R538 の作りどおりなので変えなかった\n町の砂場の上の「話す」ボタンは、公園の看板のためにすでに薄くなっていた。直す所が無かった",
-  "result": "pass",
-  "shots": [
-   "shots/1042/mobile-02-mode-select.jpg",
-   "shots/1042/mobile-19-custom-og-credit-card.jpg",
-   "shots/1042/mobile-34-chapter-1-play.jpg",
-   "shots/1042/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7b86d8b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43812087569"
- },
- {
   "at": "2026-11-16T06:44:49.202Z",
   "branch": "claude/autodev-20261116-1521-R598",
   "task": "R598 ボス戦の「プレイテスト」ボタンで、字が両端まで詰まり、金色の棒が下の縁を切っていたので、角を14pxにし、棒を縁から4px上・左右12px内側に入れた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "8c9b2ee",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45249037546"
+ },
+ {
+  "at": "2026-11-23T20:34:54.867Z",
+  "branch": "claude/autodev-20261124-0522-R736",
+  "task": "R736 スタジアムだけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "スタジアムが13行で、床の下に暗い帯が出ていたのを選んだ\nスタジアムを、ほかの部屋と同じ14行にした\n着く所と外への札を1行下げ、確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1280/mobile-02-mode-select.jpg",
+   "shots/1280/mobile-19-custom-og-credit-card.jpg",
+   "shots/1280/mobile-34-chapter-1-play.jpg",
+   "shots/1280/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2c5bc1e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45258979969"
  }
 ]
