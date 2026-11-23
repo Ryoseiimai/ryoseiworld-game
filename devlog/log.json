@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T23:28:29.625Z",
-  "branch": "claude/autodev-20261116-0721-R592",
-  "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
-  "summary": "ネオンシティの「ランク 86位」の札が、横のミオの札にも見えていた\n数字の人の札の下に、その人の頭を指す小さなしっぽを付けた\n前と後の拡大スクショを v5/verification/R592_neon_*.png に置いた",
-  "result": "fail",
-  "shots": [
-   "shots/1031/mobile-02-mode-select.jpg",
-   "shots/1031/mobile-19-custom-og-credit-card.jpg",
-   "shots/1031/mobile-34-chapter-1-play.jpg",
-   "shots/1031/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f0b3e50",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43772351121"
- },
- {
   "at": "2026-11-16T00:58:38.188Z",
   "branch": "claude/autodev-20261116-0721-R592",
   "task": "R592 ネオンシティの「ランク 86位」の札が隣のミオの札にも見えていたので、札の下にその人を指す小さなしっぽを付けた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "4729fb5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45186596608"
+ },
+ {
+  "at": "2026-11-23T14:02:57.175Z",
+  "branch": "claude/autodev-20261123-2221-R729",
+  "task": "R729 友達の家だけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "友達の家だけ床が13行で、ほかの部屋より下が短かった\n14行にして、入口と本棚とゴミ箱を1行下げた\n部屋の高さと入口の位置を調べる確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1267/mobile-02-mode-select.jpg",
+   "shots/1267/mobile-19-custom-og-credit-card.jpg",
+   "shots/1267/mobile-34-chapter-1-play.jpg",
+   "shots/1267/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e297657",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45187451004"
  }
 ]
