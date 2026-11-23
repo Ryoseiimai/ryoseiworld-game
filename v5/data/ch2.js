@@ -17,7 +17,7 @@ maps.minamo={name:'ミナモちょう',short:'ミナモちょう',w:30,h:36,outs
  object('minamo_library','buildings',5,22,26.2,210,188,{label:'としょかん',enter:'minamo_library',arrival:[5,11]}),
  // R683: at x 6 the friend's house stood half cut by the left edge of the screen when you arrive by bus (mobile-29, mobile-35).
  // It moved west to x 3, out of the arrival view, and the cherry tree that stood there (minamo_tree7) took its old place, fully on screen.
- object('minamo_friend','buildings',0,3,34,194,194,{roof:28,flip:true,label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,10]}),
+ object('minamo_friend','buildings',0,3,34,194,194,{roof:28,flip:true,label:'ともだちの いえ',enter:'minamo_friend',arrival:[5,11]}),
  object('minamo_apartment','buildings',6,23,34,190,190),
  prop('minamo_bus',13,12.4,30.65,90,{label:'バスてい',labelAdult:'バス停',event:'busStop'}),
  // R253: the station used the bus stop's red and white sign, so the town read as having two bus stops; it now has the train sign.
@@ -98,7 +98,9 @@ maps.minamo_library={name:'みずべの としょかん',short:'としょかん'
  object('minamo_grandpa','npc',2,3.4,7.6,56,75,{event:'minamoGrandpa',coat:220,flip:true})],
  enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[22,27.6],sign:'そとへ'}]};
 // The friend's house: the boy who may not go out.
-maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:13,spawn:[5,10],objects:[
+// R729: the room was 13 rows while my room, the library and the electric back room are 14, so its floor ended about 37px higher on screen
+// and a dark band sat over the 話す button (mobile-31). It is 14 rows now; the door, the spawn, the shelf and the bin moved one row down.
+maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11,h:14,spawn:[5,11],objects:[
  // R664: the friend's own striped rug, low game table and beanbag (art from v5/assets/friend_rug), so it is not the own room's blue rug.
  object('mf_rug','friend_rug',0,5,9.3,150,166,{floor:true,collider:false}),
  object('mf_table','friend_rug',1,2.3,7.6,100,90),object('mf_beanbag','friend_rug',2,8.2,6.6,80,80),
@@ -106,10 +108,10 @@ maps.minamo_friend={name:'ともだちの いえ',shortAdult:'友達の家',w:11
  // R699: the boy's feet stood on the rug's top fringe (mobile-31), so he stands a little north, on the bare floor.
  object('minamo_boy','npc2',7,4.6,6.4,48,65,{event:'minamoBoy',clearedDialogue:'boyAfter'}),
  // R712: the floor under the rug was empty (mobile-31), so a bookshelf stands in the lower left corner and a bin in the lower right one, off the door path.
- object('mf_shelf','interior',2,1.8,12.4,110,130),object('mf_bin','props',14,10.06,12.6,48,52),
+ object('mf_shelf','interior',2,1.8,13.4,110,130),object('mf_bin','props',14,10.06,13.6,48,52),
  // R718: the friend's wall was bare paper while the own room and the library each hang a clock, so a clock hangs on the wall above the sofa, as high as the own room's.
  object('mf_clock','interior',14,2.6,1.9,70,70,{collider:false})],
- enemies:[],portals:[{x:5,y:12.2,to:'minamo',at:[3,35.4],sign:'そとへ'}]};
+ enemies:[],portals:[{x:5,y:13.2,to:'minamo',at:[3,35.4],sign:'そとへ'}]};
 RYW.registerChapter({id:2,title:'ミナモちょう',town:'minamo',boss:'kateino',recruit:'owl',clearDialogue:'kateinoClear',clearSpot:['minamo',8.6,23.8],clearEvent:'minamoPark',clearDone:'neonVisited',next:3,nextTitle:'ネオンシティ',zakoGoal:3,keyFlag:'minamoKey',serverItem:'firstgame',zakoDone:'minamoZakoDone',
  // __v5.debugStartChapter(2): the bus has run once and the first game is in the pocket.
  debugStart:{items:{firstgame:1},flags:{gameMade:true,minamoVisited:true}},
