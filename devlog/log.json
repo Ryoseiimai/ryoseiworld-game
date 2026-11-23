@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T19:34:24.302Z",
-  "branch": "claude/autodev-20261116-0341-R588",
-  "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
-  "summary": "台詞を1コマで入れ替える枝が main と台帳でぶつかったので、両方の記録を残して直した\n同じ R588 の番号で2本の枝があったので、ROADMAP に2行とも残した\ntools/test_shooter.cjs は 609 件すべて通った",
-  "result": "pass",
-  "shots": [
-   "shots/1024/mobile-02-mode-select.jpg",
-   "shots/1024/mobile-19-custom-og-credit-card.jpg",
-   "shots/1024/mobile-34-chapter-1-play.jpg",
-   "shots/1024/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "798c9ee",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43752091914"
- },
- {
   "at": "2026-11-15T19:46:06.403Z",
   "branch": "claude/autodev-20261116-0341-R588",
   "task": "R588 戦闘の波の線が敵の上を走り、紫のバグキングが見分けにくかったので、敵の後ろに地の色のぼかしを敷いた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "9d24165",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45139163601"
+ },
+ {
+  "at": "2026-11-23T10:00:44.815Z",
+  "branch": "claude/autodev-20261123-1821-R725",
+  "task": "R725 町に着いた時、カラスのノイズが右の電柱の変圧器に重なって電柱の一部に見えたので、カラスの通り道とポストを少し左へ寄せた",
+  "summary": "町に着いた時、カラスのノイズが電柱の変圧器に重なっていたので、通り道を左へ寄せた\nポストも少し左へ寄せ、カラスがポストと電柱の間を通るようにし、テストを足した\n手元のテストとブラウザの確認は通った。電柱は R272 のテストのため残した",
+  "result": "pass",
+  "shots": [
+   "shots/1261/mobile-02-mode-select.jpg",
+   "shots/1261/mobile-19-custom-og-credit-card.jpg",
+   "shots/1261/mobile-34-chapter-1-play.jpg",
+   "shots/1261/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a5ce140",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45150577359"
  }
 ]
