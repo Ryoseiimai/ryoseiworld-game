@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T13:19:27.211Z",
-  "branch": "claude/autodev-20261115-2121-R581",
-  "task": "R581 章の終わりの札の後ろの地面がただのカーキ色の板に見えたので、歩道にうすい敷石の目地を描いた",
-  "summary": "章の終わりの札の後ろの地面が、色の帯が並んでいるだけに見えていた\n札とエピローグの画面だけ、歩道にうすい敷石の目地を描いた。タイトルはそのまま\n画面の下の8ドットには線を引かないことを、テストで確かめるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/1011/mobile-02-mode-select.jpg",
-   "shots/1011/mobile-19-custom-og-credit-card.jpg",
-   "shots/1011/mobile-34-chapter-1-play.jpg",
-   "shots/1011/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "03b15f0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43717067282"
- },
- {
   "at": "2026-11-15T13:43:49.447Z",
   "branch": "claude/autodev-20261115-2221-R582",
   "task": "R582 ことばカードの字が枠の左はしにくっついて見えていたので、カードの左右の余白を広げた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b677bcd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45094925970"
+ },
+ {
+  "at": "2026-11-23T02:50:59.180Z",
+  "branch": "claude/autodev-20261123-1121-R715",
+  "task": "R715 塔2階は下の3段の床が空いて間延びしていたので、左下に管、右下にラックを置いた",
+  "summary": "塔2階の下の3段の床が空いていたので、左下に管、右下にラックを置いた\n2つは出発の列と、むげんローディングの通り道をふさがない\nそのことをテストに足し、塔2階のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1247/mobile-02-mode-select.jpg",
+   "shots/1247/mobile-19-custom-og-credit-card.jpg",
+   "shots/1247/mobile-34-chapter-1-play.jpg",
+   "shots/1247/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4efdcad",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45101613925"
  }
 ]
