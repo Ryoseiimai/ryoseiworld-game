@@ -3263,7 +3263,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R715: '+o.id+' stays off the spawn column');assert(l>=inf.x*48+28+12||rr<=inf.x*48-28-12,'R715: '+o.id+' stays off the むげんローディング lane');
    for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R715: '+o.id+' does not stand on '+q.id);}
   r.g.debugWarp('tower2',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R715: the floor under the spawn stays open at y '+y);
-  const a=(rack.x*48+rack.w/2)/48+.1,b=(pipe.x*48-pipe.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R715: the bottom row between the rack and the pipe stays open right up to them at x '+x.toFixed(1));
+  const a=(rack.x*48+rack.w/2)/48+.1,b=(pipe.x*48-pipe.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,(m.h-1.2)*48),'R715: the bottom row between the rack and the pipe stays open right up to them at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c0.png','tower_r0_c0.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R715: '+png+' is drawn');}
  result.push('R715: 塔2階の下の空いた床の左にラック、右に管を置いた PASS');
  // R716: on floor 3 the bottom rows under the chart and the crystal were bare grid, as on floor 2 before R715. A data column fills the lower left and cables the lower right,
@@ -3277,7 +3277,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    {const e=m.enemies.find(x=>x.id==='tz3');assert(o.y*48-o.h>=(e.y+2.5)*48+24,'R716: '+o.id+' stays below the virus ball lane');}
    for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R716: '+o.id+' does not stand on '+q.id);}
   r.g.debugWarp('tower3',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R716: the floor under the spawn stays open at y '+y);
-  const a=(col.x*48+col.w/2)/48+.1,b=(cab.x*48-cab.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R716: the bottom row between them stays open at x '+x.toFixed(1));
+  const a=(col.x*48+col.w/2)/48+.1,b=(cab.x*48-cab.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,(m.h-1.2)*48),'R716: the bottom row between them stays open at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r2_c2.png','tower_r0_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R716: '+png+' is drawn');}
  result.push('R716: 塔3階の下の空いた床の左に光の柱、右にケーブルを置いた PASS');
  // R717: on the roof the bottom rows and the left side under the down floor were bare grid, as on floors 2 and 3 before R715/R716. A data cloud fills the lower left and a fan unit
@@ -3290,7 +3290,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R717: '+o.id+' stays off the spawn column');
    for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R717: '+o.id+' does not stand on '+q.id);}
   r.g.debugWarp('tower_roof',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R717: the floor under the spawn stays open at y '+y);
-  const a=(cl.x*48+cl.w/2)/48+.1,b=(fan.x*48-fan.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R717: the bottom row between them stays open at x '+x.toFixed(1));
+  const a=(cl.x*48+cl.w/2)/48+.1,b=(fan.x*48-fan.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,(m.h-1.2)*48),'R717: the bottom row between them stays open at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c1.png','tower_r2_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R717: '+png+' is drawn');}
  result.push('R717: 屋上の下の空いた床の左にデータの雲、右に室外機を置いた PASS');
  // R718: the friend's back wall was bare paper while the own room and the library each hang a clock. A clock hangs high on that wall, inside it, over the sofa, clear of the TV,
@@ -4373,6 +4373,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.tick();r.start();r.tick(1000);assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();r.g.debugWarp('store',...st.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();
   for(let y=st.spawn[1];y<=door.y-0.5;y+=0.25)assert(!r.g.debugBlocked(st.spawn[0]*48,y*48),'R732: the walk from the spawn to the door is open at y '+y);}
  result.push('R732: コンビニを、ほかの部屋と同じ14行の高さにした PASS');
+ // R733: the four tower floors were 13 rows while the other rooms are 14, so the floor ended higher on screen and a dark band sat under it.
+ {const r=await runtime();const M=r.g.GAME_DATA.maps,ids=['tower1','tower2','tower3','tower_roof'],low={tower1:['tw1_crt','tw1_floppy'],tower2:['tw2_rack','tw2_pipe'],tower3:['tw3_column','tw3_cable'],tower_roof:['twr_cloud2','twr_fan']};
+  for(const id of ids){const m=M[id];assert.equal(m.h,M.room.h,'R733: '+id+' is as tall as my room');assert.equal(m.tiles.length,m.h,'R733: '+id+' has a grid row for every row');
+   assert.equal(m.spawn[1],m.h-3,'R733: '+id+' spawn stands three rows above the bottom like the store');
+   for(const c of m.cells.filter(c=>c.warp))assert.deepEqual(c.at,M[c.warp].spawn,'R733: the pad on '+id+' lands on the spawn of '+c.warp);
+   for(const o of low[id].map(x=>m.objects.find(q=>q.id===x)))assert(o.y>=m.h-1.6&&o.y<=m.h-0.3,'R733: '+o.id+' stays in the bottom row');}
+  const p=M.tower1.portals[0];assert(Math.abs(p.y-(M.tower1.h-0.8))<1e-9,'R733: the そとへ plate sits on the bottom row like the store door');
+  assert.deepEqual(M.neon.objects.find(o=>o.enter==='tower1').arrival,M.tower1.spawn,'R733: the cloud gate arrives at the tower spawn');
+  r.tick();r.start();r.tick(1000);assert(r.g.debugStartChapter(4));while(r.g.dialogue)r.dialogue();
+  for(const id of ids){const m=M[id];r.g.debugWarp(id,...m.spawn);r.tick(32);while(r.g.dialogue)r.dialogue();const ht=r.g.hudTop;
+   assert.equal(-r.g.camera.y,ht+12,'R733: '+id+' starts 12px under the HUD line like my room');assert(ht+12+m.h*48<=960-80,'R733: '+id+' last row stays above the lowest 80px');}
+  r.g.debugWarp('tower1',...M.tower1.spawn);r.tick(16);for(let y=M.tower1.spawn[1];y<=p.y-0.5;y+=0.25)assert(!r.g.debugBlocked(5*48,y*48),'R733: the walk from the spawn to the plate is open at y '+y);}
+ result.push('R733: 塔の4つの階を、ほかの部屋と同じ14行の高さにした PASS');
  // R712: the friend's lower floor under the rug was empty (mobile-31); a bookshelf stands in the lower left corner and a bin in the lower right one,
  // inside the walls, below the table and the plant, off the rug and the spawn-to-door column, and the walk to the door stays open.
  // R729: the friend house was 13 rows while my room, the library and the electric back room are 14, so its floor ended higher on screen (mobile-31).
