@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T10:50:57.044Z",
-  "branch": "claude/autodev-20261115-1921-R579",
-  "task": "R579 ネオンシティで一歩左へ歩くと、掃除機のノイズの足が「調べる」ボタンに隠れていたので、歩く範囲を少し上へずらした",
-  "summary": "ネオンシティで掃除機のノイズの足が「調べる」ボタンに隠れていたのを直した\nノイズの歩く範囲を1タイル上へずらし、足がボタンの上に残るようにした\n一歩左へ歩いても足がボタンに入らないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1005/mobile-02-mode-select.jpg",
-   "shots/1005/mobile-19-custom-og-credit-card.jpg",
-   "shots/1005/mobile-34-chapter-1-play.jpg",
-   "shots/1005/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9e7aff7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43705177651"
- },
- {
   "at": "2026-11-15T11:06:51.971Z",
   "branch": "claude/autodev-20261115-1921-R579",
   "task": "R579 ネオンシティで一歩左へ歩くと、掃除機のノイズの足が「調べる」ボタンに隠れていたので、歩く範囲を少し上へずらした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "cb2b2d8",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45084703650"
+ },
+ {
+  "at": "2026-11-23T00:01:38.814Z",
+  "branch": "claude/autodev-20261123-0821-R711",
+  "task": "R711 コンビニの雑誌の棚の下から入口の左までの床が空いて間延びしていたので、左下の角に鉢植えを置いた",
+  "summary": "コンビニの左下で雑誌の棚の下の床が空いていたので、鉢植えを1つ置いた\n鉢植えは左の壁と棚にかからず、入口から外への道もふさがない\nそのことをテストに足し、全章のスクショで前と後を見比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1240/mobile-02-mode-select.jpg",
+   "shots/1240/mobile-19-custom-og-credit-card.jpg",
+   "shots/1240/mobile-34-chapter-1-play.jpg",
+   "shots/1240/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3465ea9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45085181183"
  }
 ]
