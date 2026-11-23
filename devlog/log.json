@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T14:47:34.503Z",
-  "branch": "claude/autodev-20261115-2321-R583",
-  "task": "R583 ボス戦のことばカードだけ字が枠の左はしに近いままだったので、ふつうの戦いのカードと同じ余白にした",
-  "summary": "ボス戦のことばカードの左右の余白が14ドットのままだった\n余白を17ドットにして、ふつうの戦いのカードとそろえた\n全65語の2つのモードで、カードの高さが変わらないことを測った",
-  "result": "pass",
-  "shots": [
-   "shots/1014/mobile-02-mode-select.jpg",
-   "shots/1014/mobile-19-custom-og-credit-card.jpg",
-   "shots/1014/mobile-34-chapter-1-play.jpg",
-   "shots/1014/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1249620",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43725237367"
- },
- {
   "at": "2026-11-15T15:57:05.932Z",
   "branch": "claude/autodev-20261116-0021-R584",
   "task": "R584 戦闘でソラの名前に後ろの縞がかかって読みにくかったので、名前の下に濃い札を敷いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "7ab7b64",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45105875279"
+ },
+ {
+  "at": "2026-11-23T03:48:03.606Z",
+  "branch": "claude/autodev-20261123-1221-R716",
+  "task": "R716 塔3階は下の3段の床が空いて間延びしていたので、左下に光の柱、右下にケーブルを置いた",
+  "summary": "塔3階の下の3段の床が空いていたので、左下に光の柱、右下にケーブルを置いた\n2つは出発の列と下へ歩く道をふさがず、上のグラフと結晶から離した\nそのことと、ウイルスボールの通り道に重ならないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1251/mobile-02-mode-select.jpg",
+   "shots/1251/mobile-19-custom-og-credit-card.jpg",
+   "shots/1251/mobile-34-chapter-1-play.jpg",
+   "shots/1251/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bebcf0e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45106288009"
  }
 ]
