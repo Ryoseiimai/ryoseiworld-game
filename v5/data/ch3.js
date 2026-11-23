@@ -16,7 +16,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  city('neon_selfie',7,5.1,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
  city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,11]}),
  city('neon_charts',1,5.6,33.6,200,240,{label:'いいねビル',dialogue:'chartTower'}),
- city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,10]}),
+ city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,11]}),
  // The white mural wall: the painting child and Paint Chimera come in R24.
  city('neon_mural',5,24.4,33.6,220,220,{label:'へきがの かべ',dialogue:'muralWall'}),
  // R24: the painter child (npc2 frame 1: paint-splattered overalls) sits in front of the mural, laughed at for 0 likes.
@@ -112,13 +112,15 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:14,s
 const bossQuest={text:'スタジアムの ヒカクマオウへ',adult:'スタジアムのヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
 // R50: a small reception room, using the existing interior and attendant art.
 // R26: ヒカクマオウ stands at the back of the stadium floor (art-20261010-hikaku_throne).
-maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:13,spawn:[5,10],objects:[
+// R736: the stadium was 13 rows while my room, the store, the net cafe, the capsule hotel and the tower are 14, so its floor ended higher and a dark band sat under it.
+// It is 14 rows now; the spawn, the arrival and the そとへ plate moved one row down.
+maps.neon_stadium={name:'ランキングスタジアム',short:'スタジアム',w:11,h:14,spawn:[5,11],objects:[
  object('nst_rug','interior',11,5,9,160,160,{floor:true,collider:false}),
  object('nst_guide','npc2',5,5,6,48,65,{label:'チャレンジ うけつけ',dialogue:'stadiumChallenge',action:'challenge'}),
  // R703: the plant stood tucked under the throne's lower right corner (its picture 13px into the throne's), so it stands in the empty upper left corner.
  object('nst_plant','interior',13,1.6,4.3,75,80),
  object('neon_boss','hikaku_throne',0,8.4,5.6,150,170,{label:'ヒカクマオウ',action:'boss',enemy:'hikaku',dialogue:'hikakuTalk',clearedDialogue:'hikakuGone',goneWhenCleared:true})],
- enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[15,35],sign:'そとへ'}]};
+ enemies:[],portals:[{x:5,y:13.2,to:'neon',at:[15,35],sign:'そとへ'}]};
 RYW.registerChapter({id:3,title:'ネオンシティ',town:'neon',zakoGoal:3,
  // R26: the boss fight (v5/js/shooter.js hikaku: number blocks weaken the shot, サーチフクロウ doubles the crown, じぶんの ペース backs one step off).
  // R27: after the stadium clear scene, a short ride on the light elevator opens chapter 4 (the cloud gate stays open after, for a later visit).
