@@ -477,6 +477,7 @@ R711: コンビニの左下の空いた床に鉢植えを置き、壁と雑誌�
 R722: コンビニの右下の空いた床に在庫の段ボールを置き、壁とおかしの棚とごみ箱にかからず、出口への道はふさがらない PASS
 R723: ミナモ町に着いた時、南の空いた草地に花壇を2つ置き、家・木・街灯・お母さんにかからず、友達の家から東への道はふさがらない PASS
 R732: コンビニを、ほかの部屋と同じ14行の高さにした PASS
+R733: 塔の4つの階を、ほかの部屋と同じ14行の高さにした PASS
 R729: the friend house is 14 rows like the other rooms, with its door, spawn, shelf and bin one row lower PASS
 R712: 友達の家のラグの下の空いた床に本棚とごみ箱を置き、壁とラグにかからず、出口への道はふさがらない PASS
 R681: 自分の部屋の下の空いた床に、鉢植えとごみ箱を階段と出口の札をふさがずに置く PASS
@@ -540,5 +541,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 118ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 116ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
