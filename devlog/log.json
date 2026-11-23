@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T06:44:49.202Z",
-  "branch": "claude/autodev-20261116-1521-R598",
-  "task": "R598 ボス戦の「プレイテスト」ボタンで、字が両端まで詰まり、金色の棒が下の縁を切っていたので、角を14pxにし、棒を縁から4px上・左右12px内側に入れた",
-  "summary": "ボス戦のとくぎのボタンの角を20pxから14pxにし、字が丸い角に詰まらないようにした\n金色の棒を下の縁から3px上げ、左右12px内側に入れた。字も4px上げ、下線に見えないようにした\n角と棒の位置、棒の伸び方を調べる確認を tools/test_shooter.cjs に2つ足した",
-  "result": "pass",
-  "shots": [
-   "shots/1043/mobile-02-mode-select.jpg",
-   "shots/1043/mobile-19-custom-og-credit-card.jpg",
-   "shots/1043/mobile-34-chapter-1-play.jpg",
-   "shots/1043/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f3ffd48",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43817539465"
- },
- {
   "at": "2026-11-16T07:50:11.007Z",
   "branch": "claude/autodev-20261116-1621-R599",
   "task": "R599 全章のスクショから確認役が3つ挙げたので確かめた。ボス戦の始めの札と板は R158 の作りどおり、情報欄の下の2章のボスは歩けば見える、勝った後の空の窓は字が出る前の0.1秒だったので、どれも直さなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "2c5bc1e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45258979969"
+ },
+ {
+  "at": "2026-11-23T20:46:47.277Z",
+  "branch": "claude/autodev-20261124-0522-R736",
+  "task": "R736 スタジアムだけ床が1行短く、画面の下に暗い帯が出ていたので、ほかの部屋と同じ14行にした",
+  "summary": "スタジアムが13行で、床の下に暗い帯が出ていたのを選んだ\nスタジアムを、ほかの部屋と同じ14行にした\n着く所と外への札を1行下げ、確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1281/mobile-02-mode-select.jpg",
+   "shots/1281/mobile-19-custom-og-credit-card.jpg",
+   "shots/1281/mobile-34-chapter-1-play.jpg",
+   "shots/1281/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e735efe",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45259478161"
  }
 ]
