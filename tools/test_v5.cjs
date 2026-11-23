@@ -790,7 +790,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // Beat the boss, then the gate opens into tower1.
   st.bosses.push('hikaku');st.flags.neonCleared=true;
   r.g.debugWarp('neon',gate.x,gate.y+1.3);r.g.debugFace(3);r.tick(16);r.click('talk-btn');r.tick(16);
-  assert.equal(r.g.map,'tower1','the cloud gate opens once the stadium boss is cleared');assert.equal(r.g.position.x,5*48);assert.equal(r.g.position.y,10*48);
+  assert.equal(r.g.map,'tower1','the cloud gate opens once the stadium boss is cleared');assert.equal(r.g.position.x,D.maps.tower1.spawn[0]*48);assert.equal(r.g.position.y,D.maps.tower1.spawn[1]*48);
   assert(!r.g.dialogue,'arriving on the spawn tile does not fire the entrance trigger yet');
   // 4 floors, all with the blue grid floor tile ('g').
   // R201: the dark tower tiles get a dark seam under them, not the wooden floor colour (tan seams looked like a test grid).

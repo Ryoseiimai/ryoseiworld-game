@@ -7,7 +7,7 @@
 const {object,prop}=RYW.helpers;
 const tower=(id,frame,x,y,w,h,extra)=>object(id,'tower',frame,x,y,w,h,extra);
 // R733: the floors were 13 rows while my room, the store, the library, the friend house and the electric back room are 14, so the floor ended higher
-// and a dark band sat under it. Every floor is 14 rows now; the spawn, the arrivals, the そとへ plate and the bottom-row things moved one row down.
+// and a dark band sat under it. Every floor is 14 rows now; the spawn, the arrivals, the entrance trigger, the そとへ plate and the bottom-row things moved one row down.
 // Every floor is the same small room (w:11,h:14), all floor tiles 'g' for the blue grid.
 const grid=Array.from({length:14},()=>'g'.repeat(11));
 const maps={};
@@ -30,7 +30,7 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  // R27: ひかりの ゆか (up pad) is always at (8.4,3.5), the down pad at (2.2,3.5); landing always on the next floor's spawn.
  cells:[{x:8.4,y:3.5,warp:'tower2',at:[5,11]},
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
-  {x:5,y:8.6,trigger:'towerEntrance',once:'towerEntranceSeen'}]};
+  {x:5,y:9.6,trigger:'towerEntrance',once:'towerEntranceSeen'}]};
 maps.tower2={name:'ノイズのとう 2かい',short:'とう 2かい',shortAdult:'塔2階',w:11,h:14,spawn:[5,11],tiles:grid,objects:[
  tower('tw2_save',14,8.4,7.4,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
  tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
