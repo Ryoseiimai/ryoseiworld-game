@@ -4356,9 +4356,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R729: the friend house was 13 rows while my room, the library and the electric back room are 14, so its floor ended higher on screen (mobile-31).
  {const r=await runtime();const M=r.g.GAME_DATA.maps,mf=M.minamo_friend,door=mf.portals[0],town=M.minamo.objects.find(o=>o.enter==='minamo_friend');
   for(const id of ['room','electric','minamo_library'])assert.equal(mf.h,M[id].h,'R729: the friend house is as tall as '+id);
-  assert(Math.abs(door.y-(mf.h-0.8))<1e-9,'R729: the door sits on the bottom row like my room');assert.equal(mf.spawn[1],mf.h-3,'R729: the spawn stands above the door');
+  assert(Math.abs(door.y-(mf.h-0.8))<1e-9,'R729: the door sits on the bottom row like the library and the electric back room');assert.equal(mf.spawn[1],mf.h-3,'R729: the spawn stands above the door');
   assert.deepEqual(town.arrival,mf.spawn,'R729: entering from the town arrives at the spawn');
-  for(const id of ['mf_shelf','mf_bin'])assert(mf.objects.find(o=>o.id===id).y>=mf.h-1,'R729: '+id+' stays in the bottom corner');}
+  for(const id of ['mf_shelf','mf_bin'])assert(mf.objects.find(o=>o.id===id).y>=mf.h-1,'R729: '+id+' stays in the bottom corner');
+  result.push('R729: the friend house is 14 rows like the other rooms, with its door, spawn, shelf and bin one row lower PASS');}
  {const r=await runtime();r.tick();const mf=r.g.GAME_DATA.maps.minamo_friend,objs=mf.objects,[sx,sy]=mf.spawn,door=mf.portals[0];
   const sh=objs.find(o=>o.id==='mf_shelf'),bin=objs.find(o=>o.id==='mf_bin'),rug=objs.find(o=>o.id==='mf_rug');
   assert(sh&&sh.kind==='interior'&&sh.frame===2,'R712: a bookshelf stands in the friend house');assert(bin&&bin.kind==='props'&&bin.frame===14,'R712: a bin stands in the friend house');
