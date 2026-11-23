@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T07:50:11.007Z",
-  "branch": "claude/autodev-20261116-1621-R599",
-  "task": "R599 全章のスクショから確認役が3つ挙げたので確かめた。ボス戦の始めの札と板は R158 の作りどおり、情報欄の下の2章のボスは歩けば見える、勝った後の空の窓は字が出る前の0.1秒だったので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\n勝った後の空の窓は、字が出始める前の0.1秒を撮っただけだと手元で確かめた\n2章のボスが情報欄の下に隠れる所は、欄を半透明にしても見た目が変わらず、戻した",
-  "result": "fail",
-  "shots": [
-   "shots/1044/mobile-02-mode-select.jpg",
-   "shots/1044/mobile-19-custom-og-credit-card.jpg",
-   "shots/1044/mobile-34-chapter-1-play.jpg",
-   "shots/1044/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1dcbefa",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43824837245"
- },
- {
   "at": "2026-11-16T08:41:52.391Z",
   "branch": "claude/autodev-20261116-1621-R599",
   "task": "R599 全章のスクショから確認役が3つ挙げたので確かめた。ボス戦の始めの札と板は R158 の作りどおり、情報欄の下の2章のボスは歩けば見える、勝った後の空の窓は字が出る前の0.1秒だったので、どれも直さなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e735efe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45259478161"
+ },
+ {
+  "at": "2026-11-23T21:56:52.148Z",
+  "branch": "claude/autodev-20261124-0622-R737",
+  "task": "R737 ヒカクマオウ戦のソラのひとことで、何が戻るか分かるよう「1段戻る」にした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nヒカクマオウ戦のソラの大人向けのひとことを「緑の『自分のペース』で1段戻る」にした\n拾った時の知らせと同じ「1段」を使い、その確認を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1282/mobile-02-mode-select.jpg",
+   "shots/1282/mobile-19-custom-og-credit-card.jpg",
+   "shots/1282/mobile-34-chapter-1-play.jpg",
+   "shots/1282/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1c2edf9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45272639132"
  }
 ]
