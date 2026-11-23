@@ -14,7 +14,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  city('neon_cafe',3,5.1,12.6,220,220,{label:'ネットカフェ',enter:'neon_cafe',arrival:[5,11]}),
  city('neon_ranking',0,24.6,12.6,190,250,{label:'ランキングタワー',dialogue:'rankingTower'}),
  city('neon_selfie',7,5.1,24.4,220,220,{label:'セルフィーひろば',dialogue:'selfiePlaza'}),
- city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,10]}),
+ city('neon_capsule',6,24,24.4,210,220,{label:'カプセルホテル',enter:'neon_capsule',arrival:[5,11]}),
  city('neon_charts',1,5.6,33.6,200,240,{label:'いいねビル',dialogue:'chartTower'}),
  city('neon_stadium',2,15,33.6,260,230,{label:'ランキングスタジアム',enter:'neon_stadium',arrival:[5,10]}),
  // The white mural wall: the painting child and Paint Chimera come in R24.
@@ -96,7 +96,9 @@ maps.neon_cafe={name:'ネットカフェ ルミナ',short:'カフェ',w:11,h:14,
  object('nc_clerk','npc2',3,5.4,5.2,48,65)],
  enemies:[],portals:[{x:5,y:13.2,to:'neon',at:[5.1,13.8],sign:'そとへ'}]};
 // The capsule hotel: everyone is in their capsule, looking at numbers. Beds stand in for capsules until there is a picture.
-maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,spawn:[5,10],objects:[
+// R735: the hotel was 13 rows while my room, the store, the net cafe and the tower are 14, so its floor ended higher and a dark band sat under it.
+// It is 14 rows now; the spawn, the arrival and the そとへ plate moved one row down.
+maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:14,spawn:[5,11],objects:[
  object('ncap_bed1','interior',0,2,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed2','interior',0,5.4,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),object('ncap_bed3','interior',0,8.8,4.6,110,110,{label:'カプセル',dialogue:'capsuleBed'}),
  object('ncap_plant','interior',13,9.4,8.8,75,80),
  // R730: under the three capsules only the plant stood, so the lower half of the floor was empty (map-neon_capsule).
@@ -104,7 +106,7 @@ maps.neon_capsule={name:'カプセルホテル',short:'カプセル',w:11,h:13,s
  object('ncap_sofa','interior',12,2.2,8.4,110,110),
  prop('ncap_vending',3,1.8,11.4,96,{label:'じはんき',labelAdult:'自販機',dialogue:'capsuleVending'}),
  object('ncap_bin','props',14,9.9,11.6,48,52)],
- enemies:[],portals:[{x:5,y:12.2,to:'neon',at:[24,25.8],sign:'そとへ'}]};
+ enemies:[],portals:[{x:5,y:13.2,to:'neon',at:[24,25.8],sign:'そとへ'}]};
 // FUN6: 3章はキーアイテムや仲間の必須あつめが無いので、key/battery/recruitの手前で
 // 「まわろう」のまま止まらず、ノイズを しずめた あとは すぐ スタジアムへ道案内する。
 const bossQuest={text:'スタジアムの ヒカクマオウへ',adult:'スタジアムのヒカクマオウへ',dest:{map:'neon_stadium',id:'neon_boss'}};
