@@ -2277,6 +2277,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    text.split('\n').forEach((para,i)=>assert(wd(para)<=476-(i?0:wd(who)+14),id+': the opening line has to wrap mid-phrase: '+JSON.stringify(text)));}
   assert.equal(r.g.GAME_DATA.enemies.hikaku.intro[1],'おなじ としで\nもう しゃちょう');}
  result.push('R119: ボスの始めの台詞が言葉の途中で折り返されず、ヒカクマオウは「おなじ としで」で改行する PASS');
+ // R728: the boss's opening line keeps its gold name tag (R557 drops it only for the boss's later lines); the challenge guide has none.
+ {const src=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');
+  assert(/iq && w\.mode !== 'challenge' && iq\.text === String\(w\.lines\.intro\[1\]\)\) iq\.opening = true/.test(src),'R728: the opening line is marked');
+  assert(/w\.burst\.speaker !== w\.def\.name \|\| S\.wordCards\.length \|\| w\.burst\.opening\) \? w\.burst\.speaker/.test(src),'R728: the marked line keeps its tag');}
+ result.push('R728: ボス戦の最初の台詞には、話し手の名前の札が付く PASS');
  // R120: the HP-milestone lines a chapter hands to the shooter (enemies[*].bursts) win over shooter.js's own, so they get the same check.
  {const r=await runtime(),wd=s=>[...s].reduce((a,c)=>a+(c===' '?12:24),0);
   for(const [id,e] of Object.entries(r.g.GAME_DATA.enemies))for(const [at,text] of e.bursts||[])

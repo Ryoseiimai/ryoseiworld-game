@@ -855,12 +855,20 @@ async function browserAdapterChecks() {
    check('R553: ボスの台詞のときは札の右の名前はそのまま見える',other&&vOther==='',{other,vOther});
    R.prepareBossWords=keep;}
   // R557: a line by the boss itself does not repeat the boss name on its gold tag (the top band already shows it); ソラ's lines keep the tag.
+  // R728: the opening line is the exception (the first words of the fight name who says them), so R557 is checked on the 75% line.
   {const keep0=R.prepareBossWords;R.prepareBossWords=()=>[];
-   handle=R.Shooter.start({boss:'kateino',platform});await ready();let got=null;
-   for(let i=0;i<60&&!got;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='カテイノジジョウ'&&drawn.some(d=>d.text&&/しょうらい|将来/.test(d.text)))got=drawn.slice();}
+   const tagged=async (boss,re)=>{handle=R.Shooter.start({boss,platform});await ready();let got=null;const name=win.__shooter.boss&&{kateino:'カテイノジジョウ',hikaku:'ヒカクマオウ'}[boss];
+    for(let i=0;i<60&&!got;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker===name&&drawn.some(d=>d.text&&re.test(d.text)))got=drawn.slice();}
+    handle.stop();return got?got.filter(d=>d.text===name):null;};
    // The top band's name sits at y 29; the line panel starts under the field top (116). Far below, a sprite without art writes its name as a stand-in.
+   for(const [boss,re] of [['kateino',/しょうらい|将来/],['hikaku',/おなじ としで|同じ年で/]]){const names=await tagged(boss,re);
+    check('R728: '+boss+' の最初の台詞の上に、ソラの台詞と同じ金色の名前の札が出る',!!names&&names.some(d=>d.y<60)&&names.some(d=>d.y>116&&d.y<116+200),names&&names.map(d=>d.y));}
+   handle=R.Shooter.start({boss:'kateino',platform});await ready();let got=null;
+   for(let i=0;i<40&&!(win.__shooter.state==='play');i++)await advance(.1);
+   win.__shooter.debugSetBossHp(Math.floor(win.__shooter.bossMaxHp*0.74));
+   for(let i=0;i<80&&!got;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='カテイノジジョウ'&&drawn.some(d=>d.text&&/しんぱい|心配/.test(d.text)))got=drawn.slice();}
    const names=got?got.filter(d=>d.text==='カテイノジジョウ'):[];
-   check('R557: ボスの台詞では、上の見出しのボス名だけが出て、台詞の札に同じ名前を重ねない',!!got&&names.some(d=>d.y<60)&&!names.some(d=>d.y>116&&d.y<116+200),names.map(d=>d.y));
+   check('R557: ボスの途中の台詞では、上の見出しのボス名だけが出て、台詞の札に同じ名前を重ねない',!!got&&names.some(d=>d.y<60)&&!names.some(d=>d.y>116&&d.y<116+200),names.map(d=>d.y));
    handle.stop();
    handle=R.Shooter.start({boss:'bugking',platform,lines:{intro:['ソラ','いっしょに なおそう！']}});await ready();let sora=null;
    for(let i=0;i<60&&!sora;i++){drawn.length=0;await advance(.05);const l=win.__shooter.line;if(l&&l.speaker==='ソラ'&&drawn.some(d=>d.text==='ソラ'))sora=true;}
