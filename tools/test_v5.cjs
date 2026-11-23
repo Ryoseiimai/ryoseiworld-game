@@ -3210,6 +3210,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const a=(rack.x*48+rack.w/2)/48+.1,b=(pipe.x*48-pipe.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R715: the bottom row between the rack and the pipe stays open right up to them at x '+x.toFixed(1));
   r.imageLog.length=0;r.tick(16);for(const png of ['tower_r3_c0.png','tower_r0_c0.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R715: '+png+' is drawn');}
  result.push('R715: 塔2階の下の空いた床の左にラック、右に管を置いた PASS');
+ // R716: on floor 3 the bottom rows under the chart and the crystal were bare grid, as on floor 2 before R715. A data column fills the lower left and cables the lower right,
+ // lined up, inside the floor, clear of the spawn column, with a gap under the things above, not standing on anything, and the spawn can still walk down.
+ {const r=await runtime();r.tick();const m=r.g.GAME_DATA.maps.tower3,f=id=>m.objects.find(o=>o.id===id),col=f('tw3_column'),cab=f('tw3_cable');
+  assert(col&&col.kind==='tower'&&col.frame===10&&!col.action&&!col.event,'R716: a data column stands on tower floor 3');assert(cab&&cab.kind==='tower'&&cab.frame===1&&!cab.action&&!cab.event,'R716: cables lie on tower floor 3');
+  assert(Math.abs(col.y-cab.y)<=0.3&&col.x<m.spawn[0]&&cab.x>m.spawn[0],'R716: the column on the left and the cables on the right line up across the floor');
+  for(const [o,above] of [[col,f('tw3_chart')],[cab,f('tw3_crystal')]])assert(o.y*48-o.h-above.y*48>=24,'R716: '+o.id+' leaves a gap under '+above.id);
+  for(const o of [col,cab]){const l=o.x*48-o.w/2,rr=o.x*48+o.w/2;assert(l>=0&&rr<=m.w*48-20&&o.y<=m.h-0.3&&o.y>=f('tw3_chart').y+1.5,'R716: '+o.id+' stays inside the floor, in the bottom rows');
+   assert(rr<=m.spawn[0]*48-48||l>=m.spawn[0]*48+48,'R716: '+o.id+' stays off the spawn column');
+   for(const q of m.objects.filter(x=>x!==o))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,'R716: '+o.id+' does not stand on '+q.id);}
+  r.g.debugWarp('tower3',5,10);r.tick(16);for(let y=10;y<=12;y+=.25)assert(!r.g.debugBlocked(5*48,y*48),'R716: the floor under the spawn stays open at y '+y);
+  const a=(col.x*48+col.w/2)/48+.1,b=(cab.x*48-cab.w/2)/48-.1;for(let x=a;x<=b;x+=.2)assert(!r.g.debugBlocked(x*48,11.8*48),'R716: the bottom row between them stays open at x '+x.toFixed(1));
+  r.imageLog.length=0;r.tick(16);for(const png of ['tower_r2_c2.png','tower_r0_c1.png'])assert(r.imageLog.some(u=>String(u).includes('assets/tower/'+png)),'R716: '+png+' is drawn');}
+ result.push('R716: 塔3階の下の空いた床の左に光の柱、右にケーブルを置いた PASS');
  // R686: on arrival in ミナモ (camera x = spawn*48-270) the park bench stood across the left edge of the 540px view, half cut (mobile-29/35).
  // It cannot move east (R215 keeps it 24px off the park board's posts), so it stands wholly west of the arrival view, on grass, clear of the flowers and the dog.
  {const m=(await runtime()).g.GAME_DATA.maps.minamo,f=id=>m.objects.find(o=>o.id===id),b=f('minamo_bench'),d=f('minamo_dog'),left=m.spawn[0]*48-270;
