@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-15T17:13:07.372Z",
-  "branch": "claude/autodev-20261116-0121-R585",
-  "task": "R585 クイズの「正解！」の窓の上から、戦いの主人公の頭だけがのぞいて切れた絵に見えていたので、窓の縁が横切る間は主人公とソラを描かないようにした",
-  "summary": "町とネオンで、地名の札より上の帯に屋根や木の切れはしが見えていた\n外のマップだけ、札の上の帯を濃い色でふさぎ、札の下で前の影に戻した\n影の段の順が画面の大きさで崩れないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1019/mobile-02-mode-select.jpg",
-   "shots/1019/mobile-19-custom-og-credit-card.jpg",
-   "shots/1019/mobile-34-chapter-1-play.jpg",
-   "shots/1019/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9c46d5b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43738386301"
- },
- {
   "at": "2026-11-15T17:44:51.024Z",
   "branch": "claude/autodev-20261116-0221-R587",
   "task": "R587 ヒカクマオウ戦の始めに、字のない暗い枠だけが一瞬見えていたので、台詞の枠と字を同じコマで出すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "4777776",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45120035555"
+ },
+ {
+  "at": "2026-11-23T06:47:55.253Z",
+  "branch": "claude/autodev-20261123-1521-R722",
+  "task": "R722 コンビニは左下に鉢植えがあるのに右下の床だけ空いていたので、右下に在庫の段ボールを置いた",
+  "summary": "コンビニの右下の空いた床に、在庫の段ボールの山を置いた\nゲーム機の棚の絵は実在の物に似るので使わない決まりに従い、段ボールにした\n壁・棚・ごみ箱にかからず、出口への道が空くことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1257/mobile-02-mode-select.jpg",
+   "shots/1257/mobile-19-custom-og-credit-card.jpg",
+   "shots/1257/mobile-34-chapter-1-play.jpg",
+   "shots/1257/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b281b54",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45125433949"
  }
 ]
