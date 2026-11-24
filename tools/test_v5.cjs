@@ -4198,14 +4198,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const o of all)assert(o.w>=100,o.id+' is w 100 or more, so it uses the counter shadow');}
  result.push('R707: コンビニのレジ台の影が、台の下に沿って床に落ちる PASS');
  // R749: the ネオン station and net cafe pictures end about 60 rows above their frame bottom, so the plain foot shadow lay about 40px under them (desktop-32).
- // For every ネオン building, the middle of its shadow is within 6px of the lowest row of its picture that has 40 or more solid pixels.
- {const fsh=html.match(/neon:\{3:\[(\d+),(\d+),(\d+),([0-9.]+)\],4:\[(\d+),(\d+),(\d+),([0-9.]+)\]\}/);assert(fsh,'R749: the neon station and cafe have their own shadows');
-  const rise={3:Number(fsh[2]),4:Number(fsh[6])};
+ // For every ネオン building, the middle of its shadow is within 6px of the lowest row of its picture that has 40 or more solid pixels,
+ // and a building with its own shadow keeps it no narrower than that bottom row and no wider than the widest row 20 rows above it (plus 16px), so its sides do not float.
+ {const own={};for(const m of html.matchAll(/neon:\{([^}]*)\}/g))for(const e of m[1].matchAll(/(\d+):\[(\d+),(\d+),(\d+)/g))own[e[1]]={rx:Number(e[2]),rise:Number(e[3])};
+  assert(own[3]&&own[4],'R749: the neon station and cafe have their own shadows');
   const objs=Object.values((await runtime()).g.GAME_DATA.maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='neon');assert(objs.length>=8,'R749: the neon buildings are found');
   for(const o of objs){const file=path.join(root,'assets','neon',`neon_r${Math.floor(o.frame/3)}_c${o.frame%3}.png`),{data}=pngPixels(file),png=fs.readFileSync(file),fw=png.readUInt32BE(16),fh=png.readUInt32BE(20);
-   let bottom=-1;for(let y=fh-1;y>=0&&bottom<0;y--){let n=0;for(let x=0;x<fw;x++)if(data[(y*fw+x)*4+3]>40)n++;if(n>=40)bottom=y;}
-   const s=Math.min(o.w/fw,o.h/fh),gap=(fh-1-bottom)*s,up=o.w>=100&&rise[o.frame]!=null?rise[o.frame]*o.w/236:2;
-   assert(Math.abs(up-gap)<=6,`R749: ${o.id} shadow middle ${up.toFixed(1)}px above the foot, picture bottom ${gap.toFixed(1)}px`);}}
+   const row=y=>{let n=0,lo=-1,hi=-1;for(let x=0;x<fw;x++)if(data[(y*fw+x)*4+3]>40){n++;if(lo<0)lo=x;hi=x;}return {n,half:(hi-lo+1)/2};};
+   let bottom=-1;for(let y=fh-1;y>=0&&bottom<0;y--)if(row(y).n>=40)bottom=y;
+   const s=Math.min(o.w/fw,o.h/fh),gap=(fh-1-bottom)*s,mine=o.w>=100&&own[o.frame],k=o.w/236,up=mine?mine.rise*k:2;
+   assert(Math.abs(up-gap)<=6,`R749: ${o.id} shadow middle ${up.toFixed(1)}px above the foot, picture bottom ${gap.toFixed(1)}px`);
+   if(mine){let wide=0;for(let y=bottom-20;y<=bottom;y++)wide=Math.max(wide,row(y).half);const rx=mine.rx*k;
+    assert(rx>=row(bottom).half*s&&rx<=wide*s+16,`R749: ${o.id} shadow half width ${rx.toFixed(1)}px, steps ${(row(bottom).half*s).toFixed(1)}px, base ${(wide*s).toFixed(1)}px`);}}}
  result.push('R749: ネオンの駅とネットカフェの影が、建物の下の端に付く PASS');
  // R658: ミナモ had three plain copies of the hero's house (buildings 0); each now has its own roof colour, and no two share the same look as the home.
  {const maps=(await runtime()).g.GAME_DATA.maps,houses=Object.values(maps).flatMap(mp=>mp.objects).filter(o=>o.kind==='buildings'&&o.frame===0);
