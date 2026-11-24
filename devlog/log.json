@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T14:55:38.727Z",
-  "branch": "claude/autodev-20261116-2321-R605",
-  "task": "R605 手元の確かめ（tools/test_v5.cjs）が443秒かかり、自動確認の600秒の上限に近いので、遅い所を見つけて速くする",
-  "summary": "遅かったのは「はなす」ボタンの4つの確かめで、全体の半分の約290秒だった\n原因はエンジンが毎フレーム地図の全マスを描くことだったので、画面に映るマスだけ描くようにした\nテストの偽の画面と読み込みも軽くし、手元の確かめは443秒から278秒になった（467件すべて通過）",
-  "result": "pass",
-  "shots": [
-   "shots/1055/mobile-02-mode-select.jpg",
-   "shots/1055/mobile-19-custom-og-credit-card.jpg",
-   "shots/1055/mobile-34-chapter-1-play.jpg",
-   "shots/1055/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "0d66caf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43889144998"
- },
- {
   "at": "2026-11-16T15:38:08.896Z",
   "branch": "claude/autodev-20261117-0021-R604",
   "task": "R604 ネオンのミオの名札と街灯を画素で測ると16px離れていて重なっていなかったので、離れたままかを見る確かめを足した",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "e5c610c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45328649802"
+ },
+ {
+  "at": "2026-11-24T05:47:06.799Z",
+  "branch": "claude/autodev-20261124-1421-R744",
+  "task": "R744 呼び出しの間に敵の体力の帯がうすい灰色になり倒したように見えていたので、敵の札はうすくしないようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n呼び出しの間、敵の札をうすくしないようにし、体力の帯を金色のままにした\n敵の札が呼び出しの間にうすくならないことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1293/mobile-02-mode-select.jpg",
+   "shots/1293/mobile-19-custom-og-credit-card.jpg",
+   "shots/1293/mobile-34-chapter-1-play.jpg",
+   "shots/1293/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7a14586",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45334300719"
  }
 ]
