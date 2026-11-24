@@ -2470,6 +2470,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
   assert(/noiseBandY=noiseRow\(target\);/.test(html),'the band row comes from noiseRow');assert(/if\(m\.outside\)drawNoise\(target\);/.test(html),'the field passes the talk target');
   assert(/gameTime<noiseUntil&&noiseBandY>0/.test(html),'no band is drawn when no row was free');
+  // R752: a hard-edged grey strip looked like a broken screen; the strip and its dots fade toward both edges.
+  {const d=html.match(/function drawNoise\([^\n]*/)[0];assert(!/rect\(0,noiseBandY-22,W,44,/.test(d),'the noise band is not one hard-edged rect');assert(/1-Math\.abs\(r\+1\)\/22/.test(d)&&/1-Math\.abs\(d\)\/22/.test(d),'the noise band and its dots fade toward the edges');}
   const mk=(g,camera,signs=[])=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src('noiseRow')+'\nreturn noiseRow;')(g,camera,48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
   for(let k=0;k<300;k++){const g={y:300+Math.random()*900},camera={y:Math.random()*400},t={x:5,y:(g.y+Math.random()*200-100)/48,w:60,h:90,kind:'npc'};
    const y=mk(g,camera)(t);if(y===-999)continue;assert(y>=180&&y<=540+180,'still inside the field '+y);
