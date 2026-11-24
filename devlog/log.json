@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T21:53:53.120Z",
-  "branch": "claude/autodev-20261117-0621-R611",
-  "task": "R611 町の公園で、丸い木の葉が池の左下の角に重なり、花の鉢が池の縁に乗っていたので、その木を外し、鉢を半マス下げた",
-  "summary": "全章のスクショを確認役に見せ、公園の池の角に木が重なる所を直した\n池の左下の木を外し、花の鉢を池の縁から半マス下げた。鉢は今も通れない\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R611",
-  "result": "pass",
-  "shots": [
-   "shots/1066/mobile-02-mode-select.jpg",
-   "shots/1066/mobile-19-custom-og-credit-card.jpg",
-   "shots/1066/mobile-34-chapter-1-play.jpg",
-   "shots/1066/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "6f93f19",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43962689034"
- },
- {
   "at": "2026-11-16T22:02:52.766Z",
   "branch": "claude/autodev-20261117-0641-R611",
   "task": "R611 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "24291d0",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45376794511"
+ },
+ {
+  "at": "2026-11-24T11:03:12.219Z",
+  "branch": "claude/autodev-20261124-1921-R749",
+  "task": "R749 ネオンの駅とネットカフェの影が建物の約40px下に離れて床に浮いていたので、建物の下の端に付けた",
+  "summary": "ネオンの駅とネットカフェの影が、建物の約40px下に離れていた\n2つの絵の下の余白に合わせ、影を建物の下の端に移した\nネオンの建物すべての影が絵の下の端から6px以内かを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1305/mobile-02-mode-select.jpg",
+   "shots/1305/mobile-19-custom-og-credit-card.jpg",
+   "shots/1305/mobile-34-chapter-1-play.jpg",
+   "shots/1305/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "abd39f3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45378998583"
  }
 ]
