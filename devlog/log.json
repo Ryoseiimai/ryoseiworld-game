@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T15:47:52.810Z",
-  "branch": "claude/autodev-20261117-0021-R604",
-  "task": "R604 ネオンのミオの名札と街灯を画素で測ると16px離れていて重なっていなかったので、離れたままかを見る確かめを足した",
-  "summary": "ネオンでミオの名札と街灯を画素で測ると16px離れ、重なっていなかった\n重なっていたのは街灯の絵の透明な余白を含む箱だけだったので、コードは変えなかった\n名札と街灯の画素が8px以上離れているかを見る確かめを足した（468件すべて通過）",
-  "result": "pass",
-  "shots": [
-   "shots/1057/mobile-02-mode-select.jpg",
-   "shots/1057/mobile-19-custom-og-credit-card.jpg",
-   "shots/1057/mobile-34-chapter-1-play.jpg",
-   "shots/1057/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "eb6aea4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43897129762"
- },
- {
   "at": "2026-11-16T16:49:48.161Z",
   "branch": "claude/autodev-20261117-0121-R606",
   "task": "R606 ことばノートのおさらいの答えの窓の下に、戦闘の文がはみ出して見えていた。確かめの場面が戦闘中に窓を開いていたので、町に戻ってから開くようにし、戦闘中でないかを見る確かめを足した",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "05b8453",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45342701122"
+ },
+ {
+  "at": "2026-11-24T07:10:15.312Z",
+  "branch": "claude/autodev-20261124-1522-R745",
+  "task": "R745 部屋と塔で「話す」ボタンが床の下端の線にまたがっていたので、線の下の暗い帯に下げた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n部屋と塔で「話す」ボタンを少し低くし、床の下端の線の下に下げた\n部屋でボタンが線の下に収まり、外では元のままなことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1295/mobile-02-mode-select.jpg",
+   "shots/1295/mobile-19-custom-og-credit-card.jpg",
+   "shots/1295/mobile-34-chapter-1-play.jpg",
+   "shots/1295/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "24981a3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45343408151"
  }
 ]
