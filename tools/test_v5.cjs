@@ -2544,7 +2544,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime();
   for(const name of ['town','minamo','neon']){const m=rt.g.GAME_DATA.maps[name];if(!m||!m.outside)continue;rects.length=0;ground(m);const dash=rects.filter(r=>r[4]==='#d8d6af');
-   const plus=dash.filter(v=>v[2]===4&&dash.some(h=>h[3]===4&&h[0]===v[0]-22+6&&h[1]===v[1]-6+22));assert.deepEqual(plus.slice(0,3),[],name+': no "+" where the two dashes cross in one tile');
+   const plus=dash.filter(v=>v[2]===4&&dash.some(h=>h[3]===4&&h[0]<=v[0]+v[2]&&h[0]+h[2]>=v[0]&&h[1]<=v[1]+v[3]&&h[1]+h[3]>=v[1]));/* R751: any east-west dash touching a north-south dash, wherever the north-south dash sits in its tile */assert.deepEqual(plus.slice(0,3),[],name+': no "+" where the two dashes cross in one tile');
    assert(dash.some(r=>r[3]===4),name+': east-west roads keep their centre dashes');
    // R590: east-west dashes moved from rows divisible by 3 to each east-west road's middle row, so this checks every row, not only y%3===0.
    const T=(x,y)=>m.tiles[y]?.[x];for(let y=0;y<m.h;y++)for(let x=0;x<m.w;x++){if(T(x,y)!=='='||x%2||T(x-1,y)!=='='||T(x+1,y)!=='=')continue;let w=1;for(let d=1;T(x-d,y)==='=';d++)w++;for(let d=1;T(x+d,y)==='=';d++)w++;
