@@ -2900,6 +2900,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const fx=new Function('frameFor','return '+m[0])(()=>({w:200,h:200}));assert(fx('enemies',0,190,190)>=101,'z marks start at least 6px right of a full-width picture');
   assert(new Function('frameFor','return '+m[0])(()=>null)('enemies',0,190,190)===190*.32,'without a picture the old offset stays');}
  result.push('R754: 倒した敵の z が、細い自販機の右上の角に重ならず絵の右から出る PASS');
+ // R755: the indoor battle window was only a faint frame and read as a leftover box; its glass now has a night-sky fill and the frame matches the outdoor houses.
+ {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);assert(m,'battlePlace is defined');const ins=m[0].slice(m[0].indexOf('}else{'));
+  assert(/ctx\.globalAlpha=BATTLE_PANE_ALPHA;ctx\.fillStyle=BATTLE_PANE;ctx\.fillRect\(376,242,108,82\)/.test(ins),'indoor window glass is filled');
+  assert(ins.indexOf('BATTLE_PANE_ALPHA')<ins.indexOf('fillRect(370,236,120,6)'),'glass is drawn under the frame');
+  assert(/ctx\.globalAlpha=BATTLE_ROOM_ALPHA;ctx\.fillStyle='#0b1a2a';ctx\.fillRect\(370,236,120,6\)/.test(ins),'frame uses a firmer alpha');}
+ result.push('R755: 戦いの部屋の窓にガラスの色が入り、消し残りの四角に見えない PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
