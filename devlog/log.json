@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T10:55:31.332Z",
-  "branch": "claude/autodev-20261117-1926-R617",
-  "task": "R617 横長や正方形の画面で、左右のぼかしに塔の「下へ」「上へ」の札が空のボタンのような四角に見えていたので、その画面でだけぼかしを強めた",
-  "summary": "横長と正方形の画面のスクショを、確認役に初めて重点的に見せた\n左右のぼかしに塔の札が四角く浮き、空のボタンに見えたので、その画面だけぼかしを強めた\n確認役が挙げた左の縁の細い線と、曲の画面のボタンの下の狭さは、軽いので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1074/mobile-02-mode-select.jpg",
-   "shots/1074/mobile-19-custom-og-credit-card.jpg",
-   "shots/1074/mobile-34-chapter-1-play.jpg",
-   "shots/1074/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "59e8a55",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44067550521"
- },
- {
   "at": "2026-11-17T11:44:44.699Z",
   "branch": "claude/autodev-20261117-2021-R618",
   "task": "R618 戦闘で主人公の足の影が下の RYOSEI と HP の欄に2pxまで迫り、スマホで枠に押しつけられて見えたので、主人公を14px上に立たせた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "9b5ab3a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45397260927"
+ },
+ {
+  "at": "2026-11-24T13:49:19.144Z",
+  "branch": "claude/autodev-20261124-2222-R752",
+  "task": "R752 町の砂嵐の帯が、上下の端のくっきりした灰色の四角で画面の故障に見えたので、帯と点を上下の端に向けて薄くした",
+  "summary": "町の砂嵐の帯が、上下の端のくっきりした灰色の四角で画面の故障に見えていた\n帯の灰色と白い点を、上下の端に向けて薄くなるようにした\n帯が一枚の四角でなく、端で薄くなることを確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1312/mobile-02-mode-select.jpg",
+   "shots/1312/mobile-19-custom-og-credit-card.jpg",
+   "shots/1312/mobile-34-chapter-1-play.jpg",
+   "shots/1312/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "dfc429f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45405556905"
  }
 ]
