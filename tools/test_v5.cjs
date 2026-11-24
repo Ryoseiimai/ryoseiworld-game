@@ -1788,11 +1788,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();}
  result.push('R137: 戦闘の主人公の足が、RYOSEI と HP の欄の枠にかからない PASS');
  // R221: the hero had no shadow in battle while the enemy had one, so the hero floated over the RYOSEI/HP card. A shadow sits under the wheels, above the card (top 488).
- {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,46,11,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
-  assert(y+11<=486,'the hero shadow ends above the HP card (top 488): '+(y+11));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
+ {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(html.includes("ellipse(96,HERO_BATTLE_Y,46,10,HERO_SHADOW);sprite('ryosei'"),'the battle hero has a shadow under the wheels');
+  assert(y+10<=486,'the hero shadow ends above the HP card (top 488): '+(y+10));assert(/const HERO_SHADOW='#[0-9a-f]{6}[0-9a-f]{2}';/.test(html),'the hero shadow is see-through');}
  result.push('R221: 戦闘の主人公の足元に影があり、HP の欄にかからない PASS');
  // R618: the shadow ended 2px above the card, so on a phone the feet looked pressed onto its frame. It now leaves at least 12px.
- {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y>0&&y+6<=488-12,'the hero shadow leaves 12px above the HP card (top 488): '+(y+6));}
+ {const y=Number((html.match(/const HERO_BATTLE_Y=(\d+);/)||[])[1]);assert(y>0&&y+10<=488-12,'the hero shadow leaves 12px above the HP card (top 488): '+(y+10));}
  result.push('R618: 戦闘の主人公の影と HP の欄の間に12px以上のすき間がある PASS');
  // R620: 「タップ ▾」 showed while the prologue line was still typing, so the line looked cut off. It now waits for the line to finish.
  {assert(/\.dialogue\.typing \.next\{visibility:hidden\}/.test(html),'the hint hides (keeping its place) while the dialogue is typing');
@@ -4082,7 +4082,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(!mk(false,100,400)(340,486),'R585: a window that covers the hero wholly does not count as a cut');
   assert(!mk(false,250,400)(340,486),'R585: a window wholly below the hero leaves it drawn');
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
-  assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+11)){ellipse(96,HERO_BATTLE_Y,46,11,HERO_SHADOW);sprite('ryosei'"),'R585: the hero and its shadow are skipped when cut');
+  assert(d.includes("const edges=modalEdges();if(!modalCuts(edges,HERO_BATTLE_Y-140,HERO_BATTLE_Y+10)){ellipse(96,HERO_BATTLE_Y,46,10,HERO_SHADOW);sprite('ryosei'"),'R585: the hero and its shadow are skipped when cut');
   assert(d.includes("if(!modalCuts(edges,SORA_BATTLE_Y-44,SORA_BATTLE_Y+82))if(!b.cast)drawSora("),'R585: Sora is skipped when cut');}
  result.push('R585: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS');
  // R596: the partner name plate (top SORA_BATTLE_Y+tag-25) sat over the lower half of Sora's glow (to SORA_BATTLE_Y+44), so the plate cut the light.
