@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T11:00:36.795Z",
-  "branch": "claude/autodev-20261116-1921-R601",
-  "task": "R601 ミナモに着いた時、2章のボスの右腕だけが画面の左端にのぞいていたので、ボスを砂場の上で0.8マス西へ動かした",
-  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\nミナモに着いた時、2章のボスの右腕だけが左端にのぞいていた。ボスを砂場の上で0.8マス西へ動かし、着いた画面から外した\n町の電柱の頭が札のすき間に出る所と、ヒカクマオウ戦で弾が顔に重なる一瞬は、次の回にまわした",
-  "result": "pass",
-  "shots": [
-   "shots/1047/mobile-02-mode-select.jpg",
-   "shots/1047/mobile-19-custom-og-credit-card.jpg",
-   "shots/1047/mobile-34-chapter-1-play.jpg",
-   "shots/1047/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "39c684a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43852050049"
- },
- {
   "at": "2026-11-16T12:11:55.550Z",
   "branch": "claude/autodev-20261116-2021-R602",
   "task": "R602 ネオンの「ランク 86位」の札の下の縁が頭に載り、R592 のしっぽが髪に隠れていると確かめた（前半）",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "372d7fc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45289099818"
+ },
+ {
+  "at": "2026-11-24T00:08:38.050Z",
+  "branch": "claude/autodev-20261124-0821-R739",
+  "task": "R739 塔のフロッピーの山の下に灰色の線が出て、山が影から浮いていたので、線を消して山を床に下ろした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n塔のフロッピーの山の絵の下にあった灰色の線を、読み込む時に消した\n山が影から約19px浮いていたので床まで下ろし、確認を tools/test_v5.cjs に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1285/mobile-02-mode-select.jpg",
+   "shots/1285/mobile-19-custom-og-credit-card.jpg",
+   "shots/1285/mobile-34-chapter-1-play.jpg",
+   "shots/1285/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9363ae1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45292861683"
  }
 ]
