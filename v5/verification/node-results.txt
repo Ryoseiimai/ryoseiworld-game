@@ -451,6 +451,7 @@ R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けな�
 R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞかない PASS
 R571: 章の終わりの札の両はしから、後ろの薄い家の切れはしがのぞかない PASS
 R581: THE END などの札の後ろの歩道に、うすい敷石の目地を描き、画面の下の端には線を引かない PASS
+R750: 外の戦いの家並みに小さな明かりの窓を描き、消し残りの四角に見えないようにした PASS
 R582: ことばカードの字が、左右の枠から前より離れている PASS
 R583: ボス戦のことばカードの字も、左右の枠から前より離れている PASS
 R585: 戦いの画面で、窓の縁が横切る主人公とソラは、窓が開いている間描かない PASS
@@ -552,5 +553,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 76ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 104ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
