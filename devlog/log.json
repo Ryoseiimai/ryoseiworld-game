@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T15:38:08.896Z",
-  "branch": "claude/autodev-20261117-0021-R604",
-  "task": "R604 ネオンのミオの名札と街灯を画素で測ると16px離れていて重なっていなかったので、離れたままかを見る確かめを足した",
-  "summary": "ネオンでミオの名札と街灯を画素で測ると16px離れ、重なっていなかった\n重なっていたのは街灯の絵の透明な余白を含む箱だけだったので、コードは変えなかった\n名札と街灯の画素が8px以上離れているかを見る確かめを足した（468件すべて通過）",
-  "result": "pass",
-  "shots": [
-   "shots/1056/mobile-02-mode-select.jpg",
-   "shots/1056/mobile-19-custom-og-credit-card.jpg",
-   "shots/1056/mobile-34-chapter-1-play.jpg",
-   "shots/1056/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "aa64929",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43896760532"
- },
- {
   "at": "2026-11-16T15:47:52.810Z",
   "branch": "claude/autodev-20261117-0021-R604",
   "task": "R604 ネオンのミオの名札と街灯を画素で測ると16px離れていて重なっていなかったので、離れたままかを見る確かめを足した",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "7a14586",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45334300719"
+ },
+ {
+  "at": "2026-11-24T06:53:38.918Z",
+  "branch": "claude/autodev-20261124-1522-R745",
+  "task": "R745 部屋と塔で「話す」ボタンが床の下端の線にまたがっていたので、線の下の暗い帯に下げた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n部屋と塔で「話す」ボタンを少し低くし、床の下端の線の下に下げた\n部屋でボタンが線の下に収まり、外では元のままなことをテストに足した",
+  "result": "pass",
+  "shots": [
+   "shots/1294/mobile-02-mode-select.jpg",
+   "shots/1294/mobile-19-custom-og-credit-card.jpg",
+   "shots/1294/mobile-34-chapter-1-play.jpg",
+   "shots/1294/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "05b8453",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45342701122"
  }
 ]
