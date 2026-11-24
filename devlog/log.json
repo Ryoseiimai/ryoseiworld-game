@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T12:44:48.634Z",
-  "branch": "claude/autodev-20261116-2122-R603",
-  "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
-  "summary": "ネオンの「ランク 86位」の札のしっぽを15pxから12pxに短くし、札を10px上げた\nしっぽの先が頭の2〜6px上で止まり、髪に隠れなくなった（前と後を手元で撮った）\n札に名札が近づかないよう、ミオを12px、かずの人の名札を10px上げた。R507 の確かめを、しっぽの先と頭の間に変えた",
-  "result": "pass",
-  "shots": [
-   "shots/1051/mobile-02-mode-select.jpg",
-   "shots/1051/mobile-19-custom-og-credit-card.jpg",
-   "shots/1051/mobile-34-chapter-1-play.jpg",
-   "shots/1051/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ab6b5d2",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43866456025"
- },
- {
   "at": "2026-11-16T13:00:38.340Z",
   "branch": "claude/autodev-20261116-2122-R603",
   "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "aabfda3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45305960456"
+ },
+ {
+  "at": "2026-11-24T01:55:10.547Z",
+  "branch": "claude/autodev-20261124-1021-R741",
+  "task": "R741 コマンド戦の主人公の影が細くて見えず、敵の横で浮いて見えていたので、影を大きくした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nコマンド戦の主人公の影を、横46・縦10に大きくした\n主人公の車輪の下に影が見え、敵の横で浮いて見えなくなった",
+  "result": "pass",
+  "shots": [
+   "shots/1289/mobile-02-mode-select.jpg",
+   "shots/1289/mobile-19-custom-og-credit-card.jpg",
+   "shots/1289/mobile-34-chapter-1-play.jpg",
+   "shots/1289/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b158c0a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45306511043"
  }
 ]
