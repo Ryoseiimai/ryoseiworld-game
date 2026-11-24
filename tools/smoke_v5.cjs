@@ -147,6 +147,15 @@ async function runViewport(browser, url, vp, errors, shots) {
     if (!ready) errors.push({ kind: 'stuck', viewport: vp.name, message: tag('title screen never became ready (window.__v5.screen !== "title" or #loading still visible after 20s)') });
     await shot('title');
     if (!ready) return scenes;
+    // R746: on a tall phone the stage's bottom edge falls inside a pixel row; the stage's dark fill leaked into that row as a
+    // 1px dark line between the title sidewalk and the band below. The edge row must match the plain sidewalk 4px above it.
+    if (vp.isMobile) {
+      const edge = await page.evaluate(() => Math.floor(document.getElementById('stage').getBoundingClientRect().bottom));
+      const buf = await page.screenshot({ clip: { x: Math.floor(vp.width / 2), y: edge - 4, width: 1, height: 5 } });
+      const rows = await page.evaluate(async d => { const i = new Image(); i.src = 'data:image/png;base64,' + d; await i.decode(); const c = document.createElement('canvas'); c.width = 1; c.height = 5; const t = c.getContext('2d'); t.drawImage(i, 0, 0); return [0, 4].map(y => [...t.getImageData(0, y, 1, 1).data].slice(0, 3)); }, buf.toString('base64'));
+      const diff = Math.max(...rows[0].map((v, k) => Math.abs(v - rows[1][k])));
+      if (diff > 8) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`title: a line shows at the stage's bottom edge (y=${edge}, ${rows[1]} vs ${rows[0]} above)`) });
+    }
     // R156: a touch phone shows no keyboard hints (Z / Enter, arrows / WASD); a desktop keeps them.
     const kbd = await page.evaluate(() => ({ touch: document.documentElement.classList.contains('touch-only'),
       hints: [...document.querySelectorAll('.kbd')].map(e => getComputedStyle(e).display !== 'none') }));
