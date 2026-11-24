@@ -1,35 +1,5 @@
 [
  {
-  "at": "2026-11-16T21:03:43.807Z",
-  "branch": "claude/autodev-20261117-0520-R610",
-  "task": "R610 ヒダマリの電柱の上の端が、場所の札と目標の札のすき間に欠片としてのぞいていたので、そのすき間だけ描かないようにした",
-  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
-  "result": "pass",
-  "shots": [
-   "shots/1064/mobile-02-mode-select.jpg",
-   "shots/1064/mobile-19-custom-og-credit-card.jpg",
-   "shots/1064/mobile-34-chapter-1-play.jpg",
-   "shots/1064/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fb36e73",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43954475677"
- },
- {
-  "at": "2026-11-16T21:38:08.166Z",
-  "branch": "claude/autodev-20261117-0621-R611",
-  "task": "R611 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
-  "result": "pass",
-  "shots": [
-   "shots/1065/mobile-02-mode-select.jpg",
-   "shots/1065/mobile-19-custom-og-credit-card.jpg",
-   "shots/1065/mobile-34-chapter-1-play.jpg",
-   "shots/1065/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "66f50cb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43960446028"
- },
- {
   "at": "2026-11-16T21:53:53.120Z",
   "branch": "claude/autodev-20261117-0621-R611",
   "task": "R611 町の公園で、丸い木の葉が池の左下の角に重なり、花の鉢が池の縁に乗っていたので、その木を外し、鉢を半マス下げた",
@@ -2983,5 +2953,35 @@
   ],
   "sha": "99480fe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45369125376"
+ },
+ {
+  "at": "2026-11-24T10:39:09.756Z",
+  "branch": "claude/autodev-20261124-1921-R749",
+  "task": "R749 遊んで一番気になる所を1つ直す",
+  "summary": "ネオンでかずの人に話しかける時、名札が街灯の石の足を隠していた\nその人（ランク 86位）を17px下げ、名札と街灯の間を約9pxにした\n4人のかずの人の名札が街灯から8px以上離れるかを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1302/mobile-02-mode-select.jpg",
+   "shots/1302/mobile-19-custom-og-credit-card.jpg",
+   "shots/1302/mobile-34-chapter-1-play.jpg",
+   "shots/1302/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9492a41",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45375252455"
+ },
+ {
+  "at": "2026-11-24T10:49:35.818Z",
+  "branch": "claude/autodev-20261124-1921-R749",
+  "task": "R749 ネオンの駅とネットカフェの影が建物の約40px下に離れて床に浮いていたので、建物の下の端に付けた",
+  "summary": "ネオンの駅とネットカフェの影が、建物の約40px下に離れていた\n2つの絵の下の余白に合わせ、影を建物の下の端に移した\nネオンの建物すべての影が絵の下の端から6px以内かを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1303/mobile-02-mode-select.jpg",
+   "shots/1303/mobile-19-custom-og-credit-card.jpg",
+   "shots/1303/mobile-34-chapter-1-play.jpg",
+   "shots/1303/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "24291d0",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45376794511"
  }
 ]
