@@ -2496,8 +2496,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    if(tf){lifted++;const n=Number((tf.match(/^0 (-?\d+)px$/)||[])[1]);if(n!==-96)bad.push([map,x,y,tf,b]);}}
   assert(behind>0&&lifted>0,'somewhere the button steps up off a person: '+lifted+' / '+behind);assert.deepEqual(bad,[],'it steps up only by one of the fixed steps (translate, so button:active can still press it down)');
   {let jumps=0,frames=0;for(const map of ['neon','town'])for(let x=2;x<=26;x+=3)for(let y=4;y<=36;y+=3){r.g.debugWarp(map,x,y);for(let i=0;i<80;i++)r.tick(16);const a=btn.style.translate||'';for(let i=0;i<20;i++){r.tick(16);frames++;if((btn.style.translate||'')!==a)jumps++;}}assert(jumps*50<frames,'standing still, the button stays where it went (only a walking person can move it): '+jumps+' / '+frames);}
-  r.g.debugWarp('room',5,5);r.tick(16);assert.equal(btn.style.translate||'','','in the room the button stays in its place');}
+  r.g.debugWarp('room',5,5);r.tick(16);assert(/^0 \d+px$/.test(btn.style.translate||'')&&btn.classes.has('edge')&&!btn.classes.has('behind'),'in the room the button does not step up; it only goes down under the floor edge (R745): '+btn.style.translate);}
  result.push('R177: 「はなす」ボタンの下に人がいる時は、ボタンが上の空いた所へずれる PASS');
+  // R745: in a room the floor's bottom edge ran through the talk button. The button now gets class edge (64px tall) and goes down so its top is 10px under the edge, and its bottom stays 8px or more above the stage bottom. Outside maps never do this.
+ {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
+  assert(/\.bottom-bar #talk-btn\.edge\{min-height:64px/.test(html),'the edge button is 64px tall, still a large touch target');
+  const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;r.g.debugWarp('room',5,5);r.tick(16);
+  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);assert(btn.classes.has('edge')&&n>0&&n<=24,'in the room the button goes down a little under the floor edge: '+btn.style.translate);
+  const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);assert(!btn.classes.has('edge'),'outside the button keeps its full height');
+  assert(/edge\+10\+TALK_EDGE_H<=H-8/.test(html),'the button keeps 8px or more above the stage bottom');}
+ result.push('R745: 部屋と塔で「話す」ボタンが床の下端の線にまたがらず、線の下の暗い帯に収まる PASS');
  // R178: once lifted, the talk button also keeps off street lights, signals, poles and vending machines when a step without them is there (mobile-16: a lamp post ran through it).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const TALL=/(^|_)(light|signal|pole|post|machine)\d*$/;let lifted=0,onProp=0;
