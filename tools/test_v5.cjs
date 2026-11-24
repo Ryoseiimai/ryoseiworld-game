@@ -2502,7 +2502,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.bottom-bar #talk-btn\.edge\{min-height:64px/.test(html),'the edge button is 64px tall, still a large touch target');
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;r.g.debugWarp('room',5,5);r.tick(16);
-  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);assert(btn.classes.has('edge')&&n>0&&n<=24,'in the room the button goes down a little under the floor edge: '+btn.style.translate);
+  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);const edge=r.g.GAME_DATA.maps.room.h*48+190+12;assert(btn.classes.has('edge')&&n===(edge+10+64)-(960-24),'in the room the button top goes 10px under the floor edge: '+btn.style.translate+' edge '+edge);
   const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);assert(!btn.classes.has('edge'),'outside the button keeps its full height');
   assert(/edge\+10\+TALK_EDGE_H<=H-8/.test(html),'the button keeps 8px or more above the stage bottom');}
  result.push('R745: 部屋と塔で「話す」ボタンが床の下端の線にまたがらず、線の下の暗い帯に収まる PASS');
