@@ -3072,6 +3072,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/\.casting \.commands/.test(css[0])&&/\.casting \.hp-card/.test(css[0]),'the commands and HP card still dim: '+css[0]);
   assert(!/battle-log/.test(css[0])&&!/\.casting [^{]*battle-log[^{]*\{[^}]*opacity/.test(html),'the battle log is not dimmed while casting');}
  result.push('R535: 呼び出しの間も、戦闘の文はうすくならず読める PASS');
+ // R744: while a summon is up the enemy panel dimmed too, and its gold HP bar read as a grey, empty bar (as if the enemy were beaten).
+ {const css=html.match(/[^}]*\.casting[^{]*\{opacity:\.35[^}]*\}/);assert(css&&!/battle-top/.test(css[0]),'R744: the enemy panel is not in the casting dim rule: '+(css&&css[0]));
+  assert(!/\.casting [^{]*battle-top[^{]*\{[^}]*opacity/.test(html),'R744: no other rule dims the enemy panel while casting');}
+ result.push('R744: 呼び出しの間も、敵の札と体力の帯はうすくならず、空の帯に見えない PASS');
  result.push('R536: 数の人の札の板が、上の札と同じ20pxだけ画面の縁から離れる（ネオンの着いた所） PASS');
  // R537: my room and the library (14 rows) were 26px taller than the band, so they scrolled and the wall's top edge sat right on the goal strip. They now stay still with their top 22px under the strip (hudTop+12), like a short centred room.
  {const r=await runtime();for(const id of ['room','minamo_library','store']){const m=r.g.GAME_DATA.maps[id],mh=m.h*48;r.g.debugWarp(id,m.w/2,1.6);r.tick(32);const top=-r.g.camera.y,ht=r.g.hudTop;assert(mh>960-ht-130,id+' is taller than the band');assert.equal(top,ht+12,id+': at the top the room starts 12px under the HUD line');
