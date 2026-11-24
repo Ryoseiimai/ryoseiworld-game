@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T11:44:44.699Z",
-  "branch": "claude/autodev-20261117-2021-R618",
-  "task": "R618 戦闘で主人公の足の影が下の RYOSEI と HP の欄に2pxまで迫り、スマホで枠に押しつけられて見えたので、主人公を14px上に立たせた",
-  "summary": "戦闘の主人公の影が下の欄に2pxまで迫っていたので、14px上に立たせた\n影と欄の間に12px以上あるかを見るテストを足し、手元のテストは全部通った\n確認役の他の指摘（文字の小ささ、町のノイズの帯）は、縮小表示と演出なので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1075/mobile-02-mode-select.jpg",
-   "shots/1075/mobile-19-custom-og-credit-card.jpg",
-   "shots/1075/mobile-34-chapter-1-play.jpg",
-   "shots/1075/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "704c04c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44075367157"
- },
- {
   "at": "2026-11-17T12:38:32.582Z",
   "branch": "claude/autodev-20261117-2121-R619",
   "task": "R619 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "dfc429f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45405556905"
+ },
+ {
+  "at": "2026-11-24T14:53:20.821Z",
+  "branch": "claude/autodev-20261124-2321-R753",
+  "task": "R753 横の道の真ん中の白線が、2マスの道で中心から24px上にずれていたので、道の真ん中に描くようにした",
+  "summary": "ミナモとネオンの横の道の白線が、道の中心より24px上に描かれていた\n白線を、道の高さの真ん中に描くようにした（縦の道の直しと同じ形）\n横の白線が道の真ん中にあることを確認に入れ、古い位置の確認を直した",
+  "result": "pass",
+  "shots": [
+   "shots/1313/mobile-02-mode-select.jpg",
+   "shots/1313/mobile-19-custom-og-credit-card.jpg",
+   "shots/1313/mobile-34-chapter-1-play.jpg",
+   "shots/1313/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "1f6929f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45416759651"
  }
 ]
