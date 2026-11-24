@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T12:38:32.582Z",
-  "branch": "claude/autodev-20261117-2121-R619",
-  "task": "R619 遊んで一番気になる所を1つ直す",
-  "summary": "戦闘の主人公の影が下の欄に2pxまで迫っていたので、14px上に立たせた\n影と欄の間に12px以上あるかを見るテストを足し、手元のテストは全部通った\n確認役の他の指摘（文字の小ささ、町のノイズの帯）は、縮小表示と演出なので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1076/mobile-02-mode-select.jpg",
-   "shots/1076/mobile-19-custom-og-credit-card.jpg",
-   "shots/1076/mobile-34-chapter-1-play.jpg",
-   "shots/1076/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ad29df5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44083541729"
- },
- {
   "at": "2026-11-17T12:49:06.380Z",
   "branch": "claude/autodev-20261117-2121-R619",
   "task": "R619 タイトルの「♪ タップで音楽」の札が画面の右端から12pxしか離れず、スマホで枠に押しつけられて見えたので、ほかの角のボタンと同じ24pxあけた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "1f6929f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45416759651"
+ },
+ {
+  "at": "2026-11-24T15:32:34.520Z",
+  "branch": "claude/autodev-20261125-0021-R754",
+  "task": "R754 遊んで一番気になる所を1つ直す",
+  "summary": "ミナモとネオンの横の道の白線が、道の中心より24px上に描かれていた\n白線を、道の高さの真ん中に描くようにした（縦の道の直しと同じ形）\n横の白線が道の真ん中にあることを確認に入れ、古い位置の確認を直した",
+  "result": "pass",
+  "shots": [
+   "shots/1314/mobile-02-mode-select.jpg",
+   "shots/1314/mobile-19-custom-og-credit-card.jpg",
+   "shots/1314/mobile-34-chapter-1-play.jpg",
+   "shots/1314/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3e52647",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45424729380"
  }
 ]
