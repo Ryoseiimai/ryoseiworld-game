@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T22:02:52.766Z",
-  "branch": "claude/autodev-20261117-0641-R611",
-  "task": "R611 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、町の電柱の上の端が札のすき間にのぞく所を直した\n道の小物（電柱・街灯）だけ、場所の札と目標の札のすき間に描かないようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R610",
-  "result": "pass",
-  "shots": [
-   "shots/1067/mobile-02-mode-select.jpg",
-   "shots/1067/mobile-19-custom-og-credit-card.jpg",
-   "shots/1067/mobile-34-chapter-1-play.jpg",
-   "shots/1067/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "87d8cc5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43964728933"
- },
- {
   "at": "2026-11-16T22:30:31.727Z",
   "branch": "claude/autodev-20261117-0709-R612",
   "task": "R612 道の真ん中の白い線が、目標の札の「→」の続きに見えていたので、札の行にかかる線だけ描かないようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "abd39f3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45378998583"
+ },
+ {
+  "at": "2026-11-24T11:53:46.160Z",
+  "branch": "claude/autodev-20261124-2022-R750",
+  "task": "R750 外の戦いの背景の家並みが、主人公とソラの後ろで消し残りの四角に見えたので、明かりの窓を描いて家の形を濃くした",
+  "summary": "外の戦いの背景の家並みが、主人公とソラの後ろで消し残りの四角に見えていた\n家ごとに小さな明かりの窓を描き、家の濃さを0.22から0.34にして遠くの町に見せた\n外の家並みに窓と濃さがあることを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1306/mobile-02-mode-select.jpg",
+   "shots/1306/mobile-19-custom-og-credit-card.jpg",
+   "shots/1306/mobile-34-chapter-1-play.jpg",
+   "shots/1306/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "616e2b7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45386831121"
  }
 ]
