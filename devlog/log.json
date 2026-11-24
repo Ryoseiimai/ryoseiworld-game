@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T13:00:38.340Z",
-  "branch": "claude/autodev-20261116-2122-R603",
-  "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
-  "summary": "ネオンのかずの人の札のしっぽを12pxに短くし、札と名札を10px上げた\nしっぽの先が頭の2〜6px上に見えるようにした。ミオも12px上げた\nR507 の確かめを、札と頭の間4〜8pxから、しっぽの先と頭の間2〜6pxに変えた",
-  "result": "fail",
-  "shots": [
-   "shots/1053/mobile-02-mode-select.jpg",
-   "shots/1053/mobile-19-custom-og-credit-card.jpg",
-   "shots/1053/mobile-34-chapter-1-play.jpg",
-   "shots/1053/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f9b3d62",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43869357285"
- },
- {
   "at": "2026-11-16T13:52:45.858Z",
   "branch": "claude/autodev-20261116-2122-R603",
   "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b158c0a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45306511043"
+ },
+ {
+  "at": "2026-11-24T04:12:27.147Z",
+  "branch": "claude/autodev-20261124-1221-R742",
+  "task": "R742 町の「話す」ボタンが公園の砂場に暗い板のように乗っていたので、砂場が透けて見えるようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n町の初めの画面で、何も無い時の「話す」ボタンが砂場や池にかかる時は透ける見た目にした\nボタンは上へずらさず、人や看板の上の時と同じ見た目にした",
+  "result": "pass",
+  "shots": [
+   "shots/1291/mobile-02-mode-select.jpg",
+   "shots/1291/mobile-19-custom-og-credit-card.jpg",
+   "shots/1291/mobile-34-chapter-1-play.jpg",
+   "shots/1291/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b19ed0c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45322792277"
  }
 ]
