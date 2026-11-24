@@ -2315,7 +2315,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const D=r.g.GAME_DATA,st=r.g.state,cp=r.els.get('modal-copy'),back=mode==='adult'?'戻る':'もどる';cp.replaceChildren=function(...a){this.children=a;};
   const spans=k=>cp.children.filter(c=>typeof c!=='string'&&c.className===k).map(c=>c.textContent),joined=()=>cp.children.map(c=>typeof c==='string'?c:c.textContent).join('');
   r.click('menu-btn');r.button(mode==='adult'?'武器':'ぶき');
-  assert.deepEqual(spans('menu-head'),st.weapons.map(w=>'〔'+D.weapons[w].name+'〕'),'R743 '+mode+' every weapon heading is gold, and nothing else');
+  assert.deepEqual(spans('menu-head'),Object.keys(D.weapons).filter(w=>st.weapons.includes(w)).map(w=>'〔'+D.weapons[w].name+'〕'),'R743 '+mode+' every weapon heading is gold, and nothing else');
   assert.equal(joined(),cp.textContent,'R743 '+mode+' the tinted weapons copy keeps every letter');r.button(back);
   r.button('きずな');const met=Object.keys(D.bonds).filter(id=>st.met.includes(id)||(st.bonds[id]||0)>0),name=b=>mode==='adult'&&b.adultName||b.name,mark={family:'家',friend:'友',love:'恋'};
   assert(met.includes('kid')&&/ /.test(D.bonds.kid.name),'R743 the list holds a name with a space');
