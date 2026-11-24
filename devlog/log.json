@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T12:11:55.550Z",
-  "branch": "claude/autodev-20261116-2021-R602",
-  "task": "R602 ネオンの「ランク 86位」の札の下の縁が頭に載り、R592 のしっぽが髪に隠れていると確かめた（前半）",
-  "summary": "全章のスクショを確認役に見せ、3つ挙げさせた。人の横の灰色の守護霊は作りどおり（R388 で判断待ち）\nネオンの「ランク 86位」の札が頭に載り、R592 のしっぽが髪に隠れていた\n札を上げるとミオの名札（R294）と札と頭の間（R507）のテストに当たるので、コードは戻して後半に分けた",
-  "result": "pass",
-  "shots": [
-   "shots/1049/mobile-02-mode-select.jpg",
-   "shots/1049/mobile-19-custom-og-credit-card.jpg",
-   "shots/1049/mobile-34-chapter-1-play.jpg",
-   "shots/1049/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2badc9d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43862559861"
- },
- {
   "at": "2026-11-16T12:31:18.097Z",
   "branch": "claude/autodev-20261116-2122-R603",
   "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "9363ae1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45292861683"
+ },
+ {
+  "at": "2026-11-24T00:56:59.598Z",
+  "branch": "claude/autodev-20261124-0922-R740",
+  "task": "R740 コマンド戦の背景の家並みが敵の足元より手前に出て薄い四角に見えていたので、敵の奥に立たせた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nコマンド戦の背景の家並みの地面を、敵の足元より少し奥に上げた\n家並みが敵のまわりの薄い四角に見えず、遠くの町に見えるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1286/mobile-02-mode-select.jpg",
+   "shots/1286/mobile-19-custom-og-credit-card.jpg",
+   "shots/1286/mobile-34-chapter-1-play.jpg",
+   "shots/1286/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3327585",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45299680411"
  }
 ]
