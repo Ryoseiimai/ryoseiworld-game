@@ -3332,7 +3332,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(rr<=(ball.x-1.5)*48-24,id+' stays west of the virus ball lane');assert(rr<=p.x*48-26,id+' stays west of the そとへ plate');
    for(const q of m.objects.filter(x=>x!==o&&x.kind!=='npc2'))assert(Math.abs(q.x-o.x)*48>=(q.w+o.w)/2||Math.abs(q.y-o.y)*48>=Math.max(q.h,o.h)*.8,id+' does not stand on '+q.id);}
   r.g.debugWarp('tower1',5,10);r.tick(16);for(let y=10;y>=3.5;y-=.1)assert(!r.g.debugBlocked(5*48,y*48),'the walk north from the spawn stays open at y '+y.toFixed(1));
-  for(let x=5;x<=8.4;x+=.1)assert(!r.g.debugBlocked(x*48,3.5*48+40)||x>7.4,'the walk east to the up pad stays open at x '+x.toFixed(1));}
+  for(let x=5;x<=8.4;x+=.1)assert(!r.g.debugBlocked(x*48,3.8*48+40)||x>7.4,'the walk east to the up pad stays open at x '+x.toFixed(1));}
  result.push('R685: 塔1階の左上と左下に、データの柱と壊れたテレビを置いた PASS');
  // R713: with the CRT in the lower left, the lower right under the rack was the only bare grid on floor 1 (mobile-40). A floppy pile fills that corner,
  // inside the floor, east of the virus ball's lane and the そとへ plate, off the rack, and the walk from the spawn down to the plate stays open.

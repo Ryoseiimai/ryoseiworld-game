@@ -27,7 +27,7 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
  // R694: the plate stood at y 11.4 with two bare floor rows under it, so it read as floating mid-floor (mobile-39/40); it now sits on the bottom row at y 12.2 like the store's.
  portals:[{x:5,y:13.2,to:'neon',at:[15,5.4],sign:'そとへ'}],
  // R638: the pads on floors 2 and 3 were named the other way round (tw2_down said うえへ), so each *_up pad now stands at 8.4 and each *_down pad at 2.2.
- // R27: ひかりの ゆか (up pad) is always at (8.4,3.5), the down pad at (2.2,3.5); landing always on the next floor's spawn.
+ // R27: ひかりの ゆか (up pad) is always at (8.4,3.8), the down pad at (2.2,3.8) (3.5 before R756); landing always on the next floor's spawn.
  // R756: at y 3.5 the back post of each pad stood through the blue line at the foot of the wall (mobile-07/39/40), so the pads looked stuck into the wall; pads and their warp cells now sit at y 3.8, so the whole pad is on the floor (the post top was about 74px over the foot). The save terminals go from y 7.4 to 7.5, so their name tag stays clear of the lower うえへ sign (R200).
  cells:[{x:8.4,y:3.8,warp:'tower2',at:[5,11]},
   // R27: コトバイルカが まだ 仲間でなければ、入口の すこし おくで 仲間になる（neon_cloudgate からの arrival からは離してあるので、着いた直後には動かない）。
