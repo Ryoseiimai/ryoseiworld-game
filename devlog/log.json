@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T13:52:45.858Z",
-  "branch": "claude/autodev-20261116-2122-R603",
-  "task": "R603 「ランク 86位」の札のしっぽが髪に隠れていたので、しっぽを12pxに短くし、札を10px、ミオを12px上げた",
-  "summary": "R603 の自動確認の落ちは、手元の確かめが600秒の上限を超えた見込みと分かった\n手元では443秒で全部の確かめが通った。コードは変えずに、もう一度確かめにかけた\n確かめを速くする件を R605 として R604 の前に足した",
-  "result": "pass",
-  "shots": [
-   "shots/1054/mobile-02-mode-select.jpg",
-   "shots/1054/mobile-19-custom-og-credit-card.jpg",
-   "shots/1054/mobile-34-chapter-1-play.jpg",
-   "shots/1054/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7607b6b",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43878031680"
- },
- {
   "at": "2026-11-16T14:55:38.727Z",
   "branch": "claude/autodev-20261116-2321-R605",
   "task": "R605 手元の確かめ（tools/test_v5.cjs）が443秒かかり、自動確認の600秒の上限に近いので、遅い所を見つけて速くする",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "b19ed0c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45322792277"
+ },
+ {
+  "at": "2026-11-24T04:58:44.395Z",
+  "branch": "claude/autodev-20261124-1321-R743",
+  "task": "R743 きずなと武器の画面で〔〕の見出しが本文と同じ白で一続きに見えていたので、見出しを金色にした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nきずなと武器の画面で、〔〕の見出しと名前を金色にして本文と分けた\nこどもモードの空白のある名前も、見出し全体が金色になるようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1292/mobile-02-mode-select.jpg",
+   "shots/1292/mobile-19-custom-og-credit-card.jpg",
+   "shots/1292/mobile-34-chapter-1-play.jpg",
+   "shots/1292/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e5c610c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45328649802"
  }
 ]
