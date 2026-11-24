@@ -2894,6 +2894,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const body=(html.match(/function drawBattle\(\)\{[^\n]*/)||[''])[0];assert(/if\(calm>0\)ctx\.filter=`saturate\(/.test(body),'drawBattle drains the beaten enemy colour');
   assert(/enemyName\(def\)\);ctx\.globalAlpha=1;ctx\.filter='none';/.test(body),'drawBattle resets the canvas filter right after the enemy');assert(/if\(calm>=1&&hide<1\)calmZs\(/.test(body),'drawBattle shows z marks once the enemy is calm');
   assert(/function calmZs\(/.test(html),'calmZs is defined');}
+ // R754: on the tall, narrow vending machine the first z sat on the machine's top-right corner; z marks now start outside the drawn picture's right edge.
+ {const body=(html.match(/function drawBattle\(\)\{[^\n]*/)||[''])[0];assert(/calmZs\(270\+calmZx\(eArt,eFrame,eW,ep\.h\),/.test(body),'drawBattle starts the z marks from calmZx');
+  const m=html.match(/function calmZx\(kind,frame,w,h\)\{[^\n]*/);assert(m,'calmZx is defined');
+  const fx=new Function('frameFor','return '+m[0])(()=>({w:200,h:200}));assert(fx('enemies',0,190,190)>=101,'z marks start at least 6px right of a full-width picture');
+  assert(new Function('frameFor','return '+m[0])(()=>null)('enemies',0,190,190)===190*.32,'without a picture the old offset stays');}
+ result.push('R754: 倒した敵の z が、細い自販機の右上の角に重ならず絵の右から出る PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
