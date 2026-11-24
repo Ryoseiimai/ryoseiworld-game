@@ -2535,7 +2535,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
   const rt=await runtime(),m=rt.g.GAME_DATA.maps.minamo,road='#5e7275',col=14*48,bottom=m.h*48;ground(m);
   for(let y=bottom;y<bottom+130;y+=48)assert(rects.some(r=>r[0]===col&&r[1]===y&&r[4]===road),'the road at x 14 goes on below the map bottom (y '+y+')');
-  assert(rects.some(r=>r[0]===col+22&&r[1]>=bottom&&r[4]==='#d8d6af'),'its centre dashes go on too');
+  assert(rects.some(r=>r[0]===col+46&&r[1]>=bottom&&r[4]==='#d8d6af'),'its centre dashes go on too (R751: on the middle line of the 2-wide road, x '+(col+46)+')');
   assert(rects.some(r=>r[1]<0&&r[1]>-48&&r[4]==='#6d9c7e')&&rects.some(r=>r[1]<-144&&r[4]==='#6d9c7e'),'the grass tufts of the first row go on above it, up to under the top HUD');
   rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');assert(rects.some(r=>r[4]==='#152e46'&&r[1]>=0&&r[1]+r[3]<=96),'the own room window sits on the wall (above y 96)');}
  result.push('R248: 外の地図で、道や地面が下のボタンの帯の手前で途切れない PASS');
@@ -2565,9 +2565,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
     for(let x=1;x<m.w-1;x++){if(x%2)continue;let up=0,down=0;while(T(x,row-up-1)==='=')up++;while(T(x,row+down+1)==='=')down++;if(up+down+1>4)continue;
      assert(dash.some(r=>r[3]===4&&r[0]===x*48+6&&r[1]===row*48+22),name+': the east-west road at rows '+y+'-'+(y+v-1)+' has its centre dash at ('+x+','+row+')');}}
    // the north-south dashes stay everywhere outside the crossings
-   for(let y=1;y<m.h-1;y++)for(let x=0;x<m.w;x++){if(x%3!==2||y%2||T(x,y)!=='='||T(x,y-1)!=='='||T(x,y+1)!=='='||full(y))continue;
-    assert(dash.some(r=>r[2]===4&&r[0]===x*48+22&&r[1]===y*48+6),name+': the north-south road keeps its centre dash at ('+x+','+y+')');}}}
+   // R751: on the road's own middle line, so the tile checked is the one holding that middle
+   for(let y=1;y<m.h-1;y++)for(let x=0;x<m.w;x++){if(y%2||T(x,y)!=='='||T(x,y-1)!=='='||T(x,y+1)!=='='||full(y))continue;let l=0,rr=0;while(l<4&&T(x-l-1,y)==='=')l++;while(rr<4&&T(x+rr+1,y)==='=')rr++;const mid=(l+rr+1)*24-l*48;if(mid<0||mid>=48||l+rr+1>4)continue;
+    assert(dash.some(r=>r[2]===4&&r[0]===x*48+mid-2&&r[1]===y*48+6),name+': the north-south road keeps its centre dash at ('+x+','+y+')');}}}
  result.push('R590: 道の真ん中の白い線が交差点の中を通らず、どの横の道にも真ん中の線がある PASS');
+ // R751: the north-south centre dash ran 24px left of the road's middle on the 2-wide roads of ミナモ and ネオン and the 4-wide town road (mobile-32, mobile-38).
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],helpers=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';const rects=[];
+  const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+helpers+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const rt=await runtime();
+  for(const [name,l,r] of [['town',13,16],['minamo',14,15],['neon',14,15]]){const m=rt.g.GAME_DATA.maps[name];rects.length=0;ground(m);
+   const ns=rects.filter(q=>q[4]==='#d8d6af'&&q[2]===4&&q[0]>=l*48-4&&q[0]<(r+1)*48);assert(ns.length>=3,name+': the north-south road has centre dashes ('+ns.length+')');
+   const middle=(l+r+1)*24;assert(ns.every(q=>q[0]+2===middle),name+': every north-south dash sits on the road middle x '+middle+' ('+[...new Set(ns.map(q=>q[0]+2))].join(',')+')');}}
+ result.push('R751: 縦の道の真ん中の白い線が、道の真ん中にある PASS');
  // R250: the summon's name plate (top at nameY-32) leaves a 12px gap under the word card instead of 2px; with no card it stays at 185.
  {const m=html.match(/function summonNameY\(\)\{[^\n]*/);assert(m,'summonNameY exists');assert(/const SUMMON_PLATE_GAP=12;/.test(html),'the gap is named');
   const mk=(hidden,top,hgt,cur)=>new Function('$','wordCurrent','SUMMON_PLATE_GAP',m[0]+'\nreturn summonNameY();')(()=>({hidden,style:{top:top+'px'},offsetHeight:hgt}),cur,12);
@@ -3545,7 +3554,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R610: ヒダマリの電柱の上の端が、場所の札と目標の札のすき間にのぞかない PASS');
  // R612: a road centre dash in the goal tag's row, just right of its "→", read as part of the tag (mobile-33, mobile-25).
  {const src=(html.match(/function questRowDash\(x,y,w,h\)\{[^\n]*\}/)||[''])[0];assert(src,'questRowDash is there');
-  const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/&&!questRowDash\(px\+22,py\+6,4,27\)\)rect\(px\+22,py\+6,4,27,/.test(g)&&/&&!questRowDash\(px\+6,py\+22,27,4\)\)rect\(px\+6,py\+22,27,4,/.test(g),'ground() asks questRowDash before both road dashes');
+  const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/&&!questRowDash\(px\+mid-2,py\+6,4,27\)\)rect\(px\+mid-2,py\+6,4,27,/.test(g)&&/&&!questRowDash\(px\+6,py\+22,27,4\)\)rect\(px\+6,py\+22,27,4,/.test(g),'ground() asks questRowDash before both road dashes');
   assert(/questRect=q\.width>0&&q\.height>0\?\{[^}]*b:Math\.round\(\(q\.bottom-s\.top\)\*H\/s\.height\)\}/.test(html),'measureHud measures the goal tag bottom');
   const f=(qr,cam)=>new Function('questRect','camera',src+';return questRowDash;')(qr,cam||{x:0,y:0}),qr={l:14,t:172,r:300,b:202};
   assert(f(qr)(330,180,27,4),'a dash right of the tag in its row is not drawn');
