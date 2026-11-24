@@ -2906,6 +2906,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ins.indexOf('BATTLE_PANE_ALPHA')<ins.indexOf('fillRect(370,236,120,6)'),'glass is drawn under the frame');
   assert(/ctx\.globalAlpha=BATTLE_ROOM_ALPHA;ctx\.fillStyle='#0b1a2a';ctx\.fillRect\(370,236,120,6\)/.test(ins),'frame uses a firmer alpha');}
  result.push('R755: 戦いの部屋の窓にガラスの色が入り、消し残りの四角に見えない PASS');
+ // R756: the tower pads at y 3.5 had their back post through the line at the foot of the wall; pads and warp cells now sit at y 3.8 so the whole pad stands on the floor (post top about 74px over the foot).
+ {const ch4=scripts.find(s=>s.file==='v5/data/ch4.js').code,pads=[...ch4.matchAll(/tower\('tw[123r]_(?:up|down)',6,[\d.]+,([\d.]+),90,90/g)],cells=[...ch4.matchAll(/y:([\d.]+),warp:'tower/g)];
+  assert.equal(pads.length,6,'six tower pads');assert.equal(cells.length,6,'six tower warp cells');
+  for(const p of pads)assert(Number(p[1])*48-74>=2*48+10,'pad back post stays below the wall foot line (y '+p[1]+')');
+  for(const c of cells)assert(pads.some(p=>p[1]===c[1]),'warp cell sits on a pad row (y '+c[1]+')');}
+ result.push('R756: 塔の上へ・下への台が壁の下の線に刺さらず、床の上に乗る PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
