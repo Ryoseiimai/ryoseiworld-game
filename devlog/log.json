@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T17:50:05.872Z",
-  "branch": "claude/autodev-20261117-0221-R607",
-  "task": "R607 1章の始めで、おまわりさんの灰色の守護霊が柴犬の頭に重なっていたので、犬をおまわりさんの左へ動かした",
-  "summary": "確認役が全章のスクショから5つ挙げ、おまわりさんの守護霊が犬の頭に重なる所を直した\n柴犬をおまわりさんの右から左へ動かし、守護霊と犬が離れているかを見る確かめを足した\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R607",
-  "result": "pass",
-  "shots": [
-   "shots/1059/mobile-02-mode-select.jpg",
-   "shots/1059/mobile-19-custom-og-credit-card.jpg",
-   "shots/1059/mobile-34-chapter-1-play.jpg",
-   "shots/1059/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7692ddc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43920834435"
- },
- {
   "at": "2026-11-16T18:44:53.331Z",
   "branch": "claude/autodev-20261117-0321-R608",
   "task": "R608 遊んで一番気になる所を1つ直す",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "3b4a58e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45351520953"
+ },
+ {
+  "at": "2026-11-24T08:18:55.122Z",
+  "branch": "claude/autodev-20261124-1622-R746",
+  "task": "R746 スマホで舞台の下端に暗い1pxの線が全画面で出ていたので、舞台の暗い地を3px内側に置いて線を消した",
+  "summary": "スマホの全画面で、舞台の下端に暗い1pxの線が出ていたのを見つけた\n舞台の暗い地の色を3px内側に置き、下端の行は絵と帯の色だけが混ざるようにした\nスマホのタイトルで下端の行が4px上の歩道と同じ色かを、確認に足した",
+  "result": "pass",
+  "shots": [
+   "shots/1297/mobile-02-mode-select.jpg",
+   "shots/1297/mobile-19-custom-og-credit-card.jpg",
+   "shots/1297/mobile-34-chapter-1-play.jpg",
+   "shots/1297/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "4e47a10",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45351729942"
  }
 ]
