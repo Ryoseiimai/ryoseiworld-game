@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T19:47:40.218Z",
-  "branch": "claude/autodev-20261117-0421-R609",
-  "task": "R609 塔2階に入った時、レベル3以上でも「ドラッグで歩く」が0.6秒かけて薄く消えていたので、すぐ消すようにした",
-  "summary": "塔2階のスクショで「ドラッグで歩く」が薄く残っていたので、原因を調べた\n歩き方を知っている人が入った時は、0.6秒かけず、すぐ消すようにした\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R609",
-  "result": "pass",
-  "shots": [
-   "shots/1062/mobile-02-mode-select.jpg",
-   "shots/1062/mobile-19-custom-og-credit-card.jpg",
-   "shots/1062/mobile-34-chapter-1-play.jpg",
-   "shots/1062/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "60e247f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43941093184"
- },
- {
   "at": "2026-11-16T20:49:48.478Z",
   "branch": "claude/autodev-20261117-0520-R610",
   "task": "R610 ヒダマリの電柱の上の端が、場所の札と目標の札のすき間に欠片としてのぞいていたので、そのすき間だけ描かないようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "423ff61",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45358881517"
+ },
+ {
+  "at": "2026-11-24T09:56:02.749Z",
+  "branch": "claude/autodev-20261124-1821-R748",
+  "task": "R748 ネオンでかずの人に話しかける時、名札が街灯の石の足を隠していたので、その人を17px下げた",
+  "summary": "ネオンでかずの人に話しかける時、名札が街灯の石の足を隠していた\nその人（ランク 86位）を17px下げ、名札と街灯の間を約9pxにした\n4人のかずの人の名札が街灯から8px以上離れるかを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1300/mobile-02-mode-select.jpg",
+   "shots/1300/mobile-19-custom-og-credit-card.jpg",
+   "shots/1300/mobile-34-chapter-1-play.jpg",
+   "shots/1300/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "2491be7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45368266979"
  }
 ]
