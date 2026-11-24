@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T23:54:40.275Z",
-  "branch": "claude/autodev-20261117-0843-R614",
-  "task": "R614 同じスクショから確認役がさらに4つ挙げたので確かめた。ボス戦のボタンの金色の線は R598 のゲージ、マップの端で切れる物はスクロール、1章の主人公と女の人は話せる距離、章の終わりの札の背景は R570 の作りどおりなので、どれも直さなかった",
-  "summary": "全章のスクショを確認役にもう一度見せ、さらに4つ挙げさせて確かめた\n4つともわざとの作りか前の件で直し済みで、遊ぶ人が困る所は無かった\n今回はゲームを変えず、確かめた結果だけを ROADMAP に残した",
-  "result": "pass",
-  "shots": [
-   "shots/1071/mobile-02-mode-select.jpg",
-   "shots/1071/mobile-19-custom-og-credit-card.jpg",
-   "shots/1071/mobile-34-chapter-1-play.jpg",
-   "shots/1071/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "cfc5997",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43981758333"
- },
- {
   "at": "2026-11-17T00:38:12.159Z",
   "branch": "claude/autodev-20261117-0922-R615",
   "task": "R615 全章のスクショを確認役に見せたが、目立つ所は無かった。挙がったヒカクマオウ戦の始めにボスがいない絵は、撮った時がボスの出る前の0.0秒だったので直さなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "d56c4a1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45388772312"
+ },
+ {
+  "at": "2026-11-24T12:51:50.976Z",
+  "branch": "claude/autodev-20261124-2121-R751",
+  "task": "R751 縦の道の真ん中の白線が道の中心から24px左にずれていたので、道の真ん中に描くようにした",
+  "summary": "ネオンとミナモと町の縦の道で、真ん中の白線が道の中心から24px左に出ていた\n道の左右の幅から真ん中を出し、そこに白線を描くようにした\n縦の白線が道の真ん中にあることを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1309/mobile-02-mode-select.jpg",
+   "shots/1309/mobile-19-custom-og-credit-card.jpg",
+   "shots/1309/mobile-34-chapter-1-play.jpg",
+   "shots/1309/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "010309e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45396028003"
  }
 ]
