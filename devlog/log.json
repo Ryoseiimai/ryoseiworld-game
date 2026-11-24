@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T22:30:31.727Z",
-  "branch": "claude/autodev-20261117-0709-R612",
-  "task": "R612 道の真ん中の白い線が、目標の札の「→」の続きに見えていたので、札の行にかかる線だけ描かないようにした",
-  "summary": "全章のスクショを確認役に見せ、目標の札の右に道の白い線が並んで「→ —」に見える所を直した\n目標の札と同じ行にかかる道の線だけを描かないようにし、確かめを足した\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R612",
-  "result": "pass",
-  "shots": [
-   "shots/1069/mobile-02-mode-select.jpg",
-   "shots/1069/mobile-19-custom-og-credit-card.jpg",
-   "shots/1069/mobile-34-chapter-1-play.jpg",
-   "shots/1069/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "98593d9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43969168551"
- },
- {
   "at": "2026-11-16T23:42:45.627Z",
   "branch": "claude/autodev-20261117-0821-R613",
   "task": "R613 全章のスクショから確認役が3つ挙げたので確かめた。メニューの窓の上の家のアンテナは確かめ用に作った場面だけで出る、ネオンの「86位」の札は R592〜R604 で直し済み、ボスの台詞に名札が無いのは R557 の作りどおりなので、どれも直さなかった",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "616e2b7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45386831121"
+ },
+ {
+  "at": "2026-11-24T12:03:48.164Z",
+  "branch": "claude/autodev-20261124-2022-R750",
+  "task": "R750 外の戦いの背景の家並みが、主人公とソラの後ろで消し残りの四角に見えたので、明かりの窓を描いて家の形を濃くした",
+  "summary": "外の戦いの背景の家並みが、主人公とソラの後ろで消し残りの四角に見えていた\n家ごとに小さな明かりの窓を描き、家の濃さを0.22から0.34にして遠くの町に見せた\n外の家並みに窓と濃さがあることを、確認に入れた",
+  "result": "pass",
+  "shots": [
+   "shots/1307/mobile-02-mode-select.jpg",
+   "shots/1307/mobile-19-custom-og-credit-card.jpg",
+   "shots/1307/mobile-34-chapter-1-play.jpg",
+   "shots/1307/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bd3ffd3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45387293029"
  }
 ]
