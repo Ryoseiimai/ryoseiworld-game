@@ -3626,6 +3626,15 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    for(let y=0;y<ph;y++)for(let x=0;x<pw;x++){if(data[(y*pw+x)*4+3]<=40)continue;const sx=l[2]+(x+.5)*l[4]/pw,sy=l[3]+(y+.5)*l[5]/ph,dx=Math.max(tx-sx,0,sx-tx-tw),dy=Math.max(ty-sy,0,sy-ty-th);near=Math.min(near,Math.hypot(dx,dy));}
    assert(near>=8,'R604: ミオ tag stays 8px or more clear of the lamp at '+l[2]+','+l[3]+' (nearest lamp pixel '+near.toFixed(1)+'px)');}}
  result.push('R604: ミオの名札が街灯から8px以上はなれている PASS');
+ // R748: talking to a numbered person, its 「かずの ひと」 name tag covered the stone foot of the lamp at (12.4,18.6). Every number person's tag keeps 8px or more clear of every lamp pixel (alpha over 40).
+ {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon;
+  for(const o of m.objects.filter(x=>x.kind==='numberperson')){r.g.debugWarp('neon',o.x,o.y+1.1);r.g.debugFace(3);r.tick(16);r.canvasCalls.length=0;r.tick(16);
+   const name=r.canvasCalls.findIndex(c=>c[0]==='fillText'&&c[1]===o.label);assert(name>0,'R748: '+o.id+' name tag is drawn');const tag=r.canvasCalls.slice(0,name).filter(c=>c[0]==='tag').at(-1);assert(tag,'R748: '+o.id+' name tag plate is drawn');
+   const [,tx,ty,tw,th]=tag,lamps=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).endsWith('props_r1_c1.png')&&c[2]<tx+tw+8&&c[2]+c[4]>tx-8&&c[3]<ty+th+8&&c[3]+c[5]>ty-8);
+   for(const l of lamps){const file=root+'/'+l[1],b=fs.readFileSync(file),pw=b.readUInt32BE(16),ph=b.readUInt32BE(20),{data}=pngPixels(file);let near=Infinity;
+    for(let y=0;y<ph;y++)for(let x=0;x<pw;x++){if(data[(y*pw+x)*4+3]<=40)continue;const sx=l[2]+(x+.5)*l[4]/pw,sy=l[3]+(y+.5)*l[5]/ph,dx=Math.max(tx-sx,0,sx-tx-tw),dy=Math.max(ty-sy,0,sy-ty-th);near=Math.min(near,Math.hypot(dx,dy));}
+    assert(near>=8,'R748: '+o.id+' tag stays 8px or more clear of the lamp at '+l[2]+','+l[3]+' (nearest lamp pixel '+near.toFixed(1)+'px)');}}}
+ result.push('R748: かずの人の名札が街灯から8px以上はなれている PASS');
  // R503: the rank 86 plate reached ミオ's side and read as her sign; ミオ now stands so the plate ends 10px or more clear of her picture box.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   r.tick(16);r.canvasCalls.length=0;r.tick(16);
