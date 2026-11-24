@@ -17,7 +17,7 @@
 #title-genre{display:table;margin:-12px auto 0;background:rgba(16,30,36,.92);border-radius:10px;padding:2px 14px}
 /* og-share: the row of OutGame buttons under a card's main button (js/outgame.js fills it). */
 #ending-card{background:#16353b}#ending-links{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:10px;width:400px;max-width:100%;margin:14px auto 0}#ending-card:has(#ending-links:not(:empty)) #ending-title{width:400px;max-width:100%}/* R518: the gold 次へ/次の章へ was narrower than the シェアする/アニメを見る buttons under it; now the main button and the row under it share one 400px width. */#ending-links:empty{display:none}#ending-links button{margin-top:0;min-height:54px;padding:4px 14px;white-space:nowrap}
-/* R519: filled hearts in the きずな list (tintHearts). */
+/* R519: filled hearts in the きずな list (tintHearts). R743: the 〔〕 headings there and in 武器 (.menu-head). */
 .heart-on{color:#ff8fae}.menu-head{color:#f1cd7c}
 /* og-anime-cta: the band above .title-copy; empty (links.anime unset) draws nothing. */
 #title-links{position:absolute;top:62px;right:30px;display:flex;gap:8px;justify-content:flex-end}#title-links button{min-height:54px;width:190px;padding:4px 6px;line-height:1.1;white-space:nowrap}
@@ -628,7 +628,8 @@ function bondLines(){const met=Object.keys(GAME_DATA.bonds).filter(id=>g.met.inc
 // R519: the filled ♥ and empty ♡ were the same cream color, so how many hearts had been earned was hard to read at a glance. Filled hearts in the 5-heart row are now pink (.heart-on); the ♥ in 「次は♥3で…」 is a goal not yet reached, so it keeps the cream color. The text stays the same.
 // R743: the 〔〕 headings of the きずな and 武器 lists were the same white as the lines under them, so each list read as one long block (mobile-11/12).
 // The heading (the 〔〕 and the name after it) now takes the gold of the speaker names, and the filled hearts keep their pink.
-const MENU_TINT=/^〔[^〕\n]*〕[^　 \n]*|♥+(?=♡*(?:\n|$))/gm;
+// The heading ends at the full-width pad before the hearts (or the line end), since kids names such as 「ゲームの こ」 hold a half-width space.
+const MENU_TINT=/^〔[^〕\n]*〕[^　\n]*|♥+(?=♡*(?:\n|$))/gm;
 function tintHearts(el){if(!el)return;const s=el.textContent,out=[];let at=0;for(const m of s.matchAll(MENU_TINT)){if(m.index>at)out.push(s.slice(at,m.index));const sp=document.createElement('span');sp.className=m[0][0]==='♥'?'heart-on':'menu-head';sp.textContent=m[0];out.push(sp);at=m.index+m[0].length;}if(!out.length)return;if(at<s.length)out.push(s.slice(at));el.replaceChildren(...out);}
 function bondsMenu(){openModal('きずな',bondLines(),[{text:backLabel(),action:menu}],'bonds');tintHearts($('modal-copy'));}
 function weaponsMenu(){refreshWeaponData();const all=Object.keys(GAME_DATA.weapons),have=all.filter(w=>g.weapons.includes(w)),left=all.length-have.length;openModal(menuLabel('武器','ぶき'),have.map(w=>`〔${GAME_DATA.weapons[w].name}〕\n${GAME_DATA.weapons[w].desc||''}`).join('\n\n')+(left?menuLabel(`\n\n持っていない武器があと${left}つ。\nきずなが深まるともらえる。`,`\n\nもっていない ぶきが あと ${left}つ。\nきずなで もらえる。`)/* R393: 「あと5つ。」だけでは何が5つか分からなかった。R436: 「増える」は持っていない武器が増えると読めたので「もらえる」にした。R454: おとなの文だけ語の間に空白が残っていたので詰めた */:menuLabel('\n\n全部そろった！','\n\nぜんぶ そろった！')),[{text:backLabel(),action:menu}],'weapons');tintHearts($('modal-copy'));}
