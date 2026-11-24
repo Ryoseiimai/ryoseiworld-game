@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-16T18:55:54.433Z",
-  "branch": "claude/autodev-20261117-0321-R608",
-  "task": "R608 ネオンの駅で、くもの もんの足が上の表示とメニューのすき間に黒い欠片として見えていたので、上の表示の後ろの建物を場所の札の内側だけに描いた",
-  "summary": "確認役が全章のスクショから5つ挙げ、ネオンの駅でくものもんの足が札とメニューのすき間に見える所を直した\n上の表示の後ろにある建物を、場所の札の内側だけに描くようにした。人と敵は切らない\n手元の確かめとブラウザの確かめはすべて通過。前と後のスクショは docs/shots/R608",
-  "result": "pass",
-  "shots": [
-   "shots/1061/mobile-02-mode-select.jpg",
-   "shots/1061/mobile-19-custom-og-credit-card.jpg",
-   "shots/1061/mobile-34-chapter-1-play.jpg",
-   "shots/1061/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d0b88cf",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/43932264386"
- },
- {
   "at": "2026-11-16T19:47:40.218Z",
   "branch": "claude/autodev-20261117-0421-R609",
   "task": "R609 塔2階に入った時、レベル3以上でも「ドラッグで歩く」が0.6秒かけて薄く消えていたので、すぐ消すようにした",
@@ -2983,5 +2968,20 @@
   ],
   "sha": "0f2e80c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45357633396"
+ },
+ {
+  "at": "2026-11-24T08:57:43.176Z",
+  "branch": "claude/autodev-20261124-1722-R747",
+  "task": "R747 ネオンの順位の札のしっぽの先がスマホで髪に触れて見えたので、札を2px上げた",
+  "summary": "ネオンの順位の札のしっぽの先が、スマホでかずの人の髪に触れて見えた\n札を2px上げ、名前の札とノイズの行の空きも同じだけ上げた\nしっぽの先と頭の間が3〜7pxあるかを、確認に入れた（前は2〜6px）",
+  "result": "pass",
+  "shots": [
+   "shots/1299/mobile-02-mode-select.jpg",
+   "shots/1299/mobile-19-custom-og-credit-card.jpg",
+   "shots/1299/mobile-34-chapter-1-play.jpg",
+   "shots/1299/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "423ff61",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45358881517"
  }
 ]
