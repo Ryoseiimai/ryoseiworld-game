@@ -2813,6 +2813,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    assert(sb>=160&&sb<=175,'the rescanned footprint ends at the pile base (row '+sb+'), not at the grey bit');assert(Math.abs(colBottom)<=3,'the collider bottom meets the foot ('+colBottom.toFixed(1)+'px)');}
   const r=await runtime();for(const [m,id] of [['tower1','tw1_floppy'],['tower2','tw2_floppy']]){const o=r.g.GAME_DATA.maps[m].objects.find(x=>x.id===id);assert(o&&o.kind==='tower'&&o.frame===11,id+' uses tower frame 11');}}
  result.push('R739: 塔のフロッピーの山の下の灰色の線を消し、山を影の上に下ろした PASS');
+ // R742: the idle talk button sat on the park sandbox with its dark fill (mobile-25); over sand or pond tiles it now takes the see-through behind look, without stepping up.
+ {const i=html.indexOf('function coversPlayground(');assert(i>0,'coversPlayground exists');const src=html.slice(i,html.indexOf('\n',i));
+  const f=new Function('TILE','return '+src.replace(/^function coversPlayground/,'function'))(48),m={tiles:['....','.::.','.~..']};
+  assert.equal(f(m,48,48,96,96),true,'a box over a sand tile counts');assert.equal(f(m,48,96,96,144),true,'a box over a pond tile counts');
+  assert.equal(f(m,0,0,48,48),false,'a box over grass only does not');assert.equal(f(m,0,48,48,96),false,'a box ending exactly at a sand tile edge does not');assert.equal(f({},0,0,99,99),false,'a map without tiles does not');
+  assert(html.includes("talkLift=lift;el.classList.toggle('ground',!under&&talkIdle&&coversPlayground(m,x0,y0-lift,x1,y1-lift));"),'coverTalkBtn uses it for the see-through look of the idle button only, where the button really stands');
+  {const rule=s=>(html.match(new RegExp(s.replace(/\./g,'\\.')+'\\{([^}]*)\\}'))||[])[1];assert(rule('#talk-btn.ground')&&rule('#talk-btn.ground')===rule('#talk-btn.behind')&&rule('#talk-btn.idle.ground')===rule('#talk-btn.idle.behind'),'the ground look is the same see-through style as behind');}
+  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();assert(r.g.debugStartChapter(1));while(r.g.dialogue)r.dialogue();
+   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);r.tick(16);
+   assert(btn.classes.has('ground')&&!btn.classes.has('behind'),'at the town spawn the button shows the sandbox through it');assert(!btn.style.translate,'it does not step up for the sandbox');}
+  assert(/const TALK_LIFTS=\[96\]/.test(html)&&/if\(under\|\|talkLift&&covers\(0,false,32\)\)lift=/.test(html),'the step up still waits for people and signs only');}
+ result.push('R742: 町の「話す」ボタンが公園の砂場に重なる時、砂場が透けて見えるようにした PASS');
  // R643: the right-facing ride frames (hero_ride row 2) carry the top of the next row's cap under the wheels, drawn as a small black piece about 20px under the hero on the title and outside.
  {assert(html.includes('const SPRITE_CROP_BOTTOM={hero_ride:{8:.85,9:.85,10:.85,11:.85}};'),'only the right-facing ride frames are cut at the bottom');
   for(let c=0;c<4;c++){const key='hero_ride r2_c'+c;
