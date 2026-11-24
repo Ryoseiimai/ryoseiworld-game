@@ -4122,6 +4122,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/globalAlpha=BATTLE_HOUSE_ALPHA/.test(out)&&Number(c[3])>=.3&&Number(c[3])<=.45,'R750: the outside houses use a firmer body alpha: '+c[3]);
   assert(/fillStyle=BATTLE_WINDOW/.test(out)&&/globalAlpha=BATTLE_WINDOW_ALPHA/.test(out)&&Number(c[2])>0&&Number(c[2])<.4,'R750: the outside houses draw faint lit windows');
   const inside=fn.slice(fn.indexOf('}else{'));assert(!/BATTLE_WINDOW|BATTLE_HOUSE_ALPHA/.test(inside),'R750: the indoor backdrop keeps its own lines');}
+ {const src=(html.match(/function battleWindowKept\(x,y\)\{[^\n]*\}/)||[''])[0],num=n=>Number((html.match(new RegExp(n+'=(\\d+)'))||[])[1]);const sx=num('SORA_BATTLE_X'),sy=num('SORA_BATTLE_Y'),hy=num('HERO_BATTLE_Y');assert(src&&sx&&sy&&hy,'R750: battleWindowKept and the Sora/hero places are found');
+  const k=new Function('SORA_BATTLE_X','SORA_BATTLE_Y','HERO_BATTLE_Y',src+';return battleWindowKept;')(sx,sy,hy);
+  assert(!k(sx-20,sy-40)&&!k(sx-6,sy-7),'R750: no window inside Sora\'s light');assert(!k(90,hy-140)&&!k(40,hy-130),'R750: no window behind the hero\'s cap');assert(k(200,300)&&k(10,200),'R750: windows away from Sora and the hero still show');}
  result.push('R750: 外の戦いの家並みに小さな明かりの窓を描き、消し残りの四角に見えないようにした PASS');
  // R582: the word card keeps more side room than before (17px, not 14px), so its line does not start right at the frame; 17px is the most that still keeps a six-letter AI name and コンテキストウィンドウ on one line.
  {const css=(html.match(/\.word-card\{[^}]*\}/)||[''])[0],m=css.match(/padding:(\d+)px (\d+)px/);assert(m,'R582: the word card states its padding: '+css);
