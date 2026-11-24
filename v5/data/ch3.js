@@ -26,6 +26,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  // R25: ミオの雨の日 (STORY_V4.md 恋愛きずな3). She waits under the sidewalk roof near the crossroad; sharing the umbrella raises her heart to 3 and コトバイルカ joins.
  // R294: at y 21.6 her name tag sat level with num1's じゅんい 86 sign (num1 at 11.3,21.6) and the two touched end to end when she was the talk target;
  // at y 20.8 (0.8 tile up) the tag plate ends 8px above the sign plate. num1 stays put: lower, its feet fell off the bottom of the arrival view.
+ // R748: num1 went 0.35 tile lower (21.95) for its name tag to clear the lamp foot; its feet still show about 17px above the bottom of the arrival view.
  // R503: at x 13.4 the rank 86 sign's plate ended 7px from her body and read as her sign; at 13.7 she stands 21px clear, still on the sidewalk tile.
  // R536: num1 moved to 11.45 so its sign stays over its head with the wider 28px edge, and she moved to 13.8 to keep the same gap from it.
  // R603: num1's sign went 10px up to show its tail over the head; she stands 12px higher to keep her tag clear of it.
@@ -54,7 +55,7 @@ maps.neon={name:'ネオンシティ',short:'ネオンシティ',w:30,h:36,outsid
  ...props('neon_edge',2,100,Array.from({length:14},(_,i)=>[1.2+i*2.1,1.9]),{collider:false}),
  // R69: num1/num2 stand 1.8 tiles off the street lights at x 12.4/17.6, so the numbers never sit on a lamp.
  // R84: each number says what it counts (rank, likes, followers; SPEC_V5_CH234.md), so the bare 86い/3204 no longer puzzle.
- // R129: num1/num2 stand 3 tiles below the lamps at y 18.6, so the sign plate starts under the lamp foot even when it slides inward from the screen edge.
+ // R129: num1/num2 stand 3 tiles (num1 3.35 since R748) below the lamps at y 18.6, so the sign plate starts under the lamp foot even when it slides inward from the screen edge.
  // num3 stands at x 9.4 so its longer フォロワー sign ends clear of the lamp head at x 12.4.
  // R255: num2 stood under the talk button on arrival (mobile-28/29), with no free step up between the lamp and its sign, so it stands on the sidewalk by the south road (19,25.2), out of the arrival view and its sign 10px clear of neon_bench.
  // R284: drawn 100 tall, the body under the cut-off number (62 of 452 rows) stood 86px, a head taller than ミオ (65) and the hero (70);
