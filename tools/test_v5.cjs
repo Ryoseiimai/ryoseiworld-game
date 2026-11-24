@@ -2308,6 +2308,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   r.click('menu-btn');r.button('きずな');let c=copy();assert(/^〔家〕/m.test(c)&&/^〔友〕/m.test(c)&&!/[［］]/.test(c),'R483 '+mode+' bonds use 〔〕: '+c);r.button(back);
   r.button(mode==='adult'?'武器':'ぶき');c=copy();assert(/^〔[^〕]+〕$/m.test(c)&&!/[［］]/.test(c),'R483 '+mode+' weapons use 〔〕: '+c);}
  result.push('R483: きずなと武器の画面で、かっこの形を〔〕にそろえた PASS');
+ // R743: the 〔〕 headings were the same white as the lines under them, so each list read as one block. The heading is gold now; the hearts stay pink.
+ {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
+  for(const id of ['mother','sister'])r.g.debugBond(id,2);while(r.g.dialogue)r.dialogue();r.tick(300);
+  const cp=r.els.get('modal-copy');cp.replaceChildren=function(...a){this.children=a;};
+  const spans=()=>cp.children.filter(c=>typeof c!=='string'),joined=()=>cp.children.map(c=>typeof c==='string'?c:c.textContent).join('');
+  r.click('menu-btn');r.button('武器');let heads=spans().filter(s=>s.className==='menu-head');
+  assert(heads.length>=1&&heads.every(s=>/^〔[^〕]+〕$/.test(s.textContent)),'R743 weapon headings are tinted: '+JSON.stringify(spans().map(s=>[s.className,s.textContent])));
+  assert.equal(joined(),cp.textContent,'R743 the tinted weapons copy keeps every letter');assert(!heads.some(s=>/[。、]/.test(s.textContent)),'R743 only the heading is gold');r.button('戻る');
+  r.button('きずな');heads=spans().filter(s=>s.className==='menu-head');const hearts=spans().filter(s=>s.className==='heart-on');
+  assert(heads.length>=2&&heads.every(s=>/^〔.〕\S+$/.test(s.textContent)&&!/[♥♡　]/.test(s.textContent)),'R743 bond headings are tinted without the hearts: '+JSON.stringify(heads.map(s=>s.textContent)));
+  assert(hearts.length>=2&&hearts.every(s=>/^♥+$/.test(s.textContent)),'R743 the filled hearts stay pink');assert.equal(joined(),cp.textContent,'R743 the tinted bonds copy keeps every letter');
+  assert(/\.menu-head\{color:#f1cd7c\}/.test(html),'R743 the heading uses the gold of the speaker names');}
+ result.push('R743: きずなと武器の画面で、〔〕の見出しを金色にして本文と分けた PASS');
  // R122: the bonds menu hints read in kanji in adult mode (SPEC_V7_MANABU.md 9), and kids mode keeps the hiragana ones.
  {const r=await runtime();r.tick();r.start('adult');r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();r.g.debugWarp('town',8,27);r.tick(300);
   const D=r.g.GAME_DATA,st=r.g.state,wide=t=>[...t].reduce((n,c)=>n+(c.charCodeAt(0)<127?.5:1),0),copy=()=>r.els.get('modal-copy').textContent,fits=t=>{for(const row of t.split('\n'))assert(wide(row)<=17,'menu row fits '+row);};
