@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T13:18:55.250Z",
-  "branch": "claude/autodev-20261117-2142-R619",
-  "task": "R619 タイトルの「♪ タップで音楽」の札が画面の右端から12pxしか離れず、スマホで枠に押しつけられて見えたので、ほかの角のボタンと同じ24pxあけた",
-  "summary": "会話の「タップ ▾」が文の途中から見えていたので、文が出きってから出した\n「タップ」は場所を残して隠すので、窓の大きさと字の位置は変わらない\n手元のテストと全章の通しは通った。確認役の他の2つ（家の前の主人公、終わりのメニュー）は作りどおりなので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1079/mobile-02-mode-select.jpg",
-   "shots/1079/mobile-19-custom-og-credit-card.jpg",
-   "shots/1079/mobile-34-chapter-1-play.jpg",
-   "shots/1079/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c591833",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44089874805"
- },
- {
   "at": "2026-11-17T13:38:21.691Z",
   "branch": "claude/autodev-20261117-2221-R621",
   "task": "R621 遊んで一番気になる所を1つ直す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "1bc68e6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45440548253"
+ },
+ {
+  "at": "2026-11-24T17:41:23.470Z",
+  "branch": "claude/autodev-20261125-0221-R755",
+  "task": "R755 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\n倒した自販機の寝息の z が本体の右上の角に重なっていたので、絵の右の端より外から出るようにした\n直した前と後のスクショを v5/verification に置き、テストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/1317/mobile-02-mode-select.jpg",
+   "shots/1317/mobile-19-custom-og-credit-card.jpg",
+   "shots/1317/mobile-34-chapter-1-play.jpg",
+   "shots/1317/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3051e02",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45449031690"
  }
 ]
