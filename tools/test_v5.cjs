@@ -2401,8 +2401,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
    const txt=r.canvasCalls.filter(c=>c[0]==='strokeText'&&c[1]===NUM(r,o)).at(-1),img=r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('numberperson_'+files[o.frame])).sort((p,q)=>Math.abs(p[2]+p[4]/2-txt?.[2])-Math.abs(q[2]+q[4]/2-txt?.[2]))[0];/* R651: two people share each frame now, so take the picture under this sign */
    assert(txt&&img,o.id+' and its sign are drawn');const headTop=img[3]+crop[o.frame]*img[5]/452,gap=headTop-(txt[3]+7);
    assert(gap>=4,o.id+': the sign plate ends over the head, not on the hair (gap '+gap.toFixed(1)+'px, R507)');
-   // R603: the R592 tail (plate bottom to tip) hangs in that gap and its tip stops 2 to 6px over the head, so the tail is not hidden by the hair and the plate still sits on its person.
-   const tail=Number(html.match(/SIGN_TAIL=(\d+)/)[1])-7;assert(tail>=12,'R603: the tail stays long enough to see ('+tail+'px)');assert(gap-tail>=2&&gap-tail<=6,o.id+': the tail tip stops just over the head (tip gap '+(gap-tail).toFixed(1)+'px, R603)');
+   // R603: the R592 tail (plate bottom to tip) hangs in that gap; R747: its tip stops 3 to 7px over the head (2px read as touching on a phone), so the tail is not hidden by the hair and the plate still sits on its person.
+   const tail=Number(html.match(/SIGN_TAIL=(\d+)/)[1])-7;assert(tail>=12,'R603: the tail stays long enough to see ('+tail+'px)');assert(gap-tail>=3&&gap-tail<=7,o.id+': the tail tip stops just over the head (tip gap '+(gap-tail).toFixed(1)+'px, R603)');
    for(const l of r.g.GAME_DATA.maps.neon.objects.filter(x=>x.kind==='props'&&/light/.test(x.id)&&Math.abs(x.x-o.x)*48<12+[...o.sign].reduce((a,c)=>a+(/[0-9, ]/.test(c)?14:24),0)/2+8&&x.y<o.y))assert(txt[3]-25-(l.y*48+img[3]+img[5]-o.y*48)>=16,o.id+': the sign stays clear of the foot of '+l.id);}}
  result.push('R240: ネオンのかずの人の札を頭のすぐ上に下げ、街灯の札に見えないようにした PASS');
  // R241: BUG KING and カテイノジジョウ stand on legs but hung in the air; a soft shadow now lies under their feet, drawn before the boss picture.
