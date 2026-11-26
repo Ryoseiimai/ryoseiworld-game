@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T16:52:37.507Z",
-  "branch": "claude/autodev-20261118-0041-R624",
-  "task": "R624 ボス戦の「ビート」のボタンが画面の下端から6pxしかあかず、正方形や横長の画面で下の縁に押しつけられて見えたので、ボタンを短くして下を24pxあけた",
-  "summary": "前回の枝はビートを48pxにして、ボタンの高さを56px以上とする確認に落ちた\nとくぎを44pxにもどし、ビートを894から56pxにして下を10pxあけた\n確認役が36pxのとくぎは字の上が切れると挙げたので、44pxにもどした",
-  "result": "pass",
-  "shots": [
-   "shots/1088/mobile-02-mode-select.jpg",
-   "shots/1088/mobile-19-custom-og-credit-card.jpg",
-   "shots/1088/mobile-34-chapter-1-play.jpg",
-   "shots/1088/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "63d1b51",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44128551905"
- },
- {
   "at": "2026-11-17T17:42:22.848Z",
   "branch": "claude/autodev-20261118-0221-R625",
   "task": "R625 プロローグの1行目は「せんぷうきだけが はたらいていた」なのに、部屋に扇風機が無かったので、テレビの下に羽根の回る扇風機を描いた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "7d4fa7e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45854793195"
+ },
+ {
+  "at": "2026-11-26T18:56:27.765Z",
+  "branch": "claude/autodev-20261127-0322-R760",
+  "task": "R760 公園の砂場が平らな色の四角で、空の枠に見えていたので、砂に粒と小さな山を描いた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を挙げさせた\n公園の砂場が空の枠に見えていたので、砂に粒と小さな山を描いた\n砂の粒が枠の内側に収まり、同じ並びがくり返さないことを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1331/mobile-02-mode-select.jpg",
+   "shots/1331/mobile-19-custom-og-credit-card.jpg",
+   "shots/1331/mobile-34-chapter-1-play.jpg",
+   "shots/1331/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0d352ca",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45878554291"
  }
 ]

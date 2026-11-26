@@ -2541,6 +2541,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(rects.some(r=>r[1]<0&&r[1]>-48&&r[4]==='#6d9c7e')&&rects.some(r=>r[1]<-144&&r[4]==='#6d9c7e'),'the grass tufts of the first row go on above it, up to under the top HUD');
   rects.length=0;const room=rt.g.GAME_DATA.maps.room;ground(room);assert(rects.every(r=>r[1]>=0&&r[1]<room.h*48),'rooms keep their walls: nothing drawn outside the room');assert(rects.some(r=>r[4]==='#152e46'&&r[1]>=0&&r[1]+r[3]<=96),'the own room window sits on the wall (above y 96)');}
  result.push('R248: 外の地図で、道や地面が下のボタンの帯の手前で途切れない PASS');
+ // R760: the park sandbox was a flat beige square with one dot per tile, so it read as an empty framed box (mobile-33). Each sand tile now has grains, some a small heap, all inside the 8px rim.
+ {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0];const tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';
+  let rects=[];const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
+  const rt=await runtime(),m=rt.g.GAME_DATA.maps.town;ground(m);const sand=[];m.tiles.forEach((row,y)=>[...row].forEach((t,x)=>{if(t===':')sand.push([x,y]);}));assert(sand.length>=4,'the town has a sandbox');let heaps=0;
+  for(const [x,y] of sand){const px=x*48,py=y*48,inner=rects.filter(r=>r[0]>=px&&r[1]>=py&&r[0]+r[2]<=px+48&&r[1]+r[3]<=py+48&&!(r[2]===48&&r[3]===48));
+   assert(inner.length>=5,'sand tile ('+x+','+y+') has at least 5 grains, got '+inner.length);for(const r of inner)assert(r[0]>=px+8&&r[1]>=py+8&&r[0]+r[2]<=px+38&&r[1]+r[3]<=py+38,'sand tile ('+x+','+y+') keeps its grains and heap inside the 8px rim: '+r.join(','));if(inner.some(r=>r[4]==='#e4d9ad'))heaps++;}
+  const rows={};for(const [x,y] of sand){const px=x*48,py=y*48;(rows[y]??=new Set()).add(rects.filter(r=>r[0]>=px+8&&r[1]>=py+8&&r[0]+r[2]<=px+40&&r[1]+r[3]<=py+40).map(r=>(r[0]-px)+':'+(r[1]-py)).sort().join('|'));}
+  for(const [y,set] of Object.entries(rows))if(sand.filter(s=>s[1]===+y).length>1)assert(set.size>1,'the sand tiles in row '+y+' do not all repeat one grain layout');
+  assert(heaps>=1&&heaps<sand.length,'some sand tiles, not all, have a small heap ('+heaps+' of '+sand.length+')');}
+ result.push('R760: 公園の砂場の砂に、粒と小さな山があり、枠の内側に収まっている PASS');
  // R249: the inner column of the 4-wide town road got an east-west dash every third row too, crossing the north-south dash into a "+" (mobile-16).
  {const src=(html.match(/function ground\(m\)\{.*/)||[''])[0],tallSrc=['roadWide','roadUp','roadTall'].map(f=>(html.match(new RegExp('function '+f+'\\(T,x,y\\)\\{.*'))||[''])[0]).join('\n')+'\nfunction questRowDash(){return false;}';const rects=[];
   const ground=new Function('rect','rim','roomColors','TILE','hudTop','HUD_BOTTOM','gameTime',roomWindowSrc()+tallSrc+'\nreturn '+src.replace(/;?$/,''))((x,y,w,h,c)=>rects.push([x,y,w,h,c]),()=>{},()=>({}),48,190,130,0);
