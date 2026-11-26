@@ -3141,6 +3141,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   let low=0;for(let k=0;k<400;k++){const y=mk(true)(null);assert(y!==-999,'a free row is found with the talk box open');assert(y+22<960-300-24,'the band stays above the talk fade '+y);if(mk(false)(null)+22>=960-324)low++;}
   assert(low>0,'without the talk box the band can still use the low rows');}
  result.push('R766: 会話窓が出ている間、ノイズの帯が窓のすぐ上に出ない PASS');
+ // R767: the wall clock (interior 14) got the round floor shadow under its foot, so it seemed to float in front of the wall; things hung on the wall have no floor shadow.
+ {assert(/function wallHung\(o\)\{return o\.kind==='interior'&&o\.frame===14;\}/.test(html),'R767: wallHung marks the wall clock');
+  assert(html.includes("else if(o.kind!=='fan'&&!wallHung(o))ellipse(o.x*TILE,o.foot-2,"),'R767: the floor shadow skips things hung on the wall');
+  const r=await runtime(),clocks=[];for(const [id,m] of Object.entries(r.g.GAME_DATA.maps))for(const o of m.objects||[])if(o.kind==='interior'&&o.frame===14)clocks.push(id+':'+o.id);
+  assert(clocks.length>=4,'R767: the clocks are found ('+clocks.join(',')+')');}
+ result.push('R767: 壁の時計の下に床の影が出ない PASS');
  // R533: outside, a grey spirit by a head near the top sat in the row of the goal strip; it now starts under the HUD line (hudTop) but never below the feet, and indoors keeps the floor rule.
  {const src=html.match(/function spiritBase\([^\n]*/)[0],mk=(outside,camY,hud)=>new Function('g','GAME_DATA','camera','hudTop','SPIRIT_FLOOR_TOP',src+'\nreturn spiritBase;')({map:'m'},{maps:{m:{outside}}},{y:camY},hud,154);
   for(const hud of [190,215,260])for(const side of [-1,0,1])for(let foot=hud-40;foot<hud+400;foot+=7){const o={foot:1000+foot,h:80},b=mk(true,1000,hud)(o,side),plain=side?o.foot-62:o.foot-o.h-2;
