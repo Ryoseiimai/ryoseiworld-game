@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T18:50:20.576Z",
-  "branch": "claude/autodev-20261118-0322-R627",
-  "task": "R627 プロローグの部屋には扇風機があるのに、歩ける自分の部屋には無く、別の部屋に見えていたので、テレビの右下に同じ扇風機を置いた",
-  "summary": "R627 で、スマホ縦の全章スクショを確認役と見た\nプロローグの部屋には扇風機があり、歩ける自分の部屋には無かった\n自分の部屋のテレビの右下に、同じ扇風機を置いた",
-  "result": "pass",
-  "shots": [
-   "shots/1092/mobile-02-mode-select.jpg",
-   "shots/1092/mobile-19-custom-og-credit-card.jpg",
-   "shots/1092/mobile-34-chapter-1-play.jpg",
-   "shots/1092/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1679abc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44150457312"
- },
- {
   "at": "2026-11-17T19:50:52.842Z",
   "branch": "claude/autodev-20261118-0424-R628",
   "task": "R628 遊んで一番気になる所を1つ直す",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "5718890",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45884654827"
+ },
+ {
+  "at": "2026-11-26T20:45:11.768Z",
+  "branch": "claude/autodev-20261127-0521-R763",
+  "task": "R763 ミナモのボス戦でカテイノジジョウの黒い影が暗い石垣に沈み、壁に貼り付いて見えたので、足元に暖かい色の光を足した",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\nカテイノジジョウの足元に、BUG KING と同じ光を暖かい色で足した\n前と後は mobile-45 で比べた。手元の smoke と test_shooter は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1337/mobile-02-mode-select.jpg",
+   "shots/1337/mobile-19-custom-og-credit-card.jpg",
+   "shots/1337/mobile-34-chapter-1-play.jpg",
+   "shots/1337/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "947dda8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45892087145"
  }
 ]
