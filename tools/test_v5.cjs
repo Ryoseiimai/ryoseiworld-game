@@ -1547,13 +1547,22 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(withPeople>without,'(signs taken away) a number person body behind the talk button turns it see-through: '+withPeople+' / '+without);}
  result.push('R141: ネオンの「かずの ひと」が「はなす」ボタンの後ろに来ると、ボタンの地が薄くなる PASS');
  // R143: the pond (~) and the sandbox (:) draw a rim only on the sides that face other ground, so they are not plain squares.
- {const src=(html.match(/function rim\(m,x,y,t,w,c,d\)\{.*\}\n/)||[''])[0];assert(src,'index.html has rim()');const rects=[];const rim=new Function('rect','TILE','return '+src.trim())((x,y,w,h,c)=>rects.push([x,y,w,h,c]),48);
+ {const src=(html.match(/function rim\(m,x,y,t,w,c,d(?:,k)?\)\{.*\}\n/)||[''])[0];assert(src,'index.html has rim()');const rects=[];const rim=new Function('rect','TILE','return '+src.trim())((x,y,w,h,c)=>rects.push([x,y,w,h,c]),48);
   const m={tiles:['....','.~~.','.~~.','....'].map(r=>[...r])};const rimAt=(x,y)=>{rects.length=0;rim(m,x,y,'~',8,'#c','#d');return rects.filter(r=>r[4]==='#c');};
   const corner=rimAt(1,1);assert(corner.length===2&&corner.some(r=>r[0]===48&&r[1]===48&&r[3]===8)&&corner.some(r=>r[0]===48&&r[2]===8),'the top left water tile gets a top and a left rim: '+JSON.stringify(corner));
   const m2={tiles:['~~~','~~~','~~~'].map(r=>[...r])};rects.length=0;rim(m2,1,1,'~',8,'#c','#d');assert(rects.length===0,'a water tile inside the pond has no rim');rim(m2,0,0,'~',8,'#c','#d');assert(rects.length===0,'the map edge does not count as other ground');
   rects.length=0;rim({tiles:[['.','.','.'],['.','~','.'],['.','.','.']]},1,1,'~',8,'#c','#d');assert(rects.filter(r=>r[4]==='#c').length===4&&rects.findIndex(r=>r[4]==='#c')>rects.findLastIndex(r=>r[4]==='#d'),'a lone tile gets all four rims, drawn after the dark lines so no dark line crosses a corner');
   const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/rim\(m,x,y,'~'/.test(g)&&/rim\(m,x,y,':'/.test(g),'ground() draws the rim for the pond and the sandbox');}
  result.push('R143: 町の池と砂場に、ほかの地面と接する辺だけ縁を描く PASS');
+ // R762: the pond rim had square corners and one flat band, so the town pond read as a framed picture. With a corner colour its outer corners are cut in steps and the band gets stone seams.
+ {const src=(html.match(/function rim\(m,x,y,t,w,c,d,k\)\{.*\}\n/)||[''])[0];assert(src,'rim() takes a corner colour');const rects=[];const rim=new Function('rect','TILE','return '+src.trim())((x,y,w,h,c)=>rects.push([x,y,w,h,c]),48);
+  const m={tiles:['....','.~~.','.~~.','....'].map(r=>[...r])};rects.length=0;rim(m,1,1,'~',8,'#c','#d','#g');const cut=rects.filter(r=>r[4]==='#g');
+  assert(cut.length===3&&cut.every(r=>r[0]===48&&r[1]>=48&&r[1]+r[3]<=48+9)&&cut[0][2]>cut[2][2],'the top left water tile cuts its outer corner in three shrinking steps: '+JSON.stringify(cut));
+  assert(rects.filter(r=>r[4]==='#d'&&r[2]===2&&r[3]===8).length>=2,'the left rim gets stone seams');
+  rects.length=0;rim(m,2,1,'~',8,'#c','#d','#g');assert(rects.filter(r=>r[4]==='#g').every(r=>r[0]+r[2]===3*48),'the top right tile cuts only its right corner');
+  rects.length=0;rim({tiles:['~~~','~~~','~~~'].map(r=>[...r])},1,1,'~',8,'#c','#d','#g');assert.equal(rects.length,0,'a water tile inside the pond still draws nothing');
+  const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/rim\(m,x,y,'~',8,'#d8cfa8','#9c9677','#7eaa8a'\)/.test(g),'the pond cuts its corners with the grass colour');assert(/rim\(m,x,y,':',[^)]*'\)/.test(g)&&!/rim\(m,x,y,':',\d+,'[^']*','[^']*','/.test(g),'the sandbox keeps its square wooden rim');}
+ result.push('R762: 池の縁の角を段で丸め、石の継ぎ目を入れた PASS');
  // R144: the boss fight buttons (skill and beat) on the bottom right keep about 22px from the right edge, like the hearts on the left.
  {const sh=fs.readFileSync(path.join(root,'js/shooter.js'),'utf8');for(const c of ['rs-skill','rs-beat']){const m=sh.match(new RegExp('\\.'+c+'\\{position:absolute;left:(\\d+)px;top:\\d+px;width:(\\d+)px'));assert(m,c+' has a left and a width');const right=540-Number(m[1])-Number(m[2]);assert(right>=18&&right<=26,c+' keeps about 22px from the right edge: '+right);}}
  // R624: the beat button ended 6px above the bottom edge; it now ends 10px up, which is the most the R95/R135/R375 sizes allow, and stays 16px under the skill button (R375).
