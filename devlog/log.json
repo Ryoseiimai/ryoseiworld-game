@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T18:05:24.713Z",
-  "branch": "claude/autodev-art-20261118-024742",
-  "task": "絵",
-  "summary": "できた絵: room_fan",
-  "result": "pass",
-  "shots": [
-   "shots/1091/mobile-02-mode-select.jpg",
-   "shots/1091/mobile-19-custom-og-credit-card.jpg",
-   "shots/1091/mobile-34-chapter-1-play.jpg",
-   "shots/1091/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "fd8403e",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44140911568"
- },
- {
   "at": "2026-11-17T18:50:20.576Z",
   "branch": "claude/autodev-20261118-0322-R627",
   "task": "R627 プロローグの部屋には扇風機があるのに、歩ける自分の部屋には無く、別の部屋に見えていたので、テレビの右下に同じ扇風機を置いた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "0215864",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45883934245"
+ },
+ {
+  "at": "2026-11-26T19:49:52.893Z",
+  "branch": "claude/autodev-20261127-0421-R762",
+  "task": "R762 町の池の縁が角の四角いベージュの帯で、額縁の絵に見えていたので、角を段で丸め石の継ぎ目を入れた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n町の池の縁の角を段で丸め、縁に石の継ぎ目を入れた\n手元の test_v5 と smoke は通った。前と後は desktop-25 で比べた",
+  "result": "pass",
+  "shots": [
+   "shots/1335/mobile-02-mode-select.jpg",
+   "shots/1335/mobile-19-custom-og-credit-card.jpg",
+   "shots/1335/mobile-34-chapter-1-play.jpg",
+   "shots/1335/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5718890",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45884654827"
  }
 ]
