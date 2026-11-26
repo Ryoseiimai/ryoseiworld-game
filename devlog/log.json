@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T14:47:12.858Z",
-  "branch": "claude/autodev-20261117-2322-R622",
-  "task": "R622 自販機に勝った後の会話の窓が、文字の無い空の箱で写っていた。文の始めに1文字ぶん空のまま待っていたので、最初の1文字をすぐ出すようにした",
-  "summary": "全章のスクショ154枚を撮り、確認役に見てもらった\n自販機に勝った後の会話の窓が空の箱で写っていたので、文の最初の1文字をすぐ出すようにした\nソラの名札は24pxの字なので直さず、ほかの3つは確かめ用の場面や演出なので直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1082/mobile-02-mode-select.jpg",
-   "shots/1082/mobile-19-custom-og-credit-card.jpg",
-   "shots/1082/mobile-34-chapter-1-play.jpg",
-   "shots/1082/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "3470b48",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44105150018"
- },
- {
   "at": "2026-11-17T15:38:36.862Z",
   "branch": "claude/autodev-20261118-0022-R623",
   "task": "R623 全章のスクショから確認役と6つ確かめた。自販機の勝ちの窓の1文字は R622 の文の出だし、ボス戦の字は画面の縮みで小さく見えるだけで24px以上、電気屋の奥の壁はスクロールで上に隠れているだけ、設定とメニューの空の背景は確かめ用に作った場面だけで出るので、どれも直さなかった",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "2f5b7bd",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45464732413"
+ },
+ {
+  "at": "2026-11-26T10:15:35.639Z",
+  "branch": "claude/autodev-20261126-1841-R757",
+  "task": "R757 会話窓の下に地図の切れ端が帯のように見えていたので、窓が開いている間は下に暗い帯を敷いた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\n会話窓の下に池の縁や砂場の枠が帯のように見えていたので、窓が開いている間は下に暗い帯を敷いた\n暗い帯が窓の下を覆いきることを調べるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/1325/mobile-02-mode-select.jpg",
+   "shots/1325/mobile-19-custom-og-credit-card.jpg",
+   "shots/1325/mobile-34-chapter-1-play.jpg",
+   "shots/1325/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "83e3297",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45798101458"
  }
 ]
