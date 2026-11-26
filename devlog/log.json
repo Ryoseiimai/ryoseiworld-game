@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T16:42:56.690Z",
-  "branch": "claude/autodev-20261118-0041-R624",
-  "task": "R624 ボス戦の「ビート」のボタンが画面の下端から6pxしかあかず、正方形や横長の画面で下の縁に押しつけられて見えたので、ボタンを短くして下を24pxあけた",
-  "summary": "前回の枝はビートを48pxにして、ボタンの高さを56px以上とする確認に落ちた\nとくぎを834から36pxに、ビートを886から56pxにし、下を18pxあけた\n手元の test_v5 と test_shooter はどちらも通った",
-  "result": "pass",
-  "shots": [
-   "shots/1087/mobile-02-mode-select.jpg",
-   "shots/1087/mobile-19-custom-og-credit-card.jpg",
-   "shots/1087/mobile-34-chapter-1-play.jpg",
-   "shots/1087/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "14f8a49",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44127129973"
- },
- {
   "at": "2026-11-17T16:52:37.507Z",
   "branch": "claude/autodev-20261118-0041-R624",
   "task": "R624 ボス戦の「ビート」のボタンが画面の下端から6pxしかあかず、正方形や横長の画面で下の縁に押しつけられて見えたので、ボタンを短くして下を24pxあけた",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "3204ebe",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45851744544"
+ },
+ {
+  "at": "2026-11-26T16:11:42.140Z",
+  "branch": "claude/autodev-20261127-0042-R759",
+  "task": "R759 外の戦いで、ぼかしに家が消えても窓だけ点々と浮いていたので、窓をぼかしに合わせて薄くした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を挙げさせた\n外の戦いで、ぼかしに家が消えても窓だけ点々と残る所を、ぼかしの濃さに合わせて薄くした\n窓がぼかしと同じ形で薄くなることを調べるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1330/mobile-02-mode-select.jpg",
+   "shots/1330/mobile-19-custom-og-credit-card.jpg",
+   "shots/1330/mobile-34-chapter-1-play.jpg",
+   "shots/1330/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7d4fa7e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45854793195"
  }
 ]
