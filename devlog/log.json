@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T13:00:30.569Z",
-  "branch": "claude/autodev-20261119-2141-R631",
-  "task": "R631 全章のスクショから確認役が5つ挙げたので確かめた。ボスごとの「キックボードが浮かんだ」は STORY_V4 と SPEC_V6 の毎回の演出、BUG KING は SPEC_V5 の名前、右上の「ソラ」はことばカードで台詞の札とは別の物、「ドラッグで動く」は R502 の作り、きずなの知らせは確かめ用に作った場面なので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n右上の「ソラ」はことばカードの札で、台詞の札とは別の物と確かめた\nボスごとの浮かぶ演出の文は設計書どおり毎回出る作りにした",
-  "result": "pass",
-  "shots": [
-   "shots/1105/mobile-02-mode-select.jpg",
-   "shots/1105/mobile-19-custom-og-credit-card.jpg",
-   "shots/1105/mobile-34-chapter-1-play.jpg",
-   "shots/1105/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "328a50a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44527395590"
- },
- {
   "at": "2026-11-19T16:02:38.005Z",
   "branch": "claude/autodev-20261120-0041-R632",
   "task": "R632 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "266889f",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45906466406"
+ },
+ {
+  "at": "2026-11-26T23:50:34.789Z",
+  "branch": "claude/autodev-20261127-0822-R767",
+  "task": "R767 部屋の壁の時計の下に床の丸い影があり、壁の前に浮いて見えたので、壁に掛けた物には床の影を付けないようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n部屋と店の壁の時計から、床の丸い影を消した\n前と後は部屋のスクショで比べた。手元の test_v5 と smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1344/mobile-02-mode-select.jpg",
+   "shots/1344/mobile-19-custom-og-credit-card.jpg",
+   "shots/1344/mobile-34-chapter-1-play.jpg",
+   "shots/1344/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0824ad1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45912110471"
  }
 ]
