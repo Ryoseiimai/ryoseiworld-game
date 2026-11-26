@@ -796,6 +796,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R201: the dark tower tiles get a dark seam under them, not the wooden floor colour (tan seams looked like a test grid).
   assert(/m\.tiles\?\.\[y\]\?\.\[x\]==='g'\)\{rect\(px,py,TILE,TILE,'#0d1d2e'\)/.test(html),'tower floor seams are dark');
   for(const id of ['tower1','tower2','tower3','tower_roof']){const m=D.maps[id];assert(m,'map '+id+' exists');assert(m.tiles.every(row=>[...row].every(c=>c==='g')),id+' is the blue grid floor');}
+  // R764: the 「↓ したへ」 plate (its bottom about 47px under the pad's foot, signY + 9) touched the fan under it on とう2F, so the plate read as the fan's name.
+  // Anything standing under a pad's sign, in the plate's columns, starts at least 12px below the plate.
+  for(const id of ['tower1','tower2','tower3','tower_roof'])for(const pad of D.maps[id].objects.filter(o=>o.kind==='tower'&&o.sign)){const plateB=pad.y*48+47;
+   for(const o of D.maps[id].objects)if(o!==pad&&o.y>pad.y&&Math.abs(o.x-pad.x)*48<o.w/2+60)assert(o.y*48-o.h>=plateB+12,'R764: '+o.id+' on '+id+' starts '+(o.y*48-o.h-plateB)+'px under the '+pad.sign+' plate');}
   assert(!r.g.summons.includes('kotoba'),'コトバイルカ is not yet recruited');
   // Walking a step further in triggers the automatic join (SPEC_V5_CH234.md: 入口で コトバイルカ が仲間になる).
   let seen=r.protoRuns.length;r.key('ArrowUp');r.tick(600);r.key('ArrowUp',true);

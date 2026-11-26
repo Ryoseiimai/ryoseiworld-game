@@ -34,24 +34,26 @@ maps.tower1={name:'ノイズのとう 1かい',short:'とう 1かい',shortAdult
   {x:5,y:9.6,trigger:'towerEntrance',once:'towerEntranceSeen'}]};
 maps.tower2={name:'ノイズのとう 2かい',short:'とう 2かい',shortAdult:'塔2階',w:11,h:14,spawn:[5,11],tiles:grid,objects:[
  tower('tw2_save',14,8.4,7.5,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
- tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,6.4,80,80),
+ tower('tw2_cube',2,2.2,9.4,80,80),tower('tw2_floppy',11,8.4,9.6,70,70),tower('tw2_fan',9,2.2,7,80,80),
+ // R764: after R756 moved the pads to y 3.8, the 「↓ したへ」 plate under the left pad ended about 2px above the fan's top (mobile-07),
+ // so the plate read as the fan's name. The fan (and the vault on floor 3) stand at y 7 instead of 6.4, leaving a clear gap under the plate.
  tower('tw2_up',6,8.4,3.8,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw2_down',6,2.2,3.8,90,90,{label:'ひかりの ゆか',sign:'したへ'}),
  // R715: below the cube and the floppy pile the bottom three rows were bare blue grid (mobile-07), like floor 1 before R685/R713.
  // A server rack stands in the lower left and a bent pipe in the lower right (floor 1 has its rack on the right, so the sides differ),
  // both off the spawn column and the むげんローディング lane (x 6.8), and the shorter pipe leaves a gap under the floppy pile.
  tower('tw2_rack',0,2.1,12.8,80,90),tower('tw2_pipe',12,8.9,12.8,80,80)],
- // R217: the crow swings 1.5 tiles each way along y 6.6; from x 4 it flew onto the fan (2.2, 6.4), so it starts at 5.2 and turns before the fan; むげんローディング (x 7) rose into the save kiosk, so it walks at 6.8.
+ // R217: the crow swings 1.5 tiles each way along y 6.6; from x 4 it flew onto the fan (2.2, 6.4; y 7 since R764), so it starts at 5.2 and turns before the fan; むげんローディング (x 7) rose into the save kiosk, so it walks at 6.8.
  enemies:[{id:'tz2a',type:'crow2',x:5.2,y:6.6,axis:'x'},{id:'tz2b',type:'infload2',x:6.8,y:9.6,axis:'y'}],
  portals:[],cells:[{x:2.2,y:3.8,warp:'tower1',at:[5,11]},{x:8.4,y:3.8,warp:'tower3',at:[5,11]}]};
 maps.tower3={name:'ノイズのとう 3かい',short:'とう 3かい',shortAdult:'塔3階',w:11,h:14,spawn:[5,11],tiles:grid,objects:[
  tower('tw3_save',14,8.4,7.5,90,100,{label:'セーブたんまつ',dialogue:'towerSave',action:'save'}),
- tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,6.4,80,90),
+ tower('tw3_chart',3,2.2,9.4,80,80),tower('tw3_crystal',4,8.4,9.6,70,90),tower('tw3_vault',8,2.2,7,80,90),
  tower('tw3_up',6,8.4,3.8,90,90,{label:'ひかりの ゆか',sign:'うえへ'}),tower('tw3_down',6,2.2,3.8,90,90,{label:'ひかりの ゆか',sign:'したへ'}),
  // R716: below the chart and the crystal the bottom three rows were bare blue grid, as on floor 2 before R715.
  // A data column stands in the lower left and a bundle of cables in the lower right (floor 2 has a rack and a pipe there),
  // both off the spawn column, with a gap under the chart and the crystal.
  tower('tw3_column',10,2.1,12.8,70,90),tower('tw3_cable',1,8.9,12.8,80,80)],
- // R217: the same for the vault (2.2, 6.4) on the third floor.
+ // R217: the same for the vault (2.2, 6.4; y 7 since R764) on the third floor.
  enemies:[{id:'tz3',type:'virusball',x:5.2,y:6.6,axis:'x'}],
  portals:[],cells:[{x:2.2,y:3.8,warp:'tower2',at:[5,11]},{x:8.4,y:3.8,warp:'tower_roof',at:[5,11]}]};
 maps.tower_roof={name:'ノイズのとう おくじょう',short:'おくじょう',shortAdult:'屋上',w:11,h:14,spawn:[5,11],tiles:grid,objects:[
