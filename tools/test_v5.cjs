@@ -2906,6 +2906,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(ins.indexOf('BATTLE_PANE_ALPHA')<ins.indexOf('fillRect(370,236,120,6)'),'glass is drawn under the frame');
   assert(/ctx\.globalAlpha=BATTLE_ROOM_ALPHA;ctx\.fillStyle='#0b1a2a';ctx\.fillRect\(370,236,120,6\)/.test(ins),'frame uses a firmer alpha');}
  result.push('R755: 戦いの部屋の窓にガラスの色が入り、消し残りの四角に見えない PASS');
+ // R758: the indoor battle window floated with no wall around it; a curtain rod, curtains on both sides and a sill now frame it as a window in a wall.
+ {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);const ins=m[0].slice(m[0].indexOf('}else{'));
+  assert(/ctx\.fillRect\(352,226,156,4\)/.test(ins)&&/ctx\.fillRect\(362,330,136,7\)/.test(ins),'rod and sill frame the window');
+  assert(/ctx\.globalAlpha=BATTLE_CURTAIN_ALPHA;ctx\.fillStyle=BATTLE_CURTAIN;ctx\.fillRect\(354,230,16,100\);ctx\.fillRect\(490,230,16,100\)/.test(ins),'curtains hang on both sides');
+  assert(/BATTLE_CURTAIN_ALPHA=\.4\d?/.test(html),'curtains are firmer than the glass');}
+ result.push('R758: 戦いの部屋の窓に棒・カーテン・窓の台が付き、宙に浮いた四角に見えない PASS');
  // R756: the tower pads at y 3.5 had their back post through the line at the foot of the wall; pads and warp cells now sit at y 3.8 so the whole pad stands on the floor (post top about 74px over the foot).
  {const ch4=scripts.find(s=>s.file==='v5/data/ch4.js').code,pads=[...ch4.matchAll(/tower\('tw[123r]_(?:up|down)',6,[\d.]+,([\d.]+),90,90/g)],cells=[...ch4.matchAll(/y:([\d.]+),warp:'tower/g)];
   assert.equal(pads.length,6,'six tower pads');assert.equal(cells.length,6,'six tower warp cells');
