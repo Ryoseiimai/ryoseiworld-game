@@ -2961,6 +2961,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/bottom:0/.test(r)&&/pointer-events:none/.test(r)&&/z-index:9\b/.test(r),'fade sits at the bottom, below the box (z 10), and lets taps through');
   assert(h&&stop&&db&&h*(1-stop/100)>=db,'the fade is solid over the whole strip under the box ('+h+'px, '+stop+'%, box bottom '+db+'px)');}
  result.push('R757: 会話窓の下に地図の切れ端が見えず、暗い帯の上に窓が乗る PASS');
+ // R764: slivers of the map showed beside the talk box (20px each side) because the fade was solid only 57px up; it must be solid over most of the box's height (min-height 238px).
+ {const r=(html.match(/#stage:has\(>#dialogue:not\(\[hidden\]\)\)::after\{([^}]*)\}/)||[])[1]||'',h=+(r.match(/height:(\d+)px/)||[])[1],stop=+(r.match(/#10292df2 (\d+)%/)||[])[1],mh=+(html.match(/\.dialogue\{[^}]*min-height:(\d+)px/)||[])[1];
+  assert(h&&stop&&mh&&h*(1-stop/100)>=mh*0.8,'R764: the fade is solid beside most of the talk box ('+h+'px, '+stop+'%, box '+mh+'px)');
+  assert(h-mh-28<=60,'R764: the fade starts no more than 60px above the talk box, so the map above it stays clear');}
+ result.push('R764: 会話窓の左右に地図の切れ端が見えない PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
