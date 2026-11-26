@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T17:54:50.197Z",
-  "branch": "claude/autodev-20261118-0242-R626",
-  "task": "R626 正方形と横長のスクショから確認役が4つ挙げたので確かめた。タイトルの端で切れた主人公は走って横切る途中、呼び出しで暗くなる所は召喚獣を目立たせる作り、ヒカクマオウ戦の灰色のビートは始まる前で押せない作り、ボスの横の白い丸は照準なので、どれも直さなかった",
-  "summary": "R625 で、プロローグの部屋に扇風機を描いた（自動確認に合格）\nR626 で、正方形と横長のスクショを確認役と4つ確かめた\n4つとも作りどおりだったので、直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1090/mobile-02-mode-select.jpg",
-   "shots/1090/mobile-19-custom-og-credit-card.jpg",
-   "shots/1090/mobile-34-chapter-1-play.jpg",
-   "shots/1090/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9eb05f4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44140431867"
- },
- {
   "at": "2026-11-17T18:05:24.713Z",
   "branch": "claude/autodev-art-20261118-024742",
   "task": "絵",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "680c5d7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45880295032"
+ },
+ {
+  "at": "2026-11-26T19:39:45.294Z",
+  "branch": "claude/autodev-20261127-0421-R762",
+  "task": "R762",
+  "summary": "全章のスクショを確認役に見せ、気になる所を7つ挙げさせた\nソラの名札を光に近づけたが、R596 の決まり（光と5px空ける）に反するので元に戻した\n残りの6つも前の件で決めた作りどおりか確かめ用の場面だったので、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1334/mobile-02-mode-select.jpg",
+   "shots/1334/mobile-19-custom-og-credit-card.jpg",
+   "shots/1334/mobile-34-chapter-1-play.jpg",
+   "shots/1334/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0215864",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45883934245"
  }
 ]
