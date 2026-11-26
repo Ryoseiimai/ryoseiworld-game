@@ -282,7 +282,7 @@
         halfAdult: 'BUG KING は焦りだした', winAdult: 'BUG KING はおとなしくなった' }
     },
     kateino: {
-      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6, feet: 0.42,
+      name: 'カテイノジジョウ', sheet: 'kateino', bg: 'bg_minamo', hp: 620, x: 400, drawH: 212, bodyR: 84, bodyDY: 6, feet: 0.42, feetGlow: true,
       moveA: 120, moveF: 0.45, color: '#ffc27a',
       lines: { intro: ['カテイノジジョウ', 'しょうらい\nどうするの？'],
         bursts: { 75: '…ほんとは\nしんぱいなだけ', 50: 'あの子 なにか\nつくってるの?', 25: 'ちょっと みせて', 0: '…すごいじゃない' },
@@ -2247,6 +2247,7 @@
     var bsq = squashScale(b);
     // R283: on the night street the black shadow sank into the dark wall and BUG KING still looked hung in the air (mobile-34),
     // so a faint light and a thin line in its colour lie over the shadow under the feet, like the hero's hover glow.
+    // R763: カテイノジジョウ's black shadow sank into the dark stone bank of ミナモ's river the same way, so it seemed stuck to the wall (mobile-45); it gets the same light in its own warm colour.
     if (d.feet) drawFeetShadow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * bsq.sx);
     if (d.feetGlow) drawFeetGlow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * 1.5 * bsq.sx, d.color, 0.6 + Math.sin(w.t * 3) * 0.1);
     ctx.save(); ctx.translate(bx, b.y); ctx.scale(bsq.sx, bsq.sy); ctx.translate(-bx, -b.y);

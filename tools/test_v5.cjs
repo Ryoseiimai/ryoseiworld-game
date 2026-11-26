@@ -2421,6 +2421,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(a>0&&b>a,'the shadow sits at the bottom of the picture and is drawn under the boss');
   for(const id of ['hikaku','zero'])assert(!new RegExp('\\n    '+id+': \\{\\n[^\\n]*feet:').test(sh),id+' floats and has no feet shadow');}
  result.push('R241: BUG KING と カテイノジジョウ の足元に影を描き、宙に浮いて見えないようにした PASS');
+ // R763: カテイノジジョウ's black shadow vanished on ミナモ's dark stone bank, so like BUG KING (R283) it also gets a light under its feet.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8');
+  for(const id of ['bugking','kateino'])assert(new RegExp('\\n    '+id+': \\{\\n[^\\n]*feet: [0-9.]+, feetGlow: true').test(sh),id+' has a light under its feet');
+  const body=(sh.match(/function drawBoss\(ctx, S, w\) \{[^]*?\n  \}\n/)||[''])[0];
+  assert(body.indexOf('drawFeetGlow(')>0&&body.indexOf('drawFeetGlow(')<body.indexOf('drawSprite(ctx, S, d.sheet'),'the light is drawn under the boss picture');}
+ result.push('R763: カテイノジジョウ の足元に光を足し、暗い石垣に貼り付いて見えないようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
  // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
