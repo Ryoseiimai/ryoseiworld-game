@@ -796,6 +796,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // R201: the dark tower tiles get a dark seam under them, not the wooden floor colour (tan seams looked like a test grid).
   assert(/m\.tiles\?\.\[y\]\?\.\[x\]==='g'\)\{rect\(px,py,TILE,TILE,'#0d1d2e'\)/.test(html),'tower floor seams are dark');
   for(const id of ['tower1','tower2','tower3','tower_roof']){const m=D.maps[id];assert(m,'map '+id+' exists');assert(m.tiles.every(row=>[...row].every(c=>c==='g')),id+' is the blue grid floor');}
+  // R764: the 「↓ したへ」 plate (its bottom about 47px under the pad's foot, signY + 9) touched the fan under it on とう2F, so the plate read as the fan's name.
+  // Anything standing under a pad's sign, in the plate's columns, starts at least 12px below the plate.
+  for(const id of ['tower1','tower2','tower3','tower_roof'])for(const pad of D.maps[id].objects.filter(o=>o.kind==='tower'&&o.sign)){const plateB=pad.y*48+47;
+   for(const o of D.maps[id].objects)if(o!==pad&&o.y>pad.y&&Math.abs(o.x-pad.x)*48<o.w/2+60)assert(o.y*48-o.h>=plateB+12,'R765: '+o.id+' on '+id+' starts '+(o.y*48-o.h-plateB)+'px under the '+pad.sign+' plate');}
   assert(!r.g.summons.includes('kotoba'),'コトバイルカ is not yet recruited');
   // Walking a step further in triggers the automatic join (SPEC_V5_CH234.md: 入口で コトバイルカ が仲間になる).
   let seen=r.protoRuns.length;r.key('ArrowUp');r.tick(600);r.key('ArrowUp',true);
@@ -2961,11 +2965,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/bottom:0/.test(r)&&/pointer-events:none/.test(r)&&/z-index:9\b/.test(r),'fade sits at the bottom, below the box (z 10), and lets taps through');
   assert(h&&stop&&db&&h*(1-stop/100)>=db,'the fade is solid over the whole strip under the box ('+h+'px, '+stop+'%, box bottom '+db+'px)');}
  result.push('R757: 会話窓の下に地図の切れ端が見えず、暗い帯の上に窓が乗る PASS');
- // R764: slivers of the map showed beside the talk box (20px each side) because the fade was solid only 57px up; it must be solid over most of the box's height (min-height 238px).
+ // R765: slivers of the map showed beside the talk box (20px each side) because the fade was solid only 57px up; it must be solid over most of the box's height (min-height 238px).
  {const r=(html.match(/#stage:has\(>#dialogue:not\(\[hidden\]\)\)::after\{([^}]*)\}/)||[])[1]||'',h=+(r.match(/height:(\d+)px/)||[])[1],stop=+(r.match(/#10292df2 (\d+)%/)||[])[1],mh=+(html.match(/\.dialogue\{[^}]*min-height:(\d+)px/)||[])[1];
-  assert(h&&stop&&mh&&h*(1-stop/100)>=mh*0.8,'R764: the fade is solid beside most of the talk box ('+h+'px, '+stop+'%, box '+mh+'px)');
-  assert(h-mh-28<=60,'R764: the fade starts no more than 60px above the talk box, so the map above it stays clear');}
- result.push('R764: 会話窓の左右に地図の切れ端が見えない PASS');
+  assert(h&&stop&&mh&&h*(1-stop/100)>=mh*0.8,'R765: the fade is solid beside most of the talk box ('+h+'px, '+stop+'%, box '+mh+'px)');
+  assert(h-mh-28<=60,'R765: the fade starts no more than 60px above the talk box, so the map above it stays clear');}
+ result.push('R765: 会話窓の左右に地図の切れ端が見えない PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;

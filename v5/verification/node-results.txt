@@ -300,7 +300,7 @@ R758: 戦いの部屋の窓に棒・カーテン・窓の台が付き、宙に�
 R759: 外の戦いで、ぼかしに消えた家の窓だけが点々と浮いて残らない PASS
 R756: 塔の上へ・下への台が壁の下の線に刺さらず、床の上に乗る PASS
 R757: 会話窓の下に地図の切れ端が見えず、暗い帯の上に窓が乗る PASS
-R764: 会話窓の左右に地図の切れ端が見えない PASS
+R765: 会話窓の左右に地図の切れ端が見えない PASS
 R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS
 R203: 町の人が、すぐ下の電柱や信号のてっぺんに乗って見えない PASS
 R204: でんきやの テレビの やま が、奥の壁にかからず床の上に立つ PASS
@@ -565,5 +565,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 91ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 95ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS
