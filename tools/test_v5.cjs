@@ -2912,6 +2912,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const p of pads)assert(Number(p[1])*48-74>=2*48+10,'pad back post stays below the wall foot line (y '+p[1]+')');
   for(const c of cells)assert(pads.some(p=>p[1]===c[1]),'warp cell sits on a pad row (y '+c[1]+')');}
  result.push('R756: 塔の上へ・下への台が壁の下の線に刺さらず、床の上に乗る PASS');
+ // R757: a strip of the map showed under the open talk box (28px above the stage's bottom); a dark fade under the box now covers it.
+ {const m=html.match(/#stage:has\(>#dialogue:not\(\[hidden\]\)\)::after\{([^}]*)\}/);assert(m,'R757: dark fade rule under the talk box');
+  const r=m[1],h=+(r.match(/height:(\d+)px/)||[])[1],stop=+(r.match(/#10292df2 (\d+)%/)||[])[1],db=+(html.match(/\.dialogue\{[^}]*bottom:(\d+)px/)||[])[1];
+  assert(/bottom:0/.test(r)&&/pointer-events:none/.test(r)&&/z-index:9\b/.test(r),'fade sits at the bottom, below the box (z 10), and lets taps through');
+  assert(h&&stop&&db&&h*(1-stop/100)>=db,'the fade is solid over the whole strip under the box ('+h+'px, '+stop+'%, box bottom '+db+'px)');}
+ result.push('R757: 会話窓の下に地図の切れ端が見えず、暗い帯の上に窓が乗る PASS');
  result.push('R647: 勝った後の敵は色が落ちて z が浮かび、おとなしくなったと分かる PASS');
  // R203: in the town (mobile-24) a pole across the road started right under the police officer's feet, so the officer read as standing on its top.
  {const r=await runtime();r.tick();let nPeople=0,nPosts=0;
