@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T10:22:32.617Z",
-  "branch": "claude/autodev-20261119-1841-R630",
-  "task": "R630 全章のスクショから確認役が5つ挙げたので確かめた。「話す」ボタンの上の人はボタンに重なっていない、章の終わりの「続く」の行は R350 の作りどおり、「86位」の札のしっぽは髪から離れている、タイトルの月とボタンの間はあいている、ミナモの老人の上の灰色は守護霊（R388 で判断待ち）なので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n章の終わりの「続く」の行は R350 の作りどおりと確かめた\n老人の上の灰色は守護霊で、R388 の判断待ちのままにした",
-  "result": "pass",
-  "shots": [
-   "shots/1104/mobile-02-mode-select.jpg",
-   "shots/1104/mobile-19-custom-og-credit-card.jpg",
-   "shots/1104/mobile-34-chapter-1-play.jpg",
-   "shots/1104/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "1f292a1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44500266493"
- },
- {
   "at": "2026-11-19T13:00:30.569Z",
   "branch": "claude/autodev-20261119-2141-R631",
   "task": "R631 全章のスクショから確認役が5つ挙げたので確かめた。ボスごとの「キックボードが浮かんだ」は STORY_V4 と SPEC_V6 の毎回の演出、BUG KING は SPEC_V5 の名前、右上の「ソラ」はことばカードで台詞の札とは別の物、「ドラッグで動く」は R502 の作り、きずなの知らせは確かめ用に作った場面なので、どれも直さなかった",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "b410263",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45902606577"
+ },
+ {
+  "at": "2026-11-26T22:54:41.748Z",
+  "branch": "claude/autodev-20261127-0721-R766",
+  "task": "R766 会話窓が出ている間、町のノイズの帯が窓の上の端に重なり窓が破れて見えたので、帯を窓の上から離した",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n会話窓が出ている間、ノイズの帯を窓の上から24px以上離した\n前と後は会話中の町のスクショで比べた。手元の test_v5 と smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1343/mobile-02-mode-select.jpg",
+   "shots/1343/mobile-19-custom-og-credit-card.jpg",
+   "shots/1343/mobile-34-chapter-1-play.jpg",
+   "shots/1343/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "266889f",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45906466406"
  }
 ]
