@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-17T15:38:36.862Z",
-  "branch": "claude/autodev-20261118-0022-R623",
-  "task": "R623 全章のスクショから確認役と6つ確かめた。自販機の勝ちの窓の1文字は R622 の文の出だし、ボス戦の字は画面の縮みで小さく見えるだけで24px以上、電気屋の奥の壁はスクロールで上に隠れているだけ、設定とメニューの空の背景は確かめ用に作った場面だけで出るので、どれも直さなかった",
-  "summary": "全章のスクショ154枚を撮り、確認役と見た\n挙がった6つを確かめたが、どれも作りどおりか確かめ用の場面だけの物だった\n4回目の「直す所なし」なので、R616 の次の大きな件の決定を待つ",
-  "result": "pass",
-  "shots": [
-   "shots/1084/mobile-02-mode-select.jpg",
-   "shots/1084/mobile-19-custom-og-credit-card.jpg",
-   "shots/1084/mobile-34-chapter-1-play.jpg",
-   "shots/1084/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d125aeb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44114954678"
- },
- {
   "at": "2026-11-17T15:58:33.562Z",
   "branch": "claude/autodev-20261118-0041-R624",
   "task": "R624",
@@ -2988,5 +2973,20 @@
   ],
   "sha": "83e3297",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45798101458"
+ },
+ {
+  "at": "2026-11-26T13:00:20.794Z",
+  "branch": "claude/autodev-20261126-2141-R758",
+  "task": "R758 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を3つ挙げさせた\n会話窓の下に池の縁や砂場の枠が帯のように見えていたので、窓が開いている間は下に暗い帯を敷いた\n暗い帯が窓の下を覆いきることを調べるテストを1つ足した",
+  "result": "pass",
+  "shots": [
+   "shots/1327/mobile-02-mode-select.jpg",
+   "shots/1327/mobile-19-custom-og-credit-card.jpg",
+   "shots/1327/mobile-34-chapter-1-play.jpg",
+   "shots/1327/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cb4c30a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45823176066"
  }
 ]
