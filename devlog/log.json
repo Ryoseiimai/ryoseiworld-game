@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T10:06:45.728Z",
-  "branch": "claude/autodev-20261119-1841-R630",
-  "task": "R630 全章のスクショから確認役が5つ挙げたので確かめた。「話す」ボタンの上の人はボタンに重なっていない、章の終わりの「続く」の行は R350 の作りどおり、「86位」の札のしっぽは髪から離れている、タイトルの月とボタンの間はあいている、ミナモの老人の上の灰色は守護霊（R388 で判断待ち）なので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n章の終わりの「続く」の行は R350 の作りどおりと確かめた\n老人の上の灰色は守護霊で、R388 の判断待ちのままにした",
-  "result": "pass",
-  "shots": [
-   "shots/1103/mobile-02-mode-select.jpg",
-   "shots/1103/mobile-19-custom-og-credit-card.jpg",
-   "shots/1103/mobile-34-chapter-1-play.jpg",
-   "shots/1103/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c948acc",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44499925360"
- },
- {
   "at": "2026-11-19T10:22:32.617Z",
   "branch": "claude/autodev-20261119-1841-R630",
   "task": "R630 全章のスクショから確認役が5つ挙げたので確かめた。「話す」ボタンの上の人はボタンに重なっていない、章の終わりの「続く」の行は R350 の作りどおり、「86位」の札のしっぽは髪から離れている、タイトルの月とボタンの間はあいている、ミナモの老人の上の灰色は守護霊（R388 で判断待ち）なので、どれも直さなかった",
@@ -2978,5 +2963,20 @@
   "shots": [],
   "sha": "e80fa5e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45902080093"
+ },
+ {
+  "at": "2026-11-26T22:16:25.842Z",
+  "branch": "claude/autodev-20261127-0641-R764",
+  "task": "R764 塔2階の「↓ 下へ」の札が下の扇風機に付いて名札に見えていたので、扇風機と3階の金庫を少し下げた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n会話窓の左右にのぞく生け垣の切れ端を、窓の下の暗い帯を広げて隠した\n前と後は mobile-09 で比べた。手元の test_v5 と smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1342/mobile-02-mode-select.jpg",
+   "shots/1342/mobile-19-custom-og-credit-card.jpg",
+   "shots/1342/mobile-34-chapter-1-play.jpg",
+   "shots/1342/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b410263",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45902606577"
  }
 ]
