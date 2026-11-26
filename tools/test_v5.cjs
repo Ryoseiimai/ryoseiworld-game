@@ -3133,6 +3133,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(const hud of [150,190,215,260])for(let k=0;k<300;k++){const f=new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,hud,[]);const y=f(null);
    assert(y!==-999,'a free row is found');assert(y-22>=hud+8,'the band starts under the HUD line '+[hud,y]);assert(y>=180&&y<=720,'still inside the field '+y);}}
  result.push('R532: 町のノイズの帯が、上の目標の帯に付かない PASS');
+ // R766: with the talk box open, the noise band flashed just above it and read as a torn edge of the box; it now keeps clear of the box's dark fade (300px up from the bottom, R765).
+ {const src=html.match(/function noiseRow\([^\n]*/)[0];assert(/R766/.test(src)&&/H-300-24/.test(src),'noiseRow keeps the talk fade clear');
+  const mk=open=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','$','const fieldFaceRows=[];'+src+'\nreturn noiseRow;')({y:5000},{y:0},48,960,o=>({w:o.w,h:o.h}),()=>false,190,[],()=>({hidden:!open}));
+  let low=0;for(let k=0;k<400;k++){const y=mk(true)(null);assert(y!==-999,'a free row is found with the talk box open');assert(y+22<960-300-24,'the band stays above the talk fade '+y);if(mk(false)(null)+22>=960-324)low++;}
+  assert(low>0,'without the talk box the band can still use the low rows');}
+ result.push('R766: 会話窓が出ている間、ノイズの帯が窓のすぐ上に出ない PASS');
  // R533: outside, a grey spirit by a head near the top sat in the row of the goal strip; it now starts under the HUD line (hudTop) but never below the feet, and indoors keeps the floor rule.
  {const src=html.match(/function spiritBase\([^\n]*/)[0],mk=(outside,camY,hud)=>new Function('g','GAME_DATA','camera','hudTop','SPIRIT_FLOOR_TOP',src+'\nreturn spiritBase;')({map:'m'},{maps:{m:{outside}}},{y:camY},hud,154);
   for(const hud of [190,215,260])for(const side of [-1,0,1])for(let foot=hud-40;foot<hud+400;foot+=7){const o={foot:1000+foot,h:80},b=mk(true,1000,hud)(o,side),plain=side?o.foot-62:o.foot-o.h-2;
