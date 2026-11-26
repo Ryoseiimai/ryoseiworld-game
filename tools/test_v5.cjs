@@ -2912,6 +2912,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/ctx\.globalAlpha=BATTLE_CURTAIN_ALPHA;ctx\.fillStyle=BATTLE_CURTAIN;ctx\.fillRect\(354,230,16,100\);ctx\.fillRect\(490,230,16,100\)/.test(ins),'curtains hang on both sides');
   assert(/BATTLE_CURTAIN_ALPHA=\.4\d?/.test(html),'curtains are firmer than the glass');}
  result.push('R758: 戦いの部屋の窓に棒・カーテン・窓の台が付き、宙に浮いた四角に見えない PASS');
+ // R759: outside the battle halo hid the dark houses but left their bright windows as floating dots; windows now fade with the halo and vanish where the houses cannot be seen.
+ {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);const out=m[0].slice(m[0].indexOf('if(m.outside){'),m[0].indexOf('}else{'));
+  assert(/battleWindowFade\(wx\+6,wy\+7,hep\)/.test(out)&&/ctx\.globalAlpha=BATTLE_WINDOW_ALPHA\*k/.test(out),'R759: each outside window takes its alpha from the halo cover');
+  const f=html.match(/function battleWindowFade\(x,y,ep\)\{[^\n]*\}/),hc=html.match(/function battleHaloCover\(x,y,ep\)\{[^\n]*\}/);assert(f&&hc,'R759: battleWindowFade and battleHaloCover are defined');
+  const fade=c=>new Function('battleHaloCover','return ('+f[0]+')')(()=>c)(0,0);
+  assert(fade(0)===1&&fade(.5)===0&&fade(.6)===0&&fade(.85)===0&&fade(.3)>0&&fade(.3)<.5&&fade(.49)<.001,'R759: a window is full outside the halo, fades smoothly at its edge and is gone where the halo is thick');
+  const halo=(html.match(/function battleHalo\(b,def\)\{[^\n]*/)||[''])[0];for(const s of['cx=270','cy=ep.bot-ep.h*.5','rx=def.boss?240:200','ry=ep.h*.5+60'])assert(halo.includes(s),'R759: battleHalo still uses '+s);for(const s of['rx=def.boss?240:200','ry=ep.h*.5+60','(x-270)/rx','(y-(ep.bot-ep.h*.5))/ry'])assert(hc[0].includes(s),'R759: battleHaloCover uses the same halo shape: '+s);
+  const hcf=new Function('g','GAME_DATA','enemyPlace','HALO_CORE','HALO_SOLID','return ('+hc[0]+')')({battle:{type:'x'}},{enemies:{x:{}}},()=>({bot:385,h:190}),.85,.45);
+  const hcb=new Function('g','GAME_DATA','enemyPlace','HALO_CORE','HALO_SOLID','return ('+hc[0]+')')({battle:{type:'y'}},{enemies:{y:{boss:true}}},()=>({bot:385,h:260}),.85,.45);
+  assert(hcb(270+230,255)>0&&hcf(270+230,255)===0,'R759: a boss halo is wider, so its cover reaches further out');
+  assert(Math.abs(hcf(270,290)-.85)<1e-9&&hcf(0,290)===0&&hcf(270+200*.7,290)>0&&hcf(270+200*.7,290)<.85,'R759: the cover follows the halo (solid in the middle, none outside it)');}
+ result.push('R759: 外の戦いで、ぼかしに消えた家の窓だけが点々と浮いて残らない PASS');
  // R756: the tower pads at y 3.5 had their back post through the line at the foot of the wall; pads and warp cells now sit at y 3.8 so the whole pad stands on the floor (post top about 74px over the foot).
  {const ch4=scripts.find(s=>s.file==='v5/data/ch4.js').code,pads=[...ch4.matchAll(/tower\('tw[123r]_(?:up|down)',6,[\d.]+,([\d.]+),90,90/g)],cells=[...ch4.matchAll(/y:([\d.]+),warp:'tower/g)];
   assert.equal(pads.length,6,'six tower pads');assert.equal(cells.length,6,'six tower warp cells');
