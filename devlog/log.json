@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T03:44:05.377Z",
-  "branch": "claude/autodev-20261120-1221-R636",
-  "task": "R636 町の公園の池で、波の白い線がどのマスも同じ所にあり、道路の中央線のように並んで見えたので、マスごとに置き場所を変えた小さな波にした",
-  "summary": "町の公園の池で、波の白い線が道路の中央線のように並んで見えた\n池の波を、マスごとに置き場所を変えた小さな3段の波にした\n前と後のスクショで、線が並ばなくなったことを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/1122/mobile-02-mode-select.jpg",
-   "shots/1122/mobile-19-custom-og-credit-card.jpg",
-   "shots/1122/mobile-34-chapter-1-play.jpg",
-   "shots/1122/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "16cce1a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44668657533"
- },
- {
   "at": "2026-11-20T03:55:34.728Z",
   "branch": "claude/autodev-20261120-1221-R636",
   "task": "R636 町の公園の池で、波の白い線がどのマスも同じ所にあり、道路の中央線のように並んで見えたので、マスごとに置き場所を変えた小さな波にした",
@@ -2973,5 +2958,20 @@
   "shots": [],
   "sha": "0b0d292",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45936866093"
+ },
+ {
+  "at": "2026-11-27T04:45:17.028Z",
+  "branch": "claude/autodev-20261127-1321-R772",
+  "task": "R772 全章のスクショから確認役が5つ挙げたので確かめた。学校の横の街灯が車道に立つのは会話窓が足元を隠した場面だけで、窓の無い画面では歩道に立つ。ボスが宙に浮くのは主人公も浮く場面の作り、ミナモの端の家は R768 で見た画面の端、主人公が学校の屋根の角に重なるのは試しの場面の立ち位置なので直さなかった。公園の看板の右の柱が砂場の縁に乗る件は、R687 とぶつかるので R773 で判断を頼んだ",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらって1つずつ確かめた\n街灯が車道に立つ件は、会話窓が足元を隠した場面だけで、窓の無い画面では歩道に立っていた\n公園の看板の柱が砂場の縁に乗る件は、R687 の決まりとぶつかるので R773 で判断を頼んだ",
+  "result": "pass",
+  "shots": [
+   "shots/1356/mobile-02-mode-select.jpg",
+   "shots/1356/mobile-19-custom-og-credit-card.jpg",
+   "shots/1356/mobile-34-chapter-1-play.jpg",
+   "shots/1356/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "5ac3428",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45940558431"
  }
 ]
