@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T22:00:47.901Z",
-  "branch": "claude/autodev-20261120-0641-R634",
-  "task": "R634 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役が見たが、直す所は無かった\n部屋の下の暗い帯は R248 の「話す」ボタンの帯なので変えなかった\n台詞の字はコードで調べ、どれも24px以上だった",
-  "result": "pass",
-  "shots": [
-   "shots/1111/mobile-02-mode-select.jpg",
-   "shots/1111/mobile-19-custom-og-credit-card.jpg",
-   "shots/1111/mobile-34-chapter-1-play.jpg",
-   "shots/1111/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "182fea0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44622475348"
- },
- {
   "at": "2026-11-19T22:15:40.368Z",
   "branch": "claude/autodev-20261120-0641-R634",
   "task": "R634 プロローグの部屋には月の見える十字の窓があるのに、歩ける自分の部屋の壁には窓が無く、別の部屋に見えていたので、机と本だなの間の壁に同じ夜の窓を描いた",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "6cf038c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45922813300"
+ },
+ {
+  "at": "2026-11-27T02:39:00.859Z",
+  "branch": "claude/autodev-20261127-1121-R770",
+  "task": "R770 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも、前の件で決めた作りどおりか、画面の端で切れているだけと確かめた\n今回は直す所が無かったので、コードは変えなかった。手元の smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1349/mobile-02-mode-select.jpg",
+   "shots/1349/mobile-19-custom-og-credit-card.jpg",
+   "shots/1349/mobile-34-chapter-1-play.jpg",
+   "shots/1349/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "0bf6ad2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45928592478"
  }
 ]
