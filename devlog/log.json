@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T16:02:38.005Z",
-  "branch": "claude/autodev-20261120-0041-R632",
-  "task": "R632 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n右上の「ソラ」はことばカードの札で、台詞の札とは別の物と確かめた\nボスごとの浮かぶ演出の文は設計書どおり毎回出る作りにした",
-  "result": "pass",
-  "shots": [
-   "shots/1107/mobile-02-mode-select.jpg",
-   "shots/1107/mobile-19-custom-og-credit-card.jpg",
-   "shots/1107/mobile-34-chapter-1-play.jpg",
-   "shots/1107/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9d91447",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44559427756"
- },
- {
   "at": "2026-11-19T16:13:10.889Z",
   "branch": "claude/autodev-20261120-0041-R632",
   "task": "R632 全章のスクショから確認役が5つ挙げたので確かめた。戦いの後に「修理された」をマップでもう一度言うのは R394 と R339 で残した作り、窓の「バ」1文字は文の出だしの瞬間、ヒカクマオウの台詞は上の帯の名前で誰かわかる、プリンターはとなりのおばあさんの物、ネオンの左端はカメラの端なので、どれも直さなかった",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "0824ad1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45912110471"
+ },
+ {
+  "at": "2026-11-27T00:43:37.152Z",
+  "branch": "claude/autodev-20261127-0921-R768",
+  "task": "R768 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n部屋と店の壁の時計から、床の丸い影を消した\n前と後は部屋のスクショで比べた。手元の test_v5 と smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1345/mobile-02-mode-select.jpg",
+   "shots/1345/mobile-19-custom-og-credit-card.jpg",
+   "shots/1345/mobile-34-chapter-1-play.jpg",
+   "shots/1345/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "bc262d3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45917355514"
  }
 ]
