@@ -248,6 +248,7 @@ R166: 会話の窓の下に「ドラッグで あるく」が透けて重なら�
 R167: 召喚の名前の札がナオスライムのアンテナに重ならないよう、札の下に収まる大きさで描くようにした PASS
 R168: 町のノイズの帯が、主人公と話せる相手（名前の札も）の上を横切らないようにした PASS
 R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS
+R784: 町のノイズの帯が、公園・ミナモの木の看板の上の横木も横切らないようにした PASS
 R177: 「はなす」ボタンの下に人がいる時は、ボタンが上の空いた所へずれる PASS
 R745: 部屋と塔で「話す」ボタンが床の下端の線にまたがらず、線の下の暗い帯に収まる PASS
 R178: ずれた「はなす」ボタンが、街灯・信号・電柱・じはんきの上にもなるべく乗らない PASS
@@ -572,5 +573,5 @@ og-share: tools/test_playables_v5.cjs passes: no OutGame file, x.com, clipboard,
 og-share: tools/outgame_copy.cjs lists every sentence in the table and the OGP text PASS
 og-title-brand: logo.png is an RGBA PNG, its four corners are transparent, and no opaque magenta pixel remains PASS
 og-title-brand: the title <h1> is an <img alt="RYOSEIWORLD"> PASS
-og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 106ms) PASS
+og-title-brand: tools/build_playables_v5.sh bundle includes assets/outgame/logo.png (build took 107ms) PASS
 og-zero-reload: ch4.js の clearDone:'zero' により、ゼロに勝った直後のリロードでも町のカード→THE END→エピローグ→タイトルまで再生され、終わったセーブは再生しない PASS

@@ -2523,6 +2523,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   for(let k=0;k<200;k++){const y=mk({y:1400},{y:0},[[230,270]])(null);assert(y===-999||y+22<230||y-22>270,'not across こうえん '+y);}}
  assert(/if\(name\)\{fieldSignRects\.push\(/.test(html)&&/if\(name&&!ASSET_COLS\[kind\]\)\{fieldSignRects\.push\(/.test(html),'R175: the names on stand-in pictures count as sign rows too');
  result.push('R175: 町のノイズの帯が、かんばんの字（こうえん など）の上も横切らないようにした PASS');
+ // R784: on ミナモ arrival the band crossed the beam of the 公園・ミナモ boards above their words (mobile-35), since only the word row was kept clear.
+ // A wooden board (SIGN_BOARD_TOP) now keeps its whole height clear, from the beam to the foot; other signs keep the word row.
+ {const d=html.match(/function drawSign\([^\n]*/)[0],blk=d.match(/\{const bt=SIGN_BOARD_TOP\[[^\n]*?\]\);\}/);assert(blk&&/R784/.test(blk[0]),'drawSign keeps a wooden board clear from its beam');
+  const SBT=new Function(html.match(/const SIGN_BOARD=[^;]*,(SIGN_BOARD_TOP=\{[^}]*\});/)[1].replace(/^SIGN_BOARD_TOP=/,'return '))(),top=SBT['props:11'];assert(top>0&&top<.5,'the park board top comes from the game '+top);
+  const rectOf=(o,sy)=>{const fieldSignRects=[];new Function('o','sy','camera','dimensions','SIGN_BOARD_TOP','fieldSignRects',blk[0])(o,sy,{y:0},x=>({w:x.w,h:x.h}),SBT,fieldSignRects);return fieldSignRects[0];};
+  const board={kind:'props',frame:11,foot:400,w:200,h:224},beam=board.foot-board.h*(1-top),r=rectOf(board,Math.round(board.foot-board.h*.484+9));
+  assert(r[0]<=beam&&r[1]>=board.foot,'the kept rows run from the beam to the foot '+r+' beam '+beam);
+  const np=rectOf({kind:'numberperson',frame:0,foot:400,w:60,h:76},300);assert.deepEqual(np,[270,319],'a number sign keeps its word row as before');
+  const src=n=>html.match(new RegExp('function '+n+'\\([^\\n]*'))[0];
+  const mk=signs=>new Function('g','camera','TILE','H','dimensions','BIG','hudTop','fieldSignRects','const fieldFaceRows=[];'+src('noiseRow')+'\nreturn noiseRow;')({y:1400},{y:0},48,960,o=>({w:o.w,h:o.h}),k=>k==='buildings',190,signs);
+  for(let k=0;k<300;k++){const y=mk([r])(null);assert(y===-999||y+22<beam||y-22>board.foot,'the band does not cross the board '+y);}}
+ result.push('R784: 町のノイズの帯が、公園・ミナモの木の看板の上の横木も横切らないようにした PASS');
  // R177: when a person sits under the talk button, the button steps up (96px, R247: one step only) to a spot with nobody under it and off the hero; the plate still turns see-through (R107).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/#talk-btn\{transition:[^}]*translate /.test(html),'the button slides when it steps up');
@@ -3584,7 +3596,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R265: 絵がまだ無い相手の名前も、画面の端からのぞかない PASS');
  // R267: in ミナモ (mobile-20) the park board stood at the left edge and only 「ん」 of こうえん showed; a board's words are drawn only while all of them are on screen.
  {const src=n=>{const m=html.match(new RegExp('function '+n+'\\([^\\n]*'));assert(m,n+' exists');return m[0];};
-  const run=(cam,o,signOf=o=>o.sign)=>{const labels=[],rows=[],ctx={strokeText(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','SIGN_EDGE','SIGN_PLATE','signOf','SIGN_TAIL',src('signHalf')+'\n'+src('signX')+'\n'+src('signCut')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,16,'#000',signOf,22)(o);return{labels,rows};};
+  const run=(cam,o,signOf=o=>o.sign)=>{const labels=[],rows=[],ctx={strokeText(){},beginPath(){},moveTo(){},lineTo(){},closePath(){},fill(){}};new Function('camera','TILE','W','fieldSignRects','ctx','rect','label','signY','SIGN_EDGE','SIGN_PLATE','signOf','SIGN_TAIL','SIGN_BOARD_TOP','dimensions',src('signHalf')+'\n'+src('signX')+'\n'+src('signCut')+'\n'+src('drawSign')+'\nreturn drawSign;')(cam,48,540,rows,ctx,()=>{},(t,x)=>labels.push([t,x]),()=>500,16,'#000',signOf,22,{'props:11':.2},()=>({w:200,h:224}))(o)/* R784: drawSign reads the board top and size for the kept rows */;return{labels,rows};};
   const cam={x:455,y:0},park={x:9,y:26.6,kind:'props',frame:11,sign:'こうえん'};
   let r=run(cam,park);assert.equal(r.labels.length,0,'the words of a board cut by the left edge are not drawn: '+JSON.stringify(r.labels));assert.equal(r.rows.length,0,'and keep no row');
   r=run({x:432-540+10,y:0},park);assert.equal(r.labels.length,0,'nor by the right edge');
