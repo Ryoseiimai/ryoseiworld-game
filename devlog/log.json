@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T07:38:49.097Z",
-  "branch": "claude/autodev-20261120-1621-R641",
-  "task": "R641 遊んで一番気になる所を1つ直す",
-  "summary": "設定のモードのボタンが、押すと切り替わると分からなかった\n今のモードを上の文に出し、ボタンを「こどもモードにする」にした\nスマホで文字が約17pxに縮む件は方針が要るので R640 の判断待ちにした",
-  "result": "pass",
-  "shots": [
-   "shots/1130/mobile-02-mode-select.jpg",
-   "shots/1130/mobile-19-custom-og-credit-card.jpg",
-   "shots/1130/mobile-34-chapter-1-play.jpg",
-   "shots/1130/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ea002eb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44695307979"
- },
- {
   "at": "2026-11-20T08:00:00.876Z",
   "branch": "claude/autodev-20261120-1621-R641",
   "task": "R641 ヒカクマオウに勝つと「あたまの うえの すうじが きえた」と言うのに、ネオンの人の頭に数字の札が残っていたので、勝った後は札を消し、好きな物の話をするようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "8c86088",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45968271929"
+ },
+ {
+  "at": "2026-11-27T09:42:40.902Z",
+  "branch": "claude/autodev-20261127-1822-R778",
+  "task": "R778 全章のスクショから確認役が5つ挙げたので確かめた。主人公が学校の左上の角に重なるのは試しの場面の立ち位置（町の 5,5）で、主人公は学校の奥の草の上に立ち絵の順も正しい。「話す」ボタンと下の暗い帯は画面の作り、カテイノジジョウの横のカレンダーは攻撃の弾、戦闘の主人公と敵の床の高さは奥と手前の並び、部屋の灰色の精霊は人の横に浮く仕組みなので、どれも直さなかった。ヒカクマオウの足元に光を足す案は、R241 で宙に浮く形と決めてテストもあるので見送った",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n5つとも、決めた作りか撮る場面の都合だったので直さなかった\nヒカクマオウの足元の光は R241 の決まりとぶつかるので見送った",
+  "result": "pass",
+  "shots": [
+   "shots/1363/mobile-02-mode-select.jpg",
+   "shots/1363/mobile-19-custom-og-credit-card.jpg",
+   "shots/1363/mobile-34-chapter-1-play.jpg",
+   "shots/1363/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a5201a1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45974442535"
  }
 ]
