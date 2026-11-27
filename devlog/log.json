@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T19:09:05.703Z",
-  "branch": "claude/autodev-20261120-0341-R633",
-  "task": "R633 全章のスクショを確認役が全部見たが、直す所は無かった。大人モードのひらがなの台詞は「物語の台詞はどちらも同じ」の作り、ボスの台詞に名前の札が無いのは上の名前と重ならないため、部屋の下の暗い帯は R248 の「話す」ボタンの帯なので、どれも直さなかった",
-  "summary": "全章のスクショを確認役が見たが、直す所は無かった\n部屋の下の暗い帯は R248 の「話す」ボタンの帯なので変えなかった\n台詞の字はコードで調べ、どれも24px以上だった",
-  "result": "pass",
-  "shots": [
-   "shots/1110/mobile-02-mode-select.jpg",
-   "shots/1110/mobile-19-custom-og-credit-card.jpg",
-   "shots/1110/mobile-34-chapter-1-play.jpg",
-   "shots/1110/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5853dea",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44591885448"
- },
- {
   "at": "2026-11-19T22:00:47.901Z",
   "branch": "claude/autodev-20261120-0641-R634",
   "task": "R634 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "f4fa74c",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45922709195"
+ },
+ {
+  "at": "2026-11-27T01:50:12.428Z",
+  "branch": "claude/autodev-20261127-1021-R769",
+  "task": "R769 全章のスクショから確認役が5つ挙げたので確かめた。ヒカクマオウに足元の影が無いのは R241 で浮くボスと決めた形、ネオンの掃除機は歩道の上にいる、町の「話す」ボタンの位置は R177 からの作り、ミナモの端の家と砂場は画面の端で切れているだけ、ザコ戦の主人公が手前に低く立つのは R137・R618 の作りなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも、前の件で決めた作りどおりか、画面の端で切れているだけと確かめた\n今回は直す所が無かったので、コードは変えなかった。手元の smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1348/mobile-02-mode-select.jpg",
+   "shots/1348/mobile-19-custom-og-credit-card.jpg",
+   "shots/1348/mobile-34-chapter-1-play.jpg",
+   "shots/1348/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6cf038c",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45922813300"
  }
 ]
