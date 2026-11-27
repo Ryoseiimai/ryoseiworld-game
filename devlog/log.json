@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T06:42:44.652Z",
-  "branch": "claude/autodev-20261120-1522-R639",
-  "task": "R639 遊んで一番気になる所を1つ直す",
-  "summary": "塔の2階と3階で、上へ行く床の名前が「下へ」と逆になっていた\n床の名前を入れ替え、名前と札と行き先が合うかの確かめを足した\n端で切れる看板・電柱・花と最初の戦いの背景は、前に決めたとおり直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1128/mobile-02-mode-select.jpg",
-   "shots/1128/mobile-19-custom-og-credit-card.jpg",
-   "shots/1128/mobile-34-chapter-1-play.jpg",
-   "shots/1128/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f2951a3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44688404420"
- },
- {
   "at": "2026-11-20T06:53:08.235Z",
   "branch": "claude/autodev-20261120-1522-R639",
   "task": "R639 設定のモードのボタンが今のモードを書くだけで、押すと切り替わると分からなかったので、今のモードは上の文に出し、ボタンを「こどもモードにする」にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "7280180",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45953052144"
+ },
+ {
+  "at": "2026-11-27T07:54:30.757Z",
+  "branch": "claude/autodev-20261127-1621-R776",
+  "task": "R776 タイトルの左の家のアンテナが説明の箱の下の端に届いて見えていたので、家を12px下げた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nタイトルの左の家のアンテナが説明の箱に届いていたので、家を12px下げた\n家の下げ幅が34〜40pxであることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1361/mobile-02-mode-select.jpg",
+   "shots/1361/mobile-19-custom-og-credit-card.jpg",
+   "shots/1361/mobile-34-chapter-1-play.jpg",
+   "shots/1361/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8663025",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45960511858"
  }
 ]
