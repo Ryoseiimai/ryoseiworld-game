@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T11:49:19.146Z",
-  "branch": "claude/autodev-20261120-2021-R645",
-  "task": "R645 タイトルで主人公がソラの光の後ろを通り、体が透けて見えていたので、ソラを先に描いて主人公が光の前を走るようにした",
-  "summary": "タイトルで主人公がソラの光の後ろを通り、体が透けて見えていた\nソラを先に描き、主人公が光の前を走るようにした\n前と後のスクショで確かめ、描く順を確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1138/mobile-02-mode-select.jpg",
-   "shots/1138/mobile-19-custom-og-credit-card.jpg",
-   "shots/1138/mobile-34-chapter-1-play.jpg",
-   "shots/1138/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a62c3c1",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44729407334"
- },
- {
   "at": "2026-11-20T13:41:00.625Z",
   "branch": "claude/autodev-20261120-2221-R646",
   "task": "R646 全章のスクショから確認役が5つ挙げたので確かめた。塔の上り下りの床の雲は下の札で分かる、ボスの帯の下の攻撃力は R392 で「自分の」と書いた、実績の☆と未達成は R404 と R419 の作り、タイトルの案内は R409 と R437 で決めた文、終わりの札の作った人の名前は人が決めることなので、どれも直さなかった",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "3f386c2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46024325454"
+ },
+ {
+  "at": "2026-11-27T16:03:36.080Z",
+  "branch": "claude/autodev-20261128-0022-R784",
+  "task": "R784 ミナモに着いた時、町のノイズの帯が公園とミナモの木の看板を横切っていたので、看板の上の横木から足元までを帯がよけるようにした",
+  "summary": "ミナモに着いた時、ノイズの帯が公園とミナモの看板を横切り、看板が破れて見えた\n帯がよける範囲を、看板の字の行から、上の横木から足元までに広げ、確かめを足した\n前と後のスクショを v5/verification/R784_minamo-board-noise_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1372/mobile-02-mode-select.jpg",
+   "shots/1372/mobile-19-custom-og-credit-card.jpg",
+   "shots/1372/mobile-34-chapter-1-play.jpg",
+   "shots/1372/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "6f7375b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46028884874"
  }
 ]
