@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T14:40:58.409Z",
-  "branch": "claude/autodev-20261120-2321-R647",
-  "task": "R647 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも前の件で決めた作りか、人が決めることだったので直さなかった\n終わりの札の「作った人：RYOSEIWORLD」は作者名にするか今井さんが決める",
-  "result": "pass",
-  "shots": [
-   "shots/1141/mobile-02-mode-select.jpg",
-   "shots/1141/mobile-19-custom-og-credit-card.jpg",
-   "shots/1141/mobile-34-chapter-1-play.jpg",
-   "shots/1141/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "5b7b40f",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44754253558"
- },
- {
   "at": "2026-11-20T14:53:03.424Z",
   "branch": "claude/autodev-20261120-2321-R647",
   "task": "R647 町の戦いに勝った後も、敵が赤い目と牙の暴れた顔のまま薄くなるだけだったので、色を落として寝息の z を浮かべ、おとなしくなったと分かるようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ad09601",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46032999681"
+ },
+ {
+  "at": "2026-11-27T17:01:31.252Z",
+  "branch": "claude/autodev-20261128-0121-R785",
+  "task": "R785 学校の屋上の手すりと家のアンテナに抜き残しの紫が線のように見えていたので、読み込む時に灰色にした",
+  "summary": "学校の屋上の手すりと家のアンテナに、抜き残しの紫の点が線のように見えていた\n絵を読み込む時に、上の部分の紫の点だけを同じ明るさの灰色にし、確かめを足した\n前と後のスクショを v5/verification/R785_school-railing_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1374/mobile-02-mode-select.jpg",
+   "shots/1374/mobile-19-custom-og-credit-card.jpg",
+   "shots/1374/mobile-34-chapter-1-play.jpg",
+   "shots/1374/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "b44a722",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46036935840"
  }
 ]
