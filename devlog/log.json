@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T04:42:04.126Z",
-  "branch": "claude/autodev-20261120-1322-R637",
-  "task": "R637 遊んで一番気になる所を1つ直す",
-  "summary": "町の公園の池で、波の白い線が道路の中央線のように並んで見えた\n池の波を、マスごとに置き場所を変えた小さな3段の波にした\n前と後のスクショで、線が並ばなくなったことを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/1124/mobile-02-mode-select.jpg",
-   "shots/1124/mobile-19-custom-og-credit-card.jpg",
-   "shots/1124/mobile-34-chapter-1-play.jpg",
-   "shots/1124/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "363e5f9",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44675145431"
- },
- {
   "at": "2026-11-20T05:03:43.668Z",
   "branch": "claude/autodev-20261120-1322-R637",
   "task": "R637 プロローグの部屋は暗い無地の壁と板の床で、歩ける自分の部屋の縦じまの壁と市松の床と別の部屋に見えていたので、同じ壁と床にして夜の青をうすくかけた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a725a8a",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45946070603"
+ },
+ {
+  "at": "2026-11-27T05:50:29.033Z",
+  "branch": "claude/autodev-20261127-1421-R774",
+  "task": "R774 全章のスクショから確認役が5つ挙げたので確かめた。町の砂嵐の帯は R168・R752 の演出、電柱の上が目標の札の下で切れるのは R771 で決めた形、場所の窓の中の黒い影は止めた画面で出ず動く敵が透けた見込み、ネオンの街灯は広場の床に立っている、ネオンの左上の木は画面の端で切れているだけなので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらって確かめた\n場所の窓の中の黒い影は、止めた画面では出ず、動く敵が透けた見込みだった\n残りの4つは前に決めた形か画面の端の切れなので、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1358/mobile-02-mode-select.jpg",
+   "shots/1358/mobile-19-custom-og-credit-card.jpg",
+   "shots/1358/mobile-34-chapter-1-play.jpg",
+   "shots/1358/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "ad4517b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45946529933"
  }
 ]
