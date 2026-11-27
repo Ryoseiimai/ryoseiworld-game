@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T08:46:50.906Z",
-  "branch": "claude/autodev-20261120-1721-R642",
-  "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
-  "summary": "町を直した後、友だちの家のテレビにも部屋と同じねこの番組の絵を出した\n直す前は砂嵐の台詞、直した後は「のんびりランキング」の台詞にした\n直す前と後のテレビの絵と台詞を確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1133/mobile-02-mode-select.jpg",
-   "shots/1133/mobile-19-custom-og-credit-card.jpg",
-   "shots/1133/mobile-34-chapter-1-play.jpg",
-   "shots/1133/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "00bea56",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702928072"
- },
- {
   "at": "2026-11-20T09:35:25.492Z",
   "branch": "claude/autodev-20261120-1821-R643",
   "task": "R643 タイトルや外のマップで、キックボードの主人公の車輪の約20px下に小さな黒い欠片が出るのを直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "de4e046",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45991260584"
+ },
+ {
+  "at": "2026-11-27T13:00:06.001Z",
+  "branch": "claude/autodev-20261127-2121-R781",
+  "task": "R781 スマホの縦長の画面で、会話の窓の下に床の色の帯と暗い継ぎ目が見えていたので、画面の下の帯にも会話のぼかしと同じ暗い色をかぶせた",
+  "summary": "スマホのプロローグで、会話の窓の下に床の色の帯が見えていた\n会話の窓が出ている間、画面の下の帯に会話のぼかしと同じ色をかぶせた\n前と後のスクショを v5/verification/R781_prologue-band_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1367/mobile-02-mode-select.jpg",
+   "shots/1367/mobile-19-custom-og-credit-card.jpg",
+   "shots/1367/mobile-34-chapter-1-play.jpg",
+   "shots/1367/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a1c1ee3",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46001992058"
  }
 ]
