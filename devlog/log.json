@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T10:43:29.717Z",
-  "branch": "claude/autodev-20261120-1922-R644",
-  "task": "R644 町やタイトルを右向きに走る時、キックボードの車輪が影より約18px上に浮いていたので、右向きの4コマだけ下にずらした",
-  "summary": "右向きに走る時だけ、車輪が影より約18px上に浮いていた\n右向きの4コマを他の向きと同じ高さまで下にずらした\n町とタイトルの前と後のスクショと、確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1136/mobile-02-mode-select.jpg",
-   "shots/1136/mobile-19-custom-og-credit-card.jpg",
-   "shots/1136/mobile-34-chapter-1-play.jpg",
-   "shots/1136/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c166f07",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44719310832"
- },
- {
   "at": "2026-11-20T10:53:19.585Z",
   "branch": "claude/autodev-20261120-1922-R644",
   "task": "R644 町を右向きに走る時、キックボードの車輪が影より約18px上に浮いていた（タイトルでは歩道より上に浮いていた）ので、右向きの4コマだけ下にずらした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "7c29820",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46015265843"
+ },
+ {
+  "at": "2026-11-27T14:59:45.790Z",
+  "branch": "claude/autodev-20261127-2321-R783",
+  "task": "R783 スマホの縦長の画面で、戦いに勝って町に戻った直後に上下の帯が戦いの色のまま残っていたので、場面が変わったらすぐ帯を塗り直すようにした",
+  "summary": "戦いに勝って町に戻った直後、スマホの上下の帯が戦いの色のまま残っていた\n画面・地図・会話窓・窓・画面の大きさが変わったら、帯をすぐ塗り直すようにし、確かめを足した\n前と後のスクショを v5/verification/R783_battle-win-band_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1370/mobile-02-mode-select.jpg",
+   "shots/1370/mobile-19-custom-og-credit-card.jpg",
+   "shots/1370/mobile-34-chapter-1-play.jpg",
+   "shots/1370/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "c26d00b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46019423455"
  }
 ]
