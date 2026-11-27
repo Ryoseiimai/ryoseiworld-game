@@ -4204,6 +4204,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const i=bd.indexOf("if(!$('modal').hidden){bctx.fillStyle=MODAL_DIM;bctx.fillRect(0,0,bw,backdrop.height);}");
   assert(i>bd.lastIndexOf('backdropBand(H-6,bot,bh-bot)')&&i>bd.lastIndexOf('bctx.drawImage(canvas,0,0,bw,backdrop.height)'),'R580: the cover goes on after the bands and the side blur are drawn');}
  result.push('R580: 窓を開いている間、画面の上下の帯にも窓と同じ暗い色をかぶせた PASS');
+ // R781: while a line is on screen, the band below the stage gets the same colour as the bottom of #stage::after, so no floor-coloured strip shows under the talk window.
+ {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],shade=(html.match(/const TALK_SHADE='(#[0-9a-f]{8})'/)||[])[1],css=(html.match(/#stage:has\(>#dialogue:not\(\[hidden\]\)\)::after\{[^}]*linear-gradient\([^,]+,(#[0-9a-f]{8}) 30%\)/)||[])[1];
+  assert(shade&&shade===css,'R781: the band shade is the same colour as the bottom of the talk shade '+shade+' '+css);
+  const i=bd.indexOf("bctx.fillStyle=TALK_SHADE;bctx.fillRect(0,bot,bw,bh-bot);}");
+  assert(/if\(!\$\('dialogue'\)\.hidden\)\{const sy=bot-\(bot-top\)\*300\/H,gr=[^;]*;gr\.addColorStop\(0,'#10292d00'\);gr\.addColorStop\(\.3,TALK_SHADE\)/.test(bd),'R781: the stage copy in the backdrop gets the same 300px gradient as #stage::after');
+  assert(i>bd.indexOf('backdropBand(H-6,bot,bh-bot)')&&bd.indexOf('backdropBand(H-6,bot,bh-bot)')>0,'R781: the talk shade goes on the band below the stage, after the band is drawn');
+  assert(!/backdropBand\(0,0,top\);if\(!\$\('dialogue'\)/.test(bd),'R781: the band above the stage is left as it was');}
+ result.push('R781: 会話の窓が出ている間、画面の下の帯にも会話のぼかしと同じ暗い色をかぶせた PASS');
  // R617: on a wide or square screen the side margins blur much more, so the tower's bright signs do not show as sharp tan boxes beside the stage.
  {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],base=(html.match(/#backdrop\{[^}]*\}/)||[''])[0],wide=(html.match(/#backdrop\.wide\{([^}]*)\}/)||['',''])[1];
   const px=r=>+((r.match(/blur\((\d+)px\)/)||[0,0])[1]);
