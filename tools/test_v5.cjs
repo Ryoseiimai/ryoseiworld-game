@@ -3658,6 +3658,18 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   hudEl.classList.over=true;assert(cut(pole,qr,panel),'the pole is cut even while the place card is see-through');hudEl.classList.over=false;
  }
  result.push('R610: ヒダマリの電柱の上の端が、場所の札と目標の札のすき間にのぞかない PASS');
+ // R771: the goal tag is see-through, so the pole's arms and transformer showed under its words (mobile-25/33/34). With a measured tag bottom the cut runs to it.
+ {const src=(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'questGapCut is there');
+  const hudEl={classList:{over:false,contains(){return this.over;}}},cut=(o,qr,panel)=>new Function('questRect','hudPanel','camera','dimensions','frameFor','TILE','$',src+';return questGapCut;')(qr,panel,{x:0,y:0},x=>({w:x.w,h:x.h}),()=>({top:0}),48,()=>hudEl)({outside:true},o);
+  const panel={l:20,t:24,r:380,b:226},qr={l:20,t:240,r:380,b:280};
+  const c=cut({kind:'props',x:3,foot:360,w:124,h:180},qr,panel);
+  assert(c&&c[4]==='cut'&&c[1]===226&&c[3]===54,'a pole rising behind the goal tag is not drawn behind the tag either: '+JSON.stringify(c));
+  const c2=cut({kind:'props',x:3,foot:360,w:124,h:100},qr,panel);
+  assert(c2&&c2[1]===226&&c2[3]===54,'a pole whose top is behind the tag is cut at the tag too: '+JSON.stringify(c2));
+  assert(cut({kind:'props',x:3,foot:360,w:124,h:70},qr,panel)===null,'a thing whose top is below the tag is drawn whole');
+  assert(cut({kind:'buildings',x:3,foot:360,w:200,h:180},qr,panel)===null,'a building still gets no cut');
+  assert(/qb-hudPanel\.b,'cut'\]/.test(src),'the cut reaches the tag bottom');}
+ result.push('R771: ヒダマリの電柱の腕と変圧器が、すけた目標の札の字の下に見えない PASS');
  // R612: a road centre dash in the goal tag's row, just right of its "→", read as part of the tag (mobile-33, mobile-25).
  {const src=(html.match(/function questRowDash\(x,y,w,h\)\{[^\n]*\}/)||[''])[0];assert(src,'questRowDash is there');
   const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/&&!questRowDash\(px\+mid-2,py\+6,4,27\)\)rect\(px\+mid-2,py\+6,4,27,/.test(g)&&/&&!questRowDash\(px\+6,py\+midY-2,27,4\)\)rect\(px\+6,py\+midY-2,27,4,/.test(g),'ground() asks questRowDash before both road dashes');
