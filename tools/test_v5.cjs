@@ -3147,6 +3147,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const r=await runtime(),clocks=[];for(const [id,m] of Object.entries(r.g.GAME_DATA.maps))for(const o of m.objects||[])if(o.kind==='interior'&&o.frame===14)clocks.push(id+':'+o.id);
   assert(clocks.length>=4,'R767: the clocks are found ('+clocks.join(',')+')');}
  result.push('R767: 壁の時計の下に床の影が出ない PASS');
+ // R770: the battle waves stopped at y 580, so beside the HP and log panels the side margins turned flat under a cut-off wave; they now run to the bottom.
+ {const i=html.indexOf('function drawBattle(){'),body=html.slice(i,html.indexOf('\n',i));
+  assert(body.includes('for(let y=0;y<H+24;y+=12){'),'R770: the battle waves are drawn down to the bottom of the screen');assert(!body.includes('y<580;'),'R770: the waves no longer stop at 580');}
+ result.push('R770: 戦いの背景の波が画面の下の端まで続く PASS');
  // R533: outside, a grey spirit by a head near the top sat in the row of the goal strip; it now starts under the HUD line (hudTop) but never below the feet, and indoors keeps the floor rule.
  {const src=html.match(/function spiritBase\([^\n]*/)[0],mk=(outside,camY,hud)=>new Function('g','GAME_DATA','camera','hudTop','SPIRIT_FLOOR_TOP',src+'\nreturn spiritBase;')({map:'m'},{maps:{m:{outside}}},{y:camY},hud,154);
   for(const hud of [190,215,260])for(const side of [-1,0,1])for(let foot=hud-40;foot<hud+400;foot+=7){const o={foot:1000+foot,h:80},b=mk(true,1000,hud)(o,side),plain=side?o.foot-62:o.foot-o.h-2;
