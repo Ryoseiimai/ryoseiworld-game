@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T16:13:10.889Z",
-  "branch": "claude/autodev-20261120-0041-R632",
-  "task": "R632 全章のスクショから確認役が5つ挙げたので確かめた。戦いの後に「修理された」をマップでもう一度言うのは R394 と R339 で残した作り、窓の「バ」1文字は文の出だしの瞬間、ヒカクマオウの台詞は上の帯の名前で誰かわかる、プリンターはとなりのおばあさんの物、ネオンの左端はカメラの端なので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、5つ挙がったが直す所は無かった\n勝った後のマップの「修理された」は R394 と R339 のテストが残すと決めた台詞なので、変えなかった\n台詞のプリンターは、となりのおばあさんの物と台詞で確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/1108/mobile-02-mode-select.jpg",
-   "shots/1108/mobile-19-custom-og-credit-card.jpg",
-   "shots/1108/mobile-34-chapter-1-play.jpg",
-   "shots/1108/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "2629b03",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44560120887"
- },
- {
   "at": "2026-11-19T18:58:44.738Z",
   "branch": "claude/autodev-20261120-0341-R633",
   "task": "R633 遊んで一番気になる所を1つ直す",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "bc262d3",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45917355514"
+ },
+ {
+  "at": "2026-11-27T00:53:47.135Z",
+  "branch": "claude/autodev-20261127-0921-R768",
+  "task": "R768 全章のスクショから確認役が5つ挙げたので確かめた。ミナモの砂嵐の帯は R168・R752 の一瞬の演出、カラス戦の窓は「窓から来た」の場面の絵、タイトルの木の上の屋根は R591 で木の後ろに半分見せると決めた家、ボス戦の札とランクの札は24pxで描いている、人の上の灰色の守護霊は R163 の出る場所なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも、前の件で決めた作りどおりか、24pxで描いていると確かめた\n今回は直す所が無かったので、コードは変えなかった。手元の test_v5 と smoke は通った",
+  "result": "pass",
+  "shots": [
+   "shots/1346/mobile-02-mode-select.jpg",
+   "shots/1346/mobile-19-custom-og-credit-card.jpg",
+   "shots/1346/mobile-34-chapter-1-play.jpg",
+   "shots/1346/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9741c9a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45917472469"
  }
 ]
