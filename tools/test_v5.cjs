@@ -3094,6 +3094,8 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   // grandpa stands beside the bench, not in it
   assert(Math.abs(gp.y-b.y)>=1.2||bench[0]-body[1]>=16||body[0]-bench[1]>=16,'grandpa stands clear of the bench '+info);
   assert(b.y<m.h-1,'the bench stays inside the park');
+  // R788: at feet y 34.7 the bench's legs fell under the bottom edge of the arrival view (about y 34.26) and its blur band (mobile-25, desktop-25).
+  assert(b.y<=34.3,'R788: the bench stands whole in the arrival view, feet y '+b.y);
   // R687: grandpa's back stood about 16px from the left post and read as leaning on it (mobile-25); his whole picture keeps 24px off it.
   const gall=G.cols(0,G.h).map((v,x)=>v?x:-1).filter(x=>x>=0);assert(postL[0]-G.px(Math.max(...gall))>=24,'R687: grandpa keeps 24px off the left sign post '+info);
   const sandLeft=Math.min(...m.tiles.slice(31,34).map(row=>row.indexOf(':')))*48;assert(sandLeft-postR[1]>=1,'R687: the right sign post stays off the sandbox rim '+info+' sand '+sandLeft);}
