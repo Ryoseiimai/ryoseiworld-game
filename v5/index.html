@@ -1133,7 +1133,8 @@ function drawSora(x,y,r){const glow=ctx.createRadialGradient(x,y,0,x,y,r*2);glow
 const TITLE_TREE_FOOT=588,TITLE_WALK_TOP=598,TITLE_RIDE_FOOT=634;const TITLE_WALK_END=960;
 // R591: on the title the genre box (遊びながら…, its bottom near y 443) sat over the roof of the left house (roof top near y 419), cutting the roof in two (mobile-01).
 // On the title only, both houses stand TITLE_HOUSE_DROP lower and the box sits 12px higher (#title-genre margin), so the box ends near y 431 and the roofs start below it (left roof near y 445), partly behind the trees. The chapter card and the end screens keep their place.
-const TITLE_HOUSE_DROP=26;
+// R776: the left house's antenna still reached the genre box's bottom edge at 26 (mobile-01), so the houses stand 12px lower and the antenna tip keeps clear of the box.
+const TITLE_HOUSE_DROP=38;
 // R504: the chapter card, THE END and the epilogue draw this street behind their see-through cards; the rider kept crossing and was cut in half by the card edge, so only the title shows him (and, since R570, the trees and the lamp).
 // R581: with the trees and the lamp gone (R570), the ground behind the chapter card, THE END card and the epilogue was one flat khaki block under a green stripe,
 // so it read as bands of colour, not a street. Those screens draw faint paving joints on the sidewalk (rows 72 tall, slabs 90 wide, every other row shifted);

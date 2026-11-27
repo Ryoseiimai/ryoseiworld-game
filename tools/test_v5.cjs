@@ -3722,6 +3722,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(/sprite\('buildings',0,trees\?105:150,585\+\(trees\?TITLE_HOUSE_DROP:0\),/.test(body)&&/sprite\('buildings',1,trees\?425:390,588\+\(trees\?TITLE_HOUSE_DROP:0\),/.test(body),'R591: only the title (trees) moves the houses down; the chapter card keeps them');
   const mt=Number((html.match(/#title-genre\{display:table;margin:(-?\d+)px auto 0;/)||[])[1]);assert(mt<=-8&&mt>=-16,'R591: the genre box pulls up 8 to 16px into the margin above ('+mt+')');}
  result.push('R591: タイトルの説明の箱が家の屋根に重ならない PASS');
+ // R776: at a 26px drop the left house's antenna touched the genre box's bottom edge (mobile-01); the houses now stand at least 34px lower so the antenna tip keeps clear of the box.
+ {const drop=Number((html.match(/const TITLE_HOUSE_DROP=(\d+);/)||[])[1]);assert(drop>=34&&drop<=40,'R776: the title houses stand 34 to 40px lower ('+drop+')');}
+ result.push('R776: タイトルの左の家のアンテナが説明の箱に届かない PASS');
  // R592: the rank 86 plate stood level with ミオ's head and still read as hers; a tail under the plate now points down at num1 itself.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   for(const step of [0,1]){if(step){r.g.debugWarp('neon',o.x+2,o.y+1.6);r.tick(16);}r.canvasCalls.length=0;r.tick(16);
