@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T22:39:11.721Z",
-  "branch": "claude/autodev-art-20261120-071958",
-  "task": "絵",
-  "summary": "できた絵: room_window",
-  "result": "pass",
-  "shots": [
-   "shots/1119/mobile-02-mode-select.jpg",
-   "shots/1119/mobile-19-custom-og-credit-card.jpg",
-   "shots/1119/mobile-34-chapter-1-play.jpg",
-   "shots/1119/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "bfe1bf4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44627634108"
- },
- {
   "at": "2026-11-20T01:11:47.221Z",
   "branch": "claude/autodev-20261120-0941-R635",
   "task": "R635 町を直した後も自分の部屋のテレビが砂嵐のままで、話すと「ノイズは もう ない」と言う食いちがいがあったので、直した後は青い画面にねこを映すようにした",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "d087354",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45936320082"
+ },
+ {
+  "at": "2026-11-27T04:08:58.367Z",
+  "branch": "claude/autodev-20261127-1241-R771",
+  "task": "R771 町の電柱の腕と変圧器が、すけた目標の札の字の下に見えていたので、札の下の端まで電柱を描かないようにした",
+  "summary": "町の電柱の腕と変圧器が、目標の札の字の下にすけて見えていた\n札の下の端まで電柱を描かないようにし、前と後のスクショで確かめた\n確認役が挙げた残り（公園のベンチの脚、ミナモ左上の家、ボスの立つ高さ）は次に回す",
+  "result": "pass",
+  "shots": [
+   "shots/1355/mobile-02-mode-select.jpg",
+   "shots/1355/mobile-19-custom-og-credit-card.jpg",
+   "shots/1355/mobile-34-chapter-1-play.jpg",
+   "shots/1355/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "605ceeb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45936866093"
  }
 ]
