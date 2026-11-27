@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T20:02:05.896Z",
-  "branch": "claude/autodev-20261121-0422-R653",
-  "task": "R653 町を直した後のテレビのねこの目が約1pxで見えず、顔の無い塊に見えていたので、目と鼻を3px以上で描いた",
-  "summary": "町を直した後のテレビのねこに、見える大きさの目と鼻を描いた\nねこの目と鼻が3px以上で画面の中にあることを確かめるテストを足した\n確認役が挙げた、勝った敵の怒った顔は絵の差し替えが要るので今回は直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1151/mobile-02-mode-select.jpg",
-   "shots/1151/mobile-19-custom-og-credit-card.jpg",
-   "shots/1151/mobile-34-chapter-1-play.jpg",
-   "shots/1151/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "45db399",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44804774771"
- },
- {
   "at": "2026-11-20T20:58:41.237Z",
   "branch": "claude/autodev-20261121-0521-R654",
   "task": "R654 ネオンのかずの人が、町を直した後も灰色ののっぺらぼうの顔のままだったので、直した後は肌の色の顔に目と口を描いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "9422e57",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46082727862"
+ },
+ {
+  "at": "2026-11-27T23:59:15.286Z",
+  "branch": "claude/autodev-20261128-0821-R792",
+  "task": "R792 最初に戦う自販機の足元に紫の抜き残りが点々と見えていたので、読み込む時に灰色にした",
+  "summary": "最初に戦う自販機の足元と缶の下に、紫の抜き残りが点々と見えていた\n読み込む時に、絵の下の15%にある紫だけを同じ明るさの灰色にし、赤と青の缶の色は残した\n85%より上の紫は本体の汚れの色で画面では目立たないので残した。前と後のスクショは自動確認の撮る分に任せた",
+  "result": "pass",
+  "shots": [
+   "shots/1385/mobile-02-mode-select.jpg",
+   "shots/1385/mobile-19-custom-og-credit-card.jpg",
+   "shots/1385/mobile-34-chapter-1-play.jpg",
+   "shots/1385/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "03d6962",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46084516213"
  }
 ]
