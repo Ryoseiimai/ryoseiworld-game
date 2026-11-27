@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T05:51:18.766Z",
-  "branch": "claude/autodev-20261120-1421-R638",
-  "task": "R638 塔の2階と3階で「うえへ」の床の名前が tw2_down のように逆になっていたので、名前を入れ替え、名前と行き先が合うかの確かめを足した。確認役が挙げた画面の端で切れる看板・電柱・花と、最初の戦いの背景は、R614 と R629 で直さないと決めた物なので直さなかった",
-  "summary": "塔の2階と3階で、上へ行く床の名前が「下へ」と逆になっていた\n床の名前を入れ替え、名前と札と行き先が合うかの確かめを足した\n端で切れる看板・電柱・花と最初の戦いの背景は、前に決めたとおり直さなかった",
-  "result": "pass",
-  "shots": [
-   "shots/1127/mobile-02-mode-select.jpg",
-   "shots/1127/mobile-19-custom-og-credit-card.jpg",
-   "shots/1127/mobile-34-chapter-1-play.jpg",
-   "shots/1127/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "dd90294",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44682539253"
- },
- {
   "at": "2026-11-20T06:42:44.652Z",
   "branch": "claude/autodev-20261120-1522-R639",
   "task": "R639 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "212c249",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45952144930"
+ },
+ {
+  "at": "2026-11-27T06:49:42.822Z",
+  "branch": "claude/autodev-20261127-1521-R775",
+  "task": "R775 プロローグの部屋の窓が枠の無い紺色の板に見えていたので、地図の部屋と同じ色の枠と木の窓台を付けた",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nプロローグの部屋の窓に、地図の部屋と同じ色の枠と木の窓台を付けた\n窓の枠が本だなと机に重ならないことを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1360/mobile-02-mode-select.jpg",
+   "shots/1360/mobile-19-custom-og-credit-card.jpg",
+   "shots/1360/mobile-34-chapter-1-play.jpg",
+   "shots/1360/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7280180",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45953052144"
  }
 ]
