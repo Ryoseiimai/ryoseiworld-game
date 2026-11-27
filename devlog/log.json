@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T05:03:43.668Z",
-  "branch": "claude/autodev-20261120-1322-R637",
-  "task": "R637 プロローグの部屋は暗い無地の壁と板の床で、歩ける自分の部屋の縦じまの壁と市松の床と別の部屋に見えていたので、同じ壁と床にして夜の青をうすくかけた",
-  "summary": "プロローグの部屋が、歩ける自分の部屋と別の部屋に見えていた\nプロローグの壁と床を、自分の部屋と同じ縦じまの壁と市松の床にした\n確認役の指摘で、夜の青をうすくし、壁と床の境の帯を見えるようにした",
-  "result": "pass",
-  "shots": [
-   "shots/1126/mobile-02-mode-select.jpg",
-   "shots/1126/mobile-19-custom-og-credit-card.jpg",
-   "shots/1126/mobile-34-chapter-1-play.jpg",
-   "shots/1126/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7521ffe",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44677453482"
- },
- {
   "at": "2026-11-20T05:51:18.766Z",
   "branch": "claude/autodev-20261120-1421-R638",
   "task": "R638 塔の2階と3階で「うえへ」の床の名前が tw2_down のように逆になっていたので、名前を入れ替え、名前と行き先が合うかの確かめを足した。確認役が挙げた画面の端で切れる看板・電柱・花と、最初の戦いの背景は、R614 と R629 で直さないと決めた物なので直さなかった",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ad4517b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45946529933"
+ },
+ {
+  "at": "2026-11-27T06:39:18.845Z",
+  "branch": "claude/autodev-20261127-1521-R775",
+  "task": "R775 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらって確かめた\n場所の窓の中の黒い影は、止めた画面では出ず、動く敵が透けた見込みだった\n残りの4つは前に決めた形か画面の端の切れなので、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1359/mobile-02-mode-select.jpg",
+   "shots/1359/mobile-19-custom-og-credit-card.jpg",
+   "shots/1359/mobile-34-chapter-1-play.jpg",
+   "shots/1359/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "212c249",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45952144930"
  }
 ]
