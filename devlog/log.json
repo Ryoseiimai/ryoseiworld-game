@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T14:53:03.424Z",
-  "branch": "claude/autodev-20261120-2321-R647",
-  "task": "R647 町の戦いに勝った後も、敵が赤い目と牙の暴れた顔のまま薄くなるだけだったので、色を落として寝息の z を浮かべ、おとなしくなったと分かるようにした",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n勝った後の敵が暴れた顔のままだったので、色を落として z を浮かべた\nボスの浮き・ヒカクマオウの台詞の札・小さい字・電気屋の壁は次に回した",
-  "result": "fail",
-  "shots": [
-   "shots/1142/mobile-02-mode-select.jpg",
-   "shots/1142/mobile-19-custom-og-credit-card.jpg",
-   "shots/1142/mobile-34-chapter-1-play.jpg",
-   "shots/1142/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9df3978",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44756225141"
- },
- {
   "at": "2026-11-20T15:09:25.298Z",
   "branch": "claude/autodev-20261120-2321-R647",
   "task": "R647 町の戦いに勝った後も、敵が赤い目と牙の暴れた顔のまま薄くなるだけだったので、色を落として寝息の z を浮かべ、おとなしくなったと分かるようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "b44a722",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46036935840"
+ },
+ {
+  "at": "2026-11-27T17:42:52.538Z",
+  "branch": "claude/autodev-20261128-0221-R786",
+  "task": "R786 全章のスクショから確認役が5つ挙げたので確かめた。戦闘の空の窓枠は R780 で決めた「窓から来た」の絵、BUG KING の床の光は R777 で足した形、章の終わりの札の後ろに木が無いのは R570 で決めてテストもある形、ソラの名札の位置は R512・R596 のテストが光との間と HP の欄との間を決めている。カテイノジジョウの足元が石垣にかかって見える件は、ボスの高さを変えると弾よけの遊びが変わるので、今回は直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも、前の件で決めてテストもある形か、遊びが変わる件だったので直さなかった\n手元の確認（test_v5 と smoke_v5）はどちらも通った",
+  "result": "pass",
+  "shots": [
+   "shots/1375/mobile-02-mode-select.jpg",
+   "shots/1375/mobile-19-custom-og-credit-card.jpg",
+   "shots/1375/mobile-34-chapter-1-play.jpg",
+   "shots/1375/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "866bd93",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46042673066"
  }
 ]
