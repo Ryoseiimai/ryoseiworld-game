@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T18:58:09.294Z",
-  "branch": "claude/autodev-20261121-0321-R652",
-  "task": "R652 プロローグの部屋に、歩ける自分の部屋にある本だなが無く、別の部屋に見えていたので、右の壁に同じ本だなを描き、窓を机の上へ、テレビと扇風機を少し下へ動かした",
-  "summary": "プロローグの部屋の右の壁に、自分の部屋と同じ本だなを描いた\n窓を机の上へ、テレビと扇風機を少し下へ動かし、本だなと重ならないようにした\n本だなが窓・机・テレビと重ならないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1149/mobile-02-mode-select.jpg",
-   "shots/1149/mobile-19-custom-og-credit-card.jpg",
-   "shots/1149/mobile-34-chapter-1-play.jpg",
-   "shots/1149/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "25ce9b3",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44793615299"
- },
- {
   "at": "2026-11-20T19:50:49.280Z",
   "branch": "claude/autodev-20261121-0422-R653",
   "task": "R653 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "0bd1e7d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46076222260"
+ },
+ {
+  "at": "2026-11-27T22:43:05.342Z",
+  "branch": "claude/autodev-20261128-0721-R791",
+  "task": "R791 全章のスクショから確認役が5つ挙げたので確かめた。ミナモの看板の右の柱の足の草が歩道の縁にかかるのは R522 で決めた形で、西へ動かすと R505 の公園の看板との12pxが落ちる。ボス戦の「ドラッグで動く」の札がボスの足元に近いのは、主人公が動くと消える案内で、置き場所は R541 で決めた。プロローグのラグの下の端が暗くなるのは R757・R765 の会話の下のぼかし、タイトルで主人公の車輪だけ見えるのは走り込む途中、章の終わりの札の下の細い帯は R570・R581 の背景なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役が見て、文字の重なりやはみ出しは無かった\n挙がった5つは、前に決めた形か一瞬だけ見える場面だったので直さなかった\n鍵のブランチへの push は、ルーチンの決まりで止められたので鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/1383/mobile-02-mode-select.jpg",
+   "shots/1383/mobile-19-custom-og-credit-card.jpg",
+   "shots/1383/mobile-34-chapter-1-play.jpg",
+   "shots/1383/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e69a1b6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46077308520"
  }
 ]
