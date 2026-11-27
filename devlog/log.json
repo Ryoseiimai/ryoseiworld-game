@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T19:50:49.280Z",
-  "branch": "claude/autodev-20261121-0422-R653",
-  "task": "R653 遊んで一番気になる所を1つ直す",
-  "summary": "プロローグの部屋の右の壁に、自分の部屋と同じ本だなを描いた\n窓を机の上へ、テレビと扇風機を少し下へ動かし、本だなと重ならないようにした\n本だなが窓・机・テレビと重ならないことを確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1150/mobile-02-mode-select.jpg",
-   "shots/1150/mobile-19-custom-og-credit-card.jpg",
-   "shots/1150/mobile-34-chapter-1-play.jpg",
-   "shots/1150/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "bb39ba7",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44803216561"
- },
- {
   "at": "2026-11-20T20:02:05.896Z",
   "branch": "claude/autodev-20261121-0422-R653",
   "task": "R653 町を直した後のテレビのねこの目が約1pxで見えず、顔の無い塊に見えていたので、目と鼻を3px以上で描いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e69a1b6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46077308520"
+ },
+ {
+  "at": "2026-11-27T23:41:39.371Z",
+  "branch": "claude/autodev-20261128-0821-R792",
+  "task": "R792 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役が見て、文字の重なりやはみ出しは無かった\n挙がった5つは、前に決めた形か一瞬だけ見える場面だったので直さなかった\n鍵のブランチへの push は、ルーチンの決まりで止められたので鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/1384/mobile-02-mode-select.jpg",
+   "shots/1384/mobile-19-custom-og-credit-card.jpg",
+   "shots/1384/mobile-34-chapter-1-play.jpg",
+   "shots/1384/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "9422e57",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46082727862"
  }
 ]
