@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T08:35:11.777Z",
-  "branch": "claude/autodev-20261120-1721-R642",
-  "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
-  "summary": "ネオンの人の頭の数字の札が、ボスに勝った後も残っていた\n勝った後は札を消し、話すと好きな物の話をするようにした\n確認役が挙げた友だちの家のテレビと主人公の下の欠片を R642・R643 にした",
-  "result": "pass",
-  "shots": [
-   "shots/1132/mobile-02-mode-select.jpg",
-   "shots/1132/mobile-19-custom-og-credit-card.jpg",
-   "shots/1132/mobile-34-chapter-1-play.jpg",
-   "shots/1132/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "a6dd3ed",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44702413508"
- },
- {
   "at": "2026-11-20T08:46:50.906Z",
   "branch": "claude/autodev-20261120-1721-R642",
   "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "e76f582",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45982543194"
+ },
+ {
+  "at": "2026-11-27T11:41:22.960Z",
+  "branch": "claude/autodev-20261127-2021-R780",
+  "task": "R780 全章のスクショから確認役が5つ挙げたので確かめた。タイトルのボタンの後ろの無地の歩道は R581 で敷石を描かないと決めてテストもある形、章の終わりの札の後ろの緑の帯は R570・R581 の作りの芝生、ボス戦の始めにボスがいないのは登場前の場面、戦闘の窓は「窓から来た」の場面の絵、ネオンの左上の木は R774 で見た画面の端なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n5つとも、前の回で決めた作りか撮る場面の都合だったので直さなかった\nタイトルの無地の歩道は R581 のテストが求める形だった",
+  "result": "pass",
+  "shots": [
+   "shots/1365/mobile-02-mode-select.jpg",
+   "shots/1365/mobile-19-custom-og-credit-card.jpg",
+   "shots/1365/mobile-34-chapter-1-play.jpg",
+   "shots/1365/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "de4e046",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45991260584"
  }
 ]
