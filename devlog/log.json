@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T16:01:10.507Z",
-  "branch": "claude/autodev-20261121-0041-R649",
-  "task": "R649 全章のスクショを確認役が40枚見て、新しい問題は無いと答えた。自分の部屋と図書館の床の下の縁が「話す」ボタンに少し重なる件は、R537 で部屋を動かさず下の余白に少し入れると決めた作りなので、直さなかった",
-  "summary": "全章のスクショを確認役に40枚見せ、新しい問題は無いという答えを受けた\n部屋の床が「話す」ボタンに少し重なる件は、R537 で決めた作りなので直さなかった\n手元の test_v5 と smoke_v5 は両方とも通った",
-  "result": "pass",
-  "shots": [
-   "shots/1145/mobile-02-mode-select.jpg",
-   "shots/1145/mobile-19-custom-og-credit-card.jpg",
-   "shots/1145/mobile-34-chapter-1-play.jpg",
-   "shots/1145/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "b05f8ed",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44767468414"
- },
- {
   "at": "2026-11-20T16:50:21.485Z",
   "branch": "claude/autodev-20261121-0122-R650",
   "task": "R650 プロローグの部屋に、歩ける自分の部屋にある壁の時計・丸いじゅうたん・植木ばちが無く、別の部屋に見えていたので、同じ3つを描いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "f3993c1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46058944389"
+ },
+ {
+  "at": "2026-11-27T20:44:49.657Z",
+  "branch": "claude/autodev-20261128-0521-R789",
+  "task": "R789 全章のスクショから確認役が5つ挙げたので確かめた。ミナモの公園とミナモの看板の近さは R505 で決めた12pxの間、話すボタンの下に砂場が透けるのはボタンの形、ネオンの町の下の人と章2の家が画面の端にかかるのは主人公の位置で決まる見え方、地図の札の柱は画面の右端から約20px離れていた。町に残る灰色のノイズは確認用に飛ばした状態のためで、今回は直さなかった",
+  "summary": "全章を通したスクショ153枚を確認役が見て、気になる所を5つ挙げた\n看板の間・話すボタン・画面の端の人や家は、前の回の決めや見え方どおりと確かめた\n直すほどの所が無かったので、コードは変えず、手元のテストが通ることを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1378/mobile-02-mode-select.jpg",
+   "shots/1378/mobile-19-custom-og-credit-card.jpg",
+   "shots/1378/mobile-34-chapter-1-play.jpg",
+   "shots/1378/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "724d5be",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46064542845"
  }
 ]
