@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T01:11:47.221Z",
-  "branch": "claude/autodev-20261120-0941-R635",
-  "task": "R635 町を直した後も自分の部屋のテレビが砂嵐のままで、話すと「ノイズは もう ない」と言う食いちがいがあったので、直した後は青い画面にねこを映すようにした",
-  "summary": "確認役が全章のスクショを見て5つ挙げ、部屋のテレビも確かめた\n町を直した後は、部屋のテレビに青い画面とねこを映すようにした\n前と後のスクショで、テレビの枠からはみ出さないことを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/1120/mobile-02-mode-select.jpg",
-   "shots/1120/mobile-19-custom-og-credit-card.jpg",
-   "shots/1120/mobile-34-chapter-1-play.jpg",
-   "shots/1120/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7890645",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44650215415"
- },
- {
   "at": "2026-11-20T03:44:05.377Z",
   "branch": "claude/autodev-20261120-1221-R636",
   "task": "R636 町の公園の池で、波の白い線がどのマスも同じ所にあり、道路の中央線のように並んで見えたので、マスごとに置き場所を変えた小さな波にした",
@@ -2977,6 +2962,16 @@
    "shots/1355/mobile-50-battle-bugking.jpg"
   ],
   "sha": "605ceeb",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45936866093"
+ },
+ {
+  "at": "2026-11-27T04:09:01.002Z",
+  "branch": "claude/autodev-20261127-1221-R771",
+  "task": "R771 第1章の最初の町で、交番の向かいの電柱が左上の目標の札に隠れて下半分しか見えなかったので、同じ歩道の東へ動かした",
+  "summary": "第1章の町で、電柱の上半分が左上の目標の札に隠れていた\n電柱を同じ歩道の東へ動かし、前と後のスクショで全部見えるのを確かめた\n確認役が挙げた文字の小ささは、描く所が24pxだったので直さなかった",
+  "result": "conflict",
+  "shots": [],
+  "sha": "0b0d292",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45936866093"
  }
 ]
