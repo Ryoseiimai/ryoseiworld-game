@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T15:09:25.298Z",
-  "branch": "claude/autodev-20261120-2321-R647",
-  "task": "R647 町の戦いに勝った後も、敵が赤い目と牙の暴れた顔のまま薄くなるだけだったので、色を落として寝息の z を浮かべ、おとなしくなったと分かるようにした",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n勝った後の敵が暴れた顔のままだったので、色を落として z を浮かべた\n前の決まりのテスト1つは、色を落とす1文を間に入れてよいように広げた",
-  "result": "pass",
-  "shots": [
-   "shots/1143/mobile-02-mode-select.jpg",
-   "shots/1143/mobile-19-custom-og-credit-card.jpg",
-   "shots/1143/mobile-34-chapter-1-play.jpg",
-   "shots/1143/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "8bc78eb",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44758712425"
- },
- {
   "at": "2026-11-20T15:39:15.099Z",
   "branch": "claude/autodev-20261121-0021-R648",
   "task": "R648 全章のスクショから確認役が5つ挙げたので確かめた。ヒカクマオウの最初の台詞に名札が無いのは R557 の決まり、ボスが入る前に声が先に出るのは R87 の作り、動き方の札とボスの足は R111 で離してある、地図の文字の大きさは R640 で人が決める件、呼び出しの間に主人公が薄くなるのは R535 の作りなので、どれも直さなかった",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "866bd93",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46042673066"
+ },
+ {
+  "at": "2026-11-27T18:57:06.475Z",
+  "branch": "claude/autodev-20261128-0321-R787",
+  "task": "R787 タイトルの月が右上の「アニメを見る」ボタンの18px横まで来て窮屈に見えていたので、月を22px左へ動かした",
+  "summary": "タイトルの月を22px左へ動かし、右上のボタンとの間を40pxにした\n月とボタンの間が32px以上あることを確かめるテストを足した\n確認役の他の4つは、24pxで描いている字・テストで決めた形なので直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1376/mobile-02-mode-select.jpg",
+   "shots/1376/mobile-19-custom-og-credit-card.jpg",
+   "shots/1376/mobile-34-chapter-1-play.jpg",
+   "shots/1376/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cefd4c5",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46051961962"
  }
 ]
