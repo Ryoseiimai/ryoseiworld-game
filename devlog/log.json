@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-19T22:15:40.368Z",
-  "branch": "claude/autodev-20261120-0641-R634",
-  "task": "R634 プロローグの部屋には月の見える十字の窓があるのに、歩ける自分の部屋の壁には窓が無く、別の部屋に見えていたので、机と本だなの間の壁に同じ夜の窓を描いた",
-  "summary": "確認役が全章のスクショから、自分の部屋とプロローグの部屋のちがいを挙げた\n自分の部屋の壁に、プロローグと同じ月の見える十字の窓を描いた\n窓の絵を絵係に頼み、届くまではコードで描いた窓で動かす",
-  "result": "pass",
-  "shots": [
-   "shots/1115/mobile-02-mode-select.jpg",
-   "shots/1115/mobile-19-custom-og-credit-card.jpg",
-   "shots/1115/mobile-34-chapter-1-play.jpg",
-   "shots/1115/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "9d9a7c4",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44624122820"
- },
- {
   "at": "2026-11-19T22:26:03.184Z",
   "branch": "claude/autodev-20261120-0641-R634",
   "task": "R634 プロローグの部屋には月の見える十字の窓があるのに、歩ける自分の部屋の壁には窓が無く、別の部屋に見えていたので、机と本だなの間の壁に同じ夜の窓を描いた",
@@ -2978,5 +2963,20 @@
   ],
   "sha": "0bf6ad2",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45928592478"
+ },
+ {
+  "at": "2026-11-27T02:54:03.318Z",
+  "branch": "claude/autodev-20261127-1121-R770",
+  "task": "R770 戦いの背景の波が580で止まり、HP札の横の余白で途中で切れて平らな色になっていたので、画面の下の端まで描いた",
+  "summary": "戦いの背景の波が、HP札とログ札の横で途中で切れていた\n波を画面の下の端まで描くようにし、前と後のスクショで確かめた\n確認役が挙げた残り4つ（電柱・木・話すボタン・呼び出しの窓）は小さいので次に回す",
+  "result": "pass",
+  "shots": [
+   "shots/1350/mobile-02-mode-select.jpg",
+   "shots/1350/mobile-19-custom-og-credit-card.jpg",
+   "shots/1350/mobile-34-chapter-1-play.jpg",
+   "shots/1350/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "7da9b09",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45930046407"
  }
 ]
