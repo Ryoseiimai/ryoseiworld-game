@@ -169,6 +169,9 @@ async function runViewport(browser, url, vp, errors, shots) {
     // SPEC_V7_MANABU.md 9.1: "はじめから" may ask adult/kids mode first; take the default (adult) when it does.
     const modeBtn = page.locator('button', { hasText: 'おとなモード' });
     if (await modeBtn.count()) { await shot('mode-select'); await modeBtn.first().click({ timeout: 5000 }); await sleep(400); }
+    // R790: the prologue shot was taken while the first line was still typing (「なつやすみの よる。／せんぷうき」), so it read as a line cut off mid-word.
+    // Wait (up to 4s) until the dialogue box drops its .typing mark, as a player who waits a moment would see it.
+    await page.waitForFunction(() => { const t = document.getElementById('dialogue-text'), b = t && t.parentNode; return !b || !b.classList.contains('typing'); }, null, { timeout: 4000 }).catch(() => {});
     await shot('start-prologue');
     const afterStart = await settle();
     await shot('after-start', `screen=${afterStart.screen}`);
