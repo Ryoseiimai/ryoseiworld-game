@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T15:39:15.099Z",
-  "branch": "claude/autodev-20261121-0021-R648",
-  "task": "R648 全章のスクショから確認役が5つ挙げたので確かめた。ヒカクマオウの最初の台詞に名札が無いのは R557 の決まり、ボスが入る前に声が先に出るのは R87 の作り、動き方の札とボスの足は R111 で離してある、地図の文字の大きさは R640 で人が決める件、呼び出しの間に主人公が薄くなるのは R535 の作りなので、どれも直さなかった",
-  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げさせた\n5つとも前の件で決めた作りか、人が決める件だったので直さなかった\nBUG KING の立つ高さも、R241 と R283 で影と光を足した作りのままにした",
-  "result": "pass",
-  "shots": [
-   "shots/1144/mobile-02-mode-select.jpg",
-   "shots/1144/mobile-19-custom-og-credit-card.jpg",
-   "shots/1144/mobile-34-chapter-1-play.jpg",
-   "shots/1144/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "de8ba9a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44763841432"
- },
- {
   "at": "2026-11-20T16:01:10.507Z",
   "branch": "claude/autodev-20261121-0041-R649",
   "task": "R649 全章のスクショを確認役が40枚見て、新しい問題は無いと答えた。自分の部屋と図書館の床の下の縁が「話す」ボタンに少し重なる件は、R537 で部屋を動かさず下の余白に少し入れると決めた作りなので、直さなかった",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "cefd4c5",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46051961962"
+ },
+ {
+  "at": "2026-11-27T19:58:27.329Z",
+  "branch": "claude/autodev-20261128-0421-R788",
+  "task": "R788 町に着いた時、公園のベンチの脚が画面の下の端とぼかしの帯の下に切れていたので、看板とベンチを0.42マス上げた",
+  "summary": "町に着いた時に公園のベンチの脚が画面の下で切れていたので、看板とベンチを20px上げた\n看板と車道の間12pxとベンチと看板の間のテストはそのまま通り、ベンチが画面に収まるテストを足した\n確認役が挙げたネオンの切れ端・地図の札・敷物・ボタンの字は軽いので今回は直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1377/mobile-02-mode-select.jpg",
+   "shots/1377/mobile-19-custom-og-credit-card.jpg",
+   "shots/1377/mobile-34-chapter-1-play.jpg",
+   "shots/1377/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "f3993c1",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46058944389"
  }
 ]
