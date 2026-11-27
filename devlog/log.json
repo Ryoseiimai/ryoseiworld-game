@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T16:50:21.485Z",
-  "branch": "claude/autodev-20261121-0122-R650",
-  "task": "R650 プロローグの部屋に、歩ける自分の部屋にある壁の時計・丸いじゅうたん・植木ばちが無く、別の部屋に見えていたので、同じ3つを描いた",
-  "summary": "プロローグの部屋に、自分の部屋と同じ時計・じゅうたん・植木ばちを描いた\n確認役は全章のスクショで、ほかに新しい問題は無いと答えた\n3つがそろっているかの確かめを test_v5 に足した",
-  "result": "pass",
-  "shots": [
-   "shots/1146/mobile-02-mode-select.jpg",
-   "shots/1146/mobile-19-custom-og-credit-card.jpg",
-   "shots/1146/mobile-34-chapter-1-play.jpg",
-   "shots/1146/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "97ba728",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44775760472"
- },
- {
   "at": "2026-11-20T17:54:21.630Z",
   "branch": "claude/autodev-20261121-0221-R651",
   "task": "R651 ネオンの「ランク 86位」の人がミオと同じ絵で、ミオが2人いるように見えていたので、かずの人4人を大人の絵だけにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "724d5be",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46064542845"
+ },
+ {
+  "at": "2026-11-27T21:45:35.315Z",
+  "branch": "claude/autodev-20261128-0621-R790",
+  "task": "R790 遊んで一番気になる所を1つ直す",
+  "summary": "全章を通したスクショ153枚を確認役が見て、気になる所を5つ挙げた\n看板の間・話すボタン・画面の端の人や家は、前の回の決めや見え方どおりと確かめた\n直すほどの所が無かったので、コードは変えず、手元のテストが通ることを確かめた",
+  "result": "pass",
+  "shots": [
+   "shots/1379/mobile-02-mode-select.jpg",
+   "shots/1379/mobile-19-custom-og-credit-card.jpg",
+   "shots/1379/mobile-34-chapter-1-play.jpg",
+   "shots/1379/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "76a3ae9",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46071046741"
  }
 ]
