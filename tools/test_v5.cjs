@@ -1460,6 +1460,12 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const top=Number((html.match(/\.title-copy\{[^}]*top:(\d+)px/)||[])[1]);assert(top>0,'the title copy has a top');
   assert(y+ry<=top-8,'the moon ends above the English line');assert(x+rx<540/2-60,'the moon stays on the left, away from the music hint');assert(x-rx>=8&&y-ry>=8,'the moon stays on screen');}
  result.push('R79: タイトルの月が英字の一行と「♪ タップで音楽」に重ならない PASS');
+ // R787: the moon keeps at least 32px from the left edge of the top right buttons (two 190px buttons, 8px apart, 30px from the right edge).
+ {const m=html.match(/function drawTitle\(\)\{[^]*?ellipse\((\d+),(\d+),(\d+),(\d+),'#f6dda2'\)/);const [x,,rx]=m.slice(1).map(Number);
+  const L=html.match(/#title-links\{[^}]*right:(\d+)px[^}]*gap:(\d+)px/),B=html.match(/#title-links button\{[^}]*width:(\d+)px/);assert(L&&B,'the title links have a right edge, gap and button width');
+  const max=Number((require('node:fs').readFileSync(path.join(__dirname,'../v5/js/outgame.js'),'utf8').match(/title: \{ host: 'title-links', max: (\d+)/)||[])[1]);assert(max>0,'the title links have a max');
+  const left=540-Number(L[1])-max*Number(B[1])-(max-1)*Number(L[2]);assert(left-(x+rx)>=32,'the moon keeps 32px from the title buttons '+JSON.stringify({moonRight:x+rx,left}));}
+ result.push('R787: タイトルの月が右上のボタンから32px以上はなれている PASS');
  // R485: the English line sat 10px under 「アニメを見る」「実績」 (top 62 + 54 tall); it now starts at least 20px below them.
  {const l=html.match(/#title-links\{[^}]*top:(\d+)px/),b=html.match(/#title-links button\{[^}]*min-height:(\d+)px/),c=html.match(/\.title-copy\{[^}]*top:(\d+)px/);assert(l&&b&&c,'title link row and copy have sizes');
   const gap=Number(c[1])-(Number(l[1])+Number(b[1]));assert(gap>=20,'the English line keeps clear of the title link buttons (gap '+gap+'px)');}
