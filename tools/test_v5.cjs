@@ -2433,6 +2433,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const body=(sh.match(/function drawBoss\(ctx, S, w\) \{[^]*?\n  \}\n/)||[''])[0];
   assert(body.indexOf('drawFeetGlow(')>0&&body.indexOf('drawFeetGlow(')<body.indexOf('drawSprite(ctx, S, d.sheet'),'the light is drawn under the boss picture');}
  result.push('R763: カテイノジジョウ の足元に光を足し、暗い石垣に貼り付いて見えないようにした PASS');
+ // R777: BUG KING's side feet (picture x 55 and 295 of 349, about 23 of 288 above the bottom) hung above the flat ring that only the front foot reached (mobile-43).
+ // Its ring is now a floor disc (feetRing [up, rx, ry] per drawH): the side feet must lie inside it and the front foot (bottom of the picture) near its front edge.
+ {const sh=fs.readFileSync(path.join(root,'js','shooter.js'),'utf8'),m=sh.match(/\n    bugking: \{\n[^\n]*drawH: (\d+)[^\n]*feetRing: \[([0-9.]+), ([0-9.]+), ([0-9.]+)\]/);
+  assert(m,'BUG KING has a floor disc under its feet');const h=Number(m[1]),up=h*Number(m[2]),rx=h*Number(m[3]),ry=h*Number(m[4]),s=h/288,cy=-4-up;
+  for(const [fx,fy] of [[(55-174.5)*s,-(283-250)*s],[(295-174.5)*s,-(283-255)*s]]){const k=(fx/rx)**2+((fy-cy)/ry)**2;assert(k<1,'side foot '+fx.toFixed(0)+','+fy.toFixed(0)+' lies inside the disc ('+k.toFixed(2)+')');}
+  assert(Math.abs(cy+ry)<=6,'the disc front edge ('+(cy+ry).toFixed(1)+') meets the front foot at the bottom of the picture');
+  assert(/drawFeetGlow\(ctx, bx, gy, [^\n]*fr \? h \* fr\[1\]/.test(sh),'drawBoss passes the disc size to drawFeetGlow');}
+ result.push('R777: BUG KING の足元の光を床の円にし、横の足も光の上に乗るようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
  // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();

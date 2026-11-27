@@ -273,7 +273,7 @@
   var NUMBER_WORDS = ['10まん', 'いいね 999', '1い', 'フォロワー', 'しゃちょう'];
   var BOSSES = {
     bugking: {
-      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7, feet: 0.42, feetGlow: true,
+      name: 'BUG KING', sheet: 'bugking', bg: 'bg_town', hp: 390, x: 388, drawH: 200, bodyR: 77, bodyDY: 7, feet: 0.42, feetGlow: true, feetRing: [0.1, 0.46, 0.105],
       moveA: 190, moveF: 0.55, color: '#79e6ff',
       lines: { intro: ['BUG KING', 'どうせ お前には むりだ'],
         bursts: { 75: '// あとで直す', 50: 'TODO: エラー処理', 25: 'とりあえず動いた', 0: 'いつか だれかの\nやくに たつはず' },
@@ -2249,7 +2249,12 @@
     // so a faint light and a thin line in its colour lie over the shadow under the feet, like the hero's hover glow.
     // R763: カテイノジジョウ's black shadow sank into the dark stone bank of ミナモ's river the same way, so it seemed stuck to the wall (mobile-45); it gets the same light in its own warm colour.
     if (d.feet) drawFeetShadow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * bsq.sx);
-    if (d.feetGlow) drawFeetGlow(ctx, bx, b.y + (h / 2 - 4) * bsq.sy, h * d.feet * 1.5 * bsq.sx, d.color, 0.6 + Math.sin(w.t * 3) * 0.1);
+    // R777: BUG KING's legs spread out to the sides, so only the front foot reached the flat ring at the bottom of the picture and the side feet hung about 20px above it (mobile-43).
+    // feetRing [up, rx, ry] (per drawH) lays the light as a floor disc raised by up, wide and tall enough to pass under every foot.
+    if (d.feetGlow) {
+      var fr = d.feetRing, gy = b.y + (h / 2 - 4 - (fr ? h * fr[0] : 0)) * bsq.sy;
+      drawFeetGlow(ctx, bx, gy, h * d.feet * 1.5 * bsq.sx, d.color, 0.6 + Math.sin(w.t * 3) * 0.1, fr ? h * fr[1] * bsq.sx : 0, fr ? h * fr[2] * bsq.sy : 0);
+    }
     ctx.save(); ctx.translate(bx, b.y); ctx.scale(bsq.sx, bsq.sy); ctx.translate(-bx, -b.y);
     drawSprite(ctx, S, d.sheet, f[0], f[1], bx, b.y, h, false, d.name);
     var wimg = b.whiteT > 0 && whiteOf(frameImg(S, d.sheet, f[0], f[1]));
@@ -2270,11 +2275,14 @@
     }
   }
 
-  function drawFeetGlow(ctx, x, y, rx, color, alpha) {
-    ctx.save(); ctx.translate(x, y); ctx.scale(1, 0.3); ctx.translate(-x, -y);
-    glow(ctx, x, y, rx, color, alpha);
+  function drawFeetGlow(ctx, x, y, rx, color, alpha, ringRx, ringRy) {
+    ctx.save(); ctx.translate(x, y); ctx.scale(1, ringRx ? ringRy / ringRx : 0.3); ctx.translate(-x, -y);
+    glow(ctx, x, y, ringRx ? ringRx * 1.15 : rx, color, alpha);
     ctx.restore();
-    ctx.globalAlpha = alpha * 0.7; ctx.fillStyle = color; ctx.beginPath(); ctx.ellipse(x, y + 2, rx * 0.62, 4, 0, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.globalAlpha = alpha * 0.7;
+    if (ringRx) { ctx.strokeStyle = color; ctx.lineWidth = 4; ctx.beginPath(); ctx.ellipse(x, y, ringRx, ringRy, 0, 0, Math.PI * 2); ctx.stroke(); }
+    else { ctx.fillStyle = color; ctx.beginPath(); ctx.ellipse(x, y + 2, rx * 0.62, 4, 0, 0, Math.PI * 2); ctx.fill(); }
+    ctx.globalAlpha = 1;
   }
   function drawFeetShadow(ctx, x, y, rx) {
     var ry = rx * 0.2, g = ctx.createRadialGradient(x, y, 0, x, y, rx);
