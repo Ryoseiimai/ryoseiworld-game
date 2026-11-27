@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T10:53:19.585Z",
-  "branch": "claude/autodev-20261120-1922-R644",
-  "task": "R644 町を右向きに走る時、キックボードの車輪が影より約18px上に浮いていた（タイトルでは歩道より上に浮いていた）ので、右向きの4コマだけ下にずらした",
-  "summary": "右向きに走る時だけ、車輪が影より約18px上に浮いていた\n右向きの4コマを他の向きと同じ高さまで下にずらした\n町とタイトルの前と後のスクショと、確かめるテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1137/mobile-02-mode-select.jpg",
-   "shots/1137/mobile-19-custom-og-credit-card.jpg",
-   "shots/1137/mobile-34-chapter-1-play.jpg",
-   "shots/1137/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "0b8e277",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44720544121"
- },
- {
   "at": "2026-11-20T11:49:19.146Z",
   "branch": "claude/autodev-20261120-2021-R645",
   "task": "R645 タイトルで主人公がソラの光の後ろを通り、体が透けて見えていたので、ソラを先に描いて主人公が光の前を走るようにした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "c26d00b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46019423455"
+ },
+ {
+  "at": "2026-11-27T15:35:51.114Z",
+  "branch": "claude/autodev-20261128-0022-R784",
+  "task": "R784 遊んで一番気になる所を1つ直す",
+  "summary": "戦いに勝って町に戻った直後、スマホの上下の帯が戦いの色のまま残っていた\n画面・地図・会話窓・窓・画面の大きさが変わったら、帯をすぐ塗り直すようにし、確かめを足した\n前と後のスクショを v5/verification/R783_battle-win-band_*.png に置いた",
+  "result": "pass",
+  "shots": [
+   "shots/1371/mobile-02-mode-select.jpg",
+   "shots/1371/mobile-19-custom-og-credit-card.jpg",
+   "shots/1371/mobile-34-chapter-1-play.jpg",
+   "shots/1371/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "3f386c2",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46024325454"
  }
 ]
