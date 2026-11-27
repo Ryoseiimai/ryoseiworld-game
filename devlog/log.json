@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T08:00:00.876Z",
-  "branch": "claude/autodev-20261120-1621-R641",
-  "task": "R641 ヒカクマオウに勝つと「あたまの うえの すうじが きえた」と言うのに、ネオンの人の頭に数字の札が残っていたので、勝った後は札を消し、好きな物の話をするようにした",
-  "summary": "ネオンの人の頭の数字の札が、ボスに勝った後も残っていた\n勝った後は札を消し、話すと好きな物の話をするようにした\n確認役が挙げた友だちの家のテレビと主人公の下の欠片を R642・R643 にした",
-  "result": "pass",
-  "shots": [
-   "shots/1131/mobile-02-mode-select.jpg",
-   "shots/1131/mobile-19-custom-og-credit-card.jpg",
-   "shots/1131/mobile-34-chapter-1-play.jpg",
-   "shots/1131/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "88fbece",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44698057936"
- },
- {
   "at": "2026-11-20T08:35:11.777Z",
   "branch": "claude/autodev-20261120-1721-R642",
   "task": "R642 町を直した後も、友だちの家のテレビが砂嵐のままで、調べると番組をやっていると言う食いちがいを直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a5201a1",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45974442535"
+ },
+ {
+  "at": "2026-11-27T10:39:41.705Z",
+  "branch": "claude/autodev-20261127-1922-R779",
+  "task": "R779 全章のスクショから確認役が5つ挙げたので確かめた。戦闘のソラの名札は24pxで描いていて、縮めた画面で小さく見えただけ。塔の上り下りの雲は同じ絵で、札の「上へ」「下へ」で分ける作り。勝った後の窓は1.9秒で自動で進む。コンビニの店員はカウンターの奥に立ち、頭が壁の下の端に少しかかるだけ。実績だけのメニューは試しの場面なので、どれも直さなかった",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\n5つとも、決めた作りか撮る場面の都合だったので直さなかった\nソラの名札は24pxで、縮めた画面で小さく見えただけだった",
+  "result": "pass",
+  "shots": [
+   "shots/1364/mobile-02-mode-select.jpg",
+   "shots/1364/mobile-19-custom-og-credit-card.jpg",
+   "shots/1364/mobile-34-chapter-1-play.jpg",
+   "shots/1364/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "e76f582",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45982543194"
  }
 ]
