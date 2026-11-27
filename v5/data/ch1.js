@@ -67,7 +67,9 @@ maps.town={name:'ヒダマリちょう',short:'ヒダマリちょう',w:30,h:36,
  // R203: the delivery man by the electric shop also stood right over light1's top across the road, so he moved two tiles east on his sidewalk (people list below).
  // R203: the pole across the road from the police box stood right under the police officer, who read as standing on its top (mobile-24), so it moved west along that far sidewalk (down-left of the police box).
  // R228: the pole on the sidewalk south of the junkyard stood right behind the tree below it, so its top stuck out of the leaves; it moved three tiles west, clear of the tree.
- ...props('pole',7,130,[[12.5,4],[12.5,13],[11.4,23.1],[17.5,32.4],[4.5,19.6],[24.5,11.6]]),
+ // R771: on arrival in chapter 1 the pole at x 4.5 stood under the goal banner at the top left, so only its lower half showed (mobile-25/33/34).
+ // It moved east along the same sidewalk to x 11.4 (east of the police officer, under the pole south of it, 1 tile west of the signal), clear of the banner and the menu button.
+ ...props('pole',7,130,[[12.5,4],[12.5,13],[11.4,23.1],[17.5,32.4],[11.4,19.6],[24.5,11.6]]),
  // R198: a pole or street light right under a signal on the same sidewalk read as one tall post (mobile-16), so they keep a gap; the short walk between the two signals by the electric shop has no light.
  ...props('light',5,120,[[17.5,4.6],[17.5,22.6],[12.5,33],[4.5,11.6],[24.5,29.6]]),
  // R697: at feet y 31.25 the kid stood on the sandbox's wooden top rim (rows 31-34, rim 8px) and read as standing on the frame (mobile-25), so the kid stands a quarter tile lower, on the sand; still 1.6 tiles from the hairclip and 12px above the talk button.
