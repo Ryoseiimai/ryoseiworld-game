@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T03:55:34.728Z",
-  "branch": "claude/autodev-20261120-1221-R636",
-  "task": "R636 町の公園の池で、波の白い線がどのマスも同じ所にあり、道路の中央線のように並んで見えたので、マスごとに置き場所を変えた小さな波にした",
-  "summary": "町の公園の池で、波の白い線が道路の中央線のように並んで見えた\n池の波を、マスごとに置き場所を変えた小さな3段の波にした\n前と後のスクショで、線が並ばなくなったことを確かめた",
-  "result": "pass",
-  "shots": [
-   "shots/1123/mobile-02-mode-select.jpg",
-   "shots/1123/mobile-19-custom-og-credit-card.jpg",
-   "shots/1123/mobile-34-chapter-1-play.jpg",
-   "shots/1123/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "75d0fc5",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44669094724"
- },
- {
   "at": "2026-11-20T04:42:04.126Z",
   "branch": "claude/autodev-20261120-1322-R637",
   "task": "R637 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "5ac3428",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45940558431"
+ },
+ {
+  "at": "2026-11-27T05:40:06.028Z",
+  "branch": "claude/autodev-20261127-1421-R774",
+  "task": "R774 遊んで一番気になる所を1つ直す",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらって1つずつ確かめた\n街灯が車道に立つ件は、会話窓が足元を隠した場面だけで、窓の無い画面では歩道に立っていた\n公園の看板の柱が砂場の縁に乗る件は、R687 の決まりとぶつかるので R773 で判断を頼んだ",
+  "result": "pass",
+  "shots": [
+   "shots/1357/mobile-02-mode-select.jpg",
+   "shots/1357/mobile-19-custom-og-credit-card.jpg",
+   "shots/1357/mobile-34-chapter-1-play.jpg",
+   "shots/1357/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "a725a8a",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45946070603"
  }
 ]
