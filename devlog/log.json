@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T06:53:08.235Z",
-  "branch": "claude/autodev-20261120-1522-R639",
-  "task": "R639 設定のモードのボタンが今のモードを書くだけで、押すと切り替わると分からなかったので、今のモードは上の文に出し、ボタンを「こどもモードにする」にした",
-  "summary": "設定のモードのボタンが、押すと切り替わると分からなかった\n今のモードを上の文に出し、ボタンを「こどもモードにする」にした\nスマホで文字が約17pxに縮む件は方針が要るので R640 の判断待ちにした",
-  "result": "pass",
-  "shots": [
-   "shots/1129/mobile-02-mode-select.jpg",
-   "shots/1129/mobile-19-custom-og-credit-card.jpg",
-   "shots/1129/mobile-34-chapter-1-play.jpg",
-   "shots/1129/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "f00ad40",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44689812056"
- },
- {
   "at": "2026-11-20T07:38:49.097Z",
   "branch": "claude/autodev-20261120-1621-R641",
   "task": "R641 遊んで一番気になる所を1つ直す",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "8663025",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45960511858"
+ },
+ {
+  "at": "2026-11-27T08:56:38.481Z",
+  "branch": "claude/autodev-20261127-1721-R777",
+  "task": "R777 BUG KING の横に広がった足が平らな光の輪の上に浮いて見えていたので、光を床の円にして全部の足が乗るようにした",
+  "summary": "全章のスクショを確認役に見せ、気になる所を5つ挙げてもらった\nBUG KING の足元の光を平らな輪から床の円にし、横の足も光に乗せた\n横の足が円の内側にあることを確かめるテストを足した",
+  "result": "pass",
+  "shots": [
+   "shots/1362/mobile-02-mode-select.jpg",
+   "shots/1362/mobile-19-custom-og-credit-card.jpg",
+   "shots/1362/mobile-34-chapter-1-play.jpg",
+   "shots/1362/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8c86088",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/45968271929"
  }
 ]
