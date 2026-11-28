@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T05:49:28.211Z",
-  "branch": "claude/autodev-20261121-1421-R665",
-  "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
-  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\nコマンド戦の背景に、外なら家並み、部屋なら窓を薄く描いた\n残り4つは直さなかった（下の理由）",
-  "result": "fail",
-  "shots": [
-   "shots/1166/mobile-02-mode-select.jpg",
-   "shots/1166/mobile-19-custom-og-credit-card.jpg",
-   "shots/1166/mobile-34-chapter-1-play.jpg",
-   "shots/1166/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "53c8be0",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44872024862"
- },
- {
   "at": "2026-11-21T06:42:45.407Z",
   "branch": "claude/autodev-art-20261121-153221",
   "task": "絵",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a1de06b",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46126840495"
+ },
+ {
+  "at": "2026-11-28T09:00:27.178Z",
+  "branch": "claude/autodev-20261128-1722-R801",
+  "task": "R801 タイトルの木の間から店の平らな屋根と室外機だけが灰色の切れ端に見えていたので、タイトルでは店を描かないようにした",
+  "summary": "タイトルの木の間に、店の屋根と室外機だけが灰色の切れ端で見えていた\nタイトルでは店を描かず、左の家だけを残した（章の札は今のまま）\n確認役が挙げた戦いの背景の窓と「話す」ボタンの位置は次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/1399/mobile-02-mode-select.jpg",
+   "shots/1399/mobile-19-custom-og-credit-card.jpg",
+   "shots/1399/mobile-34-chapter-1-play.jpg",
+   "shots/1399/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "ff6dbb6",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46126881873"
  }
 ]
