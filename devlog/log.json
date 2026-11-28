@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T06:42:45.407Z",
-  "branch": "claude/autodev-art-20261121-153221",
-  "task": "絵",
-  "summary": "できた絵: minamo_grandpa、friend_rug",
-  "result": "pass",
-  "shots": [
-   "shots/1167/mobile-02-mode-select.jpg",
-   "shots/1167/mobile-19-custom-og-credit-card.jpg",
-   "shots/1167/mobile-34-chapter-1-play.jpg",
-   "shots/1167/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "c6abf10",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44876038970"
- },
- {
   "at": "2026-11-21T06:59:51.311Z",
   "branch": "claude/autodev-20261121-1421-R665",
   "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "ff6dbb6",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46126881873"
+ },
+ {
+  "at": "2026-11-28T10:09:59.939Z",
+  "branch": "claude/autodev-20261128-1821-R802",
+  "task": "R802 部屋の戦いで窓の上の棒がことばカードの下の端にくっついていたので、窓の上の端を12下げて少し低くした",
+  "summary": "部屋の戦いで、窓の上の棒がことばカードの下の端にくっついていた\n窓の上の端を12下げて窓を低くし、カードとの間を14あけた\n24下げる案は、確認役の指摘でソラの光に重なるのでやめた。鍵の枝への push は決まりで止められ、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/1400/mobile-02-mode-select.jpg",
+   "shots/1400/mobile-19-custom-og-credit-card.jpg",
+   "shots/1400/mobile-34-chapter-1-play.jpg",
+   "shots/1400/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "76720c7",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46132834199"
  }
 ]
