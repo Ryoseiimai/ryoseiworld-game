@@ -4320,6 +4320,11 @@ result.push('R801: タイトルの木の間に店の屋根の切れ端が出な�
  // R738: the tall-phone bands above and below the stage keep their own colour, so no darker seam shows under the title ground (mobile-15).
  {const base=(html.match(/#backdrop\{[^}]*\}/)||[''])[0];
   assert(base&&!/brightness/.test(base),'R738: the tall backdrop does not darken the bands: '+base);}
+ // R805: the tall backdrop is not blurred (the blur faded to dark at the screen's sides), and the flat bands reach under the stage's edge so no stage copy shows below it.
+ {const bd=(html.match(/function drawBackdrop\(\)\{[^\n]*/)||[''])[0],tall=(html.match(/#backdrop\.tall\{([^}]*)\}/)||['',''])[1];
+  assert(/filter:none/.test(tall),'R805: the tall backdrop has no blur: '+tall);
+  assert(bd.includes("backdrop.classList.remove('wide');backdrop.classList.add('tall')")&&bd.includes("backdrop.classList.add('wide');backdrop.classList.remove('tall')"),'R805: tall and wide classes switch together');
+  assert(/top=Math\.min\(bh,Math\.max\(0,Math\.ceil\([^;]*\)\+1\)\)/.test(bd)&&/bot=Math\.max\(top,Math\.min\(bh,Math\.floor\([^;]*\)-1\)\)/.test(bd),'R805: the bands start one pixel inside the stage');}
  result.push('R738: 縦長の画面の上下の帯を暗くせず、地面との境目が出ないようにした PASS');
  // R567: the greyed 「続きから」 on the title keeps a solid plate (no 45% opacity), so the ground does not show through its faint words.
  {const m=/#title-actions button:disabled\{([^}]*)\}/.exec(html);assert(m&&/opacity:1\b/.test(m[1])&&/background:#[0-9a-f]{6}(;|$)/.test(m[1]),'R567: greyed title buttons keep an opaque plate: '+(m&&m[1]));
