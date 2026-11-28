@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T07:30:35.250Z",
-  "branch": "claude/autodev-20261121-1621-R664",
-  "task": "R664 友達の家のラグを届いた絵のしましまのラグに差し替え、低い机とビーズクッションを足した",
-  "summary": "友達の家のラグを、届いた絵のしましまのラグに差し替えた\n友達の家に、低い机とビーズクッションを足した。本だなの絵は実在のロボットに似たおもちゃがあるので使わなかった\n前と後のスクショを docs/shots/R664 に置き、テストを足した",
-  "result": "fail",
-  "shots": [
-   "shots/1169/mobile-02-mode-select.jpg",
-   "shots/1169/mobile-19-custom-og-credit-card.jpg",
-   "shots/1169/mobile-34-chapter-1-play.jpg",
-   "shots/1169/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ee9675c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44880040776"
- },
- {
   "at": "2026-11-21T07:40:15.443Z",
   "branch": "claude/autodev-20261121-1621-R664",
   "task": "R664 友達の家のラグを届いた絵のしましまのラグに差し替え、低い机とビーズクッションを足した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "a77e85d",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46141257632"
+ },
+ {
+  "at": "2026-11-28T12:52:36.548Z",
+  "branch": "claude/autodev-20261128-2121-R804",
+  "task": "R804 部屋の戦いで、呼び出しの名札が窓の左のカーテンと枠にかかって見えていたので、名札が出ている間は窓を描かないようにした",
+  "summary": "部屋の戦いで、呼び出しの名札が窓のカーテンと枠にかかっていた\n名札が出ている間は窓を描かず、名札が薄れる0.4秒で戻すようにした\n7文字の名前でも名札が窓に重ならないことを確かめる試験を足した",
+  "result": "pass",
+  "shots": [
+   "shots/1402/mobile-02-mode-select.jpg",
+   "shots/1402/mobile-19-custom-og-credit-card.jpg",
+   "shots/1402/mobile-34-chapter-1-play.jpg",
+   "shots/1402/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "49808e8",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46145982191"
  }
 ]
