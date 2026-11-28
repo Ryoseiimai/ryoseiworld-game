@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T22:13:33.197Z",
-  "branch": "claude/autodev-20261121-0641-R656",
-  "task": "R656 最初のカラス戦では表示バグが無いのに、デバッグで「表示バグも直った！」と出ていたので、表示バグがあった時だけその行を出すようにした",
-  "summary": "全章のスクショ154枚を撮り、確認役がパソコンの51枚から1つ挙げた\n表示バグが無い時は、デバッグで「表示バグも直った」と言わないようにした\n前と後のスクショで最初のカラス戦の文が1行になったのを確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1155/mobile-02-mode-select.jpg",
-   "shots/1155/mobile-19-custom-og-credit-card.jpg",
-   "shots/1155/mobile-34-chapter-1-play.jpg",
-   "shots/1155/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "75d5935",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44824893852"
- },
- {
   "at": "2026-11-20T22:51:27.652Z",
   "branch": "claude/autodev-20261121-0721-R657",
   "task": "R657 電気屋の奥・友だちの家・ネットカフェのソファが、影から離れて浮いて見えていたので、影をソファの足元に沿わせた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "d083ebc",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46095420252"
+ },
+ {
+  "at": "2026-11-28T02:53:40.087Z",
+  "branch": "claude/autodev-20261128-1121-R795",
+  "task": "R795 部屋と塔で「話す」ボタンが床のふちの線の2px下にあり、線にくっついて見えたので、ボタンを4px下げて6px離した",
+  "summary": "部屋と塔で、話すボタンが床のふちの線にくっついて見えていた\nボタンを4px下げ、線との間を2pxから6pxにした。画面の下は8px以上あけた\n確認役が挙げたボス戦の上下の詰まりと文字の大きさは、前の件で決めた形と縮小のためで、直さなかった",
+  "result": "pass",
+  "shots": [
+   "shots/1388/mobile-02-mode-select.jpg",
+   "shots/1388/mobile-19-custom-og-credit-card.jpg",
+   "shots/1388/mobile-34-chapter-1-play.jpg",
+   "shots/1388/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "54305ac",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46099453656"
  }
 ]
