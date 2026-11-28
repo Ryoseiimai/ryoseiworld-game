@@ -3000,14 +3000,14 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R754: 倒した敵の z が、細い自販機の右上の角に重ならず絵の右から出る PASS');
  // R755: the indoor battle window was only a faint frame and read as a leftover box; its glass now has a night-sky fill and the frame matches the outdoor houses.
  {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);assert(m,'battlePlace is defined');const ins=m[0].slice(m[0].indexOf('}else{'));
-  assert(/ctx\.globalAlpha=BATTLE_PANE_ALPHA;ctx\.fillStyle=BATTLE_PANE;ctx\.fillRect\(376,254,108,70\)/.test(ins),'indoor window glass is filled');
+  assert(/ctx\.globalAlpha=BATTLE_PANE_ALPHA(?:\*wk)?;ctx\.fillStyle=BATTLE_PANE;ctx\.fillRect\(376,254,108,70\)/.test(ins),'indoor window glass is filled');
   assert(ins.indexOf('BATTLE_PANE_ALPHA')<ins.indexOf('fillRect(370,248,120,6)'),'glass is drawn under the frame');
-  assert(/ctx\.globalAlpha=BATTLE_ROOM_ALPHA;ctx\.fillStyle='#0b1a2a';ctx\.fillRect\(370,248,120,6\)/.test(ins),'frame uses a firmer alpha');}
+  assert(/ctx\.globalAlpha=BATTLE_ROOM_ALPHA(?:\*wk)?;ctx\.fillStyle='#0b1a2a';ctx\.fillRect\(370,248,120,6\)/.test(ins),'frame uses a firmer alpha');}
  result.push('R755: 戦いの部屋の窓にガラスの色が入り、消し残りの四角に見えない PASS');
  // R758: the indoor battle window floated with no wall around it; a curtain rod, curtains on both sides and a sill now frame it as a window in a wall.
  {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);const ins=m[0].slice(m[0].indexOf('}else{'));
   assert(/ctx\.fillRect\(352,238,156,4\)/.test(ins)&&/ctx\.fillRect\(362,330,136,7\)/.test(ins),'rod and sill frame the window');
-  assert(/ctx\.globalAlpha=BATTLE_CURTAIN_ALPHA;ctx\.fillStyle=BATTLE_CURTAIN;ctx\.fillRect\(354,242,16,88\);ctx\.fillRect\(490,242,16,88\)/.test(ins),'curtains hang on both sides');
+  assert(/ctx\.globalAlpha=BATTLE_CURTAIN_ALPHA(?:\*wk)?;ctx\.fillStyle=BATTLE_CURTAIN;ctx\.fillRect\(354,242,16,88\);ctx\.fillRect\(490,242,16,88\)/.test(ins),'curtains hang on both sides');
   assert(/BATTLE_CURTAIN_ALPHA=\.4\d?/.test(html),'curtains are firmer than the glass');}
  result.push('R758: 戦いの部屋の窓に棒・カーテン・窓の台が付き、宙に浮いた四角に見えない PASS');
  // R802: the curtain rod (y 226) touched the word card's bottom edge (y 224), so the window looked pushed under the card. The window's top now starts 12px lower (shorter window); the sill keeps its place clear of Sora's glow (from y 336).
@@ -3016,6 +3016,16 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   const top=Math.min(...ys.map(r=>r[0])),bot=Math.max(...ys.map(r=>r[1]));
   assert(ys.length>=10,'the window parts are found');assert(top>=224+12,'the rod starts at least 12px below the word card (y 224), got '+top);assert(bot<=380-44+1,'the sill ends where Sora\'s glow begins, got '+bot);}
  result.push('R802: 戦いの部屋の窓の棒が、ことばカードの下の端から離れ、ソラの光にもかからない PASS');
+ // R804: the summon name tag (centre x 270, 30px font, 12px padding) reached the room window's left curtain (x 354) and, with 7-letter names, the frame (x 370). While a summon is on screen the room window fades out, and it comes back as the summon leaves.
+ {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);const ins=m[0].slice(m[0].indexOf('}else{'));
+  assert(/const wk=roomWindowFade\(\);if\(wk>0\)\{/.test(ins),'R804: the room window is drawn only while roomWindowFade() > 0');
+  for(const k of['BATTLE_PANE_ALPHA','BATTLE_ROOM_ALPHA','BATTLE_CURTAIN_ALPHA'])assert(ins.includes('ctx.globalAlpha='+k+'*wk;'),'R804: '+k+' is scaled by the fade');
+   const src=html.match(/function roomWindowFade\(\)\{.*?return t<1700\?[^;]*;\}/);assert(src,'R804: roomWindowFade body found');
+  const run=(cast,now)=>new Function('g','gameTime','return ('+src[0]+')()')({battle:{cast}},now);
+  assert(run(null,0)===1,'R804: no summon, full window');assert(run({start:0},400)===0&&run({start:0},1600)===0,'R804: gone while the name tag shows');
+  assert(run({start:0},0)===0&&run({start:0},1900)>0&&run({start:0},1900)<1&&run({start:0},2100)===1,'R804: gone as soon as the tag appears, and back as the tag fades out');
+  const names=['ナオスライム','コードラゴン','サーチフクロウ','ペイントキメラ','ゼロ'];const right=Math.max(...names.map(n=>270+n.length*30/2+12));assert(right>354,'R804: the longest tag ('+right+') would reach the curtain, so the fade is needed');}
+ result.push('R804: 呼び出しの間は部屋の窓を消し、名札がカーテンと枠にかからない PASS');
  // R759: outside the battle halo hid the dark houses but left their bright windows as floating dots; windows now fade with the halo and vanish where the houses cannot be seen.
  {const m=html.match(/function battlePlace\(foot\)\{[^\n]*/);const out=m[0].slice(m[0].indexOf('if(m.outside){'),m[0].indexOf('}else{'));
   assert(/battleWindowFade\(wx\+6,wy\+7,hep\)/.test(out)&&/ctx\.globalAlpha=BATTLE_WINDOW_ALPHA\*k/.test(out),'R759: each outside window takes its alpha from the halo cover');
