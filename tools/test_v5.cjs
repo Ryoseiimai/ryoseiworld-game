@@ -3701,7 +3701,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R607: 1しょうの始めで、おまわりさんの守護霊が犬の頭に重ならない PASS');
  // R608: the cloud gate's feet sat behind the HUD but showed as a dark scrap between the place card and the メニュー button (mobile-38). A thing whose feet are above the HUD's lower edge is drawn only inside the place card.
  {const src=(html.match(/function hudClip\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'hudClip is there');
-  const df=(html.match(/const heads=\[\];for\(const o of drawables\)\{[^\n]*/)||[''])[0];assert(/continue;const clip=hudClip\(m,o\);if\(clip\)\{ctx\.save\(\);ctx\.beginPath\(\);if\(clip\[4\]==='cut'\)\{ctx\.rect\(camera\.x-W,camera\.y-H,W\*3,H\*3\);ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\('evenodd'\);\}else\{ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\(\);\}\}/.test(df)&&/if\(clip\)ctx\.restore\(\);\}$/.test(df),'drawField clips each thing behind the HUD and restores after it');
+  const df=(html.match(/const heads=\[\];for\(const o of drawables\)\{[^\n]*/)||[''])[0];assert(/continue;const clip=hudClip\(m,o\);if\(clip\)\{ctx\.save\(\);ctx\.beginPath\(\);if\(clip\[4\]==='cut'\)\{ctx\.rect\(camera\.x-W,camera\.y-H,W\*3,H\*3\);ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);for\(const b of clip\.slice\(5\)\)ctx\.rect\(b\[0\],b\[1\],b\[2\],b\[3\]\);ctx\.clip\('evenodd'\);\}else\{ctx\.rect\(clip\[0\],clip\[1\],clip\[2\],clip\[3\]\);ctx\.clip\(\);\}\}/.test(df)&&/if\(clip\)ctx\.restore\(\);\}$/.test(df),'drawField clips each thing behind the HUD and restores after it');
   const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   r.g.debugWarp('neon',15,13.6);r.tick(16);r.tick(16);const cam=r.g.camera,hudTop=r.g.hudTop,gate=r.g.GAME_DATA.maps.neon.objects.find(o=>o.id==='neon_cloudgate');
   const clipOf=(outside,o,panel)=>new Function('camera','hudTop','hudPanel','isPerson','questRect',(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0]+';'+src+';return hudClip;')({x:Math.round(cam.x),y:Math.round(cam.y)},hudTop,panel,k=>k==='hero'||/^npc/.test(k),null)({outside},{kind:'buildings',...o});
@@ -3745,6 +3745,19 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(cut({kind:'buildings',x:3,foot:360,w:200,h:180},qr,panel)===null,'a building still gets no cut');
   assert(/qb-hudPanel\.b,'cut'\]/.test(src),'the cut reaches the tag bottom');}
  result.push('R771: ヒダマリの電柱の腕と変圧器が、すけた目標の札の字の下に見えない PASS');
+ // R800: the transformer and arm ends hung below the tag bottom and showed as grey scraps under it (mobile-25). Under the tag a pole keeps only its post.
+ {const src=(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'questGapCut is there');
+  const hudEl={classList:{over:false,contains(){return this.over;}}},cut=(o,qr,panel)=>new Function('questRect','hudPanel','camera','dimensions','frameFor','TILE','$',src+';return questGapCut;')(qr,panel,{x:0,y:0},x=>({w:x.w,h:x.h}),()=>({top:0}),48,()=>hudEl)({outside:true},o);
+  const panel={l:20,t:24,r:380,b:226},qr={l:20,t:240,r:380,b:280};
+  const c=cut({kind:'props',frame:7,x:3,foot:520,w:124,h:248},qr,panel);
+  assert(c&&c.length===7&&c[3]===54,'a pole under the tag gets a band and a post: '+JSON.stringify(c));
+  const [band,post]=[c[5],c[6]];
+  assert(band[0]===20&&band[1]===280&&band[2]===360&&band[3]===396-280,'the band runs from the tag bottom to where the arms end: '+JSON.stringify(band));
+  assert(post[0]===144-57&&post[2]===30&&post[1]===280&&post[3]===band[3],'the post (frame columns 62-89 of 236) is drawn inside the band: '+JSON.stringify(post));
+  assert(cut({kind:'props',frame:5,x:3,foot:520,w:124,h:248},qr,panel).length===5,'a street light keeps the plain cut');
+  assert(cut({kind:'props',frame:7,x:3,foot:320,w:124,h:248},qr,panel).length===5,'a pole whose arms end above the tag bottom gets no band');
+  assert(/for\(const b of clip\.slice\(5\)\)ctx\.rect\(b\[0\],b\[1\],b\[2\],b\[3\]\);ctx\.clip\('evenodd'\)/.test(html),'the draw loop adds the band and the post to the even-odd clip');}
+ result.push('R800: ヒダマリの電柱の変圧器と腕の切れ端が、目標の札の下にのぞかない PASS');
  // R612: a road centre dash in the goal tag's row, just right of its "→", read as part of the tag (mobile-33, mobile-25).
  {const src=(html.match(/function questRowDash\(x,y,w,h\)\{[^\n]*\}/)||[''])[0];assert(src,'questRowDash is there');
   const g=(html.match(/function ground\(m\)\{.*/)||[''])[0];assert(/&&!questRowDash\(px\+mid-2,py\+6,4,27\)\)rect\(px\+mid-2,py\+6,4,27,/.test(g)&&/&&!questRowDash\(px\+6,py\+midY-2,27,4\)\)rect\(px\+6,py\+midY-2,27,4,/.test(g),'ground() asks questRowDash before both road dashes');
