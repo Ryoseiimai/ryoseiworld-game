@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T06:59:51.311Z",
-  "branch": "claude/autodev-20261121-1421-R665",
-  "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
-  "summary": "自動確認で落ちた所を直した。家並みと窓は波より先に描き、ぼかしの順を元どおりにした\n部屋の窓がソラの光と重なっていたので、上の札とソラの間に動かした\n町と自分の部屋の戦闘の前と後のスクショを docs/shots/R665 に置いた",
-  "result": "pass",
-  "shots": [
-   "shots/1168/mobile-02-mode-select.jpg",
-   "shots/1168/mobile-19-custom-og-credit-card.jpg",
-   "shots/1168/mobile-34-chapter-1-play.jpg",
-   "shots/1168/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "4e63632",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44877410638"
- },
- {
   "at": "2026-11-21T07:30:35.250Z",
   "branch": "claude/autodev-20261121-1621-R664",
   "task": "R664 友達の家のラグを届いた絵のしましまのラグに差し替え、低い机とビーズクッションを足した",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "76720c7",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46132834199"
+ },
+ {
+  "at": "2026-11-28T11:53:26.765Z",
+  "branch": "claude/autodev-20261128-2021-R803",
+  "task": "R803 ボス戦で、浮いたキックボードの下に紫の抜き残りが線のように見えていたので、絵を読む時にその帯を透明にした",
+  "summary": "ボス戦で、キックボードの下に紫の線が見えていた\n乗った絵の下の端の紫の帯を、読み込む時に透明にした\n確認役の指摘で、黒い縁は残し、帯の端の青紫も消すようにした",
+  "result": "pass",
+  "shots": [
+   "shots/1401/mobile-02-mode-select.jpg",
+   "shots/1401/mobile-19-custom-og-credit-card.jpg",
+   "shots/1401/mobile-34-chapter-1-play.jpg",
+   "shots/1401/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "a77e85d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46141257632"
  }
 ]
