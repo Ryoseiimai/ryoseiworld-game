@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T05:41:11.285Z",
-  "branch": "claude/autodev-20261121-1421-R665",
-  "task": "R665 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\n友達の家用のラグと家具の絵を絵係に頼んだ。届いたら R664 で差し替える\n実績の数のずれとボス戦が進まない件は、撮影の手順によるものだった",
-  "result": "pass",
-  "shots": [
-   "shots/1165/mobile-02-mode-select.jpg",
-   "shots/1165/mobile-19-custom-og-credit-card.jpg",
-   "shots/1165/mobile-34-chapter-1-play.jpg",
-   "shots/1165/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "ce8950a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44871309665"
- },
- {
   "at": "2026-11-21T05:49:28.211Z",
   "branch": "claude/autodev-20261121-1421-R665",
   "task": "R665 コマンド戦の背景がどの戦いも同じ波で場所が分からなかったので、外では家並み、部屋では窓と床の線を薄く描いた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "4739d07",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46125725147"
+ },
+ {
+  "at": "2026-11-28T08:49:58.318Z",
+  "branch": "claude/autodev-20261128-1722-R801",
+  "task": "R801 遊んで一番気になる所を1つ直す",
+  "summary": "町の電柱が目標の札の下で切れ、変圧器と腕の切れ端が残っていた\n札の下は柱だけを描き、腕と変圧器は描かないようにした\n確認役が挙げたタイトルの建物とソラの名札は次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/1398/mobile-02-mode-select.jpg",
+   "shots/1398/mobile-19-custom-og-credit-card.jpg",
+   "shots/1398/mobile-34-chapter-1-play.jpg",
+   "shots/1398/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "a1de06b",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46126840495"
  }
 ]
