@@ -1680,7 +1680,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R82: when a summon is called, its ring and the squares of Naoslime and paint stay above the RYOSEI/HP card, so they never cross its text.
  {const m=html.match(/const SUMMON_Y=(\d+),SUMMON_RING_Y=(\d+),SUMMON_RING_RY=(\d+);/);assert(m,'summon positions are named');const [y,ringY,ringRy]=m.slice(1).map(Number);
   const card=Number((html.match(/\.hp-card\{[^}]*top:(\d+)px/)||[])[1]);assert(card>0,'the HP card has a top');
-  assert(html.includes('ctx.ellipse(270,SUMMON_RING_Y,104*Math.min(1,t/400),SUMMON_RING_RY,'),'the ring uses the named position');assert(/rect\(225\+i\*30[^,]*,SUMMON_RING_Y-11\+Math\.sin\(i\)\*10\*k,22,22/.test(html),'the squares use the named position');
+  assert(html.includes('ctx.ellipse(270,SUMMON_RING_Y,104*Math.min(1,t/400),SUMMON_RING_RY,'),'the ring uses the named position');assert(/rect\(225\+i\*30[^,]*,SUMMON_RING_Y-11\+Math\.sin\(i\)\*10\*k(-\(1-k\)\*\(\d+\+i%2\*\d+\))?,22,22/.test(html),'the squares use the named position (R799: they may only rise from there)');
   assert(y+4<card,'the summon stands above the card');assert(ringY+ringRy+3<card,'the ring (with its 5px line) ends above the card');assert(ringY-11+10+22<card,'the squares end above the card');assert(/rect\(222\+i\*24[^;]*,SUMMON_RING_Y-8\+Math\.sin\(i\+gameTime\/150\)\*8\*k,16,16/.test(html),'paint squares use the named position');assert(ringY-8+8+16<card,'paint squares end above the card');assert(!/rect\([^;]*,5[0-9]{2}\+Math\.sin\(i/.test(html.match(/if\(b\.cast\)\{[^\n]*/)[0]),'no summon squares are left at a fixed y over the card');
   assert(ringY-ringRy<y&&ringY+ringRy>y-30,'the ring sits under the summon’s feet');}
  result.push('R82: 呼び出した仲間の足元の輪と四角が「RYOSEI」「HP」の欄に重ならない PASS');
@@ -3165,6 +3165,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const m=html.match(/if\(b\.cast\.id==='nao'([^{]*)\{[^}]*'#8de2ff'/);assert(m,'the Naoslime effect is found');
   const lim=/&&t<(\d+)/.exec(m[1]);assert(lim&&Number(lim[1])<=900,'the Naoslime blocks stop by the heal at 0.9 s');}
  result.push('R219: ナオスライムを呼んだ後、水色の四角が足のように残らない PASS');
+ // R799: at the end of the 0.9 s the three blocks lined up at one height over the slime's feet and read as leftovers. They fade out and rise apart.
+ {const m=html.match(/if\(b\.cast\.id==='nao'&&t<900\)\{([^}]*)'#8de2ff'/);assert(m,'the Naoslime effect is found');
+  assert(/globalAlpha=a0\*k/.test(m[1]),'the Naoslime blocks fade out with the effect');assert(/-\(1-k\)\*\(60\+i%2\*24\)/.test(m[1]),'the Naoslime blocks rise apart instead of lining up');}
+ result.push('R799: ナオスライムの水色の四角が、横一列に並んで残らず薄くなって消える PASS');
  // R225: the cherry tree by the town park sandbox stood on the sandbox's right rim and read as growing in the sand. It moved onto the grass column between the sand and the sidewalk.
  // R688: the cherry tree left the park (it was cut in half at the arrival view's right edge), so every tree is checked: none stands in or on the sandbox's rim.
  {const m=(await runtime()).g.GAME_DATA.maps.town,trees=m.objects.filter(o=>/^tree/.test(o.id));assert(trees.length>=5,'the town still has its trees');
