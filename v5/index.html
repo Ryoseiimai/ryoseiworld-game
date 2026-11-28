@@ -1132,12 +1132,13 @@ const SORA_TAG_PLATE='rgba(10,22,30,.78)';function soraTag(n){ctx.font="24px 'Hi
 function drawSora(x,y,r){const glow=ctx.createRadialGradient(x,y,0,x,y,r*2);glow.addColorStop(0,'#bce6dd');glow.addColorStop(.3,'#7fcad6aa');glow.addColorStop(1,'#7fcad600');ctx.fillStyle=glow;ctx.fillRect(x-r*2,y-r*2,r*4,r*4);ellipse(x,y,r*.25,r*.25,'#efffe1');}
 // The hero rides the kickboard across the title screen, left to right, then comes round again.
 // R292: the title buttons start at y=640, so the hero rides the sidewalk strip just above them, in front of the row of trees (their feet stand behind the strip) instead of over the trees' trunks.
+// R794: at 634 the front wheel stood about 6px above 「始めから」 when the continue hint pins the buttons at y=640, so the hero looked like riding on the button; the foot is now 624, about 25px below the sidewalk top.
 // R297: the road under the buttons showed its edges and white dashes at the left and right of 「はじめから」, so the title draws no road and the sidewalk runs down to the bottom of the screen: the buttons start at y=640 (with the hint) or about y=649 (without), and no edge sits beside them either way.
 // R570: on the chapter card and the epilogue the card (x 36 to 504) hid the tree row, so only a pink slice of the first tree and a green
 // slice of the sixth tree and the lamp showed at its two edges, like smudges on a phone. Those screens now leave out the trees and the lamp.
 // R571: the two faint houses (centred at x 105 and 425) still stuck out past the card's edges (x 36 and 504) as a green and a grey slice,
 // so on the card screens they move in to x 150 and 390 and sit wholly behind the card. The title keeps them where they were.
-const TITLE_TREE_FOOT=588,TITLE_WALK_TOP=598,TITLE_RIDE_FOOT=634;const TITLE_WALK_END=960;
+const TITLE_TREE_FOOT=588,TITLE_WALK_TOP=598,TITLE_RIDE_FOOT=624;const TITLE_WALK_END=960;
 // R591: on the title the genre box (遊びながら…, its bottom near y 443) sat over the roof of the left house (roof top near y 419), cutting the roof in two (mobile-01).
 // On the title only, both houses stand TITLE_HOUSE_DROP lower and the box sits 12px higher (#title-genre margin), so the box ends near y 431 and the roofs start below it (left roof near y 445), partly behind the trees. The chapter card and the end screens keep their place.
 // R776: the left house's antenna still reached the genre box's bottom edge at 26 (mobile-01), so the houses stand 12px lower and the antenna tip keeps clear of the box.

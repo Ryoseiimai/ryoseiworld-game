@@ -1474,8 +1474,11 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const c=html.match(/const TITLE_TREE_FOOT=(\d+),TITLE_WALK_TOP=(\d+),TITLE_RIDE_FOOT=(\d+);/);assert(c,'the title ground has named heights');const [tree,walk,ride]=c.slice(1).map(Number);
   const body=(html.match(/function drawTitle\(\)\{[^\n]*/)||[''])[0];assert(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/.test(body)&&/hero_ride',[^;]*TITLE_RIDE_FOOT/.test(body)&&/rect\(0,TITLE_WALK_TOP,/.test(body),'drawTitle uses the named heights');
   const step=Number(body.match(/TITLE_TREE_FOOT\+\(i%2\)\*(\d+)/)[1]);const btn=Number((html.match(/\.title-actions\.with-hint\{top:(\d+)px/)||[])[1]);
-  assert(tree+step<=walk,'the trees stand behind the sidewalk');assert(ride>walk+16&&ride<=btn-4,'the hero rides on the visible sidewalk above the buttons');}
+  assert(tree+step<=walk,'the trees stand behind the sidewalk');assert(ride>walk+16&&ride<=btn-4,'the hero rides on the visible sidewalk above the buttons');
+  // R794: with the continue hint the buttons start at y=640 and the wheels stood 6px above 「始めから」, so the hero looked like riding on the button; the wheels now keep at least 16px above it.
+  assert(btn-ride>=16,'R794: the hero rides at least 16px above the pinned buttons: '+(btn-ride));}
  result.push('R292: タイトルの主人公が木の上でなく、ボタンの上に見える歩道を走る PASS');
+ result.push('R794: 続きの案内があるタイトルでも、主人公の車輪がボタンの16px以上上を走る PASS');
  // R297: the road band and its white dashes behind the title buttons poked out at the left and right of 「はじめから」. The title buttons start at y=640 with the hint and lower without it, so the sidewalk runs to the bottom of the screen and no strip starts or ends behind or beside them.
  {const btn=Number((html.match(/\.title-actions\.with-hint\{top:(\d+)px/)||[])[1]);const end=Number((html.match(/const TITLE_WALK_END=(\d+);/)||[])[1]);const walk=Number((html.match(/TITLE_WALK_TOP=(\d+)/)||[])[1]);const ride=Number((html.match(/TITLE_RIDE_FOOT=(\d+)/)||[])[1]);
   const body=(html.match(/function drawTitle\(\)\{[^\n]*\}/)||[''])[0];
