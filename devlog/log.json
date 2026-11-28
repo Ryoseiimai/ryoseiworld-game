@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T23:59:31.462Z",
-  "branch": "claude/autodev-20261121-0821-R658",
-  "task": "R658 ミナモちょうの家3軒が自分の家と同じ絵で、別の町に自分の家があるように見えていたので、屋根の色を赤茶・緑・茶に変え、2軒を左右反対にした",
-  "summary": "全章のスクショ153枚を撮り、確認役が見て5つ挙げた\nミナモの家3軒が自分の家と同じ絵だったので、屋根の色を変え2軒を反転した\n前と後のスクショで3軒が自分の家と違って見えるのを確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1158/mobile-02-mode-select.jpg",
-   "shots/1158/mobile-19-custom-og-credit-card.jpg",
-   "shots/1158/mobile-34-chapter-1-play.jpg",
-   "shots/1158/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "d0bb53a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44839655725"
- },
- {
   "at": "2026-11-21T00:36:12.978Z",
   "branch": "claude/autodev-20261121-0921-R659",
   "task": "R659 ネットカフェの店員がミナモのお母さんと同じ絵だったので、店員を空いていた制服の係員の絵に変えた",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "cad0f00",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46107812477"
+ },
+ {
+  "at": "2026-11-28T06:03:49.855Z",
+  "branch": "claude/autodev-20261128-1421-R798",
+  "task": "R798 スマホでフィールドのメニューが窓の下にはみ出し、9個目のボタンが半分で切れて見えていたので、ボタンの切れ目で窓を止め、下に「▼ 続き」の帯を出した",
+  "summary": "スマホのメニューで9個目のボタンが窓の下で半分切れていた\n窓をボタンの切れ目で止め、下に「▼ 続き」の帯を出した。ことばノートも同じ\n長い文と長いボタンの両方がある窓では「▼ 続き」が2つ出るが、重ならないので残した",
+  "result": "pass",
+  "shots": [
+   "shots/1392/mobile-02-mode-select.jpg",
+   "shots/1392/mobile-19-custom-og-credit-card.jpg",
+   "shots/1392/mobile-34-chapter-1-play.jpg",
+   "shots/1392/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "8a62d7e",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46114108500"
  }
 ]
