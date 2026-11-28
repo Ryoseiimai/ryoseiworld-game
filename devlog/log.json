@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T20:58:41.237Z",
-  "branch": "claude/autodev-20261121-0521-R654",
-  "task": "R654 ネオンのかずの人が、町を直した後も灰色ののっぺらぼうの顔のままだったので、直した後は肌の色の顔に目と口を描いた",
-  "summary": "ネオンのかずの人が町を直した後も灰色の顔だったので、肌の色の顔に目と口を描いた\n灰色の顔の所だけを写しの絵で塗り、目は顔の幅が広い行に3pxで置いた\n全章の通しで、直った後の顔が塗られているかを確かめる項目を足した",
-  "result": "pass",
-  "shots": [
-   "shots/1152/mobile-02-mode-select.jpg",
-   "shots/1152/mobile-19-custom-og-credit-card.jpg",
-   "shots/1152/mobile-34-chapter-1-play.jpg",
-   "shots/1152/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "7351621",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44814044007"
- },
- {
   "at": "2026-11-20T21:39:32.892Z",
   "branch": "claude/autodev-20261121-0621-R655",
   "task": "R655 全章のスクショから確認役が5つ挙げたので確かめた。ボス戦の「ライフ」「武器」と壁の帯、コマンド戦の「ソラ」の名札、会話の「タップ」はどれも24pxで書いてある、ネオンの灰色の顔は町を直す前の作り、設定などの窓の後ろが夜空だけなのはシェア用の絵、電気屋の奥は17マスの縦長で奥の壁が上へ流れて見えないだけ、きずなの札にお母さんがいないのは検証用の呼び出しの絵なので、どれも直さなかった",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "03d6962",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46084516213"
+ },
+ {
+  "at": "2026-11-28T00:51:06.197Z",
+  "branch": "claude/autodev-20261128-0921-R793",
+  "task": "R793 コマンド戦の BUG KING の横の足が影の上に浮いて見えていたので、影を少し上げて広げ、どの足も影に乗るようにした",
+  "summary": "コマンド戦の BUG KING の横の足が、影の楕円より上に浮いて見えていた\nBUG KING だけ影を12上げ、横130・縦32に広げた。ほかの敵の影は前のまま\n足が上下に揺れても、言葉の札で小さくなっても、足が影に乗ることをテストに足した。鍵のブランチへの push は許可されず、鍵なしで進めた",
+  "result": "pass",
+  "shots": [
+   "shots/1386/mobile-02-mode-select.jpg",
+   "shots/1386/mobile-19-custom-og-credit-card.jpg",
+   "shots/1386/mobile-34-chapter-1-play.jpg",
+   "shots/1386/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "03782b4",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46089172269"
  }
 ]
