@@ -1698,6 +1698,17 @@ async function browserAdapterChecks() {
   check('R588: 次が待つ台詞は最後のコマまで字が濃く、終わると消える', sim.burstWordsAlpha({ t: 2, burst: o }) === 1 && sim.burstAlpha(o, 2.01) === 0);
 })();
 
+// R796: with many weapons the pale カテイノジジョウ looked solid white (white flash every 0.12 s plus a bright copy on every hit).
+// White (whiteT) or strongly bright (flash over 0.5) in under 35% of the frames (before R796: 64 to 79%). The bright copy then fades out by 0.14 s.
+(() => {
+  for (const boss of ['bugking', 'kateino', 'hikaku']) {
+    const w = world({ boss, god: true, weapons: ['rapid', 'twin', 'letter'] }); let fr = 0, lit = 0, hits = w.stats.hits;
+    for (let i = 0; i < 60 * 6 && w.state === 'play'; i++) { sim.step(w, DT, IDLE); fr++; if (w.b.whiteT > 0 || w.b.flash > 0.5) lit++; }
+    check('R796: ' + boss + ' 弾を受け続けても白く光るのは35%未満', w.stats.hits - hits > 10 && lit / fr < 0.35, [fr, lit, w.stats.hits - hits]);
+  }
+  check('R796: 白い光の間は0.25秒', sim.BOSS_FLASH_GAP === 0.25);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);

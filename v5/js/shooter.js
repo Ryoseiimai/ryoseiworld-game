@@ -1032,14 +1032,17 @@
     w.bugs = w.bugs.filter(function (bg) { return !bg.dead; });
   }
 
+  var BOSS_FLASH_GAP = 0.25;
   function damageBoss(w, dmg, s, crown) {
     var b = w.b;
-    b.hp = Math.max(0, b.hp - dmg); b.flash = 1;
+    b.hp = Math.max(0, b.hp - dmg);
     w.stats.hits++; w.stats.damage += dmg; w.stats.byKind[s.kind] = (w.stats.byKind[s.kind] || 0) + dmg;
     var big = s.kind === 'tiger', gold = crown && w.hasOwl;
     // Looks only (damage is the same): a white flash on the boss, a small push back, more sparks and a ring where the shot lands.
-    // At most one white flash per 0.12 s, so with many weapons the boss blinks instead of staying white.
-    if (big || !(w.t - (b.whiteAt || -9) < 0.12)) { b.whiteT = 0.06; b.whiteAt = w.t; }
+    // At most one white flash per BOSS_FLASH_GAP, so with many weapons the boss blinks instead of staying white.
+    // R796: at 0.12 s with the bright 'lighter' copy set on every hit, the pale カテイノジジョウ looked solid white (desktop-45, square-45).
+    // The bright copy now starts only with the white flash, and the flashes are 0.25 s apart.
+    if (big || !(w.t - (b.whiteAt || -9) < BOSS_FLASH_GAP)) { b.whiteT = 0.06; b.whiteAt = w.t; b.flash = 1; }
     b.kick = Math.min(5, (b.kick || 0) + (big ? 8 : 2.5));
     sparks(w, s.x + 6, s.y, big ? 26 : (gold ? 8 : 6), gold ? '#ffe066' : '#c8fbff', big ? 320 : 190);
     if (w.fx.length < 420) w.fx.push({ ring: true, x: s.x + 8, y: s.y, vx: 0, vy: 0, age: 0, life: big ? 0.3 : 0.16, size: big ? 70 : 22, color: gold ? '#ffe066' : '#ffffff' });
@@ -1295,7 +1298,7 @@
   }
 
   var SIM = {
-    W: W, H: H, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
+    W: W, H: H, BOSS_FLASH_GAP: BOSS_FLASH_GAP, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
     BOSSES: BOSSES, WEAPONS: WEAPONS, weaponLabel: weaponLabel, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
