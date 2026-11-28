@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T03:39:20.186Z",
-  "branch": "claude/autodev-20261121-1221-R662",
-  "task": "R662 全章のスクショを確認役に見せ、挙がった5つを確かめたが、どれも仕様どおりだったので直さなかった（灰色の守護霊は STORY_V4 の「つながりが細い守護霊は灰色」、ボスの台詞の名札は R557 で外した、塔の雲の台は札で上と下が分かる、字は540幅で24px）",
-  "summary": "全章のスクショを確認役が見て、気になる所を5つ挙げた\n5つとも仕様どおりだったので、コードは変えなかった\n町に灰色の守護霊が6つ並び、ノイズ0/3と並ぶと敵に見える点は、今井さんに見てほしい",
-  "result": "pass",
-  "shots": [
-   "shots/1163/mobile-02-mode-select.jpg",
-   "shots/1163/mobile-19-custom-og-credit-card.jpg",
-   "shots/1163/mobile-34-chapter-1-play.jpg",
-   "shots/1163/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "807213d",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44861420235"
- },
- {
   "at": "2026-11-21T04:00:49.108Z",
   "branch": "claude/autodev-20261121-1241-R663",
   "task": "R663 友達の家が自分の部屋と同じ青い丸ラグ・緑のソファで別の家に見えないので、友達の家用のラグと家具の絵を絵係に頼んだ（挙がった残り4つは撮影の手順によるもので、仕様どおりだった）",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "c3f3a93",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122522587"
+ },
+ {
+  "at": "2026-11-28T08:11:05.659Z",
+  "branch": "claude/autodev-20261128-1621-R800",
+  "task": "R800 町の電柱の変圧器と腕の切れ端が、すけた目標の札の下にのぞいていたので、札の下は柱だけを描くようにした",
+  "summary": "町の電柱が目標の札の下で切れ、変圧器と腕の切れ端が残っていた\n札の下は柱だけを描き、腕と変圧器は描かないようにした\n確認役が挙げたタイトルの建物とソラの名札は次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/1396/mobile-02-mode-select.jpg",
+   "shots/1396/mobile-19-custom-og-credit-card.jpg",
+   "shots/1396/mobile-34-chapter-1-play.jpg",
+   "shots/1396/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "8215f07",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46123222440"
  }
 ]

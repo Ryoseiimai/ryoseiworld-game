@@ -1,36 +1,22 @@
 {
   "branch": "claude/autodev-20261128-1621-R800",
-  "sha": "c3f3a93e0b4241f873178113d11ea1b809586a70",
-  "result": "fail",
+  "sha": "8215f071f2e3863636643f0f084a97e4dcd47c98",
+  "result": "pass",
   "checks": {
     "fence": "pass",
     "merge": "merge",
-    "test_v5": "fail",
+    "test_v5": "pass",
     "smoke": "pass"
   },
-  "errors": [
-    "test_v5: 失敗（最後の15行）",
-    "runEvent: unknown dialogue noSuchLine",
-    "runEvent: unknown bond nobody",
-    "R601 boss right edge 246.9 camera left 253.20000000000005",
-    "AssertionError [ERR_ASSERTION]: drawField clips each thing behind the HUD and restores after it",
-    "    at /tmp/tmp.dDPkQGn6u3/tree-claude__autodev-20261128-1621-R800/tools/test_v5.cjs:3704:90 {",
-    "  generatedMessage: false,",
-    "  code: 'ERR_ASSERTION',",
-    "  actual: false,",
-    "  expected: true,",
-    "  operator: '==',",
-    "  diff: 'simple'",
-    "}"
-  ],
+  "errors": [],
   "shots": [
-    "devlog/shots/1395/mobile-02-mode-select.jpg",
-    "devlog/shots/1395/mobile-19-custom-og-credit-card.jpg",
-    "devlog/shots/1395/mobile-34-chapter-1-play.jpg",
-    "devlog/shots/1395/mobile-51-battle-bugking.jpg"
+    "devlog/shots/1396/mobile-02-mode-select.jpg",
+    "devlog/shots/1396/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1396/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1396/mobile-51-battle-bugking.jpg"
   ],
-  "at": "2026-11-28T08:00:37.892Z",
-  "merged_sha": null,
-  "tested_base": "0b27e4c49b5bfacbf40c70f8cf8cee9d0b11144a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122522587"
+  "at": "2026-11-28T08:11:05.659Z",
+  "merged_sha": "652041c4f55d05cc7b11eee53c872ff474cddfff",
+  "tested_base": "196236e361330acbb47b591d3638edf46c70ac48",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46123222440"
 }
