@@ -2565,9 +2565,10 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
   assert(/\.bottom-bar #talk-btn\.edge\{min-height:64px/.test(html),'the edge button is 64px tall, still a large touch target');
   const btn=r.els.get('talk-btn');btn.offsetWidth=142;btn.offsetHeight=80;r.g.debugWarp('room',5,5);r.tick(16);
-  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);const edge=r.g.GAME_DATA.maps.room.h*48+190+12;assert(btn.classes.has('edge')&&n===(edge+10+64)-(960-24),'in the room the button top goes 10px under the floor edge: '+btn.style.translate+' edge '+edge);
+  const n=Number(((btn.style.translate||'').match(/^0 (-?\d+)px$/)||[])[1]);const edge=r.g.GAME_DATA.maps.room.h*48+190+12;const top=n+960-24-64,gap=top-edge;assert(btn.classes.has('edge')&&top===Math.min(edge+16,960-8-64),'in the room the button top goes 16px under the floor edge, or as low as the 8px bottom margin lets it (R795): top '+top+' edge '+edge);
+  assert(gap>=14,'R795: in the room the button keeps 6px or more clear of the 8px floor rim (was 2px): gap '+gap+' edge '+edge);
   const town=r.g.GAME_DATA.maps.town;r.g.debugWarp('town',town.spawn[0],town.spawn[1]);r.tick(16);assert(!btn.classes.has('edge'),'outside the button keeps its full height');
-  assert(/edge\+10\+TALK_EDGE_H<=H-8/.test(html),'the button keeps 8px or more above the stage bottom');}
+  assert(/edge\+10\+TALK_EDGE_H<=H-8/.test(html)&&/gap=Math\.min\(TALK_EDGE_GAP,H-8-TALK_EDGE_H-edge\)/.test(html),'the button keeps 8px or more above the stage bottom');}
  result.push('R745: 部屋と塔で「話す」ボタンが床の下端の線にまたがらず、線の下の暗い帯に収まる PASS');
  // R178: once lifted, the talk button also keeps off street lights, signals, poles and vending machines when a step without them is there (mobile-16: a lamp post ran through it).
  {const r=await runtime();r.tick();r.click('start-btn');r.button('おとなモード');while(r.g.dialogue)r.dialogue();if(r.g.screen==='battle')r.g.debugWin();while(r.g.dialogue)r.dialogue();
