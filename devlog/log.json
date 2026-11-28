@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T01:53:24.264Z",
-  "branch": "claude/autodev-20261121-1021-R660",
-  "task": "R660 ミナモ図書館のおじいちゃんがヒダマリのおじいさんと同じ絵だったので、上着を紺にして左右反対にし、別の絵を絵係に頼んだ",
-  "summary": "図書館のおじいちゃんが町のおじいさんと同じ絵だったので、上着を紺にして左右反対にした\n顔と体は同じままなので、めがねと帽子の別の絵を絵係に頼んだ\n前と後のスクショを撮り、2人が同じ見た目にならないかを見るテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1160/mobile-02-mode-select.jpg",
-   "shots/1160/mobile-19-custom-og-credit-card.jpg",
-   "shots/1160/mobile-34-chapter-1-play.jpg",
-   "shots/1160/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "761aa94",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44851898475"
- },
- {
   "at": "2026-11-21T02:53:34.539Z",
   "branch": "claude/autodev-20261121-1121-R661",
   "task": "R661 公園の看板が公園の中で一番大きく見えていたので、字が「公園」の2字になるおとなモードでは224pxから200pxに小さくした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "f02ed71",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46117902440"
+ },
+ {
+  "at": "2026-11-28T07:50:44.498Z",
+  "branch": "claude/autodev-20261128-1621-R800",
+  "task": "R800 遊んで一番気になる所を1つ直す",
+  "summary": "ナオスライムを呼ぶと、水色の四角3つが足元に横一列で残って見えた\n四角を上へ散らしながら薄くし、0.9秒で消えるようにした\n確認役が挙げた残り4つ（電柱と札、ゲージ、Zzz、タイトルの主人公）は次に回した",
+  "result": "fail",
+  "shots": [
+   "shots/1394/mobile-02-mode-select.jpg",
+   "shots/1394/mobile-19-custom-og-credit-card.jpg",
+   "shots/1394/mobile-34-chapter-1-play.jpg",
+   "shots/1394/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "7e1fc19",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122402257"
  }
 ]
