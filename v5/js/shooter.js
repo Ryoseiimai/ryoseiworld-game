@@ -1299,6 +1299,7 @@
 
   var SIM = {
     W: W, H: H, BOSS_FLASH_GAP: BOSS_FLASH_GAP, FIRE_INTERVAL: FIRE_INTERVAL, RAPID_INTERVAL: RAPID_INTERVAL, PLAY_T: PLAY_T, PLAY_B: PLAY_B, CHARGE_FULL: CHARGE_FULL, BARRIER_BACK: BARRIER_BACK, SHOW_TIME: SHOW_TIME, SHOW_COOLDOWN: SHOW_COOLDOWN,
+    clearMagenta: clearMagenta, keyStripe: keyStripe,
     BOSSES: BOSSES, WEAPONS: WEAPONS, weaponLabel: weaponLabel, DEFAULT_VOICES: DEFAULT_VOICES, normalizeWeapons: normalizeWeapons, normalizeOptions: normalizeOptions,
     hitboxes: hitboxes, MUSIC: MUSIC, beatInfo: beatInfo, pressBeat: pressBeat, setCombo: setCombo, setStage: setStage, result: result,
     createWorld: createWorld, step: step, skillMode: skillMode, dmgMult: dmgMult, dens: dens, gap: gap, wallLabels: wallLabels, BUBBLE_POP_X: BUBBLE_POP_X, hurt: hurt, win: win, winHold: winHold,
@@ -1349,11 +1350,43 @@
         var sheet = { name: name, frames: {}, cw: list[0].w, ch: list[0].h };
         return Promise.all(list.map(function (f) {
           if (!/^[-a-zA-Z0-9_]+\.png$/.test(f.file)) return null;
-          return loadImage(dir + f.file).then(function (img) { if (img) sheet.frames[f.row + '_' + f.col] = img; });
+          return loadImage(dir + f.file).then(function (img) { if (img) sheet.frames[f.row + '_' + f.col] = clearKeyStripe(name, f.row, img); });
         })).then(function () { return Object.keys(sheet.frames).length ? sheet : null; });
       }).catch(function () { return tryBase(i + 1); });
     })(0);
     return sheetCache[name];
+  }
+  // R803: the riding frames (ryosei row 1, 198x252) have a cut-off stripe of magenta key colour on rows 244-246 (242-246 at its thickest), below the deck and wheels;
+  // in every boss fight it showed as a purple line above the cyan hover light. Magenta and blue-violet pixels (hue 240-340, saturation over .25, lightness .15-.85)
+  // from row 241 (96% of the height) down are made clear on a copy; the cyan glow and the wheels in those rows stay.
+  function keyStripe() { return { ryosei: { row: 1, from: 0.96 } }; }  // a function, so the Node tests (which stop above) can read it
+  // Makes magenta-ish pixels clear in an RGBA array (in place) and returns how many changed.
+  function clearMagenta(d) {
+    var n = 0;
+    for (var i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 16) continue;
+      var r = d[i] / 255, gg = d[i + 1] / 255, b = d[i + 2] / 255, mx = Math.max(r, gg, b), mn = Math.min(r, gg, b), l = (mx + mn) / 2, dd = mx - mn;
+      if (!dd || l < 0.15 || l > 0.85) continue;  // near-black outlines stay
+      var s = dd / (1 - Math.abs(2 * l - 1)), hu = mx === r ? 60 * (((gg - b) / dd) % 6) : mx === gg ? 60 * ((b - r) / dd + 2) : 60 * ((r - gg) / dd + 4);
+      if (hu < 0) hu += 360;
+      if (hu < 240 || hu > 340 || s <= 0.25) continue;  // 240: the stripe's blue-violet ends too; the cyan glow (about 190) stays
+      d[i + 3] = 0; n++;
+    }
+    return n;
+  }
+  function clearKeyStripe(name, row, img) {
+    var plan = keyStripe()[name];
+    if (!plan || plan.row !== row || !hasDOM) return img;
+    try {
+      var w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+      var c = document.createElement('canvas'); c.width = w; c.height = h;
+      var g = c.getContext('2d', { willReadFrequently: true });
+      g.drawImage(img, 0, 0);
+      var y0 = Math.floor(h * plan.from), im = g.getImageData(0, y0, w, h - y0);
+      clearMagenta(im.data);
+      g.putImageData(im, 0, y0);
+      return c;
+    } catch (_) { return img; }
   }
   function bgUrl(name) {
     if (/[\/.]/.test(name)) return name;

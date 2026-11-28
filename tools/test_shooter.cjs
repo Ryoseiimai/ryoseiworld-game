@@ -1709,6 +1709,31 @@ async function browserAdapterChecks() {
   check('R796: 白い光の間は0.25秒', sim.BOSS_FLASH_GAP === 0.25);
 })();
 
+// R803: the riding frames had a cut-off magenta stripe of key colour on rows 244-246 (a purple line under the scooter in every boss fight).
+// The real PNGs are decoded here; after clearMagenta on the rows the shooter cleans, no magenta remains there, and the cyan glow stays.
+(() => {
+  const fs = require('fs'), zlib = require('zlib');
+  function png(file) {
+    const b = fs.readFileSync(file); let i = 8, w = 0, h = 0, idat = [];
+    while (i < b.length) { const n = b.readUInt32BE(i), t = b.toString('latin1', i + 4, i + 8), c = b.subarray(i + 8, i + 8 + n); if (t === 'IHDR') { w = c.readUInt32BE(0); h = c.readUInt32BE(4); if (c[8] !== 8 || c[9] !== 6) throw new Error('RGBA8 only'); } if (t === 'IDAT') idat.push(c); i += 12 + n; }
+    const raw = zlib.inflateSync(Buffer.concat(idat)), st = w * 4, out = new Uint8ClampedArray(w * h * 4); let o = 0;
+    for (let y = 0; y < h; y++) { const f = raw[o++]; for (let x = 0; x < st; x++) { const a = x >= 4 ? out[y * st + x - 4] : 0, up = y ? out[(y - 1) * st + x] : 0, c = x >= 4 && y ? out[(y - 1) * st + x - 4] : 0; let v = raw[o++]; if (f === 1) v += a; else if (f === 2) v += up; else if (f === 3) v += (a + up) >> 1; else if (f === 4) { const p = a + up - c, pa = Math.abs(p - a), pb = Math.abs(p - up), pc = Math.abs(p - c); v += pa <= pb && pa <= pc ? a : pb <= pc ? up : c; } out[y * st + x] = v & 255; } }
+    return { w, h, d: out };
+  }
+  const plan = sim.keyStripe().ryosei;
+  check('R803: 乗った絵（ryosei の2行目）の下の端を掃除する', plan && plan.row === 1 && Math.floor(252 * plan.from) === 241, plan);
+  for (let c = 0; c < 4; c++) {
+    const im = png(path.join(__dirname, '..', 'v5', 'assets', 'ryosei', 'ryosei_r1_c' + c + '.png')), y0 = Math.floor(im.h * plan.from);
+    const part = im.d.slice(y0 * im.w * 4), was = part.slice(), n = sim.clearMagenta(part);
+    let outside = 0, lostDark = 0, pink = 0;
+    for (let i = 3; i < part.length; i += 4) { if (was[i] > 15 && !part[i]) { const y = y0 + ((i >> 2) / im.w | 0); if (y < 242 || y > 246) outside++; if (Math.max(was[i - 3], was[i - 2], was[i - 1]) < 60) lostDark++; } if (part[i] > 15 && part[i - 3] > 120 && part[i - 2] < 100 && part[i - 1] > 150) pink++; }
+    const glow = Array.from(part).filter((v, i) => i % 4 === 3 && v > 15).length;
+    check('R803: ryosei_r1_c' + c + ' の紫の帯（行242-246）だけが消え、黒い縁と水色の光は残る', n >= 140 && outside === 0 && lostDark === 0 && pink === 0 && glow > 0, [n, outside, lostDark, pink, glow]);
+  }
+  const keep = new Uint8ClampedArray([4, 176, 227, 255, 57, 237, 254, 255, 216, 255, 255, 255, 9, 4, 6, 255, 5, 0, 2, 255]);
+  check('R803: 水色の光と黒に近い縁は消さない', sim.clearMagenta(keep) === 0);
+})();
+
 browserAdapterChecks().then(()=>{
   if (verbose) console.log(JSON.stringify({ rows, fullRows, kidRows }));
   console.log(`test_shooter: ${passed} ok, ${failed} failed`);
