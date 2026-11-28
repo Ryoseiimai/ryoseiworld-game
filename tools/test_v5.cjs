@@ -3749,13 +3749,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  {const src=(html.match(/function questGapCut\(m,o\)\{[^\n]*\}/)||[''])[0];assert(src,'questGapCut is there');
   const hudEl={classList:{over:false,contains(){return this.over;}}},cut=(o,qr,panel)=>new Function('questRect','hudPanel','camera','dimensions','frameFor','TILE','$',src+';return questGapCut;')(qr,panel,{x:0,y:0},x=>({w:x.w,h:x.h}),()=>({top:0}),48,()=>hudEl)({outside:true},o);
   const panel={l:20,t:24,r:380,b:226},qr={l:20,t:240,r:380,b:280};
-  const c=cut({kind:'props',frame:7,x:3,foot:400,w:124,h:248},qr,panel);
+  const c=cut({kind:'props',frame:7,x:3,foot:520,w:124,h:248},qr,panel);
   assert(c&&c.length===7&&c[3]===54,'a pole under the tag gets a band and a post: '+JSON.stringify(c));
   const [band,post]=[c[5],c[6]];
   assert(band[0]===20&&band[1]===280&&band[2]===360&&band[3]===396-280,'the band runs from the tag bottom to where the arms end: '+JSON.stringify(band));
-  assert(post[0]===144-57&&post[2]===28&&post[1]===280&&post[3]===band[3],'the post (frame columns 62-89 of 236) is drawn inside the band: '+JSON.stringify(post));
-  assert(cut({kind:'props',frame:5,x:3,foot:400,w:124,h:248},qr,panel).length===5,'a street light keeps the plain cut');
-  assert(cut({kind:'props',frame:7,x:3,foot:360,w:124,h:100},qr,panel).length===5,'a pole whose arms end above the tag bottom gets no band');
+  assert(post[0]===144-57&&post[2]===30&&post[1]===280&&post[3]===band[3],'the post (frame columns 62-89 of 236) is drawn inside the band: '+JSON.stringify(post));
+  assert(cut({kind:'props',frame:5,x:3,foot:520,w:124,h:248},qr,panel).length===5,'a street light keeps the plain cut');
+  assert(cut({kind:'props',frame:7,x:3,foot:320,w:124,h:248},qr,panel).length===5,'a pole whose arms end above the tag bottom gets no band');
   assert(/for\(const b of clip\.slice\(5\)\)ctx\.rect\(b\[0\],b\[1\],b\[2\],b\[3\]\);ctx\.clip\('evenodd'\)/.test(html),'the draw loop adds the band and the post to the even-odd clip');}
  result.push('R800: ヒダマリの電柱の変圧器と腕の切れ端が、目標の札の下にのぞかない PASS');
  // R612: a road centre dash in the goal tag's row, just right of its "→", read as part of the tag (mobile-33, mobile-25).
