@@ -3811,6 +3811,9 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  // R776: at a 26px drop the left house's antenna touched the genre box's bottom edge (mobile-01); the houses now stand at least 34px lower so the antenna tip keeps clear of the box.
  {const drop=Number((html.match(/const TITLE_HOUSE_DROP=(\d+);/)||[])[1]);assert(drop>=34&&drop<=40,'R776: the title houses stand 34 to 40px lower ('+drop+')');}
  result.push('R776: タイトルの左の家のアンテナが説明の箱に届かない PASS');
+// R801: behind the title trees only the store's flat roof and AC unit showed, as a floating gray scrap (mobile-01); the title now draws the store only when the trees are off (the chapter card).
+{const body=(html.match(/function drawTitle\(\)\{[\s\S]*?\n/)||[''])[0];assert(/\*\/if\(!trees\)sprite\('buildings',1,/.test(body),'R801: the title skips the store sprite while the trees are drawn');assert(/sprite\('buildings',0,trees\?105:150,/.test(body)&&!/if\(!trees\)sprite\('buildings',0,/.test(body),'R801: the left house still stands behind the title trees');}
+result.push('R801: タイトルの木の間に店の屋根の切れ端が出ない PASS');
  // R592: the rank 86 plate stood level with ミオ's head and still read as hers; a tail under the plate now points down at num1 itself.
  {const r=await runtime();r.tick();assert(r.g.debugStartChapter(3));while(r.g.dialogue)r.dialogue();const m=r.g.GAME_DATA.maps.neon,mio=m.objects.find(x=>x.id==='neon_mio'),o=m.objects.find(x=>x.id==='neon_num1');
   for(const step of [0,1]){if(step){r.g.debugWarp('neon',o.x+2,o.y+1.6);r.tick(16);}r.canvasCalls.length=0;r.tick(16);
@@ -4329,7 +4332,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
  result.push('R570: 章の終わりの札の両はしから、後ろの木と街灯の切れはしがのぞかない PASS');
  // R571: the faint houses behind the chapter card and THE END card move in so no slice peeks past the card (x 36 to 504); the title keeps them where they were.
  {const r=await runtime();r.tick();const xs=()=>{r.canvasCalls.length=0;r.tick(16);return r.canvasCalls.filter(c=>c[0]==='drawImage'&&String(c[1]).includes('/buildings/')).map(c=>c.length>9?[c[6],c[6]+c[8]]:[c[2],c[2]+c[4]]);};
-  const t=xs();assert(t.length>=2&&t.some(([a])=>a<36),'R571: the title still draws the left house at its old place: '+JSON.stringify(t));
+  /* R801: the title now draws only the left house (the store's roof showed as a gray scrap between the trees), so exactly one house there */const t=xs();assert(t.length===1&&t.some(([a])=>a<36),'R571: the title still draws the left house at its old place: '+JSON.stringify(t));
   r.start();r.tick(1000);r.g.debugWarp('town',8,27);r.g.debugEvent([{ending:[['','みんな、ありがとう。']],title:'おしまい'}]);while(r.g.dialogue)r.dialogue();assert.equal(r.g.screen,'ending');
   const e=xs();assert(e.length>=2,'R571: the ending still draws the houses');for(const [a,b] of e)assert(a>=36&&b<=504,'R571: a house peeks past the card edge: '+JSON.stringify(e));}
  result.push('R571: 章の終わりの札の両はしから、後ろの薄い家の切れはしがのぞかない PASS');
