@@ -2451,6 +2451,13 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(Math.abs(cy+ry)<=6,'the disc front edge ('+(cy+ry).toFixed(1)+') meets the front foot at the bottom of the picture');
   assert(/drawFeetGlow\(ctx, bx, gy, [^\n]*fr \? h \* fr\[1\]/.test(sh),'drawBoss passes the disc size to drawFeetGlow');}
  result.push('R777: BUG KING の足元の光を床の円にし、横の足も光の上に乗るようにした PASS');
+ // R793: in the command battle BUG KING's side feet (picture x 55 and 295 of 349, y 250 and 255 of 288) hung above the flat shadow; its floor [up, rx, ry] raises and widens the shadow.
+ // Every side foot must lie inside it at full size and at the smallest size (word card shown), with the 6px bob up or down, and the front edge must reach the front foot.
+ {const ch1=scripts.find(s=>s.file==='v5/data/ch1.js').code,m=ch1.match(/bugking:\{name:'BUG KING'[^}]*?floor:\[(\d+),(\d+),(\d+)\]/);assert(m,'BUG KING has a floor shadow in the command battle');const [up,rx0,ry0]=m.slice(1).map(Number);
+  assert(html.includes('const fl=def.floor||[0,120,20];ellipse(270,ep.bot-5-fl[0]*es,fl[1]*es,fl[2]*es,'),'drawBattle draws the enemy shadow from floor');
+  for(const es of [1,120/260]){const s=275*es/349,cy=-5-up*es,rx=rx0*es,ry=ry0*es;for(const bob of [-6,0,6])for(const [fx,fy] of [[(55-174.5)*s,-(288-250)*s],[(295-174.5)*s,-(288-255)*s]]){const y=fy+bob,k=(fx/rx)**2+((y-cy)/ry)**2;assert(k<1,'side foot '+fx.toFixed(0)+','+y.toFixed(0)+' at size '+es.toFixed(2)+' lies on the shadow ('+k.toFixed(2)+')');}
+   assert(cy+ry>=-(288-283)*s+6,'the shadow front edge reaches the front foot at size '+es.toFixed(2));}}
+ result.push('R793: コマンド戦の BUG KING の影を上げて広げ、横の足も影に乗るようにした PASS');
  // R163: a grey spirit sat right of the head, on top of the hero standing there; then it moves to the left of the person.
  // R230: mother now stands by the home's wall where her spirit floats up, so this checks the delivery man, who has open air on both sides.
  {const r=await runtime();r.tick();r.start();r.tick(1000);r.g.debugWin();r.tick(2100);while(r.g.dialogue)r.dialogue();
@@ -3241,7 +3248,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(shown>200,'the band still shows beside the faces '+shown);}
  result.push('R578: 町のノイズの帯が、画面にいる人の顔の上を横切らない PASS');
  // R534: after a win the enemy fades to 40%, and its ground shadow under it fades the same way (it stayed full and showed through the machine).
- {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5,120\*es,20\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
+ {const m=html.match(/function drawBattle\(\)\{[^\n]*?ellipse\(270,ep\.bot-5-fl\[0\]\*es,fl\[1\]\*es,fl\[2\]\*es,(`[^`]*`)\);ctx\.globalAlpha=seen;sprite\(/);assert(m,'the enemy shadow is drawn right before the fade');
   const col=(calm,hide=0)=>new Function('calm','hide','return '+m[1])(calm,hide),alpha=s=>Number(/rgba\(14,28,44,([0-9.]+)\)/.exec(s)[1]);
   // R678: the shadow is as dark as the hero's (#0e1c2c, alpha .66) so the enemy no longer floats over the waves.
   assert(Math.abs(alpha(col(0))-.66)<.005,'during the fight the shadow is as strong as the hero shadow: '+col(0));
@@ -4288,7 +4295,7 @@ function walkUp(t,ms=200){t.key('ArrowUp');t.tick(ms);t.key('ArrowUp',true);}
   assert(x.globalCompositeOperation==='source-over','R568: blend mode is put back');
   assert(cb('enemies',3,'#2a4b5c')===a&&log.length===2,'R568: the backing is made once and reused');assert(cb('enemies',9,'#000')===null,'R568: no frame, no backing');
   const d=html.match(/function drawBattle\(\)\{[^\n]*/)[0];
-  assert(/back=calm>0&&hide<1\?calmBacking\(eArt,eFrame,def\.color\[0\]\):null;if\(back\)\{ctx\.globalAlpha=1-hide;sprite\(eArt,eFrame,270,eY,eW,ep\.h,'',false,back\);ctx\.globalAlpha=1;\}(?:if\(calm>0\)ctx\.filter=`[^`]*`;)?ellipse\(270,ep\.bot-5,/.test(d),'R568: the backing goes down solid (only a summon hides it) under the shadow and the enemy, and only after the win');
+  assert(/back=calm>0&&hide<1\?calmBacking\(eArt,eFrame,def\.color\[0\]\):null;if\(back\)\{ctx\.globalAlpha=1-hide;sprite\(eArt,eFrame,270,eY,eW,ep\.h,'',false,back\);ctx\.globalAlpha=1;\}(?:if\(calm>0\)ctx\.filter=`[^`]*`;)?(?:\/\*[^*]*\*\/)?const fl=def\.floor\|\|\[0,120,20\];ellipse\(270,ep\.bot-5-fl\[0\]\*es,/.test(d),'R568: the backing goes down solid (only a summon hides it) under the shadow and the enemy, and only after the win');
   assert(/eArt=def\.art\|\|'enemies'/.test(d)&&/ctx\.globalAlpha=seen;sprite\(def\.art\|\|'enemies',eFrame,270,eY,eW,ep\.h,enemyName\(def\)\);/.test(d),'R568: the enemy is drawn at the same spot and size as its backing');
   assert(/function sprite\(kind,index,x,y,w,h,name,flip,alt\)\{const f=alt\|\|\(flip\?mirrorFrame\(kind,index\):frameFor\(kind,index\)\);/.test(html),'R568: sprite can place another image on a frame');}
  result.push('R568: 勝った後に薄くなる敵の体に、後ろの波の線が透けない PASS');
