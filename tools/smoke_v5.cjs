@@ -260,6 +260,15 @@ async function runViewport(browser, url, vp, errors, shots) {
         const menuBtn = page.locator('#menu-btn');
         if (await menuBtn.count() && await menuBtn.isVisible()) {
           await menuBtn.click({ timeout: 3000 }); await sleep(300);
+          // R798: the field menu has 13 buttons; on a phone the 9th one showed cut in half at the window's bottom, with nothing saying more was below.
+          const mt = await page.evaluate(() => { const pn = document.querySelector('#modal > .panel'), md = document.getElementById('modal-down'); if (!pn) return null;
+            const p = pn.getBoundingClientRect(), k = p.height / pn.offsetHeight, bt = p.top + pn.clientTop * k, bb = bt + pn.clientHeight * k, over = pn.scrollHeight > pn.clientHeight + 4;
+            const m = md && !md.hidden && getComputedStyle(md).visibility !== 'hidden' ? md.getBoundingClientRect() : null, edge = m ? m.top : bb;
+            const cut = [...document.querySelectorAll('#modal-buttons > button')].filter(b => { const r = b.getBoundingClientRect(); return r.top < edge - 1 && r.bottom > edge + 1; }).map(b => b.textContent);
+            return { over, more: !!m, cut }; });
+          await shot('menu-top');
+          if (mt && mt.over && !mt.more) errors.push({ kind: 'layout', viewport: vp.name, message: tag('field menu: buttons run past the window, but no "▼ 続き" bar shows') });
+          if (mt && mt.cut.length) errors.push({ kind: 'layout', viewport: vp.name, message: tag(`field menu: the button "${mt.cut[0]}" is cut at the bottom of the window`) });
           const opened = await page.evaluate(() => { const b = [...document.querySelectorAll('#modal-buttons button')].find(x => x.textContent === 'きずな'); if (!b) return false; b.click(); return true; });
           await sleep(300);
           if (opened) {
