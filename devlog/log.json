@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-20T23:42:24.730Z",
-  "branch": "claude/autodev-20261121-0821-R658",
-  "task": "R658 遊んで一番気になる所を1つ直す",
-  "summary": "全章のスクショ154枚を撮り、確認役が見て5つ挙げた\n斜めに描いたソファの影が足元から離れ、浮いて見えたのを直した\n前と後のスクショで電気屋の奥のソファが床に着いたのを確かめ、テストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1157/mobile-02-mode-select.jpg",
-   "shots/1157/mobile-19-custom-og-credit-card.jpg",
-   "shots/1157/mobile-34-chapter-1-play.jpg",
-   "shots/1157/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "daf300a",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44837599739"
- },
- {
   "at": "2026-11-20T23:59:31.462Z",
   "branch": "claude/autodev-20261121-0821-R658",
   "task": "R658 ミナモちょうの家3軒が自分の家と同じ絵で、別の町に自分の家があるように見えていたので、屋根の色を赤茶・緑・茶に変え、2軒を左右反対にした",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "c96e246",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46104302876"
+ },
+ {
+  "at": "2026-11-28T04:43:00.586Z",
+  "branch": "claude/autodev-20261128-1321-R797",
+  "task": "R797 全章のスクショから確認役が5つ挙げたので確かめた。ネオンシティの灰色の帯は「ネオンのノイズを静めよう」の間だけ出る乱れで、R168・R578・R784 で顔と看板だけをよける形に決めてある。ランク86位の人が灰色なのは数字の人の絵の色、ヒカクマオウが橋より下にいるのはボスが画面の中を動く戦いのため、町とミナモの話すボタンの下が透けるのは R789 で確かめたボタンの形、カテイノジジョウ戦のプレイテストとビートの間は R375・R624 で決めた16pxなので、どれも直さなかった",
+  "summary": "全章のスクショを撮り、確認役が気になる所を5つ挙げた\n5つとも、前に決めた形か、わざとの見え方だったので直さなかった\nネオンのノイズの帯は、ノイズを静める間だけ出る乱れで、顔と看板はよけている",
+  "result": "pass",
+  "shots": [
+   "shots/1391/mobile-02-mode-select.jpg",
+   "shots/1391/mobile-19-custom-og-credit-card.jpg",
+   "shots/1391/mobile-34-chapter-1-play.jpg",
+   "shots/1391/mobile-50-battle-bugking.jpg"
+  ],
+  "sha": "cad0f00",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46107812477"
  }
 ]
