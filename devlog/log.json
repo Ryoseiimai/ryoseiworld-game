@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T00:36:12.978Z",
-  "branch": "claude/autodev-20261121-0921-R659",
-  "task": "R659 ネットカフェの店員がミナモのお母さんと同じ絵だったので、店員を空いていた制服の係員の絵に変えた",
-  "summary": "ネットカフェの店員がミナモのお母さんと同じ絵だったので、制服の係員の絵に変えた\n確認役の指摘で、ハッカーの人と同じ絵になる案をやめ、空いている絵を選んだ\n前と後のスクショを撮り、同じ絵の人が2人いないかを見るテストを足した",
-  "result": "pass",
-  "shots": [
-   "shots/1159/mobile-02-mode-select.jpg",
-   "shots/1159/mobile-19-custom-og-credit-card.jpg",
-   "shots/1159/mobile-34-chapter-1-play.jpg",
-   "shots/1159/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "831985c",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44843689245"
- },
- {
   "at": "2026-11-21T01:53:24.264Z",
   "branch": "claude/autodev-20261121-1021-R660",
   "task": "R660 ミナモ図書館のおじいちゃんがヒダマリのおじいさんと同じ絵だったので、上着を紺にして左右反対にし、別の絵を絵係に頼んだ",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "8a62d7e",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46114108500"
+ },
+ {
+  "at": "2026-11-28T06:53:48.312Z",
+  "branch": "claude/autodev-20261128-1521-R799",
+  "task": "R799 ナオスライムを呼んだ時、水色の四角3つが最後に横一列に並び、スライムの足元を隠していたので、上へ散りながら薄くして消すようにした",
+  "summary": "ナオスライムを呼ぶと、水色の四角3つが足元に横一列で残って見えた\n四角を上へ散らしながら薄くし、0.9秒で消えるようにした\n確認役が挙げた残り4つ（電柱と札、ゲージ、Zzz、タイトルの主人公）は次に回した",
+  "result": "pass",
+  "shots": [
+   "shots/1393/mobile-02-mode-select.jpg",
+   "shots/1393/mobile-19-custom-og-credit-card.jpg",
+   "shots/1393/mobile-34-chapter-1-play.jpg",
+   "shots/1393/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "f02ed71",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46117902440"
  }
 ]
