@@ -1,20 +1,5 @@
 [
  {
-  "at": "2026-11-21T02:53:34.539Z",
-  "branch": "claude/autodev-20261121-1121-R661",
-  "task": "R661 公園の看板が公園の中で一番大きく見えていたので、字が「公園」の2字になるおとなモードでは224pxから200pxに小さくした",
-  "summary": "公園の看板が大きすぎて、2つの町で一番目立っていた\nおとなモードでは字が「公園」の2字なので、看板を224pxから200pxにした\nこどもモードは「こうえん」4字が入る224pxのまま。切り替えると大きさも戻る",
-  "result": "pass",
-  "shots": [
-   "shots/1162/mobile-02-mode-select.jpg",
-   "shots/1162/mobile-19-custom-og-credit-card.jpg",
-   "shots/1162/mobile-34-chapter-1-play.jpg",
-   "shots/1162/mobile-50-battle-bugking.jpg"
-  ],
-  "sha": "e775969",
-  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/44857534899"
- },
- {
   "at": "2026-11-21T03:39:20.186Z",
   "branch": "claude/autodev-20261121-1221-R662",
   "task": "R662 全章のスクショを確認役に見せ、挙がった5つを確かめたが、どれも仕様どおりだったので直さなかった（灰色の守護霊は STORY_V4 の「つながりが細い守護霊は灰色」、ボスの台詞の名札は R557 で外した、塔の雲の台は札で上と下が分かる、字は540幅で24px）",
@@ -2973,5 +2958,20 @@
   ],
   "sha": "7e1fc19",
   "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122402257"
+ },
+ {
+  "at": "2026-11-28T08:00:37.892Z",
+  "branch": "claude/autodev-20261128-1621-R800",
+  "task": "R800 町の電柱の変圧器と腕の切れ端が、すけた目標の札の下にのぞいていたので、札の下は柱だけを描くようにした",
+  "summary": "町の電柱が目標の札の下で切れ、変圧器と腕の切れ端が残っていた\n札の下は柱だけを描き、腕と変圧器は描かないようにした\n確認役が挙げたタイトルの建物とソラの名札は次に回した",
+  "result": "fail",
+  "shots": [
+   "shots/1395/mobile-02-mode-select.jpg",
+   "shots/1395/mobile-19-custom-og-credit-card.jpg",
+   "shots/1395/mobile-34-chapter-1-play.jpg",
+   "shots/1395/mobile-51-battle-bugking.jpg"
+  ],
+  "sha": "c3f3a93",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122522587"
  }
 ]
