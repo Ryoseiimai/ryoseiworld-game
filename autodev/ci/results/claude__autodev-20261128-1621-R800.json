@@ -1,0 +1,36 @@
+{
+  "branch": "claude/autodev-20261128-1621-R800",
+  "sha": "7e1fc19c017a041a4b8caae23f1b54530ca809bf",
+  "result": "fail",
+  "checks": {
+    "fence": "pass",
+    "merge": "ff",
+    "test_v5": "fail",
+    "smoke": "pass"
+  },
+  "errors": [
+    "test_v5: 失敗（最後の15行）",
+    "runEvent: unknown dialogue noSuchLine",
+    "runEvent: unknown bond nobody",
+    "R601 boss right edge 246.9 camera left 253.20000000000005",
+    "AssertionError [ERR_ASSERTION]: drawField clips each thing behind the HUD and restores after it",
+    "    at /tmp/tmp.diibxLwRc4/tree-claude__autodev-20261128-1621-R800/tools/test_v5.cjs:3704:90 {",
+    "  generatedMessage: false,",
+    "  code: 'ERR_ASSERTION',",
+    "  actual: false,",
+    "  expected: true,",
+    "  operator: '==',",
+    "  diff: 'simple'",
+    "}"
+  ],
+  "shots": [
+    "devlog/shots/1394/mobile-02-mode-select.jpg",
+    "devlog/shots/1394/mobile-19-custom-og-credit-card.jpg",
+    "devlog/shots/1394/mobile-34-chapter-1-play.jpg",
+    "devlog/shots/1394/mobile-51-battle-bugking.jpg"
+  ],
+  "at": "2026-11-28T07:50:44.498Z",
+  "merged_sha": null,
+  "tested_base": "b3b5e857cdf73bfe036d5f4242da757a30949d9d",
+  "run_url": "https://github.com/Ryoseiimai/ryoseiworld-game/actions/runs/46122402257"
+}
